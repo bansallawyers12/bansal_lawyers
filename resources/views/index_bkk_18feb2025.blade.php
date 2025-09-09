@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Best Immigration Lawyer in Melbourne | Expert Legal Help">
 <meta property="og:description" content="Bansal Lawyers provides the best immigration lawyers in Melbourne, offering expert legal services for visas, appeals, and migration advice. Get your consultation today!">
-<meta property="og:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+<meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 <!-- Twitter Meta Tags -->
@@ -22,7 +22,7 @@
 <meta property="twitter:url" content="<?php echo URL::to('/'); ?>">
 <meta name="twitter:title" content="Best Immigration Lawyer in Melbourne | Expert Legal Help">
 <meta name="twitter:description" content="Bansal Lawyers provides the best immigration lawyers in Melbourne, offering expert legal services for visas, appeals, and migration advice. Get your consultation today!">
-<meta property="twitter:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+<meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 
@@ -31,7 +31,7 @@
 @section('content')
 
 <div class="hero-wrap js-fullheight" data-stellar-background-ratio="0.5">
-    <img src="{{ asset('public/images/coart_1.jpeg')}}" id="hero-image" alt="Experienced Lawyers Providing Legal Solutions in Australia" class="hero-image" loading="eager">
+    <img src="{{ asset('images/coart_1.jpeg')}}" id="hero-image" alt="Experienced Lawyers Providing Legal Solutions in Australia" class="hero-image" loading="eager">
   
     
     <script src="{{asset('public/js/jquery-3.6.0.min.js')}}"></script>
@@ -44,13 +44,13 @@
 
           if (windowWidth < 768) {
               // Mobile Image
-              imageElement.attr("src", "{{ asset('public/images/coart_1-mobile.jpg') }}");
+              imageElement.attr("src", "{{ asset('images/coart_1-mobile.jpg') }}");
           } else if (windowWidth >= 768 && windowWidth < 1024) {
               // Tablet Image
-              imageElement.attr("src", "{{ asset('public/images/coart_1-tablet.jpg') }}");
+              imageElement.attr("src", "{{ asset('images/coart_1-tablet.jpg') }}");
           } else {
               // Desktop Image
-              imageElement.attr("src", "{{ asset('public/images/coart_1.jpeg') }}");
+              imageElement.attr("src", "{{ asset('images/coart_1.jpeg') }}");
           }
       }
 
@@ -173,8 +173,8 @@
                 <!-- START: Video Section -->
                 <div class="col-md-6 d-flex">
                     <div class="img img-video d-flex align-self-stretch align-items-center justify-content-center"
-                        style="background-image: url('{{ asset('public/images/bansal_2.jpg') }}');background-position: top center;">
-                      <img src="{{ asset('public/images/bansal_2.jpg') }}" alt="Ajay Bansal - CEO of Bansal Lawyers" style="display:none;">
+                        style="background-image: url('{{ asset('images/bansal_2.jpg') }}');background-position: top center;">
+                      <img src="{{ asset('images/bansal_2.jpg') }}" alt="Ajay Bansal - CEO of Bansal Lawyers" style="display:none;">
                         <a href="javascript:void(0);"
                             class="icon-video d-flex justify-content-center align-items-center"
                             onclick="openVideoModal()">
@@ -283,7 +283,7 @@
                         <!-- Case 1 -->
                         <div class="item">
                             <div class="case img d-flex align-items-center justify-content-center"
-                                style="background-image: url('{{ asset('public/images/case-1.jpg')}}');">
+                                style="background-image: url('{{ asset('images/case-1.jpg')}}');">
                                 <div class="text text-center">
                                     <h3><a href="/case">Corporate Legal Dispute</a></h3>
                                     <span>Business Law</span>
@@ -293,7 +293,7 @@
                         <!-- Case 2 -->
                         <div class="item">
                             <div class="case img d-flex align-items-center justify-content-center"
-                                style="background-image: url('{{ asset('public/images/case-2.jpg')}}');">
+                                style="background-image: url('{{ asset('images/case-2.jpg')}}');">
                                 <div class="text text-center">
                                     <h3><a href="/case">Family Estate Settlement</a></h3>
                                     <span>Estate Planning</span>
@@ -303,7 +303,7 @@
                         <!-- Case 3 -->
                         <div class="item">
                             <div class="case img d-flex align-items-center justify-content-center"
-                                style="background-image: url('{{ asset('public/images/case-3.jpg')}}');">
+                                style="background-image: url('{{ asset('images/case-3.jpg')}}');">
                                 <div class="text text-center">
                                     <h3><a href="/case">Wrongful Termination Defense</a></h3>
                                     <span>Employment Law</span>
@@ -313,7 +313,7 @@
                         <!-- Case 4 -->
                         <div class="item">
                             <div class="case img d-flex align-items-center justify-content-center"
-                                style="background-image: url('{{ asset('public/images/case-4.jpg')}}');">
+                                style="background-image: url('{{ asset('images/case-4.jpg')}}');">
                                 <div class="text text-center">
                                     <h3><a href="/case">Criminal Defense Victory</a></h3>
                                     <span>Criminal Law</span>
@@ -332,7 +332,7 @@
 
 
     <section class="ftco-consultation ftco-section ftco-no-pt ftco-no-pb img"
-        style="background-image: url('{{ asset('public/images/bg_2.jpg')}}');">
+        style="background-image: url('{{ asset('images/bg_2.jpg')}}');">
         <div class="overlay"></div>
         <div class="container">
 

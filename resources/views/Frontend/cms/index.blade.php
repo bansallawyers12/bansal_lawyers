@@ -27,7 +27,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{@$pagedata->meta_title}}">
     <meta property="og:description" content="{{@$pagedata->meta_description}}">
-    <meta property="og:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Twitter Meta Tags -->
@@ -36,7 +36,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/{{@$pagedata->slug}}">
     <meta name="twitter:title" content="{{@$pagedata->meta_title}}">
     <meta name="twitter:description" content="{{@$pagedata->meta_description}}">
-    <meta property="twitter:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 @endsection
 
@@ -44,18 +44,18 @@
 	<?php
     if( isset($pagedata->slug) ) {
         if($pagedata->slug == "about" ) {
-            $bg_image = 'public/images/Aboutus.jpg';
+            $bg_image = asset('images/Aboutus.jpg');
         } else if($pagedata->slug == "practice-areas" ) {
-            $bg_image = 'public/images/PracticeArea.jpg';
+            $bg_image = asset('images/PracticeArea.jpg');
         } else if($pagedata->slug == "case" ) {
-            $bg_image = 'public/images/CaseStudies.jpg';
+            $bg_image = asset('images/CaseStudies.jpg');
         } else if($pagedata->slug == "blog" ) {
-            $bg_image = 'public/images/Blog.jpg';
+            $bg_image = asset('images/Blog.jpg');
         } else {
-            $bg_image = 'public/images/bg_1.jpg';
+            $bg_image = asset('images/bg_1.jpg');
         }
     } else {
-        $bg_image = 'public/images/bg_1.jpg';
+        $bg_image = asset('images/bg_1.jpg');
     }?>
 	<section class="hero-wrap hero-wrap-2" style="background-image: url('<?php echo $bg_image;?>');margin-bottom: 40px;max-height:422px !important;" data-stellar-background-ratio="0.5">
         <div class="overlay"></div>

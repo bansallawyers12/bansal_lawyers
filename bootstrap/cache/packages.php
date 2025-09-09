@@ -11,6 +11,13 @@
       0 => 'Barryvdh\\DomPDF\\ServiceProvider',
     ),
   ),
+  'kyslik/column-sortable' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Kyslik\\ColumnSortable\\ColumnSortableServiceProvider',
+    ),
+  ),
   'laravel/breeze' => 
   array (
     'providers' => 
