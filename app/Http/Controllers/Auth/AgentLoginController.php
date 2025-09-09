@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Cookie;
 
@@ -12,7 +11,6 @@ use App\Models\Admin;
 
 class AgentLoginController extends Controller
 {
-	use AuthenticatesUsers;
 
     /**
 
@@ -41,13 +39,6 @@ class AgentLoginController extends Controller
 		$this->middleware('guest:agents')->except('logout');
 	}
 
-	protected function credentials(\Illuminate\Http\Request $request)
-	{	
-		if (filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)) {
-            return ['email' => $request->get('email'), 'password'=>$request->get('password'), 'status' => 1];
-          }
-          return ['username' => $request->get('email'), 'password'=>$request->get('password'), 'status' => 1];
-	}
 
 	protected function guard()
 	{
@@ -56,6 +47,82 @@ class AgentLoginController extends Controller
 
 	public function showLoginForm(){
 		return view('auth.agent-login');
+	}
+
+	/**
+	 * Handle a login request to the application.
+	 */
+	public function login(Request $request)
+	{
+		$this->validateLogin($request);
+
+		if ($this->attemptLogin($request)) {
+			return $this->sendLoginResponse($request);
+		}
+
+		return $this->sendFailedLoginResponse($request);
+	}
+
+	/**
+	 * Validate the user login request.
+	 */
+	protected function validateLogin(Request $request)
+	{
+		$request->validate([
+			'email' => 'required|string',
+			'password' => 'required|string',
+		]);
+	}
+
+	/**
+	 * Attempt to log the user into the application.
+	 */
+	protected function attemptLogin(Request $request)
+	{
+		return $this->guard()->attempt(
+			$this->credentials($request), $request->filled('remember')
+		);
+	}
+
+	/**
+	 * Get the needed authorization credentials from the request.
+	 */
+	protected function credentials(Request $request)
+	{
+		if (filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)) {
+			return ['email' => $request->get('email'), 'password' => $request->get('password'), 'status' => 1];
+		}
+		return ['username' => $request->get('email'), 'password' => $request->get('password'), 'status' => 1];
+	}
+
+	/**
+	 * Send the response after the user was authenticated.
+	 */
+	protected function sendLoginResponse(Request $request)
+	{
+		$request->session()->regenerate();
+
+		$this->authenticated($request, $this->guard()->user());
+
+		return redirect()->intended($this->redirectPath());
+	}
+
+	/**
+	 * Get the failed login response instance.
+	 */
+	protected function sendFailedLoginResponse(Request $request)
+	{
+		return back()->withErrors([
+			'email' => 'The provided credentials do not match our records.',
+		])->onlyInput('email');
+	}
+
+	/**
+	 * Get the post-login redirect path.
+	 */
+	protected function redirectPath()
+	{
+		return $this->redirectTo;
 	}
 
 	public function authenticated(Request $request, $user)

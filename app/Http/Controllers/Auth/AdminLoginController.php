@@ -3,7 +3,6 @@ namespace App\Http\Controllers\Auth;
  
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
 use Cookie;
@@ -12,7 +11,6 @@ use Symfony\Component\HttpFoundation\IpUtils;
 
 class AdminLoginController extends Controller
 {
-	use AuthenticatesUsers;
     /**
      * Where to redirect users after login.
      *
@@ -37,6 +35,61 @@ class AdminLoginController extends Controller
     public function showLoginForm()
     {
         return view('auth.admin-login');
+    }
+
+    /**
+     * Handle a login request to the application.
+     */
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        if ($this->attemptLogin($request)) {
+            return $this->sendLoginResponse($request);
+        }
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    /**
+     * Attempt to log the user into the application.
+     */
+    protected function attemptLogin(Request $request)
+    {
+        return $this->guard()->attempt(
+            $this->credentials($request), $request->filled('remember')
+        );
+    }
+
+    /**
+     * Get the needed authorization credentials from the request.
+     */
+    protected function credentials(Request $request)
+    {
+        if (filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)) {
+            return ['email' => $request->get('email'), 'password' => $request->get('password'), 'status' => 1];
+        }
+        return ['username' => $request->get('email'), 'password' => $request->get('password'), 'status' => 1];
+    }
+
+    /**
+     * Send the response after the user was authenticated.
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->authenticated($request, $this->guard()->user());
+
+        return redirect()->intended($this->redirectPath());
+    }
+
+    /**
+     * Get the post-login redirect path.
+     */
+    protected function redirectPath()
+    {
+        return $this->redirectTo;
     }
 	
     protected function guard()
