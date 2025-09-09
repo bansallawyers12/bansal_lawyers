@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-use Tzsk\Payu\Facade\Payment;
+use App\Facades\Payment;
 
 use App\State;
 use App\Country;

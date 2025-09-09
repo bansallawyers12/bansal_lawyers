@@ -23,6 +23,7 @@
      @yield('seoinfo')
   
     <!-- Schema Markup -->
+    @verbatim
      <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -87,6 +88,7 @@
       }
     }
     </script>
+    @endverbatim
     <!-- End Schema Markup -->
 	
 	<!-- Favicons-->

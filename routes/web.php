@@ -30,7 +30,7 @@ Route::post('/exception', 'ExceptionController@index')->name('exception');
 
 
 //Login and Register
-Auth::routes();
+// Auth::routes();
 
 // Frontend Route
 //Home Page
@@ -197,6 +197,8 @@ Route::get('/caveats-disputs-and-removal', 'HomeController@caveatsdisputsandremo
 
 
 Route::get('/{slug}', 'HomeController@Page')->name('page.slug');
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+require __DIR__.'/auth.php';

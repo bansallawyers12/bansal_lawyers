@@ -21,6 +21,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     @yield('seoinfo')
   
     <!-- Schema Markup -->
+    @verbatim
      <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -85,6 +86,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       }
     }
     </script>
+    @endverbatim
   	<!-- End Schema Markup -->
   
      <!-- Favicons-->

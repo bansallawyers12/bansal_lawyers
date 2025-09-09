@@ -147,18 +147,20 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-		Collective\Html\HtmlServiceProvider::class,	
-	    Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
+		// Removed: Collective\Html\HtmlServiceProvider::class,
+		// Removed: Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
 		// Tzsk\Payu\Provider\PayuServiceProvider::class,
 		Barryvdh\DomPDF\ServiceProvider::class,
-       
+		
+		App\Providers\PayuServiceProvider::class,
+        
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
 		Maatwebsite\Excel\ExcelServiceProvider::class,
 		
-		Yajra\DataTables\DataTablesServiceProvider::class,
+		// Removed: Yajra\DataTables\DataTablesServiceProvider::class,
 		
 
     ],
@@ -209,15 +211,13 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-		'Form' => Collective\Html\FormFacade::class,
-		'Html' => Collective\Html\HtmlFacade::class,
-		'Payment' => Tzsk\Payu\Facade\Payment::class,
+		'Payment' => App\Facades\Payment::class,
 		'PDF' => Barryvdh\DomPDF\Facade::class,
 		'Excel' =>  Maatwebsite\Excel\Facades\Excel::class,
 		'Settings' => App\Helpers\Settings::class,
         'Helper' => App\Helpers\Helper::class,
          // 'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        // Removed: 'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ],
     'debug_blacklist' => [
 		'_ENV' => [
