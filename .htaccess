@@ -1,0 +1,79 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+      
+    </IfModule>
+
+    RewriteEngine On
+  
+    # Force HTTPS and WWW
+    RewriteCond %{HTTPS} off [OR]                         # Check if HTTPS is off
+    RewriteCond %{HTTP_HOST} !^www\.bansallawyers\.com\.au$ [NC]  # Check if the host is not www.bansallawyers.com.au
+    RewriteRule ^(.*)$ https://www.bansallawyers.com.au/$1 [L,R=301]
+  
+  
+    RewriteCond %{REQUEST_URI} ^/case\.html$
+	RewriteRule ^(.*)$ /case [R=301,L]
+  
+    RewriteCond %{REQUEST_URI} ^/corporate-law\.html$
+	RewriteRule ^(.*)$ /corporate-law [R=301,L]
+  
+  
+    RewriteCond %{REQUEST_URI} ^/family-law\.html$
+	RewriteRule ^(.*)$ /family-law [R=301,L]
+  
+    RewriteCond %{REQUEST_URI} ^/about\.html$
+	RewriteRule ^(.*)$ /about [R=301,L]
+  
+    RewriteCond %{REQUEST_URI} ^/serve-pdf\.php$
+	RewriteRule ^(.*)$ / [R=301,L]
+  
+   
+    RewriteCond %{REQUEST_URI} ^/blog\.html$
+	RewriteRule ^(.*)$ /blog [R=301,L]
+  
+    #RewriteCond %{REQUEST_URI} ^/getdisableddatetime$
+	#RewriteRule ^(.*)$ / [R=301,L]
+  
+  
+    #RewriteCond %{REQUEST_URI} ^/getdatetime$
+	#RewriteRule ^(.*)$ / [R=301,L]
+  
+  
+    RewriteCond %{REQUEST_URI} ^/index\.html$
+	RewriteRule ^(.*)$ / [R=301,L]
+  
+  
+   
+   
+  
+    #RewriteCond %{REQUEST_URI} ^/blogs/([^/]+)$
+    #RewriteRule ^blogs/(.*)$ /$1 [R=301,L]
+  
+    #RewriteCond %{REQUEST_URI} ^/blogs/(.+)$
+	#RewriteRule ^blogs/(.+)$ /$1 [R=301,L]
+
+	
+	# Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+  
+    
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+  
+  
+   
+  
+  
+  
+  
+</IfModule>

@@ -1,0 +1,51 @@
+User-agent: *
+Disallow: /thankyou
+Disallow: /check
+Allow: /
+
+User-agent: GoogleBot
+Disallow: /thankyou
+Disallow: /check
+Allow: /
+
+User-agent: Google-News
+Allow: /
+
+User-agent: GoogleBot-Mobile
+Disallow: /thankyou
+Disallow: /check
+Allow: /
+
+User-agent: Adsbot-Google
+Allow: /
+
+User-agent: Bingbot
+Disallow: /thankyou
+Disallow: /check
+Allow: /
+
+User-agent: NinjaBot
+Allow: /
+
+User-agent: Yandex
+Disallow: /thankyou
+Disallow: /check
+Allow: /
+
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /assets/images
+
+User-agent: AhrefsBot
+Disallow: /thankyou
+Disallow: /check
+Allow: /
+
+User-agent: MozBot
+Disallow: /thankyou
+Disallow: /check
+Allow: /
+
+Sitemap: https://www.bansallawyers.com.au/sitemap.xml
