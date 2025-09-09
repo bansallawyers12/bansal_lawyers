@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\File; 
 
-use App\Admin;
+use App\Models\Admin;
 use App\Invoice;
 use App\Item;
 use App\InvoiceDetail;

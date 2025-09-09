@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use DB;
 use App\Contact;
-use App\Admin;
+use App\Models\Admin;
 use App\EmailTemplate;
 
  use PDF;

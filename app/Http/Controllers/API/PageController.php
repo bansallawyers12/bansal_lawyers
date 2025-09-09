@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 use App\CmsPage;
-use App\Admin;
+use App\Models\Admin;
 
 use Config;
 class PageController extends BaseController

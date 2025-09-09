@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-use App\Admin;
+use App\Models\Admin;
 use App\Product;
 use App\AcademicRequirement;
 use App\ProductAreaLevel;

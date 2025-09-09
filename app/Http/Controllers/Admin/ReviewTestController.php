@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\VendorSubject;
 use App\Test;
 use App\ScheduledTest;
-use App\User;
+use App\Models\User;
 
 use Auth;
 use Config;

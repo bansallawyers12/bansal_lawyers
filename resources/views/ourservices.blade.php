@@ -20,7 +20,7 @@
 </section>
 
 <!-- ##### Blog Area Start ##### -->
-<?php $servicestat = @\App\HomeContent::where('meta_key','servicestatus')->first()->meta_value;
+<?php $servicestat = @\App\Models\HomeContent::where('meta_key','servicestatus')->first()->meta_value;
 if(@$servicestat == 1){
  ?>
 <!--================Project Area =================-->

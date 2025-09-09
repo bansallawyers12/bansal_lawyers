@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Response;
 use App\Destination;
 use App\Location;
 use App\Package;
-use App\Admin;
+use App\Models\Admin;
 use DB;
 use App\Topinclusion;
 use App\SuperTopInclusion;

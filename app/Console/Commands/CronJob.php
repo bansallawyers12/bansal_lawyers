@@ -3,7 +3,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use DB;
-use App\Admin;
+use App\Models\Admin;
 use App\Invoice;
 use App\Item;
 use App\InvoiceDetail;

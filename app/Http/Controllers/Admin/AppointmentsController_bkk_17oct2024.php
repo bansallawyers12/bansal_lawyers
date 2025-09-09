@@ -6,7 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
-use App\Appointment;
+use App\Models\Appointment;
 use App\AppointmentLog;
 use App\Notification;
 use Carbon\Carbon;

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Followup;
 use App\FollowupType;
-use App\Lead;
+use App\Models\Lead;
 use App\Attachment;
  
 use Auth;

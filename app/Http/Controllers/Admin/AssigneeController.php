@@ -6,12 +6,12 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
-use App\Appointment;
+use App\Models\Appointment;
 use App\Note;
 use App\AppointmentLog;
 use App\Notification;
 use Carbon\Carbon;
-use App\Admin;
+use App\Models\Admin;
 use App\ActivitiesLog;
 use Auth;
 use Illuminate\Support\Facades\DB;

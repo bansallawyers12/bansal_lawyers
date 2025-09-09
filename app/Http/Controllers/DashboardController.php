@@ -12,7 +12,7 @@ use Config;
 use Cookie;
 
 use App\Country;
-use App\User;
+use App\Models\User;
 use App\ProductReview;
 use App\ProductOrder;
 use App\ProductTransactionHistory;

@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Lead;
-use App\Admin;
+use App\Models\Lead;
+use App\Models\Admin;
 use App\WebsiteSetting;
 use App\SeoPage;
 use App\City;
