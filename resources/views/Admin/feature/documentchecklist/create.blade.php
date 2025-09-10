@@ -7,7 +7,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-body">
-            {{ Form::open(array('url' => 'admin/documentchecklist/store', 'name'=>"add-checklist", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
+            <form action="admin/documentchecklist/store" autocomplete="off" method="post">
                 <div class="row">
                     <div class="col-12 col-md-12 col-lg-12">
                         <div class="card">
@@ -35,7 +35,7 @@
                                                 <div class="col-12 col-md-4 col-lg-4">
                                                     <div class="form-group">
                                                         <label for="name">Name <span class="span_req">*</span></label>
-                                                        {{ Form::text('name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Name' )) }}
+                                                        <input name="name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Name">
                                                         @if ($errors->has('name'))
                                                             <span class="custom-error" role="alert">
                                                                 <strong>{{ $errors->first('name') }}</strong>
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-            {{ Form::close() }}
+            </form>
         </div>
     </section>
 </div>

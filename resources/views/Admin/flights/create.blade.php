@@ -48,12 +48,12 @@
 					  </div> 
 					  <!-- /.card-header -->
 					  <!-- form start -->
-					  {{ Form::open(array('url' => 'admin/flights/store', 'name'=>"add-flights", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
+					  <form action="admin/flights/store" autocomplete="off" method="post">
 					   
 						<div class="card-body">
 							<div class="form-group" style="text-align:right;">
 								<a style="margin-right:5px;" href="{{route('admin.flights.index')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>  
-								{{ Form::button('<i class="fa fa-save"></i> Save Flight', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-flights")' ]) }}
+								<button type="button" class="btn btn-primary" onClick="customValidate("add-flights")"><i class="fa fa-save"></i> Save Flight</button>
 							</div>
 							<div class="form-group row"> 
 								<label for="code" class="col-sm-2 col-form-label">Code</label>
@@ -78,7 +78,7 @@
 							<div class="form-group row"> 
 								<label for="name" class="col-sm-2 col-form-label">Name <span style="color:#ff0000;">*</span></label>
 								<div class="col-sm-10">
-								{{ Form::text('name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Name' )) }}
+								<input name="name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Name">
 								@if ($errors->has('name'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('name') }}</strong>
@@ -88,10 +88,10 @@
 							</div>
 							
 							<div class="form-group float-right">
-								{{ Form::button('<i class="fa fa-save"></i> Save Flight', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-flights")' ]) }}
+								<button type="button" class="btn btn-primary" onClick="customValidate("add-flights")"><i class="fa fa-save"></i> Save Flight</button>
 							</div> 
 						</div>  
-					  {{ Form::close() }}
+					  </form>
 					</div>	   
 				</div>	
 			</div>

@@ -51,10 +51,10 @@
 						</div>
 					</div>
 					<div class="form-bottom  col-lg-12 col-sm-12 col-md-12 col-xs-12">
-						{{ Form::open(array('url' => '/address', 'name'=>"update-address", 'autocomplete'=>'off', 'class'=>'address-form')) }}
-						{{ Form::hidden('id', @$fetchedData->id) }}
+						<form action="/address" autocomplete="off" class="address-form" method="post">
+						<input type="hidden" name="id" value="@$fetchedData->id">
 							<div class="form-group col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
-								{{ Form::text('first_name', @$fetchedData->first_name, array('class' => 'form-name form-control', 'data-valid'=>'required', 'placeholder'=>'First Name*', 'autocomplete'=>'new-password')) }}
+								<input name="first_name" type="text" value="@$fetchedData->first_name" class="form-name form-control" data-valid="required" placeholder="First Name*" autocomplete="new-password">
 							
 								@if ($errors->has('first_name'))
 									<span class="custom-error" role="alert">
@@ -63,7 +63,7 @@
 								@endif
 							</div>
 							<div class="form-group col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
-								{{ Form::text('last_name', @$fetchedData->last_name, array('class' => 'form-name form-control', 'data-valid'=>'required', 'placeholder'=>'Last Name*', 'autocomplete'=>'new-password')) }}
+								<input name="last_name" type="text" value="@$fetchedData->last_name" class="form-name form-control" data-valid="required" placeholder="Last Name*" autocomplete="new-password">
 							
 								@if ($errors->has('last_name'))
 									<span class="custom-error" role="alert">
@@ -100,7 +100,7 @@
 								@endif
 							</div>
 							<div class="form-group col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
-								{{ Form::text('city', @$fetchedData->city, array('class' => 'form-name form-control', 'placeholder'=>'City*', 'autocomplete'=>'new-password', 'data-valid'=>'required')) }}
+								<input name="city" type="text" value="@$fetchedData->city" class="form-name form-control" placeholder="City*" autocomplete="new-password" data-valid="required">
 							
 								@if ($errors->has('city'))
 									<span class="custom-error" role="alert">
@@ -109,7 +109,7 @@
 								@endif
 							</div>
 							<div class="form-group col-lg-12 col-sm-12 col-md-12 col-xs-12">
-								{{ Form::textarea('address', @$fetchedData->address, array('class' => 'form-control textarea', 'placeholder'=>'Please write Your Address...', 'autocomplete'=>'new-password', 'data-valid'=>'required')) }}
+								<textarea name="address" class="form-control textarea" placeholder="Please write Your Address..." autocomplete="new-password" data-valid="required">required</textarea>
 							
 								@if ($errors->has('address'))
 									<span class="custom-error" role="alert">
@@ -118,7 +118,7 @@
 								@endif
 							</div>
 							<div class="form-group col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
-								{{ Form::text('zip', @$fetchedData->zip, array('class' => 'form-name form-control', 'placeholder'=>'Zip Code*', 'autocomplete'=>'new-password', 'data-valid'=>'required')) }}
+								<input name="zip" type="text" value="@$fetchedData->zip" class="form-name form-control" placeholder="Zip Code*" autocomplete="new-password" data-valid="required">
 							
 								@if ($errors->has('zip'))
 									<span class="custom-error" role="alert">
@@ -130,12 +130,12 @@
 								<div class="form-group col-lg-4 col-sm-12 col-md-4 col-xs-12 text-center">
 								</div>
 								<div class="form-group col-lg-4 col-sm-12 col-md-4 col-xs-12 text-center">
-									{{ Form::button('Update', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("update-address")']) }}
+									<button type="button" class="btn btn-primary" onClick="customValidate("update-address")">Update</button>
 								</div>
 								<div class="form-group col-lg-4 col-sm-12 col-md-4 col-xs-12 text-center">
 								</div>
 							</div>
-						{{ Form::close() }}
+						</form>
 							<div class="form-group col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
 								<div class="form-group col-lg-3 col-sm-12 col-md-3 col-xs-12 text-center">
 									<a href="{{URL::to('/cart')}}" class="btn btn-warning">< Back</a>

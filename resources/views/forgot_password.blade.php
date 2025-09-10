@@ -24,7 +24,7 @@
 						</div>
 					</div>
 					<div class="form-bottom  col-lg-12 col-sm-12 col-md-12 col-xs-12">
-						{{ Form::open(array('url' => '/forgot_password', 'name'=>"forgot_password", 'autocomplete'=>'off', 'class'=>'forgot-password-form')) }}
+						<form action="/forgot_password" autocomplete="off" class="forgot-password-form" method="post">
 							<div class="form-group col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
 								<input type="text" placeholder="Email*" class="form-mobile form-control" name="email" autocomplete="new-password" data-valid="required email" />
 
@@ -41,9 +41,9 @@
 							
 							
 							<div class="form-group col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
-								{{ Form::button('Send', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("forgot_password")']) }}
+								<button type="button" class="btn btn-primary" onClick="customValidate("forgot_password")">Send</button>
 							</div>
-						{{ Form::close() }}	
+						</form>	
 					</div>
 				</div>
 			</div>

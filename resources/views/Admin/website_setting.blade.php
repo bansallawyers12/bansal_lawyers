@@ -25,13 +25,13 @@
 						<div class="card-header">
 							<strong>Website Setting</strong>
 						</div>
-						{{ Form::open(array('url' => 'admin/website_setting', 'name'=>"website-setting", 'enctype'=>'multipart/form-data', 'autocomplete'=>'off')) }}
-							{{ Form::hidden('id', @$fetchedData->id) }}
+						<form action="admin/website_setting" enctype="multipart/form-data" autocomplete="off" method="post">
+							<input type="hidden" name="id" value="@$fetchedData->id">
 						
 							<div class="card-body">
 								<div class="form-group">
 									<label for="phone">Website Phone<em>*</em></label>
-										{{ Form::text('phone', @$fetchedData->phone, array('class' => 'form-control mask', 'data-valid'=>'required')) }}
+										<input name="phone" type="text" value="@$fetchedData->phone" class="form-control mask" data-valid="required">
 								
 									@if ($errors->has('phone'))
 										<span class="custom-error" role="alert">
@@ -41,7 +41,7 @@
 								</div>
 								<div class="form-group">
 									<label for="ofc_timing">Office Timing</label>
-										{{ Form::text('ofc_timing', @$fetchedData->ofc_timing, array('class' => 'form-control')) }}
+										<input name="ofc_timing" type="text" value="@$fetchedData->ofc_timing" class="form-control">
 								
 									@if ($errors->has('ofc_timing'))
 										<span class="custom-error" role="alert">
@@ -51,7 +51,7 @@
 								</div>
 								<div class="form-group">
 									<label for="email">Website Email<em>*</em></label>
-										{{ Form::text('email', @$fetchedData->email, array('class' => 'form-control', 'data-valid'=>'required email')) }}
+										<input name="email" type="text" value="@$fetchedData->email" class="form-control" data-valid="required email">
 								
 									@if ($errors->has('email'))
 										<span class="custom-error" role="alert">
@@ -74,10 +74,10 @@
 								</div>
 								
 								<div class="form-group">
-									{{ Form::button('Save', ['class'=>'btn btn-primary px-4', 'onClick'=>'customValidate("website-setting")']) }}
+									<button type="button" class="btn btn-primary px-4" onClick="customValidate("website-setting")">Save</button>
 								</div>
 							</div>
-						{{ Form::close() }}	
+						</form>	
 					</div>
 				</div>
 				<div class="col-sm-6">

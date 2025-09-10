@@ -48,12 +48,12 @@
 					  </div> 
 					  <!-- /.card-header -->
 					  <!-- form start -->
-					  {{ Form::open(array('url' => 'admin/flight-detail/store', 'name'=>"add-flights", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
+					  <form action="admin/flight-detail/store" autocomplete="off" method="post">
 					   
 						<div class="card-body">
 							<div class="form-group" style="text-align:right;">
 								<a style="margin-right:5px;" href="{{route('admin.flightdetail.index')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>  
-								{{ Form::button('<i class="fa fa-save"></i> Save Flight', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-flights")' ]) }}
+								<button type="button" class="btn btn-primary" onClick="customValidate("add-flights")"><i class="fa fa-save"></i> Save Flight</button>
 							</div>
 							<div class="form-group row"> 
 								<label for="agent" class="col-sm-2 col-form-label">Flight Type <span style="color:#ff0000;">*</span></label>
@@ -115,7 +115,7 @@
 							<div class="form-group row"> 
 								<label for="flight_number" class="col-sm-2 col-form-label">Flight Number</label>
 								<div class="col-sm-10">
-								{{ Form::text('flight_number', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Flight Number' )) }}
+								<input name="flight_number" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Flight Number">
 								@if ($errors->has('flight_number'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('flight_number') }}</strong>
@@ -127,7 +127,7 @@
 								<label for="dep_time" class="col-sm-2 col-form-label">Departure Time</label>
 								<div class="col-sm-10">
 								
-								{{ Form::text('dep_time', '', array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Departure Time', 'id' =>'deptime' )) }}
+								<input name="dep_time" type="text" class="form-control " data-valid="required" autocomplete="off" placeholder="Enter Departure Time" id="deptime">
 								
 								@if ($errors->has('dep_time'))
 									<span class="custom-error" role="alert">
@@ -139,7 +139,7 @@
 							<div class="form-group row"> 
 								<label for="arival_time" class="col-sm-2 col-form-label">Arrival Time</label>
 								<div class="col-sm-10">
-								{{ Form::text('arival_time', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Arrival Time', 'id'=>'artime' )) }}
+								<input name="arival_time" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Arrival Time" id="artime">
 								@if ($errors->has('arival_time'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('arival_time') }}</strong>
@@ -151,7 +151,7 @@
 							<div class="form-group row"> 
 								<label for="duration" class="col-sm-2 col-form-label">Duration</label>
 								<div class="col-sm-10">
-								{{ Form::text('duration', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Duration' )) }}
+								<input name="duration" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Duration">
 								@if ($errors->has('duration'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('duration') }}</strong>
@@ -187,7 +187,7 @@
 								<div style="display:none;" class="form-group row is_return"> 
 								<label for="ret_flight_number" class="col-sm-2 col-form-label">Return Flight Number</label>
 								<div class="col-sm-10">
-								{{ Form::text('ret_flight_number', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Flight Number' )) }}
+								<input name="ret_flight_number" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Flight Number">
 								@if ($errors->has('ret_flight_number'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('ret_flight_number') }}</strong>
@@ -199,7 +199,7 @@
 								<label for="ret_dep_time" class="col-sm-2 col-form-label">Return Departure Time</label>
 								<div class="col-sm-10">
 								
-								{{ Form::text('ret_dep_time', '', array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Return Departure Time', 'id' =>'retdeptime' )) }}
+								<input name="ret_dep_time" type="text" class="form-control " data-valid="" autocomplete="off" placeholder="Enter Return Departure Time" id="retdeptime">
 								
 								@if ($errors->has('ret_dep_time'))
 									<span class="custom-error" role="alert">
@@ -211,7 +211,7 @@
 							<div style="display:none;" class="form-group row is_return"> 
 								<label for="ret_arv_time" class="col-sm-2 col-form-label">Return Arrival Time</label>
 								<div class="col-sm-10">
-								{{ Form::text('ret_arv_time', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Return Arrival Time', 'id'=>'retartime' )) }}
+								<input name="ret_arv_time" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Return Arrival Time" id="retartime">
 								@if ($errors->has('ret_arv_time'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('ret_arv_time') }}</strong>
@@ -222,7 +222,7 @@
 							<div style="display:none;" class="form-group row is_return"> 
 								<label for="ret_duration" class="col-sm-2 col-form-label">Return Duration</label>
 								<div class="col-sm-10">
-								{{ Form::text('ret_duration', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Return Duration' )) }}
+								<input name="ret_duration" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Return Duration">
 								@if ($errors->has('ret_duration'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('ret_duration') }}</strong>
@@ -246,7 +246,7 @@
 							<div class="form-group row"> 
 								<label for="bc_total" class="col-sm-2 col-form-label">B2C Total Fare</label>
 								<div class="col-sm-10">
-								{{ Form::text('bc_total', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter B2C Total Fare' )) }}
+								<input name="bc_total" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter B2C Total Fare">
 								@if ($errors->has('bc_total'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('bc_total') }}</strong>
@@ -257,7 +257,7 @@
 							<div class="form-group row"> 
 								<label for="bb_total" class="col-sm-2 col-form-label">B2B Total Fare</label>
 								<div class="col-sm-10">
-								{{ Form::text('bb_total', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter B2B Total Fare' )) }}
+								<input name="bb_total" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter B2B Total Fare">
 								@if ($errors->has('bb_total'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('bb_total') }}</strong>
@@ -319,10 +319,10 @@
 								</div>  
 							</div>
 							<div class="form-group float-right">
-								{{ Form::button('<i class="fa fa-save"></i> Save Flight', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-flights")' ]) }}
+								<button type="button" class="btn btn-primary" onClick="customValidate("add-flights")"><i class="fa fa-save"></i> Save Flight</button>
 							</div> 
 						</div>  
-					  {{ Form::close() }}
+					  </form>
 					</div>	   
 				</div>	
 			</div>

@@ -124,7 +124,7 @@
 							<div class="form-group row">
 								<label for="cityid" class="col-sm-2 col-form-label">ID</label>
 								<div class="col-sm-10">
-									{{ Form::text('cityid', Request::get('cityid'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'ID', 'id' => 'cityid' )) }}
+									<input name="cityid" type="text" value="Request::get('cityid')" class="form-control" data-valid="" autocomplete="off" placeholder="ID" id="cityid">
 								</div>
 							</div>
 						</div>
@@ -132,7 +132,7 @@
 							<div class="form-group row">
 								<label for="name" class="col-sm-2 col-form-label">Name</label>
 								<div class="col-sm-10">
-									{{ Form::text('name', Request::get('name'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Destination Name', 'id' => 'name' )) }}
+									<input name="name" type="text" value="Request::get('name')" class="form-control" data-valid="" autocomplete="off" placeholder="Destination Name" id="name">
 								</div>
 							</div>
 						</div>

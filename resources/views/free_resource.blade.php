@@ -19,9 +19,9 @@
 	</div>
 </div>
 <div class="row product-list-page">
-	{{ Form::open(array('name'=>"search-form", 'method' => 'get', 'autocomplete'=>'off')) }}
-	{{ Form::hidden('search_term', Request::get('search_term'), array('id'=>'search_term')) }}
-	{{ Form::hidden('search_term_resource', Request::get('search_term_resource'), array('id'=>'search_term_resource')) }}
+	<form method="get" autocomplete="off" method="post">
+	<input type="hidden" name="search_term" value="Request::get('search_term')" id="search_term">
+	<input type="hidden" name="search_term_resource" value="Request::get('search_term_resource')" id="search_term_resource">
 		<div class="col-lg-2 col-sm-12 col-md-2 col-xs-12">
 			<div class="filters filter1">
 				<a href="{{URL::to('/free-resource')}}" class="faculty-filter-btn btn btn-info filled">Filter <span aria-hidden="true" class="float-right">×</span></a>
@@ -46,7 +46,7 @@
 					<a href="javascript:void(0);" class="btn btn-info free-search-resource" data-val="1"> CA Final</a>
 					<a href="javascript:void(0);" class="btn btn-info free-search-resource" data-val="2">CA Inter</a>
 				</div>	
-	{{ Form::close() }}					
+	</form>					
 				
 				<div cellspacing="0" class="products-list-products" id="product-list-table">
 					<!-- Flash Message Start -->

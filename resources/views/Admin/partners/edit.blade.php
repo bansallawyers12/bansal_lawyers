@@ -6,8 +6,8 @@
 <div class="main-content">
 	<section class="section">
 		<div class="section-body">
-			{{ Form::open(array('url' => 'admin/partners/edit', 'name'=>"edit-partner", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
-			{{ Form::hidden('id', @$fetchedData->id) }}
+			<form action="admin/partners/edit" autocomplete="off" method="post">
+			<input type="hidden" name="id" value="@$fetchedData->id">
 				<div class="row">
 					<div class="col-12 col-md-12 col-lg-12">
 						<div class="card">
@@ -93,7 +93,7 @@
 														<div class="col-12 col-md-6 col-lg-6">
 															<div class="form-group">
 																<label for="partner_name">Partner Name <span class="span_req">*</span></label>
-																{{ Form::text('partner_name', @$fetchedData->partner_name, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Partner Name' )) }}
+																<input name="partner_name" type="text" value="@$fetchedData->partner_name" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Partner Name">
 																@if ($errors->has('partner_name'))
 																	<span class="custom-error" role="alert">
 																		<strong>{{ @$errors->first('partner_name') }}</strong>
@@ -104,7 +104,7 @@
 														<div class="col-12 col-md-6 col-lg-6">
 															<div class="form-group">
 																<label for="business_reg_no">Business Registration Number</label>
-																{{ Form::text('business_reg_no', @$fetchedData->business_reg_no, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Business Registration Number' )) }}
+																<input name="business_reg_no" type="text" value="@$fetchedData->business_reg_no" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Business Registration Number">
 																@if ($errors->has('business_reg_no'))
 																	<span class="custom-error" role="alert">
 																		<strong>{{ @$errors->first('business_reg_no') }}</strong>
@@ -156,7 +156,7 @@
 												<div class="col-12 col-md-4 col-lg-4">
 													<div class="form-group">
 														<label for="address">Address</label>
-														{{ Form::text('address', @$fetchedData->address, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Address' )) }}
+														<input name="address" type="text" value="@$fetchedData->address" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Address">
 														@if ($errors->has('address'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('address') }}</strong>
@@ -167,7 +167,7 @@
 												<div class="col-12 col-md-4 col-lg-4">
 													<div class="form-group">
 														<label for="city">City</label>
-														{{ Form::text('city', @$fetchedData->city, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter City' )) }}
+														<input name="city" type="text" value="@$fetchedData->city" class="form-control" data-valid="" autocomplete="off" placeholder="Enter City">
 														@if ($errors->has('city'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('city') }}</strong>
@@ -178,7 +178,7 @@
 												<div class="col-12 col-md-4 col-lg-4">
 													<div class="form-group">
 														<label for="state">State</label>
-														{{ Form::text('state', @$fetchedData->state, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter State' )) }}
+														<input name="state" type="text" value="@$fetchedData->state" class="form-control" data-valid="" autocomplete="off" placeholder="Enter State">
 														@if ($errors->has('state'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('state') }}</strong>
@@ -189,7 +189,7 @@
 												<div class="col-12 col-md-4 col-lg-4">
 													<div class="form-group">
 														<label for="zip">Zip / Post Code</label>
-														{{ Form::text('zip', @$fetchedData->zip,  array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Zip / Post Code' )) }}
+														<input name="zip" type="text" value="@$fetchedData->zip" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Zip / Post Code">
 														@if ($errors->has('zip'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('zip') }}</strong>
@@ -241,7 +241,7 @@
 															<div class="country_code">
 																<input class="telephone" id="telephone" type="tel" name="country_code" readonly value="{{@$fetchedData->first_name}}" >
 															</div>
-															{{ Form::text('phone', @$fetchedData->phone, array('class' => 'form-control tel_input', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Phone' )) }}
+															<input name="phone" type="text" value="@$fetchedData->phone" class="form-control tel_input" data-valid="" autocomplete="off" placeholder="Enter Phone">
 															@if ($errors->has('phone'))
 																<span class="custom-error" role="alert">
 																	<strong>{{ @$errors->first('phone') }}</strong>
@@ -253,7 +253,7 @@
 												<div class="col-12 col-md-4 col-lg-4">
 													<div class="form-group">
 														<label for="email">Email <span class="span_req">*</span></label>
-														{{ Form::text('email', @$fetchedData->email, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Email' )) }}
+														<input name="email" type="text" value="@$fetchedData->email" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Email">
 														@if ($errors->has('email'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('email') }}</strong>
@@ -264,7 +264,7 @@
 												<div class="col-12 col-md-4 col-lg-4">
 													<div class="form-group">
 														<label for="fax">Fax</label>
-														{{ Form::text('fax', @$fetchedData->fax, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Fax' )) }}
+														<input name="fax" type="text" value="@$fetchedData->fax" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Fax">
 														@if ($errors->has('fax'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('fax') }}</strong>
@@ -275,7 +275,7 @@
 												<div class="col-12 col-md-4 col-lg-4">
 													<div class="form-group">
 														<label for="website">Website</label>
-														{{ Form::text('website', @$fetchedData->website, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Website' )) }}
+														<input name="website" type="text" value="@$fetchedData->website" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Website">
 														@if ($errors->has('website'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('website') }}</strong>
@@ -286,7 +286,7 @@
 												<div class="col-12 col-md-4 col-lg-4">
 													<div class="form-group">
 														<label for="level">Partner Level</label>
-														{{ Form::text('level', @$fetchedData->level, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Level' )) }}
+														<input name="level" type="text" value="@$fetchedData->level" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Level">
 														@if ($errors->has('level'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('level') }}</strong>
@@ -376,13 +376,13 @@
 
 								<div class="form-group float-right">
 									<div class="removesids"></div>
-									{{ Form::button('Update Partner', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("edit-partner")' ]) }}
+									<button type="button" class="btn btn-primary" onClick="customValidate("edit-partner")">Update Partner</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			{{ Form::close() }}
+			</form>
 		</div>
 	</section>
 </div>
@@ -401,7 +401,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="branch_name">Name <span class="span_req">*</span></label>
-								{{ Form::text('branch_name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Name' )) }}
+								<input name="branch_name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Name">
 								<span class="custom-error branch_name_error" role="alert">
 									<strong></strong>
 								</span>
@@ -410,7 +410,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="branch_email">Email <span class="span_req">*</span></label>
-								{{ Form::text('branch_email', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Email' )) }}
+								<input name="branch_email" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Email">
 									<span class="custom-error branch_email_error" role="alert">
 										<strong></strong>
 									</span>
@@ -434,7 +434,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="branch_city">City</label>
-								{{ Form::text('branch_city', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter City' )) }}
+								<input name="branch_city" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter City">
 								@if ($errors->has('branch_city'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('branch_city') }}</strong>
@@ -445,7 +445,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="branch_state">State</label>
-								{{ Form::text('branch_state', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter State' )) }}
+								<input name="branch_state" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter State">
 								@if ($errors->has('branch_state'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('branch_state') }}</strong>
@@ -456,7 +456,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="branch_address">Street</label>
-								{{ Form::text('branch_address', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Street' )) }}
+								<input name="branch_address" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Street">
 								@if ($errors->has('branch_address'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('branch_address') }}</strong>
@@ -467,7 +467,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="branch_zip">Zip Code</label>
-								{{ Form::text('branch_zip', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Zip / Post Code' )) }}
+								<input name="branch_zip" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Zip / Post Code">
 								@if ($errors->has('branch_zip'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('branch_zip') }}</strong>
@@ -492,7 +492,7 @@
 									<div class="country_code">
 										<input class="telephone" id="telephone" type="tel" value="+61" name="brnch_country_code" readonly >
 									</div>
-									{{ Form::text('branch_phone', '', array('class' => 'form-control tel_input', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Phone' )) }}
+									<input name="branch_phone" type="text" class="form-control tel_input" data-valid="" autocomplete="off" placeholder="Enter Phone">
 									@if ($errors->has('branch_phone'))
 										<span class="custom-error" role="alert">
 											<strong>{{ @$errors->first('branch_phone') }}</strong>

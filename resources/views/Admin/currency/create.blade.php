@@ -47,13 +47,13 @@
 					  </div> 
 					  <!-- /.card-header -->
 					  <!-- form start -->
-					  {{ Form::open(array('url' => 'admin/settings/currencies/store', 'name'=>"add-city", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
+					  <form action="admin/settings/currencies/store" autocomplete="off" method="post">
 						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="form-group" style="text-align:right;">
 										<a style="margin-right:5px;" href="{{route('admin.currency.index')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
-										{{ Form::button('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-city")' ]) }}
+										<button type="button" class="btn btn-primary" onClick="customValidate("add-city")"><i class="fa fa-save"></i> Save</button>
 									</div>
 								</div>
 								<div class="col-sm-6">
@@ -72,7 +72,7 @@
 								<div class="col-sm-6">
 									<div class="form-group"> 
 										<label for="currency_symbol" class="col-form-label">Currency Symbol <span style="color:#ff0000;">*</span></label>
-										{{ Form::text('currency_symbol', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'','id'=>'currency_symbol' )) }}
+										<input name="currency_symbol" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="" id="currency_symbol">
 										@if ($errors->has('currency_symbol'))
 											<span class="custom-error" role="alert">
 												<strong>{{ @$errors->first('currency_symbol') }}</strong>
@@ -83,7 +83,7 @@
 								<div class="col-sm-6">
 									<div class="form-group"> 
 										<label for="name" class="col-form-label">Currency Name <span style="color:#ff0000;">*</span></label>
-										{{ Form::text('name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'','id'=>'currency_name' )) }}
+										<input name="name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="" id="currency_name">
 										@if ($errors->has('name'))
 											<span class="custom-error" role="alert">
 												<strong>{{ @$errors->first('name') }}</strong>
@@ -117,12 +117,12 @@
 								</div>
 								<div class="col-sm-12">
 									<div class="form-group float-right">
-										{{ Form::button('<i class="fa fa-save"></i> Save', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-city")' ]) }}
+										<button type="button" class="btn btn-primary" onClick="customValidate("add-city")"><i class="fa fa-save"></i> Save</button>
 									</div> 
 								</div> 
 							</div> 
 						</div> 
-					  {{ Form::close() }}
+					  </form>
 					</div>	
 				</div>	
 			</div> 

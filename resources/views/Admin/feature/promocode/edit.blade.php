@@ -17,8 +17,8 @@
 <div class="main-content">
 	<section class="section">
 		<div class="section-body">
-			{{ Form::open(array('url' => 'admin/promo-code/edit', 'name'=>"edit-promo-code", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
-			{{ Form::hidden('id', @$fetchedData->id) }}
+			<form action="admin/promo-code/edit" autocomplete="off" method="post">
+			<input type="hidden" name="id" value="@$fetchedData->id">
 				<div class="row">
 					<div class="col-12 col-md-12 col-lg-12">
 						<div class="card">
@@ -45,7 +45,7 @@
 												<div class="col-12 col-md-4 col-lg-4">
 													<div class="form-group">
 														<label for="title">Title <span class="span_req">*</span></label>
-														{{ Form::text('title', $fetchedData->title, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Title' )) }}
+														<input name="title" type="text" value="$fetchedData->title" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Title">
 														@if ($errors->has('title'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('title') }}</strong>
@@ -60,7 +60,7 @@
 												<div class="col-12 col-md-4 col-lg-4">
 													<div class="form-group">
 														<label for="code">Code <span class="span_req">*</span></label>
-														{{ Form::text('code', $fetchedData->code, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Code' )) }}
+														<input name="code" type="text" value="$fetchedData->code" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Code">
 														@if ($errors->has('code'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('code') }}</strong>
@@ -94,7 +94,7 @@
 						</div>
 					</div>
 				</div>
-			{{ Form::close() }}
+			</form>
 		</div>
 	</section>
 </div>

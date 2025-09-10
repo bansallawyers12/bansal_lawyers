@@ -48,12 +48,12 @@
 					  </div>
 					  <!-- /.card-header -->
 					  <!-- form start -->
-					  {{ Form::open(array('url' => 'admin/staff/edit', 'name'=>"edit-staff", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
-					  {{ Form::hidden('id', @$fetchedData->id) }}
+					  <form action="admin/staff/edit" autocomplete="off" method="post">
+					  <input type="hidden" name="id" value="@$fetchedData->id">
 						<div class="card-body">	
 						  <div class="form-group"> 
 							<label for="first_name">User First Name</label>
-							{{ Form::text('first_name', @$fetchedData->first_name, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter User First Name' )) }}
+							<input name="first_name" type="text" value="@$fetchedData->first_name" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter User First Name">
 							@if ($errors->has('first_name'))
 								<span class="custom-error" role="alert">
 									<strong>{{ @$errors->first('first_name') }}</strong>
@@ -62,7 +62,7 @@
 						  </div> 
 						  <div class="form-group">
 							<label for="last_name">User Last Name</label>
-							{{ Form::text('last_name', @$fetchedData->last_name, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter User Last Name' )) }}
+							<input name="last_name" type="text" value="@$fetchedData->last_name" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter User Last Name">
 							@if ($errors->has('last_name'))
 								<span class="custom-error" role="alert">
 									<strong>{{ @$errors->first('last_name') }}</strong>
@@ -71,7 +71,7 @@
 						  </div>
 						  <div class="form-group">
 							<label for="staff_id">Staff Code</label>
-							{{ Form::text('staff_id', @$fetchedData->staff_id, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter User Last Name' )) }}
+							<input name="staff_id" type="text" value="@$fetchedData->staff_id" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter User Last Name">
 							@if ($errors->has('staff_id'))
 								<span class="custom-error" role="alert">
 									<strong>{{ @$errors->first('staff_id') }}</strong>
@@ -80,7 +80,7 @@
 						  </div>
 						  <div class="form-group">
 							<label for="name">User Email</label>
-							{{ Form::text('email', @$fetchedData->email, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter User Email' )) }}
+							<input name="email" type="text" value="@$fetchedData->email" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter User Email">
 							@if ($errors->has('email'))
 								<span class="custom-error" role="alert">
 									<strong>{{ @$errors->first('email') }}</strong>
@@ -98,7 +98,7 @@
 						  </div>
 						  <div class="form-group">
 							<label for="name">User Phone</label>
-							{{ Form::text('phone', @$fetchedData->phone, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter User Phone' )) }}
+							<input name="phone" type="text" value="@$fetchedData->phone" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter User Phone">
 							@if ($errors->has('phone'))
 								<span class="custom-error" role="alert">
 									<strong>{{ @$errors->first('phone') }}</strong>
@@ -129,7 +129,7 @@
 							{{ Form::submit('Update', ['class'=>'btn btn-primary' ]) }}
 						  </div> 
 						</div> 
-					  {{ Form::close() }}
+					  </form>
 					</div>	
 				</div>	
 			</div>

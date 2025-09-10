@@ -7,7 +7,7 @@
 <div class="main-content">
 	<section class="section">
 		<div class="section-body">
-			{{ Form::open(array('url' => 'admin/managecontact/store', 'name'=>"add-contacts", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
+			<form action="admin/managecontact/store" autocomplete="off" method="post">
 				<div class="row">
 					<div class="col-12 col-md-12 col-lg-12">
 						<div class="card">
@@ -35,7 +35,7 @@
 											</select>
 										</div>
 										<div class="col-sm-4">
-										{{ Form::text('first_name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'First Name *' )) }}
+										<input name="first_name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="First Name *">
 										@if ($errors->has('first_name'))
 											<span class="custom-error" role="alert">
 												<strong>{{ @$errors->first('first_name') }}</strong>
@@ -43,7 +43,7 @@
 										@endif
 										</div>									
 										<div class="col-sm-3">
-										{{ Form::text('middle_name', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Middle Name' )) }}
+										<input name="middle_name" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Middle Name">
 										@if ($errors->has('middle_name'))
 											<span class="custom-error" role="alert">
 												<strong>{{ @$errors->first('middle_name') }}</strong>
@@ -51,7 +51,7 @@
 										@endif
 										</div>
 										<div class="col-sm-3">
-										{{ Form::text('last_name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Last Name *' )) }}
+										<input name="last_name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Last Name *">
 										@if ($errors->has('last_name'))
 											<span class="custom-error" role="alert">
 												<strong>{{ @$errors->first('last_name') }}</strong>
@@ -67,7 +67,7 @@
 						</div>
 					</div>
 				</div>
-			{{ Form::close() }}
+			</form>
 		</div>
 	</section>
 </div>

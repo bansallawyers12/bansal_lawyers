@@ -39,12 +39,12 @@
 								<div role="tabpanel" class="fade in active" id="Section0">		
 									<div class="table-responsive">
 										<div id="orderSummary_wrapper" class="dataTables_wrapper no-footer">
-											{{ Form::open(array('url' => '/edit_profile', 'name'=>"edit-profile", 'autocomplete'=>'off', 'class'=>'edit-profile')) }}
-												{{ Form::hidden('id', @$fetchedData->id) }}
+											<form action="/edit_profile" autocomplete="off" class="edit-profile" method="post">
+												<input type="hidden" name="id" value="@$fetchedData->id">
 												<div>
 													<div class="form-group">
 														<label for="first_name">First Name<em>*</em></label>
-														{{ Form::text('first_name', @$fetchedData->first_name, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'new-password')) }}
+														<input name="first_name" type="text" value="@$fetchedData->first_name" class="form-control" data-valid="required" autocomplete="new-password">
 													
 														@if ($errors->has('first_name'))
 															<span class="custom-error" role="alert">
@@ -54,7 +54,7 @@
 													</div>
 													<div class="form-group">
 														<label for="last_name">Last Name<em>*</em></label>
-														{{ Form::text('last_name', @$fetchedData->last_name, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'new-password')) }}
+														<input name="last_name" type="text" value="@$fetchedData->last_name" class="form-control" data-valid="required" autocomplete="new-password">
 													
 														@if ($errors->has('last_name'))
 															<span class="custom-error" role="alert">
@@ -64,11 +64,11 @@
 													</div>
 													<div class="form-group">
 														<label for="email">Email<em>*</em></label>
-														{{ Form::text('email', @$fetchedData->email, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'new-password', 'disabled'=>'disabled')) }}
+														<input name="email" type="text" value="@$fetchedData->email" class="form-control" data-valid="required" autocomplete="new-password" disabled="disabled">
 													</div>
 													<div class="form-group">
 														<label for="phone">Phone<em>*</em></label>
-														{{ Form::text('phone', @$fetchedData->phone, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'new-password', 'disabled'=>'disabled')) }}
+														<input name="phone" type="text" value="@$fetchedData->phone" class="form-control" data-valid="required" autocomplete="new-password" disabled="disabled">
 													</div>
 													<div class="form-group">
 														<label for="country">Country<em>*</em></label>
@@ -102,7 +102,7 @@
 													</div>
 													<div class="form-group">
 														<label for="city">City<em>*</em></label>
-														{{ Form::text('city', @$fetchedData->city, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'new-password')) }}
+														<input name="city" type="text" value="@$fetchedData->city" class="form-control" data-valid="required" autocomplete="new-password">
 													
 														@if ($errors->has('city'))
 															<span class="custom-error" role="alert">
@@ -112,7 +112,7 @@
 													</div>
 													<div class="form-group">
 														<label for="address">Address<em>*</em></label>
-														{{ Form::textarea('address', @$fetchedData->address, array('class' => 'form-control textarea', 'placeholder'=>'Please write Your Address...', 'autocomplete'=>'new-password', 'data-valid'=>'required')) }}
+														<textarea name="address" class="form-control textarea" placeholder="Please write Your Address..." autocomplete="new-password" data-valid="required">required</textarea>
 													
 														@if ($errors->has('address'))
 															<span class="custom-error" role="alert">
@@ -122,7 +122,7 @@
 													</div>
 													<div class="form-group">
 														<label for="zip">Zip Code<em>*</em></label>
-														{{ Form::text('zip', @$fetchedData->zip, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'new-password')) }}
+														<input name="zip" type="text" value="@$fetchedData->zip" class="form-control" data-valid="required" autocomplete="new-password">
 													
 														@if ($errors->has('zip'))
 															<span class="custom-error" role="alert">
@@ -131,10 +131,10 @@
 														@endif
 													</div>
 													<div class="form-group">
-														{{ Form::button('Update', ['class'=>'btn btn-primary px-4', 'onClick'=>'customValidate("edit-profile")']) }}
+														<button type="button" class="btn btn-primary px-4" onClick="customValidate("edit-profile")">Update</button>
 													</div>	
 												</div>
-											{{ Form::close() }}	
+											</form>	
 											
 										</div>
 									</div>

@@ -15,7 +15,7 @@
 		<form action="{{ route('appointments.update',$appointment->id) }}" method="POST">
         @csrf
         @method('PUT')
-		{{ Form::hidden('id', @$appointment->id) }}
+		<input type="hidden" name="id" value="@$appointment->id">
 				<!-- <div class="row"> -->
 			<div class="col-12 col-md-12 col-lg-12">
 				<div class="card">
@@ -38,7 +38,7 @@
 											<div class="form-group">
 												<label for="client">Client name</label>
 												<div class="cus_field_input">
-													{{ Form::text('client_id', @$appointment->clients->first_name.' '.@$appointment->clients->last_name, array('class' => 'form-control', 'data-valid'=>'','readonly', 'autocomplete'=>'off','placeholder'=>'Enter CLient Name' )) }}
+													<input name="client_id" type="text" value="@$appointment->clients->first_name.' '.@$appointment->clients->last_name" class="form-control" data-valid="" autocomplete="off" placeholder="Enter CLient Name">
 													@if ($errors->has('client_id'))
 														<span class="custom-error" role="alert">
 															<strong>{{ @$errors->first('client_id') }}</strong>
@@ -63,9 +63,9 @@
                                                 <input type="hidden" name="route" value="{{url()->previous()}}">
 												<label for="user">Added By</label>
                                                 @if($appointment->user)
-                                                {{ Form::text('user_id', @$appointment->user->first_name.' '.$appointment->user->last_name, array('class' => 'form-control', 'autocomplete'=>'off','placeholder'=>'Enter User Name','readonly' ))}}
+                                                <input name="user_id" type="text" value="@$appointment->user->first_name.' '.$appointment->user->last_name" class="form-control" autocomplete="off" placeholder="Enter User Name">
 												@else
-                                                {{ Form::text('user_id', 'N/A', array('class' => 'form-control', 'autocomplete'=>'off','placeholder'=>'Enter User Name','readonly' )) }}
+                                                <input name="user_id" type="text" value="N/A" class="form-control" autocomplete="off" placeholder="Enter User Name">
 												@endif
 											</div>
 										</div>
@@ -190,7 +190,7 @@
                                         <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <label for="status">Service </label>
-                                                {{ Form::text('service', @$appointment->service->title, array('class' => 'form-control', 'autocomplete'=>'off','readonly')) }}
+                                                <input name="service" type="text" value="@$appointment->service->title" class="form-control" autocomplete="off">
                                             </div>
                                         </div>
 
@@ -216,7 +216,7 @@
 										<div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="description">Description <span class="span_req">*</span></label>
-												{{ Form::text('description', @$appointment->description, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter description' )) }}
+												<input name="description" type="text" value="@$appointment->description" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter description">
 												@if ($errors->has('description'))
 													<span class="custom-error" role="alert">
 														<strong>{{ @$errors->first('description') }}</strong>
@@ -281,7 +281,7 @@
 				</div>
 			</div>
 		</div>
-		{{ Form::close() }}
+		</form>
 		</div>
 	</section>
 

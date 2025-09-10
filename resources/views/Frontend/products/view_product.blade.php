@@ -108,7 +108,7 @@
 						</span>
 					</strong>
 				</li>
-				{{ Form::open(array('url' => '/cart', 'name'=>"add_to_cart", 'autocomplete'=>'off')) }}
+				<form action="/cart" autocomplete="off" method="post">
 					<li class="list-group-item">
 						<div class="form-group row">
 							<label class="col-sm-3 col-form-label col-xs-6">Delivery Method</label>
@@ -120,7 +120,7 @@
 										@endforeach
 									@endif		
 								</select>
-								{{ Form::hidden('store_mode_id', @$minProduct->productOtherInfo[0]->mode_of_product, array('id'=>'store_mode_id')) }}
+								<input type="hidden" name="store_mode_id" value="@$minProduct->productOtherInfo[0]->mode_of_product" id="store_mode_id">
 							</div>
 						</div>
 						<div class="clear clearfix"></div>	
@@ -129,7 +129,7 @@
 							<div class="col-sm-offset-0 col-sm-8 col-sm-offset-4 col-xs-6">
 								<select class="form-control views">
 								</select>
-								{{ Form::hidden('store_view_id', @$minProduct->productOtherInfo[0]->id, array('id'=>'store_view_id')) }}
+								<input type="hidden" name="store_view_id" value="@$minProduct->productOtherInfo[0]->id" id="store_view_id">
 							</div>
 						</div>
 						<div class="clear clearfix"></div>	
@@ -177,14 +177,14 @@
 						<ul class="list-inline text-center">
 							<li class="list-inline-item">
 								{{ Form::hidden('user_id', @Auth::user()->id) }}
-								{{ Form::hidden('product_other_info_id', @$minProduct->productOtherInfo[0]->id, array('class'=>'product_other_info')) }}
-								{{ Form::hidden('product_id', @$fetchedData->id, array('class'=>'product_id')) }}
+								<input type="hidden" name="product_other_info_id" value="@$minProduct->productOtherInfo[0]->id" class="product_other_info">
+								<input type="hidden" name="product_id" value="@$fetchedData->id" class="product_id">
 								
-								{{ Form::button('<i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Add to Cart', ['class' => 'btn btn-info cart_submit', 'type' => 'submit', 'disabled'=>'disabled']) }}
+								<button type="button" class="btn btn-info cart_submit" type="submit" disabled="disabled"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Add to Cart</button>
 							</li>
 						</ul>
 					</li>
-				{{ Form::close() }}	
+				</form>	
 				
 			</ul>
 	</div>
@@ -700,7 +700,7 @@
 	<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
 		<div class="modal-dialog modal-primary" role="document">
 			<div class="modal-content">
-				{{ Form::open(array('url' => '/add_review', 'name'=>"add-review")) }}
+				<form action="/add_review" method="post">
 					<div class="modal-header">
 						<h4 class="modal-title">Write your review</h4>
 						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -713,7 +713,7 @@
 						<input type="hidden" name="product_id" value="{{@$fetchedData->id}}" /><!--Which Product Review -->
 							<div class="form-group">
 								<label class="popup-label" for="review">Your Review<em>*</em></label>
-									{{ Form::textarea('review', '', array('class' => 'form-control review-textarea', 'placeholder'=>'Please write Review...', 'autocomplete'=>'new-password', 'data-valid'=>'required')) }}
+									<textarea name="review" class="form-control review-textarea" placeholder="Please write Review..." autocomplete="new-password" data-valid="required">required</textarea>
 									
 								@if (@$errors->has('review'))
 									<span class="custom-error" role="alert">
@@ -725,9 +725,9 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-						{{ Form::button('Submit', ['class'=>'btn btn-primary px-4', 'onClick'=>'customValidate("add-review")']) }}
+						<button type="button" class="btn btn-primary px-4" onClick="customValidate("add-review")">Submit</button>
 					</div>
-				{{ Form::close() }}		
+				</form>		
 			</div>
 		</div>
 	</div>

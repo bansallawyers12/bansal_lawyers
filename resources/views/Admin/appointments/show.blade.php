@@ -27,7 +27,7 @@
 											<div class="form-group">
 												<label for="client">Client name</label>
 												<div class="cus_field_input">
-													{{ Form::text('client_id', @$appointment->clients->first_name.' '.@$appointment->clients->last_name, array('class' => 'form-control','autocomplete'=>'off','readonly')) }}
+													<input name="client_id" type="text" value="@$appointment->clients->first_name.' '.@$appointment->clients->last_name" class="form-control" autocomplete="off">
 												</div>
 											</div>
 										</div>
@@ -42,9 +42,9 @@
 												{{--@endif--}}
 
                                                 @if($appointment->user)
-                                                {{ Form::text('user_id', @$appointment->user->first_name.' '.$appointment->user->last_name, array('class' => 'form-control', 'autocomplete'=>'off','placeholder'=>'Enter User Name','readonly' ))}}
+                                                <input name="user_id" type="text" value="@$appointment->user->first_name.' '.$appointment->user->last_name" class="form-control" autocomplete="off" placeholder="Enter User Name">
 												@else
-                                                {{ Form::text('user_id', 'N/A', array('class' => 'form-control', 'autocomplete'=>'off','placeholder'=>'Enter User Name','readonly' )) }}
+                                                <input name="user_id" type="text" value="N/A" class="form-control" autocomplete="off" placeholder="Enter User Name">
 												@endif
 											</div>
 										</div>
@@ -70,7 +70,7 @@
                                         <div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="time">Time </label>
-												{{ Form::text('time', @$appointment->timeslot_full, array('class' => 'form-control', 'autocomplete'=>'off','readonly' )) }}
+												<input name="time" type="text" value="@$appointment->timeslot_full" class="form-control" autocomplete="off">
 											</div>
 										</div>
 									</div>
@@ -114,14 +114,14 @@
 												<div class="form-group">
 													<label for="invites">Nature of Enquiry</label>
 													<div class="cus_field_input">
-														{{ Form::text('nature_of_enquiry', @$appointment->natureOfEnquiry->title, array('class' => 'form-control', 'autocomplete'=>'off','readonly')) }}
+														<input name="nature_of_enquiry" type="text" value="@$appointment->natureOfEnquiry->title" class="form-control" autocomplete="off">
 													</div>
 												</div>
 											</div>
 											<div class="col-12 col-md-6 col-lg-6">
 												<div class="form-group">
 													<label for="status">Service </label>
-													{{ Form::text('service', @$appointment->service->title, array('class' => 'form-control', 'autocomplete'=>'off','readonly')) }}
+													<input name="service" type="text" value="@$appointment->service->title" class="form-control" autocomplete="off">
 												</div>
 											</div>
 										</div>
@@ -131,7 +131,7 @@
 										<div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="description">Description </label>
-												{{ Form::textarea('description', @$appointment->description, array('class' => 'form-control', 'autocomplete'=>'off','readonly' )) }}
+												<textarea name="description" class="form-control" autocomplete="off">off</textarea>
 											</div>
 										</div>
 

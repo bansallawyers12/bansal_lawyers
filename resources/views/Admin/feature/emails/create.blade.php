@@ -7,7 +7,7 @@
 <div class="main-content">
 	<section class="section">
 		<div class="section-body">
-			{{ Form::open(array('url' => 'admin/emails/store', 'name'=>"add-emails", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }} 
+			<form action="admin/emails/store" autocomplete="off" method="post"> 
 				<div class="row">   
 					<div class="col-12 col-md-12 col-lg-12">
 						<div class="card">
@@ -35,7 +35,7 @@
 												<div class="col-12 col-md-12 col-lg-12">
 													<div class="form-group"> 
 														<label for="email">Email Id <span class="span_req">*</span></label>
-														{{ Form::text('email', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="email" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="">
 														@if ($errors->has('email'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('email') }}</strong>
@@ -52,7 +52,7 @@
 												<div class="col-12 col-md-12 col-lg-12">
 													<div class="form-group"> 
 														<label for="display_name">Display Name</label>
-														{{ Form::text('display_name', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="display_name" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="">
 														@if ($errors->has('display_name'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('display_name') }}</strong>
@@ -89,13 +89,13 @@
 									</div>
 								</div>
 								<div class="form-group float-right">
-									{{ Form::button('Save', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-emails")' ]) }}
+									<button type="button" class="btn btn-primary" onClick="customValidate("add-emails")">Save</button>
 								</div> 
 							</div>
 						</div>	
 					</div>
 				</div>
-			 {{ Form::close() }}	
+			 </form>	
 		</div>
 	</section>
 </div>

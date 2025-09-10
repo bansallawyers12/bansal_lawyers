@@ -35,19 +35,19 @@
 										<div class="col-md-4">
 											<div class="form-group">
 												<label for="company_name" class="col-form-label">Name</label>
-												{{ Form::text('name', Request::get('name'), array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Name', 'id' => 'name' )) }}
+												<input name="name" type="text" value="Request::get('name')" class="form-control " data-valid="" autocomplete="off" placeholder="Name" id="name">
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
 												<label for="branch" class="col-form-label">Branch</label>
-												{{ Form::text('branch', Request::get('branch'), array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Branch', 'id' => 'branch' )) }}
+												<input name="branch" type="text" value="Request::get('branch')" class="form-control " data-valid="" autocomplete="off" placeholder="Branch" id="branch">
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
 												<label for="partner" class="col-form-label">Partner</label>
-												{{ Form::text('partner', Request::get('partner'), array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Partner', 'id' => 'partner' )) }}
+												<input name="partner" type="text" value="Request::get('partner')" class="form-control " data-valid="" autocomplete="off" placeholder="Partner" id="partner">
 											</div>
 										</div>
 										
@@ -144,7 +144,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="email_from">From <span class="span_req">*</span></label>
-								{{ Form::text('email_from', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter From' )) }}
+								<input name="email_from" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter From">
 								@if ($errors->has('email_from'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('email_from') }}</strong>
@@ -155,7 +155,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="email_to">To <span class="span_req">*</span></label>
-								{{ Form::text('email_to', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter To' )) }}
+								<input name="email_to" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter To">
 								@if ($errors->has('email_to'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('email_to') }}</strong>
@@ -166,7 +166,7 @@
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="subject">Subject <span class="span_req">*</span></label>
-								{{ Form::text('subject', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Subject' )) }}
+								<input name="subject" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Subject">
 								@if ($errors->has('subject'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('subject') }}</strong>

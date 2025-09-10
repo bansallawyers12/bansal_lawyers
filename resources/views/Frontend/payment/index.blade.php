@@ -112,9 +112,9 @@
 								<i class="fa fa-inr" aria-hidden="true"></i>
 								 {{@$grandTotal}}
 							</strong>
-							{{ Form::open(array('url' => '/checkout', 'name'=>"checkout", 'autocomplete'=>'off', 'class'=>'checkout-form')) }}		
+							<form action="/checkout" autocomplete="off" class="checkout-form" method="post">		
 								{{ Form::submit('Checkout >', ['class'=>'btn btn-success btn-block']) }}	
-							{{ Form::close() }}	
+							</form>	
 						</td>
 					</tr>
 				</tfoot>

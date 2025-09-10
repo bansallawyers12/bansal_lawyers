@@ -102,9 +102,9 @@
 			   
 				<div class="dropdown-divider"></div>
 				<a href="{{route('admin.logout')}}" class="dropdown-item has-icon text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> <i class="fas fa-sign-out-alt"></i> Logout</a>
-				{{ Form::open(array('url' => 'admin/logout', 'name'=>'admin_login', 'id' => 'logout-form')) }}
+				<form action="admin/logout" name="admin_login" id="logout-form" method="post">
 				<input type="hidden" name="id" value="{{Auth::user()->id}}">
-				{{ Form::close() }}
+				</form>
             </div>
 		</li>
 	</ul>

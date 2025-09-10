@@ -23,8 +23,8 @@
 </div>
 <div class="row product-list-page">
 	<div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
-		{{ Form::open(array('name'=>"search-form", 'method' => 'get', 'autocomplete'=>'off')) }}
-			{{ Form::hidden('search_term', Request::get('search_term'), array('id'=>'search_term')) }}
+		<form method="get" autocomplete="off" method="post">
+			<input type="hidden" name="search_term" value="Request::get('search_term')" id="search_term">
 			<div class="filters filter1">
 				<div class="accordion-head">Classes</div>
 				<ul class="list-unstyled accordion-body">
@@ -46,7 +46,7 @@
 					@endif	
 				</ul>
 			</div>
-		{{ Form::close() }}		
+		</form>		
 	</div>
 	
 	<div class="col-lg-9 col-sm-9 col-md-9 col-xs-12 col-9-products">
@@ -135,13 +135,13 @@
 										</ul>
 										<div class="add-to-links">
 											<div class="cart-form">
-												{{ Form::open(array('url' => '/cart', 'name'=>"add_to_cart", 'autocomplete'=>'off')) }}
+												<form action="/cart" autocomplete="off" method="post">
 													{{ Form::hidden('user_id', @Auth::user()->id) }}
-													{{ Form::hidden('product_other_info_id', @$list->productOtherInfo[0]->id) }}
-													{{ Form::hidden('quantity', 1) }}
-													{{ Form::hidden('product_id', @$list->productOtherInfo[0]->product_id) }}
-													{{ Form::button('<i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Add to Cart', ['class' => 'link-compare btn btn-info add-to-cart-list', 'type' => 'submit']) }}
-												{{ Form::close() }}	
+													<input type="hidden" name="product_other_info_id" value="@$list->productOtherInfo[0]->id">
+													<input type="hidden" name="quantity" value="1">
+													<input type="hidden" name="product_id" value="@$list->productOtherInfo[0]->product_id">
+													<button type="button" class="link-compare btn btn-info add-to-cart-list" type="submit"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Add to Cart</button>
+												</form>	
 											</div>
 											<div>
 												<a href="{{URL::to('/view_product/'.base64_encode(convert_uuencode(@$list->id)))}}" class="link-compare btn btn-info">

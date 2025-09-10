@@ -97,13 +97,13 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="pnr" class="col-form-label">Client ID</label>
-                                                {{ Form::text('client_id', Request::get('client_id'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Client ID', 'id' => 'client_id' )) }}
+                                                <input name="client_id" type="text" value="Request::get('client_id')" class="form-control" data-valid="" autocomplete="off" placeholder="Client ID" id="client_id">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="company_name" class="col-form-label">Name</label>
-                                                {{ Form::text('name', Request::get('name'), array('class' => 'form-control agent_company_name', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Name', 'id' => 'name' )) }}
+                                                <input name="name" type="text" value="Request::get('name')" class="form-control agent_company_name" data-valid="" autocomplete="off" placeholder="Name" id="name">
                                             </div>
                                         </div>
                                         <div class="col-md-4 text-left" style="margin-top: 38px;">

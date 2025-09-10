@@ -132,7 +132,7 @@
 						<div class="form-group row">
 							<label for="flight_name" class="col-sm-3 col-form-label">Flight Name</label>
 							<div class="col-sm-9">
-								{{ Form::text('flight_name', Request::get('flight_name'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Flight Name', 'id' => '' )) }}
+								<input name="flight_name" type="text" value="Request::get('flight_name')" class="form-control" data-valid="" autocomplete="off" placeholder="Flight Name" id="">
 							</div>
 						</div>
 					</div>
@@ -152,7 +152,7 @@
 							<div class="form-group row">
 								<label for="flight_code" class="col-sm-3 col-form-label">Flight Code</label>
 								<div class="col-sm-9">
-									{{ Form::text('flight_code', Request::get('flight_code'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Flight Code', 'id' => '' )) }}
+									<input name="flight_code" type="text" value="Request::get('flight_code')" class="form-control" data-valid="" autocomplete="off" placeholder="Flight Code" id="">
 								</div>
 							</div>
 						</div>
@@ -160,7 +160,7 @@
 							<div class="form-group row">
 								<label for="depature_time" class="col-sm-3 col-form-label">Departure Time</label>
 								<div class="col-sm-9">
-									{{ Form::text('depature_time', Request::get('depature_time'), array('class' => 'form-control commodate', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Departure Time', 'id' => '' )) }}
+									<input name="depature_time" type="text" value="Request::get('depature_time')" class="form-control commodate" data-valid="" autocomplete="off" placeholder="Departure Time" id="">
 								</div>
 							</div>
 						</div>
@@ -168,7 +168,7 @@
 							<div class="form-group row">
 								<label for="arrival_time" class="col-sm-3 col-form-label">Arrival Time</label>
 								<div class="col-sm-9">
-									{{ Form::text('arrival_time', Request::get('arrival_time'), array('class' => 'form-control commodate', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Arrival Time', 'id' => '' )) }}
+									<input name="arrival_time" type="text" value="Request::get('arrival_time')" class="form-control commodate" data-valid="" autocomplete="off" placeholder="Arrival Time" id="">
 								</div>
 							</div>
 						</div>

@@ -274,7 +274,7 @@ display: inline-block;}
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="title">Title <span class="span_req">*</span></label>
-								{{ Form::text('title', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Title' )) }}
+								<input name="title" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Title">
 								<span class="custom-error title_error" role="alert">
 									<strong></strong>
 								</span> 
@@ -353,7 +353,7 @@ display: inline-block;}
 											<i class="fas fa-calendar-alt"></i>
 										</div>
 									</div>	
-									{{ Form::text('due_date', '', array('class' => 'form-control datepicker', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Select Date' )) }}
+									<input name="due_date" type="text" class="form-control datepicker" data-valid="" autocomplete="off" placeholder="Select Date">
 								</div>
 								<span class="span_note">Date must be in YYYY-MM-DD (2012-12-22) format.</span>
 								<span class="custom-error due_date_error" role="alert">
@@ -370,7 +370,7 @@ display: inline-block;}
 											<i class="fas fa-clock"></i>
 										</div>
 									</div>	  
-									{{ Form::text('due_time', '', array('class' => 'form-control timepicker', 'data-valid'=>'', 'autocomplete'=>'off', 'placeholder'=>'Select Time', 'readonly' )) }} 
+									<input name="due_time" type="text" class="form-control timepicker" data-valid="" autocomplete="off" placeholder="Select Time"> 
 								</div>
 								<span class="custom-error due_time_error" role="alert">
 									<strong></strong>
@@ -531,7 +531,7 @@ display: inline-block;}
 						<div class="col-12 col-md-6 col-lg-6">
 							<div class="form-group">
 								<label for="title">Title <span class="span_req">*</span></label>
-								{{ Form::text('title', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Title' )) }}
+								<input name="title" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Title">
 								<span class="custom-error title_error" role="alert">
 									<strong></strong>
 								</span> 

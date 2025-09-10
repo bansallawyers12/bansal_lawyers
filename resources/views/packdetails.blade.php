@@ -317,7 +317,7 @@
 						<div class="cont-wth1">
 							<div class="pkgform-headbx text-center">QUICK CONTACT <span class="title-arrow"></span></div>
 							<div class="pkgform-box">
-								{{ Form::open(array('url' => 'enquiry-contact', 'name'=>"add-query", 'autocomplete'=>'off','id'=>'enquiryco')) }}
+								<form action="enquiry-contact" autocomplete="off" id="enquiryco" method="post">
 								<span class="customerror"></span>
 									<input type="text" data-valid = 'required' name="name" class="form-control" value="" placeholder="Name">                                
 									<input type="text" data-valid = 'required' name="email" class="form-control" value="" placeholder="Email">
@@ -366,8 +366,8 @@
 									</div>                                
 										<input type="hidden" name="package_id" value="{{$dest->data->package_detail->id}}">
 									
-									{{ Form::button('Submit', ['class'=>'submitbtt', 'onClick'=>'customValidate("add-query")' ]) }}
-								 {{ Form::close() }}
+									<button type="button" class="submitbtt" onClick="customValidate("add-query")">Submit</button>
+								 </form>
 							</div>  
 						</div>
 					</div>   

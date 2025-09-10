@@ -80,8 +80,8 @@ if( isset($disableSlotArr) && !empty($disableSlotArr) && count($disableSlotArr) 
 
                             <button type="button" id="add-more" class="btn btn-primary add-more">Add Slot</button>
 
-                            {{ Form::open(array('url' => 'admin/appointment-dates-disable/edit', 'id'=>'myForm','name'=>"edit-partnertype", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
-                            {{ Form::hidden('id', @$fetchedData->id) }}
+                            <form action="admin/appointment-dates-disable/edit" id="myForm" autocomplete="off" method="post">
+                            <input type="hidden" name="id" value="@$fetchedData->id">
                             <div id="time-slots-container">
                                 <?php
                                 //dd($disableSlotArr);
@@ -213,7 +213,7 @@ if( isset($disableSlotArr) && !empty($disableSlotArr) && count($disableSlotArr) 
                                 {{ Form::submit('Save', ['class'=>'btn btn-primary' ]) }}
                             </div>
 
-                            {{ Form::close() }}
+                            </form>
 
                         </div>
                     </div>

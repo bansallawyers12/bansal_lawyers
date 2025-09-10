@@ -23,17 +23,17 @@
 					  <!-- /.card-header -->
 					  <!-- form start -->
 					  <!-- form start -->
-                	  {{ Form::open(array('url' => 'admin/cms_pages/edit', 'name'=>"edit-template", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
-					   {{ Form::hidden('id', @$fetchedData->id) }}
+                	  <form action="admin/cms_pages/edit" autocomplete="off" method="post">
+					   <input type="hidden" name="id" value="@$fetchedData->id">
 						<div class="card-body">
 							<div class="form-group" style="text-align:right;">
 								<a style="margin-right:5px;" href="{{route('admin.cms_pages.index')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
-								{{ Form::button('<i class="fa fa-save"></i> Update Page', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("edit-template")' ]) }}
+								<button type="button" class="btn btn-primary" onClick="customValidate("edit-template")"><i class="fa fa-save"></i> Update Page</button>
 							</div>
 							<div class="form-group row">
 								<label for="title" class="col-sm-2 col-form-label">Name <span style="color:#ff0000;">*</span></label>
 								<div class="col-sm-10">
-								{{ Form::text('title', @$fetchedData->title, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Name' )) }}
+								<input name="title" type="text" value="@$fetchedData->title" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Name">
 								@if ($errors->has('title'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('title') }}</strong>
@@ -45,7 +45,7 @@
 							<div class="form-group row">
 								<label for="slug" class="col-sm-2 col-form-label">Slug <span style="color:#ff0000;">*</span></label>
 								<div class="col-sm-10">
-									{{ Form::text('slug', @$fetchedData->slug, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Slug' )) }}
+									<input name="slug" type="text" value="@$fetchedData->slug" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Slug">
 									@if ($errors->has('slug'))
 										<span class="custom-error" role="alert">
 											<strong>{{ @$errors->first('slug') }}</strong>
@@ -75,7 +75,7 @@
                             <div class="form-group row">
 								<label for="image_alt" class="col-sm-2 col-form-label">Image Alt Attr</label>
 								<div class="col-sm-10">
-								{{ Form::text('image_alt', @$fetchedData->image_alt, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Image Alt Attr' )) }}
+								<input name="image_alt" type="text" value="@$fetchedData->image_alt" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Image Alt Attr">
 								@if ($errors->has('image_alt'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('image_alt') }}</strong>
@@ -101,7 +101,7 @@
 							<div class="form-group row">
 								<label for="meta_title" class="col-sm-2 col-form-label">Meta Title </label>
 								<div class="col-sm-10">
-								{{ Form::text('meta_title', @$fetchedData->meta_title, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Meta Title' )) }}
+								<input name="meta_title" type="text" value="@$fetchedData->meta_title" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Title">
 								@if ($errors->has('meta_title'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('meta_title') }}</strong>
@@ -124,7 +124,7 @@
 							<div class="form-group row">
 								<label for="meta_keyward" class="col-sm-2 col-form-label">Meta Keyward</label>
 								<div class="col-sm-10">
-								{{ Form::text('meta_keyward', @$fetchedData->meta_keyward, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Meta Keyward' )) }}
+								<input name="meta_keyward" type="text" value="@$fetchedData->meta_keyward" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Keyward">
 								@if ($errors->has('meta_keyward'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('meta_keyward') }}</strong>
@@ -136,7 +136,7 @@
                             <div class="form-group row">
                                 <label for="youtube_url" class="col-sm-2 col-form-label">Youtube Video Url</label>
                                 <div class="col-sm-10">
-                                {{ Form::text('youtube_url', @$fetchedData->youtube_url, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter youtube video url' )) }}
+                                <input name="youtube_url" type="text" value="@$fetchedData->youtube_url" class="form-control" data-valid="" autocomplete="off" placeholder="Enter youtube video url">
                                 @if ($errors->has('youtube_url'))
                                     <span class="custom-error" role="alert">
                                         <strong>{{ @$errors->first('youtube_url') }}</strong>
@@ -174,10 +174,10 @@
 							</div>
 
 							<div class="form-group float-right">
-								{{ Form::button('<i class="fa fa-save"></i> Update Page', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("edit-template")' ]) }}
+								<button type="button" class="btn btn-primary" onClick="customValidate("edit-template")"><i class="fa fa-save"></i> Update Page</button>
 							</div>
 						</div>
-					  {{ Form::close() }}
+					  </form>
 					</div>
 				</div>
 			</div>

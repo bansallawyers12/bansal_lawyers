@@ -35,14 +35,14 @@
 						<h3 class="card-title">Api Key</h3>
 					  </div>
 					  @if(@Auth::user()->client_id == '')
-					  {{ Form::open(array('url' => 'admin/api-key', 'name'=>"add-key", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
+					  <form action="admin/api-key" autocomplete="off" method="post">
 						<div class="card-body">	
 						  <div class="form-group">
 							{{ Form::submit('Genreate Key', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-key")' ]) }}
 						  </div>
 						   
 						</div>
-					  {{ Form::close() }}
+					  </form>
 					  @else
 						  <div class="card-body">	
 						 

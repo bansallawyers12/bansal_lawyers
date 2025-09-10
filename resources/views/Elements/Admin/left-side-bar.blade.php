@@ -76,9 +76,9 @@
 
             <li class="dropdown">
 				<a href="{{route('admin.logout')}}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i data-feather="log-out"></i><span>Logout</span></a>
-				{{ Form::open(array('url' => 'admin/logout', 'name'=>'admin_login', 'id' => 'logout-form')) }}
+				<form action="admin/logout" name="admin_login" id="logout-form" method="post">
 				<input type="hidden" name="id" value="{{Auth::user()->id}}">
-				{{ Form::close() }}
+				</form>
 			</li>
 		</ul>
 	</aside>

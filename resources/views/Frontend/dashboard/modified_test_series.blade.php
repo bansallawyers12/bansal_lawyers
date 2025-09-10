@@ -49,7 +49,7 @@
 			<div class="col-md-4 col-sm-6">
 			</div>
 			<div class="col-md-4 col-sm-6">
-				{{ Form::open(array('name'=>"search-form", 'method' => 'get', 'autocomplete'=>'off')) }}
+				<form method="get" autocomplete="off" method="post">
 					<div class="form-group">	
 						<div class="text-center">
 							<select name="search_term" class="form-control test_series_course">
@@ -62,7 +62,7 @@
 							</select>
 						</div>
 					</div>
-				{{ Form::close() }}
+				</form>
 			</div>
 			<div class="col-md-4 col-sm-6">
 			</div>	
@@ -169,7 +169,7 @@
 								<input type="hidden" class="discount_val" value="0" />
 								<input type="hidden" class="discount" value='<?php echo json_encode($discount); ?>' />
 								<input type="hidden" class="total" value="0" />	
-								{{ Form::button('DISCOUNT <i class="fa fa-inr" aria-hidden="true"></i> <span class="discount_text">0</span>', ['class' => 'btn-discount', 'type' => 'button']) }}
+								<button type="button" class="btn-discount" type="button">DISCOUNT <i class="fa fa-inr" aria-hidden="true"></i> <span class="discount_text">0</span></button>
 							</div>	
 						</div>
 						<div class="col-md-4 col-sm-6 text-center">
@@ -186,13 +186,13 @@
 						</div>
 						<div class="col-md-4 col-sm-6 total-price">	
 							<div class="pricingTable-sign-up">
-								{{ Form::open(array('url' => '/modified_test_series_checkout', 'name'=>"modified_test_series_checkout", 'autocomplete'=>'off')) }}
+								<form action="/modified_test_series_checkout" autocomplete="off" method="post">
 									{{ Form::hidden('user_id', @Auth::user()->id) }}
-									{{ Form::hidden('subject_ids', '', array('class'=>'subject_ids')) }}
+									<input type="hidden" name="subject_ids" value="" class="subject_ids">
 									
-									{{ Form::button('PAY <i class="fa fa-inr" aria-hidden="true"></i> <span class="grand_total_test">0</span>', ['class' => 'btn-block main-test-series-button', 'type' => 'submit', 'disabled'=>'disabled']) }}
+									<button type="button" class="btn-block main-test-series-button" type="submit" disabled="disabled">PAY <i class="fa fa-inr" aria-hidden="true"></i> <span class="grand_total_test">0</span></button>
 									
-								{{ Form::close() }}	
+								</form>	
 							</div>
 						</div>
 							

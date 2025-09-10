@@ -48,12 +48,12 @@
 					  </div> 
 					  <!-- /.card-header -->
 					  <!-- form start -->
-					  {{ Form::open(array('url' => 'admin/offer/store', 'name'=>"add-flights", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
+					  <form action="admin/offer/store" autocomplete="off" method="post">
 					   
 						<div class="card-body">
 							<div class="form-group" style="text-align:right;">
 								<a style="margin-right:5px;" href="{{route('admin.offer.index')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>  
-								{{ Form::button('<i class="fa fa-save"></i> Save Offer', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-flights")' ]) }}
+								<button type="button" class="btn btn-primary" onClick="customValidate("add-flights")"><i class="fa fa-save"></i> Save Offer</button>
 							</div>
 							<div class="form-group row">
 								<label for="name" class="col-sm-2 col-form-label">Offer Type</label>
@@ -67,7 +67,7 @@
 							<div class="form-group row"> 
 								<label for="name" class="col-sm-2 col-form-label">Name</label>
 								<div class="col-sm-10">
-								{{ Form::text('name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Name' )) }}
+								<input name="name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Name">
 								@if ($errors->has('name'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('name') }}</strong>
@@ -79,7 +79,7 @@
 								<label for="subtitle" class="col-sm-2 col-form-label">Subtitle</label>
 								<div class="col-sm-10">
 								
-								{{ Form::text('subtitle', '', array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Subtitle', 'id' =>'' )) }}
+								<input name="subtitle" type="text" class="form-control " data-valid="" autocomplete="off" placeholder="Enter Subtitle" id="">
 								
 								@if ($errors->has('subtitle'))
 									<span class="custom-error" role="alert">
@@ -103,7 +103,7 @@
 							<div class="form-group row"> 
 								<label for="arival_time" class="col-sm-2 col-form-label">Expire Date</label>
 								<div class="col-sm-10">
-								{{ Form::text('expire_date', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Expire Date', 'id'=>'ardate' )) }}
+								<input name="expire_date" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Expire Date" id="ardate">
 								@if ($errors->has('expire_date'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('expire_date') }}</strong>
@@ -124,10 +124,10 @@
 								</div>  
 							</div>
 							<div class="form-group float-right">
-								{{ Form::button('<i class="fa fa-save"></i> Save Offer', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-flights")' ]) }}
+								<button type="button" class="btn btn-primary" onClick="customValidate("add-flights")"><i class="fa fa-save"></i> Save Offer</button>
 							</div> 
 						</div>  
-					  {{ Form::close() }}
+					  </form>
 					</div>	   
 				</div>	
 			</div>

@@ -10,7 +10,7 @@
 				@include('../Elements/flash-message')
 			</div>
 		<div class="section-body">
-			{{ Form::open(array('url' => 'admin/clients/store', 'name'=>"add-leads", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
+			<form action="admin/clients/store" autocomplete="off" method="post">
 			<input type="hidden" name="type" value="lead">
 				<div class="row">
 					<div class="col-12 col-md-12 col-lg-12">
@@ -52,7 +52,7 @@
 											<div class="col-4 col-md-4 col-lg-4">
 												<div class="form-group">
 													<label for="first_name">First Name <span class="span_req">*</span></label>
-													{{ Form::text('first_name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'' )) }}
+													<input name="first_name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="">
 													@if ($errors->has('first_name'))
 														<span class="custom-error" role="alert">
 															<strong>{{ @$errors->first('first_name') }}</strong>
@@ -63,7 +63,7 @@
 											<div class="col-4 col-md-4 col-lg-4">
 												<div class="form-group">
 													<label for="last_name">Last Name <span class="span_req">*</span></label>
-													{{ Form::text('last_name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'' )) }}
+													<input name="last_name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="">
 													@if ($errors->has('last_name'))
 														<span class="custom-error" role="alert">
 															<strong>{{ @$errors->first('last_name') }}</strong>
@@ -104,7 +104,7 @@
 																<i class="fas fa-calendar-alt"></i>
 															</div>
 														</div>
-														{{ Form::text('dob', '', array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="dob" type="text" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 														@if ($errors->has('dob'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('dob') }}</strong>
@@ -123,7 +123,7 @@
 																<i class="fas fa-calendar-alt"></i>
 															</div>
 														</div>
-														{{ Form::text('age', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="age" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="">
 														@if ($errors->has('age'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('age') }}</strong>
@@ -136,7 +136,7 @@
                                             <div class="col-3 col-md-3 col-lg-3">
                                                 <div class="form-group">
                                                     <label for="client_id">Client ID</label>
-                                                    {{ Form::text('client_id', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter Client ID' )) }}
+                                                    <input name="client_id" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Client ID">
                                                     @if ($errors->has('client_id'))
                                                         <span class="custom-error" role="alert">
                                                             <strong>{{ @$errors->first('client_id') }}</strong>
@@ -192,7 +192,7 @@
 												<div class="country_code">
 													<input style="width:50px;padding-left:2px;" class="telephone" id="telephone" type="tel" name="country_code" readonly >
 												</div>
-												{{ Form::text('phone', '', array('class' => 'form-control tel_input contactno_unique', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'' )) }}
+												<input name="phone" type="text" class="form-control tel_input contactno_unique" data-valid="required" autocomplete="off" placeholder="">
 												@if ($errors->has('phone'))
 													<span class="custom-error" role="alert">
 														<strong>{{ @$errors->first('phone') }}</strong>
@@ -220,7 +220,7 @@
 									<div class="col-sm-3">
 										<div class="form-group">
 											<label for="email">Email <span style="color:#ff0000;">*</span></label>
-											{{ Form::text('email', '', array('class' => 'form-control email_unique', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="email" type="text" class="form-control email_unique" data-valid="required" autocomplete="off" placeholder="">
 											@if ($errors->has('email'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('email') }}</strong>
@@ -240,7 +240,7 @@
 									<div class="col-sm-3 other_email_div" style="display:none;">
 										<div class="form-group">
 											<label for="att_email">Email </label>
-											{{ Form::text('att_email', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="att_email" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="">
 											@if ($errors->has('att_email'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('att_email') }}</strong>
@@ -255,7 +255,7 @@
 												<div class="country_code">
 													<input style="width:50px;padding-left:2px;" class="telephone" id="telephone" type="tel" name="att_country_code" readonly >
 												</div>
-												{{ Form::text('att_phone', '', array('class' => 'form-control tel_input', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+												<input name="att_phone" type="text" class="form-control tel_input" data-valid="" autocomplete="off" placeholder="">
 												@if ($errors->has('att_phone'))
 													<span class="custom-error" role="alert">
 														<strong>{{ @$errors->first('att_phone') }}</strong>
@@ -279,7 +279,7 @@
 												</span>
 											@endif
 											<div style="margin-top:10px;">
-    								{{ Form::text('visa_opt', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Visa' )) }}
+    								<input name="visa_opt" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Visa">
     								</div>
 										</div>
 									</div>
@@ -292,7 +292,7 @@
 														<i class="fas fa-calendar-alt"></i>
 													</div>
 												</div>
-												{{ Form::text('visaExpiry', '', array('class' => 'form-control dobdatepicker', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+												<input name="visaExpiry" type="text" class="form-control dobdatepicker" data-valid="" autocomplete="off" placeholder="">
 												@if ($errors->has('visaExpiry'))
 													<span class="custom-error" role="alert">
 														<strong>{{ @$errors->first('visaExpiry') }}</strong>
@@ -310,7 +310,7 @@
 														<i class="fas fa-calendar-alt"></i>
 													</div>
 												</div>
-												{{ Form::text('preferredIntake', '', array('class' => 'form-control datepicker', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+												<input name="preferredIntake" type="text" class="form-control datepicker" data-valid="" autocomplete="off" placeholder="">
 												@if ($errors->has('preferredIntake'))
 													<span class="custom-error" role="alert">
 														<strong>{{ @$errors->first('preferredIntake') }}</strong>
@@ -342,7 +342,7 @@
 									<div class="col-sm-3">
 										<div class="form-group">
 											<label for="passport_number">Passport Number</label>
-											{{ Form::text('passport_number', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="passport_number" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="">
 											@if ($errors->has('passport_number'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('passport_number') }}</strong>
@@ -356,7 +356,7 @@
 									<div class="col-sm-3">
 										<div class="form-group">
 											<label for="address">Address</label>
-											{{ Form::text('address', '', array('placeholder'=>"Search Box" , 'id'=>"pac-input" , 'class' => 'form-control controls', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="address" type="text" class="form-control controls" data-valid="" autocomplete="off" placeholder="">
 											@if ($errors->has('address'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('address') }}</strong>
@@ -370,7 +370,7 @@
 									<div class="col-sm-3">
 										<div class="form-group">
 											<label for="city">City</label>
-											{{ Form::text('city', '', array('id' => 'locality', 'class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="city" type="text" id="locality" class="form-control" data-valid="" autocomplete="off" placeholder="">
 											@if ($errors->has('city'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('city') }}</strong>
@@ -402,7 +402,7 @@
 									<div class="col-sm-3">
 										<div class="form-group">
 											<label for="zip">Zip / Post Code</label>
-											{{ Form::text('zip', '', array('id' => 'postal_code', 'class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="zip" type="text" id="postal_code" class="form-control" data-valid="" autocomplete="off" placeholder="">
 											@if ($errors->has('zip'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('zip') }}</strong>
@@ -445,7 +445,7 @@
 									<div class="col-sm-3">
 										<div class="form-group">
 											<label for="nomi_occupation">Nominated Occupation</label>
-											{{ Form::text('nomi_occupation', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="nomi_occupation" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="">
 
 											@if ($errors->has('nomi_occupation'))
 												<span class="custom-error" role="alert">
@@ -474,7 +474,7 @@
 									<div class="col-sm-3">
 										<div class="form-group">
 											<label for="high_quali_aus">Highest Qualification in Australia</label>
-											{{ Form::text('high_quali_aus', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="high_quali_aus" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="">
 
 											@if ($errors->has('high_quali_aus'))
 												<span class="custom-error" role="alert">
@@ -486,7 +486,7 @@
 									<div class="col-sm-3">
 										<div class="form-group">
 											<label for="high_quali_overseas">Highest Qualification Overseas</label>
-											{{ Form::text('high_quali_overseas', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="high_quali_overseas" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="">
 
 											@if ($errors->has('high_quali_overseas'))
 												<span class="custom-error" role="alert">
@@ -498,7 +498,7 @@
 									<div class="col-sm-4">
 										<div class="form-group">
 											<label for="relevant_work_exp_aus">Relevant work experience in Australia</label>
-											{{ Form::text('relevant_work_exp_aus', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="relevant_work_exp_aus" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="">
 
 											@if ($errors->has('relevant_work_exp_aus'))
 												<span class="custom-error" role="alert">
@@ -510,7 +510,7 @@
 									<div class="col-sm-4">
 										<div class="form-group">
 											<label for="relevant_work_exp_over">Relevant work experience in Overseas</label>
-											{{ Form::text('relevant_work_exp_over', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="relevant_work_exp_over" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="">
 
 											@if ($errors->has('relevant_work_exp_over'))
 												<span class="custom-error" role="alert">
@@ -522,7 +522,7 @@
 									<div class="col-sm-4">
 										<div class="form-group">
 											<label for="married_partner">Overall English score</label>
-											{{ Form::text('married_partner', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="married_partner" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="">
 
 											@if ($errors->has('married_partner'))
 												<span class="custom-error" role="alert">
@@ -552,7 +552,7 @@
 									<div class="col-sm-3">
 										<div class="form-group">
 											<label for="total_points">Total Points</label>
-											{{ Form::text('total_points', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+											<input name="total_points" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="">
 
 											@if ($errors->has('total_points'))
 												<span class="custom-error" role="alert">
@@ -713,7 +713,7 @@
 									</div>
 									<div class="col-sm-12">
 										<div class="form-group float-right">
-											{{ Form::button('Save', ['class'=>'btn btn-primary btn_submit', 'onClick'=>'customValidate("add-leads")' ]) }}
+											<button type="button" class="btn btn-primary btn_submit" onClick="customValidate("add-leads")">Save</button>
 										</div>
 									</div>
 								</div>
@@ -721,7 +721,7 @@
 						</div>
 					</div>
 				</div>
-			 {{ Form::close() }}
+			 </form>
 		</div>
 	</section>
 </div>

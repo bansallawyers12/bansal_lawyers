@@ -49,38 +49,38 @@ bottom: 100%;left: 50%;pointer-events: none;-webkit-transform: translateX(-50%);
 											       <b>Lead -</b>
 											        </div>
 											    	<div class="col-md-7">		
-											 {{ Form::text('id', Request::get('id'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Lead ID', 'id' => 'did' )) }}
+											 <input name="id" type="text" value="Request::get('id')" class="form-control" data-valid="" autocomplete="off" placeholder="Lead ID" id="did">
 											</div>	</div></div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
 												<label for="company_name" class="col-form-label">Name</label>
-												{{ Form::text('name', Request::get('name'), array('class' => 'form-control agent_company_name', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Name', 'id' => 'name' )) }}
+												<input name="name" type="text" value="Request::get('name')" class="form-control agent_company_name" data-valid="" autocomplete="off" placeholder="Name" id="name">
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
 												<label for="email" class="col-form-label">Email</label>
-												{{ Form::text('email', Request::get('email'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Email', 'id' => 'email' )) }}
+												<input name="email" type="text" value="Request::get('email')" class="form-control" data-valid="" autocomplete="off" placeholder="Email" id="email">
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
 												<label for="phone" class="col-form-label">Phone</label>
-												{{ Form::text('phone', Request::get('phone'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Phone', 'id' => 'phone' )) }}
+												<input name="phone" type="text" value="Request::get('phone')" class="form-control" data-valid="" autocomplete="off" placeholder="Phone" id="phone">
 											</div>
 										</div>
 										
 										<div class="col-md-4">
 											<div class="form-group">
 												<label for="from" class="col-form-label">From</label>
-												{{ Form::text('from', Request::get('from'), array('class' => 'form-control filterdatepicker', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'From', 'id' => '' )) }}
+												<input name="from" type="text" value="Request::get('from')" class="form-control filterdatepicker" data-valid="" autocomplete="off" placeholder="From" id="">
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
 												<label for="to" class="col-form-label">To</label>
-												{{ Form::text('to', Request::get('to'), array('class' => 'form-control filterdatepicker', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'To', 'id' => '' )) }}
+												<input name="to" type="text" value="Request::get('to')" class="form-control filterdatepicker" data-valid="" autocomplete="off" placeholder="To" id="">
 											</div>
 										</div>
 									</div>
@@ -189,7 +189,7 @@ bottom: 100%;left: 50%;pointer-events: none;-webkit-transform: translateX(-50%);
 					<span aria-hidden="true">&times;</span>
 				  </button>
 			</div>
-			{{ Form::open(array('url' => 'admin/leads/assign', 'name'=>"add-assign", 'autocomplete'=>'off', "enctype"=>"multipart/form-data", 'id'=>"addnoteform")) }}
+			<form action="admin/leads/assign" autocomplete="off" method="post">
 			<div class="modal-body">
 				<div class="form-group row">
 					<div class="col-sm-12">
@@ -204,9 +204,9 @@ bottom: 100%;left: 50%;pointer-events: none;-webkit-transform: translateX(-50%);
 				</div>
 			</div>
 			<div class="modal-footer">
-				{{ Form::button('<i class="fa fa-save"></i> Assign Lead', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-assign")' ]) }}
+				<button type="button" class="btn btn-primary" onClick="customValidate("add-assign")"><i class="fa fa-save"></i> Assign Lead</button>
 			</div>
-			 {{ Form::close() }}
+			 </form>
 		</div>
 	</div>
 </div>

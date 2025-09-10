@@ -245,13 +245,13 @@
 															</div>
 															<div class="clear clearfix"></div>
 															
-															{{ Form::open(array('url' => '/upload_answer', 'name'=>"upload-answer", 'enctype'=>'multipart/form-data')) }}
+															<form action="/upload_answer" enctype="multipart/form-data" method="post">
 																<div class="form-group total_amount_view">
 																	<div class="col-md-4 col-sm-12 float-left">
 																		<strong>Upload Your Answer Sheet<strong>
 																	</div>
 																	<div class="col-md-3 col-sm-6 float-right">	
-																		{{ Form::hidden('id', @$scheduleData->id) }}
+																		<input type="hidden" name="id" value="@$scheduleData->id">
 																		<input type="file" name="test_submitted_copy" class="form-control uploadFile" data-valid="required" /> 
 																	</div>
 																</div>
@@ -261,10 +261,10 @@
 																	<div class="col-md-4 col-sm-12 float-left">
 																	</div>
 																	<div class="col-md-3 col-sm-6 float-right">	
-																		{{ Form::button('Submit', ['class'=>'btn btn-primary px-4', 'onClick'=>'customValidate("upload-answer")']) }}
+																		<button type="button" class="btn btn-primary px-4" onClick="customValidate("upload-answer")">Submit</button>
 																	</div>
 																</div>
-															{{ Form::close() }}	
+															</form>	
 												<?php 	} 	
 													else
 														{
@@ -367,21 +367,21 @@
 <div class="modal fade" id="scheduleTestModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
 	<div class="modal-dialog modal-primary schedule_test_modal" role="document">
 		<div class="modal-content">
-			{{ Form::open(array('url' => '/schedule_test_request', 'name'=>"schedule-request")) }}	
+			<form action="/schedule_test_request" method="post">	
 				<div class="modal-body">
 					<div class="card-body">
 						<div class="form-group">
 							<label for="scheduled_date">SCHEDULE DATE<em>*</em></label>
-								{{ Form::hidden('test_id', @$fetchedDataTest->id) }}
-								{{ Form::text('scheduled_date', '', array('id'=>'scheduled_date', 'class' => 'form-control', 'data-valid'=>'required', 'readonly'=>'readonly')) }}
+								<input type="hidden" name="test_id" value="@$fetchedDataTest->id">
+								<input name="scheduled_date" type="text" id="scheduled_date" class="form-control" data-valid="required" readonly="readonly">
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-					{{ Form::button('Set', ['class'=>'btn btn-primary px-4', 'onClick'=>'customValidate("schedule-request")']) }}
+					<button type="button" class="btn btn-primary px-4" onClick="customValidate("schedule-request")">Set</button>
 				</div>
-			{{ Form::close() }}		
+			</form>		
 		</div>
 	</div>
 </div>

@@ -208,14 +208,14 @@ use App\Http\Controllers\Controller;
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="user" class="col-form-label">Search By User</label>
-                                            {{ Form::text('user', Request::get('user'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter user', 'id' => 'user' )) }}
+                                            <input name="user" type="text" value="Request::get('user')" class="form-control" data-valid="" autocomplete="off" placeholder="Enter user" id="user">
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="keyword" class="col-form-label">Search By keyword</label>
-                                            {{ Form::text('keyword', Request::get('keyword'), array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter any keyword', 'id' => 'keyword' )) }}
+                                            <input name="keyword" type="text" value="Request::get('keyword')" class="form-control" data-valid="" autocomplete="off" placeholder="Enter any keyword" id="keyword">
                                         </div>
                                     </div>
 
@@ -2411,7 +2411,7 @@ use App\Http\Controllers\Controller;
 												<div class="col-md-4">
 													<div class="form-group">
 														<label for="contract_expiry">Visa</label>
-													{{ Form::text('prev_visa[name][]', '', array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Visa' )) }}
+													<input name="prev_visa[name][]" type="text" class="form-control " data-valid="required" autocomplete="off" placeholder="Visa">
 													</div>
 												</div>
 												<div class="col-md-4">
@@ -2431,13 +2431,13 @@ use App\Http\Controllers\Controller;
 												<div class="col-md-4">
 													<div class="form-group">
 														<label for="place_apply">Place of Apply</label>
-													{{ Form::text('prev_visa[place][]', '', array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Place of Apply' )) }}
+													<input name="prev_visa[place][]" type="text" class="form-control " data-valid="required" autocomplete="off" placeholder="Place of Apply">
 													</div>
 												</div>
 												<div class="col-md-4 lastfiledcol">
 													<div class="form-group">
 														<label for="person_applies">Person who applies</label>
-													{{ Form::text('prev_visa[person][]', '', array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Person who applies' )) }}
+													<input name="prev_visa[person][]" type="text" class="form-control " data-valid="required" autocomplete="off" placeholder="Person who applies">
 													</div>
 												</div>
 											</div>
@@ -2451,7 +2451,7 @@ use App\Http\Controllers\Controller;
 												<div class="col-md-4">
 													<div class="form-group">
 														<label for="contract_expiry">Visa</label>
-													{{ Form::text('prev_visa[name][]', @$prev->name, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Visa' )) }}
+													<input name="prev_visa[name][]" type="text" value="@$prev->name" class="form-control " data-valid="required" autocomplete="off" placeholder="Visa">
 													</div>
 												</div>
 												<div class="col-md-4">
@@ -2471,13 +2471,13 @@ use App\Http\Controllers\Controller;
 												<div class="col-md-4">
 													<div class="form-group">
 														<label for="place_apply">Place of Apply</label>
-													{{ Form::text('prev_visa[place][]', @$prev->place, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Place of Apply' )) }}
+													<input name="prev_visa[place][]" type="text" value="@$prev->place" class="form-control " data-valid="required" autocomplete="off" placeholder="Place of Apply">
 													</div>
 												</div>
 												<div class="col-md-4 lastfiledcol">
 													<div class="form-group">
 														<label for="person_applies">Person who applies</label>
-													{{ Form::text('prev_visa[person][]', @$prev->person, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Person who applies' )) }}
+													<input name="prev_visa[person][]" type="text" value="@$prev->person" class="form-control " data-valid="required" autocomplete="off" placeholder="Person who applies">
 													</div>
 												</div>
 												@if($visai != 0)
@@ -2529,7 +2529,7 @@ use App\Http\Controllers\Controller;
 												<div class="col-md-12">
 													<div class="form-group">
 														<label for="contract_expiry">Name</label>
-													{{ Form::text('info_name', @$primarydetail->info_name, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Name' )) }}
+													<input name="info_name" type="text" value="@$primarydetail->info_name" class="form-control " data-valid="required" autocomplete="off" placeholder="Name">
 													</div>
 												</div>
 												<div class="col-md-12">
@@ -2561,19 +2561,19 @@ use App\Http\Controllers\Controller;
 
 													<div class="form-group">
 														<label for="mobile">Mobile</label>
-													{{ Form::text('mobile', @$primarydetail->mobile, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Mobile' )) }}
+													<input name="mobile" type="text" value="@$primarydetail->mobile" class="form-control " data-valid="required" autocomplete="off" placeholder="Mobile">
 													</div>
 												</div>
 												<div class="col-md-12">
 													<div class="form-group">
 														<label for="curr_address">Current Address</label>
-													{{ Form::text('curr_address', @$primarydetail->curr_address, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Current Address' )) }}
+													<input name="curr_address" type="text" value="@$primarydetail->curr_address" class="form-control " data-valid="required" autocomplete="off" placeholder="Current Address">
 													</div>
 												</div>
 												<div class="col-md-12">
 													<div class="form-group">
 														<label for="email">Email</label>
-													{{ Form::text('email', @$primarydetail->email, array('class' => 'form-control ', 'data-valid'=>'required email', 'autocomplete'=>'off','placeholder'=>'Email' )) }}
+													<input name="email" type="text" value="@$primarydetail->email" class="form-control " data-valid="required email" autocomplete="off" placeholder="Email">
 													</div>
 												</div>
 												<div class="col-md-12">
@@ -2582,7 +2582,7 @@ use App\Http\Controllers\Controller;
 														<div class="col-md-6" style="border-right:1px solid #98a6ad;">
 															<div class="form-group">
 																<label for="parent_name">Name</label>
-																{{ Form::text('parent_name', @$primarydetail->parent_name, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+																<input name="parent_name" type="text" value="@$primarydetail->parent_name" class="form-control " data-valid="" autocomplete="off" placeholder="">
 															</div>
 															<?php
 															$parent_dob = '';
@@ -2592,21 +2592,21 @@ use App\Http\Controllers\Controller;
 															?>
 															<div class="form-group">
 																<label for="parent_dob">DOB</label>
-																{{ Form::text('parent_dob', $parent_dob, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+																<input name="parent_dob" type="text" value="$parent_dob" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 															</div>
 															<div class="form-group">
 																<label for="parent_occ">Occupation</label>
-																{{ Form::text('parent_occ', @$primarydetail->parent_occ, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+																<input name="parent_occ" type="text" value="@$primarydetail->parent_occ" class="form-control " data-valid="" autocomplete="off" placeholder="">
 															</div>
 															<div class="form-group">
 																<label for="parent_country">Country of Residence</label>
-																{{ Form::text('parent_country', @$primarydetail->parent_country, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+																<input name="parent_country" type="text" value="@$primarydetail->parent_country" class="form-control " data-valid="" autocomplete="off" placeholder="">
 															</div>
 														</div>
 														<div class="col-md-6">
 															<div class="form-group">
 																<label for="parent_name_2">Name</label>
-																{{ Form::text('parent_name_2', @$primarydetail->parent_name_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+																<input name="parent_name_2" type="text" value="@$primarydetail->parent_name_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 															</div>
 															<?php
 															$parent_dob_2 = '';
@@ -2616,15 +2616,15 @@ use App\Http\Controllers\Controller;
 															?>
 															<div class="form-group">
 																<label for="parent_dob_2">DOB</label>
-																{{ Form::text('parent_dob_2', $parent_dob_2, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+																<input name="parent_dob_2" type="text" value="$parent_dob_2" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 															</div>
 															<div class="form-group">
 																<label for="parent_occ_2">Occupation</label>
-																{{ Form::text('parent_occ_2', @$primarydetail->parent_occ_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+																<input name="parent_occ_2" type="text" value="@$primarydetail->parent_occ_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 															</div>
 															<div class="form-group">
 																<label for="parent_country_2">Country of Residence</label>
-																{{ Form::text('parent_country_2', @$primarydetail->parent_country_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+																<input name="parent_country_2" type="text" value="@$primarydetail->parent_country_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 															</div>
 														</div>
 													</div>
@@ -2636,7 +2636,7 @@ use App\Http\Controllers\Controller;
 												<div class="col-md-6" style="border-right:1px solid #98a6ad;">
 													<div class="form-group">
 														<label for="sibling_name">Name</label>
-														{{ Form::text('sibling_name', @$primarydetail->sibling_name, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_name" type="text" value="@$primarydetail->sibling_name" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<?php
 													$sibling_dob = '';
@@ -2646,29 +2646,29 @@ use App\Http\Controllers\Controller;
 													?>
 													<div class="form-group">
 														<label for="sibling_dob">DOB</label>
-														{{ Form::text('sibling_dob', $sibling_dob, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_dob" type="text" value="$sibling_dob" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_occ">Occupation</label>
-														{{ Form::text('sibling_occ', @$primarydetail->sibling_occ, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_occ" type="text" value="@$primarydetail->sibling_occ" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_gender">Gender</label>
-														{{ Form::text('sibling_gender', @$primarydetail->sibling_gender, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_gender" type="text" value="@$primarydetail->sibling_gender" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_country">Country of Residence</label>
-														{{ Form::text('sibling_country', @$primarydetail->sibling_country, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_country" type="text" value="@$primarydetail->sibling_country" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_marital">Marital Status</label>
-														{{ Form::text('sibling_marital', @$primarydetail->sibling_marital, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_marital" type="text" value="@$primarydetail->sibling_marital" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="sibling_name_2">Name</label>
-														{{ Form::text('sibling_name_2', @$primarydetail->sibling_name_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_name_2" type="text" value="@$primarydetail->sibling_name_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<?php
 													$sibling_dob_2 = '';
@@ -2678,23 +2678,23 @@ use App\Http\Controllers\Controller;
 													?>
 													<div class="form-group">
 														<label for="sibling_dob_2">DOB</label>
-														{{ Form::text('sibling_dob_2', $sibling_dob_2, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_dob_2" type="text" value="$sibling_dob_2" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_occ_2">Occupation</label>
-														{{ Form::text('sibling_occ_2', @$primarydetail->sibling_occ_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_occ_2" type="text" value="@$primarydetail->sibling_occ_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_gender_2">Gender</label>
-														{{ Form::text('sibling_gender_2', @$primarydetail->sibling_gender_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_gender_2" type="text" value="@$primarydetail->sibling_gender_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_country_2">Country of Residence</label>
-														{{ Form::text('sibling_country_2', @$primarydetail->sibling_country_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_country_2" type="text" value="@$primarydetail->sibling_country_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_marital_2">Marital Status</label>
-														{{ Form::text('sibling_marital_2', @$primarydetail->sibling_marital_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_marital_2" type="text" value="@$primarydetail->sibling_marital_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 												</div>
 											</div>
@@ -2741,7 +2741,7 @@ use App\Http\Controllers\Controller;
 										<div class="col-md-12">
 											<div class="form-group">
 												<label for="contract_expiry">Name</label>
-											{{ Form::text('info_name', @$secdetail->info_name, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Name' )) }}
+											<input name="info_name" type="text" value="@$secdetail->info_name" class="form-control " data-valid="required" autocomplete="off" placeholder="Name">
 											</div>
 										</div>
 										<div class="col-md-12">
@@ -2773,19 +2773,19 @@ use App\Http\Controllers\Controller;
 
 											<div class="form-group">
 												<label for="mobile">Mobile</label>
-											{{ Form::text('mobile', @$secdetail->mobile, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Mobile' )) }}
+											<input name="mobile" type="text" value="@$secdetail->mobile" class="form-control " data-valid="required" autocomplete="off" placeholder="Mobile">
 											</div>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
 												<label for="curr_address">Current Address</label>
-											{{ Form::text('curr_address', @$secdetail->curr_address, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Current Address' )) }}
+											<input name="curr_address" type="text" value="@$secdetail->curr_address" class="form-control " data-valid="required" autocomplete="off" placeholder="Current Address">
 											</div>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
 												<label for="email">Email</label>
-											{{ Form::text('email', @$secdetail->email, array('class' => 'form-control ', 'data-valid'=>'required email', 'autocomplete'=>'off','placeholder'=>'Email' )) }}
+											<input name="email" type="text" value="@$secdetail->email" class="form-control " data-valid="required email" autocomplete="off" placeholder="Email">
 											</div>
 										</div>
 										<div class="col-md-12">
@@ -2794,7 +2794,7 @@ use App\Http\Controllers\Controller;
 												<div class="col-md-6" style="border-right:1px solid #98a6ad;">
 													<div class="form-group">
 														<label for="parent_name">Name</label>
-														{{ Form::text('parent_name', @$secdetail->parent_name, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_name" type="text" value="@$secdetail->parent_name" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<?php
 													$parent_dob = '';
@@ -2804,21 +2804,21 @@ use App\Http\Controllers\Controller;
 													?>
 													<div class="form-group">
 														<label for="parent_dob">DOB</label>
-														{{ Form::text('parent_dob', $parent_dob, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_dob" type="text" value="$parent_dob" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="parent_occ">Occupation</label>
-														{{ Form::text('parent_occ', @$secdetail->parent_occ, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_occ" type="text" value="@$secdetail->parent_occ" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="parent_country">Country of Residence</label>
-														{{ Form::text('parent_country', @$secdetail->parent_country, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_country" type="text" value="@$secdetail->parent_country" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="parent_name_2">Name</label>
-														{{ Form::text('parent_name_2', @$secdetail->parent_name_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_name_2" type="text" value="@$secdetail->parent_name_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<?php
 													$parent_dob_2 = '';
@@ -2828,15 +2828,15 @@ use App\Http\Controllers\Controller;
 													?>
 													<div class="form-group">
 														<label for="parent_dob_2">DOB</label>
-														{{ Form::text('parent_dob_2', $parent_dob_2, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_dob_2" type="text" value="$parent_dob_2" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="parent_occ_2">Occupation</label>
-														{{ Form::text('parent_occ_2', @$secdetail->parent_occ_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_occ_2" type="text" value="@$secdetail->parent_occ_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="parent_country_2">Country of Residence</label>
-														{{ Form::text('parent_country_2', @$secdetail->parent_country_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_country_2" type="text" value="@$secdetail->parent_country_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 												</div>
 											</div>
@@ -2848,7 +2848,7 @@ use App\Http\Controllers\Controller;
 												<div class="col-md-6" style="border-right:1px solid #98a6ad;">
 													<div class="form-group">
 														<label for="sibling_name">Name</label>
-														{{ Form::text('sibling_name', @$secdetail->sibling_name, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_name" type="text" value="@$secdetail->sibling_name" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<?php
 													$sibling_dob = '';
@@ -2858,29 +2858,29 @@ use App\Http\Controllers\Controller;
 													?>
 													<div class="form-group">
 														<label for="sibling_dob">DOB</label>
-														{{ Form::text('sibling_dob', $sibling_dob, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_dob" type="text" value="$sibling_dob" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_occ">Occupation</label>
-														{{ Form::text('sibling_occ', @$secdetail->sibling_occ, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_occ" type="text" value="@$secdetail->sibling_occ" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_gender">Gender</label>
-														{{ Form::text('sibling_gender', @$secdetail->sibling_gender, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_gender" type="text" value="@$secdetail->sibling_gender" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_country">Country of Residence</label>
-														{{ Form::text('sibling_country', @$secdetail->sibling_country, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_country" type="text" value="@$secdetail->sibling_country" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_marital">Marital Status</label>
-														{{ Form::text('sibling_marital', @$secdetail->sibling_marital, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_marital" type="text" value="@$secdetail->sibling_marital" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="sibling_name_2">Name</label>
-														{{ Form::text('sibling_name_2', @$secdetail->sibling_name_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_name_2" type="text" value="@$secdetail->sibling_name_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<?php
 													$sibling_dob_2 = '';
@@ -2890,23 +2890,23 @@ use App\Http\Controllers\Controller;
 													?>
 													<div class="form-group">
 														<label for="sibling_dob_2">DOB</label>
-														{{ Form::text('sibling_dob_2', $sibling_dob_2, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_dob_2" type="text" value="$sibling_dob_2" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_occ_2">Occupation</label>
-														{{ Form::text('sibling_occ_2', @$secdetail->sibling_occ_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_occ_2" type="text" value="@$secdetail->sibling_occ_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_gender_2">Gender</label>
-														{{ Form::text('sibling_gender_2', @$secdetail->sibling_gender_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_gender_2" type="text" value="@$secdetail->sibling_gender_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_country_2">Country of Residence</label>
-														{{ Form::text('sibling_country_2', @$secdetail->sibling_country_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_country_2" type="text" value="@$secdetail->sibling_country_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_marital_2">Marital Status</label>
-														{{ Form::text('sibling_marital_2', @$secdetail->sibling_marital_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_marital_2" type="text" value="@$secdetail->sibling_marital_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 												</div>
 											</div>
@@ -2953,7 +2953,7 @@ use App\Http\Controllers\Controller;
 										<div class="col-md-12">
 											<div class="form-group">
 												<label for="contract_expiry">Name</label>
-											{{ Form::text('info_name', @$childdetail->info_name, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Name' )) }}
+											<input name="info_name" type="text" value="@$childdetail->info_name" class="form-control " data-valid="required" autocomplete="off" placeholder="Name">
 											</div>
 										</div>
 										<div class="col-md-12">
@@ -2985,19 +2985,19 @@ use App\Http\Controllers\Controller;
 
 											<div class="form-group">
 												<label for="mobile">Mobile</label>
-											{{ Form::text('mobile', @$childdetail->mobile, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Mobile' )) }}
+											<input name="mobile" type="text" value="@$childdetail->mobile" class="form-control " data-valid="required" autocomplete="off" placeholder="Mobile">
 											</div>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
 												<label for="curr_address">Current Address</label>
-											{{ Form::text('curr_address', @$childdetail->curr_address, array('class' => 'form-control ', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Current Address' )) }}
+											<input name="curr_address" type="text" value="@$childdetail->curr_address" class="form-control " data-valid="required" autocomplete="off" placeholder="Current Address">
 											</div>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
 												<label for="email">Email</label>
-											{{ Form::text('email', @$childdetail->email, array('class' => 'form-control ', 'data-valid'=>'required email', 'autocomplete'=>'off','placeholder'=>'Email' )) }}
+											<input name="email" type="text" value="@$childdetail->email" class="form-control " data-valid="required email" autocomplete="off" placeholder="Email">
 											</div>
 										</div>
 										<div class="col-md-12">
@@ -3006,7 +3006,7 @@ use App\Http\Controllers\Controller;
 												<div class="col-md-6" style="border-right:1px solid #98a6ad;">
 													<div class="form-group">
 														<label for="parent_name">Name</label>
-														{{ Form::text('parent_name', @$childdetail->parent_name, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_name" type="text" value="@$childdetail->parent_name" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<?php
 													$parent_dob = '';
@@ -3016,21 +3016,21 @@ use App\Http\Controllers\Controller;
 													?>
 													<div class="form-group">
 														<label for="parent_dob">DOB</label>
-														{{ Form::text('parent_dob', $parent_dob, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_dob" type="text" value="$parent_dob" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="parent_occ">Occupation</label>
-														{{ Form::text('parent_occ', @$childdetail->parent_occ, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_occ" type="text" value="@$childdetail->parent_occ" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="parent_country">Country of Residence</label>
-														{{ Form::text('parent_country', @$childdetail->parent_country, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_country" type="text" value="@$childdetail->parent_country" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="parent_name_2">Name</label>
-														{{ Form::text('parent_name_2', @$childdetail->parent_name_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_name_2" type="text" value="@$childdetail->parent_name_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<?php
 													$parent_dob_2 = '';
@@ -3040,15 +3040,15 @@ use App\Http\Controllers\Controller;
 													?>
 													<div class="form-group">
 														<label for="parent_dob_2">DOB</label>
-														{{ Form::text('parent_dob_2', $parent_dob_2, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_dob_2" type="text" value="$parent_dob_2" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="parent_occ_2">Occupation</label>
-														{{ Form::text('parent_occ_2', @$childdetail->parent_occ_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_occ_2" type="text" value="@$childdetail->parent_occ_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="parent_country_2">Country of Residence</label>
-														{{ Form::text('parent_country_2', @$childdetail->parent_country_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="parent_country_2" type="text" value="@$childdetail->parent_country_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 												</div>
 											</div>
@@ -3060,7 +3060,7 @@ use App\Http\Controllers\Controller;
 												<div class="col-md-6" style="border-right:1px solid #98a6ad;">
 													<div class="form-group">
 														<label for="sibling_name">Name</label>
-														{{ Form::text('sibling_name', @$childdetail->sibling_name, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_name" type="text" value="@$childdetail->sibling_name" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<?php
 													$sibling_dob = '';
@@ -3070,29 +3070,29 @@ use App\Http\Controllers\Controller;
 													?>
 													<div class="form-group">
 														<label for="sibling_dob">DOB</label>
-														{{ Form::text('sibling_dob', $sibling_dob, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_dob" type="text" value="$sibling_dob" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_occ">Occupation</label>
-														{{ Form::text('sibling_occ', @$childdetail->sibling_occ, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_occ" type="text" value="@$childdetail->sibling_occ" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_gender">Gender</label>
-														{{ Form::text('sibling_gender', @$childdetail->sibling_gender, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_gender" type="text" value="@$childdetail->sibling_gender" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_country">Country of Residence</label>
-														{{ Form::text('sibling_country', @$childdetail->sibling_country, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_country" type="text" value="@$childdetail->sibling_country" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_marital">Marital Status</label>
-														{{ Form::text('sibling_marital', @$childdetail->sibling_marital, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_marital" type="text" value="@$childdetail->sibling_marital" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="sibling_name_2">Name</label>
-														{{ Form::text('sibling_name_2', @$childdetail->sibling_name_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_name_2" type="text" value="@$childdetail->sibling_name_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<?php
 													$sibling_dob_2 = '';
@@ -3102,23 +3102,23 @@ use App\Http\Controllers\Controller;
 													?>
 													<div class="form-group">
 														<label for="sibling_dob_2">DOB</label>
-														{{ Form::text('sibling_dob_2', $sibling_dob_2, array('class' => 'form-control dobdatepickers', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_dob_2" type="text" value="$sibling_dob_2" class="form-control dobdatepickers" data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_occ_2">Occupation</label>
-														{{ Form::text('sibling_occ_2', @$childdetail->sibling_occ_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_occ_2" type="text" value="@$childdetail->sibling_occ_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_gender_2">Gender</label>
-														{{ Form::text('sibling_gender_2', @$childdetail->sibling_gender_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_gender_2" type="text" value="@$childdetail->sibling_gender_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_country_2">Country of Residence</label>
-														{{ Form::text('sibling_country_2', @$childdetail->sibling_country_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_country_2" type="text" value="@$childdetail->sibling_country_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 													<div class="form-group">
 														<label for="sibling_marital_2">Marital Status</label>
-														{{ Form::text('sibling_marital_2', @$childdetail->sibling_marital_2, array('class' => 'form-control ', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="sibling_marital_2" type="text" value="@$childdetail->sibling_marital_2" class="form-control " data-valid="" autocomplete="off" placeholder="">
 													</div>
 												</div>
 											</div>
@@ -3245,7 +3245,7 @@ use App\Http\Controllers\Controller;
 						<div class="col-12 col-md-12 col-lg-12">
 							<div class="form-group">
 								<label for="subject">Subject <span class="span_req">*</span></label>
-								{{ Form::text('subject', '', array('class' => 'form-control selectedsubject', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter Subject' )) }}
+								<input name="subject" type="text" class="form-control selectedsubject" data-valid="required" autocomplete="off" placeholder="Enter Subject">
 								@if ($errors->has('subject'))
 									<span class="custom-error" role="alert">
 										<strong>{{ @$errors->first('subject') }}</strong>

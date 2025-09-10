@@ -7,8 +7,8 @@
 <div class="main-content">
 	<section class="section">
 		<div class="section-body">
-			{{ Form::open(array('url' => 'admin/emails/edit', 'name'=>"add-emails", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }} 
-			{{ Form::hidden('id', @$fetchedData->id) }}
+			<form action="admin/emails/edit" autocomplete="off" method="post"> 
+			<input type="hidden" name="id" value="@$fetchedData->id">
 				<div class="row">   
 					<div class="col-12 col-md-12 col-lg-12">
 						<div class="card">
@@ -36,7 +36,7 @@
 												<div class="col-12 col-md-12 col-lg-12">
 													<div class="form-group"> 
 														<label for="email">Email Id <span class="span_req">*</span></label>
-														{{ Form::text('email', @$fetchedData->email, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="email" type="text" value="@$fetchedData->email" class="form-control" data-valid="required" autocomplete="off" placeholder="">
 														@if ($errors->has('email'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('email') }}</strong>
@@ -53,7 +53,7 @@
 												<div class="col-12 col-md-12 col-lg-12">
 													<div class="form-group"> 
 														<label for="display_name">Display Name</label>
-														{{ Form::text('display_name', @$fetchedData->display_name, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'' )) }}
+														<input name="display_name" type="text" value="@$fetchedData->display_name" class="form-control" data-valid="" autocomplete="off" placeholder="">
 														@if ($errors->has('display_name'))
 															<span class="custom-error" role="alert">
 																<strong>{{ @$errors->first('display_name') }}</strong>
@@ -91,13 +91,13 @@
 									</div>
 								</div>
 								<div class="form-group float-right">
-									{{ Form::button('Update', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-emails")' ]) }}
+									<button type="button" class="btn btn-primary" onClick="customValidate("add-emails")">Update</button>
 								</div> 
 							</div>
 						</div>	
 					</div>
 				</div>
-			 {{ Form::close() }}	
+			 </form>	
 		</div>
 	</section>
 </div>

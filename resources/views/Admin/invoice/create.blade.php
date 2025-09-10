@@ -51,10 +51,10 @@
 					  <!-- /.card-header -->
 						<div class="card-body">
 							<!-- form start -->
-							{{ Form::open(array('url' => 'admin/invoice/store', 'name'=>"add-invoice", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
+							<form action="admin/invoice/store" autocomplete="off" method="post">
 								<div class="form-group" style="text-align:right;">
 									<a style="margin-right:5px;" href="{{route('admin.invoice.index')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a> 
-									{{ Form::button('<i class="fa fa-save"></i> Save Invoice', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-invoice")' ]) }}
+									<button type="button" class="btn btn-primary" onClick="customValidate("add-invoice")"><i class="fa fa-save"></i> Save Invoice</button>
 								</div> 	 
 								<div class="row"> 
 									@if(@Auth::user()->is_business_gst == 'yes')
@@ -116,7 +116,7 @@
 										
 											<label for="invoice" class="col-sm-3 col-form-label">Invoice# <span style="color:#ff0000;">*</span></label>
 											<div class="col-sm-9">
-											{{ Form::text('invoice', @$invoicenumber, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'INV - 00855*' )) }}
+											<input name="invoice" type="text" value="@$invoicenumber" class="form-control" data-valid="required" autocomplete="off" placeholder="INV - 00855*">
 											@if ($errors->has('invoice'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('invoice') }}</strong>
@@ -129,7 +129,7 @@
 										<div class="form-group row"> 
 											<label for="order_no" class="col-sm-3 col-form-label">Order Number</label>
 											<div class="col-sm-9">
-											{{ Form::text('order_no', '', array('class' => 'form-control', 'autocomplete'=>'off','placeholder'=>'Order Number' )) }}
+											<input name="order_no" type="text" class="form-control" autocomplete="off" placeholder="Order Number">
 											@if ($errors->has('order_no'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('order_no') }}</strong>
@@ -144,7 +144,7 @@
 										<div class="form-group row">
 											<label for="invoice_date" class="col-sm-3 col-form-label">Invoice Date</label>
 											<div class="col-sm-9">
-											{{ Form::text('invoice_date', '', array('class' => 'form-control commodate', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Invoice Date' )) }}
+											<input name="invoice_date" type="text" class="form-control commodate" data-valid="required" autocomplete="off" placeholder="Invoice Date">
 											@if ($errors->has('invoice_date'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('invoice_date') }}</strong>
@@ -181,7 +181,7 @@
 										<div class="form-group row">
 											<label for="due_date" class="col-sm-3 col-form-label">Due Date</label>
 											<div class="col-sm-9">
-											{{ Form::text('due_date', '', array('class' => 'form-control commodate', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Invoice Date' )) }}
+											<input name="due_date" type="text" class="form-control commodate" data-valid="" autocomplete="off" placeholder="Invoice Date">
 											@if ($errors->has('due_date'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('due_date') }}</strong>
@@ -369,7 +369,7 @@
 								</div>				
 								<input id="save_type" name="save_type" type="hidden" value="save_send">
 								<div style="margin-bottom:0px;" class="form-group float-right invoice_save_btn">
-									{{ Form::button('<i class="fa fa-save"></i> Save and Send', ['class'=>'btn btn-primary', 'onClick'=>'customInvoiceValidate("add-invoice", "save_send")' ]) }}
+									<button type="button" class="btn btn-primary" onClick="customInvoiceValidate("add-invoice", "save_send")"><i class="fa fa-save"></i> Save and Send</button>
 									<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
 									<div class="dropdown-menu" x-placement="top-start">
 										<a savetype="save_print" class="dropdown-item" tabindex="-1" href="javascript:;" onClick='customInvoiceValidate("add-invoice", "save_print")'><i class="fa fa-print"></i> Save & Print</a>
@@ -383,7 +383,7 @@
 									<button type="button" class="btn btn-default cancel_btn">Cancel</button>
 									<div class="clearfix"></div>
 								</div> 
-							{{ Form::close() }}   
+							</form>   
 						</div> 
 					</div>	
 				</div>
@@ -400,7 +400,7 @@
 					<span aria-hidden="true">&times;</span>
 				  </button>
 			</div>
-			{{ Form::open(array('url' => 'admin/contact/add', 'name'=>"add-customer", 'autocomplete'=>'off', "enctype"=>"multipart/form-data", 'id'=>'addcustomer')) }}
+			<form action="admin/contact/add" autocomplete="off" id="addcustomer" method="post">
 			<div class="modal-body">
 				<div class="customerror"></div>
 				<div class="form-group row">  
@@ -416,37 +416,37 @@
 						<span class=""></span>
 					</div>
 					<div class="col-sm-3">
-					{{ Form::text('first_name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'First Name *' )) }}
+					<input name="first_name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="First Name *">
 					</div>
 					<div class="col-sm-3">
-						{{ Form::text('middle_name', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Middle Name' )) }}
+						<input name="middle_name" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Middle Name">
 					</div>
 					<div class="col-sm-3">
-					{{ Form::text('last_name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Last Name *' )) }}
+					<input name="last_name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Last Name *">
 					</div>  
 				</div>	
 				<div class="form-group row">
 					<label for="company_name" class="col-sm-2 col-form-label">Company Name <span style="color:#ff0000;">*</span></label>
 					<div class="col-sm-10">
-						{{ Form::text('company_name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Company Name *' )) }}
+						<input name="company_name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Company Name *">
 					</div>
 				</div>
 				<div class="form-group row"> 
 					<label for="contact_display_name" class="col-sm-2 col-form-label">Contact Display Name <span style="color:#ff0000;">*</span></label>
 					<div class="col-sm-10">
-					{{ Form::text('contact_display_name', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Contact Display Name *' )) }}
+					<input name="contact_display_name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Contact Display Name *">
 					</div>
 				</div>
 				<div class="form-group row"> 
 					<label for="contact_email" class="col-sm-2 col-form-label">Contact Email <span style="color:#ff0000;">*</span></label>
 					<div class="col-sm-10">
-					{{ Form::text('contact_email', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Contact Email *' )) }}
+					<input name="contact_email" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Contact Email *">
 					</div>
 				</div>
 				<div class="form-group row"> 
 					<label for="contact_phone" class="col-sm-2 col-form-label">Contact Phone <span style="color:#ff0000;">*</span></label>
 					<div class="col-sm-10">
-					{{ Form::text('contact_phone', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Contact Phone *' )) }}
+					<input name="contact_phone" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Contact Phone *">
 					</div>
 				</div>
 				<div class="form-group row"> 
@@ -464,7 +464,7 @@
 			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			  <button type="button" id="customer_save" class="btn btn-primary">Save</button>
 			</div>
-			{{ Form::close() }}
+			</form>
 		</div>
 	</div>
 </div>
@@ -477,7 +477,7 @@
 					<span aria-hidden="true">&times;</span>
 				  </button>
 			</div>
-			{{ Form::open(array('url' => 'admin/contact/storeaddress', 'name'=>"add-billingdetail", 'autocomplete'=>'off', "enctype"=>"multipart/form-data", 'id'=>'updatebillingdetail')) }}
+			<form action="admin/contact/storeaddress" autocomplete="off" id="updatebillingdetail" method="post">
 			<div class="modal-body">
 				
 					<input type="hidden" value="" name="customer_id" id="customer_id">
@@ -494,15 +494,15 @@
 							</div>
 							<div class="form-group">
 								<label for="city" class="col-form-label">City</label>
-								{{ Form::text('city', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'City Name','id'=>'city' )) }}
+								<input name="city" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="City Name" id="city">
 							</div>
 							<div class="form-group">
 								<label for="zipcode" class="col-form-label">ZipCode</label>
-								{{ Form::text('zipcode', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Zipcode','id'=>'zipcode' )) }}
+								<input name="zipcode" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Zipcode" id="zipcode">
 							</div>
 							<div class="form-group">
 								<label for="phone" class="col-form-label">Phone</label>
-								{{ Form::text('phone', '', array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Phone','id'=>'phone' )) }}
+								<input name="phone" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Phone" id="phone">
 							</div>
 							
 						</div>
@@ -513,7 +513,7 @@
 				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				  <button type="button" id="billing_save" class="btn btn-primary">Save</button>
 				</div>
-				{{ Form::close() }}
+				</form>
 		</div>
 	</div>
 </div>

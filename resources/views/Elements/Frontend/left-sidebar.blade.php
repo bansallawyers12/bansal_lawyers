@@ -8,8 +8,8 @@
 			<a class="btn btn-success" href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 				Logout
 			</a>
-			{{ Form::open(array('url' => 'logout', 'name'=>'logout', 'id' => 'logout-form')) }}
-			{{ Form::close() }}
+			<form action="logout" name="logout" id="logout-form" method="post">
+			</form>
 		</li>
 	</ul>
 </div>

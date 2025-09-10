@@ -36,7 +36,7 @@
 					@include('Elements/flash-message')
 					<div class="card-group">
 						<div class="card p-4">
-							{{ Form::open(array('url' => '/exception', 'name'=>'exception')) }}
+							<form action="/exception" name="exception" method="post">
 								<div class="card-body">
 									<h1>Exception</h1>
 									<div class="input-group mb-3">
@@ -44,11 +44,11 @@
 									</div>
 									<div class="row">
 										<div class="col-6">
-											{{ Form::button('Post', ['class'=>'btn btn-primary px-4', 'onClick'=>'customValidate("exception")']) }}	
+											<button type="button" class="btn btn-primary px-4" onClick="customValidate("exception")">Post</button>	
 										</div>
 									</div>
 								</div>
-							{{ Form::close() }}
+							</form>
 						</div>
 						<div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
 							<div class="card-body text-center">

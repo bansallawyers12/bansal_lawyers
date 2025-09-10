@@ -7,8 +7,8 @@
 <div class="main-content">
 	<section class="section">
 		<div class="section-body">
-			{{ Form::open(array('url' => 'admin/gen-settings/update', 'name'=>"add-visatype", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }} 
-			{{ Form::hidden('id', @$fetchedData->id) }}
+			<form action="admin/gen-settings/update" autocomplete="off" method="post"> 
+			<input type="hidden" name="id" value="@$fetchedData->id">
 				<div class="row">   
 					<div class="col-12 col-md-12 col-lg-12">
 						<div class="card">
@@ -70,7 +70,7 @@
 						</div>	
 					</div>
 				</div>
-			 {{ Form::close() }}	
+			 </form>	
 		</div>
 	</section>
 </div>

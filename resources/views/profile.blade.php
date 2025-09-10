@@ -51,10 +51,10 @@
 					  <!-- /.card-header -->
 						<div class="card-body">  
 							<!-- form start --> 
-							{{ Form::open(array('url' => 'profile/store', 'name'=>"add-profile", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
+							<form action="profile/store" autocomplete="off" method="post">
 								<div class="form-group" style="text-align:right;">
 									<a style="margin-right:5px;" href="{{route('profile')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a> 
-									{{ Form::button('<i class="fa fa-save"></i> Save Profile', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-profile")' ]) }}
+									<button type="button" class="btn btn-primary" onClick="customValidate("add-profile")"><i class="fa fa-save"></i> Save Profile</button>
 								</div> 	 
 								<div class="row">  
 									<div class="col-sm-8">      
@@ -86,7 +86,7 @@
 										<div class="form-group row"> 
 											<label for="invoice" class="col-sm-3 col-form-label">Invoice# <span style="color:#ff0000;">*</span></label>
 											<div class="col-sm-9">
-											{{ Form::text('invoice', '', array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'INV - 00855*' )) }}
+											<input name="invoice" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="INV - 00855*">
 											@if ($errors->has('invoice'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('invoice') }}</strong>
@@ -99,7 +99,7 @@
 										<div class="form-group row"> 
 											<label for="order_no" class="col-sm-3 col-form-label">Order Number</label>
 											<div class="col-sm-9">
-											{{ Form::text('order_no', '', array('class' => 'form-control', 'autocomplete'=>'off','placeholder'=>'Order Number' )) }}
+											<input name="order_no" type="text" class="form-control" autocomplete="off" placeholder="Order Number">
 											@if ($errors->has('order_no'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('order_no') }}</strong>
@@ -114,7 +114,7 @@
 										<div class="form-group row">
 											<label for="invoice_date" class="col-sm-3 col-form-label">Invoice Date</label>
 											<div class="col-sm-9">
-											{{ Form::text('invoice_date', '', array('class' => 'form-control commodate', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Invoice Date' )) }}
+											<input name="invoice_date" type="text" class="form-control commodate" data-valid="required" autocomplete="off" placeholder="Invoice Date">
 											@if ($errors->has('invoice_date'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('invoice_date') }}</strong>
@@ -151,7 +151,7 @@
 										<div class="form-group row">
 											<label for="due_date" class="col-sm-3 col-form-label">Due Date</label>
 											<div class="col-sm-9">
-											{{ Form::text('due_date', '', array('class' => 'form-control commodate', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Invoice Date' )) }}
+											<input name="due_date" type="text" class="form-control commodate" data-valid="" autocomplete="off" placeholder="Invoice Date">
 											@if ($errors->has('due_date'))
 												<span class="custom-error" role="alert">
 													<strong>{{ @$errors->first('due_date') }}</strong>
@@ -307,7 +307,7 @@
 									</div>
 								</div>								
 								<div style="margin-bottom:0px;" class="form-group float-right invoice_save_btn">
-									{{ Form::button('<i class="fa fa-save"></i> Save and Send', ['class'=>'btn btn-primary', 'onClick'=>'customValidate("add-invoice")' ]) }}
+									<button type="button" class="btn btn-primary" onClick="customValidate("add-invoice")"><i class="fa fa-save"></i> Save and Send</button>
 									<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></a>
 									<div class="dropdown-menu" x-placement="top-start">
 										<a class="dropdown-item" tabindex="-1" href="#"><i class="fa fa-print"></i> Save & Print</a>
@@ -318,7 +318,7 @@
 									<button type="button" class="btn btn-default cancel_btn">Cancel</button>
 									<div class="clearfix"></div>
 								</div> 
-							{{ Form::close() }}   
+							</form>   
 						</div> 
 					</div>	
 				</div>

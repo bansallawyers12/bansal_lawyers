@@ -26,7 +26,7 @@
 	
 	<section class="section">
 		<div class="section-body">
-			{{ Form::open(array('url' => 'admin/invoice/general-store', 'name'=>"invoiceform", 'autocomplete'=>'off', "enctype"=>"multipart/form-data")) }}
+			<form action="admin/invoice/general-store" autocomplete="off" method="post">
 			<input type="hidden" name="client_id" value="{{$clientid}}">
 			<input type="hidden" name="applicationid" value="{{$applicationid}}">
 			<input type="hidden" name="type" value="{{$type}}">
