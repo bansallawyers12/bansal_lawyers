@@ -432,6 +432,19 @@ b, strong {
                                                         <span class="timeslot_col_date_time" role="alert" style="display: none;color:#f00;">Date and Time is required.</span>
                                                     </div>
                                                 </div>
+                                                <!-- Coupon code input (only for Paid service) -->
+                                                <div class="col-md-6 coupon-wrapper" style="display:none;">
+                                                    <div class="form-group">
+                                                        <label for="promo_code">Coupon code</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="promo_code" class="form-control" placeholder="Enter coupon">
+                                                            <div class="input-group-append">
+                                                                <button type="button" class="btn btn-secondary" id="apply_coupon_btn">Apply</button>
+                                                            </div>
+                                                        </div>
+                                                        <small id="coupon_msg" style="display:none;"></small>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -536,6 +549,7 @@ b, strong {
                     <input type="hidden" name="phone" id="phone_paid" value="">
                     <input type="hidden" name="title" id="title_paid" value="">
                     <input type="hidden" name="description" id="description_paid" value="">
+                    <input type="hidden" name="promo_code" id="promo_code_paid" value="">
 
                     <div class='form-row row'>
 						<div class='col-xs-12 col-md-12 form-group required'>
@@ -588,7 +602,7 @@ b, strong {
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now (aud150)</button>
+                    <button class="btn btn-primary btn-lg btn-block" id="pay_now_btn" type="submit">Pay Now (aud150)</button>
                 </div>
 
             </form>
@@ -800,9 +814,13 @@ jQuery(document).ready(function($){
         if( $('#service_id').val() == 1 ){ //paid
             $('.submitappointment_paid').show();
             $('.submitappointment').hide();
+            $('.coupon-wrapper').show();
         } else { //free
             $('.submitappointment').show();
             $('.submitappointment_paid').hide();
+            $('.coupon-wrapper').hide();
+            $('#promo_code').val('');
+            $('#coupon_msg').hide();
         }
 
         if(id != ""){
@@ -1052,6 +1070,37 @@ jQuery(document).ready(function($){
 			    return false;
 			}
 		}
+    });
+    // Apply coupon
+    $(document).delegate('#apply_coupon_btn','click', function(){
+        var code = $.trim($('#promo_code').val());
+        var serviceId = $('input[name="service_id"]').val();
+        if(!code){
+            $('#coupon_msg').text('Enter a coupon').css('color','red').show();
+            return;
+        }
+        $('#coupon_msg').text('Checking...').css('color','#666').show();
+        $.ajax({
+            url:'{{URL::to('/promo-code/check')}}',
+            type:'POST',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            data:{promo_code:code, service_id:serviceId},
+            success:function(res){
+                try{ var obj = JSON.parse(res); } catch(e){ obj = {success:false,msg:'Server error'}; }
+                if(obj.success){
+                    $('#coupon_msg').text(obj.msg + ' Payable: aud'+obj.payable).css('color','green');
+                    $('#promo_code_paid').val(code);
+                    if(parseFloat(obj.payable) <= 0){
+                        $('#pay_now_btn').text('Complete (Free)');
+                    } else {
+                        $('#pay_now_btn').text('Pay Now (aud'+obj.payable+')');
+                    }
+                } else {
+                    $('#coupon_msg').text(obj.msg).css('color','red');
+                    $('#promo_code_paid').val('');
+                }
+            }
+        });
     });
 
     $(document).delegate('.timeslot_col', 'click', function(){

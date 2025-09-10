@@ -14,6 +14,7 @@ use Auth;
 use Config;
 use Stripe;
 use DB;
+use App\Models\PromoCode;
 
 class AppointmentBookController extends Controller {
     /**
@@ -203,6 +204,38 @@ class AppointmentBookController extends Controller {
 	}
 
 
+    public function checkpromocode(Request $request)
+    {
+        $promoCode = trim($request->get('promo_code'));
+        $serviceId = $request->get('service_id');
+
+        if(empty($promoCode)){
+            return json_encode(['success'=>false,'msg'=>'Please enter a promo code.']);
+        }
+
+        $promo = PromoCode::where('code', $promoCode)->where('status',1)->first();
+        if(!$promo){
+            return json_encode(['success'=>false,'msg'=>'Invalid promo code.']);
+        }
+
+        $service = \App\Models\BookService::find($serviceId);
+        if(!$service){
+            return json_encode(['success'=>false,'msg'=>'Service not found.']);
+        }
+
+        $price = (float) str_replace(["aud","AUD","$"," "], "", $service->price);
+        $discountPercentage = (float) ($promo->discount_percentage ?? 0);
+        $discountAmount = round(($price * $discountPercentage)/100, 2);
+        $payable = max(0, round($price - $discountAmount, 2));
+
+        return json_encode([
+            'success'=>true,
+            'msg'=>'Promo applied successfully.',
+            'discount_percentage'=>$discountPercentage,
+            'payable'=>$payable
+        ]);
+    }
+
 
     public function storepaid(Request $request)
     {
@@ -218,10 +251,24 @@ class AppointmentBookController extends Controller {
 		$datey = $date[2].'-'.$date[1].'-'.$date[0];
 		$service = \App\Models\BookService::find($requestData['service_id']); //dd($service);
         if(!empty($service)){
-            $amount =  str_replace("aud", "", $service['price']);
+            $amount =  (float) str_replace(["aud","AUD","$"," "], "", $service['price']);
         } else {
             $amount = 0;
-        }  //dd($amount);
+        }
+
+        // Apply promo code discount if provided
+        $appliedPromo = null;
+        if(!empty($requestData['promo_code'])){
+            $promo = PromoCode::where('code', trim($requestData['promo_code']))->where('status',1)->first();
+            if($promo){
+                $discountPercentage = (float) ($promo->discount_percentage ?? 0);
+                if($discountPercentage > 0){
+                    $discountAmount = round(($amount * $discountPercentage) / 100, 2);
+                    $amount = max(0, round($amount - $discountAmount, 2));
+                    $appliedPromo = $promo;
+                }
+            }
+        }
 
         $NatureOfEnquiry = \App\Models\NatureOfEnquiry::find($requestData['noe_id']); //dd($NatureOfEnquiry);
       
@@ -245,16 +292,20 @@ class AppointmentBookController extends Controller {
             ]
         );
 
-        //stripe payment
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        $customer = Stripe\Customer::create(array("email" => $email,"name" => $cardName,"source" => $stripeToken));
-
-        $payment_result = Stripe\Charge::create ([
-            "amount" => $amount * 100,
-            "currency" => $currency,
-            "customer" => $customer->id,
-            "description" => "Paid To bansallawyers.com.au For Paid Service By $cardName",
-        ]);
+        // If discounted to zero, skip Stripe and mark as paid
+        if((float)$amount <= 0){
+            $payment_result = ["status"=>"succeeded","id"=>"promo_free_".time()];
+        } else {
+            //stripe payment
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            $customer = Stripe\Customer::create(array("email" => $email,"name" => $cardName,"source" => $stripeToken));
+            $payment_result = Stripe\Charge::create ([
+                "amount" => (int) round($amount * 100),
+                "currency" => $currency,
+                "customer" => $customer->id,
+                "description" => "Paid To bansallawyers.com.au For Paid Service By $cardName",
+            ]);
+        }
         //dd($payment_result);
         //update Order status
         if ( ! empty($payment_result) && $payment_result["status"] == "succeeded") { //success

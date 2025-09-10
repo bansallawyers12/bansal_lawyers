@@ -54,6 +54,8 @@ Route::get('/book-an-appointment', 'HomeController@bookappointment')->name('book
 Route::get('/book-an-appointment1', 'HomeController@bookappointment1')->name('bookappointment1');
 Route::post('/book-an-appointment/store', 'AppointmentBookController@store');
 Route::post('/book-an-appointment/storepaid', 'AppointmentBookController@storepaid')->name('stripe.post');
+// Promo code validation for booking
+Route::post('/promo-code/check', 'AppointmentBookController@checkpromocode');
 Route::post('/getdatetime', 'HomeController@getdatetime');
 Route::post('/getdatetimebackend', 'HomeController@getdatetimebackend');
 
