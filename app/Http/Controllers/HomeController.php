@@ -122,40 +122,13 @@ class HomeController extends Controller
     }
 	public function contactus(Request $request)
     {
-		// dd($request);
-		$vals = array(
-            'img_path' => public_path().'/captcha/',
-            'img_url' => asset('public/captcha'),
-            'expiration' => 7200,
-            'word_lenght' => 6,
-            'font_size' => 15,
-            'img_width'	=> '110',
-            'img_height' => '40',
-            'colors'	=> array('background' => array(255,175,2),'border' => array(255,175,2),	'text' => array(255,255,255),	'grid' => array(255,255,255))
-        );
-        $cap = $this->create_captcha($vals);
-        $captcha = $cap['image'];
-        session()->put('captchaWord', $cap['word']);
-
-		return view('contact', compact(['captcha']));
+		return view('contact');
     }
 
 	public function refresh_captcha() {
-		$vals = array(
-			'img_path' => public_path().'/captcha/',
-			'img_url' => asset('public/captcha'),
-			'expiration' => 7200,
-			'word_lenght' => 6,
-			'font_size' => 15,
-			'img_width'	=> '110',
-			'img_height' => '40',
-			'colors'	=> array('background' => array(255,175,2),'border' => array(255,175,2),	'text' => array(255,255,255),	'grid' => array(255,255,255))
-		);
-
-		$cap = $this->create_captcha($vals);
-		$captcha = $cap['image'];
-		session()->put('captchaWord', $cap['word']);
-		echo $cap['image'];
+		// This method is no longer needed with Google reCAPTCHA
+		// Keeping for backward compatibility but returning empty response
+		return response('', 200);
 	}
 
 	public function contact(Request $request){
@@ -167,9 +140,15 @@ class HomeController extends Controller
             'email' => 'required',
             //'phone' => 'required',
             'subject' => 'required',
-            'message' => 'required'
-            // 'g-recaptcha-response' => 'required|recaptcha'
+            'message' => 'required',
+            'g-recaptcha-response' => 'required'
         ]);
+
+        // Validate reCAPTCHA
+        $recaptchaResponse = $this->validateRecaptcha($request);
+        if ($recaptchaResponse !== true) {
+            return $recaptchaResponse;
+        }
 
        //$set = \App\Models\Admin::where('id',1)->first();
 		$obj = new Contact;
@@ -1129,6 +1108,36 @@ class HomeController extends Controller
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
             return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+        }
+    }
+
+    /**
+     * Validate reCAPTCHA response
+     */
+    private function validateRecaptcha(Request $request): bool|\Illuminate\Http\RedirectResponse
+    {
+        $recaptcha_response = $request->input('g-recaptcha-response');
+        
+        if (is_null($recaptcha_response)) {
+            $errors = ['g-recaptcha-response' => 'Please complete the reCAPTCHA to proceed'];
+            return redirect()->back()->withErrors($errors)->withInput();
+        }
+
+        $url = "https://www.google.com/recaptcha/api/siteverify";
+        $body = [
+            'secret' => config('services.recaptcha.secret'),
+            'response' => $recaptcha_response,
+            'remoteip' => $request->ip()
+        ];
+
+        $response = \Illuminate\Support\Facades\Http::get($url, $body);
+        $result = json_decode($response->body());
+
+        if ($response->successful() && $result->success == true) {
+            return true;
+        } else {
+            $errors = ['g-recaptcha-response' => 'Please complete the reCAPTCHA again to proceed'];
+            return redirect()->back()->withErrors($errors)->withInput();
         }
     }
 

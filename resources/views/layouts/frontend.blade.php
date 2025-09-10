@@ -1160,6 +1160,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     }
 </script>
+
+    @yield('head')
   
 </head>
 

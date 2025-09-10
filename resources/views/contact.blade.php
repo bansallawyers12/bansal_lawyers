@@ -1,4 +1,10 @@
 @extends('layouts.frontend')
+
+@section('head')
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endsection
+
 @section('seoinfo')
 	<title>Legal Help in Melbourne | Best Law Firm – Bansal Lawyers</title>
     <meta name="description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!" />
@@ -99,6 +105,17 @@
                           <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Message"
                             required></textarea>
                         </div>
+                        
+                        <!-- Google reCAPTCHA -->
+                        <div class="form-group">
+                            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key') }}"></div>
+                            @if ($errors->has('g-recaptcha-response'))
+                                <div class="text-danger mt-2">
+                                    <small>{{ $errors->first('g-recaptcha-response') }}</small>
+                                </div>
+                            @endif
+                        </div>
+                        
                         <div class="form-group">
                           <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
                         </div>
