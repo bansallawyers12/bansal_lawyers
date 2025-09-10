@@ -1641,7 +1641,7 @@ use App\Http\Controllers\Controller;
 									?>
 										<div class="note_col" id="note_id_{{$list->id}}">
                                             <div class="note_content">
-											    <h4><a <?php if($color){ ?>style="color: #fff!important;"<?php } ?> class="viewnote" data-id="{{$list->id}}" href="javascript:;">{{ @$list->title == "" ? config('constants.empty') : str_limit(@$list->title, '19', '...') }}</a></h4>
+											    <h4><a <?php if($color){ ?>style="color: #fff!important;"<?php } ?> class="viewnote" data-id="{{$list->id}}" href="javascript:;">{{ @$list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->title, '19', '...') }}</a></h4>
 											<?php if($list->pin == 1){
 									?><div class="pined_note"><i class="fa fa-thumbtack"></i></i></div><?php } ?>
 											</div>
@@ -3889,8 +3889,8 @@ jQuery(document).ready(function($){
 		var clonedval = $('.clonedrow').html();
 		$('.productitem').append('<tr class="product_field_clone">'+clonedval+'</tr>');
         //$('.report_date_fields').datepicker({ format: 'dd/mm/yyyy', autoclose: true  });
-        $('.report_date_fields').last().datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true }).datepicker('setDate', new Date());
-        $('.report_entry_date_fields').last().datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true }).datepicker('setDate', new Date());
+        $('.report_date_fields').\Illuminate\\Support\\Arr::last().datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true }).datepicker('setDate', new Date());
+        $('.report_entry_date_fields').\Illuminate\\Support\\Arr::last().datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true }).datepicker('setDate', new Date());
     
     });
 
@@ -6480,8 +6480,8 @@ $(document).delegate('.opencreate_task', 'click', function () {
                             $('.productitem').append(trRows_client);
 
                             $('.productitem tr:last .payment_method_cls').val(subArray.payment_method);
-                            $('.report_date_fields').last().datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true });
-                            $('.report_entry_date_fields').last().datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true });
+                            $('.report_date_fields').\Illuminate\\Support\\Arr::last().datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true });
+                            $('.report_entry_date_fields').\Illuminate\\Support\\Arr::last().datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true });
 
                             if(index <1 ){
                                 //$('#sel_invoice_agent_id').val(subArray.agent_id).trigger('change');
@@ -7235,7 +7235,7 @@ $(document).delegate('#notes-tab', 'click', function(){
    $(document).delegate('#new_fee_option_latest .fee_option_addbtn_latest a', 'click', function(){
 		var html = '<tr class="add_fee_option cus_fee_option"><td><input type="text" data-valid="required" value="" class="form-control date_paid" name="date_paid[]"><input type="hidden" value="2" name="fee_option_type[]"></td><td><input type="number" data-valid="required" value="" class="form-control total_fee_am_2nd" name="total_fee[]"></td><td><input type="number" data-valid="required" value="" class="form-control commission_cal" name="commission[]"></td><td><select class="form-control" data-valid="required"  name="claimed_or_not[]" ><option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><select class="form-control" data-valid="required"  name="source[]" ><option value="">Select</option><option value="Prededuct">Prededuct</option><option value="Reported by college">Reported by college</option><option value="Calculated by us">Calculated by us</option><option value="Told by student">Told by student</option></select></td></tr>';
         $('#new_fee_option_latest #productitemviewlatest tbody').append(html);
-        $('.date_paid').last().datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true });
+        $('.date_paid').\Illuminate\\Support\\Arr::last().datepicker({ format: 'dd/mm/yyyy',todayHighlight: true,autoclose: true });
     });
 
 	$(document).delegate('#new_fee_option .removefeetype', 'click', function(){

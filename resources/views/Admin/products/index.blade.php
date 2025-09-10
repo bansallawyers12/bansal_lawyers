@@ -86,10 +86,10 @@
 													$partnerbranch = \App\Models\PartnerBranch::where('id', $list->branches)->first();
 												?>	
 												<tr id="id_{{@$list->id}}"> 
-													<td style="white-space: initial;"><a href="{{URL::to('/admin/products/detail/'.base64_encode(convert_uuencode(@$list->id)))}}">{{ @$list->name == "" ? config('constants.empty') : str_limit(@$list->name, '30', '...') }}</a></td> 
+													<td style="white-space: initial;"><a href="{{URL::to('/admin/products/detail/'.base64_encode(convert_uuencode(@$list->id)))}}">{{ @$list->name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->name, '30', '...') }}</a></td> 
 													<td style="white-space: initial;"> - </td>
 													<td style="white-space: initial;">{{@$partner->partner_name}}</td> 
-													<td style="white-space: initial;">{{ @$list->product_type == "" ? config('constants.empty') : str_limit(@$list->product_type, '50', '...') }}</td>
+													<td style="white-space: initial;">{{ @$list->product_type == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->product_type, '50', '...') }}</td>
 													<td style="white-space: initial;"> - </td>
 													<td><span class="ag-label--circular" style="color: #6777ef" >In Progress</span></td>
 													<td style="white-space: initial;">{{@$partnerbranch->name}} ({{@$partnerbranch->city}})</td> 

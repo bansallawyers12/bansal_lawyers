@@ -113,7 +113,7 @@
 											</td>
 											<td style="white-space: initial;">{{@$i+1}}</td>
 											<!--<td style="white-space: initial;">{{--@$list->id--}}</td>-->
-											<td style="white-space: initial;"><a href="{{URL::to('/admin/partners/detail/'.base64_encode(convert_uuencode(@$list->id)))}}">{{ @$list->partner_name == "" ? config('constants.empty') : str_limit(@$list->partner_name, '50', '...') }}</a><br/><a data-id="{{@$list->id}}" data-email="{{@$list->email}}" data-name="{{@$list->partner_name}}" href="javascript:;" class="partneremail">{{ @$list->email == "" ? config('constants.empty') : str_limit(@$list->email, '50', '...') }}</a></td> 
+											<td style="white-space: initial;"><a href="{{URL::to('/admin/partners/detail/'.base64_encode(convert_uuencode(@$list->id)))}}">{{ @$list->partner_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->partner_name, '50', '...') }}</a><br/><a data-id="{{@$list->id}}" data-email="{{@$list->email}}" data-name="{{@$list->partner_name}}" href="javascript:;" class="partneremail">{{ @$list->email == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->email, '50', '...') }}</a></td> 
 											<td style="white-space: initial;">
 											<?php
 											$branchesquery = \App\Models\PartnerBranch::where('partner_id', $list->id)->orderby('created_at', 'DESC')->get();
@@ -135,7 +135,7 @@
 											<td style="white-space: initial;">{{@$workflow->name}}</td>
 											<td style="white-space: initial;">{{@$partnertype->name}}</td>
 											
-											<td style="white-space: initial;">{{ @$list->city == "" ? config('constants.empty') : str_limit(@$list->city, '50', '...') }}<br/>{{ @$list->country == "" ? config('constants.empty') : str_limit(@$list->country, '50', '...') }}</td> 
+											<td style="white-space: initial;">{{ @$list->city == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->city, '50', '...') }}<br/>{{ @$list->country == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->country, '50', '...') }}</td> 
 											<td style="white-space: initial;">{{$product}}</td> 
 											
 											<td><span class="ag-label--circular" style="color: #6777ef" >In Progress</span></td> 	

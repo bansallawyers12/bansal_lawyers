@@ -123,17 +123,17 @@
 													<label for="checkbox-{{$i}}" class="custom-control-label">&nbsp;</label>
 												</div>
 											</td>
-											<td style="white-space: initial;"><a href="{{URL::to('admin/clients/detail/')}}/{{base64_encode(convert_uuencode(@$clientdetail->id))}}?tab=application&appid={{@$list->id}}">{{ @$list->id == "" ? config('constants.empty') : str_limit(@$list->id, '50', '...') }}</a></td> 
+											<td style="white-space: initial;"><a href="{{URL::to('admin/clients/detail/')}}/{{base64_encode(convert_uuencode(@$clientdetail->id))}}?tab=application&appid={{@$list->id}}">{{ @$list->id == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->id, '50', '...') }}</a></td> 
 											<td style="white-space: initial;"><a href="{{URL::to('admin/clients/detail/')}}/{{base64_encode(convert_uuencode(@$clientdetail->id))}}">{{@$clientdetail->first_name}} {{@$clientdetail->last_name}}</a></td> 
-											<td style="white-space: initial;">{{ @$list->intakedate == "" ? config('constants.empty') : str_limit(@$list->intakedate, '50', '...') }} </td>
-											<td style="white-space: initial;"><a data-id="{{@$list->id}}" data-email="{{@$clientdetail->email}}" data-name="{{@$clientdetail->first_name}} {{@$clientdetail->last_name}}" href="javascript:;" class="clientemail">{{ @$clientdetail->email == "" ? config('constants.empty') : str_limit(@$clientdetail->email, '50', '...') }}</a></td>
+											<td style="white-space: initial;">{{ @$list->intakedate == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->intakedate, '50', '...') }} </td>
+											<td style="white-space: initial;"><a data-id="{{@$list->id}}" data-email="{{@$clientdetail->email}}" data-name="{{@$clientdetail->first_name}} {{@$clientdetail->last_name}}" href="javascript:;" class="clientemail">{{ @$clientdetail->email == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$clientdetail->email, '50', '...') }}</a></td>
 											<td>-</td>
 											<td style="white-space: initial;">{{@$clientdetail->client_id}} </td>
 											<td style="white-space: initial;">{{date('d/m/Y',strtotime(@$clientdetail->dob))}} </td>
 											<td style="white-space: initial;">{{@$clientdetail->phone}} </td>
 											<td style="white-space: initial;">{{@$clientdetail->followers}} </td>
 											<td>-</td>
-											<td style="white-space: initial;">{{ @$list->workflow == "" ? config('constants.empty') : str_limit(@$list->workflow, '50', '...') }} </td>
+											<td style="white-space: initial;">{{ @$list->workflow == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->workflow, '50', '...') }} </td>
 											<td style="white-space: initial;">{{@$partnerdetail->partner_name}}</td> 
 											<td style="white-space: initial;">{{@$productdetail->name}}</td> 
 											<td style="white-space: initial;">{{$PartnerBranch->name}}</td>
@@ -142,17 +142,17 @@
 											<td>-</td>
 											<td>-</td>
 											<td>-</td>
-											<td style="white-space: initial;">{{ @$list->status == "" ? config('constants.empty') : str_limit(@$list->status, '50', '...') }} </td>
+											<td style="white-space: initial;">{{ @$list->status == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->status, '50', '...') }} </td>
 											<td>-</td>
 											<td>-</td>
 											<td>-</td>
-											<td style="white-space: initial;">{{ @$list->stage == "" ? config('constants.empty') : str_limit(@$list->stage, '50', '...') }} </td>
+											<td style="white-space: initial;">{{ @$list->stage == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->stage, '50', '...') }} </td>
 											<td style="white-space: initial;">{{@$clientdetail->assignee}} </td>
 											<td style="white-space: initial;">{{ @$list->created_at == "" ? config('constants.empty') : date('d/m/Y',strtotime(@$list->created_at)) }}</td>
 											<td style="white-space: initial;">{{$PartnerBranch->name}}</td>
 											<td style="white-space: initial;">{{@$clientdetail->source}} </td>
-											<td style="white-space: initial;">{{ @$list->sub_agent == "" ? config('constants.empty') : str_limit(@$list->sub_agent, '50', '...') }}</td>
-											<td style="white-space: initial;">{{ @$list->super_agent == "" ? config('constants.empty') : str_limit(@$list->super_agent, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->sub_agent == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->sub_agent, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->super_agent == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->super_agent, '50', '...') }}</td>
 											<td style="white-space: initial;">{{date('d/m/Y',strtotime(@$clientdetail->visaExpiry))}}</td>
 											<td style="white-space: initial;">{{ @$list->created_at == "" ? config('constants.empty') : date('d/m/Y',strtotime(@$list->created_at)) }}</td>
 											<td style="white-space: initial;">{{ @$list->start_date == "" ? config('constants.empty') : date('d/m/Y',strtotime(@$list->start_date)) }}</td>

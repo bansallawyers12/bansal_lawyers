@@ -79,7 +79,7 @@ class Handler extends ExceptionHandler
 		{
 			return response()->json(['error' => 'Unauthenticated.'],401);
 		}
-		$guard = array_get($exception->guards(), 0);
+		$guard = data_get($exception->guards(), 0);
 
 		switch ($guard)
 		{

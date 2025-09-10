@@ -70,7 +70,7 @@
 							  
 								@foreach (@$lists as $list)	
 								<tr id="id_{{@$list->id}}">  
-								  <td>{{ @$list->name == "" ? config('constants.empty') : str_limit(@$list->name, '50', '...') }}</td> 
+								  <td>{{ @$list->name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->name, '50', '...') }}</td> 
 								  <td>{{ @$list->code }}</td> 
 								  <td><img width="30" src="{{URL::to('/public/img/airline')}}/{{@$list->code}}.gif"></td> 
 				

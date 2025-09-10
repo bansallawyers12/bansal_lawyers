@@ -139,9 +139,9 @@ bottom: 100%;left: 50%;pointer-events: none;-webkit-transform: translateX(-50%);
 											<td>Not Contacted</td>
 											@endif
 											{{-- @if($followp)
-											<td>{{ @$followp->note == "" ? config('constants.empty') : str_limit(@$followp->note, '20', '...') }}</td>
+											<td>{{ @$followp->note == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$followp->note, '20', '...') }}</td>
 											@else
-											<td>{{ @$list->latest_comment == "" ? config('constants.empty') : str_limit(@$list->latest_comment, '20', '...') }}</td>
+											<td>{{ @$list->latest_comment == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->latest_comment, '20', '...') }}</td>
 											@endif --}}
 											<td>
 												<div class="dropdown action_toggle">

@@ -28,7 +28,7 @@
 								@if(@$totalData !== 0)
 								@foreach (@$lists as $list)
 									<tr id="id_{{@$list->id}}"> 
-										<td>{{ @$list->name == "" ? config('constants.empty') : str_limit(@$list->name, '50', '...') }}</td> 	
+										<td>{{ @$list->name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->name, '50', '...') }}</td> 	
 										<td>
 											<div class="dropdown d-inline">
 												<button class="btn btn-primary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>

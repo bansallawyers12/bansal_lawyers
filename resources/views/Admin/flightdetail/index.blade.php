@@ -88,7 +88,7 @@
 										</div>
 									</div> 
 								  </td>
-								  <td>{{ @$list->flight->name == "" ? config('constants.empty') : str_limit(@$list->flight->name, '50', '...') }}</td> 
+								  <td>{{ @$list->flight->name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->flight->name, '50', '...') }}</td> 
 								   <td>@if(@$list->flighttype == 1)Oneway Trip @else Round Trip @endif</td> <td>{{ @$list->agentdetail->company_name }}</td>
 								  <td>{{ @$list->flight->code }}</td> 
 								  

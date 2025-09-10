@@ -130,7 +130,7 @@
 												<span class="icon-bar">|</span>
 											</li>
 											<li class="list-inline-item">
-												<span> {{ @$list->batch_type == "" ? config('constants.empty') : str_limit(@$list->batch_type, '25', '...') }}</span>
+												<span> {{ @$list->batch_type == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->batch_type, '25', '...') }}</span>
 											</li>
 										</ul>
 										<div class="add-to-links">

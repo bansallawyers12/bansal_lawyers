@@ -104,8 +104,8 @@
 											<td>{{@$partnerdetail->partner_name}}</td> 
 											<td>{{@$productdetail->name}}</td> 
 											<td>{{@$Appldetail->workflow}}</td>
-											<td>{{ @$list->currency == "" ? config('constants.empty') : str_limit(@$list->currency, '50', '...') }}</td>
-											<td>{{ @$list->type == "" ? config('constants.empty') : str_limit(@$list->type, '50', '...') }}</td>
+											<td>{{ @$list->currency == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->currency, '50', '...') }}</td>
+											<td>{{ @$list->type == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->type, '50', '...') }}</td>
 											<td>{{ @$list->due_date == "" ? config('constants.empty') : date('d/m/Y',strtotime(@$list->due_date)) }}</td>
 											<td>-</td>
 											<td>{{ @$list->created_at == "" ? config('constants.empty') : date('d/m/Y',strtotime(@$list->created_at)) }}</td>
@@ -126,7 +126,7 @@
 											<td>-</td>
 											<td>-</td>
 											<td>-</td>
-											<td>{{ @$list->net_incone == "" ? config('constants.empty') : str_limit(@$list->net_incone, '50', '...') }}</td>
+											<td>{{ @$list->net_incone == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->net_incone, '50', '...') }}</td>
 											<td>-</td>
 											<td>-</td>
 											<td>-</td>

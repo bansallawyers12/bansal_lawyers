@@ -14,22 +14,42 @@
 	<!--<link rel="shortcut icon" href="{{--asset('img/Frontend/img/bansal-favicon.png')--}}" type="image/x-icon">-->
 
 	 <!-- BASE CSS -->
-	<link href="{{asset('public/css/app.min.css')}}" rel="stylesheet">
-	<link href="{{asset('public/css/bootstrap-social.css')}}" rel="stylesheet">
-	<link href="{{asset('public/css/style.css')}}" rel="stylesheet">
-	<link href="{{asset('public/css/components.css')}}" rel="stylesheet">
-	<link href="{{asset('public/css/custom.css')}}" rel="stylesheet">
+	<link href="{{asset('css/app.min.css')}}" rel="stylesheet">
+	<link href="{{asset('css/bootstrap-social.css')}}" rel="stylesheet">
+	<link href="{{asset('css/style.css')}}" rel="stylesheet">
+	<link href="{{asset('css/components.css')}}" rel="stylesheet">
+	<link href="{{asset('css/custom.css')}}" rel="stylesheet">
 
 	<script async src="https://www.google.com/recaptcha/api.js"></script> <!-- Add recaptcha script -->
 </head>
 <style>
 .bg{
-    /*background-image: url('/img/bansal_crm_background_image1.jpg');*/
-    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 100vh;
     margin: 0;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+.card {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: none;
+    border-radius: 10px;
+}
+.card-header {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 10px 10px 0 0 !important;
+    border: none;
+}
+.btn-primary {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 5px;
+}
+.btn-primary:hover {
+    background: linear-gradient(45deg, #5a6fd8, #6a4190);
+    transform: translateY(-1px);
 }
 </style>
 <body class="bg">
@@ -41,8 +61,8 @@
 	<script type="text/javascript">
 		var site_url = "<?php echo URL::to('/'); ?>";
 	</script>
-	<script src="{{asset('public/js/app.min.js')}}"></script>
-	<script src="{{asset('public/js/scripts.js')}}"></script>
-	<script src="{{asset('public/js/custom.js')}}"></script>
+	<script src="{{asset('js/app.min.js')}}"></script>
+	<script src="{{asset('js/scripts.js')}}"></script>
+	<script src="{{asset('js/custom.js')}}"></script>
 </body>
 </html>

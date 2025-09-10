@@ -103,33 +103,33 @@
 													<label for="checkbox-{{$i}}" class="custom-control-label">&nbsp;</label>
 												</div>
 											</td>
-											<td style="white-space: initial;">{{ @$list->first_name == "" ? config('constants.empty') : str_limit(@$list->first_name, '50', '...') }} {{ @$list->last_name == "" ? config('constants.empty') : str_limit(@$list->last_name, '50', '...') }}</td>
-											<td style="white-space: initial;">{{ @$list->rating == "" ? config('constants.empty') : str_limit(@$list->rating, '50', '...') }} </td>
-											<td style="white-space: initial;">{{ @$list->client_id == "" ? config('constants.empty') : str_limit(@$list->client_id, '50', '...') }} </td>
-											<td style="white-space: initial;">{{ @$list->status == "" ? config('constants.empty') : str_limit(@$list->status, '50', '...') }} </td>
+											<td style="white-space: initial;">{{ @$list->first_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->first_name, '50', '...') }} {{ @$list->last_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->last_name, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->rating == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->rating, '50', '...') }} </td>
+											<td style="white-space: initial;">{{ @$list->client_id == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->client_id, '50', '...') }} </td>
+											<td style="white-space: initial;">{{ @$list->status == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->status, '50', '...') }} </td>
 											<td>-</td>
-											<td style="white-space: initial;">{{ @$list->tags == "" ? config('constants.empty') : str_limit(@$list->tags, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->tags == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->tags, '50', '...') }}</td>
 											<td>-</td>
-											<td style="white-space: initial;">{{ @$list->source == "" ? config('constants.empty') : str_limit(@$list->source, '50', '...') }}</td>
-											<td style="white-space: initial;">{{ @$list->phone == "" ? config('constants.empty') : str_limit(@$list->phone, '50', '...') }}</td>
-											<td style="white-space: initial;"><a data-id="{{@$list->id}}" data-email="{{@$list->email}}" data-name="{{@$list->first_name}} {{@$list->last_name}}" href="javascript:;" class="clientemail">{{ @$list->email == "" ? config('constants.empty') : str_limit(@$list->email, '50', '...') }}</a></td>
-											<td style="white-space: initial;">{{ @$list->address == "" ? config('constants.empty') : str_limit(@$list->address, '50', '...') }}</td>
-											<td style="white-space: initial;">{{ @$list->city == "" ? config('constants.empty') : str_limit(@$list->city, '50', '...') }}</td>
-											<td style="white-space: initial;">{{ @$list->state == "" ? config('constants.empty') : str_limit(@$list->state, '50', '...') }}</td>
-											<td style="white-space: initial;">{{ @$list->country == "" ? config('constants.empty') : str_limit(@$list->country, '50', '...') }}</td>
-											<td style="white-space: initial;">{{ @$list->country_passport == "" ? config('constants.empty') : str_limit(@$list->country_passport, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->source == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->source, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->phone == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->phone, '50', '...') }}</td>
+											<td style="white-space: initial;"><a data-id="{{@$list->id}}" data-email="{{@$list->email}}" data-name="{{@$list->first_name}} {{@$list->last_name}}" href="javascript:;" class="clientemail">{{ @$list->email == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->email, '50', '...') }}</a></td>
+											<td style="white-space: initial;">{{ @$list->address == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->address, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->city == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->city, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->state == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->state, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->country == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->country, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->country_passport == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->country_passport, '50', '...') }}</td>
 											<td style="white-space: initial;">{{ @$list->dob == "" ? config('constants.empty') : date('d/m/Y',strtotime(@$list->dob)) }}</td>
 											<td style="white-space: initial;">{{ @$list->created_at == "" ? config('constants.empty') : date('d/m/Y',strtotime(@$list->created_at)) }}</td>
 											<td>-</td>
 											<td>-</td>
 											<td>-</td>
 											<td style="white-space: initial;">{{ @$list->visaExpiry == "" ? config('constants.empty') : date('d/m/Y',strtotime(@$list->visaExpiry)) }}</td>
-											<td style="white-space: initial;">{{ @$list->preferredIntake == "" ? config('constants.empty') : str_limit(@$list->preferredIntake, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->preferredIntake == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->preferredIntake, '50', '...') }}</td>
 											<td>-</td>
 											<td>-</td>
-											<td style="white-space: initial;">{{ @$list->assignee == "" ? config('constants.empty') : str_limit(@$list->assignee, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->assignee == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->assignee, '50', '...') }}</td>
 											<td>-</td>
-											<td style="white-space: initial;">{{ @$list->followers == "" ? config('constants.empty') : str_limit(@$list->followers, '50', '...') }}</td>
+											<td style="white-space: initial;">{{ @$list->followers == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->followers, '50', '...') }}</td>
 										</tr>
 										<?php $i++; ?>
 										@endforeach	

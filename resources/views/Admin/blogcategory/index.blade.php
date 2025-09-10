@@ -53,7 +53,7 @@
 								@foreach (@$lists as $list)	
 								<tr id="id_{{@$list->id}}"> 
 								  <td>{{@$list->id}}</td> 
-								  <td style="white-space: initial;">{{ @$list->name == "" ? config('constants.empty') : str_limit(@$list->name, '50', '...') }}</td> 
+								  <td style="white-space: initial;">{{ @$list->name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->name, '50', '...') }}</td> 
 								  <td style="white-space: initial;">{{ @$list->slug }}</td> 
 								  <td style="white-space: initial;">{{ @$list->parent->name ?? "N/A"}}</td> 
 								  <td style="white-space: initial;"><input data-id="{{@$list->id}}"  data-status="{{@$list->status}}" data-col="status" data-table="blog_categories" class="change-status" value="1" type="checkbox" name="status" {{ (@$list->status == 1 ? 'checked' : '')}} data-bootstrap-switch></td> 

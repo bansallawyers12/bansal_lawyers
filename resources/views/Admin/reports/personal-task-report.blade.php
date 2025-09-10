@@ -62,14 +62,14 @@
 													$partnerdetail = \App\Models\Partner::where('id', $list->partner_id)->first();	
 												?>
 												<tr id="id_{{@$list->id}}">
-													<td>{{ @$list->category == "" ? config('constants.empty') : str_limit(@$list->category, '50', '...') }}</td>
-													<td style="white-space: normal;">{{ @$list->title == "" ? config('constants.empty') : str_limit(@$list->title, '50', '...') }}</td>
+													<td>{{ @$list->category == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->category, '50', '...') }}</td>
+													<td style="white-space: normal;">{{ @$list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->title, '50', '...') }}</td>
 													<td style="white-space: initial;">
 														<a href="{{URL::to('/admin/clients/detail'.base64_encode(convert_uuencode(@$client->id)))}}">{{@$client->first_name}} {{@$client->last_name}}</a>
 													</td>
-													<td style="white-space: initial;">{{ @$list->partner_name == "" ? config('constants.empty') : str_limit(@$list->partner_name, '50', '...') }}</td>
-													<td style="white-space: initial;">{{ @$list->description == "" ? config('constants.empty') : str_limit(@$list->description, '50', '...') }}</td>
-													<td style="white-space: initial;">{{ @$list->priority == "" ? config('constants.empty') : str_limit(@$list->priority, '50', '...') }}</td>
+													<td style="white-space: initial;">{{ @$list->partner_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->partner_name, '50', '...') }}</td>
+													<td style="white-space: initial;">{{ @$list->description == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->description, '50', '...') }}</td>
+													<td style="white-space: initial;">{{ @$list->priority == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->priority, '50', '...') }}</td>
 													<td>
 														<?php
 														if($list->status == 1){
@@ -87,9 +87,9 @@
 													<td>{{date('d/m/Y',strtotime($list->created_at))}}</td>
 													<td>-</td>
 													<td style="white-space: initial;">{{ @$list->due_date == "" ? config('constants.empty') : date('d/m/Y',strtotime($list->due_date)) }}</td>
-													<td style="white-space: initial;">{{ @$list->due_time == "" ? config('constants.empty') : str_limit(@$list->due_time, '50', '...') }}</td>
-													<td style="white-space: initial;">{{ @$list->followers == "" ? config('constants.empty') : str_limit(@$list->followers, '50', '...') }}</td>
-													<td style="white-space: initial;">{{ @$list->related_to == "" ? config('constants.empty') : str_limit(@$list->related_to, '50', '...') }}</td>
+													<td style="white-space: initial;">{{ @$list->due_time == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->due_time, '50', '...') }}</td>
+													<td style="white-space: initial;">{{ @$list->followers == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->followers, '50', '...') }}</td>
+													<td style="white-space: initial;">{{ @$list->related_to == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->related_to, '50', '...') }}</td>
 													<td>-</td>
 													<td>-</td>
 													<td>-</td>

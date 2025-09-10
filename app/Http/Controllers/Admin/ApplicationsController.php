@@ -330,8 +330,8 @@ class ApplicationsController extends Controller
 				?>
 					<div class="note_col" id="note_id_<?php echo $list->id; ?>"> 
 						<div class="note_content">
-							<h4><a class="viewapplicationnote" data-id="<?php echo $list->id; ?>" href="javascript:;"><?php echo @$list->title == "" ? config('constants.empty') : str_limit(@$list->title, '19', '...'); ?></a></h4>
-							<p><?php echo @$list->description == "" ? config('constants.empty') : str_limit(@$list->description, '15', '...'); ?></p>
+							<h4><a class="viewapplicationnote" data-id="<?php echo $list->id; ?>" href="javascript:;"><?php echo @$list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->title, '19', '...'); ?></a></h4>
+							<p><?php echo @$list->description == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->description, '15', '...'); ?></p>
 						</div>
 						<div class="extra_content">
 							<div class="left">

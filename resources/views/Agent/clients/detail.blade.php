@@ -647,7 +647,7 @@ use App\Http\Controllers\Controller;
 									?>
 										<div class="note_col" id="note_id_{{$list->id}}"> 
 											<div class="note_content">
-												<h4><a class="viewnote" data-id="{{$list->id}}" href="javascript:;">{{ @$list->title == "" ? config('constants.empty') : str_limit(@$list->title, '19', '...') }}</a></h4>
+												<h4><a class="viewnote" data-id="{{$list->id}}" href="javascript:;">{{ @$list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->title, '19', '...') }}</a></h4>
 											<?php if($list->pin == 1){
 									?><div class="pined_note"><i class="fa fa-thumbtack"></i></i></div><?php } ?>
 											</div>

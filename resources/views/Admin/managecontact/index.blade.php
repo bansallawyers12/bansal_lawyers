@@ -35,14 +35,14 @@
 								@if(@$totalData !== 0)
 								@foreach (@$lists as $list)
 									<tr id="id_{{@$list->id}}"> 
-										<td>{{ @$list->id == "" ? config('constants.empty') : str_limit(@$list->id, '50', '...') }}</td> 
-										<td>{{ @$list->srname == "" ? config('constants.empty') : str_limit(@$list->srname, '50', '...') }}
-										{{ @$list->first_name == "" ? config('constants.empty') : str_limit(@$list->first_name, '50', '...') }}
-										{{ @$list->middle_name == "" ? config('constants.empty') : str_limit(@$list->middle_name, '50', '...') }}
-										{{ @$list->last_name == "" ? config('constants.empty') : str_limit(@$list->last_name, '50', '...') }}</td> 
-										<td>{{ @$list->company_name == "" ? config('constants.empty') : str_limit(@$list->company_name, '50', '...') }}</td> 
-										<td>{{ @$list->contact_email == "" ? config('constants.empty') : str_limit(@$list->contact_email, '50', '...') }}</td>
-										<td>{{ @$list->contact_phone == "" ? config('constants.empty') : str_limit(@$list->contact_phone, '50', '...') }}, {{ @$list->work_phone == "" ? config('constants.empty') : str_limit(@$list->work_phone, '50', '...') }}</td>
+										<td>{{ @$list->id == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->id, '50', '...') }}</td> 
+										<td>{{ @$list->srname == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->srname, '50', '...') }}
+										{{ @$list->first_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->first_name, '50', '...') }}
+										{{ @$list->middle_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->middle_name, '50', '...') }}
+										{{ @$list->last_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->last_name, '50', '...') }}</td> 
+										<td>{{ @$list->company_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->company_name, '50', '...') }}</td> 
+										<td>{{ @$list->contact_email == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->contact_email, '50', '...') }}</td>
+										<td>{{ @$list->contact_phone == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->contact_phone, '50', '...') }}, {{ @$list->work_phone == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->work_phone, '50', '...') }}</td>
 										<td></td>
 										<td></td> 
 										<td>

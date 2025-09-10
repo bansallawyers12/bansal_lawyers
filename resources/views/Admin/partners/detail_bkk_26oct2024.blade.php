@@ -572,8 +572,8 @@ use App\Http\Controllers\Controller;
 									?>
 										<div class="note_col" id="note_id_{{$list->id}}"> 
 											<div class="note_content">
-												<h4><a class="viewnote" data-id="{{$list->id}}" href="javascript:;">{{ @$list->title == "" ? config('constants.empty') : str_limit(@$list->title, '19', '...') }}</a></h4>
-												<p><?php //echo @$list->description == "" ? config('constants.empty') : str_limit(@$list->description, '15', '...'); ?></p>
+												<h4><a class="viewnote" data-id="{{$list->id}}" href="javascript:;">{{ @$list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->title, '19', '...') }}</a></h4>
+												<p><?php //echo @$list->description == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->description, '15', '...'); ?></p>
 											</div>
 											<div class="extra_content">
 												<div class="left">
@@ -1055,7 +1055,7 @@ use App\Http\Controllers\Controller;
 											@endif
 												<div class="" style="margin-top: 15px!important;">
 													<h4>{{$promotion->promotion_title}}</h4>
-													<p>{{ @$promotion->promotion_desc == "" ? config('constants.empty') : str_limit(@$promotion->promotion_desc, '50', '...') }}</p>
+													<p>{{ @$promotion->promotion_desc == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$promotion->promotion_desc, '50', '...') }}</p>
 												</div>
 												<div class="" style="margin-top: 15px!important;">
 													<div class="row">

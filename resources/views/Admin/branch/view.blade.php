@@ -138,7 +138,7 @@
 													<td><a class="" data-id="{{$alist->id}}" href="{{URL::to('/admin/clients/detail')}}/{{base64_encode(convert_uuencode(@$alist->id))}}" style="display:block;">{{$alist->first_name}}</a> </td> 
 													<td>{{$alist->email}}</td>
 													
-													<td>{{ @$alist->usertype->name == "" ? config('constants.empty') : str_limit(@$alist->usertype->name, '50', '...') }}</td>
+													<td>{{ @$alist->usertype->name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$alist->usertype->name, '50', '...') }}</td>
 													
 													<td>@if($alist->status == 1) Active @else Inactive @endif</td> 
 													

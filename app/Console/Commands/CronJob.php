@@ -152,7 +152,7 @@ class CronJob extends Command
 		}
 		/* \DB::table('users')
             ->where('id', 1)
-            ->update(['course_level' => str_random(10)]);
+            ->update(['course_level' => \Illuminate\\Support\\Str::random(10)]);
          Mail::send('emails.test', [], function($message)
         {
             $message->to('pankaj95.mca10.lgc@gmail.com', 'John Doe')->subject('Test');

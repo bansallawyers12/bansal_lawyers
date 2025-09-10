@@ -203,7 +203,7 @@
 															<label for="checkbox-{{$i}}" class="custom-control-label">&nbsp;</label>
 														</div>
 													</td>
-													<td style="white-space: initial;"><a href="{{URL::to('/admin/clients/detail/'.base64_encode(convert_uuencode(@$list->id)))}}">{{ @$list->first_name == "" ? config('constants.empty') : str_limit(@$list->first_name, '50', '...') }} {{ @$list->last_name == "" ? config('constants.empty') : str_limit(@$list->last_name, '50', '...') }} </a><span class="badge btn-warning"><?php echo $list->type; ?></span><br/>{{--<a data-id="{{@$list->id}}" data-email="{{@$list->email}}" data-name="{{@$list->first_name}} {{@$list->last_name}}" href="javascript:;" class="clientemail">{{ @$list->email == "" ? config('constants.empty') : str_limit(@$list->email, '50', '...') }}</a>--}}</td> 
+													<td style="white-space: initial;"><a href="{{URL::to('/admin/clients/detail/'.base64_encode(convert_uuencode(@$list->id)))}}">{{ @$list->first_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->first_name, '50', '...') }} {{ @$list->last_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->last_name, '50', '...') }} </a><span class="badge btn-warning"><?php echo $list->type; ?></span><br/>{{--<a data-id="{{@$list->id}}" data-email="{{@$list->email}}" data-name="{{@$list->first_name}} {{@$list->last_name}}" href="javascript:;" class="clientemail">{{ @$list->email == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->email, '50', '...') }}</a>--}}</td> 
 													<?php
 													$agent = \App\Models\Agent::where('id', $list->agent_id)->first();
 													?>
@@ -241,10 +241,10 @@
 													</td>
 													<td style="white-space: initial;"><?php echo @$list->rating; ?></td>
 													
-													<td style="white-space: initial;">{{ @$list->client_id == "" ? config('constants.empty') : str_limit(@$list->client_id, '50', '...') }}</td> 
-													{{--<td>{{ @$list->phone == "" ? config('constants.empty') : str_limit(@$list->phone, '50', '...') }}</td> --}}
+													<td style="white-space: initial;">{{ @$list->client_id == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->client_id, '50', '...') }}</td> 
+													{{--<td>{{ @$list->phone == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->phone, '50', '...') }}</td> --}}
 													
-													<td style="white-space: initial;">{{ @$list->city == "" ? config('constants.empty') : str_limit(@$list->city, '50', '...') }}</td>
+													<td style="white-space: initial;">{{ @$list->city == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->city, '50', '...') }}</td>
 													<?php
 													$assignee = \App\Models\Admin::where('id',@$list->assignee)->first();
 													$explode = explode(',', $list->followers);
@@ -254,7 +254,7 @@
 														$followerss .= @$followers->first_name.', ';
 													}
 													?>
-													<td style="white-space: initial;">{{ @$assignee->first_name == "" ? config('constants.empty') : str_limit(@$assignee->first_name, '50', '...') }}</td> 
+													<td style="white-space: initial;">{{ @$assignee->first_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$assignee->first_name, '50', '...') }}</td> 
 													<td style="white-space: initial;">{{ rtrim(@$followerss,', ') }}</td> 
 													<td ><span class="ag-label--circular" style="color: #6777ef" >
 														In Progress
@@ -262,7 +262,7 @@
 													<td style="white-space: initial;"> - </td>
 													<td style="white-space: initial;">{{date('d/m/Y', strtotime($list->created_at))}}</td>
                                                     <td style="white-space: initial;">{{date('d/m/Y', strtotime($list->updated_at))}}</td>
-													<td style="white-space: initial;">{{ @$list->preferredIntake == "" ? config('constants.empty') : str_limit(@$list->preferredIntake, '50', '...') }}</td>  	
+													<td style="white-space: initial;">{{ @$list->preferredIntake == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->preferredIntake, '50', '...') }}</td>  	
 													<td style="white-space: initial;">
 														<div class="dropdown d-inline">
 															<button class="btn btn-primary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>

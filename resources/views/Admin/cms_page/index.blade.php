@@ -62,7 +62,7 @@
 								<tr id="id_{{@$list->id}}"> 
 								 <td>{{ ++$i }}</td>
                                   <td style="white-space: initial;"><img src="{{asset('public/img/cmspage')}}/{{$list->image}}" style="width: 50px;height: 50px;"/></td> 
-								  <td style="white-space: initial;">{{ @$list->title == "" ? config('constants.empty') : str_limit(@$list->title, '50', '...') }}</td> 
+								  <td style="white-space: initial;">{{ @$list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->title, '50', '...') }}</td> 
 								  <td style="white-space: initial;">{{ @$list->slug }}</td> 
                                   
                                   <td style="white-space: initial;"><input data-id="{{@$list->id}}"  data-status="{{@$list->status}}" data-col="status" data-table="cms_pages" class="change-status" value="1" type="checkbox" name="status" {{ (@$list->status == 1 ? 'checked' : '')}} data-bootstrap-switch></td>

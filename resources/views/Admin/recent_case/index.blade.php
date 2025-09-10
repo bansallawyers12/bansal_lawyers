@@ -79,7 +79,7 @@
                                                             <td><img src="{{URL::to('/public/img/avatars/no_image.jpeg')}}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
                                                         <?php } ?>
 
-                                                        <td style="white-space: initial;">{{ @$list->title == "" ? config('constants.empty') : str_limit(@$list->title, '50', '...') }}</td>
+                                                        <td style="white-space: initial;">{{ @$list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->title, 50, '...') }}</td>
                                                         <td style="white-space: initial;">{{ @$list->slug }}</td>
                                                         <td style="white-space: initial;"><input data-id="{{@$list->id}}"  data-status="{{ !empty($list->status) ? $list->status : 0 }}" data-col="status" data-table="recent_cases" class="change-status" value="1" type="checkbox" name="status" {{ (@$list->status == 1 ? 'checked' : '')}} data-bootstrap-switch></td>
                                                         <td>

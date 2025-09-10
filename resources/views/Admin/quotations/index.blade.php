@@ -139,7 +139,7 @@
 													</div>
 												</td>
 												<td><a href="{{URL::to('/admin/quotation/detail')}}/{{base64_encode(convert_uuencode(@$list->id))}}">{{@$list->id}}</a></td>
-												<td>{{ $client->first_name}} {{$client->last_name}}<br/>{{ @$client->email == "" ? config('constants.empty') : str_limit(@$client->email, '50', '...') }}</td> 
+												<td>{{ $client->first_name}} {{$client->last_name}}<br/>{{ @$client->email == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$client->email, '50', '...') }}</td> 
 												<td>{{$countqou}}</td>
 												<td>{{number_format($totfare,2,'.','')}} {{$list->currency}}</td>
 												<td class="statusupdate"><?php if($list->status == 0){ ?>

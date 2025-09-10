@@ -87,9 +87,9 @@
 								@if(@$totalData !== 0)
 								@foreach (@$lists as $list)	
 								<tr id="id_{{@$list->id}}"> 
-								  <td>{{ @$list->name == "" ? config('constants.empty') : str_limit(@$list->name, '50', '...') }}</td> 
+								  <td>{{ @$list->name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->name, '50', '...') }}</td> 
 								
-								  <td>{{ @$list->email == "" ? config('constants.empty') : str_limit(@$list->email, '50', '...') }}</td>  
+								  <td>{{ @$list->email == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->email, '50', '...') }}</td>  
 								  <td>{{ @$list->phone }}</td>  
 								  <td>{{ @$list->city }}</td>  
 								  <td>{{ @$list->dob }}</td>  

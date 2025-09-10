@@ -172,7 +172,7 @@
 												@foreach (@$lists as $list)
 												<tr id="id_{{@$list->id}}"> 
 													
-													<td><a href="{{URL::to('/agent/clients/detail/'.base64_encode(convert_uuencode(@$list->id)))}}">{{ @$list->first_name == "" ? config('constants.empty') : str_limit(@$list->first_name, '50', '...') }} {{ @$list->last_name == "" ? config('constants.empty') : str_limit(@$list->last_name, '50', '...') }}</a><br/>{{ @$list->email == "" ? config('constants.empty') : str_limit(@$list->email, '50', '...') }}</td> 
+													<td><a href="{{URL::to('/agent/clients/detail/'.base64_encode(convert_uuencode(@$list->id)))}}">{{ @$list->first_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->first_name, '50', '...') }} {{ @$list->last_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->last_name, '50', '...') }}</a><br/>{{ @$list->email == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->email, '50', '...') }}</td> 
 												
 												
 													<td>
@@ -208,10 +208,10 @@
 													</td>
 													<td><?php echo @$list->rating; ?></td>
 													
-													<td>{{ @$list->client_id == "" ? config('constants.empty') : str_limit(@$list->client_id, '50', '...') }}</td> 
-													<td>{{ @$list->phone == "" ? config('constants.empty') : str_limit(@$list->phone, '50', '...') }}</td> 
+													<td>{{ @$list->client_id == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->client_id, '50', '...') }}</td> 
+													<td>{{ @$list->phone == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->phone, '50', '...') }}</td> 
 													
-													<td>{{ @$list->city == "" ? config('constants.empty') : str_limit(@$list->city, '50', '...') }}</td>
+													<td>{{ @$list->city == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->city, '50', '...') }}</td>
 													<?php
 													$assignee = \App\Models\Admin::where('id',@$list->assignee)->first();
 													$explode = explode(',', $list->followers);
@@ -221,14 +221,14 @@
 														$followerss .= @$followers->first_name.', ';
 													}
 													?>
-													<td>{{ @$assignee->first_name == "" ? config('constants.empty') : str_limit(@$assignee->first_name, '50', '...') }}</td> 
+													<td>{{ @$assignee->first_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$assignee->first_name, '50', '...') }}</td> 
 													<td>{{ rtrim(@$followerss,', ') }}</td> 
 													<td><span class="ag-label--circular" style="color: #6777ef" >
 														In Progress
 													</span></td>
 													<td> - </td>
 													<td>{{date('Y-m-d', strtotime($list->created_at))}}</td>
-													<td>{{ @$list->preferredIntake == "" ? config('constants.empty') : str_limit(@$list->preferredIntake, '50', '...') }}</td>  	
+													<td>{{ @$list->preferredIntake == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->preferredIntake, '50', '...') }}</td>  	
 													<td>
 														<div class="dropdown d-inline">
 															<button class="btn btn-primary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>

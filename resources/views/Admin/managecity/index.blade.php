@@ -79,8 +79,8 @@
 								@foreach (@$lists as $list)	
 								<tr id="id_{{@$list->id}}">
 								<td><input class="checkSingle" type="checkbox" name="allcheckbox" value="{{@$list->id}}"></td>
-								  <td>{{ @$list->id == "" ? config('constants.empty') : str_limit(@$list->id, '50', '...') }}</td>		
-								  <td>{{ @$list->name == "" ? config('constants.empty') : str_limit(@$list->name, '50', '...') }}</td>
+								  <td>{{ @$list->id == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->id, '50', '...') }}</td>		
+								  <td>{{ @$list->name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->name, '50', '...') }}</td>
 								  <td>
 									<div class="nav-item dropdown action_dropdown">
 										<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>

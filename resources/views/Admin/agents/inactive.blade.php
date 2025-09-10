@@ -64,12 +64,12 @@
 															<label for="checkbox-1" class="custom-control-label">&nbsp;</label>
 														</div>
 													</td>
-													<td style="white-space: initial;"><a href="{{URL::to('/admin/agent/detail/'.base64_encode(convert_uuencode(@$list->id)))}}">{{ @$list->full_name == "" ? config('constants.empty') : str_limit(@$list->full_name, '50', '...') }}</a> <br/>{{--@$list->email == "" ? config('constants.empty') : str_limit(@$list->email, '50', '...')--}}</td> 
-													<td style="white-space: initial;">{{ @$list->agent_type == "" ? config('constants.empty') : str_limit(@$list->agent_type, '50', '...') }}</td>
-													<td style="white-space: initial;">{{ @$list->struture == "" ? config('constants.empty') : str_limit(@$list->struture, '50', '...') }}</td>
-													<!--<td>-->{{--@$list->country_code == "" ? config('constants.empty') : str_limit(@$list->country_code, '50', '...') }} {{ @$list->phone == "" ? config('constants.empty') : str_limit(@$list->phone, '50', '...')--}}<!--</td>-->	
-													<td style="white-space: initial;">{{ @$list->city == "" ? config('constants.empty') : str_limit(@$list->city, '50', '...') }}</td> 	
-													<td style="white-space: initial;">{{ @$list->related_office == "" ? config('constants.empty') : str_limit(@$list->related_office, '50', '...') }}</td> 	
+													<td style="white-space: initial;"><a href="{{URL::to('/admin/agent/detail/'.base64_encode(convert_uuencode(@$list->id)))}}">{{ @$list->full_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->full_name, '50', '...') }}</a> <br/>{{--@$list->email == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->email, '50', '...')--}}</td> 
+													<td style="white-space: initial;">{{ @$list->agent_type == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->agent_type, '50', '...') }}</td>
+													<td style="white-space: initial;">{{ @$list->struture == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->struture, '50', '...') }}</td>
+													<!--<td>-->{{--@$list->country_code == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->country_code, '50', '...') }} {{ @$list->phone == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->phone, '50', '...')--}}<!--</td>-->	
+													<td style="white-space: initial;">{{ @$list->city == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->city, '50', '...') }}</td> 	
+													<td style="white-space: initial;">{{ @$list->related_office == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->related_office, '50', '...') }}</td> 	
 													<td style="white-space: initial;">0</td> 	
 													<td style="white-space: initial;">0</td> 	
 													<td style="white-space: initial;">

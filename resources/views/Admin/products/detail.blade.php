@@ -502,7 +502,7 @@ use App\Http\Controllers\Controller;
 											@endif
 												<div class="" style="margin-top: 15px!important;">
 													<h4>{{$promotion->promotion_title}}</h4>
-													<p>{{ @$promotion->promotion_desc == "" ? config('constants.empty') : str_limit(@$promotion->promotion_desc, '50', '...') }}</p>
+													<p>{{ @$promotion->promotion_desc == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$promotion->promotion_desc, '50', '...') }}</p>
 												</div>
 												<div class="" style="margin-top: 15px!important;">
 													<div class="row">

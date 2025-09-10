@@ -87,17 +87,17 @@
 															<label for="checkbox-{{$i}}" class="custom-control-label">&nbsp;</label>
 														</div>
 													</td>
-													<td><a href="{{URL::to('admin/clients/detail/')}}/{{base64_encode(convert_uuencode(@$clientdetail->id))}}?tab=application&appid={{@$list->id}}">{{ @$list->id == "" ? config('constants.empty') : str_limit(@$list->id, '50', '...') }}</a></td> 
+													<td><a href="{{URL::to('admin/clients/detail/')}}/{{base64_encode(convert_uuencode(@$clientdetail->id))}}?tab=application&appid={{@$list->id}}">{{ @$list->id == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->id, '50', '...') }}</a></td> 
 													<td><a href="{{URL::to('admin/clients/detail/')}}/{{base64_encode(convert_uuencode(@$clientdetail->id))}}">{{@$clientdetail->first_name}} {{@$clientdetail->last_name}}</a></td> 
-													<td>{{ @$list->intakedate == "" ? config('constants.empty') : str_limit(@$list->intakedate, '50', '...') }} </td>
-													<td><a data-id="{{@$list->id}}" data-email="{{@$clientdetail->email}}" data-name="{{@$clientdetail->first_name}} {{@$clientdetail->last_name}}" href="javascript:;" class="clientemail">{{ @$clientdetail->email == "" ? config('constants.empty') : str_limit(@$clientdetail->email, '50', '...') }}</a></td>
+													<td>{{ @$list->intakedate == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->intakedate, '50', '...') }} </td>
+													<td><a data-id="{{@$list->id}}" data-email="{{@$clientdetail->email}}" data-name="{{@$clientdetail->first_name}} {{@$clientdetail->last_name}}" href="javascript:;" class="clientemail">{{ @$clientdetail->email == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$clientdetail->email, '50', '...') }}</a></td>
 													<td>-</td>
 													<td>{{@$clientdetail->client_id}} </td>
 													<td>{{date('d/m/Y',strtotime($clientdetail->dob))}}</td>
 													<td>{{@$clientdetail->phone}} </td>
 													<td>{{@$clientdetail->followers}} </td>
 													<td>-</td>
-													<td>{{ @$list->workflow == "" ? config('constants.empty') : str_limit(@$list->workflow, '50', '...') }} </td>
+													<td>{{ @$list->workflow == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->workflow, '50', '...') }} </td>
 													<td>{{@$partnerdetail->partner_name}}</td> 
 													<td>{{@$productdetail->name}}</td> 
 													<td>{{$PartnerBranch->name}}</td>
@@ -106,17 +106,17 @@
 													<td>-</td>
 													<td>-</td>
 													<td>-</td>
-													<td>{{ @$list->status == "" ? config('constants.empty') : str_limit(@$list->status, '50', '...') }} </td>
+													<td>{{ @$list->status == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->status, '50', '...') }} </td>
 													<td>-</td>
 													<td>-</td>
 													<td>-</td>
-													<td>{{ @$list->stage == "" ? config('constants.empty') : str_limit(@$list->stage, '50', '...') }} </td>
+													<td>{{ @$list->stage == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->stage, '50', '...') }} </td>
 													<td>{{@$clientdetail->assignee}} </td>
 													<td>{{ @$list->created_at == "" ? config('constants.empty') :  date('d/m/Y',strtotime($list->created_at)) }}</td>
 													<td>{{$PartnerBranch->name}}</td>
 													<td>{{@$clientdetail->source}} </td>
-													<td>{{ @$list->sub_agent == "" ? config('constants.empty') : str_limit(@$list->sub_agent, '50', '...') }}</td>
-													<td>{{ @$list->super_agent == "" ? config('constants.empty') : str_limit(@$list->super_agent, '50', '...') }}</td>
+													<td>{{ @$list->sub_agent == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->sub_agent, '50', '...') }}</td>
+													<td>{{ @$list->super_agent == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->super_agent, '50', '...') }}</td>
 													<td>{{date('d/m/Y',strtotime($clientdetail->visaExpiry))}} </td>
 													<td>{{ @$list->created_at == "" ? config('constants.empty') : date('d/m/Y',strtotime($list->created_at)) }}</td>
 													<td>{{ @$list->start_date == "" ? config('constants.empty') : date('d/m/Y',strtotime($list->start_date)) }}</td>

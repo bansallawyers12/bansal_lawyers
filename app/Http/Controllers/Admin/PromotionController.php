@@ -86,7 +86,7 @@ class PromotionController extends Controller
 				<?php }?>
 					<div class="" style="margin-top: 15px!important;">
 						<h4><?php echo $promotion->promotion_title; ?></h4>
-						<p><?php echo @$promotion->promotion_desc == "" ? config('constants.empty') : str_limit(@$promotion->promotion_desc, '50', '...'); ?></p>
+						<p><?php echo @$promotion->promotion_desc == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$promotion->promotion_desc, '50', '...'); ?></p>
 					</div>
 					<div class="" style="margin-top: 15px!important;">
 						<div class="row">

@@ -97,7 +97,7 @@ class RegisterController extends Controller
 		{	
 			$verifyUser = VerifyUser::create([
 				'user_id' => $result->id,
-				'token' => str_random(40)
+				'token' => \Illuminate\\Support\\Str::random(40)
 			]);
 			$tokenurl = \URL::to('/user/verify/'.$verifyUser->token);
 		$replaceav = array('{company_logo}','{emailid}','{tokenemail}');

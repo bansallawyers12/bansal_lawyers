@@ -1,10 +1,10 @@
 <?php Route::prefix('agent')->group(function() {
-        Route::get('/', 'Auth\AgentLoginController@showLoginForm')->name('agent.login');
-        Route::get('/login', 'Auth\AgentLoginController@showLoginForm')->name('agent.login');
+        Route::get('/', [App\Http\Controllers\Auth\AgentAuthenticatedSessionController::class, 'create'])->name('agent.login');
+        Route::get('/login', [App\Http\Controllers\Auth\AgentAuthenticatedSessionController::class, 'create'])->name('agent.login');
         
-        Route::post('/login', 'Auth\AgentLoginController@login')->name('agent.login');
+        Route::post('/login', [App\Http\Controllers\Auth\AgentAuthenticatedSessionController::class, 'store']);
         
-        Route::post('/logout', 'Auth\AgentLoginController@logout')->name('agent.logout');
+        Route::post('/logout', [App\Http\Controllers\Auth\AgentAuthenticatedSessionController::class, 'destroy'])->name('agent.logout');
         
         Route::get('/dashboard', 'Agent\DashboardController@dashboard')->name('agent.dashboard');
         

@@ -116,7 +116,7 @@
 								<select class="form-control select_mode">
 									@if(count(@$modeOfProduct) !== 0)
 										@foreach (@$modeOfProduct as $mode)
-											<option value="{{ @$mode->id }}" <?php echo @$minProduct->productOtherInfo[0]->mode_of_product == @$mode->id ? 'selected' : ''; ?>>{{ str_limit(@$mode->mode_product, '50', '...') }}</option>
+											<option value="{{ @$mode->id }}" <?php echo @$minProduct->productOtherInfo[0]->mode_of_product == @$mode->id ? 'selected' : ''; ?>>{{ \Illuminate\Support\Str::limit(@$mode->mode_product, '50', '...') }}</option>
 										@endforeach
 									@endif		
 								</select>
@@ -508,7 +508,7 @@
 											</span>
 											<br />
 											<span class="professor-name">
-												{{ @$list->professor->first_name == "" ? config('constants.empty') : str_limit(@$list->professor->first_name, '25', '...').' '.str_limit(@$list->professor->last_name, '25', '...') }}
+												{{ @$list->professor->first_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->professor->first_name, '25', '...').' '.\Illuminate\Support\Str::limit(@$list->professor->last_name, '25', '...') }}
 											</span>
 										</div>
 									</div>
@@ -558,7 +558,7 @@
 												<span class="icon-bar">|</span>
 											</li>
 											<li class="list-inline-item">
-												<span> {{ @$list->batch_type == "" ? config('constants.empty') : str_limit(@$list->batch_type, '25', '...') }}</span>
+												<span> {{ @$list->batch_type == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->batch_type, '25', '...') }}</span>
 											</li>
 										</ul>
 										<div class="add-to-links">
@@ -619,7 +619,7 @@
 											</span>
 											<br />
 											<span class="professor-name">
-												{{ @$list->professor->first_name == "" ? config('constants.empty') : str_limit(@$list->professor->first_name, '25', '...').' '.str_limit(@$list->professor->last_name, '25', '...') }}
+												{{ @$list->professor->first_name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->professor->first_name, '25', '...').' '.\Illuminate\Support\Str::limit(@$list->professor->last_name, '25', '...') }}
 											</span>
 										</div>
 									</div>
@@ -669,7 +669,7 @@
 												<span class="icon-bar">|</span>
 											</li>
 											<li class="list-inline-item">
-												<span> {{ @$list->batch_type == "" ? config('constants.empty') : str_limit(@$list->batch_type, '25', '...') }}</span>
+												<span> {{ @$list->batch_type == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->batch_type, '25', '...') }}</span>
 											</li>
 										</ul>
 										<div class="add-to-links">
