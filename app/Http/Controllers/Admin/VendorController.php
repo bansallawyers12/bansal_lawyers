@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
-use App\Subject;
-use App\Country;
-use App\VendorSubject;
+use App\Models\Subject;
+use App\Models\Country;
+use App\Models\VendorSubject;
 
 use Auth;
 use Config;

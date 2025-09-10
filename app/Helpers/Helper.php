@@ -1,7 +1,7 @@
 <?php
 namespace App\Helpers; // Your helpers namespace 
 use App\Models\User;
-use App\Company;
+use App\Models\Company;
 use Auth;
 use Exception;
 use Twilio\Rest\Client;

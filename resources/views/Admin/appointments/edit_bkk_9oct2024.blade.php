@@ -185,7 +185,7 @@
 											<select class="form-control  select2" name="noe_id" >
 												<option value="" >Select Nature of Enquiry</option>
 											<?php
-												foreach(\App\NatureOfEnquiry::all() as $list){
+												foreach(\App\Models\NatureOfEnquiry::all() as $list){
 													?>
 													<option <?php if(@$list->id == $appointment->noe_id){ echo 'selected'; } ?> value="{{@$list->id}}" >{{@$list->title}}</option>
 													<?php

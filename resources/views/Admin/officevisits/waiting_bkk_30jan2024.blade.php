@@ -48,7 +48,7 @@
 								  <div id="myDropdown" class="dropdown-content">
 								  <a href="{{URL::to('/admin/office-visits/waiting')}}">All Branches</a>
 								  <?php
-								  $branchs = \App\Branch::all();
+								  $branchs = \App\Models\Branch::all();
 								  foreach($branchs as $branch){
 									?>
 									<a href="{{URL::to('/admin/office-visits/waiting')}}?office={{$branch->id}}&office_name={{$branch->office_name}}">{{$branch->office_name}}</a>
@@ -84,12 +84,12 @@
 													<td>
 													<?php
 													if($list->contact_type == 'Lead'){
-												$client = \App\Lead::where('id', '=', $list->client_id)->first();	  
+												$client = \App\Models\Lead::where('id', '=', $list->client_id)->first();	  
 												 ?>
 										    <a href="{{URL::to('/admin/leads/history/'.base64_encode(convert_uuencode(@$client->id)))}}">{{@$client->first_name}} {{@$client->last_name}}</a>
 										    <?php
 										}else{
-										    $client = \App\Admin::where('role', '=', '7')->where('id', '=', $list->client_id)->first();
+										    $client = \App\Models\Admin::where('role', '=', '7')->where('id', '=', $list->client_id)->first();
 										    ?>
 										    <a href="{{URL::to('/admin/clients/detail/'.base64_encode(convert_uuencode(@$client->id)))}}">{{@$client->first_name}} {{@$client->last_name}}</a>
 										    <?php
@@ -102,7 +102,7 @@
 													<td>{{$list->visit_purpose}}</td>
 													<td>
 													<?php
-													$admin = \App\Admin::where('role', '!=', '7')->where('id', '=', $list->user_id)->first();
+													$admin = \App\Models\Admin::where('role', '!=', '7')->where('id', '=', $list->user_id)->first();
 													?>
 													<a href="{{URL::to('/admin/users/view/'.@$admin->id)}}">{{@$admin->first_name}} {{@$admin->last_name}}</a><br>{{@$admin->email}}
 													</td>

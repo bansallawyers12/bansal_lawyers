@@ -11,17 +11,17 @@
 					<div class="top-headline headline_left">
 						<div class="single-contact-info" >
 							<p style="color:#1E1755 !important">
-    <a href="mailto:<?php echo @\App\ThemeOption::where('meta_key','email')->first()->meta_value; ?>" style="color:#1E1755 !important; text-decoration: none; font-size:12px;font-weight: 400;">
+    <a href="mailto:<?php echo @\App\Models\ThemeOption::where('meta_key','email')->first()->meta_value; ?>" style="color:#1E1755 !important; text-decoration: none; font-size:12px;font-weight: 400;">
         <i class="fa fa-envelope-o" style="color:#1E1755 !important"></i>
-        <?php echo @\App\ThemeOption::where('meta_key','email')->first()->meta_value; ?>
+        <?php echo @\App\Models\ThemeOption::where('meta_key','email')->first()->meta_value; ?>
     </a>
 </p>
 							<p style="color:#1E1755 !important" >
   <i class="fa fa-phone" style="color:#1E1755 !important"></i>
-  <a href="tel:<?php echo @\App\ThemeOption::where('meta_key','phone')->first()->meta_value; ?>"
+  <a href="tel:<?php echo @\App\Models\ThemeOption::where('meta_key','phone')->first()->meta_value; ?>"
      style="color:#1E1755 !important; text-decoration: none;font-size:12px;font-weight: 400;;"
      onmouseover="this.style.color='#FF5733'" onmouseout="this.style.color='#1E1755'">
-    <?php echo @\App\ThemeOption::where('meta_key','phone')->first()->meta_value; ?>
+    <?php echo @\App\Models\ThemeOption::where('meta_key','phone')->first()->meta_value; ?>
   </a>
 </p>
 						</div>
@@ -33,8 +33,8 @@
                                 <li><a style="color:#1E1755 !important" href="<?php echo URL::to('/'); ?>/public/core-sol.pdf" target="_blank">Core Skills Occupation List(<?php echo date('d/m/Y');?>)</a></li>
 								<li><a style="color:#1E1755 !important" href="<?php echo URL::to('/'); ?>/book-an-appointment">Book An Appointment</a></li>
 								<li><a style="color:#1E1755 !important" href="<?php echo URL::to('/'); ?>/contact-us">Contact</a></li>
-              <!-- <li><a style="color:#1E1755 !important" href="<?php echo @\App\ThemeOption::where('meta_key','facebook')->first()->meta_value; ?>"><i class="fa fa-facebook"></i></a></li> --!>
-              <!--  <li><a style="color:#1E1755 !important" href="<?php echo @\App\ThemeOption::where('meta_key','twitter')->first()->meta_value; ?>"><i class="fa-brands fa-x-twitter"></i></a></li> --!>
+              <!-- <li><a style="color:#1E1755 !important" href="<?php echo @\App\Models\ThemeOption::where('meta_key','facebook')->first()->meta_value; ?>"><i class="fa fa-facebook"></i></a></li> --!>
+              <!--  <li><a style="color:#1E1755 !important" href="<?php echo @\App\Models\ThemeOption::where('meta_key','twitter')->first()->meta_value; ?>"><i class="fa-brands fa-x-twitter"></i></a></li> --!>
                                <!-- <li><a href="<?php echo URL::to('/'); ?>/blogs">Blog</a></li>  --!>
 
 							</ul>
@@ -56,7 +56,7 @@
 			<nav class="classy-navbar justify-content-between" id="cryptosNav">
 				<!-- Logo -->
 				<a class="nav-brand" href="<?php echo URL::to('/'); ?>">
-					<img src="{{asset('img/logo_img')}}/<?php echo @\App\ThemeOption::where('meta_key','logo')->first()->meta_value; ?>" alt="">
+					<img src="{{asset('img/logo_img')}}/<?php echo @\App\Models\ThemeOption::where('meta_key','logo')->first()->meta_value; ?>" alt="">
 				</a>
 				<!-- Navbar Toggler -->
 				<div class="classy-navbar-toggler">
@@ -285,7 +285,7 @@
 
           <nav class="custom-nav">
     <ul style="Merienda, cursive;font-optical-sizing: auto;font-style: normal;font-weight:100">
-        <li class="social"><a href="<?php echo @\App\ThemeOption::where('meta_key','facebook')->first()->meta_value; ?>"><i class="fa-brands fa-facebook"></i><span>Facebook</span></a></li>
+        <li class="social"><a href="<?php echo @\App\Models\ThemeOption::where('meta_key','facebook')->first()->meta_value; ?>"><i class="fa-brands fa-facebook"></i><span>Facebook</span></a></li>
       <li class="social"><a href="https://www.instagram.com/bansalimmigrationconsultants"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a></li>
         <li class="social"><a href="https://www.threads.net/@bansalimmigrationconsultants?hl=en"><i class="fa-brands fa-threads"></i><span>Thread</span></a></li>
         <li class="social"><a href="https://www.linkedin.com/company/18215774/admin/dashboard/"><i class="fa-brands fa-linkedin"></i><span>LinkedIn</span></a></li>

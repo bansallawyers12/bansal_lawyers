@@ -36,7 +36,7 @@
 $sched_res = [];
 
 if( $type == "Others" ){ //Ajay
-    $appointments = \App\Appointment::where(function ($query) {
+    $appointments = \App\Models\Appointment::where(function ($query) {
         $query->where(function ($q) {
             $q->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
               ->where('service_id', 1);
@@ -45,9 +45,9 @@ if( $type == "Others" ){ //Ajay
 }
 //dd($appointments);
 
-//$appointments = \App\Appointment::where('invites','=', Auth::user()->id)->get();
+//$appointments = \App\Models\Appointment::where('invites','=', Auth::user()->id)->get();
 foreach($appointments as $appointment){
-    $addd = \App\Admin::where('id',$appointment->client_id)->first();
+    $addd = \App\Models\Admin::where('id',$appointment->client_id)->first();
     $datetimes = $appointment->date;
     $datetime = $appointment->date.' '.$appointment->time;
     $curtime = date('Y-m-d');
@@ -139,7 +139,7 @@ foreach($appointments as $appointment){
         $row['timeslot_full'] = $appointment->timeslot_full;
 
         if( isset($appointment->noe_id) && $appointment->noe_id != "" ) {
-            $NatureOfEnquiry = \App\NatureOfEnquiry::select('title')->where('id', $appointment->noe_id)->first();
+            $NatureOfEnquiry = \App\Models\NatureOfEnquiry::select('title')->where('id', $appointment->noe_id)->first();
             $row['noe_id'] = $appointment->noe_id;
             if( !empty($NatureOfEnquiry) ){
                 $row['nature_of_enquiry'] = $NatureOfEnquiry->title;
@@ -149,7 +149,7 @@ foreach($appointments as $appointment){
         }
 
         if( isset($appointment->service_id) && $appointment->service_id != "" ) {
-            $BookService = \App\BookService::select('title','price','duration')->where('id', $appointment->service_id)->first();
+            $BookService = \App\Models\BookService::select('title','price','duration')->where('id', $appointment->service_id)->first();
             $row['service_id'] = $appointment->service_id;
             if( !empty($BookService) ){
                 $row['service'] = $BookService->title.' - '."Paid";

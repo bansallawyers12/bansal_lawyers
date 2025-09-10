@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\API\BaseController as BaseController;
 
 use App\Models\User;
-use App\PasswordResetLink;
+use App\Models\PasswordResetLink;
 use App\Models\Admin;
 use Validator;
 

@@ -17,7 +17,7 @@ class Blog extends Authenticatable {
 	
 	public function categorydetail()
     {
-        return $this->belongsTo(\App\BlogCategory::class, 'parent_category');
+        return $this->belongsTo(\App\Models\BlogCategory::class, 'parent_category');
     }
 
 }

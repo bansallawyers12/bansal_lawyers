@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
-use App\Workflow; 
-use App\WorkflowStage; 
+use App\Models\Workflow; 
+use App\Models\WorkflowStage; 
   
 use Auth; 
 use Config;

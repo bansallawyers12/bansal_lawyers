@@ -189,7 +189,7 @@ use App\Http\Controllers\Controller;
 							
 							<?php
                             //List if any attending inperssion session
-                            $attendingSessionExist = \App\CheckinLog::where('client_id', '=', $fetchedData->id)->where('status', '=', '2')->orderBy('id', 'DESC')->get();
+                            $attendingSessionExist = \App\Models\CheckinLog::where('client_id', '=', $fetchedData->id)->where('status', '=', '2')->orderBy('id', 'DESC')->get();
                             //dd(count($attendingSessionExist));
                             if(!empty($attendingSessionExist) && count($attendingSessionExist) >0){?>
                                 <div class="card-header-action">
@@ -275,10 +275,10 @@ use App\Http\Controllers\Controller;
 										    
 											<select class=&quot;assigneeselect2 form-control selec_reg&quot; id=&quot;rem_cat&quot; name=&quot;rem_cat&quot; onchange=&quot;&quot;>
 												<option value=&quot;&quot; >Select</option>
-												@foreach(\App\Admin::select('id', 'office_id', 'first_name', 'last_name')->where('role','!=',7)->where('status',1)->orderby('first_name','ASC')->get() as $admin)
+												@foreach(\App\Models\Admin::select('id', 'office_id', 'first_name', 'last_name')->where('role','!=',7)->where('status',1)->orderby('first_name','ASC')->get() as $admin)
                                                 
 												<?php
-												$branchname = \App\Branch::select('id', 'office_name')->where('id',$admin->office_id)->first();
+												$branchname = \App\Models\Branch::select('id', 'office_name')->where('id',$admin->office_id)->first();
 												?>
 												<option value=&quot;<?php echo $admin->id; ?>&quot;><?php echo $admin->first_name.' '.$admin->last_name.' ('.@$branchname->office_name.')'; ?></option>
 												@endforeach
@@ -334,7 +334,7 @@ use App\Http\Controllers\Controller;
 					    </div>" data-original-title="" title=""> Action</button></p>
 							</div>
 							<?php
-									$agent = \App\Agent::select('id', 'full_name', 'email')->where('id',@$fetchedData->agent_id)->first();
+									$agent = \App\Models\Agent::select('id', 'full_name', 'email')->where('id',@$fetchedData->agent_id)->first();
 									if($agent){
 										?>
 										<div class="client_assign client_info_tags">
@@ -457,7 +457,7 @@ use App\Http\Controllers\Controller;
 							<p class="clearfix">
 								<span class="float-left">Overall English score: </span>
 								<?php 
-									$testscores = \App\TestScore::where('client_id', $fetchedData->id)->where('type', 'client')->first();
+									$testscores = \App\Models\TestScore::where('client_id', $fetchedData->id)->where('type', 'client')->first();
 								?>
 								<span class="float-right text-muted">{{ isset($fetchedData->married_partner) ? $fetchedData->married_partner : '' }}
 
@@ -481,7 +481,7 @@ use App\Http\Controllers\Controller;
 								</div>
 							</div>
 							<?php
-								$addedby = \App\Admin::select('id', 'first_name', 'last_name')->where('id',@$fetchedData->user_id)->first();
+								$addedby = \App\Models\Admin::select('id', 'first_name', 'last_name')->where('id',@$fetchedData->user_id)->first();
 							?>
 							<div class="client_added client_info_tags">
 								<span class="">Added By:</span>
@@ -502,10 +502,10 @@ use App\Http\Controllers\Controller;
                                 //dd($fetchedData->assignee);
                                 if( Str::contains($fetchedData->assignee, ',')){
                                     $assigneeUArr = explode(",",$fetchedData->assignee);
-                                    $assigneeArr = \App\Admin::select('id', 'first_name', 'last_name')->whereIn('id',$assigneeUArr)->get();
+                                    $assigneeArr = \App\Models\Admin::select('id', 'first_name', 'last_name')->whereIn('id',$assigneeUArr)->get();
                                 } else {
                                     $assigneeU = $fetchedData->assignee;
-                                    $assigneeArr = \App\Admin::select('id', 'first_name', 'last_name')->where('id',$assigneeU)->get();
+                                    $assigneeArr = \App\Models\Admin::select('id', 'first_name', 'last_name')->where('id',$assigneeU)->get();
                                 }
                                 //dd($assigneeArr);
                                 ?>
@@ -543,8 +543,8 @@ use App\Http\Controllers\Controller;
 								        <tr>
 								            <td><select class="form-control select2" id="changeassignee" name="changeassignee[]" multiple="multiple">
 						                 	<?php
-												foreach(\App\Admin::select('id', 'office_id', 'first_name', 'last_name')->where('role','!=',7)->orderby('first_name','ASC')->get() as $admin){
-													$branchname = \App\Branch::select('id', 'office_name')->where('id',$admin->office_id)->first();
+												foreach(\App\Models\Admin::select('id', 'office_id', 'first_name', 'last_name')->where('role','!=',7)->orderby('first_name','ASC')->get() as $admin){
+													$branchname = \App\Models\Branch::select('id', 'office_name')->where('id',$admin->office_id)->first();
 											?>
 												<option value="<?php echo $admin->id; ?>"><?php echo $admin->first_name.' '.$admin->last_name.' ('.@$branchname->office_name.')'; ?></option>
 											<?php } ?>
@@ -589,7 +589,7 @@ use App\Http\Controllers\Controller;
 								<div class="client_info">
 								    <ul >
 										<?php
-											//$relatedclientss = \App\Admin::select('id',  'first_name', 'last_name')->whereRaw("FIND_IN_SET($fetchedData->id,related_files)")->get();
+											//$relatedclientss = \App\Models\Admin::select('id',  'first_name', 'last_name')->whereRaw("FIND_IN_SET($fetchedData->id,related_files)")->get();
 											//foreach($relatedclientss AS $res){
 										?>
 											<!--<li><a target="_blank" href="{{--URL::to('/admin/clients/detail/'.base64_encode(convert_uuencode(@$res->id)))--}}">{{--$res->first_name--}} {{--$res->last_name--}}</a></li>-->
@@ -601,7 +601,7 @@ use App\Http\Controllers\Controller;
 
 										?>
 										<?php   foreach($exploder AS $EXP){
-											$relatedclients = \App\Admin::where('id', $EXP)->first();
+											$relatedclients = \App\Models\Admin::where('id', $EXP)->first();
 										?>
 											<li><a target="_blank" href="{{URL::to('/admin/clients/detail/'.base64_encode(convert_uuencode(@$relatedclients->id)))}}">{{$relatedclients->first_name}} {{$relatedclients->last_name}}</a></li>
 										<?php } ?>
@@ -622,7 +622,7 @@ use App\Http\Controllers\Controller;
 										$rs = explode(',', $fetchedData->tagname);
 
 										foreach($rs as $key=>$r){
-											$stagd = \App\Tag::where('id','=',$r)->first();
+											$stagd = \App\Models\Tag::where('id','=',$r)->first();
 											if($stagd){
 											?>
 												<span class="ui label ag-flex ag-align-center ag-space-between" style="display: inline-flex;">
@@ -712,7 +712,7 @@ use App\Http\Controllers\Controller;
 								<div class="tab-pane fade <?php if(!isset($_GET['tab']) ){ echo 'show active'; } ?>" id="activities" role="tabpanel" aria-labelledby="activities-tab">
 									<div class="activities">
 										<?php
-										//$activities = \App\ActivitiesLog::where('client_id', $fetchedData->id)->orderby('created_at', 'DESC')->get(); 
+										//$activities = \App\Models\ActivitiesLog::where('client_id', $fetchedData->id)->orderby('created_at', 'DESC')->get(); 
 										//->where('subject', '<>','added a note')
 
 										if(
@@ -724,7 +724,7 @@ use App\Http\Controllers\Controller;
 											$keyword_search = $_REQUEST['keyword'];
 
 											if($user_search != "" && $keyword_search != "") { //dd('ifff111');
-												$activities = \App\ActivitiesLog::select('activities_logs.*','admins.first_name')
+												$activities = \App\Models\ActivitiesLog::select('activities_logs.*','admins.first_name')
                                                 ->leftJoin('admins', 'activities_logs.created_by', '=', 'admins.id')
 												->where('activities_logs.client_id', $fetchedData->id)
 												->where(function($query) use ($user_search) {
@@ -738,7 +738,7 @@ use App\Http\Controllers\Controller;
 												->get();
 											}
 											else if($user_search == "" && $keyword_search != "") { //dd('ifff2222');
-												$activities = \App\ActivitiesLog::select('activities_logs.*')
+												$activities = \App\Models\ActivitiesLog::select('activities_logs.*')
 												->where('activities_logs.client_id', $fetchedData->id)
 												->where(function($query) use ($keyword_search) {
 													$query->where('activities_logs.description', 'like', '%'.$keyword_search.'%');
@@ -748,7 +748,7 @@ use App\Http\Controllers\Controller;
 												->get();
 											}
 											else if($user_search != "" && $keyword_search == "") { //dd('ifff333');
-												$activities = \App\ActivitiesLog::select('activities_logs.*','admins.first_name')
+												$activities = \App\Models\ActivitiesLog::select('activities_logs.*','admins.first_name')
 												->leftJoin('admins', 'activities_logs.created_by', '=', 'admins.id')
 												->where('activities_logs.client_id', $fetchedData->id)
 												->where(function($query) use ($user_search) {
@@ -758,16 +758,16 @@ use App\Http\Controllers\Controller;
 												->get();
 											}
 										} else { //dd('elsee');
-                                            $activities = \App\ActivitiesLog::where('client_id', $fetchedData->id)
+                                            $activities = \App\Models\ActivitiesLog::where('client_id', $fetchedData->id)
                                             ->orderby('created_at', 'DESC')
                                             ->get(); //->where('subject', '<>','added a note')
                                         }
 
 										//dd($activities);
                                         foreach($activities as $activit){
-											$admin = \App\Admin::select('id', 'first_name', 'last_name')->where('id', $activit->created_by)->first();
+											$admin = \App\Models\Admin::select('id', 'first_name', 'last_name')->where('id', $activit->created_by)->first();
                                             /*if($activit->use_for != ""){
-                                                $receiver = \App\Admin::where('id', $activit->use_for)->first();
+                                                $receiver = \App\Models\Admin::where('id', $activit->use_for)->first();
                                                 if($receiver->first_name){
                                                     $reciver_name = "to <b>{$receiver->first_name}</b>";
                                                 } else {
@@ -854,13 +854,13 @@ use App\Http\Controllers\Controller;
 											</thead>
 											<tbody class="applicationtdata">
 											<?php
-											$application_data=\App\Application::where('client_id', $fetchedData->id)->orderby('created_at','Desc')->get();
+											$application_data=\App\Models\Application::where('client_id', $fetchedData->id)->orderby('created_at','Desc')->get();
 											if(count($application_data) > 0){
 											foreach($application_data as $alist){
-												$productdetail = \App\Product::where('id', $alist->product_id)->first();
-												$partnerdetail = \App\Partner::where('id', $alist->partner_id)->first();
-												$PartnerBranch = \App\PartnerBranch::where('id', $alist->branch)->first();
-												$workflow = \App\Workflow::where('id', $alist->workflow)->first();
+												$productdetail = \App\Models\Product::where('id', $alist->product_id)->first();
+												$partnerdetail = \App\Models\Partner::where('id', $alist->partner_id)->first();
+												$PartnerBranch = \App\Models\PartnerBranch::where('id', $alist->branch)->first();
+												$workflow = \App\Models\Workflow::where('id', $alist->workflow)->first();
 												?>
 												<tr id="id_{{$alist->id}}">
 													<td><a class="openapplicationdetail" data-id="{{$alist->id}}" href="javascript:;" style="display:block;">{{@$productdetail->name}}</a> <small>{{@$partnerdetail->partner_name}} ({{@$PartnerBranch->name}})</small></td>
@@ -917,13 +917,13 @@ use App\Http\Controllers\Controller;
 									<div class="interest_serv_list">
 
 									<?php
-									$inteservices = \App\InterestedService::where('client_id',$fetchedData->id)->orderby('created_at', 'DESC')->get();
+									$inteservices = \App\Models\InterestedService::where('client_id',$fetchedData->id)->orderby('created_at', 'DESC')->get();
 									foreach($inteservices as $inteservice){
-										$workflowdetail = \App\Workflow::where('id', $inteservice->workflow)->first();
-										 $productdetail = \App\Product::where('id', $inteservice->product)->first();
-										$partnerdetail = \App\Partner::where('id', $inteservice->partner)->first();
-										$PartnerBranch = \App\PartnerBranch::where('id', $inteservice->branch)->first();
-										$admin = \App\Admin::select('id','first_name', 'last_name')->where('id', $inteservice->user_id)->first();
+										$workflowdetail = \App\Models\Workflow::where('id', $inteservice->workflow)->first();
+										 $productdetail = \App\Models\Product::where('id', $inteservice->product)->first();
+										$partnerdetail = \App\Models\Partner::where('id', $inteservice->partner)->first();
+										$PartnerBranch = \App\Models\PartnerBranch::where('id', $inteservice->branch)->first();
+										$admin = \App\Models\Admin::select('id','first_name', 'last_name')->where('id', $inteservice->user_id)->first();
 									?>
 										<div class="interest_column">
 											<?php
@@ -957,13 +957,13 @@ use App\Http\Controllers\Controller;
 												$nettotal = $client_revenue + $partner_revenue - $discounts;
 
 
-												$appfeeoption = \App\ServiceFeeOption::where('app_id', $inteservice->id)->first();
+												$appfeeoption = \App\Models\ServiceFeeOption::where('app_id', $inteservice->id)->first();
 
 												$totl = 0.00;
 												$net = 0.00;
 												$discount = 0.00;
 												if($appfeeoption){
-													$appfeeoptiontype = \App\ServiceFeeOptionType::where('fee_id', $appfeeoption->id)->get();
+													$appfeeoptiontype = \App\Models\ServiceFeeOptionType::where('fee_id', $appfeeoption->id)->get();
 													foreach($appfeeoptiontype as $fee){
 														$totl += $fee->total_fee;
 													}
@@ -1059,9 +1059,9 @@ use App\Http\Controllers\Controller;
 												</thead>
 												<tbody class="tdata documnetlist">
 										<?php
-										$fetchd = \App\Document::where('client_id',$fetchedData->id)->where('doc_type', 'education')->where('type','client')->orderby('created_at', 'DESC')->get();
+										$fetchd = \App\Models\Document::where('client_id',$fetchedData->id)->where('doc_type', 'education')->where('type','client')->orderby('created_at', 'DESC')->get();
 										foreach($fetchd as $fetch){
-										$admin = \App\Admin::where('id', $fetch->user_id)->first();
+										$admin = \App\Models\Admin::where('id', $fetch->user_id)->first();
 										?>
 													<tr class="drow" id="id_{{$fetch->id}}">
 													<td  >
@@ -1099,7 +1099,7 @@ use App\Http\Controllers\Controller;
 									<div class="grid_data griddata">
 									<?php
 									foreach($fetchd as $fetch){
-										$admin = \App\Admin::select('id', 'first_name','email')->where('id', $fetch->user_id)->first();
+										$admin = \App\Models\Admin::select('id', 'first_name','email')->where('id', $fetch->user_id)->first();
 									?>
 										<div class="grid_list" id="gid_<?php echo $fetch->id; ?>">
 											<div class="grid_col">
@@ -1156,10 +1156,10 @@ use App\Http\Controllers\Controller;
 												</thead>
 												<tbody class="tdata migdocumnetlist">
 										<?php
-										$fetchd = \App\Document::where('client_id',$fetchedData->id)->where('doc_type', 'migration')->where('type','client')->orderby('created_at', 'DESC')->get();
+										$fetchd = \App\Models\Document::where('client_id',$fetchedData->id)->where('doc_type', 'migration')->where('type','client')->orderby('created_at', 'DESC')->get();
 										//dd($fetchd);
 										foreach($fetchd as $fetch){
-										$admin = \App\Admin::select('id', 'first_name','email')->where('id', $fetch->user_id)->first();
+										$admin = \App\Models\Admin::select('id', 'first_name','email')->where('id', $fetch->user_id)->first();
 										?>
 													<tr class="drow" id="id_{{$fetch->id}}">
 													<td  >
@@ -1197,7 +1197,7 @@ use App\Http\Controllers\Controller;
 									<div class="grid_data miggriddata">
 									<?php
 									foreach($fetchd as $fetch){
-										$admin = \App\Admin::select('id', 'first_name','email')->where('id', $fetch->user_id)->first();
+										$admin = \App\Models\Admin::select('id', 'first_name','email')->where('id', $fetch->user_id)->first();
 									?>
 										<div class="grid_list" id="gid_<?php echo $fetch->id; ?>">
 											<div class="grid_col">
@@ -1248,13 +1248,13 @@ use App\Http\Controllers\Controller;
                                                 </thead>
                                                 <tbody class="tdata alldocumnetlist">
                                                     <?php
-                                                    $fetchd = \App\Document::where('client_id',$fetchedData->id)->whereNull('not_used_doc')->where('doc_type', 'documents')->where('type','client')->orderby('updated_at', 'DESC')->get();
+                                                    $fetchd = \App\Models\Document::where('client_id',$fetchedData->id)->whereNull('not_used_doc')->where('doc_type', 'documents')->where('type','client')->orderby('updated_at', 'DESC')->get();
                                                     foreach($fetchd as $docKey=>$fetch)
                                                     {
-                                                        $admin = \App\Admin::where('id', $fetch->user_id)->first();
+                                                        $admin = \App\Models\Admin::where('id', $fetch->user_id)->first();
                                                         //Checklist verified by
                                                         if( isset($fetch->checklist_verified_by) && $fetch->checklist_verified_by != "") {
-                                                            $checklist_verified_Info = \App\Admin::select('first_name')->where('id', $fetch->checklist_verified_by)->first();
+                                                            $checklist_verified_Info = \App\Models\Admin::select('first_name')->where('id', $fetch->checklist_verified_by)->first();
                                                             $checklist_verified_by = $checklist_verified_Info->first_name;
                                                         } else {
                                                             $checklist_verified_by = 'N/A';
@@ -1375,7 +1375,7 @@ use App\Http\Controllers\Controller;
                                         <?php
                                         foreach($fetchd as $fetch)
                                         {
-                                            $admin = \App\Admin::where('id', $fetch->user_id)->first();
+                                            $admin = \App\Models\Admin::where('id', $fetch->user_id)->first();
                                             ?>
                                             <div class="grid_list" id="gid_<?php echo $fetch->id; ?>">
                                                 <div class="grid_col">
@@ -1440,8 +1440,8 @@ use App\Http\Controllers\Controller;
 												</thead>
 												<tbody class="tdata notuseddocumnetlist">
                                                     <?php
-                                                    //$fetchd = \App\Document::where('client_id',$fetchedData->id)->where('not_used_doc', 1)->where('doc_type', 'personal')->where('type','client')->orderby('updated_at', 'DESC')->get();
-                                                    $fetchd = \App\Document::where('client_id', $fetchedData->id)
+                                                    //$fetchd = \App\Models\Document::where('client_id',$fetchedData->id)->where('not_used_doc', 1)->where('doc_type', 'personal')->where('type','client')->orderby('updated_at', 'DESC')->get();
+                                                    $fetchd = \App\Models\Document::where('client_id', $fetchedData->id)
                                                     ->where('not_used_doc', 1)
                                                     ->where('type','client')
                                                     ->where('doc_type','documents')
@@ -1449,10 +1449,10 @@ use App\Http\Controllers\Controller;
                                                     //dd($fetchd);
                                                     foreach($fetchd as $notuseKey=>$fetch)
                                                     {
-                                                        $admin = \App\Admin::where('id', $fetch->user_id)->first();
+                                                        $admin = \App\Models\Admin::where('id', $fetch->user_id)->first();
                                                         //Checklist verified by
                                                         if( isset($fetch->checklist_verified_by) && $fetch->checklist_verified_by != "") {
-                                                            $checklist_verified_Info = \App\Admin::select('first_name')->where('id', $fetch->checklist_verified_by)->first();
+                                                            $checklist_verified_Info = \App\Models\Admin::select('first_name')->where('id', $fetch->checklist_verified_by)->first();
                                                             $checklist_verified_by = $checklist_verified_Info->first_name;
                                                         } else {
                                                             $checklist_verified_by = 'N/A';
@@ -1539,14 +1539,14 @@ use App\Http\Controllers\Controller;
 												<?php
 												$rr=0;
 												$appointmentdata = array();
-												$appointmentlists = \App\Appointment::where('client_id', $fetchedData->id)->where('related_to', 'client')->orderby('created_at', 'DESC')->get();
+												$appointmentlists = \App\Models\Appointment::where('client_id', $fetchedData->id)->where('related_to', 'client')->orderby('created_at', 'DESC')->get();
 												 
                                                 /*if($_SERVER["REMOTE_ADDR"] == '49.36.214.255') {
                                                     dd($appointmentlists);
                                                 }*/
-												$appointmentlistslast = \App\Appointment::where('client_id', $fetchedData->id)->where('related_to', 'client')->orderby('created_at', 'DESC')->first();
+												$appointmentlistslast = \App\Models\Appointment::where('client_id', $fetchedData->id)->where('related_to', 'client')->orderby('created_at', 'DESC')->first();
 												foreach($appointmentlists as $appointmentlist){
-													$admin = \App\Admin::select('id', 'first_name','email')->where('id', $appointmentlist->user_id)->first();
+													$admin = \App\Models\Admin::select('id', 'first_name','email')->where('id', $appointmentlist->user_id)->first();
 													$first_name= $admin->first_name ?? 'N/A';
 													$datetime = $appointmentlist->created_at;
 													$timeago = Controller::time_elapsed_string($datetime);
@@ -1594,7 +1594,7 @@ use App\Http\Controllers\Controller;
 												@if($appointmentlistslast)
 													<!--<a class="edit_link edit_appointment" href="javascript:;" data-id="<?php //echo @$appointmentlistslast->id; ?>"><i class="fa fa-edit"></i></a>-->
 													<?php
-													$adminfirst = \App\Admin::select('id', 'first_name','email')->where('id', @$appointmentlistslast->user_id)->first();
+													$adminfirst = \App\Models\Admin::select('id', 'first_name','email')->where('id', @$appointmentlistslast->user_id)->first();
 													?>
 													<div class="content">
 														<h4 class="appointmentname"><?php echo @$appointmentlistslast->title; ?></h4>
@@ -1632,11 +1632,11 @@ use App\Http\Controllers\Controller;
 									</div>
 									<div class="note_term_list">
 									<?php
-									$notelist = \App\Note::where('client_id', $fetchedData->id)->whereNull('assigned_to')->whereNull('task_group')->where('type', 'client')->orderby('pin', 'DESC')->orderBy('created_at', 'DESC')->get();
+									$notelist = \App\Models\Note::where('client_id', $fetchedData->id)->whereNull('assigned_to')->whereNull('task_group')->where('type', 'client')->orderby('pin', 'DESC')->orderBy('created_at', 'DESC')->get();
 									//dd($notelist);
                                     foreach($notelist as $list){
-										$admin = \App\Admin::select('id', 'first_name','email')->where('id', $list->user_id)->first();//dd($admin);
-										$color = \App\Team::select('color')->where('id',$admin->team)->first();
+										$admin = \App\Models\Admin::select('id', 'first_name','email')->where('id', $list->user_id)->first();//dd($admin);
+										$color = \App\Models\Team::select('color')->where('id',$admin->team)->first();
 
 									?>
 										<div class="note_col" id="note_id_{{$list->id}}">
@@ -1698,12 +1698,12 @@ use App\Http\Controllers\Controller;
 											</thead>
 											<tbody class="tdata">
 												<?php
-												$qlists = \App\Quotation::where('client_id', $fetchedData->id)->orderby('created_at','DESC')->get();
+												$qlists = \App\Models\Quotation::where('client_id', $fetchedData->id)->orderby('created_at','DESC')->get();
 												foreach($qlists as $qlist){
-													$client = \App\Admin::select('id', 'first_name','email')->where('id',$qlist->client_id)->where('role', 7)->first();
-									$createdby = \App\Admin::select('id', 'first_name','email')->where('id',$qlist->user_id)->first();
-									$countqou = \App\QuotationInfo::where('quotation_id',$qlist->id)->count();
-									$getq = \App\QuotationInfo::where('quotation_id',$qlist->id)->get();
+													$client = \App\Models\Admin::select('id', 'first_name','email')->where('id',$qlist->client_id)->where('role', 7)->first();
+									$createdby = \App\Models\Admin::select('id', 'first_name','email')->where('id',$qlist->user_id)->first();
+									$countqou = \App\Models\QuotationInfo::where('quotation_id',$qlist->id)->count();
+									$getq = \App\Models\QuotationInfo::where('quotation_id',$qlist->id)->get();
 									$totfare = 0;
 									foreach($getq as $q){
 										$servicefee = $q->service_fee;
@@ -1868,16 +1868,16 @@ use App\Http\Controllers\Controller;
 											</thead>
 											<tbody class="tdata invoicedatalist">
 												<?php
-												$invoicelists = \App\Invoice::where('client_id',$fetchedData->id)->orderby('created_at','DESC')->get();
+												$invoicelists = \App\Models\Invoice::where('client_id',$fetchedData->id)->orderby('created_at','DESC')->get();
 												foreach($invoicelists as $invoicelist){
 													if($invoicelist->type == 3){
-														$workflowdaa = \App\Workflow::where('id', $invoicelist->application_id)->first();
+														$workflowdaa = \App\Models\Workflow::where('id', $invoicelist->application_id)->first();
 													}else{
-														$applicationdata = \App\Application::where('id', $invoicelist->application_id)->first();
-														$workflowdaa = \App\Workflow::where('id', $invoicelist->application_id)->first();
-														$partnerdata = \App\Partner::where('id', @$applicationdata->partner_id)->first();
+														$applicationdata = \App\Models\Application::where('id', $invoicelist->application_id)->first();
+														$workflowdaa = \App\Models\Workflow::where('id', $invoicelist->application_id)->first();
+														$partnerdata = \App\Models\Partner::where('id', @$applicationdata->partner_id)->first();
 													}
-													$invoiceitemdetails = \App\InvoiceDetail::where('invoice_id', $invoicelist->id)->orderby('id','ASC')->get();
+													$invoiceitemdetails = \App\Models\InvoiceDetail::where('invoice_id', $invoicelist->id)->orderby('id','ASC')->get();
 													$netamount = 0;
 													$coom_amt = 0;
 													$total_fee = 0;
@@ -1887,7 +1887,7 @@ use App\Http\Controllers\Controller;
 														$total_fee += $invoiceitemdetail->total_fee;
 													}
 
-													$paymentdetails = \App\InvoicePayment::where('invoice_id', $invoicelist->id)->orderby('created_at', 'DESC')->get();
+													$paymentdetails = \App\Models\InvoicePayment::where('invoice_id', $invoicelist->id)->orderby('created_at', 'DESC')->get();
 													$amount_rec = 0;
 													foreach($paymentdetails as $paymentdetail){
 														$amount_rec += $paymentdetail->amount_rec;
@@ -1974,7 +1974,7 @@ use App\Http\Controllers\Controller;
 
 												<?php
 
-											$mailreports = \App\MailReport::where('client_id',$fetchedData->id)->where('type','client')->where('mail_type',1)->orderby('created_at', 'DESC')->get();
+											$mailreports = \App\Models\MailReport::where('client_id',$fetchedData->id)->where('type','client')->where('mail_type',1)->orderby('created_at', 'DESC')->get();
 
 											foreach($mailreports as $mailreport){
 
@@ -2029,8 +2029,8 @@ use App\Http\Controllers\Controller;
 														<div class="divider"></div>
 														<?php
 														/* if($mailreport->reciept_id != ''){
-															if(\App\InvoicePayment::where('id',$mailreport->reciept_id)->exists()){
-																$invpayment = \App\InvoicePayment::where('id',$mailreport->reciept_id)->first();
+															if(\App\Models\InvoicePayment::where('id',$mailreport->reciept_id)->exists()){
+																$invpayment = \App\Models\InvoicePayment::where('id',$mailreport->reciept_id)->first();
 														?>
 														<div class="email_attachment">
 															<span class="attach_label"><i class="fa fa-link"></i> Attachments:</span>
@@ -2049,12 +2049,12 @@ use App\Http\Controllers\Controller;
 										<div class="tab-pane fade  show active" id="sent" role="tabpanel" aria-labelledby="sent-tab">
 											<?php
 
-											$mailreports = \App\MailReport::whereRaw('FIND_IN_SET("'.$fetchedData->id.'", to_mail)')->where('type','client')->where('mail_type',0)->orderby('created_at', 'DESC')->get();
+											$mailreports = \App\Models\MailReport::whereRaw('FIND_IN_SET("'.$fetchedData->id.'", to_mail)')->where('type','client')->where('mail_type',0)->orderby('created_at', 'DESC')->get();
 
 											foreach($mailreports as $mailreport){
-												$admin = \App\Admin::select('id', 'first_name','email')->where('id', $mailreport->user_id)->first();
+												$admin = \App\Models\Admin::select('id', 'first_name','email')->where('id', $mailreport->user_id)->first();
 
-												$client = \App\Admin::select('id', 'first_name','email')->Where('id', $fetchedData->id)->first();
+												$client = \App\Models\Admin::select('id', 'first_name','email')->Where('id', $fetchedData->id)->first();
 												$subject = str_replace('{Client First Name}',$client->first_name, $mailreport->subject);
 												$message = $mailreport->message;
 												$message = str_replace('{Client First Name}',$client->first_name, $message);
@@ -2114,8 +2114,8 @@ use App\Http\Controllers\Controller;
 														<div class="divider"></div>
 														<?php
 														if($mailreport->reciept_id != ''){
-															if(\App\InvoicePayment::where('id',$mailreport->reciept_id)->exists()){
-																$invpayment = \App\InvoicePayment::where('id',$mailreport->reciept_id)->first();
+															if(\App\Models\InvoicePayment::where('id',$mailreport->reciept_id)->exists()){
+																$invpayment = \App\Models\InvoicePayment::where('id',$mailreport->reciept_id)->first();
 														?>
 														<div class="email_attachment">
 															<span class="attach_label"><i class="fa fa-link"></i> Attachments:</span>
@@ -2158,8 +2158,8 @@ use App\Http\Controllers\Controller;
 											</thead>-->
 											<tbody class="taskdata ">
 											<?php
-											foreach(\App\Task::where('client_id', $fetchedData->id)->orderby('created_at','Desc')->get() as $alist){
-												$admin = \App\Admin::where('id', $alist->user_id)->first();
+											foreach(\App\Models\Task::where('client_id', $fetchedData->id)->orderby('created_at','Desc')->get() as $alist){
+												$admin = \App\Models\Admin::where('id', $alist->user_id)->first();
 												?>
 												<tr class="opentaskview" style="cursor:pointer;" id="{{$alist->id}}">
 													<td><?php if($alist->status == 1 || $alist->status == 2){ echo "<span class='check'><i class='fa fa-check'></i></span>"; } else{ echo "<span class='round'></span>"; } ?></td>
@@ -2209,7 +2209,7 @@ use App\Http\Controllers\Controller;
 
 									<div class="education_list">
 									<?php
-									$totalecount = \App\Education::where('client_id', $fetchedData->id)->orderby('created_at','DESC')->count();
+									$totalecount = \App\Models\Education::where('client_id', $fetchedData->id)->orderby('created_at','DESC')->count();
 									if($totalecount == 0){
 									?>
 									<div class="edu_note">
@@ -2217,11 +2217,11 @@ use App\Http\Controllers\Controller;
 									</div>
 									<?php } ?>
 										<?php
-										$edulists = \App\Education::where('client_id', $fetchedData->id)->orderby('created_at','DESC')->get();
+										$edulists = \App\Models\Education::where('client_id', $fetchedData->id)->orderby('created_at','DESC')->get();
 
 										foreach($edulists as $edulist){
-											$subjectdetail = \App\Subject::where('id',$edulist->subject)->first();
-											$subjectareadetail = \App\SubjectArea::where('id',$edulist->subject_area)->first();
+											$subjectdetail = \App\Models\Subject::where('id',$edulist->subject)->first();
+											$subjectareadetail = \App\Models\SubjectArea::where('id',$edulist->subject_area)->first();
 											?>
 											<div class="education_item" id="edu_id_<?php echo $edulist->id; ?>">
 										<div class="row">
@@ -2274,7 +2274,7 @@ use App\Http\Controllers\Controller;
 											<div class="edu_test_col"><span>Date</span></div>
 										</div>
 										<?php
-										$testscores = \App\TestScore::where('client_id', $fetchedData->id)->where('type', 'client')->first();
+										$testscores = \App\Models\TestScore::where('client_id', $fetchedData->id)->where('type', 'client')->first();
 										?>
 										<div class="edu_test_row flex_row">
 											<div class="edu_test_col"><span>TOEFL</span></div>
@@ -2354,7 +2354,7 @@ use App\Http\Controllers\Controller;
 											</thead>
 											<tbody class="tdata checindata">
 											<?php
-											$checkins = \App\CheckinLog::where('client_id', $fetchedData->id)->orderby('created_at','DESC')->get();
+											$checkins = \App\Models\CheckinLog::where('client_id', $fetchedData->id)->orderby('created_at','DESC')->get();
 											foreach($checkins as $checkin){
 											?>
 												<tr did="{{@$checkin->id}}" id="id_{{$checkin->id}}">
@@ -2366,7 +2366,7 @@ use App\Http\Controllers\Controller;
 													<td>{{$checkin->visit_purpose}}</td>
 													<td>
 													<?php
-													$ad = \App\Admin::select('id', 'first_name','email')->where('id', $checkin->user_id)->first();
+													$ad = \App\Models\Admin::select('id', 'first_name','email')->where('id', $checkin->user_id)->first();
 													echo @$ad->first_name.' <br>'.@$ad->email;
 													?>
 													</td>
@@ -2520,7 +2520,7 @@ use App\Http\Controllers\Controller;
 										</ul>
 										<div class="tab-content " id="clientContent" style="padding-top:15px;">
 											<div class="tab-pane fade show active" id="formprimary" role="tabpanel" aria-labelledby="formprimary-tab">
-											<?php $primarydetail = \App\OnlineForm::where('type', 'primary')->where('client_id', $fetchedData->id)->first(); ?>
+											<?php $primarydetail = \App\Models\OnlineForm::where('type', 'primary')->where('client_id', $fetchedData->id)->first(); ?>
 											<form method="post"  action="{{URL::to('/admin/saveonlineprimaryform')}}" autocomplete="off" name="saveonlineprimaryform" id="saveonlineprimaryform" enctype="multipart/form-data">
 											@csrf
 											<input type="hidden" name="client_id" value="{{$fetchedData->id}}">
@@ -2732,7 +2732,7 @@ use App\Http\Controllers\Controller;
 									</form>
 																			</div>
 										<div class="tab-pane fade" id="formsec" role="tabpanel" aria-labelledby="formsec-tab">
-									<?php $secdetail = \App\OnlineForm::where('type', 'secondary')->where('client_id', $fetchedData->id)->first(); ?>
+									<?php $secdetail = \App\Models\OnlineForm::where('type', 'secondary')->where('client_id', $fetchedData->id)->first(); ?>
 									<form method="post"  action="{{URL::to('/admin/saveonlinesecform')}}" autocomplete="off" name="saveonlinesecform" id="saveonlinesecform" enctype="multipart/form-data">
 									@csrf
 									<input type="hidden" name="client_id" value="{{$fetchedData->id}}">
@@ -2944,7 +2944,7 @@ use App\Http\Controllers\Controller;
 									</form>
 																			</div>
 									<div class="tab-pane fade" id="formchild" role="tabpanel" aria-labelledby="formchild-tab">
-									<?php $childdetail = \App\OnlineForm::where('type', 'child')->where('client_id', $fetchedData->id)->first(); ?>
+									<?php $childdetail = \App\Models\OnlineForm::where('type', 'child')->where('client_id', $fetchedData->id)->first(); ?>
 									<form method="post"  action="{{URL::to('/admin/saveonlinechildform')}}" autocomplete="off" name="saveonlinechildform" id="saveonlinechildform" enctype="multipart/form-data">
 									@csrf
 									<input type="hidden" name="client_id" value="{{$fetchedData->id}}">
@@ -3189,7 +3189,7 @@ use App\Http\Controllers\Controller;
 								<label for="email_from">From <span class="span_req">*</span></label>
 								<select class="form-control" name="email_from">
 									<?php
-									$emails = \App\Email::select('email')->where('status', 1)->get();
+									$emails = \App\Models\Email::select('email')->where('status', 1)->get();
 									foreach($emails as $nemail){
 										?>
 											<option value="<?php echo $nemail->email; ?>"><?php echo $nemail->email; ?></option>
@@ -3235,7 +3235,7 @@ use App\Http\Controllers\Controller;
 								<label for="template">Templates </label>
 								<select data-valid="" class="form-control select2 selecttemplate" name="template">
 									<option value="">Select</option>
-									@foreach(\App\CrmEmailTemplate::all() as $list)
+									@foreach(\App\Models\CrmEmailTemplate::all() as $list)
 										<option value="{{$list->id}}">{{$list->name}}</option>
 									@endforeach
 								</select>
@@ -3281,7 +3281,7 @@ use App\Http\Controllers\Controller;
 							        </tr>
 							    </thead>
 							    <tbody>
-							        @foreach(\App\UploadChecklist::all() as $uclist)
+							        @foreach(\App\Models\UploadChecklist::all() as $uclist)
 							        <tr>
 							            <td><input type="checkbox" name="checklistfile[]" value="<?php echo $uclist->id; ?>"></td>
 							            <td><?php echo $uclist->name; ?></td>
@@ -3521,7 +3521,7 @@ use App\Http\Controllers\Controller;
 								<label for="super_agent">Super Agent <span class="span_req">*</span></label>
 								<select data-valid="required" class="form-control super_agent" id="super_agent" name="super_agent">
 									<option value="">Please Select</option>
-									<?php $sagents = \App\Agent::whereRaw('FIND_IN_SET("Super Agent", agent_type)')->get(); ?>
+									<?php $sagents = \App\Models\Agent::whereRaw('FIND_IN_SET("Super Agent", agent_type)')->get(); ?>
 									@foreach($sagents as $sa)
 										<option value="{{$sa->id}}">{{$sa->full_name}} {{$sa->email}}</option>
 									@endforeach
@@ -3562,7 +3562,7 @@ use App\Http\Controllers\Controller;
 								<label for="sub_agent">Sub Agent <span class="span_req">*</span></label>
 								<select data-valid="required" class="form-control sub_agent" id="sub_agent" name="sub_agent">
 									<option value="">Please Select</option>
-									<?php $sagents = \App\Agent::whereRaw('FIND_IN_SET("Sub Agent", agent_type)')->where('is_acrchived',0)->get(); ?>
+									<?php $sagents = \App\Models\Agent::whereRaw('FIND_IN_SET("Sub Agent", agent_type)')->where('is_acrchived',0)->get(); ?>
 									@foreach($sagents as $sa)
 										<option value="{{$sa->id}}">{{$sa->full_name}} {{$sa->email}}</option>
 									@endforeach
@@ -3609,7 +3609,7 @@ use App\Http\Controllers\Controller;
                                     }*/
                                     ?>
 									<!--<option value="">Please Select</option>-->
-									<?php //$stagd = \App\Tag::where('id','!=','')->paginate(5); ?>
+									<?php //$stagd = \App\Models\Tag::where('id','!=','')->paginate(5); ?>
 									{{--@foreach($stagd as $sa)--}}
 										<!--<option <?php //if(in_array($sa->id, $r)){ echo 'selected'; } ?> value="{{--$sa->id--}}">{{--$sa->name--}}</option>-->
 									{{--@endforeach--}}
@@ -3865,7 +3865,7 @@ use App\Http\Controllers\Controller;
 if($fetchedData->tagname != ''){
    $tagnameArr = explode(',', $fetchedData->tagname);
    foreach($tagnameArr AS $tag1){
-       $tagWord = \App\Tag::where('id', $tag1)->first();
+       $tagWord = \App\Models\Tag::where('id', $tag1)->first();
    ?>
 <input type="hidden" class="relatedtag" data-name="<?php echo $tagWord->name; ?>" data-id="<?php echo $tagWord->id; ?>">
 <?php

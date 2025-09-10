@@ -1,5 +1,5 @@
 <?php
-	$officequery 		= \App\OurOffice::where('id', '!=', '')->where('status', '=', 1);
+	$officequery 		= \App\Models\OurOffice::where('id', '!=', '')->where('status', '=', 1);
 	$officeData 		= $officequery->count();	//for all data
 	$officelists		=  $officequery->orderby('id','DESC')->paginate(4);
 ?>
@@ -18,7 +18,7 @@
 					<div class="footer-widget">
 						<div class="footer_logo">
 							<a class="logo_link" href="<?php echo URL::to('/'); ?>">
-								<img src="{{asset('img/logo_img')}}/<?php echo @\App\ThemeOption::where('meta_key','logo')->first()->meta_value; ?>" alt="">
+								<img src="{{asset('img/logo_img')}}/<?php echo @\App\Models\ThemeOption::where('meta_key','logo')->first()->meta_value; ?>" alt="">
 							</a>
 						</div>
 						<div class="widget-title">
@@ -58,23 +58,23 @@
 								</ul>
 								<div class="footer_social_info">
 									<ul class="social_link">
-										<?php $fbicon = @\App\ThemeOption::where('meta_key','facebook')->first()->meta_value; ?>
+										<?php $fbicon = @\App\Models\ThemeOption::where('meta_key','facebook')->first()->meta_value; ?>
 										<?php if($fbicon !=  ''){  ?>
 										<li class="fb_icon"><a href="<?php echo $fbicon; ?>"><i class="fa fa-facebook"></i></a></li>
 										<?php } ?>
-										<?php $twicon = @\App\ThemeOption::where('meta_key','twitter')->first()->meta_value; ?>
+										<?php $twicon = @\App\Models\ThemeOption::where('meta_key','twitter')->first()->meta_value; ?>
 										<?php if($twicon !=  ''){  ?>
 										<li class="tw_icon"><a href="<?php echo $twicon; ?>"><i class="fa-brands fa-square-x-twitter"></i></a></li>
 										<?php } ?>
-										<?php $lkedicon = @\App\ThemeOption::where('meta_key','linkedin')->first()->meta_value; ?>
+										<?php $lkedicon = @\App\Models\ThemeOption::where('meta_key','linkedin')->first()->meta_value; ?>
 										<?php if($lkedicon !=  ''){  ?>
 										<li class="lked_icon"><a href="<?php echo $lkedicon; ?>"><i class="fa fa-linkedin"></i></a></li>
 										<?php } ?>
-										<?php $instaicon = @\App\ThemeOption::where('meta_key','instagram')->first()->meta_value; ?>
+										<?php $instaicon = @\App\Models\ThemeOption::where('meta_key','instagram')->first()->meta_value; ?>
 										<?php if($instaicon !=  ''){  ?>
 										<li class="ins_icon"><a href="<?php echo $instaicon; ?>"><i class="fa fa-instagram"></i></a></li>
 										<?php } ?>
-										<?php $yutubeicon = @\App\ThemeOption::where('meta_key','youtube')->first()->meta_value; ?>
+										<?php $yutubeicon = @\App\Models\ThemeOption::where('meta_key','youtube')->first()->meta_value; ?>
 										<?php if($yutubeicon !=  ''){  ?>
 										<li class="ytube_icon"><a href="<?php echo $yutubeicon; ?>"><i class="fa fa-youtube-play"></i></a></li>
 										<?php } ?>
@@ -93,7 +93,7 @@
 		<div class="container h-100">
 			<div class="row h-100 align-items-center justify-content-center">
 				<div class="col-12">
-					<p><?php echo @\App\ThemeOption::where('meta_key','copyright_txt')->first()->meta_value; ?></p>
+					<p><?php echo @\App\Models\ThemeOption::where('meta_key','copyright_txt')->first()->meta_value; ?></p>
 				</div>
 			</div>
 		</div>

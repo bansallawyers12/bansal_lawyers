@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
-use App\VendorSubject;
-use App\Test;
-use App\ScheduledTest;
+use App\Models\VendorSubject;
+use App\Models\Test;
+use App\Models\ScheduledTest;
 use App\Models\User;
 
 use Auth;

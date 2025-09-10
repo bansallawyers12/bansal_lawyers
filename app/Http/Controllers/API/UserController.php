@@ -7,7 +7,7 @@ use App\Http\Controllers\API\BaseController as BaseController;
 
 use Config;
 use App\Models\Admin;
-use App\PasswordResetLink;
+use App\Models\PasswordResetLink;
 use App\Models\User;
 use Validator;
 use DB;

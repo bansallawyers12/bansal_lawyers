@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
-use App\VisaType; 
+use App\Models\VisaType; 
   
 use Auth; 
 use Config;

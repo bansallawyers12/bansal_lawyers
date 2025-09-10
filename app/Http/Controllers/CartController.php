@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Professor;
-use App\Product;
-use App\ProductOtherInformation;
-use App\ProductDemoVideo;
-use App\MyCart;
-use App\CartItem;
-use App\WebsiteSetting;
+use App\Models\Professor;
+use App\Models\Product;
+use App\Models\ProductOtherInformation;
+use App\Models\ProductDemoVideo;
+use App\Models\MyCart;
+use App\Models\CartItem;
+use App\Models\WebsiteSetting;
 
 
 use Cookie;

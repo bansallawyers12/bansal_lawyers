@@ -43,9 +43,9 @@ class AppointmentBookController extends Controller {
 		$phone = $requestData['phone'];
 		$date = explode('/', $requestData['date']);
 		$datey = $date[2].'-'.$date[1].'-'.$date[0];
-        $service = \App\BookService::find($requestData['service_id']);
+        $service = \App\Models\BookService::find($requestData['service_id']);
 
-		$user = \App\Admin::where(function ($query) use($requestData){
+		$user = \App\Models\Admin::where(function ($query) use($requestData){
 			$query->where('email',$requestData['email'])
 				  ->orWhere('phone',$requestData['phone']);
 		})->first();
@@ -216,14 +216,14 @@ class AppointmentBookController extends Controller {
 		$phone = $requestData['phone'];
 		$date = explode('/', $requestData['date']);
 		$datey = $date[2].'-'.$date[1].'-'.$date[0];
-		$service = \App\BookService::find($requestData['service_id']); //dd($service);
+		$service = \App\Models\BookService::find($requestData['service_id']); //dd($service);
         if(!empty($service)){
             $amount =  str_replace("aud", "", $service['price']);
         } else {
             $amount = 0;
         }  //dd($amount);
 
-        $NatureOfEnquiry = \App\NatureOfEnquiry::find($requestData['noe_id']); //dd($NatureOfEnquiry);
+        $NatureOfEnquiry = \App\Models\NatureOfEnquiry::find($requestData['noe_id']); //dd($NatureOfEnquiry);
       
         //Order insertion
         $cardName = $requestData['cardName'];
@@ -289,7 +289,7 @@ class AppointmentBookController extends Controller {
             );
             return json_encode(array('success'=>false));
         }
-        $user = \App\Admin::where(function ($query) use($requestData){
+        $user = \App\Models\Admin::where(function ($query) use($requestData){
 			$query->where('email',$requestData['email'])
 			->orWhere('phone',$requestData['phone']);
 		})->first();

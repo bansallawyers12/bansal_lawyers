@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Professor;
-use App\Product;
-use App\ProductOtherInformation;
-use App\ProductDemoVideo;
-use App\ProductReview;
-use App\ModeProduct;
-use App\WebsiteSetting;
-use App\SeoPage;
+use App\Models\Professor;
+use App\Models\Product;
+use App\Models\ProductOtherInformation;
+use App\Models\ProductDemoVideo;
+use App\Models\ProductReview;
+use App\Models\ModeProduct;
+use App\Models\WebsiteSetting;
+use App\Models\SeoPage;
 
 use Config;
 use Auth;

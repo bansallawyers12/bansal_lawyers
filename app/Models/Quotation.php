@@ -29,7 +29,7 @@ class Quotation extends Authenticatable
 	
 	public function client()
     {
-        return $this->belongsTo('App\Admin','client_id','id');
+        return $this->belongsTo('App\Models\Admin','client_id','id');
     }
 	
 }

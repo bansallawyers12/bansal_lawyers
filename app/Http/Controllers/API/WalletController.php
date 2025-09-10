@@ -6,8 +6,8 @@ use App\Http\Controllers\API\BaseController as BaseController;
 
 use Config;
 use App\Models\Admin;
-use App\Wallet;
-use App\WalletHistory;
+use App\Models\Wallet;
+use App\Models\WalletHistory;
 //use Log;
 
 class WalletController extends BaseController

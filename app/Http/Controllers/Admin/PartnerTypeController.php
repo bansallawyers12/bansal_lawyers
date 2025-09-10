@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
-use App\PartnerType; 
+use App\Models\PartnerType; 
   
 use Auth; 
 use Config;

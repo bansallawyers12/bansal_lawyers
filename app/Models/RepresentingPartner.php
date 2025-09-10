@@ -28,6 +28,6 @@ class RepresentingPartner extends Authenticatable
     ];
 	public function partners()
     {
-        return $this->belongsTo('App\Partner','partner_id','id');
+        return $this->belongsTo('App\Models\Partner','partner_id','id');
     }
 }

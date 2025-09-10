@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 use App\Models\Appointment;
-use App\AppointmentLog;
-use App\Notification;
+use App\Models\AppointmentLog;
+use App\Models\Notification;
 use Carbon\Carbon;
 
 class AppointmentsController extends Controller
@@ -137,10 +137,10 @@ class AppointmentsController extends Controller
     public function assignedetail(Request $request){
         $appointmentdetail = Appointment::with(['user','clients','service','assignee_user','natureOfEnquiry'])->where('id',$request->id)->first();
         // dd($appointmentdetail->assignee_user->id);
-    // $admin = \App\Admin::where('id', $notedetail->assignee)->first();
-    // $noe = \App\NatureOfEnquiry::where('id', @$appointmentdetail->noeid)->first();
-    // $addedby = \App\Admin::where('id', $appointmentdetail->user_id)->first();
-    // $client = \App\Admin::where('id', $appointmentdetail->client_id)->first();
+    // $admin = \App\Models\Admin::where('id', $notedetail->assignee)->first();
+    // $noe = \App\Models\NatureOfEnquiry::where('id', @$appointmentdetail->noeid)->first();
+    // $addedby = \App\Models\Admin::where('id', $appointmentdetail->user_id)->first();
+    // $client = \App\Models\Admin::where('id', $appointmentdetail->client_id)->first();
     // ?>
     <div class="modal-header">
             <h5 class="modal-title" id="taskModalLabel"><i class="fa fa-bag"></i> <?php echo $appointmentdetail->title ?? $appointmentdetail->service->title; ?></h5>
@@ -246,8 +246,8 @@ class AppointmentsController extends Controller
                     <div class="col-md-8">
                         <select class="form-control select2" id="changeassignee" name="changeassignee">
                             <?php
-                                foreach(\App\Admin::where('role','!=',7)->orderby('first_name','ASC')->get() as $admin){
-                                    $branchname = \App\Branch::where('id',$admin->office_id)->first();
+                                foreach(\App\Models\Admin::where('role','!=',7)->orderby('first_name','ASC')->get() as $admin){
+                                    $branchname = \App\Models\Branch::where('id',$admin->office_id)->first();
                             ?>
                                     <option value="<?php echo $admin->id; ?>"><?php echo $admin->first_name.' '.$admin->last_name.' ('.@$branchname->office_name.')'; ?></option>
                             <?php } ?>
@@ -289,7 +289,7 @@ class AppointmentsController extends Controller
   <?php
                     $logslist = AppointmentLog::where('appointment_id',$appointmentdetail->id)->orderby('created_at', 'DESC')->get();
                     foreach($logslist as $llist){
-                       $admin = \App\Admin::where('id', $llist->created_by)->first();
+                       $admin = \App\Models\Admin::where('id', $llist->created_by)->first();
                     ?>
                         <div class="logsitem">
                             <div class="row">

@@ -1,17 +1,17 @@
 @extends('layouts.frontend')
 @section('seoinfo')
 
-	<title><?php echo @\App\HomeContent::where('meta_key','meta_title')->first()->meta_value; ?></title>
+	<title><?php echo @\App\Models\HomeContent::where('meta_key','meta_title')->first()->meta_value; ?></title>
 
 
-	<meta name="description" content="<?php echo @\App\HomeContent::where('meta_key','meta_description')->first()->meta_value; ?>" />
+	<meta name="description" content="<?php echo @\App\Models\HomeContent::where('meta_key','meta_description')->first()->meta_value; ?>" />
 	<link rel="canonical" href="<?php echo URL::to('/'); ?>" />
 	<meta property="og:locale" content="en_US" />
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content="<?php echo @\App\HomeContent::where('meta_key','meta_title')->first()->meta_value; ?>" />
-	<meta property="og:description" content="<?php echo @\App\HomeContent::where('meta_key','meta_description')->first()->meta_value; ?>" />
+	<meta property="og:title" content="<?php echo @\App\Models\HomeContent::where('meta_key','meta_title')->first()->meta_value; ?>" />
+	<meta property="og:description" content="<?php echo @\App\Models\HomeContent::where('meta_key','meta_description')->first()->meta_value; ?>" />
 	<meta property="og:url" content="<?php echo URL::to('/'); ?>" />
-	<meta property="og:site_name" content="<?php echo @\App\ThemeOption::where('meta_key','site_name')->first()->meta_value; ?>" />
+	<meta property="og:site_name" content="<?php echo @\App\Models\ThemeOption::where('meta_key','site_name')->first()->meta_value; ?>" />
 	<meta property="article:publisher" content="https://www.facebook.com/BANSALImmigration/" />
 	<meta property="article:modified_time" content="2023-04-04T21:06:24+00:00" />
 	<meta property="og:image" content="{{asset('img/bansal-immigration-icon.jpg')}}" />
@@ -20,8 +20,8 @@
 	<meta property="og:image:type" content="image/jpeg" />
     <meta name="google-site-verification" content="2bh6NrWvA9u4iSWE5YVL4iuZ2gPHHbnWW6gn-Z1UHbk" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="<?php echo @\App\HomeContent::where('meta_key','meta_title')->first()->meta_value; ?>" />
-	<meta name="twitter:description" content="<?php echo @\App\HomeContent::where('meta_key','meta_description')->first()->meta_value; ?>" />
+	<meta name="twitter:title" content="<?php echo @\App\Models\HomeContent::where('meta_key','meta_title')->first()->meta_value; ?>" />
+	<meta name="twitter:description" content="<?php echo @\App\Models\HomeContent::where('meta_key','meta_description')->first()->meta_value; ?>" />
 	<meta name="twitter:image" content="{{asset('img/bansal-immigration-icon.jpg')}}" />
 	<meta name="twitter:site" content="@Bansalimmi" />
 	<meta name="twitter:label1" content="Est. reading time" />
@@ -55,7 +55,7 @@
 </div>
 
 
-<?php $sliderstat = @\App\HomeContent::where('meta_key','sliderstatus')->first()->meta_value;
+<?php $sliderstat = @\App\Models\HomeContent::where('meta_key','sliderstatus')->first()->meta_value;
 // dd($sliderstat);
 if(@$sliderstat == 1){
  ?>
@@ -104,9 +104,9 @@ if(@$sliderstat == 1){
 			<div class="col-12 col-md-6">
 				<div class="about-content mb-100">
 					<div class="section-heading">
-						<h3 style="Merienda, cursive;font-optical-sizing: auto;font-style: normal;font-weight:500"><span><?php echo @\App\HomeContent::where('meta_key','about_title')->first()->meta_value; ?></span></h3>
-						<h6 style="line-height:26px;Merienda, cursive;font-optical-sizing: auto;font-style: normal;"><?php echo @\App\HomeContent::where('meta_key','about_description')->first()->meta_value; ?></h6>
-						<a href="<?php echo @\App\HomeContent::where('meta_key','about_link')->first()->meta_value; ?>" class="btn cryptos-btn mt-30">Read More</a>
+						<h3 style="Merienda, cursive;font-optical-sizing: auto;font-style: normal;font-weight:500"><span><?php echo @\App\Models\HomeContent::where('meta_key','about_title')->first()->meta_value; ?></span></h3>
+						<h6 style="line-height:26px;Merienda, cursive;font-optical-sizing: auto;font-style: normal;"><?php echo @\App\Models\HomeContent::where('meta_key','about_description')->first()->meta_value; ?></h6>
+						<a href="<?php echo @\App\Models\HomeContent::where('meta_key','about_link')->first()->meta_value; ?>" class="btn cryptos-btn mt-30">Read More</a>
 					</div>
 				</div>
 			</div>
@@ -114,7 +114,7 @@ if(@$sliderstat == 1){
 	</div>
 </section>
 <!-- ##### About Area End ##### -->
-<?php $whychoosestat = @\App\HomeContent::where('meta_key','whychoosestatus')->first()->meta_value;
+<?php $whychoosestat = @\App\Models\HomeContent::where('meta_key','whychoosestatus')->first()->meta_value;
 if(@$whychoosestat == 1){
  ?>
  <!-- ##### Course Area Start ##### -->
@@ -147,7 +147,7 @@ if(@$whychoosestat == 1){
 </div>
 <!-- ##### Course Area End ##### -->
 <?php } ?>
-<?php $servicestat = @\App\HomeContent::where('meta_key','servicestatus')->first()->meta_value;
+<?php $servicestat = @\App\Models\HomeContent::where('meta_key','servicestatus')->first()->meta_value;
 if(@$servicestat == 1){
  ?>
 <!--================Project Area =================-->
@@ -185,9 +185,9 @@ if(@$servicestat == 1){
 <section id="testimonials" class="wow fadeInUp" style="background-image: url({{ asset('img/testimonial_img/test.jpg') }}); background-size: 100% 100%;">
 	<div class="container">
 		<div class="row row-cols-3">
-			<?php $testmioalstat = @\App\HomeContent::where('meta_key','testimonialstatus')->first()->meta_value;
+			<?php $testmioalstat = @\App\Models\HomeContent::where('meta_key','testimonialstatus')->first()->meta_value;
 			if(@$testmioalstat == 1){
-              $testimoniallists = \App\Testimonial::orderBy('created_at', 'desc')->get();
+              $testimoniallists = \App\Models\Testimonial::orderBy('created_at', 'desc')->get();
 			 ?>
 			<div class="col-lg-12 col-md-12">
 				<div class="section-header">
@@ -314,7 +314,7 @@ if(@$servicestat == 1){
 
 <!-- ##### Currency Area End ##### -->
 
-<?php $blogstat = @\App\HomeContent::where('meta_key','blogstatus')->first()->meta_value;
+<?php $blogstat = @\App\Models\HomeContent::where('meta_key','blogstatus')->first()->meta_value;
 if(@$blogstat == 1){
  ?>
 <!-- ##### Blog Area Start ##### -->
@@ -363,26 +363,26 @@ if(@$blogstat == 1){
 		<div class="row align-items-center">
 			<!--<div class="col-12 col-md-4">
 				<div class="about-thumbnail">
-					<img src="{{--asset('img/media_gallery/')--}}/{{--@\App\HomeContent::where('meta_key','meet_image_1')->first()->meta_value--}}" style="border-radius:20px" alt="" />
-					<h3><?php //echo @\App\HomeContent::where('meta_key','meet_name_1')->first()->meta_value; ?></h3>
-					<h5><?php //echo @\App\HomeContent::where('meta_key','meet_profession_1')->first()->meta_value; ?></h5>
+					<img src="{{--asset('img/media_gallery/')--}}/{{--@\App\Models\HomeContent::where('meta_key','meet_image_1')->first()->meta_value--}}" style="border-radius:20px" alt="" />
+					<h3><?php //echo @\App\Models\HomeContent::where('meta_key','meet_name_1')->first()->meta_value; ?></h3>
+					<h5><?php //echo @\App\Models\HomeContent::where('meta_key','meet_profession_1')->first()->meta_value; ?></h5>
 				</div>
 			</div>-->
 
             <div class="col-12 col-md-4">
 				<div class="about-thumbnail" style="margin-bottom: 145px;">
-					<img src="{{asset('img/media_gallery/')}}/{{@\App\HomeContent::where('meta_key','meet_image_2')->first()->meta_value}}" style="border-radius:20px" alt="" />
-					<h3><?php echo @\App\HomeContent::where('meta_key','meet_name_2')->first()->meta_value; ?></h3>
-					<h5><?php echo @\App\HomeContent::where('meta_key','meet_profession_2')->first()->meta_value; ?></h5>
+					<img src="{{asset('img/media_gallery/')}}/{{@\App\Models\HomeContent::where('meta_key','meet_image_2')->first()->meta_value}}" style="border-radius:20px" alt="" />
+					<h3><?php echo @\App\Models\HomeContent::where('meta_key','meet_name_2')->first()->meta_value; ?></h3>
+					<h5><?php echo @\App\Models\HomeContent::where('meta_key','meet_profession_2')->first()->meta_value; ?></h5>
 				</div>
 			</div>
 
 			<div class="col-12 col-md-8">
 				<div class="about-content">
 					<div class="section-heading">
-						<h3 style="Merienda, cursive;font-optical-sizing: auto;font-style: normal;font-weight:500"><span><?php echo @\App\HomeContent::where('meta_key','meet_title')->first()->meta_value; ?></span></h3>
+						<h3 style="Merienda, cursive;font-optical-sizing: auto;font-style: normal;font-weight:500"><span><?php echo @\App\Models\HomeContent::where('meta_key','meet_title')->first()->meta_value; ?></span></h3>
 
-                      <!--<p><?php //echo @\App\HomeContent::where('meta_key','meet_description')->first()->meta_value; ?></p>-->
+                      <!--<p><?php //echo @\App\Models\HomeContent::where('meta_key','meet_description')->first()->meta_value; ?></p>-->
 
                         <p style="padding-bottom: 1em;box-sizing: border-box;font-size: 15px;Merienda, cursive;font-optical-sizing: auto;font-style: normal;">
                             <em>
@@ -398,7 +398,7 @@ if(@$blogstat == 1){
                             </p>-->
                         </p>
 
-						<a href="<?php echo URL::to('/'); ?>/<?php echo @\App\HomeContent::where('meta_key','meet_link')->first()->meta_value; ?>" class="btn cryptos-btn contact_btn">Contact Us</a>
+						<a href="<?php echo URL::to('/'); ?>/<?php echo @\App\Models\HomeContent::where('meta_key','meet_link')->first()->meta_value; ?>" class="btn cryptos-btn contact_btn">Contact Us</a>
 					</div>
 				</div>
 			</div>

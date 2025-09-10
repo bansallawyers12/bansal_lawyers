@@ -1648,7 +1648,7 @@ textarea:focus {
   .pop-custom:before {
 
             content: "";
-      background-image: url('{{asset('public/img/logo_img')}}/<?php echo @\App\ThemeOption::where('meta_key','logo')->first()->meta_value; ?>');
+      background-image: url('{{asset('public/img/logo_img')}}/<?php echo @\App\Models\ThemeOption::where('meta_key','logo')->first()->meta_value; ?>');
       background-size: cover;
       position: absolute;
       top: 0px;

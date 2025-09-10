@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Facades\Payment;
 
-use App\State;
-use App\Country;
-use App\Product;
-use App\ProductOtherInformation;
-use App\MyCart;
-use App\ProductOrder;
-use App\ProductTransactionHistory;
-use App\WebsiteSetting;
+use App\Models\State;
+use App\Models\Country;
+use App\Models\Product;
+use App\Models\ProductOtherInformation;
+use App\Models\MyCart;
+use App\Models\ProductOrder;
+use App\Models\ProductTransactionHistory;
+use App\Models\WebsiteSetting;
 
 
 

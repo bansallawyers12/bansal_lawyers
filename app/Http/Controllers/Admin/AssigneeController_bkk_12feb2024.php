@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 use App\Models\Appointment;
-use App\Note;
-use App\AppointmentLog;
-use App\Notification;
+use App\Models\Note;
+use App\Models\AppointmentLog;
+use App\Models\Notification;
 use Carbon\Carbon;
 use App\Models\Admin;
-use App\ActivitiesLog;
+use App\Models\ActivitiesLog;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use DataTables;
@@ -34,10 +34,10 @@ class AssigneeController extends Controller
     public function index(Request $request)
     {
         if(\Auth::user()->role == 1){
-            $assignees = \App\Note::sortable()
+            $assignees = \App\Models\Note::sortable()
             ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])->where('type','client')->whereNotNull('client_id')->where('folloup',1)->where('status','<>','1')->orderBy('created_at', 'desc')->latest()->paginate(20);//where('status','not like','Closed')
         }else{
-            $assignees = \App\Note::sortable()
+            $assignees = \App\Models\Note::sortable()
             ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])->where('assigned_to',\Auth::user()->id)->where('type','client')->where('folloup',1)->where('status','<>','1')->orderBy('created_at', 'desc')->latest()->paginate(20);
         } //dd($assignees);
         return view('Admin.assignee.index',compact('assignees'))
@@ -48,10 +48,10 @@ class AssigneeController extends Controller
     public function completed(Request $request)
     {
         if(\Auth::user()->role == 1){
-            $assignees = \App\Note::sortable()
+            $assignees = \App\Models\Note::sortable()
             ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])->where('type','client')->whereNotNull('client_id')->where('folloup',1)->where('status','1')->orderBy('created_at', 'desc')->latest()->paginate(20); //where('status','like','Closed')
         }else{
-            $assignees = \App\Note::sortable()
+            $assignees = \App\Models\Note::sortable()
             ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])->where('assigned_to',\Auth::user()->id)->where('type','client')->where('folloup',1)->where('status','1')->orderBy('created_at', 'desc')->latest()->paginate(20);
         }  //dd( $assignees);
         return view('Admin.assignee.completed',compact('assignees'))
@@ -121,7 +121,7 @@ class AssigneeController extends Controller
     public function assigned_by_me(Request $request)
     {  //dd(Auth::user()->id);
          if(\Auth::user()->role == 1){
-             $assignees_notCompleted = \App\Note::sortable()
+             $assignees_notCompleted = \App\Models\Note::sortable()
              ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
              ->where('status','<>','1')
              ->where('type','client')
@@ -132,7 +132,7 @@ class AssigneeController extends Controller
              ->latest()
              ->paginate(20);
          } else {
-             $assignees_notCompleted = \App\Note::sortable()
+             $assignees_notCompleted = \App\Models\Note::sortable()
              ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
              ->where('status','<>','1')
              ->where('user_id',\Auth::user()->id)
@@ -152,16 +152,16 @@ class AssigneeController extends Controller
     public function assigned_to_me(Request $request)
     {
         if(\Auth::user()->role == 1){
-            $assignees_notCompleted = \App\Note::sortable()
+            $assignees_notCompleted = \App\Models\Note::sortable()
             ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])->where('status','<>','1')->where('assigned_to',\Auth::user()->id)->where('type','client')->whereNotNull('client_id')->where('folloup',1)->orderBy('created_at', 'desc')->latest()->paginate(20);//where('status','not like','Closed')
 
-            $assignees_completed = \App\Note::sortable()
+            $assignees_completed = \App\Models\Note::sortable()
             ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])->where('status','1')->where('assigned_to',\Auth::user()->id)->where('type','client')->whereNotNull('client_id')->where('folloup',1)->orderBy('created_at', 'desc')->latest()->paginate(20);
         }else{
-            $assignees_notCompleted = \App\Note::sortable()
+            $assignees_notCompleted = \App\Models\Note::sortable()
             ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])->where('status','<>','1')->where('assigned_to',\Auth::user()->id)->where('type','client')->where('folloup',1)->orderBy('created_at', 'desc')->latest()->paginate(20);
 
-            $assignees_completed = \App\Note::sortable()
+            $assignees_completed = \App\Models\Note::sortable()
             ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])->where('status','1')->where('assigned_to',\Auth::user()->id)->where('type','client')->where('folloup',1)->orderBy('created_at', 'desc')->latest()->paginate(20);
         }
         //dd($assignees_notCompleted);
@@ -194,7 +194,7 @@ class AssigneeController extends Controller
             if(\Auth::user()->role == 1)
             { //admin role
                 if($search_by) { //if search string is present
-                    $assignees_notCompleted = \App\Note::sortable()
+                    $assignees_notCompleted = \App\Models\Note::sortable()
                     ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                     ->where('status','<>','1')
                     ->where('type','client')
@@ -220,7 +220,7 @@ class AssigneeController extends Controller
                     ->latest()
                     ->paginate(20);
                 } else { //if no searching
-                    $assignees_notCompleted = \App\Note::sortable()
+                    $assignees_notCompleted = \App\Models\Note::sortable()
                     ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                     ->where('status','<>','1')
                     ->where('type','client')
@@ -236,7 +236,7 @@ class AssigneeController extends Controller
             { //role is not admin
                 if($search_by) { //if search string is present
                     //dd('ifff'.Auth::user()->id);
-                    $assignees_notCompleted = \App\Note::sortable()
+                    $assignees_notCompleted = \App\Models\Note::sortable()
                     ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                     ->where('status','<>','1')
                     ->where('assigned_to',\Auth::user()->id)
@@ -264,7 +264,7 @@ class AssigneeController extends Controller
                     ->paginate(20);
                 } else { //if no searching
                 //dd('elsee');
-                    $assignees_notCompleted = \App\Note::sortable()
+                    $assignees_notCompleted = \App\Models\Note::sortable()
                     ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                     ->where('status','<>','1')
                     ->where('assigned_to',\Auth::user()->id)
@@ -283,7 +283,7 @@ class AssigneeController extends Controller
             if(\Auth::user()->role == 1)
             {  //admin role
                 if($search_by) { //if search string is present
-                    $assignees_notCompleted = \App\Note::sortable()
+                    $assignees_notCompleted = \App\Models\Note::sortable()
                     ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                     ->where('task_group','like',$task_group)
                     ->where('status','<>','1')
@@ -311,7 +311,7 @@ class AssigneeController extends Controller
                     ->latest()
                     ->paginate(20);
                 } else { //if no searching
-                    $assignees_notCompleted = \App\Note::sortable()
+                    $assignees_notCompleted = \App\Models\Note::sortable()
                     ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                     ->where('task_group','like',$task_group)
                     ->where('status','<>','1')
@@ -328,7 +328,7 @@ class AssigneeController extends Controller
             else
             { //role is not admin
                 if($search_by) { //if search string is present
-                    $assignees_notCompleted = \App\Note::sortable()
+                    $assignees_notCompleted = \App\Models\Note::sortable()
                     ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                     ->where('task_group','like',$task_group)
                     ->where('status','<>','1')
@@ -356,7 +356,7 @@ class AssigneeController extends Controller
                     ->latest()
                     ->paginate(20);
                 } else { //if no searching
-                    $assignees_notCompleted = \App\Note::sortable()
+                    $assignees_notCompleted = \App\Models\Note::sortable()
                     ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                     ->where('task_group','like',$task_group)
                     ->where('status','<>','1')
@@ -388,7 +388,7 @@ class AssigneeController extends Controller
         //dd($task_group);
         if($task_group == 'All') {
             if(\Auth::user()->role == 1){
-                $assignees_completed = \App\Note::sortable()
+                $assignees_completed = \App\Models\Note::sortable()
                 ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                 ->where('status','1')
                 ->where('type','client')
@@ -398,7 +398,7 @@ class AssigneeController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->latest()->paginate(20);
             } else {
-                $assignees_completed = \App\Note::sortable()
+                $assignees_completed = \App\Models\Note::sortable()
                 ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                 ->where('status','1')
                 ->where('assigned_to',\Auth::user()->id)
@@ -410,7 +410,7 @@ class AssigneeController extends Controller
             }
         } else {
             if(\Auth::user()->role == 1){
-                $assignees_completed = \App\Note::sortable()
+                $assignees_completed = \App\Models\Note::sortable()
                 ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                 ->where('task_group','like',$task_group)
                 ->where('status','1')
@@ -421,7 +421,7 @@ class AssigneeController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->latest()->paginate(20);
             } else {
-                $assignees_completed = \App\Note::sortable()
+                $assignees_completed = \App\Models\Note::sortable()
                 ->with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
                 ->where('task_group','like',$task_group)
                 ->where('status','1')
@@ -448,7 +448,7 @@ class AssigneeController extends Controller
         if ($request->ajax()) {
            if(\Auth::user()->role == 1)
             { //admin role
-            	$data = \App\Note::with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
+            	$data = \App\Models\Note::with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
             	->where('status','<>','1')
             	->where('type','client')
             	->where('folloup',1)
@@ -458,7 +458,7 @@ class AssigneeController extends Controller
             }
             else
             { //role is not admin
-            	$data = \App\Note::with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
+            	$data = \App\Models\Note::with(['noteUser','noteClient','lead.natureOfEnquiry','lead.service','assigned_user'])
             	->where('status','<>','1')
             	->where('assigned_to',\Auth::user()->id)
             	->where('type','client')
@@ -907,10 +907,10 @@ class AssigneeController extends Controller
     public function assignedetail(Request $request){
         $appointmentdetail = Appointment::with(['user','clients','service','assignee_user','natureOfEnquiry'])->where('id',$request->id)->first();
         // dd($appointmentdetail->assignee_user->id);
-    // $admin = \App\Admin::where('id', $notedetail->assignee)->first();
-    // $noe = \App\NatureOfEnquiry::where('id', @$appointmentdetail->noeid)->first();
-    // $addedby = \App\Admin::where('id', $appointmentdetail->user_id)->first();
-    // $client = \App\Admin::where('id', $appointmentdetail->client_id)->first();
+    // $admin = \App\Models\Admin::where('id', $notedetail->assignee)->first();
+    // $noe = \App\Models\NatureOfEnquiry::where('id', @$appointmentdetail->noeid)->first();
+    // $addedby = \App\Models\Admin::where('id', $appointmentdetail->user_id)->first();
+    // $client = \App\Models\Admin::where('id', $appointmentdetail->client_id)->first();
     // ?>
     <div class="modal-header">
             <h5 class="modal-title" id="taskModalLabel"><i class="fa fa-bag"></i> <?php echo $appointmentdetail->title ?? $appointmentdetail->service->title; ?></h5>
@@ -1016,8 +1016,8 @@ class AssigneeController extends Controller
                     <div class="col-md-8">
                         <select class="form-control select2" id="changeassignee" name="changeassignee">
                             <?php
-                                foreach(\App\Admin::where('role','!=',7)->orderby('first_name','ASC')->get() as $admin){
-                                    $branchname = \App\Branch::where('id',$admin->office_id)->first();
+                                foreach(\App\Models\Admin::where('role','!=',7)->orderby('first_name','ASC')->get() as $admin){
+                                    $branchname = \App\Models\Branch::where('id',$admin->office_id)->first();
                             ?>
                                     <option value="<?php echo $admin->id; ?>"><?php echo $admin->first_name.' '.$admin->last_name.' ('.@$branchname->office_name.')'; ?></option>
                             <?php } ?>
@@ -1059,7 +1059,7 @@ class AssigneeController extends Controller
   <?php
                     $logslist = AppointmentLog::where('appointment_id',$appointmentdetail->id)->orderby('created_at', 'DESC')->get();
                     foreach($logslist as $llist){
-                       $admin = \App\Admin::where('id', $llist->created_by)->first();
+                       $admin = \App\Models\Admin::where('id', $llist->created_by)->first();
                     ?>
                         <div class="logsitem">
                             <div class="row">
@@ -1231,9 +1231,9 @@ public function update_apppointment_description(Request $request){
         $assignedto = $request->assignedto;
         
         $content1 = array();
-        foreach(\App\Admin::where('role','!=',7)->where('status',1)->orderby('first_name','ASC')->get() as $admin)
+        foreach(\App\Models\Admin::where('role','!=',7)->where('status',1)->orderby('first_name','ASC')->get() as $admin)
         {
-            $branchname = \App\Branch::where('id',$admin->office_id)->first();
+            $branchname = \App\Models\Branch::where('id',$admin->office_id)->first();
             $option_value =  $admin->first_name.' '.$admin->last_name.' ('.@$branchname->office_name.')';
 
             if($admin->id == $assignedto){

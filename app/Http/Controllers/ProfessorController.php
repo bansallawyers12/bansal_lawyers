@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Professor;
-use App\Product;
-use App\WebsiteSetting;
-use App\SeoPage;
+use App\Models\Professor;
+use App\Models\Product;
+use App\Models\WebsiteSetting;
+use App\Models\SeoPage;
 
 
 use Config;

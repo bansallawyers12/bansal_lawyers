@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Lead;
 use App\Models\Admin;
-use App\WebsiteSetting;
-use App\SeoPage;
-use App\City;
-use App\Contact;
-use App\TaxRate;
+use App\Models\WebsiteSetting;
+use App\Models\SeoPage;
+use App\Models\City;
+use App\Models\Contact;
+use App\Models\TaxRate;
 use PDF;
-use App\InvoicePayment;
-use App\Setting;
+use App\Models\InvoicePayment;
+use App\Models\Setting;
 use Auth;
 use Config;
 
@@ -59,32 +59,32 @@ class AdminController extends Controller
 
 
         //Total Enquiries
-        //$countenquiries = \App\Enquiry::whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
+        //$countenquiries = \App\Models\Enquiry::whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
         //$countenquiries = DB::table('enquiries')->whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
         #dd($countenquiries);
 
         //dd(Auth::user()->role);
         //Get User role and module access
-        /*$roles = \App\UserRole::find(Auth::user()->role);
+        /*$roles = \App\Models\UserRole::find(Auth::user()->role);
         $newarray = json_decode($roles->module_access);
         $module_access = (array) $newarray; //dd($module_access);*/
 
         //For Total Leads section
-        //$countleads = \App\Admin::where('is_archived',0)->where('role', '=', '7')->where('type','lead')->whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
-        //$countallleads = \App\Admin::where('is_archived',0)->where('role', '=', '7')->where('type','lead')->count();
+        //$countleads = \App\Models\Admin::where('is_archived',0)->where('role', '=', '7')->where('type','lead')->whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
+        //$countallleads = \App\Models\Admin::where('is_archived',0)->where('role', '=', '7')->where('type','lead')->count();
         //$countleads = DB::table('admins')->where('is_archived', 0)->where('role',7)->where('type','lead')->whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
         //$countallleads = DB::table('admins')->where('is_archived', 0)->where('role',7)->where('type','lead')->count();
 
 
         //Today Followup
        /* if(Auth::user()->role == 1){
-            $countfollowup = \App\Note::whereDate('followup_date', date('Y-m-d'))->count();
+            $countfollowup = \App\Models\Note::whereDate('followup_date', date('Y-m-d'))->count();
         }else{
-            $countfollowup = \App\Note::whereDate('followup_date', date('Y-m-d'))->where('assigned_to', Auth::user()->id)->count();
+            $countfollowup = \App\Models\Note::whereDate('followup_date', date('Y-m-d'))->where('assigned_to', Auth::user()->id)->count();
         }*/
 
         //Total Clients
-        //$countclient = \App\Admin::where('is_archived',0)->where('type','client')->where('role', '=', '7')->count();
+        //$countclient = \App\Models\Admin::where('is_archived',0)->where('type','client')->where('role', '=', '7')->count();
 
 
 		/* Client data */
@@ -95,8 +95,8 @@ class AdminController extends Controller
     }
 
     public function fetchnotification(Request $request){
-         //$notificalists = \App\Notification::where('receiver_id', Auth::user()->id)->where('receiver_status', 0)->orderby('created_at','DESC')->paginate(5);
-         $notificalistscount = \App\Notification::where('receiver_id', Auth::user()->id)->count(); //->where('receiver_status', 0)
+         //$notificalists = \App\Models\Notification::where('receiver_id', Auth::user()->id)->where('receiver_status', 0)->orderby('created_at','DESC')->paginate(5);
+         $notificalistscount = \App\Models\Notification::where('receiver_id', Auth::user()->id)->count(); //->where('receiver_status', 0)
          /*$output = '';
 	    foreach($notificalists as $listnoti){
 	        $output .= '<a href="'.$listnoti->url.'?t='.$listnoti->id.'" class="dropdown-item dropdown-item-unread">
@@ -115,9 +115,9 @@ class AdminController extends Controller
     }
     
     public function fetchmessages(Request $request){
-        $notificalists = \App\Notification::where('receiver_id', Auth::user()->id)->where('seen', 0)->first();
+        $notificalists = \App\Models\Notification::where('receiver_id', Auth::user()->id)->where('seen', 0)->first();
         if($notificalists){
-            $obj = \App\Notification::find($notificalists->id);
+            $obj = \App\Models\Notification::find($notificalists->id);
             $obj->seen = 1;
             $obj->save();
             return $notificalists->message;
@@ -128,9 +128,9 @@ class AdminController extends Controller
     
     public function fetchInPersonWaitingCount(Request $request){
         //if(\Auth::user()->role == 1){
-            $InPersonwaitingCount = \App\CheckinLog::where('status',0)->count();
+            $InPersonwaitingCount = \App\Models\CheckinLog::where('status',0)->count();
         /*}else{
-            $InPersonwaitingCount = \App\CheckinLog::where('user_id',Auth::user()->id)->where('status',0)->count();
+            $InPersonwaitingCount = \App\Models\CheckinLog::where('user_id',Auth::user()->id)->where('status',0)->count();
         }*/
         $data = array('InPersonwaitingCount'  => $InPersonwaitingCount);
         echo json_encode($data);
@@ -138,9 +138,9 @@ class AdminController extends Controller
 
     public function fetchTotalActivityCount(Request $request){
         if(\Auth::user()->role == 1){
-            $assigneesCount = \App\Note::where('type','client')->whereNotNull('client_id')->where('folloup',1)->where('status',0)->count();
+            $assigneesCount = \App\Models\Note::where('type','client')->whereNotNull('client_id')->where('folloup',1)->where('status',0)->count();
         }else{
-            $assigneesCount = \App\Note::where('assigned_to',Auth::user()->id)->where('type','client')->where('folloup',1)->where('status',0)->count();
+            $assigneesCount = \App\Models\Note::where('assigned_to',Auth::user()->id)->where('type','client')->where('folloup',1)->where('status',0)->count();
         }
         $data = array('assigneesCount'  => $assigneesCount);
         echo json_encode($data);
@@ -970,7 +970,7 @@ class AdminController extends Controller
 									$updated_status = 0;
 									$message = 'Record has been disabled successfully.';
 								}	 */
-							$o = \App\Admin::where('id', $requestData['id'])->first();
+							$o = \App\Models\Admin::where('id', $requestData['id'])->first();
 							if($o->is_archived == 1){
 								$is_archived = 0;
 							}else{
@@ -1370,7 +1370,7 @@ class AdminController extends Controller
 
 	public function getpartner(Request $request){
 		$catid = $request->cat_id;
-		$lists = \App\Partner::where('service_workflow', $catid)->orderby('partner_name','ASC')->get();
+		$lists = \App\Models\Partner::where('service_workflow', $catid)->orderby('partner_name','ASC')->get();
 		ob_start();
 		?>
 		<option value="">Select a Partner</option>
@@ -1385,13 +1385,13 @@ class AdminController extends Controller
 
 	public function getpartnerbranch(Request $request){
 		$catid = $request->cat_id;
-		$lists = \App\Partner::where('service_workflow', $catid)->orderby('partner_name','ASC')->get();
+		$lists = \App\Models\Partner::where('service_workflow', $catid)->orderby('partner_name','ASC')->get();
 		ob_start();
 		?>
 		<option value="">Select Partner & Branch</option>
 		<?php
 		foreach($lists as $list){
-			$listsbranchs = \App\PartnerBranch::where('partner_id', $list->id)->get();
+			$listsbranchs = \App\Models\PartnerBranch::where('partner_id', $list->id)->get();
 			foreach($listsbranchs as $listsbranch){
 			?>
 			<option value="<?php echo $listsbranch->id; ?>_<?php echo $list->id; ?>"><?php echo $list->partner_name.' ('.$listsbranch->name.')'; ?></option>
@@ -1403,7 +1403,7 @@ class AdminController extends Controller
 
 	public function getbranchproduct(Request $request){
 		$catid = $request->cat_id;
-		$lists = \App\Product::whereRaw('FIND_IN_SET("'.$catid.'", branches)')->orderby('name','ASC')->get();
+		$lists = \App\Models\Product::whereRaw('FIND_IN_SET("'.$catid.'", branches)')->orderby('name','ASC')->get();
 		ob_start();
 		?>
 		<option value="">Select Product</option>
@@ -1420,7 +1420,7 @@ class AdminController extends Controller
 
 	public function getproduct(Request $request){
 		$catid = $request->cat_id;
-		$lists = \App\Product::where('partner', $catid)->orderby('name','ASC')->get();
+		$lists = \App\Models\Product::where('partner', $catid)->orderby('name','ASC')->get();
 		ob_start();
 		?>
 		<option value="">Select a Product</option>
@@ -1435,7 +1435,7 @@ class AdminController extends Controller
 
 	public function gettemplates(Request $request){
 		$id = $request->id;
-		$CrmEmailTemplate = \App\CrmEmailTemplate::where('id',$id)->first();
+		$CrmEmailTemplate = \App\Models\CrmEmailTemplate::where('id',$id)->first();
 		if($CrmEmailTemplate){
 			echo json_encode(array('subject'=>$CrmEmailTemplate->subject, 'description'=>$CrmEmailTemplate->description));
 		}else{
@@ -1466,23 +1466,23 @@ class AdminController extends Controller
         }
 
         if(isset($requestData['invreceipt'])){
-            $invoicedetail = \App\Invoice::where('id', '=', $requestData['invreceipt'])->first();
+            $invoicedetail = \App\Models\Invoice::where('id', '=', $requestData['invreceipt'])->first();
             if($invoicedetail->type == 3){
-                $workflowdaa = \App\Workflow::where('id', $invoicedetail->application_id)->first();
+                $workflowdaa = \App\Models\Workflow::where('id', $invoicedetail->application_id)->first();
                 $applicationdata = array();
                 $partnerdata = array();
                 $productdata = array();
                 $branchdata = array();
             }else{
-                $applicationdata = \App\Application::where('id', $invoicedetail->application_id)->first();
-                $partnerdata = \App\Partner::where('id', @$applicationdata->partner_id)->first();
-                $productdata = \App\Product::where('id', @$applicationdata->product_id)->first();
-                $branchdata = \App\PartnerBranch::where('id', @$applicationdata->branch)->first();
-                $workflowdaa = \App\Workflow::where('id', @$applicationdata->workflow)->first();
+                $applicationdata = \App\Models\Application::where('id', $invoicedetail->application_id)->first();
+                $partnerdata = \App\Models\Partner::where('id', @$applicationdata->partner_id)->first();
+                $productdata = \App\Models\Product::where('id', @$applicationdata->product_id)->first();
+                $branchdata = \App\Models\PartnerBranch::where('id', @$applicationdata->branch)->first();
+                $workflowdaa = \App\Models\Workflow::where('id', @$applicationdata->workflow)->first();
             }
 
-			$clientdata = \App\Admin::where('role', 7)->where('id', $invoicedetail->client_id)->first();
-			$admindata = \App\Admin::where('role', 1)->where('id', $invoicedetail->user_id)->first();
+			$clientdata = \App\Models\Admin::where('role', 7)->where('id', $invoicedetail->client_id)->first();
+			$admindata = \App\Models\Admin::where('role', 1)->where('id', $invoicedetail->user_id)->first();
 
             $pdf = PDF::setOptions([
             'isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,
@@ -1520,7 +1520,7 @@ class AdminController extends Controller
                 $checklistfiles = $requestData['checklistfile'];
                 $attachments = array();
                 foreach($checklistfiles as $checklistfile){
-                    $filechecklist =  \App\UploadChecklist::where('id', $checklistfile)->first();
+                    $filechecklist =  \App\Models\UploadChecklist::where('id', $checklistfile)->first();
                     if($filechecklist){
                         $attachments[] = array('file_name' => $filechecklist->name,'file_url' => $filechecklist->file);
                     }
@@ -1547,15 +1547,15 @@ class AdminController extends Controller
 		$message = $requestData['message'];
 		foreach($requestData['email_to'] as $l){
 			if(@$requestData['type'] == 'partner'){
-				$client = \App\Partner::Where('id', $l)->first();
+				$client = \App\Models\Partner::Where('id', $l)->first();
 			$subject = str_replace('{Client First Name}',$client->partner_name, $subject);
 			$message = str_replace('{Client First Name}',$client->partner_name, $message);
 			}else if(@$requestData['type'] == 'agent'){
-				$client = \App\Agent::Where('id', $l)->first();
+				$client = \App\Models\Agent::Where('id', $l)->first();
 			$subject = str_replace('{Client First Name}',$client->full_name, $subject);
 			$message = str_replace('{Client First Name}',$client->full_name, $message);
 			}else{
-				$client = \App\Admin::Where('id', $l)->first();
+				$client = \App\Models\Admin::Where('id', $l)->first();
 			$subject = str_replace('{Client First Name}',$client->first_name, $subject);
 			$message = str_replace('{Client First Name}',$client->first_name, $message);
 			}
@@ -1565,7 +1565,7 @@ class AdminController extends Controller
 			$ccarray = array();
 			if(isset($requestData['email_cc']) && !empty($requestData['email_cc'])){
 				foreach($requestData['email_cc'] as $cc){
-					$clientcc = \App\Admin::Where('id', $cc)->first();
+					$clientcc = \App\Models\Admin::Where('id', $cc)->first();
 					$ccarray[] = $clientcc;
 				}
 			}
@@ -1574,7 +1574,7 @@ class AdminController extends Controller
     		    if(!empty($requestData['checklistfile'])){
     		       $checklistfiles = $requestData['checklistfile'];
     		        foreach($checklistfiles as $checklistfile){
-    		           $filechecklist =  \App\UploadChecklist::where('id', $checklistfile)->first();
+    		           $filechecklist =  \App\Models\UploadChecklist::where('id', $checklistfile)->first();
     		           if($filechecklist){
     		            $array['files'][] =  public_path() . '/' .'checklists/'.$filechecklist->file;
     		           }
@@ -1601,10 +1601,10 @@ class AdminController extends Controller
 
 	public function getbranch(Request $request){
 		$catid = $request->cat_id;
-		$pro = \App\Product::where('id', $catid)->first();
+		$pro = \App\Models\Product::where('id', $catid)->first();
 		if($pro){
 		$user_array = explode(',',$pro->branches);
-		$lists = \App\PartnerBranch::WhereIn('id',$user_array)->Where('partner_id',$pro->partner)->orderby('name','ASC')->get();
+		$lists = \App\Models\PartnerBranch::WhereIn('id',$user_array)->Where('partner_id',$pro->partner)->orderby('name','ASC')->get();
 		ob_start();
 		?>
 		<option value="">Select a Branch</option>
@@ -1624,7 +1624,7 @@ class AdminController extends Controller
 
 	public function getnewPartnerbranch(Request $request){
 		$catid = $request->cat_id;
-		$lists = \App\PartnerBranch::Where('partner_id',$catid)->orderby('name','ASC')->get();
+		$lists = \App\Models\PartnerBranch::Where('partner_id',$catid)->orderby('name','ASC')->get();
 
 
 
@@ -1644,7 +1644,7 @@ class AdminController extends Controller
 
 	public function getsubjects(Request $request){
 		$catid = $request->cat_id;
-		$lists = \App\Subject::where('subject_area', $catid)->orderby('name','ASC')->get();
+		$lists = \App\Models\Subject::where('subject_area', $catid)->orderby('name','ASC')->get();
 		ob_start();
 		?>
 		<option value="">Please select a subject</option>
@@ -1661,9 +1661,9 @@ class AdminController extends Controller
 
 	public function getproductbranch(Request $request){
 		$catid = $request->cat_id;
-		$sss = \App\Product::where('id', $catid)->first();
+		$sss = \App\Models\Product::where('id', $catid)->first();
 		if($sss){
-		$lists = \App\PartnerBranch::where('id', $sss->branches)->get();
+		$lists = \App\Models\PartnerBranch::where('id', $sss->branches)->get();
 		ob_start();
 		?>
 		<option value="">Please select branch</option>
@@ -1685,7 +1685,7 @@ class AdminController extends Controller
 
 	public function getsubcategories(Request $request){
 		$catid = $request->cat_id;
-		$lists = \App\SubCategory::where('cat_id', $catid)->get();
+		$lists = \App\Models\SubCategory::where('cat_id', $catid)->get();
 		ob_start();
 		?>
 
@@ -1702,7 +1702,7 @@ class AdminController extends Controller
 
 
 		public function getpartnerajax(Request $request){
-	    $fetchedData = \App\Partner::where('partner_name','LIKE', '%'.$request->likevalue.'%')->get();
+	    $fetchedData = \App\Models\Partner::where('partner_name','LIKE', '%'.$request->likevalue.'%')->get();
 		$agents = array();
 		foreach($fetchedData as $list){
 			$agents[] = array(
@@ -1717,7 +1717,7 @@ class AdminController extends Controller
 
 		public function getassigneeajax(Request $request){
 		    $squery = $request->likevalue;
-		     $fetchedData = \App\Admin::where('role', '!=', 7)
+		     $fetchedData = \App\Models\Admin::where('role', '!=', 7)
        ->where(
            function($query) use ($squery) {
              return $query
@@ -1784,21 +1784,21 @@ class AdminController extends Controller
 
     public function checkclientexist(Request $request){
         if($request->type == 'email'){
-         $clientexists = \App\Admin::where('email', $request->vl)->where('role',7)->exists();
+         $clientexists = \App\Models\Admin::where('email', $request->vl)->where('role',7)->exists();
             if($clientexists){
                 echo 1;
             }else{
                 echo 0;
             }
         }else if($request->type == 'clientid'){
-         $clientexists = \App\Admin::where('client_id', $request->vl)->where('role',7)->exists();
+         $clientexists = \App\Models\Admin::where('client_id', $request->vl)->where('role',7)->exists();
             if($clientexists){
                 echo 1;
             }else{
                 echo 0;
             }
         }else{
-            $clientexists = \App\Admin::where('phone', $request->vl)->where('role',7)->exists();
+            $clientexists = \App\Models\Admin::where('phone', $request->vl)->where('role',7)->exists();
             if($clientexists){
                 echo 1;
             }else{
@@ -1808,7 +1808,7 @@ class AdminController extends Controller
     }
 
 	public function allnotification(Request $request){
-		$lists = \App\Notification::where('receiver_id', Auth::user()->id)->orderby('created_at','DESC')->paginate(20);
+		$lists = \App\Models\Notification::where('receiver_id', Auth::user()->id)->orderby('created_at','DESC')->paginate(20);
 		return view('Admin.notifications', compact(['lists']));
 	}
 }

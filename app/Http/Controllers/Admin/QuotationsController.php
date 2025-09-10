@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
-use App\Quotation;
-use App\Template;
-use App\TemplateInfo;
+use App\Models\Quotation;
+use App\Models\Template;
+use App\Models\TemplateInfo;
  
 use PDF; 
 use Auth; 
@@ -464,7 +464,7 @@ class QuotationsController extends Controller
 				$array['file'] = '/home/digitrex/crm.digitrex.live/public/invoices/'.$invoicefilename;
 				$array['file_name'] = $invoicefilename;
 			
-			$client = \App\Admin::Where('id', $l)->first();
+			$client = \App\Models\Admin::Where('id', $l)->first();
 			$subject = str_replace('{Client First Name}',$client->first_name, $subject);
 			$message = str_replace('{Client First Name}',$client->first_name, $message);
 			$message = str_replace('{Client Assignee Name}',$client->first_name, $message);

@@ -327,7 +327,7 @@ b, strong {
                                         <label for="noe_id" style="margin-top: 10px;" class="heading_title">Nature of Enquiry </label>
                                         <select data-valid="" class="form-control enquiry_item" name="noe_id">
                                             <option value="">Select</option>
-                                            @foreach(\App\NatureOfEnquiry::where('status',1)->get() as $enquiry)
+                                            @foreach(\App\Models\NatureOfEnquiry::where('status',1)->get() as $enquiry)
                                                 <option value="{{$enquiry->id}}">{{$enquiry->title}}</option>
                                             @endforeach
                                         </select>
@@ -337,7 +337,7 @@ b, strong {
                                 <div class="row services_row" id="services" style="display: none;">
                                     <div class="form-group">
                                         <label for="service_id" class="heading_title">Services</label>
-                                        @foreach(\App\BookService::where('status',1)->get() as $bookservices)
+                                        @foreach(\App\Models\BookService::where('status',1)->get() as $bookservices)
                                             <div class="services_item_header" id="serviceval_{{$bookservices->id}}">
                                                 <div class="services_item_title">
                                                     <input type="radio" class="services_item" name="radioGroup"  value="{{$bookservices->id}}">

@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Invoice;
-use App\ShareInvoice;
+use App\Models\Invoice;
+use App\Models\ShareInvoice;
 use Cookie;
 use Config;
 use Auth;

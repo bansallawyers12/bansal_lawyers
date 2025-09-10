@@ -3,7 +3,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Http\Request;
-use App\FlightDetail;
+use App\Models\FlightDetail;
 use App\Models\Admin;
 use DB;
 class FlightController extends BaseController

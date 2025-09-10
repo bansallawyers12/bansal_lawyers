@@ -3,10 +3,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Http\Request;
-use App\Hotel;
+use App\Models\Hotel;
 use App\Models\Admin;
-use App\Location;
-use App\Amenitie;
+use App\Models\Location;
+use App\Models\Amenitie;
 use DB;
 class HotelController extends BaseController
 {

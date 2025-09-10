@@ -5,15 +5,15 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Http\Request;
 //use App\Http\Controllers\API\BaseController as BaseController;
 
-use App\Destination;
-use App\Package;
+use App\Models\Destination;
+use App\Models\Package;
 use App\Models\Admin;
-use App\Topinclusion;
+use App\Models\Topinclusion;
 use App\Models\Lead;
-use App\Holidaytype;
-use App\HolidayTheme;
-use App\PackageTheme;
-use App\FlightDetail;
+use App\Models\Holidaytype;
+use App\Models\HolidayTheme;
+use App\Models\PackageTheme;
+use App\Models\FlightDetail;
 use DB;
 
 

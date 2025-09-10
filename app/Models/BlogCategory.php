@@ -15,11 +15,11 @@ class BlogCategory extends Authenticatable {
 	
 	public function subcategory()
     {
-        return $this->hasMany(\App\BlogCategory::class, 'parent_id');
+        return $this->hasMany(\App\Models\BlogCategory::class, 'parent_id');
     }
 
     public function parent()
     {
-        return $this->belongsTo(\App\BlogCategory::class, 'parent_id');
+        return $this->belongsTo(\App\Models\BlogCategory::class, 'parent_id');
     }
 }

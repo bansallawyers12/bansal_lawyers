@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Redirect;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use App\Models\Admin;
-use App\Partner;
-use App\Contact;
-use App\PartnerBranch;
-use App\Task;
-use App\TaskLog;
-//use App\ActivitiesLog;
+use App\Models\Partner;
+use App\Models\Contact;
+use App\Models\PartnerBranch;
+use App\Models\Task;
+use App\Models\TaskLog;
+//use App\Models\ActivitiesLog;
  
 use Auth; 
 use Config;
@@ -273,8 +273,8 @@ class PartnersController extends Controller
     		if(isset($requestData['rem'])){
     			$rem =  @$requestData['rem'];
     			for($irem=0; $irem< count($rem); $irem++){
-    				if(\App\PartnerBranch::where('id', $rem[$irem])->exists()){
-    					\App\PartnerBranch::where('id', $rem[$irem])->delete();
+    				if(\App\Models\PartnerBranch::where('id', $rem[$irem])->exists()){
+    					\App\Models\PartnerBranch::where('id', $rem[$irem])->delete();
     				}
     			}
     		}
@@ -294,8 +294,8 @@ class PartnersController extends Controller
 				if($i==0){
 					$is_headoffice = 1;
 				}
-				if(\App\PartnerBranch::where('id', $requestData['branchid'][$i])->exists()){
-					$os = \App\PartnerBranch::find($requestData['branchid'][$i]);
+				if(\App\Models\PartnerBranch::where('id', $requestData['branchid'][$i])->exists()){
+					$os = \App\Models\PartnerBranch::find($requestData['branchid'][$i]);
 					
 					$os->name = @$branchname[$i];
 					$os->email = @$branchemail[$i];
@@ -422,8 +422,8 @@ class PartnersController extends Controller
             if(isset($requestData['rem'])){
                 $rem =  @$requestData['rem'];
                 for($irem=0; $irem< count($rem); $irem++){
-                    if(\App\PartnerBranch::where('id', $rem[$irem])->exists()){
-                        \App\PartnerBranch::where('id', $rem[$irem])->delete();
+                    if(\App\Models\PartnerBranch::where('id', $rem[$irem])->exists()){
+                        \App\Models\PartnerBranch::where('id', $rem[$irem])->delete();
                     }
                 }
             }
@@ -475,8 +475,8 @@ class PartnersController extends Controller
                     if($i==0){
                         $is_headoffice = 1;
                     }
-                    if(\App\PartnerBranch::where('id', $requestData['branchid'][$i])->exists()){
-                        $os = \App\PartnerBranch::find($requestData['branchid'][$i]);
+                    if(\App\Models\PartnerBranch::where('id', $requestData['branchid'][$i])->exists()){
+                        $os = \App\Models\PartnerBranch::find($requestData['branchid'][$i]);
 
                         $os->name = @$branchname[$i];
                         $os->email = @$branchemail[$i];
@@ -547,7 +547,7 @@ class PartnersController extends Controller
 	
 	public function getpaymenttype(Request $request){
 		$catid = $request->cat_id;
-		$lists = \App\PartnerType::where('category_id', $catid)->orderby('name','ASC')->get();
+		$lists = \App\Models\PartnerType::where('category_id', $catid)->orderby('name','ASC')->get();
 		ob_start();
 		?>
 		<option value="">Select a Partner Type</option>
@@ -584,7 +584,7 @@ class PartnersController extends Controller
 		$squery = $request->q;
 		if($squery != ''){
 			
-			 $partners = \App\Partner::where('id', '!=', '')
+			 $partners = \App\Models\Partner::where('id', '!=', '')
       
        ->where(
            function($query) use ($squery) {
@@ -608,7 +608,7 @@ class PartnersController extends Controller
 		$squery = $request->q;
 		if($squery != ''){
 			
-			 $partners = \App\Partner::where('id', '!=', '')
+			 $partners = \App\Models\Partner::where('id', '!=', '')
        
        ->where( 
            function($query) use ($squery) {
@@ -705,12 +705,12 @@ class PartnersController extends Controller
 	}
 	
 	public function getcontacts(Request $request){
-		$querycontactlist = \App\Contact::where('user_id', $request->clientid)->orderby('created_at', 'DESC');
+		$querycontactlist = \App\Models\Contact::where('user_id', $request->clientid)->orderby('created_at', 'DESC');
 		$contactlistcount = $querycontactlist->count();
 		$contactlist = $querycontactlist->get();
 		if($contactlistcount !== 0){
 			foreach($contactlist as $clist){
-				$branch = \App\PartnerBranch::where('id', $clist->branch)->first();
+				$branch = \App\Models\PartnerBranch::where('id', $clist->branch)->first();
 				?>
 				<div class="note_col" id="contact_<?php echo $clist->id; ?>" style="width:33.33333333%"> 
 					<div class="note_content">
@@ -749,7 +749,7 @@ class PartnersController extends Controller
 	
 	public function deletecontact(Request $request){
 		$note_id = $request->note_id;
-		if(\App\Contact::where('id',$note_id)->exists()){
+		if(\App\Models\Contact::where('id',$note_id)->exists()){
 			$res = DB::table('contacts')->where('id', @$note_id)->delete();
 			if($res){
 				
@@ -767,8 +767,8 @@ class PartnersController extends Controller
 	
 	public function getcontactdetail(Request $request){
 		$note_id = $request->note_id;
-		if(\App\Contact::where('id',$note_id)->exists()){
-			$data = \App\Contact::select('name','contact_email','contact_phone','department','branch','fax','position','primary_contact','countrycode')->where('id',$note_id)->first();
+		if(\App\Models\Contact::where('id',$note_id)->exists()){
+			$data = \App\Models\Contact::select('name','contact_email','contact_phone','department','branch','fax','position','primary_contact','countrycode')->where('id',$note_id)->first();
 			$response['status'] 	= 	true;
 			$response['data']	=	$data;
 		}else{
@@ -851,8 +851,8 @@ class PartnersController extends Controller
 	
 	public function getbranchdetail(Request $request){
 		$note_id = $request->note_id;
-		if(\App\PartnerBranch::where('id',$note_id)->exists()){
-			$data = \App\PartnerBranch::where('id',$note_id)->first();
+		if(\App\Models\PartnerBranch::where('id',$note_id)->exists()){
+			$data = \App\Models\PartnerBranch::where('id',$note_id)->first();
 			$response['status'] 	= 	true;
 			$response['data']	=	$data;
 		}else{
@@ -864,7 +864,7 @@ class PartnersController extends Controller
 	
 	public function deletebranch(Request $request){
 		$note_id = $request->note_id;
-		if(\App\PartnerBranch::where('id',$note_id)->exists()){
+		if(\App\Models\PartnerBranch::where('id',$note_id)->exists()){
 			$res = DB::table('partner_branches')->where('id', @$note_id)->delete();
 			if($res){
 				
@@ -909,7 +909,7 @@ class PartnersController extends Controller
 	
 	public function getappointment(Request $request){
 		ob_start();
-		$appointmentlistsquery = \App\Appointment::where('client_id', $request->clientid)->where('related_to', 'partner')->orderby('created_at', 'DESC');
+		$appointmentlistsquery = \App\Models\Appointment::where('client_id', $request->clientid)->where('related_to', 'partner')->orderby('created_at', 'DESC');
 		$appointmentlistscount = $appointmentlistsquery->count();
 		$appointmentlists = $appointmentlistsquery->get();
 		if($appointmentlistscount !== 0){
@@ -920,9 +920,9 @@ class PartnersController extends Controller
 				$rr=0;
 				$appointmentdata = array();
 				
-				$appointmentlistslast = \App\Appointment::where('client_id', $request->clientid)->where('related_to', 'partner')->orderby('created_at', 'DESC')->first();
+				$appointmentlistslast = \App\Models\Appointment::where('client_id', $request->clientid)->where('related_to', 'partner')->orderby('created_at', 'DESC')->first();
 				foreach($appointmentlists as $appointmentlist){
-					$admin = \App\Admin::where('id', $appointmentlist->user_id)->first();
+					$admin = \App\Models\Admin::where('id', $appointmentlist->user_id)->first();
 					$datetime = $appointmentlist->created_at;
 					$timeago = Controller::time_elapsed_string($datetime);
 					
@@ -966,7 +966,7 @@ class PartnersController extends Controller
 				<div class="editappointment">
 					<a class="edit_link edit_appointment" href="javascript:;" data-id="<?php echo $appointmentlistslast->id; ?>"><i class="fa fa-edit"></i></a>
 					<?php
-					$adminfirst = \App\Admin::where('id', $appointmentlistslast->user_id)->first();
+					$adminfirst = \App\Models\Admin::where('id', $appointmentlistslast->user_id)->first();
 					?>
 					<div class="content">
 						<h4 class="appointmentname"><?php echo $appointmentlistslast->title; ?></h4>
@@ -1002,7 +1002,7 @@ class PartnersController extends Controller
 	}
 	
 	public function getAppointmentdetail(Request $request){
-		$obj = \App\Appointment::find($request->id);
+		$obj = \App\Models\Appointment::find($request->id);
 		if($obj){
 			?>
 			<form method="post" action="<?php echo \URL::to('/admin/editappointment'); ?>" name="editpartnerappointment" id="editpartnerappointment" autocomplete="off" enctype="multipart/form-data">
@@ -1191,10 +1191,10 @@ class PartnersController extends Controller
 	public function gettasks(Request $request){
 		$client_id = $request->clientid;
 		
-		$notelist = \App\Task::where('client_id',$client_id)->where('type','partner')->orderby('created_at', 'DESC')->get();
+		$notelist = \App\Models\Task::where('client_id',$client_id)->where('type','partner')->orderby('created_at', 'DESC')->get();
 		ob_start();
 		foreach($notelist as $alist){
-			$admin = \App\Admin::where('id', $alist->user_id)->first();
+			$admin = \App\Models\Admin::where('id', $alist->user_id)->first();
 			?>
 			<tr class="opentaskview" style="cursor:pointer;" id="<?php echo $alist->id; ?>">
 				<td></td> 
@@ -1221,7 +1221,7 @@ class PartnersController extends Controller
 	}
 	
 	public function taskdetail(Request $request){
-		$notedetail = \App\Task::where('id',$request->task_id)->where('type','partner')->first();
+		$notedetail = \App\Models\Task::where('id',$request->task_id)->where('type','partner')->first();
 		?>
 		<div class="modal-header">
 				<h5 class="modal-title" id="taskModalLabel"><i class="fa fa-bag"></i> <?php echo $notedetail->title; ?></h5>
@@ -1318,7 +1318,7 @@ class PartnersController extends Controller
 				<div class="col-12 col-md-4 col-lg-4">
 					<div class="form-group">
 					<?php
-					$admindetail = \App\Admin::where('id',$notedetail->assignee)->first();
+					$admindetail = \App\Models\Admin::where('id',$notedetail->assignee)->first();
 					?>
 						<label for="title">Assignee:</label>
 						<br>
@@ -1344,7 +1344,7 @@ class PartnersController extends Controller
 						<label for="title">Followers:</label>
 						<br>
 						<?php
-					$admindetailfollowers = \App\Admin::where('id',$notedetail->followers)->first();
+					$admindetailfollowers = \App\Models\Admin::where('id',$notedetail->followers)->first();
 					if($admindetailfollowers){
 					?>
 						<div style="display: flex;">
@@ -1370,7 +1370,7 @@ class PartnersController extends Controller
 						<label for="title">Added By:</label>
 						<br>
 						<?php
-					$admindetailadded = \App\Admin::where('id',$notedetail->user_id)->first();
+					$admindetailadded = \App\Models\Admin::where('id',$notedetail->user_id)->first();
 					?>
 						<div style="display: flex;">
 						<span  title="Arun " class="col-hr-1 ag-avatar ag-avatar--xs" style="position: relative; background: rgb(3, 169, 244);color: #fff;display: block;
@@ -1424,7 +1424,7 @@ class PartnersController extends Controller
 						<?php
 						$datas = TaskLog::where('task_id', $notedetail->id)->orderby('created_at','DESC')->get();
 							foreach($datas as $data){
-								$admindetailcreated_by = \App\Admin::where('id',$data->created_by)->first();
+								$admindetailcreated_by = \App\Models\Admin::where('id',$data->created_by)->first();
 								?>
 							
 								<div  class="task-log-item text-semi-light-grey col-v-1" style="margin-top: 5px!important;background-color: #fff;
@@ -1487,7 +1487,7 @@ class PartnersController extends Controller
 			$datas = TaskLog::where('task_id', $request->taskid)->orderby('created_at','DESC')->get();
 			ob_start();
 			foreach($datas as $data){
-				$admindetailcreated_by = \App\Admin::where('id',$data->created_by)->first();
+				$admindetailcreated_by = \App\Models\Admin::where('id',$data->created_by)->first();
 				?>
 				<div  class="task-log-item text-semi-light-grey col-v-1" style="margin-top: 5px!important;background-color: #fff;border-radius: 4px;box-shadow: 0 1px 1px 0 rgb(0 0 0 / 10%);padding: 7px 15px;">
 			<div class="ag-flex">
@@ -1561,7 +1561,7 @@ class PartnersController extends Controller
 		$datas = TaskLog::where('task_id', $request->id)->orderby('created_at','DESC')->get();
 			ob_start();
 			foreach($datas as $data){
-				$admindetailcreated_by = \App\Admin::where('id',$data->created_by)->first();
+				$admindetailcreated_by = \App\Models\Admin::where('id',$data->created_by)->first();
 				?>
 				<div  class="task-log-item text-semi-light-grey col-v-1" style="margin-top: 5px!important;background-color: #fff;border-radius: 4px;box-shadow: 0 1px 1px 0 rgb(0 0 0 / 10%);padding: 7px 15px;">
 			<div class="ag-flex">
@@ -1619,7 +1619,7 @@ class PartnersController extends Controller
 		$datas = TaskLog::where('task_id', $request->id)->orderby('created_at','DESC')->get();
 			ob_start();
 			foreach($datas as $data){
-				$admindetailcreated_by = \App\Admin::where('id',$data->created_by)->first();
+				$admindetailcreated_by = \App\Models\Admin::where('id',$data->created_by)->first();
 				?>
 				<div  class="task-log-item text-semi-light-grey col-v-1" style="margin-top: 5px!important;background-color: #fff;border-radius: 4px;box-shadow: 0 1px 1px 0 rgb(0 0 0 / 10%);padding: 7px 15px;">
 			<div class="ag-flex">

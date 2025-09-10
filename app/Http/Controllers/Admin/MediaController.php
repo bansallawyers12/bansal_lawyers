@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
-use App\MediaImage;
+use App\Models\MediaImage;
  
 use Auth;
 use Config;

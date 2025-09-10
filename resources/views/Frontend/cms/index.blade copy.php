@@ -8,7 +8,7 @@
 	<meta property="og:title" content="{{@$pagedata->meta_title}}" />
 	<meta property="og:description" content="{{@$pagedata->meta_description}}" />
 	<meta property="og:url" content="<?php echo URL::to('/'); ?>/{{@$pagedata->slug}}" />
-	<meta property="og:site_name" content="<?php echo @\App\ThemeOption::where('meta_key','site_name')->first()->meta_value; ?>" />
+	<meta property="og:site_name" content="<?php echo @\App\Models\ThemeOption::where('meta_key','site_name')->first()->meta_value; ?>" />
 	<meta property="article:publisher" content="https://www.facebook.com/people/Bansal-Lawyers/61562008576642/" />
 	<meta property="article:modified_time" content="2023-04-04T21:06:24+00:00" />
 	<!--<meta property="og:image" content="<?php //echo URL::to('/'); ?>/public/img/bansal-immigration-icon.jpg" />-->

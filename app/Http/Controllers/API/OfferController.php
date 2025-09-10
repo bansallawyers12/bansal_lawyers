@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Response;
 use App\Models\Admin;
 use DB;
 
-use App\Offer;
+use App\Models\Offer;
 
 use Config;
 

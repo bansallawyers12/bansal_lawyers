@@ -60,7 +60,7 @@
 								<div class="col-sm-10">
 								<select data-valid="required" id="fcode" class="form-control select2bs5" name="code">
 									<option value="">Select</option>
-									@foreach(\App\Markup::all() as $mist)
+									@foreach(\App\Models\Markup::all() as $mist)
 										<option value="{{@$mist->flight_code}}">{{@$mist->flight_code}}</option>
 									@endforeach
 								</select>

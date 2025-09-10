@@ -171,7 +171,7 @@ class HomeController extends Controller
             // 'g-recaptcha-response' => 'required|recaptcha'
         ]);
 
-       //$set = \App\Admin::where('id',1)->first();
+       //$set = \App\Models\Admin::where('id',1)->first();
 		$obj = new Contact;
         $obj->name = $request->name;
         $obj->contact_email = $request->email;
@@ -314,8 +314,8 @@ class HomeController extends Controller
             }
         }
         //echo $person_id."===".$service_type; die;
-        $bookservice = \App\BookService::where('id', $req_service_id)->first();//dd($bookservice);
-        $service = \App\BookServiceSlotPerPerson::where('person_id', $person_id)->where('service_type', $service_type)->first();//dd($service);
+        $bookservice = \App\Models\BookService::where('id', $req_service_id)->first();//dd($bookservice);
+        $service = \App\Models\BookServiceSlotPerPerson::where('person_id', $person_id)->where('service_type', $service_type)->first();//dd($service);
 	    if( $service ){
 		   $weekendd  =array();
 		    if($service->weekend != ''){
@@ -409,8 +409,8 @@ class HomeController extends Controller
             }
         }
         //echo $person_id."===".$service_type; die;
-        $bookservice = \App\BookService::where('id', $req_service_id)->first();//dd($bookservice);
-        $service = \App\BookServiceSlotPerPerson::where('person_id', $person_id)->where('service_type', $service_type)->first();//dd($service);
+        $bookservice = \App\Models\BookService::where('id', $req_service_id)->first();//dd($bookservice);
+        $service = \App\Models\BookServiceSlotPerPerson::where('person_id', $person_id)->where('service_type', $service_type)->first();//dd($service);
 	    if( $service ){
 		   $weekendd  =array();
 		    if($service->weekend != ''){
@@ -476,7 +476,7 @@ class HomeController extends Controller
                 $book_service_slot_per_person_tbl_unique_id = 1;
             }
 
-            $service = \App\Appointment::select('id', 'date', 'time')
+            $service = \App\Models\Appointment::select('id', 'date', 'time')
             ->where('status', '!=', 7)
             ->whereDate('date', $datey)
             ->where(function ($query) {
@@ -486,7 +486,7 @@ class HomeController extends Controller
                 });
             })->exists();
 
-            $servicelist = \App\Appointment::select('id', 'date', 'time')
+            $servicelist = \App\Models\Appointment::select('id', 'date', 'time')
             ->where('status', '!=', 7)
             ->whereDate('date', $datey)
             ->where(function ($query) {
@@ -503,8 +503,8 @@ class HomeController extends Controller
             foreach($servicelist as $list){
                 $disabledtimeslotes[] = date('g:i A', strtotime($list->time)); //'H:i A'
 			}
-            //$disabled_slot_arr = \App\BookServiceDisableSlot::select('id','slots')->where('book_service_id', $request->service_id)->whereDate('disabledates', $datey)->get();
-            $disabled_slot_arr = \App\BookServiceDisableSlot::select('id','slots')->where('book_service_slot_per_person_id', $book_service_slot_per_person_tbl_unique_id)->whereDate('disabledates', $datey)->get();
+            //$disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')->where('book_service_id', $request->service_id)->whereDate('disabledates', $datey)->get();
+            $disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')->where('book_service_slot_per_person_id', $book_service_slot_per_person_tbl_unique_id)->whereDate('disabledates', $datey)->get();
             //dd($disabled_slot_arr);
             if(!empty($disabled_slot_arr) && count($disabled_slot_arr) >0 ){
                 $newArray = explode(",",$disabled_slot_arr[0]->slots); //dd($newArray);
@@ -514,8 +514,8 @@ class HomeController extends Controller
             $disabledtimeslotes = array_merge($disabledtimeslotes, $newArray); //dd($disabledtimeslotes);
 		    return json_encode(array('success'=>true, 'disabledtimeslotes' =>$disabledtimeslotes));
 	    } else {
-            //$disabled_slot_arr = \App\BookServiceDisableSlot::select('id','slots')->where('book_service_id', $request->service_id)->whereDate('disabledates', $datey)->get();
-            $disabled_slot_arr = \App\BookServiceDisableSlot::select('id','slots')->where('book_service_slot_per_person_id', $book_service_slot_per_person_tbl_unique_id)->whereDate('disabledates', $datey)->get();
+            //$disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')->where('book_service_id', $request->service_id)->whereDate('disabledates', $datey)->get();
+            $disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')->where('book_service_slot_per_person_id', $book_service_slot_per_person_tbl_unique_id)->whereDate('disabledates', $datey)->get();
             //dd($disabled_slot_arr);
 
             if(!empty($disabled_slot_arr) && count($disabled_slot_arr) >0 ){
@@ -536,9 +536,9 @@ class HomeController extends Controller
 
 	public function stripe($appointmentId)
     {
-        $appointmentInfo = \App\Appointment::find($appointmentId);
+        $appointmentInfo = \App\Models\Appointment::find($appointmentId);
         if($appointmentInfo){
-            $adminInfo = \App\Admin::find($appointmentInfo->client_id);
+            $adminInfo = \App\Models\Admin::find($appointmentInfo->client_id);
         } else {
             $adminInfo = array();
         }

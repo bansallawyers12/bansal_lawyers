@@ -8,21 +8,21 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
-use App\ActivitiesLog;
-use App\ServiceFeeOption;
-use App\ServiceFeeOptionType;
-use App\OnlineForm;
+use App\Models\ActivitiesLog;
+use App\Models\ServiceFeeOption;
+use App\Models\ServiceFeeOptionType;
+use App\Models\OnlineForm;
 use Auth;
 use Config;
 use PDF;
-use App\CheckinLog;
-use App\Note;
+use App\Models\CheckinLog;
+use App\Models\Note;
 use App\clientServiceTaken;
-use App\AccountClientReceipt;
+use App\Models\AccountClientReceipt;
 
 use Illuminate\Support\Facades\Storage;
 
-use App\Application;
+use App\Models\Application;
 use DataTables;
 
 class ClientsController extends Controller
@@ -50,7 +50,7 @@ class ClientsController extends Controller
 			return Redirect::to('/admin/dashboard')->with('error',config('constants.unauthorized'));
 		} */
 		//check authorization end
-	    $roles = \App\UserRole::find(Auth::user()->role);
+	    $roles = \App\Models\UserRole::find(Auth::user()->role);
 		$newarray = json_decode($roles->module_access);
 		$module_access = (array) $newarray;
 		if(array_key_exists('20',  $module_access)) {
@@ -286,7 +286,7 @@ class ClientsController extends Controller
 	}
 
 	public function downloadpdf(Request $request, $id = NULL){
-	    	$fetchd = \App\Document::where('id',$id)->first();
+	    	$fetchd = \App\Models\Document::where('id',$id)->first();
 	    	$data = ['title' => 'Welcome to codeplaners.com','image' => $fetchd->myfile];
      $pdf = PDF::loadView('myPDF', $data);
 
@@ -613,8 +613,8 @@ class ClientsController extends Controller
 	public function detail(Request $request, $id = NULL){ 
 
 	     if(isset($request->t)){
-    	    if(\App\Notification::where('id', $request->t)->exists()){
-    	       $ovv =  \App\Notification::find($request->t);
+    	    if(\App\Models\Notification::where('id', $request->t)->exists()){
+    	       $ovv =  \App\Models\Notification::find($request->t);
     	       $ovv->receiver_status = 1;
     	       $ovv->save();
     	    }
@@ -660,7 +660,7 @@ class ClientsController extends Controller
 		$squery = $request->q; //dd($squery);
 		if($squery != ''){
 				$d = '';
-			 $clients = \App\Admin::where('is_archived', '=', 0)
+			 $clients = \App\Models\Admin::where('is_archived', '=', 0)
        ->where('role', '=', 7)
        ->where(
            function($query) use ($squery) {
@@ -670,7 +670,7 @@ class ClientsController extends Controller
             })
             ->get();
 
-            	/* $leads = \App\Lead::where('converted', '=', 0)
+            	/* $leads = \App\Models\Lead::where('converted', '=', 0)
 
        ->where(
            function($query) use ($squery,$d) {
@@ -699,7 +699,7 @@ class ClientsController extends Controller
 		$squery = $request->q;
 		if($squery != ''){
 				$d = '';
-			 $clients = \App\Admin::where('is_archived', '=', 0)
+			 $clients = \App\Models\Admin::where('is_archived', '=', 0)
        ->where('role', '=', 7)
        ->where(
            function($query) use ($squery) {
@@ -736,7 +736,7 @@ class ClientsController extends Controller
 			}
 			//dd($d);
             if( $d != "") {
-                $clients = \App\Admin::where('role', '=', 7)->whereNull('is_deleted')
+                $clients = \App\Models\Admin::where('role', '=', 7)->whereNull('is_deleted')
                 ->where(
                     function($query) use ($squery,$d) {
                     return $query
@@ -754,7 +754,7 @@ class ClientsController extends Controller
                     })
                 ->get();
             } else {
-                $clients = \App\Admin::where('role', '=', 7)->whereNull('is_deleted')
+                $clients = \App\Models\Admin::where('role', '=', 7)->whereNull('is_deleted')
                 ->where(
                     function($query) use ($squery) {
                     return $query
@@ -772,7 +772,7 @@ class ClientsController extends Controller
                 ->get();
             }
              //dd($clients);
-			/*	 $leads = \App\Lead::where('converted', '=', 0)
+			/*	 $leads = \App\Models\Lead::where('converted', '=', 0)
 
        ->where(
            function($query) use ($squery,$d) {
@@ -810,7 +810,7 @@ class ClientsController extends Controller
 			foreach($activities as $activit){
 				$admin = Admin::where('id', $activit->created_by)->first();
                 /*if($activit->use_for != ""){
-                    $receiver = \App\Admin::where('id', $activit->use_for)->first();
+                    $receiver = \App\Models\Admin::where('id', $activit->use_for)->first();
                     if($receiver->first_name){
                         $reciver_name = $receiver->first_name;
                     } else {
@@ -883,7 +883,7 @@ class ClientsController extends Controller
 			$product = $request->product;
 			$client_id = $request->client_id;
 			$status = 0;
-			$workflowstage = \App\WorkflowStage::where('w_id', $workflow)->orderby('id','asc')->first();
+			$workflowstage = \App\Models\WorkflowStage::where('w_id', $workflow)->orderby('id','asc')->first();
 			$stage = $workflowstage->name;
 			$sale_forcast = 0.00;
 			$obj = new \App\Application;
@@ -898,9 +898,9 @@ class ClientsController extends Controller
 			$obj->client_id = $client_id;
 			$saved = $obj->save();
 			if($saved){
-				$productdetail = \App\Product::where('id', $product)->first();
-				$partnerdetail = \App\Partner::where('id', $partner)->first();
-				$PartnerBranch = \App\PartnerBranch::where('id', $branch)->first();
+				$productdetail = \App\Models\Product::where('id', $product)->first();
+				$partnerdetail = \App\Models\Partner::where('id', $partner)->first();
+				$PartnerBranch = \App\Models\PartnerBranch::where('id', $branch)->first();
 				$subject = 'has started an application';
 				$objs = new ActivitiesLog;
 				$objs->client_id = $request->client_id;
@@ -923,14 +923,14 @@ class ClientsController extends Controller
 
 	public function getapplicationlists(Request $request){
 		if(Admin::where('role', '=', '7')->where('id', $request->id)->exists()){
-			$applications = \App\Application::where('client_id', $request->id)->orderby('created_at', 'DESC')->get();
+			$applications = \App\Models\Application::where('client_id', $request->id)->orderby('created_at', 'DESC')->get();
 			$data = array();
 			ob_start();
 			foreach($applications as $alist){
-				$productdetail = \App\Product::where('id', $alist->product_id)->first();
-				$partnerdetail = \App\Partner::where('id', $alist->partner_id)->first();
-				$PartnerBranch = \App\PartnerBranch::where('id', $alist->branch)->first();
-				$workflow = \App\Workflow::where('id', $alist->workflow)->first();
+				$productdetail = \App\Models\Product::where('id', $alist->product_id)->first();
+				$partnerdetail = \App\Models\Partner::where('id', $alist->partner_id)->first();
+				$PartnerBranch = \App\Models\PartnerBranch::where('id', $alist->branch)->first();
+				$workflow = \App\Models\Workflow::where('id', $alist->workflow)->first();
 				?>
 				<tr id="id_<?php echo $alist->id; ?>">
 				<td><a class="openapplicationdetail" data-id="<?php echo $alist->id; ?>" href="javascript:;" style="display:block;"><?php echo @$productdetail->name; ?></a> <small><?php echo @$partnerdetail->partner_name; ?>(<?php echo @$PartnerBranch->name; ?>)</small></td>
@@ -972,7 +972,7 @@ class ClientsController extends Controller
 	public function createnote(Request $request){
 
 			if(isset($request->noteid) && $request->noteid != ''){
-				$obj = \App\Note::find($request->noteid);
+				$obj = \App\Models\Note::find($request->noteid);
 			}else{
 				$obj = new \App\Note;
 			}
@@ -1013,8 +1013,8 @@ class ClientsController extends Controller
 
 	public function getnotedetail(Request $request){
 		$note_id = $request->note_id;
-		if(\App\Note::where('id',$note_id)->exists()){
-			$data = \App\Note::select('title','description')->where('id',$note_id)->first();
+		if(\App\Models\Note::where('id',$note_id)->exists()){
+			$data = \App\Models\Note::select('title','description')->where('id',$note_id)->first();
 			$response['status'] 	= 	true;
 			$response['data']	=	$data;
 		}else{
@@ -1026,9 +1026,9 @@ class ClientsController extends Controller
 
 	public function viewnotedetail(Request $request){
 		$note_id = $request->note_id;
-		if(\App\Note::where('id',$note_id)->exists()){
-			$data = \App\Note::select('title','description','user_id','updated_at')->where('id',$note_id)->first();
-			$admin = \App\Admin::where('id', $data->user_id)->first();
+		if(\App\Models\Note::where('id',$note_id)->exists()){
+			$data = \App\Models\Note::select('title','description','user_id','updated_at')->where('id',$note_id)->first();
+			$admin = \App\Models\Admin::where('id', $data->user_id)->first();
 			$s = substr(@$admin->first_name, 0, 1);
 			$data->admin = $s;
 			$response['status'] 	= 	true;
@@ -1042,9 +1042,9 @@ class ClientsController extends Controller
 
 	public function viewapplicationnote(Request $request){
 		$note_id = $request->note_id;
-		if(\App\ApplicationActivitiesLog::where('type','note')->where('id',$note_id)->exists()){
-			$data = \App\ApplicationActivitiesLog::select('title','description','user_id','updated_at')->where('type','note')->where('id',$note_id)->first();
-			$admin = \App\Admin::where('id', $data->user_id)->first();
+		if(\App\Models\ApplicationActivitiesLog::where('type','note')->where('id',$note_id)->exists()){
+			$data = \App\Models\ApplicationActivitiesLog::select('title','description','user_id','updated_at')->where('type','note')->where('id',$note_id)->first();
+			$admin = \App\Models\Admin::where('id', $data->user_id)->first();
 			$s = substr(@$admin->first_name, 0, 1);
 			$data->admin = $s;
 			$response['status'] 	= 	true;
@@ -1060,10 +1060,10 @@ class ClientsController extends Controller
 		$client_id = $request->clientid;
 		$type = $request->type;
 
-		$notelist = \App\Note::where('client_id',$client_id)->whereNull('assigned_to')->whereNull('task_group')->where('type',$type)->orderby('pin', 'DESC')->orderBy('created_at', 'DESC')->get();
+		$notelist = \App\Models\Note::where('client_id',$client_id)->whereNull('assigned_to')->whereNull('task_group')->where('type',$type)->orderby('pin', 'DESC')->orderBy('created_at', 'DESC')->get();
 		ob_start();
 		foreach($notelist as $list){
-			$admin = \App\Admin::where('id', $list->user_id)->first();
+			$admin = \App\Models\Admin::where('id', $list->user_id)->first();
 			?>
 			<div class="note_col" id="note_id_<?php echo $list->id; ?>">
 				<div class="note_content">
@@ -1107,8 +1107,8 @@ class ClientsController extends Controller
 
 	public function deletenote(Request $request){
 		$note_id = $request->note_id;
-		if(\App\Note::where('id',$note_id)->exists()){
-			$data = \App\Note::select('client_id','title','description')->where('id',$note_id)->first();
+		if(\App\Models\Note::where('id',$note_id)->exists()){
+			$data = \App\Models\Note::select('client_id','title','description')->where('id',$note_id)->first();
 			$res = DB::table('notes')->where('id', @$note_id)->delete();
 			if($res){
 				if($data == 'client'){
@@ -1136,7 +1136,7 @@ class ClientsController extends Controller
 
 	public function interestedService(Request $request){
 		if(Admin::where('role', '=', '7')->where('id', $request->client_id)->exists()){
-			if(\App\InterestedService::where('client_id', $request->client_id)->where('partner', $request->partner)->where('product', $request->product)->exists()){
+			if(\App\Models\InterestedService::where('client_id', $request->client_id)->where('partner', $request->partner)->where('product', $request->product)->exists()){
 				$response['status'] 	= 	false;
 				$response['message']	=	'This interested service already exists.';
 			}else{
@@ -1154,8 +1154,8 @@ class ClientsController extends Controller
 				if($saved){
 					$subject = 'added an interested service';
 
-					$partnerdetail = \App\Partner::where('id', $request->partner)->first();
-					$PartnerBranch = \App\PartnerBranch::where('id', $request->branch)->first();
+					$partnerdetail = \App\Models\Partner::where('id', $request->partner)->first();
+					$PartnerBranch = \App\Models\PartnerBranch::where('id', $request->branch)->first();
 					$objs = new ActivitiesLog;
 					$objs->client_id = $request->client_id;
 					$objs->created_by = Auth::user()->id;
@@ -1180,13 +1180,13 @@ class ClientsController extends Controller
 
 	public function getServices(Request $request){
 		$client_id = $request->clientid;
-		$inteservices = \App\InterestedService::where('client_id',$client_id)->orderby('created_at', 'DESC')->get();
+		$inteservices = \App\Models\InterestedService::where('client_id',$client_id)->orderby('created_at', 'DESC')->get();
 		foreach($inteservices as $inteservice){
-			$workflowdetail = \App\Workflow::where('id', $inteservice->workflow)->first();
-			 $productdetail = \App\Product::where('id', $inteservice->product)->first();
-			$partnerdetail = \App\Partner::where('id', $inteservice->partner)->first();
-			$PartnerBranch = \App\PartnerBranch::where('id', $inteservice->branch)->first();
-			$admin = \App\Admin::where('id', $inteservice->user_id)->first();
+			$workflowdetail = \App\Models\Workflow::where('id', $inteservice->workflow)->first();
+			 $productdetail = \App\Models\Product::where('id', $inteservice->product)->first();
+			$partnerdetail = \App\Models\Partner::where('id', $inteservice->partner)->first();
+			$PartnerBranch = \App\Models\PartnerBranch::where('id', $inteservice->branch)->first();
+			$admin = \App\Models\Admin::where('id', $inteservice->user_id)->first();
 			ob_start();
 			?>
 			<div class="interest_column">
@@ -1226,12 +1226,12 @@ class ClientsController extends Controller
 			}
 			$nettotal = $client_revenue + $partner_revenue - $discounts;
 
-			$appfeeoption = \App\ServiceFeeOption::where('app_id', $inteservice->id)->first();
+			$appfeeoption = \App\Models\ServiceFeeOption::where('app_id', $inteservice->id)->first();
 			$totl = 0.00;
 			$net = 0.00;
 			$discount = 0.00;
 			if($appfeeoption){
-				$appfeeoptiontype = \App\ServiceFeeOptionType::where('fee_id', $appfeeoption->id)->get();
+				$appfeeoptiontype = \App\Models\ServiceFeeOptionType::where('fee_id', $appfeeoption->id)->get();
 				foreach($appfeeoptiontype as $fee){
 					$totl += $fee->total_fee;
 				}
@@ -1336,10 +1336,10 @@ class ClientsController extends Controller
 				}
 				$response['status'] 	= 	true;
 				$response['message']	=	'You’ve successfully uploaded your document';
-				$fetchd = \App\Document::where('client_id',$id)->where('doc_type',$doctype)->where('type',$request->type)->orderby('created_at', 'DESC')->get();
+				$fetchd = \App\Models\Document::where('client_id',$id)->where('doc_type',$doctype)->where('type',$request->type)->orderby('created_at', 'DESC')->get();
 				ob_start();
 				foreach($fetchd as $fetch){
-					$admin = \App\Admin::where('id', $fetch->user_id)->first();
+					$admin = \App\Models\Admin::where('id', $fetch->user_id)->first();
 					?>
 					<tr class="drow" id="id_<?php echo $fetch->id; ?>">
 						<td><div data-id="<?php echo $fetch->id; ?>" data-name="<?php echo $fetch->file_name; ?>" class="doc-row">
@@ -1372,7 +1372,7 @@ class ClientsController extends Controller
 				$data = ob_get_clean();
 				ob_start();
 				foreach($fetchd as $fetch){
-					$admin = \App\Admin::where('id', $fetch->user_id)->first();
+					$admin = \App\Models\Admin::where('id', $fetch->user_id)->first();
 					?>
 					<div class="grid_list">
 						<div class="grid_col">
@@ -1411,10 +1411,10 @@ class ClientsController extends Controller
 		$id = $request->cat_id;
 		$clientid = $request->clientid;
 
-		if(\App\InterestedService::where('client_id',$clientid)->where('id',$id)->exists()){
-			$app = \App\InterestedService::where('client_id',$clientid)->where('id',$id)->first();
+		if(\App\Models\InterestedService::where('client_id',$clientid)->where('id',$id)->exists()){
+			$app = \App\Models\InterestedService::where('client_id',$clientid)->where('id',$id)->first();
 			$workflow = $app->workflow;
-			$workflowstage = \App\WorkflowStage::where('w_id', $workflow)->orderby('id','ASC')->first();
+			$workflowstage = \App\Models\WorkflowStage::where('w_id', $workflow)->orderby('id','ASC')->first();
 			$partner = $app->partner;
 			$branch = $app->branch;
 			$product = $app->product;
@@ -1437,8 +1437,8 @@ class ClientsController extends Controller
 
 			$saved = $obj->save();
 
-			if(\App\ServiceFeeOption::where('app_id', $app->id)->exists()){
-				$servicedata = \App\ServiceFeeOption::where('app_id', $app->id)->first();
+			if(\App\Models\ServiceFeeOption::where('app_id', $app->id)->exists()){
+				$servicedata = \App\Models\ServiceFeeOption::where('app_id', $app->id)->first();
 
 				$aobj = new \App\ApplicationFeeOption;
 				$aobj->user_id = Auth::user()->id;
@@ -1450,9 +1450,9 @@ class ClientsController extends Controller
 				$aobj->discount_sem = $servicedata->discount_sem;
 				$aobj->total_discount = $servicedata->total_discount;
 				$aobj->save();
-				if(\App\ServiceFeeOptionType::where('fee_id', $servicedata->id)->exists()){
+				if(\App\Models\ServiceFeeOptionType::where('fee_id', $servicedata->id)->exists()){
 					$totl = 0.00;
-					$appfeeoptiontype = \App\ServiceFeeOptionType::where('fee_id', $servicedata->id)->get();
+					$appfeeoptiontype = \App\Models\ServiceFeeOptionType::where('fee_id', $servicedata->id)->get();
 					foreach($appfeeoptiontype as $fee){
 						$totl += $fee->total_fee;
 						$aobjs = new \App\ApplicationFeeOptionType;
@@ -1468,13 +1468,13 @@ class ClientsController extends Controller
 				}
 			}
 
-			$app = \App\InterestedService::find($id);
+			$app = \App\Models\InterestedService::find($id);
 			$app->status = 1;
 			$saved = $app->save();
 			if($saved){
-				$productdetail = \App\Product::where('id', $product)->first();
-				$partnerdetail = \App\Partner::where('id', $partner)->first();
-				$PartnerBranch = \App\PartnerBranch::where('id', $branch)->first();
+				$productdetail = \App\Models\Product::where('id', $product)->first();
+				$partnerdetail = \App\Models\Partner::where('id', $partner)->first();
+				$PartnerBranch = \App\Models\PartnerBranch::where('id', $branch)->first();
 				$subject = 'has started an application';
 				$objs = new ActivitiesLog;
 				$objs->client_id = $request->clientid;
@@ -1497,13 +1497,13 @@ class ClientsController extends Controller
 
 	public function deleteservices(Request $request){
 		$note_id = $request->note_id;
-		if(\App\InterestedService::where('id',$note_id)->exists()){
-			$data = \App\InterestedService::where('id',$note_id)->first();
+		if(\App\Models\InterestedService::where('id',$note_id)->exists()){
+			$data = \App\Models\InterestedService::where('id',$note_id)->first();
 			$res = DB::table('interested_services')->where('id', @$note_id)->delete();
 			if($res){
-				$productdetail = \App\Product::where('id', $data->product)->first();
-				$partnerdetail = \App\Partner::where('id', $data->partner)->first();
-				$PartnerBranch = \App\PartnerBranch::where('id', $data->branch)->first();
+				$productdetail = \App\Models\Product::where('id', $data->product)->first();
+				$partnerdetail = \App\Models\Partner::where('id', $data->partner)->first();
+				$PartnerBranch = \App\Models\PartnerBranch::where('id', $data->branch)->first();
 				$subject = 'deleted an interested service';
 
 				$objs = new ActivitiesLog;
@@ -1530,8 +1530,8 @@ class ClientsController extends Controller
 	public function renamedoc(Request $request){
 		$id = $request->id;
 		$filename = $request->filename;
-		if(\App\Document::where('id',$id)->exists()){
-			$doc = \App\Document::where('id',$id)->first();
+		if(\App\Models\Document::where('id',$id)->exists()){
+			$doc = \App\Models\Document::where('id',$id)->first();
 			$res = DB::table('documents')->where('id', @$id)->update(['file_name' => $filename]);
 			if($res){
 				$response['status'] 	= 	true;
@@ -1553,15 +1553,15 @@ class ClientsController extends Controller
 	public function save_tag(Request $request){
 		 $id = $request->client_id;
 
-		if(\App\Admin::where('id',$id)->exists()){
+		if(\App\Models\Admin::where('id',$id)->exists()){
 		    $tagg = $request->tag;
 		    $tag = array();
 		    foreach($tagg as $tg){
-		        $stagd = \App\Tag::where('name','=',$tg)->first();
+		        $stagd = \App\Models\Tag::where('name','=',$tg)->first();
 		        if($stagd){
 
 		        }else{
-		            $stagds = \App\Tag::where('id','=',$tg)->first();
+		            $stagds = \App\Models\Tag::where('id','=',$tg)->first();
 		            if($stagds){
 		                $tag[] = $stagds->id;
 		            }else{
@@ -1573,7 +1573,7 @@ class ClientsController extends Controller
 
 		        }
 		    }
-			$obj = \App\Admin::find($id);
+			$obj = \App\Models\Admin::find($id);
 			$obj->tagname = implode(',', $tag);
 			$saved = $obj->save();
 			if($saved){
@@ -1590,7 +1590,7 @@ class ClientsController extends Controller
 	public function deletedocs(Request $request){
 		$note_id = $request->note_id;
 
-		if(\App\Document::where('id',$note_id)->exists()){
+		if(\App\Models\Document::where('id',$note_id)->exists()){
 
 			$data = DB::table('documents')->where('id', @$note_id)->first();
 			$res = DB::table('documents')->where('id', @$note_id)->delete();
@@ -1834,7 +1834,7 @@ class ClientsController extends Controller
 	public function editappointment(Request $request){
 		$requestData = $request->all();
 
-		$obj = \App\Appointment::find($requestData['id']);
+		$obj = \App\Models\Appointment::find($requestData['id']);
 		$obj->user_id = @Auth::user()->id;
 		$obj->timezone = @$request->timezone;
 		$obj->date = @$request->appoint_date;
@@ -1880,9 +1880,9 @@ class ClientsController extends Controller
 		if(isset($id) && !empty($id))
 		{
 			$requestData = $request->all();
-			if(\App\Appointment::where('id', '=', $id)->exists())
+			if(\App\Models\Appointment::where('id', '=', $id)->exists())
 			{
-				$obj = \App\Appointment::find($id);
+				$obj = \App\Models\Appointment::find($id);
 				$obj->status = @$status;
 				$saved = $obj->save();
 
@@ -1942,7 +1942,7 @@ class ClientsController extends Controller
 	public function updatefollowupschedule(Request $request){
 		$requestData = $request->all();
 
-		$obj = \App\Appointment::find($requestData['appointment_id']);
+		$obj = \App\Models\Appointment::find($requestData['appointment_id']);
 		$obj->user_id = @Auth::user()->id;
 		//$obj->timezone = @$request->timezone;
 		$obj->date = @$request->followup_date;
@@ -1986,10 +1986,10 @@ class ClientsController extends Controller
 				<?php
 				$rr=0;
 				$appointmentdata = array();
-				$appointmentlists = \App\Appointment::where('client_id', $request->clientid)->where('related_to', 'client')->orderby('created_at', 'DESC')->get();
-				$appointmentlistslast = \App\Appointment::where('client_id', $request->clientid)->where('related_to', 'client')->orderby('created_at', 'DESC')->first();
+				$appointmentlists = \App\Models\Appointment::where('client_id', $request->clientid)->where('related_to', 'client')->orderby('created_at', 'DESC')->get();
+				$appointmentlistslast = \App\Models\Appointment::where('client_id', $request->clientid)->where('related_to', 'client')->orderby('created_at', 'DESC')->first();
 				foreach($appointmentlists as $appointmentlist){
-					$admin = \App\Admin::where('id', $appointmentlist->user_id)->first();
+					$admin = \App\Models\Admin::where('id', $appointmentlist->user_id)->first();
 					$datetime = $appointmentlist->created_at;
 					$timeago = Controller::time_elapsed_string($datetime);
 
@@ -2033,7 +2033,7 @@ class ClientsController extends Controller
 				<div class="editappointment">
 					<a class="edit_link edit_appointment" href="javascript:;" data-id="<?php echo $appointmentlistslast->id; ?>"><i class="fa fa-edit"></i></a>
 					<?php
-					$adminfirst = \App\Admin::where('id', $appointmentlistslast->user_id)->first();
+					$adminfirst = \App\Models\Admin::where('id', $appointmentlistslast->user_id)->first();
 					?>
 					<div class="content">
 						<h4 class="appointmentname"><?php echo $appointmentlistslast->title; ?></h4>
@@ -2069,7 +2069,7 @@ class ClientsController extends Controller
 
 
 	public function getAppointmentdetail(Request $request){
-		$obj = \App\Appointment::find($request->id);
+		$obj = \App\Models\Appointment::find($request->id);
 		if($obj){
 			?>
 			<form method="post" action="<?php echo \URL::to('/admin/editappointment'); ?>" name="editappointment" id="editappointment" autocomplete="off" enctype="multipart/form-data">
@@ -2183,7 +2183,7 @@ class ClientsController extends Controller
 								<select class="form-control invitesselects2" name="invites">
 									<option value="">Select Invitees</option>
 								 <?php
-										$headoffice = \App\Admin::where('role','!=',7)->get();
+										$headoffice = \App\Models\Admin::where('role','!=',7)->get();
 									foreach($headoffice as $holist){
 										?>
 										<option value="<?php echo $holist->id; ?>" <?php if($obj->invites == $holist->id){ echo 'selected'; } ?>><?php echo $holist->first_name.' '. $holist->last_name.' ('.$holist->email.')'; ?></option>
@@ -2209,8 +2209,8 @@ class ClientsController extends Controller
 
 	public function deleteappointment(Request $request){
 		$note_id = $request->note_id;
-		if(\App\Appointment::where('id',$note_id)->exists()){
-			$data = \App\Appointment::where('id',$note_id)->first();
+		if(\App\Models\Appointment::where('id',$note_id)->exists()){
+			$data = \App\Models\Appointment::where('id',$note_id)->first();
 			$res = DB::table('appointments')->where('id', @$note_id)->delete();
 			if($res){
 
@@ -2250,7 +2250,7 @@ class ClientsController extends Controller
 	public function editinterestedService(Request $request){
 		if(Admin::where('role', '=', '7')->where('id', $request->client_id)->exists()){
 
-			$obj = \App\InterestedService::find($request->id);
+			$obj = \App\Models\InterestedService::find($request->id);
 			$obj->workflow = $request->workflow;
 			$obj->partner = $request->partner;
 			$obj->product = $request->product;
@@ -2262,8 +2262,8 @@ class ClientsController extends Controller
 			if($saved){
 				$subject = 'updated an interested service';
 
-				$partnerdetail = \App\Partner::where('id', $request->partner)->first();
-				$PartnerBranch = \App\PartnerBranch::where('id', $request->branch)->first();
+				$partnerdetail = \App\Models\Partner::where('id', $request->partner)->first();
+				$PartnerBranch = \App\Models\PartnerBranch::where('id', $request->branch)->first();
 				$objs = new ActivitiesLog;
 				$objs->client_id = $request->client_id;
 				$objs->created_by = Auth::user()->id;
@@ -2284,7 +2284,7 @@ class ClientsController extends Controller
 	}
 
 	public function getintrestedserviceedit(Request $request){
-		$obj = \App\InterestedService::find($request->id);
+		$obj = \App\Models\InterestedService::find($request->id);
 		if($obj){
 			?>
 			<form method="post" action="<?php echo \URL::to('/admin/edit-interested-service'); ?>" name="editinter_servform" autocomplete="off" id="editinter_servform" enctype="multipart/form-data">
@@ -2297,7 +2297,7 @@ class ClientsController extends Controller
 								<label for="edit_intrested_workflow">Select Workflow <span class="span_req">*</span></label>
 								<select data-valid="required" class="form-control workflowselect2" id="edit_intrested_workflow" name="workflow">
 									<option value="">Please Select a Workflow</option>
-									<?php foreach(\App\Workflow::all() as $wlist){
+									<?php foreach(\App\Models\Workflow::all() as $wlist){
 										?>
 										<option <?php if($obj->workflow == $wlist->id){ echo 'selected'; } ?> value="<?php echo $wlist->id; ?>"><?php echo $wlist->name; ?></option>
 									<?php } ?>
@@ -2312,7 +2312,7 @@ class ClientsController extends Controller
 								<label for="edit_intrested_partner">Select Partner</label>
 								<select data-valid="required" class="form-control partnerselect2" id="edit_intrested_partner" name="partner">
 									<option value="">Please Select a Partner</option>
-									<?php foreach(\App\Partner::where('service_workflow', $obj->workflow)->orderby('created_at', 'DESC')->get() as $plist){
+									<?php foreach(\App\Models\Partner::where('service_workflow', $obj->workflow)->orderby('created_at', 'DESC')->get() as $plist){
 										?>
 										<option <?php if($obj->partner == $plist->id){ echo 'selected'; } ?> value="<?php echo $plist->id; ?>"><?php echo @$plist->partner_name; ?></option>
 									<?php } ?>
@@ -2327,7 +2327,7 @@ class ClientsController extends Controller
 								<label for="edit_intrested_product">Select Product</label>
 								<select data-valid="required" class="form-control productselect2" id="edit_intrested_product" name="product">
 									<option value="">Please Select a Product</option>
-									<?php foreach(\App\Product::where('partner', $obj->partner)->orderby('created_at', 'DESC')->get() as $pplist){
+									<?php foreach(\App\Models\Product::where('partner', $obj->partner)->orderby('created_at', 'DESC')->get() as $pplist){
 										?>
 										<option <?php if($obj->product == $pplist->id){ echo 'selected'; } ?> value="<?php echo $pplist->id; ?>"><?php echo $pplist->name; ?></option>
 									<?php } ?>
@@ -2344,10 +2344,10 @@ class ClientsController extends Controller
 									<option value="">Please Select a Branch</option>
 									<?php
 								$catid = $obj->product;
-		$pro = \App\Product::where('id', $catid)->first();
+		$pro = \App\Models\Product::where('id', $catid)->first();
 		if($pro){
 		$user_array = explode(',',$pro->branches);
-		$lists = \App\PartnerBranch::WhereIn('id',$user_array)->Where('partner_id',$pro->partner)->orderby('name','ASC')->get();
+		$lists = \App\Models\PartnerBranch::WhereIn('id',$user_array)->Where('partner_id',$pro->partner)->orderby('name','ASC')->get();
 
 									foreach($lists as $list){
 										?>
@@ -2410,13 +2410,13 @@ class ClientsController extends Controller
 	}
 	}
 	public function getintrestedservice(Request $request){
-		$obj = \App\InterestedService::find($request->id);
+		$obj = \App\Models\InterestedService::find($request->id);
 		if($obj){
-			$workflowdetail = \App\Workflow::where('id', $obj->workflow)->first();
-			 $productdetail = \App\Product::where('id', $obj->product)->first();
-			$partnerdetail = \App\Partner::where('id', $obj->partner)->first();
-			$PartnerBranch = \App\PartnerBranch::where('id', $obj->branch)->first();
-			$admin = \App\Admin::where('id', $obj->user_id)->first();
+			$workflowdetail = \App\Models\Workflow::where('id', $obj->workflow)->first();
+			 $productdetail = \App\Models\Product::where('id', $obj->product)->first();
+			$partnerdetail = \App\Models\Partner::where('id', $obj->partner)->first();
+			$PartnerBranch = \App\Models\PartnerBranch::where('id', $obj->branch)->first();
+			$admin = \App\Models\Admin::where('id', $obj->user_id)->first();
 			?>
 			<div class="modal-header">
 				<h5 class="modal-title" id="interestModalLabel"><?php echo $workflowdetail->name; ?></h5>
@@ -2457,13 +2457,13 @@ class ClientsController extends Controller
 						<?php
 						$totl = 0.00;
 						$discount = 0.00;
-						$appfeeoption = \App\ServiceFeeOption::where('app_id', $obj->id)->first();
+						$appfeeoption = \App\Models\ServiceFeeOption::where('app_id', $obj->id)->first();
 						if($appfeeoption){
 							?>
 							<div class="prod_type">Installment Type: <span class="installtype"><?php echo $appfeeoption->installment_type; ?></span></div>
 						<div class="feedata">
 						<?php
-						$appfeeoptiontype = \App\ServiceFeeOptionType::where('fee_id', $appfeeoption->id)->get();
+						$appfeeoptiontype = \App\Models\ServiceFeeOptionType::where('fee_id', $appfeeoption->id)->get();
 						foreach($appfeeoptiontype as $fee){
 							$totl += $fee->total_fee;
 						?>
@@ -2578,7 +2578,7 @@ class ClientsController extends Controller
 		$requestData = $request->all();
 
 			$user_id = @Auth::user()->id;
-			$obj = \App\InterestedService::find($request->fapp_id);
+			$obj = \App\Models\InterestedService::find($request->fapp_id);
 			$obj->client_revenue = $request->client_revenue;
 			$obj->partner_revenue = $request->partner_revenue;
 			$obj->discounts = $request->discounts;
@@ -2612,7 +2612,7 @@ class ClientsController extends Controller
 			$status = 0;
 			$stage = 'Application';
 			$sale_forcast = 0.00;
-			if(\App\Application::where('client_id', $client_id)->where('product_id', $product)->where('partner_id', $partner)->exists()){
+			if(\App\Models\Application::where('client_id', $client_id)->where('product_id', $product)->where('partner_id', $partner)->exists()){
 				$response['status'] 	= 	false;
 				$response['message']	=	'Application to the product already exists for this client.';
 			}else{
@@ -2628,9 +2628,9 @@ class ClientsController extends Controller
 				$obj->client_id = $client_id;
 				$saved = $obj->save();
 				if($saved){
-					$productdetail = \App\Product::where('id', $product)->first();
-					$partnerdetail = \App\Partner::where('id', $partner)->first();
-					$PartnerBranch = \App\PartnerBranch::where('id', $branch)->first();
+					$productdetail = \App\Models\Product::where('id', $product)->first();
+					$partnerdetail = \App\Models\Partner::where('id', $partner)->first();
+					$PartnerBranch = \App\Models\PartnerBranch::where('id', $branch)->first();
 					$subject = 'has started an application';
 					$objs = new ActivitiesLog;
 					$objs->client_id = $request->client_id;
@@ -2656,7 +2656,7 @@ class ClientsController extends Controller
 	public function showproductfeeserv(Request $request){
 		$id = $request->id;
 		ob_start();
-		$appfeeoption = \App\ServiceFeeOption::where('app_id', $id)->first();
+		$appfeeoption = \App\Models\ServiceFeeOption::where('app_id', $id)->first();
 
 		?>
 		<form method="post" action="<?php echo \URL::to('/admin/servicesavefee'); ?>" name="servicefeeform" id="servicefeeform" autocomplete="off" enctype="multipart/form-data">
@@ -2721,7 +2721,7 @@ class ClientsController extends Controller
 									$totl = 0.00;
 									$discount = 0.00;
 									if($appfeeoption){
-										$appfeeoptiontype = \App\ServiceFeeOptionType::where('fee_id', $appfeeoption->id)->get();
+										$appfeeoptiontype = \App\Models\ServiceFeeOptionType::where('fee_id', $appfeeoption->id)->get();
 										foreach($appfeeoptiontype as $fee){
 											$totl += $fee->total_fee;
 										?>
@@ -2831,7 +2831,7 @@ class ClientsController extends Controller
 
 	public function servicesavefee(Request $request){
 		$requestData = $request->all();
-		$InterestedService = \App\InterestedService::find($request->id);
+		$InterestedService = \App\Models\InterestedService::find($request->id);
 		if(ServiceFeeOption::where('app_id', $request->id)->exists()){
 			$o = ServiceFeeOption::where('app_id', $request->id)->first();
 			$obj = ServiceFeeOption::find($o->id);
@@ -2913,11 +2913,11 @@ class ClientsController extends Controller
 				if(@$obj->total_discount != ''){
 					$discount = @$obj->total_discount;
 				}
-				$appfeeoption = \App\ServiceFeeOption::where('app_id', $obj->id)->first();
+				$appfeeoption = \App\Models\ServiceFeeOption::where('app_id', $obj->id)->first();
 				$totl = 0.00;
 
 				if($appfeeoption){
-					$appfeeoptiontype = \App\ServiceFeeOptionType::where('fee_id', $appfeeoption->id)->get();
+					$appfeeoptiontype = \App\Models\ServiceFeeOptionType::where('fee_id', $appfeeoption->id)->get();
 					foreach($appfeeoptiontype as $fee){
 						$totl += $fee->total_fee;
 						$p = '<p class="clearfix">
@@ -2944,14 +2944,14 @@ class ClientsController extends Controller
 	public function pinnote(Request $request){
 		$requestData = $request->all();
 
-		if(\App\Note::where('id',$requestData['note_id'])->exists()){
-			$note = \App\Note::where('id',$requestData['note_id'])->first();
+		if(\App\Models\Note::where('id',$requestData['note_id'])->exists()){
+			$note = \App\Models\Note::where('id',$requestData['note_id'])->first();
 			if($note->pin == 0){
-				$obj = \App\Note::find($note->id);
+				$obj = \App\Models\Note::find($note->id);
 				$obj->pin = 1;
 				$saved = $obj->save();
 			}else{
-				$obj = \App\Note::find($note->id);
+				$obj = \App\Models\Note::find($note->id);
 				$obj->pin = 0;
 				$saved = $obj->save();
 			}
@@ -2992,7 +2992,7 @@ class ClientsController extends Controller
 	public function followupstore(Request $request){
 	    $requestData 		= 	$request->all();
         //echo '<pre>'; print_r($requestData); die;
-        /*if(\App\Note::where('client_id',$requestData['client_id'])->where('assigned_to',$requestData['rem_cat'])->exists())
+        /*if(\App\Models\Note::where('client_id',$requestData['client_id'])->where('assigned_to',$requestData['rem_cat'])->exists())
         {
             // return redirect()->back()->with('error', 'Lead already assigned');
             // return Redirect::to('/admin/assignee')->with('error', 'Lead already assigned');
@@ -3057,7 +3057,7 @@ class ClientsController extends Controller
 	public function reassignfollowupstore(Request $request){
 	    $requestData 		= 	$request->all();
         //echo '<pre>'; print_r($requestData); die;
-        /*if(\App\Note::where('client_id',$requestData['client_id'])->where('assigned_to',$requestData['rem_cat'])->exists())
+        /*if(\App\Models\Note::where('client_id',$requestData['client_id'])->where('assigned_to',$requestData['rem_cat'])->exists())
         {
             // return redirect()->back()->with('error', 'Lead already assigned');
             // return Redirect::to('/admin/assignee')->with('error', 'Lead already assigned');
@@ -3065,7 +3065,7 @@ class ClientsController extends Controller
             exit;
         }*/
 
-        $followup = \App\Note::where('id', '=', $requestData['note_id'])->first();
+        $followup = \App\Models\Note::where('id', '=', $requestData['note_id'])->first();
         $followup->id               = $followup ->id;
 		$followup->client_id		= $this->decodeString(@$requestData['client_id']);
 		$followup->user_id			= Auth::user()->id;
@@ -3124,13 +3124,13 @@ class ClientsController extends Controller
 	    $requestData 		= 	$request->all();
 
         //echo '<pre>'; print_r($requestData); die;
-        /*if(\App\Note::where('client_id',$requestData['client_id'])->where('assigned_to',$requestData['rem_cat'])->exists())
+        /*if(\App\Models\Note::where('client_id',$requestData['client_id'])->where('assigned_to',$requestData['rem_cat'])->exists())
         {
             echo json_encode(array('success' => false, 'message' => 'Lead already assigned to '.@$requestData['assignee_name'], 'clientID' => $requestData['client_id']));
             exit;
         }*/
 
-        $followup = \App\Note::where('id', '=', $requestData['note_id'])->first();
+        $followup = \App\Models\Note::where('id', '=', $requestData['note_id'])->first();
         //$followup 				= new \App\Note;
         $followup->id               = $followup ->id;
 		$followup->client_id		= $this->decodeString(@$requestData['client_id']);
@@ -3206,7 +3206,7 @@ class ClientsController extends Controller
         }
         //echo "####".$this->decodeString(@$requestData['client_id']);die;
 
-        /*if(\App\Note::where('client_id',$requestData['client_id'])->where('assigned_to',$requestData['rem_cat'])->exists())
+        /*if(\App\Models\Note::where('client_id',$requestData['client_id'])->where('assigned_to',$requestData['rem_cat'])->exists())
         {
             echo json_encode(array('success' => false, 'message' => 'Lead already assigned to '.@$requestData['assignee_name'], 'clientID' => $req_clientID));
             exit;
@@ -3281,7 +3281,7 @@ class ClientsController extends Controller
 		}
 		else
 		{
-		   /*$objnote =  \App\Note::find();
+		   /*$objnote =  \App\Models\Note::find();
 		   $objnote->status = 1;
 		   $objnote->save();*/
 		    $newassignee = Admin::find($requestData['changeassignee']);
@@ -4260,8 +4260,8 @@ class ClientsController extends Controller
     
      public function deleteactivitylog(Request $request){
 		$activitylogid = $request->activitylogid; //dd($activitylogid);
-		if(\App\ActivitiesLog::where('id',$activitylogid)->exists()){
-			$data = \App\ActivitiesLog::select('client_id','subject','description')->where('id',$activitylogid)->first();
+		if(\App\Models\ActivitiesLog::where('id',$activitylogid)->exists()){
+			$data = \App\Models\ActivitiesLog::select('client_id','subject','description')->where('id',$activitylogid)->first();
 			$res = DB::table('activities_logs')->where('id', @$activitylogid)->delete();
 			if($res){
 				
@@ -4280,14 +4280,14 @@ class ClientsController extends Controller
 
     public function pinactivitylog(Request $request){
 		$requestData = $request->all();
-        if(\App\ActivitiesLog::where('id',$requestData['activity_id'])->exists()){
-			$activity = \App\ActivitiesLog::where('id',$requestData['activity_id'])->first();
+        if(\App\Models\ActivitiesLog::where('id',$requestData['activity_id'])->exists()){
+			$activity = \App\Models\ActivitiesLog::where('id',$requestData['activity_id'])->first();
 			if($activity->pin == 0){
-				$obj = \App\ActivitiesLog::find($activity->id);
+				$obj = \App\Models\ActivitiesLog::find($activity->id);
 				$obj->pin = 1;
 				$saved = $obj->save();
 			}else{
-				$obj = \App\ActivitiesLog::find($activity->id);
+				$obj = \App\Models\ActivitiesLog::find($activity->id);
 				$obj->pin = 0;
 				$saved = $obj->save();
 			}
@@ -4303,7 +4303,7 @@ class ClientsController extends Controller
   
     public function createservicetaken(Request $request){ //dd( $request->all() );
         $id = $request->logged_client_id;
-        if( \App\Admin::where('id',$id)->exists() ) {
+        if( \App\Models\Admin::where('id',$id)->exists() ) {
             $entity_type = $request->entity_type;
             if($entity_type == 'add') {
                 $obj	= 	new clientServiceTaken;
@@ -4398,8 +4398,8 @@ class ClientsController extends Controller
     public function gettagdata(Request $request){ //dd( $request->all() );
         $squery = $request->q;
         if($squery != ''){
-            $tags_total = \App\Tag::select('id','name')->where('name', 'LIKE', '%'.$squery.'%')->count();
-            $tags = \App\Tag::select('id','name')->where('name', 'LIKE', '%'.$squery.'%')->paginate(20);
+            $tags_total = \App\Models\Tag::select('id','name')->where('name', 'LIKE', '%'.$squery.'%')->count();
+            $tags = \App\Models\Tag::select('id','name')->where('name', 'LIKE', '%'.$squery.'%')->paginate(20);
 
             $items = array();
             //$total_count = count($tags);
@@ -4430,7 +4430,7 @@ class ClientsController extends Controller
                 $files = $request->file('document_upload');
             }
 
-            $client_info = \App\Admin::select('client_id')->where('id', $requestData['client_id'])->first(); //dd($admin);
+            $client_info = \App\Models\Admin::select('client_id')->where('id', $requestData['client_id'])->first(); //dd($admin);
             if(!empty($client_info)){
                 $client_unique_id = $client_info->client_id;
             } else {
@@ -4588,7 +4588,7 @@ class ClientsController extends Controller
                     $files = $request->file('document_upload');
                 }
 
-                $client_info = \App\Admin::select('client_id')->where('id', $requestData['client_id'])->first(); //dd($admin);
+                $client_info = \App\Models\Admin::select('client_id')->where('id', $requestData['client_id'])->first(); //dd($admin);
                 if(!empty($client_info)){
                     $client_unique_id = $client_info->client_id;
                 } else {
@@ -4863,7 +4863,7 @@ class ClientsController extends Controller
 
                 foreach($request->clickedReceiptIds as $ReceiptVal){
                     $receipt_info = AccountClientReceipt::select('user_id','client_id')->where('receipt_id', $ReceiptVal)->first();
-                    $client_info = \App\Admin::select('client_id')->where('id', $receipt_info->client_id)->first();
+                    $client_info = \App\Models\Admin::select('client_id')->where('id', $receipt_info->client_id)->first();
 
                     if($request->receipt_type == 1){
                         $subject = 'validated client receipt no -'.$ReceiptVal.' of client-'.$client_info->client_id;
@@ -4943,7 +4943,7 @@ class ClientsController extends Controller
 
     public function getcommissionreport(Request $request) {
         if ($request->ajax()) {
-			$data = \App\Application::join('admins', 'applications.client_id', '=', 'admins.id')
+			$data = \App\Models\Application::join('admins', 'applications.client_id', '=', 'admins.id')
             ->leftJoin('partners', 'applications.partner_id', '=', 'partners.id')
             ->leftJoin('products', 'applications.product_id', '=', 'products.id')
             ->leftJoin('application_fee_options', 'applications.id', '=', 'application_fee_options.app_id')
@@ -5143,7 +5143,7 @@ class ClientsController extends Controller
     //Add All Doc checklist
     public function addalldocchecklist(Request $request){ //dd($request->all());
         $clientid = $request->clientid;
-        $admin_info1 = \App\Admin::select('client_id')->where('id', $clientid)->first(); //dd($admin);
+        $admin_info1 = \App\Models\Admin::select('client_id')->where('id', $clientid)->first(); //dd($admin);
         if(!empty($admin_info1)){
             $client_unique_id = $admin_info1->client_id;
         } else {
@@ -5182,14 +5182,14 @@ class ClientsController extends Controller
                     $response['status'] 	= 	true;
                     $response['message']	=	'You have successfully added your document checklist';
 
-                    $fetchd = \App\Document::where('client_id',$clientid)->whereNull('not_used_doc')->where('doc_type',$doctype)->where('type',$request->type)->orderby('updated_at', 'DESC')->get();
+                    $fetchd = \App\Models\Document::where('client_id',$clientid)->whereNull('not_used_doc')->where('doc_type',$doctype)->where('type',$request->type)->orderby('updated_at', 'DESC')->get();
                     ob_start();
                     foreach($fetchd as $docKey=>$fetch)
                     {
-                        $admin = \App\Admin::where('id', $fetch->user_id)->first();
+                        $admin = \App\Models\Admin::where('id', $fetch->user_id)->first();
                         //Checklist verified by
                         if( isset($fetch->checklist_verified_by) && $fetch->checklist_verified_by != "") {
-                            $checklist_verified_Info = \App\Admin::select('first_name')->where('id', $fetch->checklist_verified_by)->first();
+                            $checklist_verified_Info = \App\Models\Admin::select('first_name')->where('id', $fetch->checklist_verified_by)->first();
                             $checklist_verified_by = $checklist_verified_Info->first_name;
                         } else {
                             $checklist_verified_by = 'N/A';
@@ -5285,7 +5285,7 @@ class ClientsController extends Controller
                     ob_start();
                     foreach($fetchd as $fetch)
                     {
-                        $admin = \App\Admin::where('id', $fetch->user_id)->first();
+                        $admin = \App\Models\Admin::where('id', $fetch->user_id)->first();
                         ?>
                         <div class="grid_list">
                             <div class="grid_col">
@@ -5347,7 +5347,7 @@ class ClientsController extends Controller
         if ($request->hasfile('document_upload'))
         {
             $clientid = $request->clientid;
-            $admin_info1 = \App\Admin::select('client_id')->where('id', $clientid)->first(); //dd($admin);
+            $admin_info1 = \App\Models\Admin::select('client_id')->where('id', $clientid)->first(); //dd($admin);
             if(!empty($admin_info1)){
                 $client_unique_id = $admin_info1->client_id;
             } else {
@@ -5365,7 +5365,7 @@ class ClientsController extends Controller
             $exploadename = explode('.', $name);
 
             $req_file_id = $request->fileid;
-            $obj = \App\Document::find($req_file_id);
+            $obj = \App\Models\Document::find($req_file_id);
             $obj->file_name = $explodeFileName[0];
             $obj->filetype = $exploadename[1];
             $obj->user_id = Auth::user()->id;
@@ -5387,13 +5387,13 @@ class ClientsController extends Controller
                 }
 				$response['status'] 	= 	true;
 				$response['message']	=	'You have successfully uploaded your document';
-				$fetchd = \App\Document::where('client_id',$clientid)->whereNull('not_used_doc')->where('doc_type',$doctype)->where('type',$request->type)->orderby('updated_at', 'DESC')->get();
+				$fetchd = \App\Models\Document::where('client_id',$clientid)->whereNull('not_used_doc')->where('doc_type',$doctype)->where('type',$request->type)->orderby('updated_at', 'DESC')->get();
 				ob_start();
 				foreach($fetchd as  $docKey=>$fetch){
-					$admin = \App\Admin::where('id', $fetch->user_id)->first();
+					$admin = \App\Models\Admin::where('id', $fetch->user_id)->first();
                     //Checklist verified by
                     if( isset($fetch->checklist_verified_by) && $fetch->checklist_verified_by != "") {
-                        $checklist_verified_Info = \App\Admin::select('first_name')->where('id', $fetch->checklist_verified_by)->first();
+                        $checklist_verified_Info = \App\Models\Admin::select('first_name')->where('id', $fetch->checklist_verified_by)->first();
                         $checklist_verified_by = $checklist_verified_Info->first_name;
                     } else {
                         $checklist_verified_by = 'N/A';
@@ -5486,7 +5486,7 @@ class ClientsController extends Controller
 				$data = ob_get_clean();
 				ob_start();
 				foreach($fetchd as $fetch){
-					$admin = \App\Admin::where('id', $fetch->user_id)->first();
+					$admin = \App\Models\Admin::where('id', $fetch->user_id)->first();
 					?>
 					<div class="grid_list">
 						<div class="grid_col">
@@ -5534,13 +5534,13 @@ class ClientsController extends Controller
     public function verifydoc(Request $request){ //dd($request->all());
 		$doc_id = $request->doc_id;
         $doc_type = $request->doc_type;
-        if(\App\Document::where('id',$doc_id)->exists()){
+        if(\App\Models\Document::where('id',$doc_id)->exists()){
             $upd = DB::table('documents')->where('id', $doc_id)->update(array(
                 'checklist_verified_by' => Auth::user()->id,
                 'checklist_verified_at' => date('Y-m-d H:i:s')
             ));
             if($upd){
-                $docInfo = \App\Document::select('client_id')->where('id',$doc_id)->first();
+                $docInfo = \App\Models\Document::select('client_id')->where('id',$doc_id)->first();
                 $subject = 'verified '.$doc_type.' document';
                 $objs = new ActivitiesLog;
 				$objs->client_id = $docInfo->client_id;
@@ -5581,10 +5581,10 @@ class ClientsController extends Controller
     public function notuseddoc(Request $request){ //dd($request->all());
 		$doc_id = $request->doc_id;
         $doc_type = $request->doc_type;
-        if(\App\Document::where('id',$doc_id)->exists()){
+        if(\App\Models\Document::where('id',$doc_id)->exists()){
             $upd = DB::table('documents')->where('id', $doc_id)->update(array('not_used_doc' => 1));
             if($upd){
-                $docInfo = \App\Document::where('id',$doc_id)->first();
+                $docInfo = \App\Models\Document::where('id',$doc_id)->first();
                 $subject = $doc_type.' document moved to Not Used Tab';
                 $objs = new ActivitiesLog;
 				$objs->client_id = $docInfo->client_id;
@@ -5595,7 +5595,7 @@ class ClientsController extends Controller
 
                 if($docInfo){
                     if( isset($docInfo->user_id) && $docInfo->user_id!= "" ){
-                        $adminInfo = \App\Admin::select('first_name')->where('id',$docInfo->user_id)->first();
+                        $adminInfo = \App\Models\Admin::select('first_name')->where('id',$docInfo->user_id)->first();
                         $response['Added_By'] = $adminInfo->first_name;
                         $response['Added_date'] = date('d/m/Y',strtotime($docInfo->created_at));
                     } else {
@@ -5605,7 +5605,7 @@ class ClientsController extends Controller
 
 
                     if( isset($docInfo->checklist_verified_by) && $docInfo->checklist_verified_by!= "" ){
-                        $verifyInfo = \App\Admin::select('first_name')->where('id',$docInfo->checklist_verified_by)->first();
+                        $verifyInfo = \App\Models\Admin::select('first_name')->where('id',$docInfo->checklist_verified_by)->first();
                         $response['Verified_By'] = $verifyInfo->first_name;
                         $response['Verified_At'] = date('d/m/Y',strtotime($docInfo->checklist_verified_at));
                     } else {
@@ -5651,8 +5651,8 @@ class ClientsController extends Controller
     public function renamechecklistdoc(Request $request){
 		$id = $request->id;
 		$checklist = $request->checklist;
-		if(\App\Document::where('id',$id)->exists()){
-			$doc = \App\Document::where('id',$id)->first();
+		if(\App\Models\Document::where('id',$id)->exists()){
+			$doc = \App\Models\Document::where('id',$id)->first();
 			$res = DB::table('documents')->where('id', @$id)->update(['checklist' => $checklist]);
 			if($res){
 				$response['status'] 	= 	true;
@@ -5673,7 +5673,7 @@ class ClientsController extends Controller
     //Delete all document
     public function deletealldocs(Request $request){
 		$note_id = $request->note_id;
-        if(\App\Document::where('id',$note_id)->exists()){
+        if(\App\Models\Document::where('id',$note_id)->exists()){
             $data = DB::table('documents')->where('id', @$note_id)->first();
 			$res = DB::table('documents')->where('id', @$note_id)->delete();
             if($res){
@@ -5701,8 +5701,8 @@ class ClientsController extends Controller
     public function renamealldoc(Request $request){
 		$id = $request->id;
 		$filename = $request->filename;
-		if(\App\Document::where('id',$id)->exists()){
-			$doc = \App\Document::where('id',$id)->first();
+		if(\App\Models\Document::where('id',$id)->exists()){
+			$doc = \App\Models\Document::where('id',$id)->first();
 			$res = DB::table('documents')->where('id', @$id)->update(['file_name' => $filename]);
 			if($res){
 				$response['status'] 	= 	true;
@@ -5726,10 +5726,10 @@ class ClientsController extends Controller
     public function backtodoc(Request $request){ //dd($request->all());
 		$doc_id = $request->doc_id;
         $doc_type = $request->doc_type;
-        if(\App\Document::where('id',$doc_id)->exists()){
+        if(\App\Models\Document::where('id',$doc_id)->exists()){
             $upd = DB::table('documents')->where('id', $doc_id)->update(array('not_used_doc' => null));
             if($upd){
-                $docInfo = \App\Document::where('id',$doc_id)->first();
+                $docInfo = \App\Models\Document::where('id',$doc_id)->first();
                 $subject = $doc_type.' document moved to document tab';
                 $objs = new ActivitiesLog;
 				$objs->client_id = $docInfo->client_id;
@@ -5740,7 +5740,7 @@ class ClientsController extends Controller
 
                 if($docInfo){
                     if( isset($docInfo->user_id) && $docInfo->user_id!= "" ){
-                        $adminInfo = \App\Admin::select('first_name')->where('id',$docInfo->user_id)->first();
+                        $adminInfo = \App\Models\Admin::select('first_name')->where('id',$docInfo->user_id)->first();
                         $response['Added_By'] = $adminInfo->first_name;
                         $response['Added_date'] = date('d/m/Y',strtotime($docInfo->created_at));
                     } else {
@@ -5750,7 +5750,7 @@ class ClientsController extends Controller
 
 
                     if( isset($docInfo->checklist_verified_by) && $docInfo->checklist_verified_by!= "" ){
-                        $verifyInfo = \App\Admin::select('first_name')->where('id',$docInfo->checklist_verified_by)->first();
+                        $verifyInfo = \App\Models\Admin::select('first_name')->where('id',$docInfo->checklist_verified_by)->first();
                         $response['Verified_By'] = $verifyInfo->first_name;
                         $response['Verified_At'] = date('d/m/Y',strtotime($docInfo->checklist_verified_at));
                     } else {

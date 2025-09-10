@@ -9,19 +9,19 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Facades\Payment;
 
-use App\State;
-use App\Country;
-use App\CmsPage;
-use App\Course;
-use App\TestSeriesType;
-use App\Group;
-use App\Subject;
-use App\TestSeriesTransactionHistory;
-use App\PurchasedSubject;
-use App\VendorSubject;
-use App\DiscountTestSeries;
-use App\WebsiteSetting;
-use App\SeoPage;
+use App\Models\State;
+use App\Models\Country;
+use App\Models\CmsPage;
+use App\Models\Course;
+use App\Models\TestSeriesType;
+use App\Models\Group;
+use App\Models\Subject;
+use App\Models\TestSeriesTransactionHistory;
+use App\Models\PurchasedSubject;
+use App\Models\VendorSubject;
+use App\Models\DiscountTestSeries;
+use App\Models\WebsiteSetting;
+use App\Models\SeoPage;
 
 use Auth;
 use Config;

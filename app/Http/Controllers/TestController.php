@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-use App\TestSeriesTransactionHistory;
-use App\PurchasedSubject;
-use App\Test;
-use App\ScheduledTest;
-use App\WebsiteSetting;
+use App\Models\TestSeriesTransactionHistory;
+use App\Models\PurchasedSubject;
+use App\Models\Test;
+use App\Models\ScheduledTest;
+use App\Models\WebsiteSetting;
 use App\Imports\ImportPartner;
 use Auth;
 use Config;

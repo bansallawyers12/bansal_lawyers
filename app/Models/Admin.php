@@ -35,15 +35,15 @@ class Admin extends Authenticatable
 	
 	public function countryData()
     {
-        return $this->belongsTo('App\Country','country');
+        return $this->belongsTo('App\Models\Country','country');
     }
 	
 	public function stateData()
     {
-        return $this->belongsTo('App\State','state');
+        return $this->belongsTo('App\Models\State','state');
     }
 	public function usertype()
     {
-        return $this->belongsTo('App\UserRole', 'role', 'id');
+        return $this->belongsTo('App\Models\UserRole', 'role', 'id');
     }
 }

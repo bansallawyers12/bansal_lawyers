@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
-use App\Enquiry;
+use App\Models\Enquiry;
 use PDF;
 use Auth;
 use Config;

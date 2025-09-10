@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
-use App\Report;
-use App\Application;
-use App\CheckinLog;
-use App\Invoice;
-use App\Task;
+use App\Models\Report;
+use App\Models\Application;
+use App\Models\CheckinLog;
+use App\Models\Invoice;
+use App\Models\Task;
  
 use Auth; 
 use Config;

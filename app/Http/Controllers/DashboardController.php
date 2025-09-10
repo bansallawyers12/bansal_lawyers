@@ -11,23 +11,23 @@ use Auth;
 use Config;
 use Cookie;
 
-use App\Country;
+use App\Models\Country;
 use App\Models\User;
-use App\ProductReview;
-use App\ProductOrder;
-use App\ProductTransactionHistory;
-use App\TestSeriesTransactionHistory;
-use App\PurchasedSubject;
-use App\WebsiteSetting;
-use App\SeoPage;
-use App\FreeDownload;
+use App\Models\ProductReview;
+use App\Models\ProductOrder;
+use App\Models\ProductTransactionHistory;
+use App\Models\TestSeriesTransactionHistory;
+use App\Models\PurchasedSubject;
+use App\Models\WebsiteSetting;
+use App\Models\SeoPage;
+use App\Models\FreeDownload;
 
-use App\Course;
-use App\TestSeriesType;
-use App\Group;
-use App\Subject;
-use App\DiscountTestSeries;
-use App\CmsPage;
+use App\Models\Course;
+use App\Models\TestSeriesType;
+use App\Models\Group;
+use App\Models\Subject;
+use App\Models\DiscountTestSeries;
+use App\Models\CmsPage;
 
 class DashboardController extends Controller
 {

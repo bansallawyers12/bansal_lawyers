@@ -5,18 +5,18 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Http\Request;
 //use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Support\Facades\Response;
-use App\Destination;
-use App\Location;
-use App\Package;
+use App\Models\Destination;
+use App\Models\Location;
+use App\Models\Package;
 use App\Models\Admin;
 use DB;
-use App\Topinclusion;
-use App\SuperTopInclusion;
-use App\HolidayTheme;
-use App\Inclusion;
-use App\Exclusion;
-use App\Holidaytype;
-use App\City;
+use App\Models\Topinclusion;
+use App\Models\SuperTopInclusion;
+use App\Models\HolidayTheme;
+use App\Models\Inclusion;
+use App\Models\Exclusion;
+use App\Models\Holidaytype;
+use App\Models\City;
 
 use Config;
 

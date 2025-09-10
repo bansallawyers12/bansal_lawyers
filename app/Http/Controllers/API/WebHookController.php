@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Facades\Payment;
 
-use App\TestSeriesTransactionHistory;
-use App\PurchasedSubject;
-use App\ProductOrder;
-use App\ProductTransactionHistory;
-use App\MyCart;
+use App\Models\TestSeriesTransactionHistory;
+use App\Models\PurchasedSubject;
+use App\Models\ProductOrder;
+use App\Models\ProductTransactionHistory;
+use App\Models\MyCart;
 
 use Cookie;
 use Config;

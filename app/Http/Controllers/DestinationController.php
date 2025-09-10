@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Destination;
-use App\Package;
-use App\WebsiteSetting;
+use App\Models\Destination;
+use App\Models\Package;
+use App\Models\WebsiteSetting;
 
 
 use Config;

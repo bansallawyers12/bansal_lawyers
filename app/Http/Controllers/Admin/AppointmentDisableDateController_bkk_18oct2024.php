@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
-use App\BookService;
-use App\BookServiceDisableSlot;
+use App\Models\BookService;
+use App\Models\BookServiceDisableSlot;
 
 use Auth;
 use Config;
@@ -142,9 +142,9 @@ class AppointmentDisableDateController extends Controller
         if ($request->isMethod('post')) {
 			$requestData 	=  $request->all(); //dd($requestData);
 
-            $recordExist = \App\BookServiceDisableSlot::select('id')->where('book_service_id', $requestData['id'])->exists();
+            $recordExist = \App\Models\BookServiceDisableSlot::select('id')->where('book_service_id', $requestData['id'])->exists();
             if ($recordExist) {
-                $recordDelete = \App\BookServiceDisableSlot::where('book_service_id', $requestData['id'])->delete();
+                $recordDelete = \App\Models\BookServiceDisableSlot::where('book_service_id', $requestData['id'])->delete();
             }
 
             $disabledatesCnt = count($requestData['disabledates']);
@@ -177,9 +177,9 @@ class AppointmentDisableDateController extends Controller
 					$fetchedData = BookService::find($id);
                     //dd($fetchedData);
 
-                    $disableSlotArr = \App\BookServiceDisableSlot::select('id','book_service_id','disabledates','slots')->where('book_service_id',$id)->get();
+                    $disableSlotArr = \App\Models\BookServiceDisableSlot::select('id','book_service_id','disabledates','slots')->where('book_service_id',$id)->get();
 
-                    //$disableDatesArr = \App\BookServiceDisableSlot::select('disabledates')->where('book_service_id',$id)->get();
+                    //$disableDatesArr = \App\Models\BookServiceDisableSlot::select('disabledates')->where('book_service_id',$id)->get();
                     //dd($disableDatesArr);
                     /*if( isset($disableDatesArr) && !empty($disableDatesArr) && count($disableDatesArr) >0 )
                     {
