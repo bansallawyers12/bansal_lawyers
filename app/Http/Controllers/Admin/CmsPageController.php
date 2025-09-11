@@ -135,21 +135,21 @@ class CmsPageController extends Controller
 			}
 
 			$obj				= 	new CmsPage;
-			$obj->title			=	@$requestData['title'];
-			$obj->content			=	@$requestData['description'];
-			$obj->status		=	@$requestData['status'];
-			$obj->image		=	@$topinclu_image;
-            $obj->image_alt		=	@$requestData['image_alt'];
-			$obj->user_id		=	Auth::user()->id;
-			//$obj->slug	=	$this->createlocSlug('cms_pages',@$requestData['title']);
-			$obj->slug	=	@$requestData['slug'];
-			$obj->meta_title			=	@$requestData['meta_title'];
-			$obj->meta_description			=	@$requestData['meta_description'];
-			$obj->meta_keyward			=	@$requestData['meta_keyward'];
+			$obj->title			= 	$requestData['title'];
+			$obj->content			= 	$requestData['description'];
+			$obj->status		= 	$requestData['status'] ?? 0;
+			$obj->image		= 	$topinclu_image;
+            $obj->image_alt		= 	$requestData['image_alt'] ?? null;
+			$obj->user_id		= 	Auth::user()->id;
+			//$obj->slug	= 	$this->createlocSlug('cms_pages',@$requestData['title']);
+			$obj->slug	= 	$requestData['slug'];
+			$obj->meta_title			= 	$requestData['meta_title'] ?? null;
+			$obj->meta_description			= 	$requestData['meta_description'] ?? null;
+			$obj->meta_keyward			= 	$requestData['meta_keyward'] ?? null;
 
             if($request->has('youtube_url'))
 			{
-				$youtube_url = @$requestData['youtube_url']; //'https://www.youtube.com/watch?v=oVT78QcRQtU';
+				$youtube_url = $requestData['youtube_url'] ?? '';
                 if($youtube_url != ""){
                     $embed_url = $this->getYoutubeEmbedUrl($youtube_url);
                 } else {
@@ -168,9 +168,9 @@ class CmsPageController extends Controller
 			{
 				$pdf_doc = NULL;
 			}
-            $obj->pdf_doc		=	@$pdf_doc;
+            $obj->pdf_doc		= 	$pdf_doc ?? null;
 
-			$saved				=	$obj->save();
+			$saved				= 	$obj->save();
 
 			if(!$saved)
 			{
@@ -198,17 +198,17 @@ class CmsPageController extends Controller
 			$requestData 		= 	$request->all();
 
 			$this->validate($request, [
-    			'title' => 'required|max:255|unique:cms_pages,title,'.@$requestData['id'],
-    			'slug' => 'required|max:255|unique:cms_pages,slug,'.@$requestData['id'],
+    			'title' => 'required|max:255|unique:cms_pages,title,'.($requestData['id'] ?? ''),
+    			'slug' => 'required|max:255|unique:cms_pages,slug,'.($requestData['id'] ?? ''),
     			'description' => 'required'
 		    ]);
 
 			if($request->hasfile('image'))
 			{
 				/* Unlink File Function Start */
-				if($requestData['image'] != '')
+				if(!empty($requestData['image']))
 				{
-					$this->unlinkFile($requestData['old_image'], Config::get('constants.cmspage'));
+					$this->unlinkFile($requestData['old_image'] ?? null, Config::get('constants.cmspage'));
 				}
 				/* Unlink File Function End */
 
@@ -216,22 +216,22 @@ class CmsPageController extends Controller
 			}
 			else
 			{
-				$topinclu_image = @$requestData['old_image'];
+				$topinclu_image = $requestData['old_image'] ?? null;
 			}
-			$obj				= 	CmsPage::find(@$requestData['id']);
-			$obj->title			=	@$requestData['title'];
-			$obj->image			=	@$topinclu_image;
-            $obj->image_alt		=	@$requestData['image_alt'];
-			$obj->content		=	@$requestData['description'];
-			//$obj->slug	=	$this->createlocSlug('cms_pages',@$requestData['title'], $requestData['id']);
-			$obj->slug	=    @$requestData['slug'];
-			$obj->meta_title			=	@$requestData['meta_title'];
-			$obj->meta_description			=	@$requestData['meta_description'];
-			$obj->meta_keyward			=	@$requestData['meta_keyward'];
-			$obj->status		=	@$requestData['status'];
+			$obj				= 	CmsPage::find($requestData['id']);
+			$obj->title			= 	$requestData['title'];
+			$obj->image			= 	$topinclu_image;
+            $obj->image_alt		= 	$requestData['image_alt'] ?? null;
+			$obj->content		= 	$requestData['description'];
+			//$obj->slug	= 	$this->createlocSlug('cms_pages',@$requestData['title'], $requestData['id']);
+			$obj->slug	=    $requestData['slug'];
+			$obj->meta_title			= 	$requestData['meta_title'] ?? null;
+			$obj->meta_description			= 	$requestData['meta_description'] ?? null;
+			$obj->meta_keyward			= 	$requestData['meta_keyward'] ?? null;
+			$obj->status		= 	$requestData['status'] ?? 0;
              if($request->has('youtube_url'))
 			{
-				$youtube_url = @$requestData['youtube_url']; //'https://www.youtube.com/watch?v=oVT78QcRQtU';
+				$youtube_url = $requestData['youtube_url'] ?? '';
                 if($youtube_url != ""){
                     $embed_url = $this->getYoutubeEmbedUrl($youtube_url);
                 } else {
@@ -244,9 +244,9 @@ class CmsPageController extends Controller
 
             if($request->hasfile('pdf_doc'))  {
 				/* Unlink File Function Start */
-				if($requestData['pdf_doc'] != '')
+				if(!empty($requestData['pdf_doc']))
 				{
-					$this->unlinkFile($requestData['old_pdf'], Config::get('constants.blog'));
+					$this->unlinkFile($requestData['old_pdf'] ?? null, Config::get('constants.blog'));
 				}
 				/* Unlink File Function End */
 
@@ -254,11 +254,11 @@ class CmsPageController extends Controller
 			}
 			else
 			{
-				$pdf_doc = @$requestData['old_pdf'];
+				$pdf_doc = $requestData['old_pdf'] ?? null;
 			}
-            $obj->pdf_doc			=	@$pdf_doc;
+            $obj->pdf_doc			= 	$pdf_doc ?? null;
 
-			$saved				=	$obj->save();
+			$saved				= 	$obj->save();
 
 			if(!$saved)
 			{

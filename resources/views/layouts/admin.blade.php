@@ -121,32 +121,31 @@
 				     var dataformat = '{{$dataformat}}';
 				    </script>
 	<!--<script src="{{--asset('js/niceCountryInput.js')--}}"></script> -->
+	
+	<!-- Core Application Scripts (load first) -->
 	<script src="{{asset('js/app.min.js')}}"></script>
+	
+	<!-- Feature-specific Scripts (load after core) -->
 	<script src="{{asset('js/fullcalendar.min.js')}}"></script>
-
-	<!--<script src="{{--asset('js/chart.min.js')--}}"></script>-->
-
 	<script src="{{asset('js/datatables.min.js')}}"></script>
 	<script src="{{asset('js/dataTables.bootstrap4.js')}}"></script>
-	 <!-- JS Libraies -->
-	<!--<script src="{{--asset('js/apexcharts.min.js')--}}"></script>-->
-	<!-- Page Specific JS File -->
-	<!--<script src="{{asset('js/index.js')}}"></script> -->
 	<script src="{{asset('js/summernote-bs4.js')}}"></script>
 	<script src="{{asset('js/daterangepicker.js')}}"></script>
 	<script src="{{asset('js/bootstrap-timepicker.min.js')}}"></script>
-
 	<script src="{{asset('js/select2.full.min.js')}}"></script>
-	<!--<script src="{{--asset('js/jquery.flagstrap.js')--}}"></script>-->
 	<script src="{{asset('js/bootstrap-formhelpers.min.js')}}"></script>
 	<script src="{{asset('js/intlTelInput.js')}}"></script>
+	<script src="{{asset('js/iziToast.min.js')}}"></script>
+	
+	<!-- Custom Scripts (load last to ensure DOM is ready) -->
 	<script src="{{asset('js/custom-form-validation.js')}}"></script>
 	<script src="{{asset('js/scripts.js')}}"></script>
-	<!-- Template JS File -->
-	<script src="{{asset('js/iziToast.min.js')}}"></script>
-
-	<!-- Custom JS File -->
 	<script src="{{asset('js/custom.js')}}"></script>
+	
+	<!-- Page Specific JS File -->
+	<!--<script src="{{asset('js/index.js')}}"></script> -->
+	<!--<script src="{{--asset('js/apexcharts.min.js')--}}"></script>-->
+	<!--<script src="{{--asset('js/jquery.flagstrap.js')--}}"></script>-->
 	<script>
 		$(document).ready(function () {
 

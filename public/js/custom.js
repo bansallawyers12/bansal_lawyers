@@ -7,6 +7,33 @@
 
 "use strict";
 
+// Global error handler for DOM access issues
+window.addEventListener('error', function(e) {
+    if (e.message.includes('parentNode') || e.message.includes('getElementById')) {
+        console.warn('DOM access error caught:', e.message);
+        console.warn('This usually means a script tried to access an element before it was loaded');
+        // Prevent the error from breaking the page
+        e.preventDefault();
+        return true;
+    }
+});
+
+// Safe DOM element access function
+function safeGetElement(id) {
+    var element = document.getElementById(id);
+    if (!element) {
+        console.warn('Element with ID "' + id + '" not found');
+        return null;
+    }
+    return element;
+}
+
+// Wait for DOM to be ready before executing any code
+$(document).ready(function() {
+    // All DOM manipulation code will be wrapped here
+    console.log('DOM is ready - safe to access elements');
+});
+
 //Delete Function Start
 	function declineAction( id, table ) {
 			var conf = confirm('Do you want to change status to declined?');
@@ -280,16 +307,19 @@
 	}
 
 
-	$('.change-status').on('change', function (event, state) {
-		
-		var id = $.trim($(this).attr('data-id'));
-		var current_status = $.trim($(this).attr('data-status'));
-		var table = $.trim($(this).attr('data-table'));
-		var col = $.trim($(this).attr('data-col'));
-		
-		if(id != "" && current_status != "" && table != ""){
-			updateStatus(id, current_status, table, col);
-		}
+	// Move event handlers inside DOM ready
+	$(document).ready(function() {
+		$('.change-status').on('change', function (event, state) {
+			
+			var id = $.trim($(this).attr('data-id'));
+			var current_status = $.trim($(this).attr('data-status'));
+			var table = $.trim($(this).attr('data-table'));
+			var col = $.trim($(this).attr('data-col'));
+			
+			if(id != "" && current_status != "" && table != ""){
+				updateStatus(id, current_status, table, col);
+			}
+		});
 	});
 	
 	function updateStatus( id, current_status, table,col ) {

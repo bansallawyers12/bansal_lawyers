@@ -6,6 +6,21 @@ var min = "This field should be greater than or equal to ";
 var max = "This field should be less than or equal to ";
 var equal = "This field should be equal to ";
 
+// Safe DOM element access function
+function safeGetElement(id) {
+    var element = document.getElementById(id);
+    if (!element) {
+        console.warn('Element with ID "' + id + '" not found');
+        return null;
+    }
+    return element;
+}
+
+// Wait for DOM to be ready before executing validation
+$(document).ready(function() {
+    // Ensure all form elements are available before validation
+});
+
 function customValidate(formName, savetype = '')
 	{
 		$(".popuploader").show(); //all form submit

@@ -199,7 +199,7 @@
 
 @endsection
 @section('scripts')
-<script src="{{ asset('public/assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/assets/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
 <script>
 /*var sharedCKEditorToolbarConfig = {
