@@ -184,8 +184,15 @@
     <script src="{{asset('js/aos.min.js')}}"></script>
     <script src="{{asset('js/jquery.animateNumber.min.js')}}"></script>
     <script src="{{asset('js/scrollax.min.js')}}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-    <script src="{{asset('js/google-map.min.js')}}"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&callback=initMap"></script>
+    <script>
+      function initMap(){
+        if(!document.getElementById('map')) return;
+        var s=document.createElement('script');
+        s.src='{{asset('js/google-map.min.js')}}';
+        document.head.appendChild(s);
+      }
+    </script>
     <script src="{{asset('js/main.min.js')}}"></script>
 
 

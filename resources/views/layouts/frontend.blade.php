@@ -1247,6 +1247,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script>
         // Wait for Google Maps to load before loading google-map.min.js
         function initMap() {
+            // Only proceed if a map container exists
+            if (!document.getElementById('map') && !document.getElementById('google-map')) return;
             // Load google-map.min.js only after Google Maps is ready
             var script = document.createElement('script');
             script.src = "{{asset('js/google-map.min.js')}}";

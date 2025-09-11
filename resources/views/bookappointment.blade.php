@@ -11,7 +11,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Book an Appointment | Schedule a Consultation with Top Law Firm Bansal Lawyers Melbourne">
     <meta property="og:description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more.">
-    <meta property="og:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Twitter Meta Tags -->
@@ -20,7 +20,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/book-an-appointment">
     <meta name="twitter:title" content="Book an Appointment | Schedule a Consultation with Top Law Firm Bansal Lawyers Melbourne">
     <meta name="twitter:description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more.">
-    <meta property="twitter:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 <!-- Hotjar Tracking Code for https://www.bansallawyers.com.au/migration-law -->
@@ -253,7 +253,7 @@ b, strong {
 }
 
 </style>
-<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({{asset('public/img/Frontend/bg-2.jpg')}}); padding-top:40px">
+<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({{asset('img/Frontend/bg-2.jpg')}}); padding-top:40px">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -294,7 +294,7 @@ b, strong {
 							<ul class="nav nav-tabs" id="myTab" role="tablist">
 								<li class="tab_logo">
 									<a href="#">
-										<img src="{{asset('public/images/logo/Bansal_Lawyers.png')}}" alt="" style="background-color: #1B4D89;"/>
+										<img src="{{asset('images/logo/Bansal_Lawyers.png')}}" alt="" style="background-color: #1B4D89;"/>
 									</a>
 								</li>
 								<li class="nav-item">
@@ -319,7 +319,7 @@ b, strong {
                             <div id="confirm_div" class="col-12 col-md-6 col-lg-6" style="margin-left: 15px;width: 90%;">
 
                                 <div id="loading">
-                                    <img id="loading-image" src="{{asset('public/img/ajax-loader.gif')}}" alt="Loading..." />
+                                    <img id="loading-image" src="{{asset('img/ajax-loader.gif')}}" alt="Loading..." />
                                 </div>
 
                                 <div class="row nature_of_enquiry_row" id="nature_of_enquiry">
@@ -534,7 +534,7 @@ b, strong {
             <form role="form" action="{{ route('stripe.post') }}" method="post" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
             @csrf
                 <div id="loading_popup">
-                    <img id="loading-image_popup" src="{{asset('public/img/ajax-loader.gif')}}" alt="Loading..." />
+                    <img id="loading-image_popup" src="{{asset('img/ajax-loader.gif')}}" alt="Loading..." />
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="noe_id" id="noe_id_paid" value="">
@@ -550,6 +550,7 @@ b, strong {
                     <input type="hidden" name="title" id="title_paid" value="">
                     <input type="hidden" name="description" id="description_paid" value="">
                     <input type="hidden" name="promo_code" id="promo_code_paid" value="">
+                    <input type="hidden" id="payable_amount" value="">
 
                     <div class='form-row row'>
 						<div class='col-xs-12 col-md-12 form-group required'>
@@ -703,9 +704,9 @@ $(function() {
             data: $('#payment-form').serialize(),
             url:'{{URL::to('/book-an-appointment/storepaid')}}',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            success:function(data){
+            dataType:'json',
+            success:function(obj){
                 $('#loading_popup').hide();
-                var obj = JSON.parse(data);
                 if(obj.success){
                     $('#exampleModal').modal('hide');
                     $('html, body').animate({scrollTop: $('#confirm_div').offset().top -100 }, 'slow');
@@ -714,6 +715,10 @@ $(function() {
                 }else{
                     alert('Please try again. There is a issue in our system');
                 }
+            },
+            error:function(){
+                $('#loading_popup').hide();
+                alert('Network error. Please try again.');
             }
         });
     }
@@ -846,9 +851,8 @@ jQuery(document).ready(function($){
 			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 			type:'POST',
 			data:{ id:id, enquiry_item:enquiry_item },
-			datatype:'json',
-			success:function(res){
-				var obj = JSON.parse(res);
+			dataType:'json',
+			success:function(obj){
 				if(obj.success){
                     duration = obj.duration;
 					daysOfWeek =  obj.weeks;
@@ -893,10 +897,9 @@ jQuery(document).ready(function($){
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             type:'POST',
                             data:{service_id:service_id,sel_date:date, enquiry_item:enquiry_item},
-                            datatype:'json',
-                            success:function(res){
+                            dataType:'json',
+                            success:function(obj){
                                 $('.timeslots').html('');
-                                var obj = JSON.parse(res);
                                  if(obj.success){
                                     var objdisable = obj.disabledtimeslotes;
                                     var start_timer = start_time;
@@ -1085,20 +1088,31 @@ jQuery(document).ready(function($){
             type:'POST',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             data:{promo_code:code, service_id:serviceId},
-            success:function(res){
-                try{ var obj = JSON.parse(res); } catch(e){ obj = {success:false,msg:'Server error'}; }
+            dataType:'json',
+            success:function(obj){
                 if(obj.success){
                     $('#coupon_msg').text(obj.msg + ' Payable: aud'+obj.payable).css('color','green');
                     $('#promo_code_paid').val(code);
+                    $('#payable_amount').val(obj.payable);
                     if(parseFloat(obj.payable) <= 0){
                         $('#pay_now_btn').text('Complete (Free)');
+                        $('.submitappointment_paid').removeAttr('data-toggle').removeAttr('data-target');
                     } else {
                         $('#pay_now_btn').text('Pay Now (aud'+obj.payable+')');
+                        $('.submitappointment_paid').attr('data-toggle','modal').attr('data-target','#exampleModal');
                     }
                 } else {
                     $('#coupon_msg').text(obj.msg).css('color','red');
                     $('#promo_code_paid').val('');
+                    $('#payable_amount').val('');
                 }
+            },
+            error:function(jqXHR){
+                var msg = 'Server error';
+                try{ var er = JSON.parse(jqXHR.responseText); if(er && er.msg){ msg = er.msg; } }catch(e){}
+                $('#coupon_msg').text(msg).css('color','red');
+                $('#promo_code_paid').val('');
+                $('#payable_amount').val('');
             }
         });
     });
@@ -1217,9 +1231,9 @@ jQuery(document).ready(function($){
 			    data: $('#appintment_form').serialize(),
 			    url:'{{URL::to('/book-an-appointment/store')}}',
 			    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-			    success:function(data){
+			    dataType:'json',
+			    success:function(obj){
 				    $('#loading').hide();
-				    var obj = JSON.parse(data);
 				    if(obj.success){
                         $('html, body').animate({scrollTop: $('#confirm_div').offset().top -100 }, 'slow');
 					    $('#confirm_div').html('<div class="tab_header"><h4></h4></div><div class="tab_body"><h4 style="text-align: center;padding: 20px;">'+obj.message+'</h4></div>');
@@ -1227,8 +1241,12 @@ jQuery(document).ready(function($){
 				    }else{
 					    alert('Please try again. There is a issue in our system');
 				    }
+			    },
+			    error:function(){
+			    	$('#loading').hide();
+			    	alert('Network error. Please try again.');
 			    }
-		    });
+			});
 		}
 	});
 
@@ -1281,6 +1299,38 @@ jQuery(document).ready(function($){
         }
 
 		if(flag == 1){
+            // If payable amount is zero (via coupon), bypass Stripe modal and submit directly
+            var payable = parseFloat($('#payable_amount').val() || '0');
+            if(!isNaN(payable) && payable <= 0){
+                $('#loading').show();
+                // Build payload from the main form and append promo + synthetic token
+                var dataArr = $('#appintment_form').serializeArray();
+                dataArr.push({name:'promo_code', value: $.trim($('#promo_code').val() || '')});
+                dataArr.push({name:'stripeToken', value: 'promo_free_'+(new Date().getTime())});
+                dataArr.push({name:'cardName', value: $.trim(fullname)});
+                $.ajax({
+                    type:'POST',
+                    data: $.param(dataArr),
+                    url:'{{URL::to('/book-an-appointment/storepaid')}}',
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    dataType:'json',
+                    success:function(obj){
+                        $('#loading').hide();
+                        if(obj.success){
+                            $('html, body').animate({scrollTop: $('#confirm_div').offset().top -100 }, 'slow');
+                            $('#confirm_div').html('<div class="tab_header"><h4></h4></div><div class="tab_body"><h4 style="text-align: center;padding: 20px;">'+obj.message+'</h4></div>');
+                            setTimeout(function(){ window.location.reload(); }, 5000);
+                        }else{
+                            alert('Please try again. There is a issue in our system');
+                        }
+                    },
+                    error:function(){
+                        $('#loading').hide();
+                        alert('Network error. Please try again.');
+                    }
+                });
+                return; // stop opening modal
+            }
             $('#noe_id_paid').val( $('input[name="noe_id"]').val() );
             $('#radioGroup_paid').val( $('input[name="radioGroup"]').val() );
             $('#service_id_paid').val( $('input[name="service_id"]').val() );

@@ -388,11 +388,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	const text = "There’s No Legal Puzzle That We Can’t Solve";
 	const element = document.getElementById("welcome-text");
 
-	// Set the full text and allow CSS animation to handle it
-	element.textContent = text;
-
-	// Add a class to trigger the animation (if needed dynamically)
-	element.classList.add('animated-typing');
+	// Guard against pages where the element is not present
+	if (element) {
+		// Set the full text and allow CSS animation to handle it
+		element.textContent = text;
+		// Add a class to trigger the animation (if needed dynamically)
+		element.classList.add('animated-typing');
+	}
 });
 
                                         

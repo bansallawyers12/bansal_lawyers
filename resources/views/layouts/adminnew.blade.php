@@ -9,36 +9,36 @@
 		<meta name="author" content="">
 		<meta name="keyword" content="E-Weblink CRM">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
-		<link rel="shortcut icon" type="image/png" href="{{ asset('public/img/favicon.png') }}"/>
+		<link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}"/>
 		<title>CRM Digitrex | @yield('title')</title>
 		  
 		<!-- Font Awesome -->
-	  <link rel="stylesheet" href="{{URL::asset('public/icons/font-awesome/css/all.min.css')}}">
+	  <link rel="stylesheet" href="{{URL::asset('icons/font-awesome/css/all.min.css')}}">
 	  <!-- Ionicons -->
 	  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	  <!-- Datatable -->
 	  
 	  <!-- Select2 -->
-	  <link rel="stylesheet" href="{{URL::asset('public/css/select2.min.css')}}">
-	  <link rel="stylesheet" href="{{URL::asset('public/css/select2-bootstrap4.min.css')}}">
+	  <link rel="stylesheet" href="{{URL::asset('css/select2.min.css')}}">
+	  <link rel="stylesheet" href="{{URL::asset('css/select2-bootstrap4.min.css')}}">
 	  <!-- Theme style -->
-	  <link rel="stylesheet" href="{{URL::asset('public/css/admintheme.min.css')}}">
+	  <link rel="stylesheet" href="{{URL::asset('css/admintheme.min.css')}}">
 	  <!-- overlayScrollbars -->
 	 
-	  <link rel="stylesheet" type="text/css" href="{{URL::asset('public/css/bootstrap-select.min.css')}}" >
+	  <link rel="stylesheet" type="text/css" href="{{URL::asset('css/bootstrap-select.min.css')}}" >
 	  <!-- summernote -->
-	  <link rel="stylesheet" href="{{URL::asset('public/css/summernote-bs4.css')}}"> 
+	  <link rel="stylesheet" href="{{URL::asset('css/summernote-bs4.css')}}"> 
 	  <!-- style --> 
-	  <link rel="stylesheet" href="{{URL::asset('public/css/style.css')}}">
-	  <link rel="stylesheet" href="{{URL::asset('public/css/font-awesome.min.css')}}">
+	  <link rel="stylesheet" href="{{URL::asset('css/style.css')}}">
+	  <link rel="stylesheet" href="{{URL::asset('css/font-awesome.min.css')}}">
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
 	 
-	  <!--<link rel="stylesheet" href="{{URL::asset('public/css/niceCountryInput.css')}}">-->
+	  <!--<link rel="stylesheet" href="{{URL::asset('css/niceCountryInput.css')}}">-->
 	  <!-- Google Font: Source Sans Pro -->
 	  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 	  
 		<!-- jQuery -->
-		<script src="{{URL::asset('public/js/jquery.min.js')}}"></script>	 
+		<script src="{{URL::asset('js/jquery.min.js')}}"></script>	 
 		<script>var billingdata = new Array();</script>	 
 		
 	<style>
@@ -141,9 +141,9 @@
 		<div class="wrapper">
 		<div id="loader">
 			<div class="overlay">
-              <i class="fa fa-refresh fa-spin"></i>
-            </div> 
-        </div>
+			  <i class="fa fa-refresh fa-spin"></i>
+			</div> 
+		</div>
 			<!--Header-->
 			@include('../Elements/Admin/header')
 		
@@ -175,7 +175,7 @@
 								<div class="form-group row">
 									<label for="lead_id" class="col-sm-2 col-form-label">Lead ID</label>
 									<div class="col-sm-10">
-										<input name="lead_id" type="text" value="Request::get('lead_id')" class="form-control" data-valid="" autocomplete="off" placeholder="Lead ID" id="lead_id">	 						
+										<input name="lead_id" type="text" value="Request::get('lead_id')" class="form-control" data-valid="" autocomplete="off" placeholder="Lead ID" id="lead_id">	 							
 										@if ($errors->has('lead_id'))
 											<span class="custom-error" role="alert">
 												<strong>{{ @$errors->first('lead_id') }}</strong>
@@ -188,7 +188,7 @@
 								<div class="form-group row">
 									<label for="name" class="col-sm-2 col-form-label">Name</label>
 									<div class="col-sm-10">
-										<input name="name" type="text" value="Request::get('name')" class="form-control" data-valid="" autocomplete="off" placeholder="Name" id="name">	 						
+										<input name="name" type="text" value="Request::get('name')" class="form-control" data-valid="" autocomplete="off" placeholder="Name" id="name">	 							
 										@if ($errors->has('name'))
 											<span class="custom-error" role="alert">
 												<strong>{{ @$errors->first('name') }}</strong>
@@ -201,7 +201,7 @@
 								<div class="form-group row">
 									<label for="email" class="col-sm-2 col-form-label">Email</label>
 									<div class="col-sm-10">
-										<input name="email" type="text" value="Request::get('email')" class="form-control" data-valid="" autocomplete="off" placeholder="Email" id="email">	 						
+										<input name="email" type="text" value="Request::get('email')" class="form-control" data-valid="" autocomplete="off" placeholder="Email" id="email">	 							
 										@if ($errors->has('email'))
 											<span class="custom-error" role="alert">
 												<strong>{{ @$errors->first('email') }}</strong>
@@ -214,7 +214,7 @@
 								<div class="form-group row">
 									<label for="phone" class="col-sm-2 col-form-label">Phone</label>
 									<div class="col-sm-10">
-										<input name="phone" type="text" value="Request::get('phone')" class="form-control" data-valid="" autocomplete="off" placeholder="Phone" id="phone">	 						
+										<input name="phone" type="text" value="Request::get('phone')" class="form-control" data-valid="" autocomplete="off" placeholder="Phone" id="phone">	 							
 										@if ($errors->has('phone'))
 											<span class="custom-error" role="alert">
 												<strong>{{ @$errors->first('phone') }}</strong>
@@ -227,7 +227,7 @@
 								<div class="form-group row">
 									<label for="followupdate" class="col-sm-2 col-form-label">Followup Date</label>
 									<div class="col-sm-10">
-										<input name="followupdate" type="text" value="Request::get('followupdate')" class="form-control" data-valid="" autocomplete="off" placeholder="Followup Date" id="followupdate">	 						
+										<input name="followupdate" type="text" value="Request::get('followupdate')" class="form-control" data-valid="" autocomplete="off" placeholder="Followup Date" id="followupdate">	 							
 										@if ($errors->has('followupdate'))
 											<span class="custom-error" role="alert">
 												<strong>{{ @$errors->first('followupdate') }}</strong>
@@ -238,7 +238,7 @@
 							</div>
 							
 							
-						</div>
+					</div>
 					
 				</div>
 				<div class="modal-footer justify-content-between">
@@ -271,7 +271,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="subject" class="col-form-label">Subject</label>
-									<input name="subject" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Subject" id="subject">	 						
+									<input name="subject" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Subject" id="subject">	 							
 									@if ($errors->has('subject'))
 										<span class="custom-error" role="alert">
 											<strong>{{ @$errors->first('subject') }}</strong>
@@ -280,7 +280,7 @@
 								</div>
 								<div class="form-group">
 									<label for="how_help_you" class="col-form-label">How can we help you today?</label>
-									<input name="how_help_you" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="How can we help you today?" id="how_help_you">	 						
+									<input name="how_help_you" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="How can we help you today?" id="how_help_you">	 							
 									@if ($errors->has('how_help_you'))
 										<span class="custom-error" role="alert">
 											<strong>{{ @$errors->first('how_help_you') }}</strong>
@@ -298,7 +298,7 @@
 								</div>
 								<div class="form-group">
 									<label for="contact_no" class="col-form-label">Contact Number</label>
-									<input name="contact_no" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Contact Number" id="contact_no">	 						
+									<input name="contact_no" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Contact Number" id="contact_no">	 							
 									@if ($errors->has('contact_no'))
 										<span class="custom-error" role="alert">
 											<strong>{{ @$errors->first('contact_no') }}</strong>
@@ -312,7 +312,7 @@
 										<option value="Just FYI">Just FYI</option>
 										<option value="Nothing urgent, can wait">Nothing urgent, can wait</option>
 										<option value="I'm stuck, need assistance">I'm stuck, need assistance</option>
-									</select>	 						
+									</select>	 							
 									@if ($errors->has('critical_request'))
 										<span class="custom-error" role="alert">
 											<strong>{{ @$errors->first('critical_request') }}</strong>
@@ -335,29 +335,29 @@
 		<!-- /.modal -->
 		
 		<!-- jQuery UI 1.11.4 -->
-		<script src="{{URL::asset('public/js/moment.min.js')}}"></script>
+		<script src="{{URL::asset('js/moment.min.js')}}"></script>
 		   
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script> 
-		<script src="{{URL::asset('public/js/bootstrap.bundle.min.js')}}"></script>	
+		<script src="{{URL::asset('js/bootstrap.bundle.min.js')}}"></script>	
 		<!-- Datatable  -->
 		
 		<!-- Select2 -->		
-		<!--<script src="{{URL::asset('public/js/select2.full.min.js')}}"></script>	-->
+		<!--<script src="{{URL::asset('js/select2.full.min.js')}}"></script>	-->
 		<!-- Select2 -->		
-		<script src="{{URL::asset('public/js/select2.min.js')}}"></script>			
+		<script src="{{URL::asset('js/select2.min.js')}}"></script>			
 		<!-- daterangepicker -->
 		
 		<!-- Summernote -->
-		<script src="{{URL::asset('public/js/summernote-bs4.min.js')}}"></script>
+		<script src="{{URL::asset('js/summernote-bs4.min.js')}}"></script>
 		
 		
 		<!-- Admin Theme App -->
-		<script src="{{URL::asset('public/js/admintheme.min.js')}}"></script>
+		<script src="{{URL::asset('js/admintheme.min.js')}}"></script>
 		
 		<!-- Admin Theme dashboard demo (This is only for demo purposes) -->
-	
 		
-		<script src="{{URL::asset('public/js/custom-form-validation.js')}}"></script>
+		
+		<script src="{{URL::asset('js/custom-form-validation.js')}}"></script>
 		  
 		
 		<script type="text/javascript">
@@ -365,7 +365,7 @@
 			var media_url = "<?php echo route('admin.media.store'); ?>";
 			var media_index_url = "<?php echo route('admin.media.index'); ?>";
 			var media_remove_url = "<?php echo route('admin.media.delete'); ?>";
-			var media_image_url = "<?php echo URL::to('/public/img/media_gallery'); ?>";
+			var media_image_url = "<?php echo URL::to('/img/media_gallery'); ?>";
 			var followuplist = "<?php echo URL::to('/'); ?>";
 			var followupstore = "<?php echo URL::to('/admin/followup/store'); ?>";
 		</script>
@@ -457,7 +457,7 @@
 			mins = mins % 60;
 			retappend(hrs + "h " + mins + "m");
 			}
-		}function calduration(d1,d2){
+		}	function calduration(d1,d2){
 			if(d2 != ''){
 			 var msec = d2 - d1;
 			var mins = Math.floor(msec / 60000);
@@ -477,9 +477,9 @@
 		// Summernote
 		$('.textarea').summernote();
 			
-    }); 
+	}); 
 
 		</script>   
-									
+							
 	</body>
 </html> 

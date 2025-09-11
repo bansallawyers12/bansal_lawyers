@@ -975,7 +975,7 @@ class ClientsController extends Controller
 			if(isset($request->noteid) && $request->noteid != ''){
 				$obj = \App\Models\Note::find($request->noteid);
 			}else{
-				$obj = new \App\Note;
+				$obj = new \App\Models\Note;
 			}
 
 			$obj->client_id = $request->client_id;
@@ -3145,7 +3145,7 @@ class ClientsController extends Controller
             exit;
         }*/
 
-        $followup 				= new \App\Note;
+        $followup 				= new \App\Models\Note;
         $followup->client_id		= $this->decodeString(@$requestData['client_id']);
 		$followup->user_id			= Auth::user()->id;
 		$followup->description		= @$requestData['description'];
@@ -3356,7 +3356,7 @@ class ClientsController extends Controller
             echo json_encode(array('success' => false, 'message' => 'Lead already assigned to '.@$requestData['assignee_name'], 'clientID' => $req_clientID));
             exit;
         }*/
-		$followup 					= new \App\Note;
+		$followup 					= new \App\Models\Note;
 		$followup->client_id		= $client_id;//$this->decodeString(@$requestData['client_id']);
 		$followup->user_id			= Auth::user()->id;
 		$followup->description		= @$requestData['description'];
@@ -3406,7 +3406,7 @@ class ClientsController extends Controller
 	    $requestData 		= 	$request->all();
 
         //	echo '<pre>'; print_r($requestData); die;
-		$followup 					= new \App\Note;
+		$followup 					= new \App\Models\Note;
 		$followup->client_id			= @$requestData['client_id'];
 		$followup->user_id			= Auth::user()->id;
 		$followup->description		= @$requestData['message'];

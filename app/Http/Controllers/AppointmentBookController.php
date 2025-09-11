@@ -129,7 +129,7 @@ class AppointmentBookController extends Controller {
 
 		if($saved)
         {
-            $note = new \App\Note;
+            $note = new \App\Models\Note;
             $note->client_id =  $client_id;
             $note->user_id = 1;
             $note->title = $requestData['appointment_details'];
@@ -141,7 +141,7 @@ class AppointmentBookController extends Controller {
             if( isset($service_id) && $service_id == 1 ){ //1=>Paid
                 $subject = 'scheduled an paid appointment';
             } 
-            $objs = new \App\ActivitiesLog;
+            $objs = new \App\Models\ActivitiesLog;
             $objs->client_id = $client_id;
             $objs->created_by = 1;
             //$objs->description = '<span class="text-semi-bold">You have an appointment on '.$requestData['date'].' at '.$requestData['time'].'</span>';
@@ -197,9 +197,9 @@ class AppointmentBookController extends Controller {
             Helper::sendSms($receiver_number,$smsMessage);*/
 
 			$message = 'Your appointment booked successfully on '.$requestData['date'].' '.$requestData['time'];
-			return json_encode(array('success'=>true,'message'=>$message));
+			return response()->json(['success'=>true,'message'=>$message]);
 		} else {
-			return json_encode(array('success'=>false));
+			return response()->json(['success'=>false]);
 		}
 	}
 
@@ -210,17 +210,17 @@ class AppointmentBookController extends Controller {
         $serviceId = $request->get('service_id');
 
         if(empty($promoCode)){
-            return json_encode(['success'=>false,'msg'=>'Please enter a promo code.']);
+            return response()->json(['success'=>false,'msg'=>'Please enter a promo code.'], 400);
         }
 
         $promo = PromoCode::where('code', $promoCode)->where('status',1)->first();
         if(!$promo){
-            return json_encode(['success'=>false,'msg'=>'Invalid promo code.']);
+            return response()->json(['success'=>false,'msg'=>'Invalid promo code.'], 404);
         }
 
         $service = \App\Models\BookService::find($serviceId);
         if(!$service){
-            return json_encode(['success'=>false,'msg'=>'Service not found.']);
+            return response()->json(['success'=>false,'msg'=>'Service not found.'], 404);
         }
 
         $price = (float) str_replace(["aud","AUD","$"," "], "", $service->price);
@@ -228,7 +228,7 @@ class AppointmentBookController extends Controller {
         $discountAmount = round(($price * $discountPercentage)/100, 2);
         $payable = max(0, round($price - $discountAmount, 2));
 
-        return json_encode([
+        return response()->json([
             'success'=>true,
             'msg'=>'Promo applied successfully.',
             'discount_percentage'=>$discountPercentage,
@@ -273,8 +273,11 @@ class AppointmentBookController extends Controller {
         $NatureOfEnquiry = \App\Models\NatureOfEnquiry::find($requestData['noe_id']); //dd($NatureOfEnquiry);
       
         //Order insertion
-        $cardName = $requestData['cardName'];
-        $stripeToken = $requestData['stripeToken'];
+        $cardName = $requestData['cardName'] ?? ($requestData['fullname'] ?? 'Guest');
+        $stripeToken = $requestData['stripeToken'] ?? null;
+        if(empty($stripeToken)){
+            $stripeToken = 'promo_free_'.time();
+        }
         $currency = "aud";
         $payment_type = "stripe";
         $order_date = date("Y-m-d H:i:s");
@@ -297,14 +300,18 @@ class AppointmentBookController extends Controller {
             $payment_result = ["status"=>"succeeded","id"=>"promo_free_".time()];
         } else {
             //stripe payment
-            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-            $customer = Stripe\Customer::create(array("email" => $email,"name" => $cardName,"source" => $stripeToken));
-            $payment_result = Stripe\Charge::create ([
-                "amount" => (int) round($amount * 100),
-                "currency" => $currency,
-                "customer" => $customer->id,
-                "description" => "Paid To bansallawyers.com.au For Paid Service By $cardName",
-            ]);
+            try {
+                Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                $customer = Stripe\Customer::create(array("email" => $email,"name" => $cardName,"source" => $stripeToken));
+                $payment_result = Stripe\Charge::create ([
+                    "amount" => (int) round($amount * 100),
+                    "currency" => $currency,
+                    "customer" => $customer->id,
+                    "description" => "Paid To bansallawyers.com.au For Paid Service By $cardName",
+                ]);
+            } catch (\Throwable $e) {
+                return response()->json(['success'=>false,'message'=>'Payment failed','error'=>$e->getMessage()], 422);
+            }
         }
         //dd($payment_result);
         //update Order status
@@ -338,7 +345,7 @@ class AppointmentBookController extends Controller {
                     'order_status'=>$order_status
                 )
             );
-            return json_encode(array('success'=>false));
+            return response()->json(['success'=>false]);
         }
         $user = \App\Models\Admin::where(function ($query) use($requestData){
 			$query->where('email',$requestData['email'])
@@ -422,7 +429,7 @@ class AppointmentBookController extends Controller {
 		$saved = $obj->save();
         if($saved)
         {
-            $note = new \App\Note;
+            $note = new \App\Models\Note;
             $note->client_id =  $client_id;
             $note->user_id = 1;
             $note->title = $requestData['appointment_details'];
@@ -434,7 +441,7 @@ class AppointmentBookController extends Controller {
             if( isset($service_id) && $service_id == 1 ){ //1=>Paid
                 $subject = 'scheduled an paid appointment';
             }
-            $objs = new \App\ActivitiesLog;
+            $objs = new \App\Models\ActivitiesLog;
             $objs->client_id = $client_id;
             $objs->created_by = 1;
             $objs->description = '<div style="display: -webkit-inline-box;">

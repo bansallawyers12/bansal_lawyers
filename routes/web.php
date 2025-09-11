@@ -135,7 +135,7 @@ Route::prefix('admin')->group(function() {
 		Route::post('/appointment-dates-disable/edit', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'edit'])->name('admin.feature.appointmentdisabledate.edit');
   
   
-        Route::post('/update_action', 'Admin\AdminController@updateAction');
+        Route::post('/update_action', [\App\Http\Controllers\Admin\AdminController::class, 'updateAction']);
   
   
        //Recent case
@@ -150,55 +150,55 @@ Route::prefix('admin')->group(function() {
 });
 
 
-Route::get('/practice-areas', 'HomeController@practiceareas')->name('practice-areas');
-Route::get('/case', 'HomeController@case')->name('case');
+Route::get('/practice-areas', [\App\Http\Controllers\HomeController::class, 'practiceareas'])->name('practice-areas');
+Route::get('/case', [\App\Http\Controllers\HomeController::class, 'case'])->name('case');
 
 //Practice area main Page
-Route::get('/family-law', 'HomeController@familylaw')->name('family-law');
-Route::get('/migration-law', 'HomeController@migrationlaw')->name('migration-law');
-Route::get('/criminal-law', 'HomeController@criminallaw')->name('criminal-law');
-Route::get('/commercial-law', 'HomeController@commerciallaw')->name('commercial-law');
-Route::get('/property-law', 'HomeController@propertylaw')->name('property-law');
+Route::get('/family-law', [\App\Http\Controllers\HomeController::class, 'familylaw'])->name('family-law');
+Route::get('/migration-law', [\App\Http\Controllers\HomeController::class, 'migrationlaw'])->name('migration-law');
+Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'criminallaw'])->name('criminal-law');
+Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallaw'])->name('commercial-law');
+Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylaw'])->name('property-law');
 
 
 //Practice area inner Page
-Route::get('/divorce', 'HomeController@divorce')->name('divorce');
-Route::get('/child-custody', 'HomeController@childcustody')->name('child-custody');
-Route::get('/family-violence', 'HomeController@familyviolence')->name('family-violence');
-Route::get('/property-settlement', 'HomeController@propertysettlement')->name('property-settlement');
-Route::get('/family-violence-orders', 'HomeController@familyviolenceorders')->name('family-violence-orders');
+Route::get('/divorce', [\App\Http\Controllers\HomeController::class, 'divorce'])->name('divorce');
+Route::get('/child-custody', [\App\Http\Controllers\HomeController::class, 'childcustody'])->name('child-custody');
+Route::get('/family-violence', [\App\Http\Controllers\HomeController::class, 'familyviolence'])->name('family-violence');
+Route::get('/property-settlement', [\App\Http\Controllers\HomeController::class, 'propertysettlement'])->name('property-settlement');
+Route::get('/family-violence-orders', [\App\Http\Controllers\HomeController::class, 'familyviolenceorders'])->name('family-violence-orders');
 
 
 //Migration Law
-Route::get('/juridicational-error-federal-circuit-court-application', 'HomeController@juridicationalerrorfederalcircuitcourtapplication')->name('juridicational-error-federal-circuit-court-application');
-Route::get('/art-application', 'HomeController@artapplication')->name('art-application');
-Route::get('/visa-refusals-visa-cancellation', 'HomeController@visarefusalsvisacancellation')->name('visa-refusals-visa-cancellation');
-Route::get('/federal-court-application', 'HomeController@federalcourtapplication')->name('federal-court-application');
+Route::get('/juridicational-error-federal-circuit-court-application', [\App\Http\Controllers\HomeController::class, 'juridicationalerrorfederalcircuitcourtapplication'])->name('juridicational-error-federal-circuit-court-application');
+Route::get('/art-application', [\App\Http\Controllers\HomeController::class, 'artapplication'])->name('art-application');
+Route::get('/visa-refusals-visa-cancellation', [\App\Http\Controllers\HomeController::class, 'visarefusalsvisacancellation'])->name('visa-refusals-visa-cancellation');
+Route::get('/federal-court-application', [\App\Http\Controllers\HomeController::class, 'federalcourtapplication'])->name('federal-court-application');
 
 
 //Criminal Law
-Route::get('/intervenition-orders', 'HomeController@intervenitionorders')->name('intervenition-orders');
-Route::get('/trafic-offences', 'HomeController@traficoffences')->name('trafic-offences');
-Route::get('/drink-driving-offences', 'HomeController@drinkdrivingoffences')->name('drink-driving-offences');
-Route::get('/assualt-charges', 'HomeController@assualtcharges')->name('assualt-charges');
+Route::get('/intervenition-orders', [\App\Http\Controllers\HomeController::class, 'intervenitionorders'])->name('intervenition-orders');
+Route::get('/trafic-offences', [\App\Http\Controllers\HomeController::class, 'traficoffences'])->name('trafic-offences');
+Route::get('/drink-driving-offences', [\App\Http\Controllers\HomeController::class, 'drinkdrivingoffences'])->name('drink-driving-offences');
+Route::get('/assualt-charges', [\App\Http\Controllers\HomeController::class, 'assualtcharges'])->name('assualt-charges');
 
 
 //Commercial Law
-Route::get('/business-law', 'HomeController@businesslaw')->name('business-law');
-Route::get('/leasing-or-selling-a-business', 'HomeController@leasingorsellingabusiness')->name('leasing-or-selling-a-business');
-Route::get('/contracts-or-business-agreements', 'HomeController@contractsorbusinessagreements')->name('contracts-or-business-agreements');
-Route::get('/loan-agreement', 'HomeController@loanagreement')->name('loan-agreement');
+Route::get('/business-law', [\App\Http\Controllers\HomeController::class, 'businesslaw'])->name('business-law');
+Route::get('/leasing-or-selling-a-business', [\App\Http\Controllers\HomeController::class, 'leasingorsellingabusiness'])->name('leasing-or-selling-a-business');
+Route::get('/contracts-or-business-agreements', [\App\Http\Controllers\HomeController::class, 'contractsorbusinessagreements'])->name('contracts-or-business-agreements');
+Route::get('/loan-agreement', [\App\Http\Controllers\HomeController::class, 'loanagreement'])->name('loan-agreement');
 
 
 //Property Law
-Route::get('/conveyancing', 'HomeController@conveyancing')->name('conveyancing');
-Route::get('/building-and-construction-disputes', 'HomeController@buildingandconstructiondisputes')->name('building-and-construction-disputes');
-Route::get('/caveats-disputs-and-removal', 'HomeController@caveatsdisputsandremoval')->name('caveats-disputs-and-removal');
+Route::get('/conveyancing', [\App\Http\Controllers\HomeController::class, 'conveyancing'])->name('conveyancing');
+Route::get('/building-and-construction-disputes', [\App\Http\Controllers\HomeController::class, 'buildingandconstructiondisputes'])->name('building-and-construction-disputes');
+Route::get('/caveats-disputs-and-removal', [\App\Http\Controllers\HomeController::class, 'caveatsdisputsandremoval'])->name('caveats-disputs-and-removal');
 
 
 
 
-Route::get('/{slug}', 'HomeController@Page')
+Route::get('/{slug}', [\App\Http\Controllers\HomeController::class, 'Page'])
 	->where('slug', '^(?!admin|api|login|register|home|invoice|profile|clear-cache|js|css|images|img|assets|fonts|storage).*$')
 	->name('page.slug');
 // Auth::routes();

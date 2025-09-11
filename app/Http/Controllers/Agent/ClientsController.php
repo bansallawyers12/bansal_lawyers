@@ -570,7 +570,7 @@ class ClientsController extends Controller
 			if(isset($request->noteid) && $request->noteid != ''){
 				$obj = \App\Models\Note::find($request->noteid);
 			}else{
-				$obj = new \App\Note;
+				$obj = new \App\Models\Note;
 			}
 			
 			$obj->client_id = $request->client_id;
