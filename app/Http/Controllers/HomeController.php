@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\WebsiteSetting;
@@ -19,16 +16,13 @@ use App\Models\Testimonial;
 use App\Models\WhyChooseus;
 use App\Models\HomeContent;
 use App\Models\CmsPage;
-use App\Mail\CommonMail;
+// use App\Mail\CommonMail; // unused
 
 use Illuminate\Support\Facades\Session;
-use Config;
-use Cookie;
+use Illuminate\Support\Facades\Config;
+// use Illuminate\Support\Facades\Cookie; // unused
 
-use Mail;
-use Swift_SmtpTransport;
-use Swift_Mailer;
-use Helper;
+use Illuminate\Support\Facades\Mail;
 
 use Stripe;
 use App\Models\Enquiry;
@@ -107,7 +101,7 @@ class HomeController extends Controller
     {
 		// Optimized blog query - single query with pagination
 		$bloglists = Blog::where('status', 1)
-			->orderBy('id', 'DESC')
+			->orderByDesc('id')
 			->paginate(3);
 		
 		// Get total count from pagination object to avoid separate query
@@ -135,7 +129,7 @@ class HomeController extends Controller
         //dd( $request->all());
         $fromAddress = config('mail.from.address');
         //dd($fromAddress);
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required',
             'email' => 'required',
             //'phone' => 'required',
@@ -345,9 +339,9 @@ class HomeController extends Controller
 
             // Add the current date to the array
             $disabledatesarray[] = date('d/m/Y'); //dd($disabledatesarray);
-            return json_encode(array('success'=>true, 'duration' =>$bookservice->duration,'weeks' => $weekendd,'start_time' =>$start_time,'end_time'=>$end_time,'disabledatesarray'=>$disabledatesarray));
+            return response()->json(array('success'=>true, 'duration' =>$bookservice->duration,'weeks' => $weekendd,'start_time' =>$start_time,'end_time'=>$end_time,'disabledatesarray'=>$disabledatesarray));
 	   }else{
-		 return json_encode(array('success'=>false, 'duration' =>0));
+		 return response()->json(array('success'=>false, 'duration' =>0));
 	   }
     }
 
@@ -439,9 +433,9 @@ class HomeController extends Controller
             }
             // Add the current date to the array
             //$disabledatesarray[] = date('d/m/Y'); //dd($disabledatesarray);
-            return json_encode(array('success'=>true, 'duration' =>$bookservice->duration,'weeks' => $weekendd,'start_time' =>$start_time,'end_time'=>$end_time,'disabledatesarray'=>$disabledatesarray));
+            return response()->json(array('success'=>true, 'duration' =>$bookservice->duration,'weeks' => $weekendd,'start_time' =>$start_time,'end_time'=>$end_time,'disabledatesarray'=>$disabledatesarray));
 	   }else{
-		 return json_encode(array('success'=>false, 'duration' =>0));
+		 return response()->json(array('success'=>false, 'duration' =>0));
 	   }
     }
 
@@ -491,7 +485,7 @@ class HomeController extends Controller
                 $newArray = array();
             }
             $disabledtimeslotes = array_merge($disabledtimeslotes, $newArray); //dd($disabledtimeslotes);
-		    return json_encode(array('success'=>true, 'disabledtimeslotes' =>$disabledtimeslotes));
+		    return response()->json(array('success'=>true, 'disabledtimeslotes' =>$disabledtimeslotes));
 	    } else {
             //$disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')->where('book_service_id', $request->service_id)->whereDate('disabledates', $datey)->get();
             $disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')->where('book_service_slot_per_person_id', $book_service_slot_per_person_tbl_unique_id)->whereDate('disabledates', $datey)->get();
@@ -503,7 +497,7 @@ class HomeController extends Controller
                 $newArray = array();
             }
             $disabledtimeslotes = array_merge($disabledtimeslotes, $newArray); //dd($disabledtimeslotes);
-		    return json_encode(array('success'=>true, 'disabledtimeslotes' =>$disabledtimeslotes));
+		    return response()->json(array('success'=>true, 'disabledtimeslotes' =>$disabledtimeslotes));
 	    }
     }
 
@@ -571,7 +565,7 @@ class HomeController extends Controller
             if($ins ){
                 DB::table('appointments')->where('id',$appointment_id)->update( array('status'=>$appontment_status,'order_hash'=>$stripeToken));
             }
-            Session::flash('success', 'Payment successful!');
+            return back()->with('success', 'Payment successful!');
         } else { //failed
             $stripe_payment_intent_id = $payment_result['id'];
             $payment_status = "Unpaid";
@@ -593,9 +587,9 @@ class HomeController extends Controller
                 DB::table('appointments')->where('id',$appointment_id)->update( array('status'=>$appontment_status,'order_hash'=>$stripeToken));
             }
             //return json_encode(array('success'=>false));
-            Session::flash('error', 'Payment failed!');
+            return back()->with('error', 'Payment failed!');
         }
-        return back();
+        // handled above with with(...)
     }
 
     public function search_result(Request $request)

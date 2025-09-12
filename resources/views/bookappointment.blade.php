@@ -823,17 +823,10 @@ jQuery(document).ready(function($){
         $('.services_item[value="1"]').prop('checked', true);
 
         $('#service_id').val(id);
-        if( $('#service_id').val() == 1 ){ //paid
-            $('.submitappointment_paid').show();
-            $('.submitappointment').hide();
-            $('.coupon-wrapper').show();
-        } else { //free
-            $('.submitappointment').show();
-            $('.submitappointment_paid').hide();
-            $('.coupon-wrapper').hide();
-            $('#promo_code').val('');
-            $('#coupon_msg').hide();
-        }
+        // Only paid appointments for Ajay
+        $('.submitappointment_paid').show();
+        $('.submitappointment').hide();
+        $('.coupon-wrapper').show();
 
         if(id != ""){
             var v = 'appointment_details';
@@ -1069,13 +1062,9 @@ jQuery(document).ready(function($){
             $('.date').text($('input[name="date"]').val());
             $('.time').text($('input[name="time"]').val());
 
-            if(  $('#service_id').val() == 1 ){ //paid
-                $('.submitappointment_paid').show();
-                $('.submitappointment').hide();
-            } else { //free
-                $('.submitappointment').show();
-                $('.submitappointment_paid').hide();
-            }
+            // Only paid appointments for Ajay
+            $('.submitappointment_paid').show();
+            $('.submitappointment').hide();
 		} else {
             $('.confirm_row').hide();
         }
@@ -1139,14 +1128,8 @@ jQuery(document).ready(function($){
         var service_id_val = $('#service_id').val();
 		var fromtime = $(this).attr('data-fromtime');
 
-        if(service_id_val == 2){ //15 min service
-            var fromtime11 = parseTimeLatest(fromtime);
-            var interval11 = 15;
-            var timeString11 = fromtime11 + interval11;
-            var totime = new Date('1970-01-01T' + convertHours(timeString11) + 'Z').toLocaleTimeString('en-US', {timeZone:'UTC',hour12:true,hour:'numeric',minute:'numeric'} );
-        } else {
-            var totime = $(this).attr('data-totime');
-        }
+        // Only paid appointments - use standard time slots
+        var totime = $(this).attr('data-totime');
 		//alert('totime='+totime);
 		$('input[name="time"]').val(fromtime+'-'+totime);
         $('#timeslot_col_time').val(fromtime+'-'+totime);

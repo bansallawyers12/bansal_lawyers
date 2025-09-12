@@ -43,6 +43,24 @@
 
 <section class="ftco-section bg-light">
     <div class="container">
+        <!-- Category Filter Section -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="category-filter">
+                    <h4>Filter by Category:</h4>
+                    <div class="category-buttons">
+                        <a href="{{ route('blog.index') }}" class="btn btn-outline-primary {{ !request('category') ? 'active' : '' }}">All Categories</a>
+                        @foreach($blogCategories as $category)
+                            <a href="{{ route('blog.index', ['category' => $category->slug]) }}" 
+                               class="btn btn-outline-primary {{ request('category') == $category->slug ? 'active' : '' }}">
+                                {{ $category->name }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row d-flex" id="blog-list">
             @foreach (@$bloglists as $list)
                 <div class="col-md-4 d-flex ftco-animate">
@@ -66,6 +84,11 @@
 														<div class="text">
 		                            <h3 class="heading mb-0"><a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" onclick="showFullBlog(1)">{{@$list->title}}</a></h3>
 		                        </div>
+                            @if(isset($list->categorydetail) && $list->categorydetail)
+                                <div class="blog-category mb-2">
+                                    <a href="{{ route('blog.index', ['category' => $list->categorydetail->slug]) }}" class="badge badge-primary">{{ $list->categorydetail->name }}</a>
+                                </div>
+                            @endif
                             <p>{{@$list->title}}</p>
                             <p><a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" class="btn btn-primary" >Read This More</a></p>
                         </div>

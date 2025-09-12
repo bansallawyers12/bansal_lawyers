@@ -18,7 +18,7 @@
 				<div class="col-12 col-md-12 col-lg-12">
 					<div class="card">
 						<div class="card-header">
-						    <h4>Ajay Appointments Calendar</h4>
+						    <h4>{{ $type }} Calendar</h4>
 						</div>
 						<div class="card-body">
 							 <div class="fc-overflow">
@@ -35,14 +35,13 @@
 <?php
 $sched_res = [];
 
-if( $type == "Others" ){ //Ajay
-    $appointments = \App\Models\Appointment::where(function ($query) {
-        $query->where(function ($q) {
-            $q->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
-              ->where('service_id', 1);
-        });
-    })->get();
-}
+// Only paid appointments (service_id = 1) for Ajay
+$appointments = \App\Models\Appointment::where(function ($query) {
+    $query->where(function ($q) {
+        $q->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
+          ->where('service_id', 1);
+    });
+})->get();
 //dd($appointments);
 
 //$appointments = \App\Models\Appointment::where('invites','=', Auth::user()->id)->get();

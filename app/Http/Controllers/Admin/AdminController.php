@@ -6,19 +6,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
 use App\Models\WebsiteSetting;
 use App\Models\Setting;
 use App\Models\Contact;
-use Auth;
-use Config;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 
 class AdminController extends Controller
 {
+    // Status constants for better maintainability
+    const STATUS_DISABLED = 0;
+    const STATUS_ENABLED = 1;
+    const STATUS_DECLINED = 2;
+    const STATUS_PROCESSED = 4;
+    
     /**
      * Create a new controller instance.
      *
@@ -85,7 +90,7 @@ class AdminController extends Controller
          $data = array(
            'unseen_notification'  => 0
         );
-        echo json_encode($data);
+        return response()->json($data);
     }
     
     public function fetchmessages(Request $request){
@@ -96,13 +101,13 @@ class AdminController extends Controller
     public function fetchInPersonWaitingCount(Request $request){
         // CheckinLog functionality removed
         $data = array('InPersonwaitingCount'  => 0);
-        echo json_encode($data);
+        return response()->json($data);
    }
 
     public function fetchTotalActivityCount(Request $request){
         // Note functionality removed
         $data = array('assigneesCount'  => 0);
-        echo json_encode($data);
+        return response()->json($data);
     }
 
    
@@ -115,13 +120,13 @@ class AdminController extends Controller
 		if ($request->isMethod('post'))
 		{
 			$requestData 		= 	$request->all();
-			$obj							= 	Admin::find(Auth::user()->id);
-			if(@$requestData['is_business_gst'] == 'yes'){
-			$obj->is_business_gst				=	@$requestData['is_business_gst'];
-			$obj->gstin					=	@$requestData['gstin'];
-			$obj->gst_date						=	@$requestData['gst_date'];
+			$obj							= 	Admin::find(Auth::id());
+			if(($requestData['is_business_gst'] ?? null) == 'yes'){
+			$obj->is_business_gst				=	$requestData['is_business_gst'] ?? null;
+			$obj->gstin					=	$requestData['gstin'] ?? null;
+			$obj->gst_date						=	$requestData['gst_date'] ?? null;
 			}else{
-				$obj->is_business_gst				=	@$requestData['is_business_gst'];
+				$obj->is_business_gst				=	$requestData['is_business_gst'] ?? null;
 			$obj->gstin					=	'';
 			$obj->gst_date						=	'';
 			}
@@ -129,11 +134,11 @@ class AdminController extends Controller
 
 			if(!$saved)
 			{
-				return redirect()->back()->with('error', Config::get('constants.server_error'));
+				return redirect()->back()->with('error', config('constants.server_error'));
 			}
 			else
 			{
-				return Redirect::to('/admin/settings/taxes/returnsetting')->with('success', 'Your Profile has been edited successfully.');
+				return redirect('/admin/settings/taxes/returnsetting')->with('success', 'Your Profile has been edited successfully.');
 			}
 		}else{
 			//return view('Admin.my_profile', compact(['fetchedData', 'countries']));
@@ -185,48 +190,48 @@ class AdminController extends Controller
 					/* Unlink File Function Start */
 						if($requestData['profile_img'] != '')
 							{
-								$this->unlinkFile($requestData['old_profile_img'], Config::get('constants.profile_imgs'));
+								$this->unlinkFile($requestData['old_profile_img'], config('constants.profile_imgs'));
 							}
 					/* Unlink File Function End */
 
-					$profile_img = $this->uploadFile($request->file('profile_img'), Config::get('constants.profile_imgs'));
+					$profile_img = $this->uploadFile($request->file('profile_img'), config('constants.profile_imgs'));
 				}
 				else
 				{
-					$profile_img = @$requestData['old_profile_img'];
+					$profile_img = $requestData['old_profile_img'] ?? null;
 				}
 			/* Profile Image Upload Function End */
 
 
-			$obj							= 	Admin::find(Auth::user()->id);
+			$obj							= 	Admin::find(Auth::id());
 
-		$obj->first_name				=	@$requestData['first_name'];
-			$obj->last_name					=	@$requestData['last_name'];
-			$obj->phone						=	@$requestData['phone'];
-			$obj->country					=	@$requestData['country'];
-			$obj->state						=	@$requestData['state'];
-			$obj->city						=	@$requestData['city'];
-			$obj->address					=	@$requestData['address'];
-			$obj->zip						=	@$requestData['zip'];
-			$obj->company_fax						=	@$requestData['company_fax'];
-			$obj->company_name						=	@$requestData['company_name'];
-			$obj->company_website						=	@$requestData['company_website'];
-			$obj->profile_img				=	@$profile_img;
+		$obj->first_name				=	$requestData['first_name'] ?? null;
+			$obj->last_name					=	$requestData['last_name'] ?? null;
+			$obj->phone						=	$requestData['phone'] ?? null;
+			$obj->country					=	$requestData['country'] ?? null;
+			$obj->state						=	$requestData['state'] ?? null;
+			$obj->city						=	$requestData['city'] ?? null;
+			$obj->address					=	$requestData['address'] ?? null;
+			$obj->zip						=	$requestData['zip'] ?? null;
+			$obj->company_fax						=	$requestData['company_fax'] ?? null;
+			$obj->company_name						=	$requestData['company_name'] ?? null;
+			$obj->company_website						=	$requestData['company_website'] ?? null;
+			$obj->profile_img				=	$profile_img ?? null;
 
 			$saved							=	$obj->save();
 
 			if(!$saved)
 			{
-				return redirect()->back()->with('error', Config::get('constants.server_error'));
+				return redirect()->back()->with('error', config('constants.server_error'));
 			}
 			else
 			{
-				return Redirect::to('/admin/my_profile')->with('success', 'Your Profile has been edited successfully.');
+				return redirect('/admin/my_profile')->with('success', 'Your Profile has been edited successfully.');
 			}
 		}
 		else
 		{
-			$id = Auth::user()->id;
+			$id = Auth::id();
 			$fetchedData = Admin::find($id);
 
 			return view('Admin.my_profile', compact(['fetchedData', 'countries']));
@@ -243,7 +248,7 @@ class AdminController extends Controller
 			/* $check = $this->checkAuthorizationAction('Admin', $request->route()->getActionMethod(), Auth::user()->role);
 			if($check)
 			{
-				return Redirect::to('/admin/dashboard')->with('error',config('constants.unauthorized'));
+				return redirect('/admin/dashboard')->with('error',config('constants.unauthorized'));
 			} */
 		//check authorization end
 
@@ -257,7 +262,7 @@ class AdminController extends Controller
 
 
 			$requestData 	= 	$request->all();
-			$admin_id = Auth::user()->id;
+			$admin_id = Auth::id();
 
 			$fetchedData = Admin::where('id', '=', $admin_id)->first();
 			if(!empty($fetchedData))
@@ -281,7 +286,7 @@ class AdminController extends Controller
 										}
 									else
 										{
-											return redirect()->back()->with('error', Config::get('constants.server_error'));
+											return redirect()->back()->with('error', config('constants.server_error'));
 										}
 								}
 						}
@@ -300,7 +305,7 @@ class AdminController extends Controller
 
 	public function CustomerDetail(Request $request){
 
-		$contactexist = Contact::where('id', $request->customer_id)->where('user_id', Auth::user()->id)->exists();
+		$contactexist = Contact::where('id', $request->customer_id)->where('user_id', Auth::id())->exists();
 		if($contactexist){
 			$contact = Contact::where('id', $request->customer_id)->with(['currencydata'])->first();
 			return json_encode(array('success' => true, 'contactdetail' => $contact));
@@ -315,7 +320,7 @@ class AdminController extends Controller
 			$check = $this->checkAuthorizationAction('Admin', $request->route()->getActionMethod(), Auth::user()->role);
 			if($check)
 			{
-				return Redirect::to('/admin/dashboard')->with('error',config('constants.unauthorized'));
+				return redirect('/admin/dashboard')->with('error',config('constants.unauthorized'));
 			}
 		//check authorization end
 
@@ -335,11 +340,11 @@ class AdminController extends Controller
 					/* Unlink File Function Start */
 						if(@$requestData['logo'] != '')
 							{
-								$this->unlinkFile(@$requestData['old_logo'], Config::get('constants.logo'));
+								$this->unlinkFile(@$requestData['old_logo'], config('constants.logo'));
 							}
 					/* Unlink File Function End */
 
-					$logo = $this->uploadFile($request->file('logo'), Config::get('constants.logo'));
+					$logo = $this->uploadFile($request->file('logo'), config('constants.logo'));
 				}
 				else
 				{
@@ -364,11 +369,11 @@ class AdminController extends Controller
 
 			if(!$saved)
 			{
-				return redirect()->back()->with('error', Config::get('constants.server_error'));
+				return redirect()->back()->with('error', config('constants.server_error'));
 			}
 			else
 			{
-				return Redirect::to('/admin/website_setting')->with('success', 'Website Setting has been edited successfully.');
+				return redirect('/admin/website_setting')->with('success', 'Website Setting has been edited successfully.');
 			}
 		}
 		else
@@ -385,16 +390,16 @@ class AdminController extends Controller
 		// admin-only routes are protected via auth:admin middleware
 		if ($request->isMethod('post'))
 		{
-			$obj	= 	Admin::find(Auth::user()->id);
-			$obj->client_id	=	md5(Auth::user()->id.time());
+			$obj	= 	Admin::find(Auth::id());
+			$obj->client_id	=	md5(Auth::id().time());
 			$saved				=	$obj->save();
 			if(!$saved)
 			{
-				return redirect()->back()->with('error', Config::get('constants.server_error'));
+				return redirect()->back()->with('error', config('constants.server_error'));
 			}
 			else
 			{
-				return Redirect::to('/admin/api-key')->with('success', 'Api Key'.Config::get('constants.edited'));
+				return redirect('/admin/api-key')->with('success', 'Api Key'.config('constants.edited'));
 			}
 		}else{
 			return view('Admin.apikey');
@@ -404,7 +409,6 @@ class AdminController extends Controller
 	public function updateAction(Request $request)
 	{
 		$status 			= 	0;
-		$method 			= 	$request->method();
 		if ($request->isMethod('post'))
 		{
 			$requestData 	= 	$request->all();
@@ -425,14 +429,14 @@ class AdminController extends Controller
 
 						if($recordExist)
 						{
-							if($requestData['current_status'] == 0)
+							if($requestData['current_status'] == self::STATUS_DISABLED)
 							{
-								$updated_status = 1;
+								$updated_status = self::STATUS_ENABLED;
 								$message = 'Record has been enabled successfully.';
 							}
 							else
 							{
-								$updated_status = 0;
+								$updated_status = self::STATUS_DISABLED;
 								$message = 'Record has been disabled successfully.';
 							}
 							$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update([$requestData['col'] => $updated_status]);
@@ -442,7 +446,7 @@ class AdminController extends Controller
 							}
 							else
 							{
-								$message = Config::get('constants.server_error');
+								$message = config('constants.server_error');
 							}
 						}
 						else
@@ -462,19 +466,17 @@ class AdminController extends Controller
 			}
 			else
 			{
-				$message = Config::get('constants.post_method');
+				$message = config('constants.post_method');
 			}
+			return response()->json(array('status'=>$status, 'message'=>$message));
 		}
-		echo json_encode(array('status'=>$status, 'message'=>$message));
-			 die;
 
-	}
+	
 
 
 	public function moveAction(Request $request)
 	{
 		$status 			= 	0;
-		$method 			= 	$request->method();
 		if ($request->isMethod('post'))
 		{
 			$requestData 	= 	$request->all();
@@ -496,7 +498,7 @@ class AdminController extends Controller
 						{
 
 
-							$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update([$requestData['col'] => 0]);
+							$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update([$requestData['col'] => self::STATUS_DISABLED]);
 							if($response)
 							{
 								$status = 1;
@@ -504,7 +506,7 @@ class AdminController extends Controller
 							}
 							else
 							{
-								$message = Config::get('constants.server_error');
+								$message = config('constants.server_error');
 							}
 						}
 						else
@@ -525,16 +527,14 @@ class AdminController extends Controller
 		}
 		else
 		{
-			$message = Config::get('constants.post_method');
+			$message = config('constants.post_method');
 		}
-		echo json_encode(array('status'=>$status, 'message'=>$message));
-		die;
+		return response()->json(array('status'=>$status, 'message'=>$message));
 	}
 
 	public function declinedAction(Request $request)
 	{
 		$status 			= 	0;
-		$method 			= 	$request->method();
 		if ($request->isMethod('post'))
 		{
 			$requestData 	= 	$request->all();
@@ -556,8 +556,8 @@ class AdminController extends Controller
 						if($recordExist)
 						{
 
-								$updated_status = 2;
-								$message = 'Record has been disabled successfully.';
+								$updated_status = self::STATUS_DECLINED;
+								$message = 'Record has been declined successfully.';
 
 							$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update(['status' => $updated_status]);
 							if($response)
@@ -566,7 +566,7 @@ class AdminController extends Controller
 							}
 							else
 							{
-								$message = Config::get('constants.server_error');
+								$message = config('constants.server_error');
 							}
 						}
 						else
@@ -586,16 +586,14 @@ class AdminController extends Controller
 			}
 		else
 		{
-			$message = Config::get('constants.post_method');
+			$message = config('constants.post_method');
 		}
-		echo json_encode(array('status'=>$status, 'message'=>$message));
-		die;
+		return response()->json(array('status'=>$status, 'message'=>$message));
 	}
 
 	public function approveAction(Request $request)
 	{
 		$status 			= 	0;
-		$method 			= 	$request->method();
 		if ($request->isMethod('post'))
 		{
 			$requestData 	= 	$request->all();
@@ -617,7 +615,7 @@ class AdminController extends Controller
 						if($recordExist)
 						{
 
-								$updated_status = 1;
+								$updated_status = self::STATUS_ENABLED;
 								$message = 'Record has been approved successfully.';
 
 							$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update(['status' => $updated_status]);
@@ -627,7 +625,7 @@ class AdminController extends Controller
 							}
 							else
 							{
-								$message = Config::get('constants.server_error').'sss';
+								$message = config('constants.server_error').'sss';
 							}
 						}
 						else
@@ -647,16 +645,14 @@ class AdminController extends Controller
 			}
 		else
 		{
-			$message = Config::get('constants.post_method');
+			$message = config('constants.post_method');
 		}
-		echo json_encode(array('status'=>$status, 'message'=>$message));
-		die;
+		return response()->json(array('status'=>$status, 'message'=>$message));
 	}
 
 	public function processAction(Request $request)
 	{
 		$status 			= 	0;
-		$method 			= 	$request->method();
 		if ($request->isMethod('post'))
 		{
 			$requestData 	= 	$request->all();
@@ -678,7 +674,7 @@ class AdminController extends Controller
 						if($recordExist)
 						{
 
-								$updated_status = 4;
+								$updated_status = self::STATUS_PROCESSED;
 								$message = 'Record has been processed successfully.';
 
 							$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update(['status' => $updated_status]);
@@ -688,7 +684,7 @@ class AdminController extends Controller
 							}
 							else
 							{
-								$message = Config::get('constants.server_error').'sss';
+								$message = config('constants.server_error').'sss';
 							}
 						}
 						else
@@ -708,16 +704,14 @@ class AdminController extends Controller
 			}
 		else
 		{
-			$message = Config::get('constants.post_method');
+			$message = config('constants.post_method');
 		}
-		echo json_encode(array('status'=>$status, 'message'=>$message));
-		die;
+		return response()->json(array('status'=>$status, 'message'=>$message));
 	}
 
 	public function archiveAction(Request $request)
 	{
 		$status 			= 	0;
-		$method 			= 	$request->method();
 		if ($request->isMethod('post'))
 		{
 			$requestData 	= 	$request->all();
@@ -757,7 +751,7 @@ class AdminController extends Controller
 							}
 							else
 							{
-								$message = Config::get('constants.server_error');
+								$message = config('constants.server_error');
 							}
 						}
 						else
@@ -777,16 +771,14 @@ class AdminController extends Controller
 			}
 		else
 		{
-			$message = Config::get('constants.post_method');
+			$message = config('constants.post_method');
 		}
-		echo json_encode(array('status'=>$status, 'message'=>$message, 'astatus'=>$astatus));
-		die;
+		return response()->json(array('status'=>$status, 'message'=>$message, 'astatus'=>$astatus));
 	}
 
 	public function deleteAction(Request $request)
 	{
 		$status 			= 	0;
-		$method 			= 	$request->method();
 		if ($request->isMethod('post'))
 		{
 			$requestData 	= 	$request->all();
@@ -831,7 +823,7 @@ class AdminController extends Controller
 							}
 							else
 							{
-								$message = Config::get('constants.server_error');
+								$message = config('constants.server_error');
 							}
 							}else if($requestData['table'] == 'quotations'){
 								/* if($requestData['current_status'] == 0)
@@ -853,7 +845,7 @@ class AdminController extends Controller
 							}
 							else
 							{
-								$message = Config::get('constants.server_error');
+								$message = config('constants.server_error');
 							}
 							}
 							else
@@ -869,7 +861,7 @@ class AdminController extends Controller
 									}
 									else
 									{
-										$message = Config::get('constants.server_error');
+										$message = config('constants.server_error');
 									}
 								}else{
 									$message = 'ID does not exist, please check it once again.';
@@ -888,7 +880,7 @@ class AdminController extends Controller
 									}
 									else
 									{
-										$message = Config::get('constants.server_error');
+										$message = config('constants.server_error');
 									}
 								}else{
 									$message = 'ID does not exist, please check it once again.';
@@ -905,7 +897,7 @@ class AdminController extends Controller
 									}
 									else
 									{
-										$message = Config::get('constants.server_error');
+										$message = config('constants.server_error');
 									}
 							}else if($requestData['table'] == 'products'){
 								$applicationisexist	= DB::table('applications')->where('product_id', $requestData['id'])->exists();
@@ -925,7 +917,7 @@ class AdminController extends Controller
 									}
 									else
 									{
-										$message = Config::get('constants.server_error');
+										$message = config('constants.server_error');
 									}
 									}else{
 										$message = 'ID does not exist, please check it once again.';
@@ -943,7 +935,7 @@ class AdminController extends Controller
 								}
 								else
 								{
-									$message = Config::get('constants.server_error');
+									$message = config('constants.server_error');
 								}
 							}
 						}
@@ -965,10 +957,9 @@ class AdminController extends Controller
 		}
 		else
 		{
-			$message = Config::get('constants.post_method');
+			$message = config('constants.post_method');
 		}
-		echo json_encode(array('status'=>$status, 'message'=>$message));
-		die;
+		return response()->json(array('status'=>$status, 'message'=>$message));
 	}
   
   
@@ -999,7 +990,7 @@ class AdminController extends Controller
                                 $status = 1;
                                 $message = 'Record has been deleted successfully.';
                             } else {
-                                $message = Config::get('constants.server_error');
+                                $message = config('constants.server_error');
                             }
                         } else {
                             $message = 'Slot does not exist, please check it once again.';
@@ -1012,160 +1003,59 @@ class AdminController extends Controller
                 $message = 'Id OR Table does not exist, please check it once again.';
             }
         } else {
-			$message = Config::get('constants.post_method');
+			$message = config('constants.post_method');
 		}
-		echo json_encode(array('status'=>$status, 'message'=>$message));
-		die;
+		return response()->json(array('status'=>$status, 'message'=>$message));
 	}
 
 	public function getStates(Request $request)
 	{
 		$status 			= 	0;
-		$data				=	array();
+		$data				= array();
 		$method 			= 	$request->method();
 
 		if ($request->isMethod('post'))
 		{
-			$requestData 	= 	$request->all();
-
-			$requestData['id'] = trim($requestData['id']);
-
-			if(isset($requestData['id']) && !empty($requestData['id']))
-			{
-				$recordExist = Country::where('id', $requestData['id'])->exists();
-
-				if($recordExist)
-				{
-					$data 	= 	State::where('country_id', '=', $requestData['id'])->get();
-
-					if($data)
-					{
-						$status = 1;
-						$message = 'Record has been fetched successfully.';
-					}
-					else
-					{
-						$message = Config::get('constants.server_error');
-					}
-				}
-				else
-				{
-					$message = 'ID does not exist, please check it once again.';
-				}
-			}
-			else
-			{
-				$message = 'ID does not exist, please check it once again.';
-			}
+			$message = 'States lookup has been disabled.';
 		}
 		else
 		{
-			$message = Config::get('constants.post_method');
+			$message = config('constants.post_method');
 		}
-		echo json_encode(array('status'=>$status, 'message'=>$message, 'data'=>$data));
-		die;
+		return response()->json(array('status'=>$status, 'message'=>$message, 'data'=>$data));
 	}
 
 	public function getChapters(Request $request)
 	{
 		$status 			= 	0;
-		$data				=	array();
+		$data				= array();
 		$method 			= 	$request->method();
 
 		if ($request->isMethod('post'))
 		{
-			$requestData 	= 	$request->all();
-
-			$requestData['id'] = trim($requestData['id']);
-
-			if(isset($requestData['id']) && !empty($requestData['id']))
-			{
-				$recordExist = McqSubject::where('id', $requestData['id'])->exists();
-
-				if($recordExist)
-				{
-					$data 	= 	McqChapter::where('subject_id', '=', $requestData['id'])->get();
-
-					if($data)
-					{
-						$status = 1;
-						$message = 'Record has been fetched successfully.';
-					}
-					else
-					{
-						$message = Config::get('constants.server_error');
-					}
-				}
-				else
-				{
-					$message = 'ID does not exist, please check it once again.';
-				}
-			}
-			else
-			{
-				$message = 'ID does not exist, please check it once again.';
-			}
+			$message = 'Chapters lookup has been disabled.';
 		}
 		else
 		{
-			$message = Config::get('constants.post_method');
+			$message = config('constants.post_method');
 		}
-		echo json_encode(array('status'=>$status, 'message'=>$message, 'data'=>$data));
-		die;
+		return response()->json(array('status'=>$status, 'message'=>$message, 'data'=>$data));
 	}
 
 	public function addCkeditiorImage(Request $request)
 	{
-		echo "<pre>";
-		print_r($_FILES);die;
-
-
-
 		$status 			= 	0;
 		$method 			= 	$request->method();
 
 		if ($request->isMethod('post'))
 		{
-			$requestData 	= 	$request->all();
-
-			echo "<pre>";
-			print_r($requestData);die;
-
-
-			if(isset($requestData['id']) && !empty($requestData['id']))
-			{
-				$recordExist = Country::where('id', $requestData['id'])->exists();
-
-				if($recordExist)
-				{
-					$data 	= 	State::where('country_id', '=', $requestData['id'])->get();
-
-					if($data)
-					{
-						$status = 1;
-						$message = 'Record has been fetched successfully.';
-					}
-					else
-					{
-						$message = Config::get('constants.server_error');
-					}
-				}
-				else
-				{
-					$message = 'ID does not exist, please check it once again.';
-				}
-			}
-			else
-			{
-				$message = 'ID does not exist, please check it once again.';
-			}
+			$message = 'CKEditor image upload has been disabled.';
 		}
 		else
 		{
-			$message = Config::get('constants.post_method');
+			$message = config('constants.post_method');
 		}
-		echo json_encode(array('status'=>$status, 'message'=>$message, 'data'=>$data));
-		die;
+		return response()->json(array('status'=>$status, 'message'=>$message));
 	}
 
 	public function sessions(Request $request)
@@ -1181,7 +1071,7 @@ class AdminController extends Controller
 	public function sendmail(Request $request){
 		$requestData = $request->all();
 		//echo '<pre>'; print_r($requestData); die;
-		$user_id = @Auth::user()->id;
+		$user_id = Auth::id();
 		$reciept_id = '';
 		$array = array();
 
@@ -1192,13 +1082,13 @@ class AdminController extends Controller
 		$obj->from_mail 	=  $requestData['email_from'];
 		$obj->to_mail 		=  implode(',',$requestData['email_to']);
 		if(isset($requestData['email_cc'])){
-		$obj->cc 			=  implode(',',@$requestData['email_cc']);
+		$obj->cc 			=  implode(',', $requestData['email_cc'] ?? []);
 		}
 		$obj->template_id 	=  $requestData['template'];
 		$obj->reciept_id 	=  $reciept_id;
 		$obj->subject		=  $requestData['subject'];
 		if(isset($requestData['type'])){
-		$obj->type 			=  @$requestData['type'];
+		$obj->type 			=  $requestData['type'] ?? null;
 		}
 		$obj->message		 =  $requestData['message'];
 		$attachments = array();
@@ -1235,13 +1125,13 @@ class AdminController extends Controller
             {
                  $array['filesatta'][] =  $request->attach;
             }
-            $this->send_compose_template($client->email, $subject, $requestData['email_from'], $message, '', $array,@$ccarray);
+            $this->send_compose_template($client->email, $subject, $requestData['email_from'], $message, '', $array, $ccarray ?? []);
 		}
         if(!empty($array['file'])){
             unset($array['file']);
         }
         if(!$saved) {
-            return redirect()->back()->with('error', Config::get('constants.server_error'));
+            return redirect()->back()->with('error', config('constants.server_error'));
         } else {
             return redirect()->back()->with('success', 'Email Sent Successfully');
         }
@@ -1256,23 +1146,10 @@ class AdminController extends Controller
 
 
 
-	public function appointmentsEducation(Request $request){
-		$type='Education';
-		return view('Admin.appointments.calender', compact('type'));
-	}
-
-	public function appointmentsJrp(Request $request){
-		$type='Jrp';
-		return view('Admin.appointments.calender', compact('type'));
-	}
-
-	public function appointmentsTourist(Request $request){
-		$type='Tourist';
-		return view('Admin.appointments.calender', compact('type'));
-	}
-
+	// Removed: appointmentsEducation, appointmentsJrp, appointmentsTourist - only Ajay appointments now
+	
 	public function appointmentsOthers(Request $request){
-		$type='Others';
+		$type='Appointments'; // Neutral title for Ajay's calendar
 		return view('Admin.appointments.calender', compact('type'));
 	}
 
@@ -1296,7 +1173,7 @@ class AdminController extends Controller
             $objs->save();
         }
 
-        	return Redirect::to('/admin/gen-settings')->with('success', 'Record updated successfully');
+        	return redirect('/admin/gen-settings')->with('success', 'Record updated successfully');
     }
 
     public function checkclientexist(Request $request){

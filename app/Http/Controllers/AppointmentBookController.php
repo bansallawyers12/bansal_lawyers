@@ -3,17 +3,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 use App\Models\Appointment;
 use App\Models\Admin;
 use Helper;
-use Auth;
-use Config;
-use Stripe;
-use DB;
 use App\Models\PromoCode;
 
 class AppointmentBookController extends Controller {
@@ -32,177 +27,7 @@ class AppointmentBookController extends Controller {
      * @return \Illuminate\Http\Response
      */
 
-	public function store(Request $request)
-    {
-        $requestData = $request->all(); //dd($requestData);
-		$service_id = $requestData['service_id'];
-		$noe_id = $requestData['noe_id'];
-		$fullname = $requestData['fullname'];
-		//$title = $requestData['title'];
-		$description = $requestData['description'];
-		$email = $requestData['email'];
-		$phone = $requestData['phone'];
-		$date = explode('/', $requestData['date']);
-		$datey = $date[2].'-'.$date[1].'-'.$date[0];
-        $service = \App\Models\BookService::find($requestData['service_id']);
-
-		$user = \App\Models\Admin::where(function ($query) use($requestData){
-			$query->where('email',$requestData['email'])
-				  ->orWhere('phone',$requestData['phone']);
-		})->first();
-			/*$parts = explode(" ", $fullname);
-			$last_name = array_pop($parts);
-			$first_name = implode(" ", $parts);*/
-
-            $first_name = $fullname;
-            $last_name = "";
-
-            if( isset($fullname) && strlen($fullname) >=4 ){
-                $first_name_val = trim(substr($fullname, 0, 4));
-            } else {
-                $first_name_val = trim($fullname);
-            }
-            //dd($first_name_val);
-		if(empty($user)){
-			$objs	= 	new Admin;
-			$objs->client_id =	strtoupper($first_name_val).date('his');
-			$objs->role	=	7;
-			$objs->last_name	=	$last_name;
-			$objs->first_name	=	$first_name;
-			$objs->email	=	$email;
-			$objs->phone	=	$phone;
-			$objs->save();
-			$client_id = $objs->id;
-            $client_unique_id = $objs->client_id;
-		}else{
-			if(empty($user->client_id)){
-				Admin::where('id', $user->id)->update(['client_id' => strtoupper($first_name_val).date('his')]);
-			}
-			$client_id = $user->id;
-            $client_unique_id = $user->client_id;
-		}
-
-		$obj = new Appointment;
-        $obj->client_id = $client_id;
-        $obj->client_unique_id = $client_unique_id;
-		$obj->service_id = $service_id;
-		$obj->noe_id = $noe_id;
-		$obj->full_name = $fullname;
-		//$obj->title = $title;
-		$obj->description = $description;
-		$obj->email =	$email;
-		$obj->phone = $phone;
-		$obj->date = $datey;
-		if($requestData['time'] != ""){
-			$time = explode('-', $requestData['time']);
-			//echo "@@".date("H:i", strtotime($time[0])); die;
-			$obj->time = date("H:i", strtotime($time[0]));
-		}
-		//$obj->time = $requestData['time'];
-		$obj->timeslot_full = $requestData['time'];
-		$obj->invites=0;
-		$obj->appointment_details=$requestData['appointment_details'];
-		$saved = $obj->save();
-
-        //Get Nature of Enquiry
-        $nature_of_enquiry_data = DB::table('nature_of_enquiry')->where('id', $request->noe_id)->first();
-        if($nature_of_enquiry_data){
-            $nature_of_enquiry_title = $nature_of_enquiry_data->title;
-        } else {
-            $nature_of_enquiry_title = "";
-        }
-
-        //Get book_services
-        $service_data = DB::table('book_services')->where('id', $request->service_id)->first();
-        if($service_data){
-            $service_title = $service_data->title;
-            if( $request->service_id == 1) { //Paid
-                $service_type = 'Paid';
-            } else {
-                $service_type = 'Free';
-            }
-            $service_title_text = $service_title.'-'.$service_type;
-        } else {
-            $service_title = "";
-            $service_title_text = "";
-        }
-
-		if($saved)
-        {
-            // Note and ActivitiesLog functionality removed
-            // $note = new \App\Models\Note;
-            // $note->client_id =  $client_id;
-            // $note->user_id = 1;
-            // $note->title = $requestData['appointment_details'];
-            // $note->description = $description;
-            // $note->mail_id = 0;
-            // $note->type = 'client';
-            // $saved = $note->save();
-
-            if( isset($service_id) && $service_id == 1 ){ //1=>Paid
-                $subject = 'scheduled an paid appointment';
-            } 
-            // $objs = new \App\Models\ActivitiesLog;
-            // $objs->client_id = $client_id;
-            // $objs->created_by = 1;
-            //$objs->description = '<span class="text-semi-bold">You have an appointment on '.$requestData['date'].' at '.$requestData['time'].'</span>';
-
-            // $objs->description = '<div style="display: -webkit-inline-box;">
-            // 				<span style="height: 60px; width: 60px; border: 1px solid rgb(3, 169, 244); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px;overflow: hidden;">
-            // 					<span  style="flex: 1 1 0%; width: 100%; text-align: center; background: rgb(237, 237, 237); border-top-left-radius: 120px; border-top-right-radius: 120px; font-size: 12px;line-height: 24px;">
-            // 					  '.date('d M', strtotime($datey)).'
-            // 					</span>
-            // 					<span style="background: rgb(84, 178, 75); color: rgb(255, 255, 255); flex: 1 1 0%; width: 100%; border-bottom-left-radius: 120px; border-bottom-right-radius: 120px; text-align: center;font-size: 12px; line-height: 21px;">
-            // 					   '.date('Y', strtotime($datey)).'
-            // 					</span>
-            // 				</span>
-            // 			</div>
-            // 			<div style="display:inline-grid;"><span class="text-semi-bold">'.$nature_of_enquiry_title.'</span> <span class="text-semi-bold">'.$service_title_text.'</span>  <span class="text-semi-bold">'.$request->appointment_details.'</span> <span class="text-semi-bold">'.$request->fullname.'</span> <span class="text-semi-bold">'.$request->email.'</span> <span class="text-semi-bold">'.$request->phone.'</span> <span class="text-semi-bold">'.$request->description.'</span> <p class="text-semi-light-grey col-v-1">@ '.$request->time.'</p></div>';
-
-            // $objs->subject = $subject;
-            // $objs->save();
-
-            //Email To Admin
-            $details1 = [
-                'title' => 'You have received a new appointment from '.$fullname.' for '.$service->title,
-                'body' => 'This is for testing email using smtp',
-                'fullname' => 'Admin',
-                'date' => $requestData['date'],
-                'time' => $requestData['time'],
-                'email'=> $email,
-                'phone' => $phone,
-                'description' => $description,
-                'service'=> $service->title,
-            ];
-		    \Mail::to('Info@bansallawyers.com.au')->send(new \App\Mail\AppointmentMail($details1));
-
-            //Email To Customer
-            $details = [
-                'title' => 'You have booked an Appointment on '.$requestData['date'].'  at '.$requestData['time'],
-                'body' => 'This is for testing email using smtp',
-                'fullname' => $fullname,
-                'date' => $requestData['date'],
-                'time' => $requestData['time'],
-                'email'=> $email,
-                'phone' => $phone,
-                'description' => $description,
-                'service'=> $service->title,
-            ];
-
-		    \Mail::to($email)->send(new \App\Mail\AppointmentMail($details));
-
-            //SMS to admin
-            /*$receiver_number="+610422905860";
-            // $receiver_number="+61476857122"; testing number
-            $smsMessage="An appointment has been booked for $fullname on ".$requestData['date'].' at '.$requestData['time'];
-            Helper::sendSms($receiver_number,$smsMessage);*/
-
-			$message = 'Your appointment booked successfully on '.$requestData['date'].' '.$requestData['time'];
-			return response()->json(['success'=>true,'message'=>$message]);
-		} else {
-			return response()->json(['success'=>false]);
-		}
-	}
+	// Removed: store() method - all appointments now go through storepaid() for Ajay paid only
 
 
     public function checkpromocode(Request $request)
@@ -302,7 +127,7 @@ class AppointmentBookController extends Controller {
         } else {
             //stripe payment
             try {
-                Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                Stripe\Stripe::setApiKey(config('services.stripe.secret'));
                 $customer = Stripe\Customer::create(array("email" => $email,"name" => $cardName,"source" => $stripeToken));
                 $payment_result = Stripe\Charge::create ([
                     "amount" => (int) round($amount * 100),
@@ -396,9 +221,7 @@ class AppointmentBookController extends Controller {
         $service_data = DB::table('book_services')->where('id', $request->service_id)->first();
         if($service_data){
             $service_title = $service_data->title;
-            if( $request->service_id == 1) { //Paid
-                $service_type = 'Paid';
-            }
+            $service_type = 'Paid'; // Only paid appointments for Ajay
             $service_title_text = $service_title.'-'.$service_type;
         } else {
             $service_title = "";
@@ -417,17 +240,17 @@ class AppointmentBookController extends Controller {
 		$obj->phone = $phone;
 		$obj->date = $datey;
         $obj->status = $appontment_status;
-		if($requestData['time'] != ""){
+		if(!empty($requestData['time'])){
 			$time = explode('-', $requestData['time']);
 			//echo "@@".date("H:i", strtotime($time[0])); die;
 			$obj->time = date("H:i", strtotime($time[0]));
 		}
 		//$obj->time = $requestData['time'];
-		$obj->timeslot_full = $requestData['time'];
-		$obj->invites=0;
-		$obj->appointment_details=$requestData['appointment_details'];
+        $obj->timeslot_full = $requestData['time'];
+        $obj->invites=0;
+        $obj->appointment_details=$requestData['appointment_details'];
         $obj->order_hash = $stripeToken;
-		$saved = $obj->save();
+        $saved = $obj->save();
         if($saved)
         {
             // Note and ActivitiesLog functionality removed
@@ -440,9 +263,7 @@ class AppointmentBookController extends Controller {
             // $note->type = 'client';
             // $saved = $note->save();
 
-            if( isset($service_id) && $service_id == 1 ){ //1=>Paid
-                $subject = 'scheduled an paid appointment';
-            }
+            $subject = 'scheduled a paid appointment'; // Only paid appointments for Ajay
             // $objs = new \App\Models\ActivitiesLog;
             // $objs->client_id = $client_id;
             // $objs->created_by = 1;
@@ -475,7 +296,7 @@ class AppointmentBookController extends Controller {
                 'NatureOfEnquiry'=> $NatureOfEnquiry->title,
                 'appointment_details'=> $requestData['appointment_details'],
             ];
-		    \Mail::to('Info@bansallawyers.com.au')->send(new \App\Mail\AppointmentMail($details1));
+		    Mail::to('Info@bansallawyers.com.au')->send(new \App\Mail\AppointmentMail($details1));
             //\Mail::to('viplucmca@yahoo.co.in')->send(new \App\Mail\AppointmentMail($details1));
 
             //Email To customer
@@ -493,7 +314,7 @@ class AppointmentBookController extends Controller {
                 'appointment_details'=> $requestData['appointment_details'],
             ];
 
-            \Mail::to($email)->send(new \App\Mail\AppointmentMail($details));
+			Mail::to($email)->send(new \App\Mail\AppointmentMail($details));
 
             //SMS to admin
             /*$receiver_number="+610422905860";
@@ -502,10 +323,10 @@ class AppointmentBookController extends Controller {
             Helper::sendSms($receiver_number,$smsMessage);*/
 
 			$message = 'Your appointment booked successfully on '.$requestData['date'].' '.$requestData['time'];
-			return json_encode(array('success'=>true,'message'=>$message));
+			return response()->json(array('success'=>true,'message'=>$message));
 
 		} else {
-			return json_encode(array('success'=>false));
+			return response()->json(array('success'=>false));
 		}
 	}
 

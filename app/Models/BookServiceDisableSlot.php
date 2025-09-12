@@ -14,6 +14,7 @@ class BookServiceDisableSlot extends Model
         'book_service_slot_per_person_id',
         'disabledates',
         'slots',
+        'block_all',
         'created_at',
         'updated_at'
     ];

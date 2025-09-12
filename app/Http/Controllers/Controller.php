@@ -13,8 +13,10 @@ use App\Mail\CommonMail;
 use App\Models\WebsiteSetting;
 use App\Models\UserRole;
 
-use Auth;
-use Mail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use Swift_SmtpTransport;
 use Swift_Mailer;
 
@@ -25,7 +27,7 @@ class Controller extends BaseController
 	public function __construct()
     {
 		$siteData = WebsiteSetting::where('id', '!=', '')->first();
-		\View::share('siteData', $siteData);
+		View::share('siteData', $siteData);
         //$this->middleware('guest:admin')->except('logout');
 	//	exec('php public_html/development/artisan view:clear');
     }
@@ -38,7 +40,12 @@ class Controller extends BaseController
 		$randomString = '';
 		for ($i = 0; $i < $length; $i++) 
 			{
-				$randomString .= $characters[rand(0, $charactersLength - 1)];
+				try {
+					$index = random_int(0, $charactersLength - 1);
+				} catch (\Exception $e) {
+					$index = mt_rand(0, $charactersLength - 1);
+				}
+				$randomString .= $characters[$index];
 			}
 		return $randomString;
 	}
@@ -118,7 +125,7 @@ class Controller extends BaseController
 			return false;
 		}*/
 		
-		if ( Mail::flushMacros() ) { 
+		if ( false && Mail::flushMacros() ) { 
             return false;
 		}
 
@@ -175,7 +182,7 @@ class Controller extends BaseController
 	public function createSlug($userid, $table, $title, $id = 0)
     {
         // Normalize the title
-        $slug = str_slug($title);
+        $slug = Str::slug($title);
 
         // Get any that could possibly be related.
         // This cuts the queries down by doing it once.
@@ -208,7 +215,7 @@ class Controller extends BaseController
 	public function createlocSlug($table, $title, $id = 0)
     {
         // Normalize the title
-        $slug = str_slug($title);
+        $slug = Str::slug($title);
 
         // Get any that could possibly be related.
         // This cuts the queries down by doing it once.

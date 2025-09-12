@@ -12,7 +12,9 @@ use App\Models\Appointment;
 use Carbon\Carbon;
 
 // use App\Models\ActivitiesLog; // Removed
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
 
 class AppointmentsController extends Controller
@@ -120,18 +122,17 @@ class AppointmentsController extends Controller
             $obj->date = $date[2].'-'.$date[1].'-'.$date[0];
         }
 
-        if ( isset($obj->service_id) && $obj->service_id == 1 ) { //Paid
-            $appointExist = \App\Models\Appointment::where('id','!=',$requestData['id'])
-            ->where('status', '!=', 7)
-            ->whereDate('date', $datey)
-            ->where('time', $request->time)
-            ->where(function ($query) {
-                $query->where(function ($q) {
-                    $q->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
-                    ->where('service_id', 1);
-                });
-            })->count();
-        }
+        // Only paid appointments (service_id = 1) for Ajay
+        $appointExist = \App\Models\Appointment::where('id','!=',$requestData['id'])
+        ->where('status', '!=', 7)
+        ->whereDate('date', $datey)
+        ->where('time', $request->time)
+        ->where(function ($query) {
+            $query->where(function ($q) {
+                $q->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
+                ->where('service_id', 1);
+            });
+        })->count();
         //dd($appointExist);
         if( $appointExist > 0 ){
             //return redirect()->route('appointments.index')->with('error','This appointment time slot is already booked.Please select other time slot.' );
@@ -173,11 +174,7 @@ class AppointmentsController extends Controller
             $service_data = DB::table('book_services')->where('id', $obj->service_id)->first();
             if($service_data){
                 $service_title = $service_data->title;
-                if( $request->service_id == 1) { //Paid
-                    $service_type = 'Paid';
-                } else {
-                    $service_type = 'Free';
-                }
+                $service_type = 'Paid'; // Only paid appointments for Ajay
                 $service_title_text = $service_title.'-'.$service_type;
             } else {
                 $service_title = "";
@@ -465,10 +462,10 @@ public function change_assignee(Request $request){
         // $o->sender_id = \Auth::user()->id;
         // $o->receiver_id = $request->assinee;
         // $o->module_id = $request->id;
-        $o->url = \URL::to('/admin/appointments');
-        $o->notification_type = 'appointment';
-        $o->message = $objs->title.' Appointments Assigned by '.\Auth::user()->first_name.' '.\Auth::user()->last_name;
-        $o->save();
+        // $o->url = URL::to('/admin/appointments');
+        // $o->notification_type = 'appointment';
+        // $o->message = $objs->title.' Appointments Assigned by '.Auth::user()->first_name.' '.Auth::user()->last_name;
+        // $o->save();
         $response['status'] 	= 	true;
         $response['message']	=	'Updated successfully';
     }else{

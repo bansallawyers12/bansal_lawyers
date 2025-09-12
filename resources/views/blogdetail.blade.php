@@ -115,6 +115,34 @@ h2{
     color: #1B4D89 !important;
 }
 
+.category-badge {
+    margin-left: 15px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    text-decoration: none;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #1B4D89;
+}
+
+.badge-primary:hover {
+    color: #fff;
+    background-color: #0d3a6b;
+    text-decoration: none;
+}
+
 .et_pb_title_featured_container {
     margin-top: 10px;
     line-height: 0;
@@ -361,7 +389,14 @@ ul,li {
     <div class="blog-entry justify-content-end left-side">
         <div class="et_pb_title_container">
             <h1 class="entry-title">{{@$blogdetailists->title}}</h1>
-            <p class="post-meta"><span class="published"><?php echo date('M d,Y', strtotime($blogdetailists->created_at));?></span></p>
+            <p class="post-meta">
+                <span class="published"><?php echo date('M d,Y', strtotime($blogdetailists->created_at));?></span>
+                @if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail)
+                    <span class="category-badge">
+                        <a href="{{ route('blog.category', $blogdetailists->categorydetail->slug) }}" class="badge badge-primary">{{ $blogdetailists->categorydetail->name }}</a>
+                    </span>
+                @endif
+            </p>
         </div>
       	<?php 
 		if( isset($blogdetailists->image) &&  $blogdetailists->image != "") {

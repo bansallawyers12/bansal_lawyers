@@ -3,16 +3,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Models\Admin;
-use App\Models\BookService;
 use App\Models\BookServiceDisableSlot;
 use App\Models\BookServiceSlotPerPerson;
-use Auth;
-use Config;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class AppointmentDisableDateController extends Controller
 {
@@ -33,11 +29,19 @@ class AppointmentDisableDateController extends Controller
 	public function index(Request $request)
 	{
 		//check authorization end
-        $query 		= BookServiceSlotPerPerson::where('id','!=' ,'');
+        $query = BookServiceSlotPerPerson::where('id','!=' ,'');
         // Group the results by person_id
         $query->groupBy('person_id');
-        $totalData 	= $query->count();	//for all data
-        $lists		= $query->sortable(['id' => 'asc'])->paginate(config('constants.limit')); //dd($lists);
+        $totalData = $query->count();	//for all data
+        $lists = $query->sortable(['id' => 'asc'])->paginate(config('constants.limit')); //dd($lists);
+        
+        // Load disabled slots for each person
+        foreach($lists as $list) {
+            $list->disabledSlots = BookServiceDisableSlot::select('id','book_service_slot_per_person_id','disabledates','slots','block_all')
+                ->where('book_service_slot_per_person_id', $list->id)
+                ->get();
+        }
+        
         return view('Admin.feature.appointmentdisabledate.index',compact(['lists', 'totalData']));
     }
 
@@ -50,16 +54,24 @@ class AppointmentDisableDateController extends Controller
 	{
 		//check authorization end
 		if ($request->isMethod('post')) {
-			$this->validate($request, ['name' => 'required|max:255']);
-            $requestData = 	$request->all();
-            $obj		 = 	new PartnerType;
-			$obj->name	 =	@$requestData['name'];
-			$obj->category_id	=	@$requestData['category'];
-            $saved				=	$obj->save();
+			$this->validate($request, [
+				'person_id' => 'required|integer',
+				'start_time' => 'required',
+				'end_time' => 'required'
+			]);
+            $requestData = $request->all();
+            $obj = new BookServiceSlotPerPerson;
+			$obj->person_id = $requestData['person_id'];
+			$obj->service_type = $requestData['service_type'] ?? 1;
+			$obj->book_service_id = $requestData['book_service_id'] ?? null;
+			$obj->start_time = $requestData['start_time'];
+			$obj->end_time = $requestData['end_time'];
+			$obj->weekend = is_array($requestData['weekend'] ?? null) ? implode(',', $requestData['weekend']) : ($requestData['weekend'] ?? null);
+            $saved = $obj->save();
             if(!$saved) {
 				return redirect()->back()->with('error', Config::get('constants.server_error'));
 			} else {
-				return Redirect::to('/admin/partner-type')->with('success', 'Partner Type Added Successfully');
+				return Redirect::to('/admin/appointment-dates-disable')->with('success', 'Slot Configuration Added Successfully');
 			}
 		}
         return view('Admin.feature.appointmentdisabledate.create');
@@ -75,14 +87,14 @@ class AppointmentDisableDateController extends Controller
             ]);
 
             if($requestData['id'] == 1){ //Ajay
-                $recordExist = \App\Models\BookServiceDisableSlot::select('id')->whereIn('book_service_slot_per_person_id', [1, 2])->exists();
+                $recordExist = BookServiceDisableSlot::select('id')->whereIn('book_service_slot_per_person_id', [1, 2])->exists();
                 if ($recordExist) {
-                    \App\Models\BookServiceDisableSlot::whereIn('book_service_slot_per_person_id', [1, 2])->delete();
+                    BookServiceDisableSlot::whereIn('book_service_slot_per_person_id', [1, 2])->delete();
                 }
             } else { //except Ajay
-                $recordExist = \App\Models\BookServiceDisableSlot::select('id')->where('book_service_slot_per_person_id', $requestData['id'])->exists();
+                $recordExist = BookServiceDisableSlot::select('id')->where('book_service_slot_per_person_id', $requestData['id'])->exists();
                 if ($recordExist) {
-                    \App\Models\BookServiceDisableSlot::where('book_service_slot_per_person_id', $requestData['id'])->delete();
+                    BookServiceDisableSlot::where('book_service_slot_per_person_id', $requestData['id'])->delete();
                 }
             }
 
@@ -162,19 +174,9 @@ class AppointmentDisableDateController extends Controller
 				if(BookServiceSlotPerPerson::where('id', '=', $id)->exists()) {
 					$fetchedData = BookServiceSlotPerPerson::find($id);//dd($fetchedData);
 
-                    $disableSlotArr = \App\Models\BookServiceDisableSlot::select('id','book_service_slot_per_person_id','disabledates','slots','block_all')->where('book_service_slot_per_person_id',$id)->get();
+                    $disableSlotArr = BookServiceDisableSlot::select('id','book_service_slot_per_person_id','disabledates','slots','block_all')->where('book_service_slot_per_person_id',$id)->get();
 
-                    //$disableDatesArr = \App\Models\BookServiceDisableSlot::select('disabledates')->where('book_service_id',$id)->get();
-                    //dd($disableDatesArr);
-                    /*if( isset($disableDatesArr) && !empty($disableDatesArr) && count($disableDatesArr) >0 )
-                    {
-                        $disableDatesArrF = array();
-                        foreach($disableDatesArr as $disKey=>$disVal) {
-                            $disableDatesArrF[$disKey] = $disVal->disabledates;
-                        }
-                    }*/
-
-                    $weekendd  =array();
+                    $weekendd = array();
                     if($fetchedData->weekend != ''){
                         $weekend = explode(',',$fetchedData->weekend);
                         foreach($weekend as $e){
@@ -195,16 +197,15 @@ class AppointmentDisableDateController extends Controller
                             }
                         }
                     }
+                    
+                    $disabledatesF = array();
                     if($fetchedData->disabledates != ''){
-                        $disabledatesF =  array();
                         if( strpos($fetchedData->disabledates, ',') !== false ) {
                             $disabledatesArr = explode(',',$fetchedData->disabledates);
                             $disabledatesF = $disabledatesArr;
                         } else {
                             $disabledatesF = array($fetchedData->disabledates);
                         }
-                    } else {
-                        $disabledatesF =  array();
                     }
 
                     return view('Admin.feature.appointmentdisabledate.edit', compact(['fetchedData','weekendd','disabledatesF','disableSlotArr']));
