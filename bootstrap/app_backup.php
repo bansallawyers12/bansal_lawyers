@@ -81,7 +81,7 @@ $app->register(Illuminate\View\ViewServiceProvider::class);
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
-$app->register(Barryvdh\DomPDF\ServiceProvider::class);
+// Removed: $app->register(Barryvdh\DomPDF\ServiceProvider::class);
 $app->register(Maatwebsite\Excel\ExcelServiceProvider::class);
 
 return $app;

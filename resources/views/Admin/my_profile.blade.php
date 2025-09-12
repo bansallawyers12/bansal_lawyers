@@ -32,9 +32,9 @@
 										<div class="profile_upload">
 											<div class="upload_content">
 											@if(@$fetchedData->profile_img != '')
-												<img src="{{ @smartasset('img/profile_imgs')}}/{{@$fetchedData->profile_img}}" style="width:100px;height:100px;" id="output"/> 
+												<img src="{{ asset('img/profile_imgs')}}/{{@$fetchedData->profile_img}}" style="width:100px;height:100px;" id="output"/> 
 											@else
-												<img id="output" src="{{ @smartasset('images/no_image.jpg')}}"/> 
+												<img id="output" src="{{ asset('images/no_image.jpg')}}"/> 
 											@endif
 												<i <?php if(@$fetchedData->profile_img != ''){ echo 'style="display:none;"'; } ?> class="fa fa-camera if_image"></i>
 												<span <?php if(@$fetchedData->profile_img != ''){ echo 'style="display:none;"'; } ?> class="if_image">Upload Company Logo</span>
@@ -43,13 +43,9 @@
 										</div>	
 									</div> 
 										<div class="form-group">
-											@if(Auth::user()->role == 3)
-												<label for="first_name">Organization Name <span style="color:#ff0000;">*</span></label>
-											@else
-												<label for="first_name">First Name <span style="color:#ff0000;">*</span></label>
-											@endif	
+											<label for="first_name">First Name <span style="color:#ff0000;">*</span></label>
 											
-												<input name="first_name" type="text" value="@$fetchedData->first_name" class="form-control" data-valid="required">
+											<input name="first_name" type="text" value="@$fetchedData->first_name" class="form-control" data-valid="required">
 										
 											@if ($errors->has('first_name'))
 												<span class="custom-error" role="alert">
@@ -57,10 +53,9 @@
 												</span>
 											@endif
 										</div>
-									@if(Auth::user()->role != 3)
-										<div class="form-group">
-											<label for="last_name">Last Name <span style="color:#ff0000;">*</span></label>
-												<input name="last_name" type="text" value="@$fetchedData->last_name" class="form-control" data-valid="required">
+									<div class="form-group">
+										<label for="last_name">Last Name <span style="color:#ff0000;">*</span></label>
+											<input name="last_name" type="text" value="@$fetchedData->last_name" class="form-control" data-valid="required">
 										
 											@if ($errors->has('last_name'))
 												<span class="custom-error" role="alert">
@@ -68,7 +63,6 @@
 												</span>
 											@endif
 										</div>
-									@endif
 										<div class="form-group">
 											<label for="email">Company Email <span style="color:#ff0000;">*</span></label>
 												<input name="email" type="text" value="@$fetchedData->email" class="form-control" data-valid="required email" disabled="disabled">

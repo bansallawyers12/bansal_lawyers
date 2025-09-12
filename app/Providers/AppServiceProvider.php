@@ -21,10 +21,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
         
-        // Register custom Blade directive for smart asset paths (now delegating to Laravel asset())
-        Blade::directive('smartasset', function ($expression) {
-            return "<?php echo asset($expression); ?>";
-        });
     }
 
     /**

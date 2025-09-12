@@ -26,7 +26,7 @@
      <meta property="og:type" content="website">
      <meta property="og:title" content="{{@$casedetailists->meta_title}}">
      <meta property="og:description" content="{{@$casedetailists->meta_description}}">
-     <meta property="og:image" content="@smartasset('images/logo/Bansal_Lawyers.png')">
+     <meta property="og:image" content="asset('images/logo/Bansal_Lawyers.png')">
      <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
      <!-- Twitter Meta Tags -->
@@ -35,7 +35,7 @@
      <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/{{@$casedetailists->slug}}">
      <meta name="twitter:title" content="{{@$casedetailists->meta_title}}">
      <meta name="twitter:description" content="{{@$casedetailists->meta_description}}">
-     <meta property="twitter:image" content="@smartasset('images/logo/Bansal_Lawyers.png')">
+     <meta property="twitter:image" content="asset('images/logo/Bansal_Lawyers.png')">
      <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 
@@ -43,7 +43,7 @@
 @endsection
 @section('content')
 
-<section class="hero-wrap hero-wrap-2" style="background-image: url('@smartasset('images/bg_1.jpg')');display:none;" data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2" style="background-image: url('asset('images/bg_1.jpg')');display:none;" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-center">

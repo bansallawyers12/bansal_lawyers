@@ -9,7 +9,7 @@
 		<meta name="author" content="">
 		<meta name="keyword" content="E-Weblink CRM">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
-		<link rel="shortcut icon" type="image/png" href="{{ @smartasset('img/favicon.png') }}"/>
+		<link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}"/>
 		<title>CRM Digitrex | @yield('title')</title>
 		  
 		<!-- Font Awesome -->

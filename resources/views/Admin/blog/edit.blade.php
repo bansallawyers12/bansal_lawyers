@@ -221,8 +221,8 @@
 
 @endsection
 @section('scripts')
-<script src="{{ @smartasset('assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
-<script src="{{ @smartasset('assets/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
 <script>
 /*var sharedCKEditorToolbarConfig = {
     toolbar: [

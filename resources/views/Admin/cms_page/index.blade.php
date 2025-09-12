@@ -61,7 +61,7 @@
 								@foreach (@$lists as $list)	
 								<tr id="id_{{@$list->id}}"> 
 								 <td>{{ ++$i }}</td>
-                                  <td style="white-space: initial;"><img src="{{ @smartasset('img/cmspage')}}/{{$list->image}}" style="width: 50px;height: 50px;"/></td> 
+                                  <td style="white-space: initial;"><img src="{{ asset('img/cmspage')}}/{{$list->image}}" style="width: 50px;height: 50px;"/></td> 
 								  <td style="white-space: initial;">{{ @$list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->title, '50', '...') }}</td> 
 								  <td style="white-space: initial;">{{ @$list->slug }}</td> 
                                   

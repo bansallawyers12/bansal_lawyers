@@ -17,7 +17,6 @@ $app = Application::configure(basePath: __DIR__.'/../')
         health: '/up'
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Global middleware stack (from app/Http/Kernel.php)
         $middleware->append([
             \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
             \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
@@ -26,7 +25,6 @@ $app = Application::configure(basePath: __DIR__.'/../')
             \App\Http\Middleware\TrustProxies::class,
         ]);
 
-        // Web middleware group
         $middleware->group('web', [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -34,16 +32,13 @@ $app = Application::configure(basePath: __DIR__.'/../')
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            // \App\Http\Middleware\HttpsProtocol::class,
         ]);
 
-        // API middleware group
         $middleware->group('api', [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ]);
 
-        // Route middleware aliases
         $middleware->alias([
             'auth' => \App\Http\Middleware\Authenticate::class,
             'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
@@ -56,17 +51,13 @@ $app = Application::configure(basePath: __DIR__.'/../')
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        // Move RateLimiter configuration from RouteServiceProvider
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
-        });
+        // RateLimiter::for('api', function (Request $request) {
+        //     return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        // });
     })
     ->create();
 
-// Register service providers listed in bootstrap/providers.php
-$providers = require __DIR__.'/providers.php';
-foreach ($providers as $providerClass) {
-    $app->register($providerClass);
-}
+// Register only the custom AppServiceProvider (Laravel auto-registers core providers)
+$app->register(App\Providers\AppServiceProvider::class);
 
 return $app;

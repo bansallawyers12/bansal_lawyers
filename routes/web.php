@@ -59,72 +59,77 @@ Route::get('/profile', [App\Http\Controllers\HomeController::class, 'myprofile']
 /*********************Admin Panel Routes ***********************/
 Route::prefix('admin')->group(function() {
      //Login and Logout
-		Route::get('/', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])->name('admin.login');
-		Route::get('/login', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])->name('admin.login');
-		Route::post('/login', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'store']);
-		Route::post('/logout', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
+		Route::middleware('guest:admin')->group(function () {
+			Route::get('/', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])->name('admin.login');
+			Route::get('/login', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])->name('admin.login');
+			Route::post('/login', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'store']);
+		});
 
-	//General
-        Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('admin.dashboard');
-		Route::get('/get_customer_detail', [App\Http\Controllers\Admin\AdminController::class, 'CustomerDetail'])->name('admin.get_customer_detail');
-		Route::get('/my_profile', [App\Http\Controllers\Admin\AdminController::class, 'myProfile'])->name('admin.my_profile');
-		Route::post('/my_profile', [App\Http\Controllers\Admin\AdminController::class, 'myProfile'])->name('admin.my_profile');
-		Route::get('/change_password', [App\Http\Controllers\Admin\AdminController::class, 'change_password'])->name('admin.change_password');
-		Route::post('/change_password', [App\Http\Controllers\Admin\AdminController::class, 'change_password'])->name('admin.change_password');
-		Route::get('/sessions', [App\Http\Controllers\Admin\AdminController::class, 'sessions'])->name('admin.sessions');
-		Route::post('/sessions', [App\Http\Controllers\Admin\AdminController::class, 'sessions'])->name('admin.sessions');
+	//General (admin only)
+		Route::middleware('auth:admin')->group(function () {
+			Route::post('/logout', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
+			Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('admin.dashboard');
+			Route::get('/get_customer_detail', [App\Http\Controllers\Admin\AdminController::class, 'CustomerDetail'])->name('admin.get_customer_detail');
+			Route::get('/my_profile', [App\Http\Controllers\Admin\AdminController::class, 'myProfile'])->name('admin.my_profile');
+			Route::post('/my_profile', [App\Http\Controllers\Admin\AdminController::class, 'myProfile'])->name('admin.my_profile');
+			Route::get('/change_password', [App\Http\Controllers\Admin\AdminController::class, 'change_password'])->name('admin.change_password');
+			Route::post('/change_password', [App\Http\Controllers\Admin\AdminController::class, 'change_password'])->name('admin.change_password');
+			Route::get('/sessions', [App\Http\Controllers\Admin\AdminController::class, 'sessions'])->name('admin.sessions');
+			Route::post('/sessions', [App\Http\Controllers\Admin\AdminController::class, 'sessions'])->name('admin.sessions');
         Route::post('/delete_action', [App\Http\Controllers\Admin\AdminController::class, 'deleteAction']);
 
 
         //Blog
-		Route::get('/blog', [App\Http\Controllers\Admin\BlogController::class, 'index'])->name('admin.blog.index');
-		Route::get('/blog/create', [App\Http\Controllers\Admin\BlogController::class, 'create'])->name('admin.blog.create');
-		Route::post('/blog/store', [App\Http\Controllers\Admin\BlogController::class, 'store'])->name('admin.blog.store');
-		Route::get('/blog/edit/{id}', [App\Http\Controllers\Admin\BlogController::class, 'edit'])->name('admin.blog.edit');
-		Route::post('/blog/edit', [App\Http\Controllers\Admin\BlogController::class, 'edit'])->name('admin.blog.edit');
+			Route::get('/blog', [App\Http\Controllers\Admin\BlogController::class, 'index'])->name('admin.blog.index');
+			Route::get('/blog/create', [App\Http\Controllers\Admin\BlogController::class, 'create'])->name('admin.blog.create');
+			Route::post('/blog/store', [App\Http\Controllers\Admin\BlogController::class, 'store'])->name('admin.blog.store');
+			Route::get('/blog/edit/{id}', [App\Http\Controllers\Admin\BlogController::class, 'edit'])->name('admin.blog.edit');
+			Route::post('/blog/edit', [App\Http\Controllers\Admin\BlogController::class, 'edit'])->name('admin.blog.edit');
 
-	    //Blog Category
-		Route::get('/blogcategories', [App\Http\Controllers\Admin\BlogCategoryController::class, 'index'])->name('admin.blogcategory.index');
-		Route::get('/blogcategories/create', [App\Http\Controllers\Admin\BlogCategoryController::class, 'create'])->name('admin.blogcategory.create');
-		Route::post('/blogcategories/store', [App\Http\Controllers\Admin\BlogCategoryController::class, 'store'])->name('admin.blogcategory.store');
-		Route::get('/blogcategories/edit/{id}', [App\Http\Controllers\Admin\BlogCategoryController::class, 'edit'])->name('admin.blogcategory.edit');
-		Route::post('/blogcategories/edit', [App\Http\Controllers\Admin\BlogCategoryController::class, 'edit'])->name('admin.blogcategory.edit');
+		    //Blog Category
+			Route::get('/blogcategories', [App\Http\Controllers\Admin\BlogCategoryController::class, 'index'])->name('admin.blogcategory.index');
+			Route::get('/blogcategories/create', [App\Http\Controllers\Admin\BlogCategoryController::class, 'create'])->name('admin.blogcategory.create');
+			Route::post('/blogcategories/store', [App\Http\Controllers\Admin\BlogCategoryController::class, 'store'])->name('admin.blogcategory.store');
+			Route::get('/blogcategories/edit/{id}', [App\Http\Controllers\Admin\BlogCategoryController::class, 'edit'])->name('admin.blogcategory.edit');
+			Route::post('/blogcategories/edit', [App\Http\Controllers\Admin\BlogCategoryController::class, 'edit'])->name('admin.blogcategory.edit');
 
-		//CMS Pages
-		Route::get('/cms_pages', [App\Http\Controllers\Admin\CmsPageController::class, 'index'])->name('admin.cms_pages.index');
-		Route::get('/cms_pages/create', [App\Http\Controllers\Admin\CmsPageController::class, 'create'])->name('admin.cms_pages.create');
-		Route::post('/cms_pages/store', [App\Http\Controllers\Admin\CmsPageController::class, 'store'])->name('admin.cms_pages.store');
-		Route::get('/cms_pages/edit/{id}', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage'])->name('admin.edit_cms_page');
+			//CMS Pages
+			Route::get('/cms_pages', [App\Http\Controllers\Admin\CmsPageController::class, 'index'])->name('admin.cms_pages.index');
+			Route::get('/cms_pages/create', [App\Http\Controllers\Admin\CmsPageController::class, 'create'])->name('admin.cms_pages.create');
+			Route::post('/cms_pages/store', [App\Http\Controllers\Admin\CmsPageController::class, 'store'])->name('admin.cms_pages.store');
+			Route::get('/cms_pages/edit/{id}', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage'])->name('admin.edit_cms_page');
         Route::post('/cms_pages/edit', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage'])->name('admin.edit_cms_page');
 
         // Appointment Module
-		Route::get('/appointments-others', [App\Http\Controllers\Admin\AdminController::class, 'appointmentsOthers'])->name('appointments-others');
+			Route::get('/appointments-others', [App\Http\Controllers\Admin\AdminController::class, 'appointmentsOthers'])->name('appointments-others');
 
-		Route::resource('appointments', App\Http\Controllers\Admin\AppointmentsController::class);
-		Route::get('/get-assigne-detail', [App\Http\Controllers\Admin\AppointmentsController::class, 'assignedetail']);
-		Route::post('/update_appointment_status', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_appointment_status']);
-		Route::post('/update_appointment_priority', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_appointment_priority']);
-		Route::get('/change_assignee', [App\Http\Controllers\Admin\AppointmentsController::class, 'change_assignee']);
-		Route::post('/update_apppointment_comment', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_apppointment_comment']);
-		Route::post('/update_apppointment_description', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_apppointment_description']);
+			Route::resource('appointments', App\Http\Controllers\Admin\AppointmentsController::class);
+			Route::get('/get-assigne-detail', [App\Http\Controllers\Admin\AppointmentsController::class, 'assignedetail']);
+			Route::post('/update_appointment_status', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_appointment_status']);
+			Route::post('/update_appointment_priority', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_appointment_priority']);
+			Route::get('/change_assignee', [App\Http\Controllers\Admin\AppointmentsController::class, 'change_assignee']);
+			Route::post('/update_apppointment_comment', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_apppointment_comment']);
+			Route::post('/update_apppointment_description', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_apppointment_description']);
 
-        //Appointment Dates Not Available
-		Route::get('/appointment-dates-disable', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'index'])->name('admin.feature.appointmentdisabledate.index');
-		Route::get('/appointment-dates-disable/create', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'create'])->name('admin.feature.appointmentdisabledate.create');
-		Route::post('/appointment-dates-disable/store', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'store'])->name('admin.feature.appointmentdisabledate.store');
-		Route::get('/appointment-dates-disable/edit/{id}', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'edit'])->name('admin.feature.appointmentdisabledate.edit');
+			//Appointment Dates Not Available
+			Route::get('/appointment-dates-disable', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'index'])->name('admin.feature.appointmentdisabledate.index');
+			Route::get('/appointment-dates-disable/create', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'create'])->name('admin.feature.appointmentdisabledate.create');
+			Route::post('/appointment-dates-disable/store', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'store'])->name('admin.feature.appointmentdisabledate.store');
+			Route::get('/appointment-dates-disable/edit/{id}', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'edit'])->name('admin.feature.appointmentdisabledate.edit');
         Route::post('/appointment-dates-disable/edit', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'edit'])->name('admin.feature.appointmentdisabledate.edit');
 
         Route::post('/update_action', [\App\Http\Controllers\Admin\AdminController::class, 'updateAction']);
 
         // Recent Case
-		Route::get('/recent_case', [App\Http\Controllers\Admin\RecentCaseController::class, 'index'])->name('admin.recent_case.index');
-		Route::get('/recent_case/create', [App\Http\Controllers\Admin\RecentCaseController::class, 'create'])->name('admin.recent_case.create');
-		Route::post('/recent_case/store', [App\Http\Controllers\Admin\RecentCaseController::class, 'store'])->name('admin.recent_case.store');
-		Route::get('/recent_case/edit/{id}', [App\Http\Controllers\Admin\RecentCaseController::class, 'edit'])->name('admin.recent_case.edit');
-		Route::post('/recent_case/edit', [App\Http\Controllers\Admin\RecentCaseController::class, 'edit'])->name('admin.recent_case.edit');
+			Route::get('/recent_case', [App\Http\Controllers\Admin\RecentCaseController::class, 'index'])->name('admin.recent_case.index');
+			Route::get('/recent_case/create', [App\Http\Controllers\Admin\RecentCaseController::class, 'create'])->name('admin.recent_case.create');
+			Route::post('/recent_case/store', [App\Http\Controllers\Admin\RecentCaseController::class, 'store'])->name('admin.recent_case.store');
+			Route::get('/recent_case/edit/{id}', [App\Http\Controllers\Admin\RecentCaseController::class, 'edit'])->name('admin.recent_case.edit');
+			Route::post('/recent_case/edit', [App\Http\Controllers\Admin\RecentCaseController::class, 'edit'])->name('admin.recent_case.edit');
 
         Route::post('/delete_slot_action', [App\Http\Controllers\Admin\AdminController::class, 'deleteSlotAction']);
+
+		});
 
 });
 

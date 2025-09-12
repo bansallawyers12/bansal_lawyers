@@ -32,22 +32,4 @@ class Helper
         return \Carbon\Carbon::createFromFormat('Y-m-d', $date)->format($date_format);    
     }
     
-    /**
-     * Get asset path with automatic public/ prefix handling
-     * Works for both local development and production
-     */
-    public static function assetPath($path)
-    {
-        // Remove leading slash if present
-        $path = ltrim($path, '/');
-        
-        // Check if we're in local development (artisan serve)
-        if (app()->environment('local') && request()->getHost() === '127.0.0.1') {
-            // Local development - no public/ prefix needed
-            return asset($path);
-        }
-        
-        // Production or other environments - add public/ prefix
-        return asset('public/' . $path);
-    }
 }

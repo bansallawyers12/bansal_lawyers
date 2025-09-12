@@ -103,53 +103,24 @@ class AdminAuthenticatedSessionController extends Controller
             Cookie::queue(Cookie::forget('password'));
         }
 
-        // Check for new IP address and send notification
-        $this->checkNewIpAddress($request, $user);
 
         // Log successful login
         $this->logUserActivity($request, 'Logged in successfully', 'info', $user->id);
     }
 
-    /**
-     * Check for new IP address and send notification
-     */
-    private function checkNewIpAddress(Request $request, $user): void
-    {
-        if (!\App\Models\UserLog::where('ip_address', '=', $request->getClientIp())->exists()) {
-            $message = '<html><body>';
-            $message .= '<p>Dear Admin,</p>';
-            $message .= '<p>CRM traced new IP Address- ' . $request->getClientIp() . ' from Email- ' . $user->email . '</p>';
-            $message .= '<table>
-                            <tr><td><b>IP Address: </b>' . $request->getClientIp() . '</td></tr>
-                            <tr><td><b>Name: </b>' . $user->first_name . '</td></tr>
-                            <tr><td><b>Email: </b>' . $user->email . '</td></tr>
-                        </table>';
-            $message .= '</body></html>';
-            
-            $subject = 'CRM Traced new IP Address- ' . $request->getClientIp() . ' from Email- ' . $user->email;
-            
-            $this->send_compose_template(
-                'info@bansaleducation.au', 
-                $subject, 
-                'info@bansaleducation.au', 
-                $message, 
-                'Bansal Immigration'
-            );
-        }
-    }
 
     /**
      * Log user activity
      */
     private function logUserActivity(Request $request, string $message, string $level, $userId = null): void
     {
-        $obj = new \App\Models\UserLog;
-        $obj->level = $level;
-        $obj->user_id = $userId;
-        $obj->ip_address = $request->getClientIp();
-        $obj->user_agent = $_SERVER['HTTP_USER_AGENT'];
-        $obj->message = $message;
-        $obj->save();
+        // Log to Laravel's default log system instead of UserLog model
+        \Illuminate\Support\Facades\Log::info($message, [
+            'user_id' => $userId,
+            'ip_address' => $request->getClientIp(),
+            'user_agent' => $request->userAgent(),
+            'level' => $level
+        ]);
     }
 
     /**

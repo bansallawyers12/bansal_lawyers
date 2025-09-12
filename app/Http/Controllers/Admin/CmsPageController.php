@@ -30,13 +30,7 @@ class CmsPageController extends Controller
      */
 	public function index(Request $request)
 	{
-		//check authorization start
-        $check = $this->checkAuthorizationAction('cmspages', $request->route()->getActionMethod(), Auth::user()->role);
-        if($check)
-        {
-            return Redirect::to('/admin/dashboard')->with('error',config('constants.unauthorized'));
-        }
-		//check authorization end
+		// admin-only routes are protected via auth:admin middleware
         //$query 		= CmsPage::where('user_id', '=', Auth::user()->id);
 		$query 		= CmsPage::where('user_id', '!=', '');
 
@@ -112,11 +106,7 @@ class CmsPageController extends Controller
 
 	public function store(Request $request)
 	{
-		$check = $this->checkAuthorizationAction('cmspages', $request->route()->getActionMethod(), Auth::user()->role);
-		if($check)
-		{
-			return Redirect::to('/admin/dashboard')->with('error',config('constants.unauthorized'));
-		}
+		// admin-only routes are protected via auth:admin middleware
 		if ($request->isMethod('post'))
 		{
 			$this->validate($request, [
@@ -185,13 +175,7 @@ class CmsPageController extends Controller
 
 	public function editCmsPage(Request $request, $id = NULL)
 	{
-		//check authorization start
-		$check = $this->checkAuthorizationAction('cmspages', $request->route()->getActionMethod(), Auth::user()->role);
-		if($check)
-		{
-			return Redirect::to('/admin/dashboard')->with('error',config('constants.unauthorized'));
-		}
-		//check authorization end
+		// admin-only routes are protected via auth:admin middleware
 
 		if ($request->isMethod('post'))
 		{

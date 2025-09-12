@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admin;
 use App\Models\WebsiteSetting;
+use App\Models\Setting;
 use App\Models\Contact;
 use Auth;
 use Config;
@@ -381,13 +382,7 @@ class AdminController extends Controller
 
 	public function editapi(Request $request)
 	{
-		//check authorization start
-			$check = $this->checkAuthorizationAction('api_key', $request->route()->getActionMethod(), Auth::user()->role);
-			if($check)
-			{
-				return Redirect::to('/admin/dashboard')->with('error',config('constants.unauthorized'));
-			}
-		//check authorization end
+		// admin-only routes are protected via auth:admin middleware
 		if ($request->isMethod('post'))
 		{
 			$obj	= 	Admin::find(Auth::user()->id);
@@ -419,9 +414,7 @@ class AdminController extends Controller
 			$requestData['table'] = trim($requestData['table']);
 			$requestData['col'] = trim($requestData['colname']);
 
-			$role = Auth::user()->role;
-			if($role == 1 || $role == 7)
-			{
+			// admin-only routes are protected via auth:admin middleware
 				if(isset($requestData['id']) && !empty($requestData['id']) && isset($requestData['current_status']) && isset($requestData['table']) && !empty($requestData['table']))
 				{
 					$tableExist = Schema::hasTable(trim($requestData['table']));
@@ -469,15 +462,11 @@ class AdminController extends Controller
 			}
 			else
 			{
-				$message = 'You are not authorized person to perform this action.';
+				$message = Config::get('constants.post_method');
 			}
 		}
-		else
-		{
-			$message = Config::get('constants.post_method');
-		}
 		echo json_encode(array('status'=>$status, 'message'=>$message));
-		 die;
+			 die;
 
 	}
 
@@ -555,9 +544,7 @@ class AdminController extends Controller
 			$requestData['table'] = trim($requestData['table']);
 
 
-			$role = Auth::user()->role;
-			if($role == 1 || $role == 7)
-			{
+			// admin-only routes are protected via auth:admin middleware
 				if(isset($requestData['id']) && !empty($requestData['id'])  && isset($requestData['table']) && !empty($requestData['table']))
 				{
 					$tableExist = Schema::hasTable(trim($requestData['table']));
@@ -597,11 +584,6 @@ class AdminController extends Controller
 					$message = 'Id OR Current Status OR Table does not exist, please check it once again.';
 				}
 			}
-			else
-			{
-				$message = 'You are not authorized person to perform this action.';
-			}
-		}
 		else
 		{
 			$message = Config::get('constants.post_method');
@@ -623,9 +605,7 @@ class AdminController extends Controller
 			$requestData['table'] = trim($requestData['table']);
 
 
-			$role = Auth::user()->role;
-			if($role == 1 || $role == 7)
-			{
+			// admin-only routes are protected via auth:admin middleware
 				if(isset($requestData['id']) && !empty($requestData['id'])  && isset($requestData['table']) && !empty($requestData['table']))
 				{
 					$tableExist = Schema::hasTable(trim($requestData['table']));
@@ -665,11 +645,6 @@ class AdminController extends Controller
 					$message = 'Id OR Current Status OR Table does not exist, please check it once again.';
 				}
 			}
-			else
-			{
-				$message = 'You are not authorized person to perform this action.';
-			}
-		}
 		else
 		{
 			$message = Config::get('constants.post_method');
@@ -691,9 +666,7 @@ class AdminController extends Controller
 			$requestData['table'] = trim($requestData['table']);
 
 
-			$role = Auth::user()->role;
-			if($role == 1 || $role == 7)
-			{
+			// admin-only routes are protected via auth:admin middleware
 				if(isset($requestData['id']) && !empty($requestData['id'])  && isset($requestData['table']) && !empty($requestData['table']))
 				{
 					$tableExist = Schema::hasTable(trim($requestData['table']));
@@ -733,11 +706,6 @@ class AdminController extends Controller
 					$message = 'Id OR Current Status OR Table does not exist, please check it once again.';
 				}
 			}
-			else
-			{
-				$message = 'You are not authorized person to perform this action.';
-			}
-		}
 		else
 		{
 			$message = Config::get('constants.post_method');
@@ -759,9 +727,7 @@ class AdminController extends Controller
 			$requestData['table'] = trim($requestData['table']);
 
 			$astatus = '';
-			$role = Auth::user()->role;
-			if($role == 1 || $role == 7)
-			{
+			// admin-only routes are protected via auth:admin middleware
 				if(isset($requestData['id']) && !empty($requestData['id'])  && isset($requestData['table']) && !empty($requestData['table']))
 				{
 					$tableExist = Schema::hasTable(trim($requestData['table']));
@@ -809,11 +775,6 @@ class AdminController extends Controller
 					$message = 'Id OR Current Status OR Table does not exist, please check it once again.';
 				}
 			}
-			else
-			{
-				$message = 'You are not authorized person to perform this action.';
-			}
-		}
 		else
 		{
 			$message = Config::get('constants.post_method');
@@ -833,7 +794,7 @@ class AdminController extends Controller
 			$requestData['id'] = trim($requestData['id']);
 			$requestData['table'] = trim($requestData['table']);
 
-			$role = Auth::user()->role;
+			// admin-only routes are protected via auth:admin middleware
 
 				if(isset($requestData['id']) && !empty($requestData['id']) && isset($requestData['table']) && !empty($requestData['table']))
 				{
@@ -1020,7 +981,7 @@ class AdminController extends Controller
             $requestData['id'] = trim($requestData['id']);
 			$requestData['table'] = trim($requestData['table']);
             //echo  $requestData['id'].'==='.$requestData['table'];dd('###');
-            $role = Auth::user()->role;
+            // admin-only routes are protected via auth:admin middleware
             if(isset($requestData['id']) && !empty($requestData['id']) && isset($requestData['table']) && !empty($requestData['table']))
 			{
 				$tableExist = Schema::hasTable(trim($requestData['table']));

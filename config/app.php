@@ -149,7 +149,7 @@ return [
 		// Removed: Collective\Html\HtmlServiceProvider::class,
 		// Removed: Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
 		// Tzsk\Payu\Provider\PayuServiceProvider::class,
-		Barryvdh\DomPDF\ServiceProvider::class,
+		// Removed: Barryvdh\DomPDF\ServiceProvider::class,
 		
         
         App\Providers\AppServiceProvider::class,
