@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bansal CRM</title>
 	<!-- Bootstrap CSS -->
-    <link href="{{asset('css/DashboardFrontend/font-awesome.min.css')}}" rel="stylesheet">
-    <link href="{{asset('css/DashboardFrontend/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{asset('css/DashboardFrontend/style.css')}}" rel="stylesheet">
-    <link href="{{asset('css/DashboardFrontend/responsive.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('css/daterangepicker.css')}}">
+    <link href="{{ @smartasset('css/DashboardFrontend/font-awesome.min.css')}}" rel="stylesheet">
+    <link href="{{ @smartasset('css/DashboardFrontend/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ @smartasset('css/DashboardFrontend/style.css')}}" rel="stylesheet">
+    <link href="{{ @smartasset('css/DashboardFrontend/responsive.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ @smartasset('css/daterangepicker.css')}}">
 </head>
 <body>
 	<!--Content-->
@@ -23,10 +23,10 @@
 	</script>
 		 
 	<!-- Option 1: Bootstrap Bundle with Popper -->
-	<script src="{{asset('js/DashboardFrontend/jquery-3.3.1.min.js')}}"></script>
-	<script src="{{asset('js/DashboardFrontend/bootstrap.bundle.min.js')}}"></script>
+	<script src="{{ @smartasset('js/DashboardFrontend/jquery-3.3.1.min.js')}}"></script>
+	<script src="{{ @smartasset('js/DashboardFrontend/bootstrap.bundle.min.js')}}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-	<script src="{{asset('js/daterangepicker.js')}}"></script> 
+	<script src="{{ @smartasset('js/daterangepicker.js')}}"></script> 
 
 	<script>
 		$(document).ready(function() {

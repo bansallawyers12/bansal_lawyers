@@ -12,35 +12,35 @@
 	<meta name="keyword" content="Bansal Lawyers">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>Bansal Lawyers | @yield('title')</title>
-	<!--<link rel="icon" type="image/png" href="{{asset('img/favicon.png')}}">-->
-	<link rel="stylesheet" href="{{asset('css/app.min.css')}}">
-	<link rel="stylesheet" href="{{asset('css/iziToast.min.css')}}">
-	 <link rel="stylesheet" href="{{asset('css/fullcalendar.min.css')}}">
-	<link rel="stylesheet" href="{{asset('css/summernote-bs4.css')}}">
-	<link rel="stylesheet" href="{{asset('css/daterangepicker.css')}}">
-	<link rel="stylesheet" href="{{asset('css/bootstrap-timepicker.min.css')}}">
-	<link rel="stylesheet" href="{{asset('css/select2.min.css')}}">
+	<!--<link rel="icon" type="image/png" href="{{ @smartasset('img/favicon.png')}}">-->
+	<link rel="stylesheet" href="{{ @smartasset('css/app.min.css')}}">
+	<link rel="stylesheet" href="{{ @smartasset('css/iziToast.min.css')}}">
+	 <link rel="stylesheet" href="{{ @smartasset('css/fullcalendar.min.css')}}">
+	<link rel="stylesheet" href="{{ @smartasset('css/summernote-bs4.css')}}">
+	<link rel="stylesheet" href="{{ @smartasset('css/daterangepicker.css')}}">
+	<link rel="stylesheet" href="{{ @smartasset('css/bootstrap-timepicker.min.css')}}">
+	<link rel="stylesheet" href="{{ @smartasset('css/select2.min.css')}}">
 	<!-- Template CSS -->
 	<!--<link rel="stylesheet" href="{{--asset('css/niceCountryInput.css')--}}">-->
 	<!--<link rel="stylesheet" href="{{--asset('css/flagstrap.css')--}}">-->
 
-	<link rel="stylesheet" href="{{asset('css/bootstrap-formhelpers.min.css')}}">
-	<link rel="stylesheet" href="{{asset('css/intlTelInput.css')}}">
+	<link rel="stylesheet" href="{{ @smartasset('css/bootstrap-formhelpers.min.css')}}">
+	<link rel="stylesheet" href="{{ @smartasset('css/intlTelInput.css')}}">
 
-	<link rel="stylesheet" href="{{asset('css/style.css')}}">
+	<link rel="stylesheet" href="{{ @smartasset('css/style.css')}}">
 
-	<link rel="stylesheet" href="{{asset('css/components.css')}}">
+	<link rel="stylesheet" href="{{ @smartasset('css/components.css')}}">
 	<!-- Custom style CSS -->
-	<link rel="stylesheet" href="{{asset('css/custom.css')}}">
+	<link rel="stylesheet" href="{{ @smartasset('css/custom.css')}}">
 
     <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">-->
 
-    <link rel="stylesheet" href="{{asset('css/dataTables_min_latest.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/dataTables_min_latest.css')}}">
 
 
 <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
-<script src="{{asset('js/jquery_min_latest.js')}}"></script>
+<script src="{{ @smartasset('js/jquery_min_latest.js')}}"></script>
 
 <style>
 .dropbtn {
@@ -123,27 +123,27 @@
 	<!--<script src="{{--asset('js/niceCountryInput.js')--}}"></script> -->
 	
 	<!-- Core Application Scripts (load first) -->
-	<script src="{{asset('js/app.min.js')}}"></script>
+	<script src="{{ @smartasset('js/app.min.js')}}"></script>
 	
 	<!-- Feature-specific Scripts (load after core) -->
-	<script src="{{asset('js/fullcalendar.min.js')}}"></script>
-	<script src="{{asset('js/datatables.min.js')}}"></script>
-	<script src="{{asset('js/dataTables.bootstrap4.js')}}"></script>
-	<script src="{{asset('js/summernote-bs4.js')}}"></script>
-	<script src="{{asset('js/daterangepicker.js')}}"></script>
-	<script src="{{asset('js/bootstrap-timepicker.min.js')}}"></script>
-	<script src="{{asset('js/select2.full.min.js')}}"></script>
-	<script src="{{asset('js/bootstrap-formhelpers.min.js')}}"></script>
-	<script src="{{asset('js/intlTelInput.js')}}"></script>
-	<script src="{{asset('js/iziToast.min.js')}}"></script>
+	<script src="{{ @smartasset('js/fullcalendar.min.js')}}"></script>
+	<script src="{{ @smartasset('js/datatables.min.js')}}"></script>
+	<script src="{{ @smartasset('js/dataTables.bootstrap4.js')}}"></script>
+	<script src="{{ @smartasset('js/summernote-bs4.js')}}"></script>
+	<script src="{{ @smartasset('js/daterangepicker.js')}}"></script>
+	<script src="{{ @smartasset('js/bootstrap-timepicker.min.js')}}"></script>
+	<script src="{{ @smartasset('js/select2.full.min.js')}}"></script>
+	<script src="{{ @smartasset('js/bootstrap-formhelpers.min.js')}}"></script>
+	<script src="{{ @smartasset('js/intlTelInput.js')}}"></script>
+	<script src="{{ @smartasset('js/iziToast.min.js')}}"></script>
 	
 	<!-- Custom Scripts (load last to ensure DOM is ready) -->
-	<script src="{{asset('js/custom-form-validation.js')}}"></script>
-	<script src="{{asset('js/scripts.js')}}"></script>
-	<script src="{{asset('js/custom.js')}}"></script>
+	<script src="{{ @smartasset('js/custom-form-validation.js')}}"></script>
+	<script src="{{ @smartasset('js/scripts.js')}}"></script>
+	<script src="{{ @smartasset('js/custom.js')}}"></script>
 	
 	<!-- Page Specific JS File -->
-	<!--<script src="{{asset('js/index.js')}}"></script> -->
+	<!--<script src="{{ @smartasset('js/index.js')}}"></script> -->
 	<!--<script src="{{--asset('js/apexcharts.min.js')--}}"></script>-->
 	<!--<script src="{{--asset('js/jquery.flagstrap.js')--}}"></script>-->
 	<script>

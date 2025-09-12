@@ -186,8 +186,8 @@
 
 @endsection
 @section('scripts')
-<script src="{{ asset('assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/assets/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
+<script src="{{ @smartasset('assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+<script src="{{ @smartasset('assets/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
 <script>
   var loadFile = function(event) {
     var output = document.getElementById('output');

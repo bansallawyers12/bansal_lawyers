@@ -14,11 +14,11 @@
 	<!--<link rel="shortcut icon" href="{{--asset('img/Frontend/img/bansal-favicon.png')--}}" type="image/x-icon">-->
 
 	 <!-- BASE CSS -->
-	<link href="{{asset('css/app.min.css')}}" rel="stylesheet">
-	<link href="{{asset('css/bootstrap-social.css')}}" rel="stylesheet">
-	<link href="{{asset('css/style.css')}}" rel="stylesheet">
-	<link href="{{asset('css/components.css')}}" rel="stylesheet">
-	<link href="{{asset('css/custom.css')}}" rel="stylesheet">
+	<link href="{{ @smartasset('css/app.min.css')}}" rel="stylesheet">
+	<link href="{{ @smartasset('css/bootstrap-social.css')}}" rel="stylesheet">
+	<link href="{{ @smartasset('css/style.css')}}" rel="stylesheet">
+	<link href="{{ @smartasset('css/components.css')}}" rel="stylesheet">
+	<link href="{{ @smartasset('css/custom.css')}}" rel="stylesheet">
 
 	<script async src="https://www.google.com/recaptcha/api.js"></script> <!-- Add recaptcha script -->
 </head>
@@ -61,8 +61,8 @@
 	<script type="text/javascript">
 		var site_url = "<?php echo URL::to('/'); ?>";
 	</script>
-	<script src="{{asset('js/app.min.js')}}"></script>
-	<script src="{{asset('js/scripts.js')}}"></script>
-	<script src="{{asset('js/custom.js')}}"></script>
+	<script src="{{ @smartasset('js/app.min.js')}}"></script>
+	<script src="{{ @smartasset('js/scripts.js')}}"></script>
+	<script src="{{ @smartasset('js/custom.js')}}"></script>
 </body>
 </html>

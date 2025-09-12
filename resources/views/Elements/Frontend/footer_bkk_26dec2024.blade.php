@@ -18,7 +18,7 @@
 					<div class="footer-widget">
 						<div class="footer_logo">
 							<a class="logo_link" href="<?php echo URL::to('/'); ?>">
-								<img src="{{asset('img/logo_img')}}/<?php echo @\App\Models\ThemeOption::where('meta_key','logo')->first()->meta_value; ?>" alt="">
+								<img src="{{ @smartasset('img/logo_img')}}/<?php echo @\App\Models\ThemeOption::where('meta_key','logo')->first()->meta_value; ?>" alt="">
 							</a>
 						</div>
 						<div class="widget-title">

@@ -11,7 +11,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Book an Appointment | Schedule a Consultation with Top Law Firm Bansal Lawyers Melbourne">
     <meta property="og:description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more.">
-    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="@smartasset('images/logo/Bansal_Lawyers.png')">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Twitter Meta Tags -->
@@ -20,7 +20,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/book-an-appointment">
     <meta name="twitter:title" content="Book an Appointment | Schedule a Consultation with Top Law Firm Bansal Lawyers Melbourne">
     <meta name="twitter:description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more.">
-    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="twitter:image" content="@smartasset('images/logo/Bansal_Lawyers.png')">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 <!-- Hotjar Tracking Code for https://www.bansallawyers.com.au/migration-law -->
@@ -253,7 +253,7 @@ b, strong {
 }
 
 </style>
-<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({{asset('img/Frontend/bg-2.jpg')}}); padding-top:40px">
+<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url(@smartasset('img/Frontend/bg-2.jpg')); padding-top:40px">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -294,7 +294,7 @@ b, strong {
 							<ul class="nav nav-tabs" id="myTab" role="tablist">
 								<li class="tab_logo">
 									<a href="#">
-										<img src="{{asset('images/logo/Bansal_Lawyers.png')}}" alt="" style="background-color: #1B4D89;"/>
+										<img src="@smartasset('images/logo/Bansal_Lawyers.png')" alt="" style="background-color: #1B4D89;"/>
 									</a>
 								</li>
 								<li class="nav-item">
@@ -319,7 +319,7 @@ b, strong {
                             <div id="confirm_div" class="col-12 col-md-6 col-lg-6" style="margin-left: 15px;width: 90%;">
 
                                 <div id="loading">
-                                    <img id="loading-image" src="{{asset('img/ajax-loader.gif')}}" alt="Loading..." />
+                                    <img id="loading-image" src="@smartasset('img/ajax-loader.gif')" alt="Loading..." />
                                 </div>
 
                                 <div class="row nature_of_enquiry_row" id="nature_of_enquiry">
@@ -342,7 +342,7 @@ b, strong {
                                                 <div class="services_item_title">
                                                     <input type="radio" class="services_item" name="radioGroup"  value="{{$bookservices->id}}">
                                                     <!--<div class="services_item_img" style="display:inline-block;margin-left: 10px;">
-                                                        <img class="" style="width: 80px;height:80px;" src="{{--asset('public/img/service_img')--}}/{{--$bookservices->image--}}">
+                                                        <img class="" style="width: 80px;height:80px;" src="{{--asset('img/service_img')--}}/{{--$bookservices->image--}}">
                                                     </div>-->
                                                     <span class="services_item_title_span">{{$bookservices->title}} ({{$bookservices->duration_for_display}} minutes)</span>
                                                     <!--<span class="services_item_duration">{{--$bookservices->duration--}} minutes</span>-->
@@ -534,7 +534,7 @@ b, strong {
             <form role="form" action="{{ route('stripe.post') }}" method="post" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
             @csrf
                 <div id="loading_popup">
-                    <img id="loading-image_popup" src="{{asset('img/ajax-loader.gif')}}" alt="Loading..." />
+                    <img id="loading-image_popup" src="@smartasset('img/ajax-loader.gif')" alt="Loading..." />
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="noe_id" id="noe_id_paid" value="">

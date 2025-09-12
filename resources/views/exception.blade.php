@@ -12,21 +12,21 @@
 		<title>Tour Planner | Exception</title>
     
 		<!-- Icons-->
-			<link rel="stylesheet" type="text/css" href="{{asset('public/icons/@coreui/icons/css/coreui-icons.min.css')}}" />
-			<link rel="stylesheet" type="text/css" href="{{asset('public/icons/flag-icon-css/css/flag-icon.min.css')}}" />
-			<link rel="stylesheet" type="text/css" href="{{asset('public/icons/font-awesome/css/font-awesome.min.css')}}" />
-			<link rel="stylesheet" type="text/css" href="{{asset('public/icons/simple-line-icons/css/simple-line-icons.css')}}" />
+			<link rel="stylesheet" type="text/css" href="@smartasset('icons/@coreui/icons/css/coreui-icons.min.css')" />
+			<link rel="stylesheet" type="text/css" href="@smartasset('icons/flag-icon-css/css/flag-icon.min.css')" />
+			<link rel="stylesheet" type="text/css" href="@smartasset('icons/font-awesome/css/font-awesome.min.css')" />
+			<link rel="stylesheet" type="text/css" href="@smartasset('icons/simple-line-icons/css/simple-line-icons.css')" />
 		
 		<!-- Main styles for this application-->
-			<link rel="stylesheet" type="text/css" href="{{asset('public/css/style.css')}}" />
-			<link rel="stylesheet" type="text/css" href="{{asset('public/css/pace.min.css')}}" />
-			<link rel="stylesheet" type="text/css" href="{{asset('public/css/admin.css')}}" />
+			<link rel="stylesheet" type="text/css" href="@smartasset('css/style.css')" />
+			<link rel="stylesheet" type="text/css" href="@smartasset('css/pace.min.css')" />
+			<link rel="stylesheet" type="text/css" href="@smartasset('css/admin.css')" />
 	</head>
 	<body class="app flex-row align-items-center">
 		<div id="loader">
 			<div class="loading_image">
 				<div class="valid">
-					<img src="{{asset('public/img/loading.gif') }}">
+					<img src="@smartasset('img/loading.gif')">
 				</div>
 			</div>
 		</div>
@@ -64,12 +64,12 @@
 		</div>
 		
 		<!-- Apnamentor necessary plugins-->
-			<script src="{{asset('public/js/jquery/js/jquery.min.js')}}"></script>
-			<script src="{{asset('public/js/popper.js/js/popper.min.js')}}"></script>
-			<script src="{{asset('public/js/bootstarp/js/bootstrap.min.js')}}"></script>
-			<script src="{{asset('public/js/pace-progress/js/pace.min.js')}}"></script>
-			<script src="{{asset('public/js/perfect-scrollbar/js/perfect-scrollbar.min.js')}}"></script>
-			<script src="{{asset('public/icons/@coreui/coreui-pro/js/coreui.min.js')}}"></script>
-			<script src="{{asset('public/js/custom-form-validation.js')}}"></script>
+			<script src="@smartasset('js/jquery/js/jquery.min.js')"></script>
+			<script src="@smartasset('js/popper.js/js/popper.min.js')"></script>
+			<script src="@smartasset('js/bootstarp/js/bootstrap.min.js')"></script>
+			<script src="@smartasset('js/pace-progress/js/pace.min.js')"></script>
+			<script src="@smartasset('js/perfect-scrollbar/js/perfect-scrollbar.min.js')"></script>
+			<script src="@smartasset('icons/@coreui/coreui-pro/js/coreui.min.js')"></script>
+			<script src="@smartasset('js/custom-form-validation.js')"></script>
 	</body>
 </html>

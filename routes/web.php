@@ -65,14 +65,15 @@ Route::get('/refresh-captcha', [App\Http\Controllers\HomeController::class, 'ref
 //Route::get('/mission-vision', 'HomeController@missionvision')->name('mission_vision');
 Route::get('page/{slug}', [App\Http\Controllers\HomeController::class, 'Page'])->name('page.slug');
 Route::get('sicaptcha', [App\Http\Controllers\HomeController::class, 'sicaptcha'])->name('sicaptcha');
-Route::post('enquiry-contact', [App\Http\Controllers\PackageController::class, 'enquiryContact'])->name('query.contact');
-Route::get('thanks', [App\Http\Controllers\PackageController::class, 'thanks'])->name('thanks');
-Route::get('invoice/secure/{slug}', [App\Http\Controllers\InvoiceController::class, 'invoice'])->name('invoice');
-Route::get('/invoice/download/{id}', [App\Http\Controllers\InvoiceController::class, 'customer_invoice_download'])->name('invoice.customer_invoice_download');
-Route::get('/invoice/print/{id}', [App\Http\Controllers\InvoiceController::class, 'customer_invoice_print'])->name('invoice.customer_invoice_print');
+// Route references to missing controllers commented out during cleanup:
+// Route::post('enquiry-contact', [App\Http\Controllers\PackageController::class, 'enquiryContact'])->name('query.contact');
+// Route::get('thanks', [App\Http\Controllers\PackageController::class, 'thanks'])->name('thanks');
+// Route::get('invoice/secure/{slug}', [App\Http\Controllers\InvoiceController::class, 'invoice'])->name('invoice');
+// Route::get('/invoice/download/{id}', [App\Http\Controllers\InvoiceController::class, 'customer_invoice_download'])->name('invoice.customer_invoice_download');
+// Route::get('/invoice/print/{id}', [App\Http\Controllers\InvoiceController::class, 'customer_invoice_print'])->name('invoice.customer_invoice_print');
 Route::get('/profile', [App\Http\Controllers\HomeController::class, 'myprofile'])->name('profile');
-/*---------------Agent Route-------------------*/
-include_once 'agent.php';
+/*---------------Agent Route (disabled)-------------------*/
+// include_once 'agent.php';
 /*********************Admin Panel Start ***********************/
 Route::prefix('admin')->group(function() {
      //Login and Logout

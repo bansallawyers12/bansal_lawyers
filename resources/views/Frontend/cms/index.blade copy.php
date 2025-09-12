@@ -26,7 +26,7 @@
 @section('content')
 
 
-<!--<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({{--asset('public/img/Frontend/bg-2.jpg')--}});">
+<!--<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({{--asset('img/Frontend/bg-2.jpg')--}});">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -46,7 +46,7 @@
 			<div class="col-12 col-md-12">
 				<div class="cus_inner_content">
 					<?php if($pagedata->image != ''){ ?>
-					<img src="{{ asset('public/img/cmspage/') }}/<?php echo $pagedata->image; ?>" alt="" class="page_image" />
+					<img src="{{ asset('img/cmspage/') }}/<?php echo $pagedata->image; ?>" alt="" class="page_image" />
 					<?php } ?>
                     <?php echo $pagedata->content; ?>
                 </div>

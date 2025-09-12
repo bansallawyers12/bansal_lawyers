@@ -9,7 +9,7 @@
 		<div class="container-fluid">	
 			<div class="row"> 
 				<div class="list_image">
-					<img src="{!! asset('public/img/Frontend/img/rajastan_img.jpg') !!}" class="img-fluid" alt=""/>
+					<img src="{!! @smartasset('img/Frontend/img/rajastan_img.jpg') !!}" class="img-fluid" alt=""/>
 					<div class="opacity_banner"></div> 
 				</div>
 			</div>

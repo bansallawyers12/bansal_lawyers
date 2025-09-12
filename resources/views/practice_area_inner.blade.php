@@ -26,7 +26,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{@$pagedata->meta_title}}">
     <meta property="og:description" content="{{@$pagedata->meta_description}}">
-    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="@smartasset('images/logo/Bansal_Lawyers.png')">
     <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Twitter Meta Tags -->
@@ -37,7 +37,7 @@
     <meta name="twitter:description" content="{{@$pagedata->meta_description}}">
     <meta name="twitter:title" content="{{@$pagedata->meta_title}}">
     <meta name="twitter:description" content="{{@$pagedata->meta_description}}">
-    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="twitter:image" content="@smartasset('images/logo/Bansal_Lawyers.png')">
     <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 @endsection
 @section('content')
@@ -1214,7 +1214,7 @@
                                                 <div class="elementor-post__card">
                                                     <a class="elementor-post__thumbnail__link" href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" tabindex="-1">
                                                         <div class="elementor-post__thumbnail">
-                                                            <img decoding="async" width="150" height="150" src="{{ asset('images/' . @$list->image) }}" alt="{{@$list->image_alt}}">
+                                                            <img decoding="async" width="150" height="150" src="@smartasset('images/' . @$list->image)" alt="{{@$list->image_alt}}">
                                                         </div>
                                                     </a>
                                                     <div class="elementor-post__text">
@@ -1247,7 +1247,7 @@
                                             @endif
 
                                             <div style="height: 94px;padding-top: 10px;font-weight: 400;">
-                                                <img src="{{ asset('images/bansal_2.jpg') }}" width="70" height="80" alt="Ajay Bansal - CEO of Bansal Lawyers">
+                                                <img src="@smartasset('images/bansal_2.jpg')" width="70" height="80" alt="Ajay Bansal - CEO of Bansal Lawyers">
 
                                                 <div style="color: #FFF;font-size: 16px;float: right;padding-top: 20px;width: 71%;">
                                                     There's No Legal Puzzle,<br>
@@ -1286,7 +1286,7 @@
         <!-- End right-side Code -->
     </div>
 
-    <script src="{{asset('/public/js/jquery-3.6.0.min.js')}}"></script>
+    <script src="@smartasset('js/jquery-3.6.0.min.js')"></script>
     <script>
     jQuery(document).ready(function($){
 

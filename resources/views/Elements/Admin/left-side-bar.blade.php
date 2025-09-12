@@ -2,7 +2,7 @@
 	<aside id="sidebar-wrapper">
 		<div class="sidebar-brand">
 			<a href="#">
-				<img alt="Bansal Lawyers" src="{{ asset('images/logo/Bansal_Lawyers.png') }}" class="header-logo" />
+				<img alt="Bansal Lawyers" src="{{ @smartasset('images/logo/Bansal_Lawyers.png') }}" class="header-logo" />
 				
 				<!--<span class="logo-name"></span>-->
 			</a>

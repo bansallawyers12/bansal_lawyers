@@ -12,7 +12,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Case Studies | Successful Legal Results with Bansal Lawyers Melbourne">
     <meta property="og:description" content="Discover Bansal Lawyers&#039; case studies showcasing successful outcomes in family law, immigration, property disputes, and more. See how our expert legal team in Melbourne can help you achieve the best possible result.">
-    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="@smartasset('images/logo/Bansal_Lawyers.png')">
     <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 	<!-- Twitter Meta Tags -->
@@ -21,7 +21,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/case">
     <meta name="twitter:title" content="Case Studies | Successful Legal Results with Bansal Lawyers Melbourne">
     <meta name="twitter:description" content="Discover Bansal Lawyers&#039; case studies showcasing successful outcomes in family law, immigration, property disputes, and more. See how our expert legal team in Melbourne can help you achieve the best possible result.">
-    <meta name="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta name="twitter:image" content="@smartasset('images/logo/Bansal_Lawyers.png')">
     <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 @endsection
@@ -29,7 +29,7 @@
 
 
 	<!--Content-->
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('images/CaseStudies.jpg') }}');margin-bottom: 40px;max-height:422px !important;" data-stellar-background-ratio="0.5">
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('@smartasset('images/CaseStudies.jpg')');margin-bottom: 40px;max-height:422px !important;" data-stellar-background-ratio="0.5">
         <div class="overlay"></div>
         <div class="container">
             <div class="row no-gutters slider-text align-items-end justify-content-center">
@@ -55,7 +55,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="{{ asset('images/Corporate_Legal_Separation_Corporate_Law.png')}}" alt="Corporate Legal Dispute" style="width:50%;">
+                                            <img loading="lazy" src="@smartasset('images/Corporate_Legal_Separation_Corporate_Law.png')" alt="Corporate Legal Dispute" style="width:50%;">
                                         </div>
                                     </div>
 
@@ -72,7 +72,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="{{ asset('public/images/Family_Law_Resolution.png')}}" alt="Family Estate Settlement" style="width:50%;">
+                                            <img loading="lazy" src="@smartasset('images/Family_Law_Resolution.png')" alt="Family Estate Settlement" style="width:50%;">
                                         </div>
                                     </div>
 
@@ -89,7 +89,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="{{ asset('public/images/Employment_Law_Dispute_Labor_Law.png')}}" alt="Wrongful Termination Defense" style="width:50%;">
+                                            <img loading="lazy" src="@smartasset('images/Employment_Law_Dispute_Labor_Law.png')" alt="Wrongful Termination Defense" style="width:50%;">
                                         </div>
                                     </div>
 
@@ -108,7 +108,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="{{ asset('public/images/Criminal_Defense_Victory_Criminal_Law.png')}}" alt="Criminal Defense Victory" style="width:50%;">
+                                            <img loading="lazy" src="@smartasset('images/Criminal_Defense_Victory_Criminal_Law.png')" alt="Criminal Defense Victory" style="width:50%;">
                                         </div>
                                     </div>
 
@@ -125,7 +125,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="{{ asset('public/images/Intellectual_Property_Protection_IP_Law.png')}}" alt="Intellectual Property Protection" style="width:50%;">
+                                            <img loading="lazy" src="@smartasset('images/Intellectual_Property_Protection_IP_Law.png')" alt="Intellectual Property Protection" style="width:50%;">
                                         </div>
                                     </div>
 
@@ -143,7 +143,7 @@
                                     <div class="card-header">
                                         <div
                                             class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="{{ asset('public/images/Real_Estate_Transaction_Real_Estate_Law.png')}}" alt="Real Estate Law" style="width:50%;">
+                                            <img loading="lazy" src="@smartasset('images/Real_Estate_Transaction_Real_Estate_Law.png')" alt="Real Estate Law" style="width:50%;">
                                         </div>
                                     </div>
 

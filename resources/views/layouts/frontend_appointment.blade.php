@@ -92,48 +92,48 @@
     <!-- End Schema Markup -->
 	
 	<!-- Favicons-->
-	<link rel="shortcut icon" href="{{asset('img/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
+	<link rel="shortcut icon" href="{{ @smartasset('img/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
 
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{asset('css/open-iconic-bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/animate.min.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/open-iconic-bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/animate.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/owl.theme.default.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/magnific-popup.min.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/owl.carousel.min.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/owl.theme.default.min.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/magnific-popup.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('css/aos.min.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/aos.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('css/ionicons.min.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/ionicons.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('css/flaticon.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/icomoon.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/style_lawyer.min.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/flaticon.min.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/icomoon.min.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/style_lawyer.min.css')}}">
 
 
      <!-- BASE CSS -->
-     <link href="{{asset('css/Frontend/bootstrap.min.css')}}" rel="stylesheet">
-     <link href="{{asset('css/Frontend/owl.carousel.min.css')}}" rel="stylesheet">
-     <link href="{{asset('css/Frontend/animate.min.css')}}" rel="stylesheet">
-     <link href="{{asset('css/Frontend/magnific-popup.min.css')}}" rel="stylesheet">
-     <link href="{{asset('css/Frontend/font-awesome.min.css')}}" rel="stylesheet">
-     <link href="{{asset('css/Frontend/ETmodules.min.css')}}" rel="stylesheet">
-     <link href="{{asset('css/Frontend/bootstrap-datepicker.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/bootstrap.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/owl.carousel.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/animate.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/magnific-popup.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/font-awesome.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/ETmodules.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/bootstrap-datepicker.min.css')}}" rel="stylesheet">
      <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">-->
-     <link href="{{asset('css/Frontend/custom-icon.min.css')}}" rel="stylesheet">
-     <link href="{{asset('css/Frontend/classy-nav.min.css')}}" rel="stylesheet">
-     <link href="{{asset('css/Frontend/style.min.css')}}" rel="stylesheet">
-     <link href="{{asset('css/Frontend/custom.min.css')}}" rel="stylesheet">
-     <link href="{{asset('css/Frontend/responsive.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/custom-icon.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/classy-nav.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/style.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/custom.min.css')}}" rel="stylesheet">
+     <link href="{{ @smartasset('css/Frontend/responsive.min.css')}}" rel="stylesheet">
 
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('css/bootstrap_lawyers.min.css')}}">
+    <link rel="stylesheet" href="{{ @smartasset('css/bootstrap_lawyers.min.css')}}">
     <!-- Bootstrap JS and jQuery -->
-    <script src="{{asset('js/jquery_lawyers-3.6.0.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap_lawyers.bundle.min.js')}}"></script>
+    <script src="{{ @smartasset('js/jquery_lawyers-3.6.0.min.js')}}"></script>
+    <script src="{{ @smartasset('js/bootstrap_lawyers.bundle.min.js')}}"></script>
 
     <style>
       .bg-dark {
@@ -172,28 +172,28 @@
     </div>
 
     <!-- JavaScript Files -->
-    <script src="{{asset('js/jquery.min.js')}}"></script>
-    <script src="{{asset('js/jquery-migrate-3.0.1.min.js')}}"></script>
-    <script src="{{asset('js/popper.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/jquery.easing.1.3.min.js')}}"></script>
-    <script src="{{asset('js/jquery.waypoints.min.js')}}"></script>
-    <script src="{{asset('js/jquery.stellar.min.js')}}"></script>
-    <script src="{{asset('js/owl.carousel.min.js')}}"></script>
-    <script src="{{asset('js/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{asset('js/aos.min.js')}}"></script>
-    <script src="{{asset('js/jquery.animateNumber.min.js')}}"></script>
-    <script src="{{asset('js/scrollax.min.js')}}"></script>
+    <script src="{{ @smartasset('js/jquery.min.js')}}"></script>
+    <script src="{{ @smartasset('js/jquery-migrate-3.0.1.min.js')}}"></script>
+    <script src="{{ @smartasset('js/popper.min.js')}}"></script>
+    <script src="{{ @smartasset('js/bootstrap.min.js')}}"></script>
+    <script src="{{ @smartasset('js/jquery.easing.1.3.min.js')}}"></script>
+    <script src="{{ @smartasset('js/jquery.waypoints.min.js')}}"></script>
+    <script src="{{ @smartasset('js/jquery.stellar.min.js')}}"></script>
+    <script src="{{ @smartasset('js/owl.carousel.min.js')}}"></script>
+    <script src="{{ @smartasset('js/jquery.magnific-popup.min.js')}}"></script>
+    <script src="{{ @smartasset('js/aos.min.js')}}"></script>
+    <script src="{{ @smartasset('js/jquery.animateNumber.min.js')}}"></script>
+    <script src="{{ @smartasset('js/scrollax.min.js')}}"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&callback=initMap"></script>
     <script>
       function initMap(){
         if(!document.getElementById('map')) return;
         var s=document.createElement('script');
-        s.src='{{asset('js/google-map.min.js')}}';
+        s.src='{{ @smartasset('js/google-map.min.js')}}';
         document.head.appendChild(s);
       }
     </script>
-    <script src="{{asset('js/main.min.js')}}"></script>
+    <script src="{{ @smartasset('js/main.min.js')}}"></script>
 
 
     <!-- COMMON SCRIPTS -->
@@ -202,28 +202,28 @@
 			var redirecturl = "<?php echo URL::to('/thanks'); ?>";
 		</script>
 
-		<script src="{{asset('js/Frontend/jquery-2.2.4.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/popper.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/bootstrap.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/plugins.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/active.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/jquery.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/jquery-migrate.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/bootstrap.bundle.min.js')}}"></script>
-		<script src="{{asset('js/moment.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/jquery-2.2.4.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/popper.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/bootstrap.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/plugins.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/active.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/jquery.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/jquery-migrate.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/bootstrap.bundle.min.js')}}"></script>
+		<script src="{{ @smartasset('js/moment.min.js')}}"></script>
 
 		<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>-->
-  		<script src="{{asset('js/Frontend/bootstrap-datepicker.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/easing.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/hoverIntent.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/superfish.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/wow.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/owl.carousel.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/magnific-popup.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/sticky.min.js')}}"></script>
-		<script src="{{asset('js/Frontend/main.min.js')}}"></script>
+  		<script src="{{ @smartasset('js/Frontend/bootstrap-datepicker.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/easing.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/hoverIntent.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/superfish.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/wow.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/owl.carousel.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/magnific-popup.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/sticky.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/main.min.js')}}"></script>
 
-		<script src="{{asset('js/Frontend/font_awesome5.min.js')}}"></script>
+		<script src="{{ @smartasset('js/Frontend/font_awesome5.min.js')}}"></script>
 
 		<script>
 		jQuery(document).ready(function($){

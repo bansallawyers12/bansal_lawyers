@@ -21,103 +21,82 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     @yield('seoinfo')
   
     <!-- Schema Markup -->
-    @verbatim
-     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LegalService",
-      "name": "Bansal Lawyers",
-      "image": "https://www.bansallawyers.com.au/images/logo/Bansal_Lawyers.png",
-      "description": "Bansal Lawyers provides the best immigration lawyers in Melbourne, offering expert legal services for visas, appeals, and migration advice.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Level 8/278 Collins St",
-        "addressLocality": "Melbourne",
-        "addressRegion": "VIC",
-        "postalCode": "3000",
-        "addressCountry": {
-          "@type": "Country",
-          "name": "Australia"
-        }
-      },
-      "telephone": "+61 0422905860",
-      "email": "Info@bansallawyers.com.au",
-      "url": "https://www.bansallawyers.com.au",
-      "openingHours": "Mo-Fr 09:00-17:00",
-      "priceRange": "$$$",
-      "sameAs": [
-        "https://www.facebook.com/profile.php?id=61562008576642",
-        "https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw"
-      ],
-      "areaServed": {
-        "@type": "AdministrativeArea",
-        "name": "Melbourne"
-      },
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Legal Services",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "name": "Immigration Law",
-            "description": "Expert legal services for visas, appeals, and migration advice."
-          },
-          {
-            "@type": "Offer",
-            "name": "Family Law",
-            "description": "Legal support for family-related matters including divorce and custody."
-          },
-          {
-            "@type": "Offer",
-            "name": "Criminal Law",
-            "description": "Defense representation for criminal cases."
-          },
-          {
-            "@type": "Offer",
-            "name": "Commercial Law",
-            "description": "Legal advice and representation for business and commercial matters."
-          },
-          {
-            "@type": "Offer",
-            "name": "Property Law",
-            "description": "Legal services for property transactions and disputes."
-          }
-        ]
-      }
-    }
-    </script>
-    @endverbatim
+        @php
+            $schemaLegalService = [
+                '@context' => 'https://schema.org',
+                '@type' => 'LegalService',
+                'name' => 'Bansal Lawyers',
+                'image' => 'https://www.bansallawyers.com.au/images/logo/Bansal_Lawyers.png',
+                'description' => 'Bansal Lawyers provides the best immigration lawyers in Melbourne, offering expert legal services for visas, appeals, and migration advice.',
+                'address' => [
+                    '@type' => 'PostalAddress',
+                    'streetAddress' => 'Level 8/278 Collins St',
+                    'addressLocality' => 'Melbourne',
+                    'addressRegion' => 'VIC',
+                    'postalCode' => '3000',
+                    'addressCountry' => [
+                        '@type' => 'Country',
+                        'name' => 'Australia',
+                    ],
+                ],
+                'telephone' => '+61 0422905860',
+                'email' => 'Info@bansallawyers.com.au',
+                'url' => 'https://www.bansallawyers.com.au',
+                'openingHours' => 'Mo-Fr 09:00-17:00',
+                'priceRange' => '$$$',
+                'sameAs' => [
+                    'https://www.facebook.com/profile.php?id=61562008576642',
+                    'https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw',
+                ],
+                'areaServed' => [
+                    '@type' => 'AdministrativeArea',
+                    'name' => 'Melbourne',
+                ],
+                'hasOfferCatalog' => [
+                    '@type' => 'OfferCatalog',
+                    'name' => 'Legal Services',
+                    'itemListElement' => [
+                        ['@type' => 'Offer', 'name' => 'Immigration Law', 'description' => 'Expert legal services for visas, appeals, and migration advice.'],
+                        ['@type' => 'Offer', 'name' => 'Family Law', 'description' => 'Legal support for family-related matters including divorce and custody.'],
+                        ['@type' => 'Offer', 'name' => 'Criminal Law', 'description' => 'Defense representation for criminal cases.'],
+                        ['@type' => 'Offer', 'name' => 'Commercial Law', 'description' => 'Legal advice and representation for business and commercial matters.'],
+                        ['@type' => 'Offer', 'name' => 'Property Law', 'description' => 'Legal services for property transactions and disputes.'],
+                    ],
+                ],
+            ];
+        @endphp
+        <script type="application/ld+json">{!! json_encode($schemaLegalService, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
   	<!-- End Schema Markup -->
   
      <!-- Favicons-->
-	<link rel="shortcut icon" href="{{asset('img/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
+	<link rel="shortcut icon" href="{{ asset('img/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" media="print" onload="this.media='all'">
 
-    <link rel="stylesheet" href="{{asset('css/open-iconic-bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/animate.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/animate.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/owl.theme.default.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/magnific-popup.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('css/aos.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/aos.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('css/ionicons.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/ionicons.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('css/flaticon.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/icomoon.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/style_lawyer.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/icomoon.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
 
 
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('css/bootstrap_lawyers.min.css')}}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css')}}" media="print" onload="this.media='all'">
 
 
     <!-- Bootstrap JS and jQuery -->
-    <script src="{{asset('js/jquery_lawyers-3.6.0.min.js')}}" defer></script>
-    <script src="{{asset('js/bootstrap_lawyers.bundle.min.js')}}" defer></script>
+    <script src="{{ asset('js/jquery_lawyers-3.6.0.min.js')}}" defer></script>
+    <script src="{{ asset('js/bootstrap_lawyers.bundle.min.js')}}" defer></script>
   
     <!-- Meta Pixel Code -->
     <script>
@@ -897,7 +876,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      
 	</style>
   
-  	<script src="{{asset('js/jquery-3.6.0.min.js')}}"></script>
+  	<script src="{{ asset('js/jquery-3.6.0.min.js')}}"></script>
   	<script>
  	$(document).ready(function () { //alert('ready');
         // Global error handler to prevent console errors from affecting performance
@@ -1197,7 +1176,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 
     <!-- JavaScript Files - Optimized Loading Order -->
-    <script src="{{asset('js/jquery.min.js')}}"></script>
+    <script src="{{ asset('js/jquery.min.js')}}"></script>
     <script>
         // Disable jQuery Migrate logging BEFORE loading migrate
         window.jQuery = window.jQuery || window.$;
@@ -1205,7 +1184,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             window.jQuery.migrateMute = true;
         }
     </script>
-    <script src="{{asset('js/jquery-migrate-3.0.1.min.js')}}"></script>
+    <script src="{{ asset('js/jquery-migrate-3.0.1.min.js')}}"></script>
     <script>
         // Ensure jQuery Migrate is muted after loading
         if (typeof jQuery !== 'undefined') {
@@ -1231,16 +1210,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
         });
     </script>
-    <script src="{{asset('js/popper.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/jquery.easing.1.3.min.js')}}"></script>
-    <script src="{{asset('js/jquery.waypoints.min.js')}}"></script>
-    <script src="{{asset('js/jquery.stellar.min.js')}}"></script>
-    <script src="{{asset('js/owl.carousel.min.js')}}"></script>
-    <script src="{{asset('js/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{asset('js/aos.min.js')}}"></script>
-    <script src="{{asset('js/jquery.animateNumber.min.js')}}"></script>
-    <script src="{{asset('js/scrollax.min.js')}}"></script>
+    <script src="{{ asset('js/popper.min.js')}}"></script>
+    <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>
+    <script src="{{ asset('js/jquery.waypoints.min.js')}}"></script>
+    <script src="{{ asset('js/jquery.stellar.min.js')}}"></script>
+    <script src="{{ asset('js/owl.carousel.min.js')}}"></script>
+    <script src="{{ asset('js/jquery.magnific-popup.min.js')}}"></script>
+    <script src="{{ asset('js/aos.min.js')}}"></script>
+    <script src="{{ asset('js/jquery.animateNumber.min.js')}}"></script>
+    <script src="{{ asset('js/scrollax.min.js')}}"></script>
     
     <!-- Google Maps will be loaded with proper error handling below -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap"></script>
@@ -1251,7 +1230,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             if (!document.getElementById('map') && !document.getElementById('google-map')) return;
             // Load google-map.min.js only after Google Maps is ready
             var script = document.createElement('script');
-            script.src = "{{asset('js/google-map.min.js')}}";
+            script.src = "{{ asset('js/google-map.min.js')}}";
             document.head.appendChild(script);
         }
         
@@ -1267,7 +1246,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
         }, 10000);
     </script>
-    <script src="{{asset('js/main.min.js')}}"></script>
+    <script src="{{ asset('js/main.min.js')}}"></script>
 </body>
 
 </html>
