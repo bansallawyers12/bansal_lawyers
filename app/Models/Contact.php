@@ -23,10 +23,11 @@ class Contact extends Authenticatable
   
 	public $sortable = ['id', 'created_at', 'updated_at'];
  
-	 public function currencydata() 
-    {
-        return $this->belongsTo('App\Models\Currency','currency','id');
-    }
+	 // Currency functionality removed - not needed for appointment system
+	 // public function currencydata() 
+    // {
+    //     return $this->belongsTo('App\Models\Currency','currency','id');
+    // }
 	
 	public function company()
     {

@@ -151,7 +151,6 @@ return [
 		// Tzsk\Payu\Provider\PayuServiceProvider::class,
 		Barryvdh\DomPDF\ServiceProvider::class,
 		
-		App\Providers\PayuServiceProvider::class,
         
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
@@ -210,8 +209,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-		'Payment' => App\Facades\Payment::class,
-		'PDF' => Barryvdh\DomPDF\Facade::class,
 		'Excel' =>  Maatwebsite\Excel\Facades\Excel::class,
 		'Settings' => App\Helpers\Settings::class,
         'Helper' => App\Helpers\Helper::class,

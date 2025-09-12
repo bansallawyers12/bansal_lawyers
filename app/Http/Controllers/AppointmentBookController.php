@@ -129,37 +129,38 @@ class AppointmentBookController extends Controller {
 
 		if($saved)
         {
-            $note = new \App\Models\Note;
-            $note->client_id =  $client_id;
-            $note->user_id = 1;
-            $note->title = $requestData['appointment_details'];
-            $note->description = $description;
-            $note->mail_id = 0;
-            $note->type = 'client';
-            $saved = $note->save();
+            // Note and ActivitiesLog functionality removed
+            // $note = new \App\Models\Note;
+            // $note->client_id =  $client_id;
+            // $note->user_id = 1;
+            // $note->title = $requestData['appointment_details'];
+            // $note->description = $description;
+            // $note->mail_id = 0;
+            // $note->type = 'client';
+            // $saved = $note->save();
 
             if( isset($service_id) && $service_id == 1 ){ //1=>Paid
                 $subject = 'scheduled an paid appointment';
             } 
-            $objs = new \App\Models\ActivitiesLog;
-            $objs->client_id = $client_id;
-            $objs->created_by = 1;
+            // $objs = new \App\Models\ActivitiesLog;
+            // $objs->client_id = $client_id;
+            // $objs->created_by = 1;
             //$objs->description = '<span class="text-semi-bold">You have an appointment on '.$requestData['date'].' at '.$requestData['time'].'</span>';
 
-            $objs->description = '<div style="display: -webkit-inline-box;">
-						<span style="height: 60px; width: 60px; border: 1px solid rgb(3, 169, 244); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px;overflow: hidden;">
-							<span  style="flex: 1 1 0%; width: 100%; text-align: center; background: rgb(237, 237, 237); border-top-left-radius: 120px; border-top-right-radius: 120px; font-size: 12px;line-height: 24px;">
-							  '.date('d M', strtotime($datey)).'
-							</span>
-							<span style="background: rgb(84, 178, 75); color: rgb(255, 255, 255); flex: 1 1 0%; width: 100%; border-bottom-left-radius: 120px; border-bottom-right-radius: 120px; text-align: center;font-size: 12px; line-height: 21px;">
-							   '.date('Y', strtotime($datey)).'
-							</span>
-						</span>
-					</div>
-					<div style="display:inline-grid;"><span class="text-semi-bold">'.$nature_of_enquiry_title.'</span> <span class="text-semi-bold">'.$service_title_text.'</span>  <span class="text-semi-bold">'.$request->appointment_details.'</span> <span class="text-semi-bold">'.$request->fullname.'</span> <span class="text-semi-bold">'.$request->email.'</span> <span class="text-semi-bold">'.$request->phone.'</span> <span class="text-semi-bold">'.$request->description.'</span> <p class="text-semi-light-grey col-v-1">@ '.$request->time.'</p></div>';
+            // $objs->description = '<div style="display: -webkit-inline-box;">
+            // 				<span style="height: 60px; width: 60px; border: 1px solid rgb(3, 169, 244); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px;overflow: hidden;">
+            // 					<span  style="flex: 1 1 0%; width: 100%; text-align: center; background: rgb(237, 237, 237); border-top-left-radius: 120px; border-top-right-radius: 120px; font-size: 12px;line-height: 24px;">
+            // 					  '.date('d M', strtotime($datey)).'
+            // 					</span>
+            // 					<span style="background: rgb(84, 178, 75); color: rgb(255, 255, 255); flex: 1 1 0%; width: 100%; border-bottom-left-radius: 120px; border-bottom-right-radius: 120px; text-align: center;font-size: 12px; line-height: 21px;">
+            // 					   '.date('Y', strtotime($datey)).'
+            // 					</span>
+            // 				</span>
+            // 			</div>
+            // 			<div style="display:inline-grid;"><span class="text-semi-bold">'.$nature_of_enquiry_title.'</span> <span class="text-semi-bold">'.$service_title_text.'</span>  <span class="text-semi-bold">'.$request->appointment_details.'</span> <span class="text-semi-bold">'.$request->fullname.'</span> <span class="text-semi-bold">'.$request->email.'</span> <span class="text-semi-bold">'.$request->phone.'</span> <span class="text-semi-bold">'.$request->description.'</span> <p class="text-semi-light-grey col-v-1">@ '.$request->time.'</p></div>';
 
-            $objs->subject = $subject;
-            $objs->save();
+            // $objs->subject = $subject;
+            // $objs->save();
 
             //Email To Admin
             $details1 = [
@@ -429,35 +430,36 @@ class AppointmentBookController extends Controller {
 		$saved = $obj->save();
         if($saved)
         {
-            $note = new \App\Models\Note;
-            $note->client_id =  $client_id;
-            $note->user_id = 1;
-            $note->title = $requestData['appointment_details'];
-            $note->description = $description;
-            $note->mail_id = 0;
-            $note->type = 'client';
-            $saved = $note->save();
+            // Note and ActivitiesLog functionality removed
+            // $note = new \App\Models\Note;
+            // $note->client_id =  $client_id;
+            // $note->user_id = 1;
+            // $note->title = $requestData['appointment_details'];
+            // $note->description = $description;
+            // $note->mail_id = 0;
+            // $note->type = 'client';
+            // $saved = $note->save();
 
             if( isset($service_id) && $service_id == 1 ){ //1=>Paid
                 $subject = 'scheduled an paid appointment';
             }
-            $objs = new \App\Models\ActivitiesLog;
-            $objs->client_id = $client_id;
-            $objs->created_by = 1;
-            $objs->description = '<div style="display: -webkit-inline-box;">
-						<span style="height: 60px; width: 60px; border: 1px solid rgb(3, 169, 244); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px;overflow: hidden;">
-							<span  style="flex: 1 1 0%; width: 100%; text-align: center; background: rgb(237, 237, 237); border-top-left-radius: 120px; border-top-right-radius: 120px; font-size: 12px;line-height: 24px;">
-							  '.date('d M', strtotime($datey)).'
-							</span>
-							<span style="background: rgb(84, 178, 75); color: rgb(255, 255, 255); flex: 1 1 0%; width: 100%; border-bottom-left-radius: 120px; border-bottom-right-radius: 120px; text-align: center;font-size: 12px; line-height: 21px;">
-							   '.date('Y', strtotime($datey)).'
-							</span>
-						</span>
-					</div>
-					<div style="display:inline-grid;"><span class="text-semi-bold">'.$nature_of_enquiry_title.'</span> <span class="text-semi-bold">'.$service_title_text.'</span>  <span class="text-semi-bold">'.$request->appointment_details.'</span> <span class="text-semi-bold">'.$request->fullname.'</span> <span class="text-semi-bold">'.$request->email.'</span> <span class="text-semi-bold">'.$request->phone.'</span> <span class="text-semi-bold">'.$request->description.'</span> <p class="text-semi-light-grey col-v-1">@ '.$request->time.'</p></div>';
+            // $objs = new \App\Models\ActivitiesLog;
+            // $objs->client_id = $client_id;
+            // $objs->created_by = 1;
+            // $objs->description = '<div style="display: -webkit-inline-box;">
+            // 			<span style="height: 60px; width: 60px; border: 1px solid rgb(3, 169, 244); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px;overflow: hidden;">
+            // 				<span  style="flex: 1 1 0%; width: 100%; text-align: center; background: rgb(237, 237, 237); border-top-left-radius: 120px; border-top-right-radius: 120px; font-size: 12px;line-height: 24px;">
+            // 				  '.date('d M', strtotime($datey)).'
+            // 				</span>
+            // 				<span style="background: rgb(84, 178, 75); color: rgb(255, 255, 255); flex: 1 1 0%; width: 100%; border-bottom-left-radius: 120px; border-bottom-right-radius: 120px; text-align: center;font-size: 12px; line-height: 21px;">
+            // 				   '.date('Y', strtotime($datey)).'
+            // 				</span>
+            // 			</span>
+            // 		</div>
+            // 		<div style="display:inline-grid;"><span class="text-semi-bold">'.$nature_of_enquiry_title.'</span> <span class="text-semi-bold">'.$service_title_text.'</span>  <span class="text-semi-bold">'.$request->appointment_details.'</span> <span class="text-semi-bold">'.$request->fullname.'</span> <span class="text-semi-bold">'.$request->email.'</span> <span class="text-semi-bold">'.$request->phone.'</span> <span class="text-semi-bold">'.$request->description.'</span> <p class="text-semi-light-grey col-v-1">@ '.$request->time.'</p></div>';
 
-            $objs->subject = $subject;
-            $objs->save();
+            // $objs->subject = $subject;
+            // $objs->save();
 
             //Email To Admin
             $details1 = [

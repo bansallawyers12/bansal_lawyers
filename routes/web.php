@@ -25,25 +25,17 @@ Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
 	});
 });
 
-/*********************Exception Handling ***********************/
-Route::match(['get','post'], '/exception', [App\Http\Controllers\ExceptionController::class, 'index'])->name('exception');
 
-
-//Login and Register
-// Auth::routes();
-
-// Frontend Route
+/*********************Frontend Routes ***********************/
 //Home Page
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-//Route::get('/about-us', 'HomeController@about')->name('about');
 Route::get('/testimonials', [App\Http\Controllers\HomeController::class, 'testimonial'])->name('testimonial');
 Route::get('/ourservices', [App\Http\Controllers\HomeController::class, 'ourservices'])->name('ourservices');
 Route::get('/ourservices/{slug}', [App\Http\Controllers\HomeController::class, 'servicesdetail'])->name('servicesdetail');
 Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog');
 Route::get('/search_result', [App\Http\Controllers\HomeController::class, 'search_result'])->name('search_result');
 
-//Route::get('/blogs/{slug}', 'HomeController@blogdetail')->name('blogdetail');
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus']);
 Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'contact']);
 
@@ -58,23 +50,13 @@ Route::post('/book-an-appointment/storepaid', [App\Http\Controllers\AppointmentB
 Route::post('/promo-code/check', [App\Http\Controllers\AppointmentBookController::class, 'checkpromocode']);
 Route::post('/getdatetime', [App\Http\Controllers\HomeController::class, 'getdatetime']);
 Route::post('/getdatetimebackend', [App\Http\Controllers\HomeController::class, 'getdatetimebackend']);
-
-
 Route::post('/getdisableddatetime', [App\Http\Controllers\HomeController::class, 'getdisableddatetime']);
 Route::get('/refresh-captcha', [App\Http\Controllers\HomeController::class, 'refresh_captcha']);
-//Route::get('/mission-vision', 'HomeController@missionvision')->name('mission_vision');
 Route::get('page/{slug}', [App\Http\Controllers\HomeController::class, 'Page'])->name('page.slug');
 Route::get('sicaptcha', [App\Http\Controllers\HomeController::class, 'sicaptcha'])->name('sicaptcha');
-// Route references to missing controllers commented out during cleanup:
-// Route::post('enquiry-contact', [App\Http\Controllers\PackageController::class, 'enquiryContact'])->name('query.contact');
-// Route::get('thanks', [App\Http\Controllers\PackageController::class, 'thanks'])->name('thanks');
-// Route::get('invoice/secure/{slug}', [App\Http\Controllers\InvoiceController::class, 'invoice'])->name('invoice');
-// Route::get('/invoice/download/{id}', [App\Http\Controllers\InvoiceController::class, 'customer_invoice_download'])->name('invoice.customer_invoice_download');
-// Route::get('/invoice/print/{id}', [App\Http\Controllers\InvoiceController::class, 'customer_invoice_print'])->name('invoice.customer_invoice_print');
 Route::get('/profile', [App\Http\Controllers\HomeController::class, 'myprofile'])->name('profile');
-/*---------------Agent Route (disabled)-------------------*/
-// include_once 'agent.php';
-/*********************Admin Panel Start ***********************/
+
+/*********************Admin Panel Routes ***********************/
 Route::prefix('admin')->group(function() {
      //Login and Logout
 		Route::get('/', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])->name('admin.login');
@@ -113,11 +95,9 @@ Route::prefix('admin')->group(function() {
 		Route::get('/cms_pages/create', [App\Http\Controllers\Admin\CmsPageController::class, 'create'])->name('admin.cms_pages.create');
 		Route::post('/cms_pages/store', [App\Http\Controllers\Admin\CmsPageController::class, 'store'])->name('admin.cms_pages.store');
 		Route::get('/cms_pages/edit/{id}', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage'])->name('admin.edit_cms_page');
-		Route::post('/cms_pages/edit', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage'])->name('admin.edit_cms_page');
-  
-  
-  
-        // Appointment modulle
+        Route::post('/cms_pages/edit', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage'])->name('admin.edit_cms_page');
+
+        // Appointment Module
 		Route::get('/appointments-others', [App\Http\Controllers\Admin\AdminController::class, 'appointmentsOthers'])->name('appointments-others');
 
 		Route::resource('appointments', App\Http\Controllers\Admin\AppointmentsController::class);
@@ -133,13 +113,11 @@ Route::prefix('admin')->group(function() {
 		Route::get('/appointment-dates-disable/create', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'create'])->name('admin.feature.appointmentdisabledate.create');
 		Route::post('/appointment-dates-disable/store', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'store'])->name('admin.feature.appointmentdisabledate.store');
 		Route::get('/appointment-dates-disable/edit/{id}', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'edit'])->name('admin.feature.appointmentdisabledate.edit');
-		Route::post('/appointment-dates-disable/edit', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'edit'])->name('admin.feature.appointmentdisabledate.edit');
-  
-  
+        Route::post('/appointment-dates-disable/edit', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'edit'])->name('admin.feature.appointmentdisabledate.edit');
+
         Route::post('/update_action', [\App\Http\Controllers\Admin\AdminController::class, 'updateAction']);
-  
-  
-       //Recent case
+
+        // Recent Case
 		Route::get('/recent_case', [App\Http\Controllers\Admin\RecentCaseController::class, 'index'])->name('admin.recent_case.index');
 		Route::get('/recent_case/create', [App\Http\Controllers\Admin\RecentCaseController::class, 'create'])->name('admin.recent_case.create');
 		Route::post('/recent_case/store', [App\Http\Controllers\Admin\RecentCaseController::class, 'store'])->name('admin.recent_case.store');
@@ -161,49 +139,39 @@ Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'crimi
 Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallaw'])->name('commercial-law');
 Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylaw'])->name('property-law');
 
-
-//Practice area inner Page
+/*********************Practice Area Inner Pages ***********************/
 Route::get('/divorce', [\App\Http\Controllers\HomeController::class, 'divorce'])->name('divorce');
 Route::get('/child-custody', [\App\Http\Controllers\HomeController::class, 'childcustody'])->name('child-custody');
 Route::get('/family-violence', [\App\Http\Controllers\HomeController::class, 'familyviolence'])->name('family-violence');
 Route::get('/property-settlement', [\App\Http\Controllers\HomeController::class, 'propertysettlement'])->name('property-settlement');
 Route::get('/family-violence-orders', [\App\Http\Controllers\HomeController::class, 'familyviolenceorders'])->name('family-violence-orders');
 
-
-//Migration Law
+/*********************Migration Law ***********************/
 Route::get('/juridicational-error-federal-circuit-court-application', [\App\Http\Controllers\HomeController::class, 'juridicationalerrorfederalcircuitcourtapplication'])->name('juridicational-error-federal-circuit-court-application');
 Route::get('/art-application', [\App\Http\Controllers\HomeController::class, 'artapplication'])->name('art-application');
 Route::get('/visa-refusals-visa-cancellation', [\App\Http\Controllers\HomeController::class, 'visarefusalsvisacancellation'])->name('visa-refusals-visa-cancellation');
 Route::get('/federal-court-application', [\App\Http\Controllers\HomeController::class, 'federalcourtapplication'])->name('federal-court-application');
 
-
-//Criminal Law
+/*********************Criminal Law ***********************/
 Route::get('/intervenition-orders', [\App\Http\Controllers\HomeController::class, 'intervenitionorders'])->name('intervenition-orders');
 Route::get('/trafic-offences', [\App\Http\Controllers\HomeController::class, 'traficoffences'])->name('trafic-offences');
 Route::get('/drink-driving-offences', [\App\Http\Controllers\HomeController::class, 'drinkdrivingoffences'])->name('drink-driving-offences');
 Route::get('/assualt-charges', [\App\Http\Controllers\HomeController::class, 'assualtcharges'])->name('assualt-charges');
 
-
-//Commercial Law
+/*********************Commercial Law ***********************/
 Route::get('/business-law', [\App\Http\Controllers\HomeController::class, 'businesslaw'])->name('business-law');
 Route::get('/leasing-or-selling-a-business', [\App\Http\Controllers\HomeController::class, 'leasingorsellingabusiness'])->name('leasing-or-selling-a-business');
 Route::get('/contracts-or-business-agreements', [\App\Http\Controllers\HomeController::class, 'contractsorbusinessagreements'])->name('contracts-or-business-agreements');
 Route::get('/loan-agreement', [\App\Http\Controllers\HomeController::class, 'loanagreement'])->name('loan-agreement');
 
-
-//Property Law
+/*********************Property Law ***********************/
 Route::get('/conveyancing', [\App\Http\Controllers\HomeController::class, 'conveyancing'])->name('conveyancing');
 Route::get('/building-and-construction-disputes', [\App\Http\Controllers\HomeController::class, 'buildingandconstructiondisputes'])->name('building-and-construction-disputes');
 Route::get('/caveats-disputs-and-removal', [\App\Http\Controllers\HomeController::class, 'caveatsdisputsandremoval'])->name('caveats-disputs-and-removal');
 
-
-
-
+/*********************Catch-all Route ***********************/
 Route::get('/{slug}', [\App\Http\Controllers\HomeController::class, 'Page'])
 	->where('slug', '^(?!admin|api|login|register|home|invoice|profile|clear-cache|js|css|images|img|assets|fonts|storage).*$')
 	->name('page.slug');
-// Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php'; // File doesn't exist

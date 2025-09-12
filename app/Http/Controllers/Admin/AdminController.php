@@ -9,16 +9,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Models\Lead;
 use App\Models\Admin;
 use App\Models\WebsiteSetting;
-use App\Models\SeoPage;
-use App\Models\City;
 use App\Models\Contact;
-use App\Models\TaxRate;
-use PDF;
-use App\Models\InvoicePayment;
-use App\Models\Setting;
 use Auth;
 use Config;
 
@@ -65,9 +58,6 @@ class AdminController extends Controller
 
         //dd(Auth::user()->role);
         //Get User role and module access
-        /*$roles = \App\Models\UserRole::find(Auth::user()->role);
-        $newarray = json_decode($roles->module_access);
-        $module_access = (array) $newarray; //dd($module_access);*/
 
         //For Total Leads section
         //$countleads = \App\Models\Admin::where('is_archived',0)->where('role', '=', '7')->where('type','lead')->whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
@@ -76,12 +66,7 @@ class AdminController extends Controller
         //$countallleads = DB::table('admins')->where('is_archived', 0)->where('role',7)->where('type','lead')->count();
 
 
-        //Today Followup
-       /* if(Auth::user()->role == 1){
-            $countfollowup = \App\Models\Note::whereDate('followup_date', date('Y-m-d'))->count();
-        }else{
-            $countfollowup = \App\Models\Note::whereDate('followup_date', date('Y-m-d'))->where('assigned_to', Auth::user()->id)->count();
-        }*/
+        //Today Followup - Removed Note model functionality
 
         //Total Clients
         //$countclient = \App\Models\Admin::where('is_archived',0)->where('type','client')->where('role', '=', '7')->count();
@@ -95,54 +80,27 @@ class AdminController extends Controller
     }
 
     public function fetchnotification(Request $request){
-         //$notificalists = \App\Models\Notification::where('receiver_id', Auth::user()->id)->where('receiver_status', 0)->orderby('created_at','DESC')->paginate(5);
-         $notificalistscount = \App\Models\Notification::where('receiver_id', Auth::user()->id)->count(); //->where('receiver_status', 0)
-         /*$output = '';
-	    foreach($notificalists as $listnoti){
-	        $output .= '<a href="'.$listnoti->url.'?t='.$listnoti->id.'" class="dropdown-item dropdown-item-unread">
-						<span class="dropdown-item-icon bg-primary text-white">
-							<i class="fas fa-code"></i>
-						</span>
-						<span class="dropdown-item-desc">'.$listnoti->message.' <span class="time">'.date('d/m/Y h:i A',strtotime($listnoti->created_at)).'</span></span>
-					</a>';
-	    }*/
-
-	    $data = array(
-          // 'notification' => $output,
-           'unseen_notification'  => $notificalistscount
+         // Notification functionality removed
+         $data = array(
+           'unseen_notification'  => 0
         );
         echo json_encode($data);
     }
     
     public function fetchmessages(Request $request){
-        $notificalists = \App\Models\Notification::where('receiver_id', Auth::user()->id)->where('seen', 0)->first();
-        if($notificalists){
-            $obj = \App\Models\Notification::find($notificalists->id);
-            $obj->seen = 1;
-            $obj->save();
-            return $notificalists->message;
-        }else{
-            return 0;
-        }
+        // Notification functionality removed
+        return 0;
     }
     
     public function fetchInPersonWaitingCount(Request $request){
-        //if(\Auth::user()->role == 1){
-            $InPersonwaitingCount = \App\Models\CheckinLog::where('status',0)->count();
-        /*}else{
-            $InPersonwaitingCount = \App\Models\CheckinLog::where('user_id',Auth::user()->id)->where('status',0)->count();
-        }*/
-        $data = array('InPersonwaitingCount'  => $InPersonwaitingCount);
+        // CheckinLog functionality removed
+        $data = array('InPersonwaitingCount'  => 0);
         echo json_encode($data);
    }
 
     public function fetchTotalActivityCount(Request $request){
-        if(\Auth::user()->role == 1){
-            $assigneesCount = \App\Models\Note::where('type','client')->whereNotNull('client_id')->where('folloup',1)->where('status',0)->count();
-        }else{
-            $assigneesCount = \App\Models\Note::where('assigned_to',Auth::user()->id)->where('type','client')->where('folloup',1)->where('status',0)->count();
-        }
-        $data = array('assigneesCount'  => $assigneesCount);
+        // Note functionality removed
+        $data = array('assigneesCount'  => 0);
         echo json_encode($data);
     }
 
@@ -182,94 +140,22 @@ class AdminController extends Controller
 		}
 	}
 	public function taxrates(Request $request){
-		if ($request->isMethod('post'))
-		{
-
-		}else{
-			$query = TaxRate::where('user_id',Auth::user()->id);
-			$totalData = $query->count();
-			$lists = $query->get();
-			return view('Admin.settings.taxrates', compact(['lists','totalData']));
-		}
+		// TaxRate functionality removed - not needed for appointment system
+		return redirect()->back()->with('error', 'Tax rate functionality has been disabled');
 	}
 	public function taxratescreate(Request $request){
-		return view('Admin.settings.create');
+		// TaxRate functionality removed - not needed for appointment system
+		return redirect()->back()->with('error', 'Tax rate functionality has been disabled');
 	}
 
 	public function edittaxrates(Request $request, $id = Null){
-		if ($request->isMethod('post'))
-		{
-			$requestData 		= 	$request->all();
-
-			$this->validate($request, [
-										'name' => 'required|max:255'
-									  ]);
-
-
-			$obj				= 	TaxRate::find($requestData['id']);
-
-			$obj->name			=	@$requestData['name'];
-			$obj->rate			=	@$requestData['rate'];
-
-			$saved				=	$obj->save();
-
-			if(!$saved)
-			{
-				return redirect()->back()->with('error', Config::get('constants.server_error'));
-			}
-			else
-			{
-				return Redirect::to('/admin/settings/taxes/taxrates/edit/'.base64_encode(convert_uuencode(@$requestData['id'])))->with('success', 'Tax updated Successfully');
-			}
-		}
-		else
-		{
-			if(isset($id) && !empty($id))
-			{
-				$id = $this->decodeString($id);
-				if(TaxRate::where('id', '=', $id)->where('user_id', '=', Auth::user()->id)->exists())
-				{
-					$fetchedData = TaxRate::find($id);
-
-					return view('Admin.settings.edit', compact(['fetchedData']));
-				}
-				else
-				{
-					return Redirect::to('/admin/settings/taxes/taxrates')->with('error', 'Tax Not Exist');
-				}
-			}
-			else
-			{
-				return Redirect::to('/admin/settings/taxes/taxrates')->with('error', Config::get('constants.unauthorized'));
-			}
-		}
+		// TaxRate functionality removed - not needed for appointment system
+		return redirect()->back()->with('error', 'Tax rate functionality has been disabled');
 	}
 
 	public function savetaxrate(Request $request){
-		if ($request->isMethod('post'))
-		{
-			$this->validate($request, [
-										'name' => 'required|max:255'
-									  ]);
-
-			$requestData 		= 	$request->all();
-
-			$obj				= 	new TaxRate;
-			$obj->user_id	=	Auth::user()->id;
-			$obj->name	=	@$requestData['name'];
-			$obj->rate	=	@$requestData['rate'];
-
-			$saved				=	$obj->save();
-
-			if(!$saved)
-			{
-				return redirect()->back()->with('error', Config::get('constants.server_error'));
-			}
-			else
-			{
-				return Redirect::to('/admin/settings/taxes/taxrates/edit/'.base64_encode(convert_uuencode(@$obj->id)))->with('success', 'Tax added Successfully');
-			}
-		}
+		// TaxRate functionality removed - not needed for appointment system
+		return redirect()->back()->with('error', 'Tax rate functionality has been disabled');
 	}
 	public function myProfile(Request $request)
 	{
@@ -1060,52 +946,10 @@ class AdminController extends Controller
 									{
 										$message = Config::get('constants.server_error');
 									}
-							}else
-							if($requestData['table'] == 'agents'){
-								$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->update(['is_acrchived' => 1]);
-
-								if($response)
-									{
-										$status = 1;
-										$message = 'Record has been Archived successfully.';
-									}
-									else
-									{
-										$message = Config::get('constants.server_error');
-									}
 							}else if($requestData['table'] == 'products'){
 								$applicationisexist	= DB::table('applications')->where('product_id', $requestData['id'])->exists();
 
 								if($applicationisexist){
-									$message = "Can't Delete its have relation with other records";
-								}else{
-									$isexist	=	$recordExist = DB::table($requestData['table'])->where('id', $requestData['id'])->exists();
-									if($isexist){
-									$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
-									DB::table('template_infos')->where('quotation_id', @$requestData['id'])->delete();
-
-									if($response)
-									{
-										$status = 1;
-										$message = 'Record has been deleted successfully.';
-									}
-									else
-									{
-										$message = Config::get('constants.server_error');
-									}
-									}else{
-										$message = 'ID does not exist, please check it once again.';
-									}
-								}
-
-
-							}else if($requestData['table'] == 'partners'){
-								$applicationisexist	= DB::table('applications')->where('partner_id', $requestData['id'])->exists();
-								$productsexist	= DB::table('products')->where('partner', $requestData['id'])->exists();
-
-								if($applicationisexist){
-									$message = "Can't Delete its have relation with other records";
-								}else if($productsexist){
 									$message = "Can't Delete its have relation with other records";
 								}else{
 									$isexist	=	$recordExist = DB::table($requestData['table'])->where('id', $requestData['id'])->exists();
@@ -1368,80 +1212,10 @@ class AdminController extends Controller
 		return view('Admin.sessions');
 	}
 
-	public function getpartner(Request $request){
-		$catid = $request->cat_id;
-		$lists = \App\Models\Partner::where('service_workflow', $catid)->orderby('partner_name','ASC')->get();
-		ob_start();
-		?>
-		<option value="">Select a Partner</option>
-		<?php
-		foreach($lists as $list){
-			?>
-			<option value="<?php echo $list->id; ?>"><?php echo $list->partner_name; ?></option>
-			<?php
-		}
-		echo ob_get_clean();
-	}
 
-	public function getpartnerbranch(Request $request){
-		$catid = $request->cat_id;
-		$lists = \App\Models\Partner::where('service_workflow', $catid)->orderby('partner_name','ASC')->get();
-		ob_start();
-		?>
-		<option value="">Select Partner & Branch</option>
-		<?php
-		foreach($lists as $list){
-			$listsbranchs = \App\Models\PartnerBranch::where('partner_id', $list->id)->get();
-			foreach($listsbranchs as $listsbranch){
-			?>
-			<option value="<?php echo $listsbranch->id; ?>_<?php echo $list->id; ?>"><?php echo $list->partner_name.' ('.$listsbranch->name.')'; ?></option>
-			<?php
-			}
-		}
-		echo ob_get_clean();
-	}
 
-	public function getbranchproduct(Request $request){
-		$catid = $request->cat_id;
-		$lists = \App\Models\Product::whereRaw('FIND_IN_SET("'.$catid.'", branches)')->orderby('name','ASC')->get();
-		ob_start();
-		?>
-		<option value="">Select Product</option>
-		<?php
-		foreach($lists as $list){
 
-			?>
-			<option value="<?php echo $list->id; ?>"><?php echo $list->name; ?></option>
-			<?php
 
-		}
-		echo ob_get_clean();
-	}
-
-	public function getproduct(Request $request){
-		$catid = $request->cat_id;
-		$lists = \App\Models\Product::where('partner', $catid)->orderby('name','ASC')->get();
-		ob_start();
-		?>
-		<option value="">Select a Product</option>
-		<?php
-		foreach($lists as $list){
-			?>
-			<option value="<?php echo $list->id; ?>"><?php echo $list->name; ?></option>
-			<?php
-		}
-		echo ob_get_clean();
-	}
-
-	public function gettemplates(Request $request){
-		$id = $request->id;
-		$CrmEmailTemplate = \App\Models\CrmEmailTemplate::where('id',$id)->first();
-		if($CrmEmailTemplate){
-			echo json_encode(array('subject'=>$CrmEmailTemplate->subject, 'description'=>$CrmEmailTemplate->description));
-		}else{
-			echo json_encode(array('subject'=>'','description'=>''));
-		}
-	}
 
 	public function sendmail(Request $request){
 		$requestData = $request->all();
@@ -1450,55 +1224,7 @@ class AdminController extends Controller
 		$reciept_id = '';
 		$array = array();
 
-        if(isset($requestData['receipt'])){
-            $fetchedData = InvoicePayment::where('id', '=', $requestData['receipt'])->first();
-            $reciept_id = $fetchedData->id;
-            $pdf = PDF::setOptions([
-            'isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,
-            'logOutputFile' => storage_path('logs/log.htm'),
-            'tempDir' => storage_path('logs/')
-            ])->loadView('emails.reciept', compact('fetchedData'));
-            $output = $pdf->output();
-            $invoicefilename = 'receipt_'.$reciept_id.'.pdf';
-            file_put_contents('/home/bansaledu/public/invoices/'.$invoicefilename, $output);
-            $array['file'] = '/home/bansaledu/public/invoices/'.$invoicefilename;
-            $array['file_name'] = $invoicefilename;
-        }
-
-        if(isset($requestData['invreceipt'])){
-            $invoicedetail = \App\Models\Invoice::where('id', '=', $requestData['invreceipt'])->first();
-            if($invoicedetail->type == 3){
-                $workflowdaa = \App\Models\Workflow::where('id', $invoicedetail->application_id)->first();
-                $applicationdata = array();
-                $partnerdata = array();
-                $productdata = array();
-                $branchdata = array();
-            }else{
-                $applicationdata = \App\Models\Application::where('id', $invoicedetail->application_id)->first();
-                $partnerdata = \App\Models\Partner::where('id', @$applicationdata->partner_id)->first();
-                $productdata = \App\Models\Product::where('id', @$applicationdata->product_id)->first();
-                $branchdata = \App\Models\PartnerBranch::where('id', @$applicationdata->branch)->first();
-                $workflowdaa = \App\Models\Workflow::where('id', @$applicationdata->workflow)->first();
-            }
-
-			$clientdata = \App\Models\Admin::where('role', 7)->where('id', $invoicedetail->client_id)->first();
-			$admindata = \App\Models\Admin::where('role', 1)->where('id', $invoicedetail->user_id)->first();
-
-            $pdf = PDF::setOptions([
-            'isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,
-            'logOutputFile' => storage_path('logs/log.htm'),
-            'tempDir' => storage_path('logs/')
-            ])->loadView('emails.invoice',compact(['applicationdata','partnerdata','workflowdaa','clientdata','productdata','branchdata','invoicedetail','admindata']));
-            $reciept_id = $invoicedetail->id;
-
-            $output = $pdf->output();
-            $invoicefilename = 'invoice_'.$reciept_id.'.pdf';
-            file_put_contents(public_path('invoices/'.$invoicefilename), $output);
-
-
-            $array['file'] = public_path() . '/' .'invoices/'.$invoicefilename;
-            $array['file_name'] = $invoicefilename;
-        }
+        // Invoice and receipt functionality removed - not needed for appointment system
 
 		$obj = new \App\MailReport;
 		$obj->user_id 		=  $user_id;
@@ -1515,19 +1241,6 @@ class AdminController extends Controller
 		}
 		$obj->message		 =  $requestData['message'];
 		$attachments = array();
-		if(isset($requestData['checklistfile'])){
-            if(!empty($requestData['checklistfile'])){
-                $checklistfiles = $requestData['checklistfile'];
-                $attachments = array();
-                foreach($checklistfiles as $checklistfile){
-                    $filechecklist =  \App\Models\UploadChecklist::where('id', $checklistfile)->first();
-                    if($filechecklist){
-                        $attachments[] = array('file_name' => $filechecklist->name,'file_url' => $filechecklist->file);
-                    }
-                }
-                $obj->attachments = json_encode($attachments);
-            }
-        }
 
 
 		$saved	=	$obj->save();
@@ -1535,30 +1248,16 @@ class AdminController extends Controller
 
 		if(isset($requestData['checklistfile'])){
             if(!empty($requestData['checklistfile'])){
-                $objs = new \App\ActivitiesLog;
-                $objs->client_id = $obj->to_mail;
-                $objs->created_by = Auth::user()->id;
-                $objs->subject = "Checklist sent to client";
-                $objs->save();
+                // ActivitiesLog functionality removed
             }
         }
 
 		$subject = $requestData['subject'];
 		$message = $requestData['message'];
 		foreach($requestData['email_to'] as $l){
-			if(@$requestData['type'] == 'partner'){
-				$client = \App\Models\Partner::Where('id', $l)->first();
-			$subject = str_replace('{Client First Name}',$client->partner_name, $subject);
-			$message = str_replace('{Client First Name}',$client->partner_name, $message);
-			}else if(@$requestData['type'] == 'agent'){
-				$client = \App\Models\Agent::Where('id', $l)->first();
-			$subject = str_replace('{Client First Name}',$client->full_name, $subject);
-			$message = str_replace('{Client First Name}',$client->full_name, $message);
-			}else{
-				$client = \App\Models\Admin::Where('id', $l)->first();
+			$client = \App\Models\Admin::Where('id', $l)->first();
 			$subject = str_replace('{Client First Name}',$client->first_name, $subject);
 			$message = str_replace('{Client First Name}',$client->first_name, $message);
-			}
 
 			$message = str_replace('{Client Assignee Name}',$client->first_name, $message);
 			$message = str_replace('{Company Name}',Auth::user()->company_name, $message);
@@ -1570,17 +1269,6 @@ class AdminController extends Controller
 				}
 			}
 
-			if(isset($requestData['checklistfile'])){
-    		    if(!empty($requestData['checklistfile'])){
-    		       $checklistfiles = $requestData['checklistfile'];
-    		        foreach($checklistfiles as $checklistfile){
-    		           $filechecklist =  \App\Models\UploadChecklist::where('id', $checklistfile)->first();
-    		           if($filechecklist){
-    		            $array['files'][] =  public_path() . '/' .'checklists/'.$filechecklist->file;
-    		           }
-    		        }
-    		    }
-		    }
 
 		    if($request->hasfile('attach'))
             {
@@ -1599,146 +1287,14 @@ class AdminController extends Controller
 	}
 
 
-	public function getbranch(Request $request){
-		$catid = $request->cat_id;
-		$pro = \App\Models\Product::where('id', $catid)->first();
-		if($pro){
-		$user_array = explode(',',$pro->branches);
-		$lists = \App\Models\PartnerBranch::WhereIn('id',$user_array)->Where('partner_id',$pro->partner)->orderby('name','ASC')->get();
-		ob_start();
-		?>
-		<option value="">Select a Branch</option>
-		<?php
-		foreach($lists as $list){
-			?>
-			<option value="<?php echo $list->id; ?>"><?php echo $list->name; ?></option>
-			<?php
-		}
-		}else{
-			?>
-			<option value="">Select a Branch</option>
-			<?php
-		}
-		echo ob_get_clean();
-	}
-
-	public function getnewPartnerbranch(Request $request){
-		$catid = $request->cat_id;
-		$lists = \App\Models\PartnerBranch::Where('partner_id',$catid)->orderby('name','ASC')->get();
 
 
 
-		ob_start();
-		?>
-		<option value="">Select a Branch</option>
-		<?php
-		foreach($lists as $list){
-			?>
-			<option value="<?php echo $list->id; ?>"><?php echo $list->name.'('.$list->city.')'; ?></option>
-			<?php
-		}
-
-		echo ob_get_clean();
-	}
 
 
-	public function getsubjects(Request $request){
-		$catid = $request->cat_id;
-		$lists = \App\Models\Subject::where('subject_area', $catid)->orderby('name','ASC')->get();
-		ob_start();
-		?>
-		<option value="">Please select a subject</option>
-		<?php
-		foreach($lists as $list){
-
-			?>
-			<option value="<?php echo $list->id; ?>"><?php echo $list->name; ?></option>
-			<?php
-
-		}
-		echo ob_get_clean();
-	}
-
-	public function getproductbranch(Request $request){
-		$catid = $request->cat_id;
-		$sss = \App\Models\Product::where('id', $catid)->first();
-		if($sss){
-		$lists = \App\Models\PartnerBranch::where('id', $sss->branches)->get();
-		ob_start();
-		?>
-		<option value="">Please select branch</option>
-		<?php
-		foreach($lists as $list){
-
-			?>
-			<option value="<?php echo $list->id; ?>"><?php echo $list->name; ?></option>
-			<?php
-
-		}
-		}else{
-			?>
-			<option value="<?php echo $list->id; ?>"><?php echo $list->name; ?></option>
-			<?php
-		}
-		echo ob_get_clean();
-	}
-
-	public function getsubcategories(Request $request){
-		$catid = $request->cat_id;
-		$lists = \App\Models\SubCategory::where('cat_id', $catid)->get();
-		ob_start();
-		?>
-
-		<?php
-		foreach($lists as $list){
-
-			?>
-			<option value="<?php echo $list->sub_id; ?>"><?php echo $list->name; ?></option>
-			<?php
-
-		}
-		echo ob_get_clean();
-	}
 
 
-		public function getpartnerajax(Request $request){
-	    $fetchedData = \App\Models\Partner::where('partner_name','LIKE', '%'.$request->likevalue.'%')->get();
-		$agents = array();
-		foreach($fetchedData as $list){
-			$agents[] = array(
-				'id' => $list->id,
-				'agent_id' => $list->partner_name,
-				'agent_company_name' => $list->partner_name,
-			);
-		}
 
-		echo json_encode($agents);
-	}
-
-		public function getassigneeajax(Request $request){
-		    $squery = $request->likevalue;
-		     $fetchedData = \App\Models\Admin::where('role', '!=', 7)
-       ->where(
-           function($query) use ($squery) {
-             return $query
-                    ->where('email', 'LIKE', '%'.$squery.'%')
-                    ->orwhere('first_name', 'LIKE','%'.$squery.'%')->orwhere('last_name', 'LIKE','%'.$squery.'%')->orwhere('client_id', 'LIKE','%'.$squery.'%')->orwhere('phone', 'LIKE','%'.$squery.'%')->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', "%".$squery."%");
-
-            })
-            ->get();
-
-
-		$agents = array();
-		foreach($fetchedData as $list){
-			$agents[] = array(
-				'id' => $list->id,
-				'agent_id' => $list->first_name.' '.$list->last_name,
-				'assignee' => $list->first_name.' '.$list->last_name,
-			);
-		}
-
-		echo json_encode($agents);
-	}
 	public function appointmentsEducation(Request $request){
 		$type='Education';
 		return view('Admin.appointments.calender', compact('type'));
@@ -1808,7 +1364,7 @@ class AdminController extends Controller
     }
 
 	public function allnotification(Request $request){
-		$lists = \App\Models\Notification::where('receiver_id', Auth::user()->id)->orderby('created_at','DESC')->paginate(20);
-		return view('Admin.notifications', compact(['lists']));
+		// Notification functionality removed
+		return view('Admin.notifications', compact([]));
 	}
 }

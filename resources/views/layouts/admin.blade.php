@@ -933,9 +933,7 @@ $(document).ready(function(){
 								<label for="email_from">Office <span class="span_req">*</span></label>
 								<select data-valid="required" class="form-control" name="office">
 									<option value="">Select</option>
-									@foreach(\App\Models\Branch::all() as $of)
-										<option value="{{$of->id}}">{{$of->office_name}}</option>
-									@endforeach
+									<option value="1">Main Office</option>
 								</select>
 
 							</div>

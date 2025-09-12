@@ -7,7 +7,6 @@ use App\Models\Contact;
 use App\Models\Admin;
 use App\Models\EmailTemplate;
 
- use PDF;
  use DateTime;
  use App\Mail\CommonMail;
 use App\Mail\InvoiceEmailManager;

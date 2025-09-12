@@ -42,8 +42,4 @@ class Admin extends Authenticatable
     {
         return $this->belongsTo('App\Models\State','state');
     }
-	public function usertype()
-    {
-        return $this->belongsTo('App\Models\UserRole', 'role', 'id');
-    }
 }

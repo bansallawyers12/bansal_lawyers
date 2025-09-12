@@ -322,41 +322,6 @@ function customValidate(formName, savetype = '')
 								}
 							}
 						});
-					}else if(formName == 'clientbranch')
-					{
-						
-						var client_id = $('input[name="client_id"]').val(); 	
-						var myform = document.getElementById('clientbranch');
-						var fd = new FormData(myform);
-						$.ajax({
-							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
-							processData: false,
-							contentType: false,
-							data: fd,
-							success: function(response){
-								$('.popuploader').hide(); 
-								var obj = $.parseJSON(response);
-								
-								if(obj.status){
-									$('#add_clientbranch').modal('hide');
-								$('.custom-error-msg').html('<span class="alert alert-success">'+obj.message+'</span>');
-								$.ajax({
-									url: site_url+'/admin/get-branches',
-									type:'GET',
-									data:{clientid:client_id,type:'partner'},
-									success: function(responses){
-										
-										$('.branch_term_list').html(responses);
-									}
-								});
-									
-								}else{
-									$('.custom-error-msg').html('<span class="alert alert-danger">'+obj.message+'</span>');
-									
-								}
-							}
-						});
 					}else if(formName == 'taskform'){
 						var client_id = $('#tasktermform input[name="client_id"]').val();
 						var myform = document.getElementById('tasktermform');
@@ -492,50 +457,6 @@ function customValidate(formName, savetype = '')
 					}
 
 
-					else if(formName == 'tasktermclientform'){
-						var client_id = $('#tasktermclientform input[name="partnerid"]').val();
-						var myform = document.getElementById('tasktermclientform');
-						var fd = new FormData(myform);	
-						$.ajax({
-							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
-							processData: false,
-							contentType: false,
-							data: fd,
-							success: function(response){
-								$('.popuploader').hide(); 
-								var obj = $.parseJSON(response);
-								$('#opentaskmodal').modal('hide');
-								if(obj.status){
-									$('#create_note').modal('hide');
-								$('.custom-error-msg').html('<span class="alert alert-success">'+obj.message+'</span>');
-									$.ajax({
-										url: site_url+'/admin/partner/get-tasks',
-										type:'GET',
-										data:{clientid:client_id},
-										success: function(responses){
-											 $('#my-datatable').DataTable().destroy();
-											$('.taskdata').html(responses);
-											$('#my-datatable').DataTable({
-												"searching": false,
-												"lengthChange": false,
-											  "columnDefs": [
-												{ "sortable": false, "targets": [0, 2, 3] }
-											  ],
-											  order: [[1, "desc"]] //column indexes is zero based
-
-												
-											}).draw();
-											
-										}
-									});
-									
-								}else{
-									$('.custom-error-msg').html('<span class="alert alert-danger">'+obj.message+'</span>');
-									
-								}
-							}
-						});		
 					}else if(formName == 'educationform'){
 						var client_id = $('#educationform input[name="client_id"]').val();
 						var myform = document.getElementById('educationform');
@@ -1285,58 +1206,6 @@ function customValidate(formName, savetype = '')
 							}
 						});
 					
-					}else if(formName == 'spagent_application'){
-							
-						var myform = document.getElementById('spagent_application');
-						var fd = new FormData(myform);	
-						
-						$.ajax({
-							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
-							processData: false,
-							contentType: false,
-							data: fd,
-							success: function(response){
-								$('.popuploader').hide(); 
-								var obj = $.parseJSON(response);
-								$('#superagent_application').modal('hide');
-								if(obj.status){
-									$('#super_agent').val('');
-								$('.custom-error-msg').html('<span class="alert alert-success">'+obj.message+'</span>');
-									 
-								$('.supagent_data').html(obj.data);	
-								}else{
-									alert(obj.message);
-								}
-							}
-						});
-					
-					}else if(formName == 'sbagent_application'){
-							
-						var myform = document.getElementById('sbagent_application');
-						var fd = new FormData(myform);	
-						
-						$.ajax({
-							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
-							processData: false,
-							contentType: false,
-							data: fd,
-							success: function(response){
-								$('.popuploader').hide(); 
-								var obj = $.parseJSON(response);
-								$('#subagent_application').modal('hide');
-								if(obj.status){
-								$('.custom-error-msg').html('<span class="alert alert-success">'+obj.message+'</span>');
-									 
-									$('.subagent_data').html(obj.data);	
-								}else{
-									alert(obj.message);
-									
-								}
-							}
-						});
-					
 					}else if(formName == 'xapplication_ownership'){
 							
 						var myform = document.getElementById('xapplication_ownership');
@@ -1385,9 +1254,8 @@ function customValidate(formName, savetype = '')
 									 $('.opensaleforcast').attr('data-discounts',obj.discounts);	
 									 
 									$('.appsaleforcast .client_revenue').html(obj.client_revenue);	
-									$('.appsaleforcast .partner_revenue').html(obj.partner_revenue);	
 									$('.appsaleforcast .discounts').html(obj.discounts);	
-									var t = parseFloat(obj.client_revenue) + parseFloat(obj.partner_revenue) - parseFloat(obj.discounts);
+									var t = parseFloat(obj.client_revenue) - parseFloat(obj.discounts);
 									$('.appsaleforcast .netrevenue').html(t);	
 									$('.app_sale_forcast').html(t+ 'AUD');	
 								}else{
@@ -1418,9 +1286,8 @@ function customValidate(formName, savetype = '')
 									 $('.opensaleforcastservice').attr('data-discounts',obj.discounts);	
 									 
 									$('.appsaleforcastserv .client_revenue').html(obj.client_revenue);	
-									$('.appsaleforcastserv .partner_revenue').html(obj.partner_revenue);	
 									$('.appsaleforcastserv .discounts').html(obj.discounts);	
-									var t = parseFloat(obj.client_revenue) + parseFloat(obj.partner_revenue) - parseFloat(obj.discounts);
+									var t = parseFloat(obj.client_revenue) - parseFloat(obj.discounts);
 									$('.appsaleforcastserv .netrevenue').html(t);	
 									$.ajax({
 										url: site_url+'/admin/get-services',
@@ -1627,39 +1494,6 @@ function customValidate(formName, savetype = '')
 					  	}
 					}
 
-					else if(formName == 'partnerappointform'){
-						var client_id = $('#partnerappointform input[name="client_id"]').val();
-						var myform = document.getElementById('partnerappointform');
-						var fd = new FormData(myform);	
-						$.ajax({
-							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
-							processData: false,
-							contentType: false,
-							data: fd,
-							success: function(response){
-								$('.popuploader').hide(); 
-								var obj = $.parseJSON(response);
-								
-								if(obj.status){
-									$('#create_appoint').modal('hide');
-									$('.custom-error-msg').html('<span class="alert alert-success">'+obj.message+'</span>');
-									$.ajax({
-										url: site_url+'/admin/partner/get-appointments',
-										type:'GET',
-										data:{clientid:client_id},
-										success: function(responses){
-											
-											$('.appointmentlist').html(responses);
-										}
-									});
-									
-								}else{
-									$('.custom-error-msg').html('<span class="alert alert-danger">'+obj.message+'</span>');
-									
-								}
-							}
-						});		
 					}else if(formName == 'appliappointform'){
 						var client_id = $('#appliappointform input[name="client_id"]').val();
 						var noteid = $('#appliappointform input[name="noteid"]').val();
@@ -1792,39 +1626,6 @@ function customValidate(formName, savetype = '')
 											$('.activities').html(html);
 										}
 									});
-								}else{
-									$('.custom-error-msg').html('<span class="alert alert-danger">'+obj.message+'</span>');
-									
-								}
-							}
-						});		
-					}else if(formName == 'editpartnerappointment'){
-						var client_id = $('#editpartnerappointment input[name="client_id"]').val();
-						var myform = document.getElementById('editpartnerappointment');
-						var fd = new FormData(myform);	
-						$.ajax({
-							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
-							processData: false,
-							contentType: false,
-							data: fd,
-							success: function(response){
-								$('.popuploader').hide(); 
-								var obj = $.parseJSON(response);
-								
-								if(obj.status){
-									$('#edit_appointment').modal('hide');
-									$('.custom-error-msg').html('<span class="alert alert-success">'+obj.message+'</span>');
-									$.ajax({
-										url: site_url+'/admin/partner/get-appointments',
-										type:'GET',
-										data:{clientid:client_id},
-										success: function(responses){
-											
-											$('.appointmentlist').html(responses);
-										}
-									});
-									
 								}else{
 									$('.custom-error-msg').html('<span class="alert alert-danger">'+obj.message+'</span>');
 									
@@ -2007,7 +1808,6 @@ $('#add_application').modal('hide');
 								$('.popuploader').hide(); 
 								var obj = $.parseJSON(response);
 								$(".add_appliation #workflow").val('').trigger('change');
-			$(".add_appliation #partner").val('').trigger('change');
 			$(".add_appliation #product").val('').trigger('change');
 								if(obj.status){
 									$('.add_appliation').modal('hide');

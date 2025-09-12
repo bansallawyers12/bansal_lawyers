@@ -1,15 +1,25 @@
 <?php
+
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
-use Kyslik\ColumnSortable\Sortable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class BookService extends Authenticatable {
-    use Notifiable;
-	use Sortable;
+class BookService extends Model
+{
+    use HasFactory;
 
-	protected $fillable = ['id', 'title', 'image', 'price','duration_for_display','duration','status','description', 'created_at', 'updated_at'];
-	
-	public $sortable = ['id', 'title', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'title',
+        'price',
+        'duration',
+        'status',
+        'description',
+        'created_at',
+        'updated_at'
+    ];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
 }

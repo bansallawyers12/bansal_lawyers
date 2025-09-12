@@ -63,10 +63,25 @@ $app = Application::configure(basePath: __DIR__.'/../')
     })
     ->create();
 
-// Register service providers listed in bootstrap/providers.php
-$providers = require __DIR__.'/providers.php';
-foreach ($providers as $providerClass) {
-    $app->register($providerClass);
-}
+// Register essential service providers manually
+$app->register(Illuminate\Config\ConfigServiceProvider::class);
+$app->register(Illuminate\Cache\CacheServiceProvider::class);
+$app->register(Illuminate\Database\DatabaseServiceProvider::class);
+$app->register(Illuminate\Encryption\EncryptionServiceProvider::class);
+$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
+$app->register(Illuminate\Hashing\HashServiceProvider::class);
+$app->register(Illuminate\Mail\MailServiceProvider::class);
+$app->register(Illuminate\Pagination\PaginationServiceProvider::class);
+$app->register(Illuminate\Queue\QueueServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
+$app->register(Illuminate\Session\SessionServiceProvider::class);
+$app->register(Illuminate\Translation\TranslationServiceProvider::class);
+$app->register(Illuminate\Validation\ValidationServiceProvider::class);
+$app->register(Illuminate\View\ViewServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
+$app->register(Barryvdh\DomPDF\ServiceProvider::class);
+$app->register(Maatwebsite\Excel\ExcelServiceProvider::class);
 
 return $app;

@@ -28,10 +28,6 @@ class Appointment extends Model
         return $this->belongsTo('App\Models\Admin','client_id','id');
     }
 	
-	public function partners()
-    {
-        return $this->belongsTo('App\Models\Partner','client_id','id');
-    }
 
     public function user()
     {

@@ -2,16 +2,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+// use App\Models\Product; // Removed
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 use App\Models\Appointment;
-use App\Models\AppointmentLog;
-use App\Models\Notification;
+// use App\Models\AppointmentLog; // Removed
+// use App\Models\Notification; // Removed
 use Carbon\Carbon;
 
-use App\Models\ActivitiesLog;
+// use App\Models\ActivitiesLog; // Removed
 use Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -59,9 +59,8 @@ class AppointmentsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required','detail' => 'required',]);
-        Product::create($request->all());
-        return redirect()->route('appointment.index')->with('success','Product created successfully.');
+        // Product functionality removed - not needed for appointment system
+        return redirect()->back()->with('error', 'Product functionality has been disabled');
     }
 
     /**
@@ -156,9 +155,10 @@ class AppointmentsController extends Controller
 		$saved = $obj->save();
 		if($saved){
             //$subject = 'updated an appointment';
-			$objs = new ActivitiesLog;
-			$objs->client_id = $obj->client_id;
-			$objs->created_by = Auth::user()->id;
+		// ActivitiesLog functionality removed
+		// $objs = new ActivitiesLog;
+		// $objs->client_id = $obj->client_id;
+		// $objs->created_by = Auth::user()->id;
 
 
             //Get Nature of Enquiry
@@ -196,14 +196,15 @@ class AppointmentsController extends Controller
             </div>
             <div style="display:inline-grid;"><span class="text-semi-bold">'.$nature_of_enquiry_title.'</span> <span class="text-semi-bold">'.$service_title_text.'</span>  <span class="text-semi-bold">'.$obj->appointment_details.'</span> <span class="text-semi-bold">'.$obj->description.'</span> <p class="text-semi-light-grey col-v-1">@ '.$obj->timeslot_full.'</p></div>';
 
-            if( isset($obj->service_id) && $obj->service_id == 1 ){ //1=>Paid
-                $subject = 'updated an paid appointment without payment';
-            } else if( isset($obj->service_id) && $obj->service_id == 2 ){ //2=>Free
-                $subject = 'updated an appointment';
-            }
-            $objs->subject = $subject;
+            // ActivitiesLog functionality removed
+            // if( isset($obj->service_id) && $obj->service_id == 1 ){ //1=>Paid
+            //     $subject = 'updated an paid appointment without payment';
+            // } else if( isset($obj->service_id) && $obj->service_id == 2 ){ //2=>Free
+            //     $subject = 'updated an appointment';
+            // }
+            // $objs->subject = $subject;
             $obj->appointment_details = @$request->appointment_details;
-			$objs->save();
+			// $objs->save();
             return redirect()->route('appointments.index')->with('success','Appointment updated successfully');
 		} else {
 			return redirect()->route('appointments.index')->with('error',Config::get('constants.server_error') );
@@ -336,9 +337,8 @@ class AppointmentsController extends Controller
                         <select class="form-control select2" id="changeassignee" name="changeassignee">
                             <?php
                                 foreach(\App\Models\Admin::where('role','!=',7)->orderby('first_name','ASC')->get() as $admin){
-                                    $branchname = \App\Models\Branch::where('id',$admin->office_id)->first();
                             ?>
-                                    <option value="<?php echo $admin->id; ?>"><?php echo $admin->first_name.' '.$admin->last_name.' ('.@$branchname->office_name.')'; ?></option>
+                                    <option value="<?php echo $admin->id; ?>"><?php echo $admin->first_name.' '.$admin->last_name; ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -372,31 +372,10 @@ class AppointmentsController extends Controller
             </div>
 
             <div class="col-md-12">
-                    <h4>Appointment Logs</h4>
+<h4>Appointment Logs</h4>
                     <div class="logsdata">
-
-  <?php
-                    $logslist = AppointmentLog::where('appointment_id',$appointmentdetail->id)->orderby('created_at', 'DESC')->get();
-                    foreach($logslist as $llist){
-                       $admin = \App\Models\Admin::where('id', $llist->created_by)->first();
-                    ?>
-                        <div class="logsitem">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <span class="ag-avatar"><?php echo substr($admin->first_name, 0, 1); ?></span>
-                                    <span class="text_info"><span><?php echo $admin->first_name; ?></span><?php echo $llist->title; ?></span>
-                                </div>
-                                <div class="col-md-5">
-                                    <span class="logs_date"><?php echo date('d M Y h:i A', strtotime($llist->created_at)); ?></span>
-                                </div>
-                                <?php if($llist->message != ''){ ?>
-                                <div class="col-md-12 logs_comment">
-                                    <p><?php echo $llist->message; ?></p>
-                                </div>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    <?php } ?>
+                        <!-- Appointment logging functionality removed -->
+                        <p>Appointment logging has been disabled.</p>
                     </div>
                 </div>
         </div>
@@ -422,12 +401,7 @@ public function update_appointment_status(Request $request){
     $objs->status = $request->status;
     $saved = $objs->save();
     if($saved){
-        $objs = new AppointmentLog;
-        $objs->title = 'changed status from '.$status.' to '.$request->statusname;
-        $objs->created_by = \Auth::user()->id;
-        $objs->appointment_id = $request->id;
-
-        $saved = $objs->save();
+        // AppointmentLog functionality removed
         $alist = Appointment::find($request->id);
         $status = '';
         if($alist->status == 1 ){
@@ -469,12 +443,7 @@ public function update_appointment_priority(Request $request){
     $saved = $objs->save();
 
     if($saved){
-        $objs = new AppointmentLog;
-        $objs->title = 'changed priority from '.$status.' to '.$request->status;
-        $objs->created_by = \Auth::user()->id;
-        $objs->appointment_id = $request->id;
-
-        $saved = $objs->save();
+        // AppointmentLog functionality removed
         $response['status'] 	= 	true;
         $response['message']	=	'saved successfully';
     }else{
@@ -491,10 +460,11 @@ public function change_assignee(Request $request){
 
     $saved = $objs->save();
     if($saved){
-        $o = new \App\Notification;
-        $o->sender_id = \Auth::user()->id;
-        $o->receiver_id = $request->assinee;
-        $o->module_id = $request->id;
+        // Notification functionality removed
+        // $o = new \App\Notification;
+        // $o->sender_id = \Auth::user()->id;
+        // $o->receiver_id = $request->assinee;
+        // $o->module_id = $request->id;
         $o->url = \URL::to('/admin/appointments');
         $o->notification_type = 'appointment';
         $o->message = $objs->title.' Appointments Assigned by '.\Auth::user()->first_name.' '.\Auth::user()->last_name;
@@ -509,19 +479,9 @@ public function change_assignee(Request $request){
 }
 
 public function update_apppointment_comment(Request $request){
-    $objs = new AppointmentLog;
-    $objs->title = 'has commented';
-    $objs->created_by = \Auth::user()->id;
-    $objs->appointment_id = $request->id;
-    $objs->message = $request->visit_comment;
-    $saved = $objs->save();
-    if($saved){
-        $response['status'] 	= 	true;
-        $response['message']	=	'saved successfully';
-    }else{
-        $response['status'] 	= 	false;
-        $response['message']	=	'Please try again';
-    }
+    // AppointmentLog functionality removed
+    $response['status'] 	= 	false;
+    $response['message']	=	'Comment functionality has been disabled';
     echo json_encode($response);
 }
 
@@ -530,12 +490,7 @@ public function update_apppointment_description(Request $request){
     $objs->description = $request->visit_purpose;
     $saved = $objs->save();
     if($saved){
-        $objs = new AppointmentLog;
-        $objs->title = 'changed description';
-        $objs->created_by = \Auth::user()->id;
-        $objs->appointment_id = $request->id;
-        $objs->message = $request->visit_purpose;
-        $saved = $objs->save();
+        // AppointmentLog functionality removed
         $response['status'] 	= 	true;
         $response['message']	=	'saved successfully';
     }else{

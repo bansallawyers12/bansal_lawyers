@@ -8,11 +8,6 @@
 			</a>
 		</div>
 		<ul class="sidebar-menu">
-            <?php
-            $roles = \App\Models\UserRole::find(Auth::user()->role);
-            $newarray = json_decode($roles->module_access);
-            $module_access = (array) $newarray;
-            ?>
 			<li class="menu-header">Main</li>
             <?php if(Route::currentRouteName() == 'admin.dashboard'){
                 $dashclasstype = 'active';

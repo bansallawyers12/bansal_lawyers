@@ -10,11 +10,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 
 use App\Mail\CommonMail;
-use App\Mail\InvoiceEmailManager;
-use App\Mail\MultipleattachmentEmailManager;
-
-use App\Models\UserRole;
 use App\Models\WebsiteSetting;
+use App\Models\UserRole;
 
 use Auth;
 use Mail;
@@ -104,47 +101,6 @@ class Controller extends BaseController
 			}
 	}
 	
-	protected function send_email_template($replace = array(), $replace_with = array(), $alias = null, $to = null, $subject = null, $sender = null, $sendername = null) 
-	{
-		$email_template	= 	DB::table('email_templates')->where('alias', $alias)->first();
-		$emailContent 	= 	$email_template->description;
-		$emailContent	=	str_replace($replace,$replace_with,$emailContent);
-		if($subject == NULL)
-		{
-			$subject		=	$subject;	
-		}	
-		$explodeTo = explode(';', $to);//for multiple and single to
-		
-		if($sendername->smtp_username != ''){
-			$backup = Mail::getSwiftMailer();
-			// set mailing configuration
-			$transport = new Swift_SmtpTransport(
-										$sendername->smtp_host, 
-										$sendername->smtp_port, 
-										$sendername->smtp_enc
-									);
-			$transport->setUsername($sendername->smtp_username);
-			$transport->setPassword($sendername->smtp_password);
-			$maildoll = new Swift_Mailer($transport);
-			// set mailtrap mailer
-			Mail::setSwiftMailer($maildoll);
-			Mail::to($explodeTo)->send(new CommonMail($emailContent, $subject, $sender, $sendername->company_name));
-			// reset to default configuration
-			Mail::setSwiftMailer($backup);
-		}else{
-			Mail::to($explodeTo)->send(new CommonMail($emailContent, $subject, $sender, $sendername->company_name));
-		}
-		
-	
-		// check for failures
-		if (Mail::failures()) {
-			return false;
-		}
-
-		// otherwise everything is okay ...
-		return true;
-		
-	}
 	
 	protected function send_compose_template($to = null, $subject = null, $sender = null,$content, $sendername, $array = array(), $cc = array()) 
 	{
@@ -170,55 +126,7 @@ class Controller extends BaseController
 		return true;
 		
 	}
-	protected function send_attachment_email_template($replace = array(), $replace_with = array(), $alias = null, $to = null, $subject = null, $sender = null,$invoicearray) 
-	{
-		$email_template	= 	DB::table('email_templates')->where('alias', $alias)->first();
-		$emailContent 	= 	$email_template->description;
-		$emailContent	=	str_replace($replace,$replace_with,$emailContent);
-		if($subject == NULL)
-		{
-			$subject		=	$subject;	
-		}	
-		$explodeTo = explode(';', $to);//for multiple and single to
-            $invoicearray['subject'] = $subject;
-            $invoicearray['from'] = $sender;
-            $invoicearray['content'] = $emailContent;
-		Mail::to($explodeTo)->queue(new InvoiceEmailManager($invoicearray));
 	
-		// check for failures
-		if (Mail::failures()) {
-			return false;
-		}
-
-		// otherwise everything is okay ...
-		return true;
-		
-	}
-	
-	protected function send_multipleattachment_email_template($replace = array(), $replace_with = array(), $alias = null, $to = null, $subject = null, $sender = null,$invoicearray) 
-	{
-		$email_template	= 	DB::table('email_templates')->where('alias', $alias)->first();
-		$emailContent 	= 	$email_template->description;
-		$emailContent	=	str_replace($replace,$replace_with,$emailContent);
-		if($subject == NULL)
-		{
-			$subject		=	$subject;	
-		}	
-		$explodeTo = explode(';', $to);//for multiple and single to
-            $invoicearray['subject'] = $subject;
-            $invoicearray['from'] = $sender;
-            $invoicearray['content'] = $emailContent;
-		Mail::to($explodeTo)->queue(new MultipleattachmentEmailManager($invoicearray));
-	
-		// check for failures
-		if (Mail::failures()) {
-			return false;
-		}
-
-		// otherwise everything is okay ...
-		return true;
-		
-	}
 	
 	protected function send_multiple_attach_compose($to = null, $subject = null,$sender,$invoicearray) 
 	{	
@@ -236,23 +144,6 @@ class Controller extends BaseController
 		
 	}
 	
-	public function checkAuthorizationAction($controller = NULL, $action = NULL, $role = NULL)
-	{	
-		
-		$userrole = UserRole::where('usertype',$role)->first();
-		if($userrole && $role != 1){
-			 $module_access  = $userrole->module_access; 
-			 //for test series vendor & organizations & professors authentication
-
-				$noAccessController = json_decode($module_access);
-				
-					if (!in_array($controller, $noAccessController)) //pass from controller
-					{
-						return true;
-					}
-							
-		}	
-	}
 	
 	public function curlRequest($url,$type="PUT",$data){
         $curl = curl_init();
