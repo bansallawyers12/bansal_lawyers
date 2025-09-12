@@ -33,7 +33,8 @@ Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->nam
 Route::get('/testimonials', [App\Http\Controllers\HomeController::class, 'testimonial'])->name('testimonial');
 Route::get('/ourservices', [App\Http\Controllers\HomeController::class, 'ourservices'])->name('ourservices');
 Route::get('/ourservices/{slug}', [App\Http\Controllers\HomeController::class, 'servicesdetail'])->name('servicesdetail');
-Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog');
+Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog.index');
+Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategory'])->name('blog.category');
 Route::get('/search_result', [App\Http\Controllers\HomeController::class, 'search_result'])->name('search_result');
 
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus']);

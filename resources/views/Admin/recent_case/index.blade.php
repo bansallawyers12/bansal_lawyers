@@ -62,8 +62,8 @@
                                                 </thead>
 
                                                 <tbody class="tdata">
-                                                    @foreach (@$lists as $list)
-                                                    <tr id="id_{{@$list->id}}">
+                                                    @foreach ($lists as $list)
+                                                    <tr id="id_{{$list->id}}">
                                                         <?php
                                                         if(isset($list->image) && $list->image != ""){
                                                             $extension = pathinfo($list->image, PATHINFO_EXTENSION); //echo $extension;
@@ -72,19 +72,19 @@
                                                             <?php } else if(strtolower($extension) == 'pdf') { ?>
                                                             <td><img src="{{URL::to('/public/img/avatars/pdf_icon.png')}}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
                                                             <?php } else { ?>
-                                                            <td><img src="{{URL::to('/public/img/blog/')}}/{{@$list->image}}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
+                                                            <td><img src="{{URL::to('/public/img/blog/')}}/{{$list->image}}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
                                                             <?php
                                                             }
                                                         } else {?>
                                                             <td><img src="{{URL::to('/public/img/avatars/no_image.jpeg')}}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
                                                         <?php } ?>
 
-                                                        <td style="white-space: initial;">{{ @$list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->title, 50, '...') }}</td>
-                                                        <td style="white-space: initial;">{{ @$list->slug }}</td>
-                                                        <td style="white-space: initial;"><input data-id="{{@$list->id}}"  data-status="{{ !empty($list->status) ? $list->status : 0 }}" data-col="status" data-table="recent_cases" class="change-status" value="1" type="checkbox" name="status" {{ (@$list->status == 1 ? 'checked' : '')}} data-bootstrap-switch></td>
+                                                        <td style="white-space: initial;">{{ $list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->title, 50, '...') }}</td>
+                                                        <td style="white-space: initial;">{{ $list->slug }}</td>
+                                                        <td style="white-space: initial;"><input data-id="{{$list->id}}"  data-status="{{ !empty($list->status) ? $list->status : 0 }}" data-col="status" data-table="recent_cases" class="change-status" value="1" type="checkbox" name="status" {{ ($list->status == 1 ? 'checked' : '')}} data-bootstrap-switch></td>
                                                         <td>
-                                                            <a class="btn btn-info" href="{{URL::to('/admin/recent_case/edit/'.base64_encode(convert_uuencode(@$list->id)))}}"> Edit</a>
-                                                            <a class="btn btn-danger" href="javascript:;" onClick="deleteAction({{@$list->id}}, 'recent_cases')"> Delete</a>
+                                                            <a class="btn btn-info" href="{{URL::to('/admin/recent_case/edit/'.base64_encode(convert_uuencode($list->id)))}}"> Edit</a>
+                                                            <a class="btn btn-danger" href="javascript:;" onClick="deleteAction({{$list->id}}, 'recent_cases')"> Delete</a>
                                                         </td>
 								                    </tr>
 							                        @endforeach

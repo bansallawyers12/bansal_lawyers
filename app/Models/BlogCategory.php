@@ -8,7 +8,7 @@ class BlogCategory extends Authenticatable {
     use Notifiable;
 
 	protected $fillable = [
-        'id', 'name', 'slug', 'parent_id', 'created_at', 'updated_at'
+        'id', 'name', 'slug', 'parent_id', 'status', 'created_at', 'updated_at'
     ];
 	
 	public $sortable = ['id', 'name', 'created_at', 'updated_at'];

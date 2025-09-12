@@ -15,7 +15,7 @@
 		<form action="{{ route('appointments.update',$appointment->id) }}" method="POST">
         @csrf
         @method('PUT')
-		<input type="hidden" name="id" value="@$appointment->id">
+		<input type="hidden" name="id" value="$appointment->id">
 				<!-- <div class="row"> -->
 			<div class="col-12 col-md-12 col-lg-12">
 				<div class="card">
@@ -38,10 +38,10 @@
 											<div class="form-group">
 												<label for="client">Client name</label>
 												<div class="cus_field_input">
-													<input name="client_id" type="text" value="@$appointment->clients->first_name.' '.@$appointment->clients->last_name" class="form-control" data-valid="" autocomplete="off" placeholder="Enter CLient Name">
+													<input name="client_id" type="text" value="$appointment->clients->first_name.' '.$appointment->clients->last_name" class="form-control" data-valid="" autocomplete="off" placeholder="Enter CLient Name">
 													@if ($errors->has('client_id'))
 														<span class="custom-error" role="alert">
-															<strong>{{ @$errors->first('client_id') }}</strong>
+															<strong>{{ $errors->first('client_id') }}</strong>
 														</span>
 													@endif
 													<input class="form-control" id="client_id" type="hidden" name="client_id" value="{{$appointment->client_id}}" >
@@ -51,10 +51,10 @@
 
 										<div class="col-12 col-md-6 col-lg-6">
 											<!--<div class="form-group">
-                                                {{--Form::text('user_id', @$appointment->full_name, array('class' => 'form-control', 'data-valid'=>'required','readonly', 'autocomplete'=>'off','placeholder'=>'Enter User Name' ))--}}
+                                                {{--Form::text('user_id', $appointment->full_name, array('class' => 'form-control', 'data-valid'=>'required','readonly', 'autocomplete'=>'off','placeholder'=>'Enter User Name' ))--}}
                                                 {{--@if ($errors->has('user_id'))--}}
 													<span class="custom-error" role="alert">
-														<strong>{{--@$errors->first('user_id')--}}</strong>
+														<strong>{{--$errors->first('user_id')--}}</strong>
 													</span>
 												{{--@endif--}}
 											</div>-->
@@ -63,7 +63,7 @@
                                                 <input type="hidden" name="route" value="{{url()->previous()}}">
 												<label for="user">Added By</label>
                                                 @if($appointment->user)
-                                                <input name="user_id" type="text" value="@$appointment->user->first_name.' '.$appointment->user->last_name" class="form-control" autocomplete="off" placeholder="Enter User Name">
+                                                <input name="user_id" type="text" value="$appointment->user->first_name.' '.$appointment->user->last_name" class="form-control" autocomplete="off" placeholder="Enter User Name">
 												@else
                                                 <input name="user_id" type="text" value="N/A" class="form-control" autocomplete="off" placeholder="Enter User Name">
 												@endif
@@ -76,10 +76,10 @@
 										<!--<div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="timezone">Timezone </label>
-												{{--Form::text('timezone', @$appointment->timezone, array('class' => 'form-control','readonly', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Select timezone' ))-- }}
+												{{--Form::text('timezone', $appointment->timezone, array('class' => 'form-control','readonly', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Select timezone' ))-- }}
 												{{--@if ($errors->has('timezone'))--}}
 													<span class="custom-error" role="alert">
-														<strong>{{--@$errors->first('timezone')--}}</strong>
+														<strong>{{--$errors->first('timezone')--}}</strong>
 													</span>
 												{{--@endif--}}
 											</div>
@@ -101,7 +101,7 @@
 													{{ Form::Text('date',@$datey, array('class' => 'form-control date', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Select date' )) }}
 													@if ($errors->has('date'))
 														<span class="custom-error" role="alert">
-															<strong>{{ @$errors->first('date') }}</strong>
+															<strong>{{ $errors->first('date') }}</strong>
 														</span>
 													@endif
 												</div>
@@ -110,10 +110,10 @@
                                         <div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="time">Time <span class="span_req">*</span></label>
-												{{ Form::time('time', @$appointment->time, array('class' => 'form-control', 'id' =>'followup_time','data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Select time' )) }}
+												{{ Form::time('time', $appointment->time, array('class' => 'form-control', 'id' =>'followup_time','data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Select time' )) }}
 												@if ($errors->has('time'))
 													<span class="custom-error" role="alert">
-														<strong>{{ @$errors->first('time') }}</strong>
+														<strong>{{ $errors->first('time') }}</strong>
 													</span>
 												@endif
 											</div>
@@ -126,10 +126,10 @@
 												<label for="title">Title <span class="span_req">*</span></label>
 												<div class="cus_field_input">
 													<div class="title"></div>
-													{{--Form::text('title', @$appointment->title, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter title' ))--}}
+													{{--Form::text('title', $appointment->title, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter title' ))--}}
 													{{--@if ($errors->has('title'))--}}
 														<span class="custom-error" role="alert">
-															<strong>{{--@$errors->first('title')--}}</strong>
+															<strong>{{--$errors->first('title')--}}</strong>
 														</span>
 													{{--@endif--}}
 												</div>
@@ -141,10 +141,10 @@
 										<div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="time">Full name <span class="span_req">*</span></label>
-												{{--Form::text('full_name', @$appointment->full_name, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter full name' )) --}}
+												{{--Form::text('full_name', $appointment->full_name, array('class' => 'form-control', 'data-valid'=>'required', 'autocomplete'=>'off','placeholder'=>'Enter full name' )) --}}
 												{{--@if ($errors->has('full_name'))--}}
 													<span class="custom-error" role="alert">
-														<strong>{{--@$errors->first('full_name')--}}</strong>
+														<strong>{{--$errors->first('full_name')--}}</strong>
 													</span>
 												{{--@endif--}}
 											</div>
@@ -156,10 +156,10 @@
 													<div class="title">
 
 													</div>
-													{{-- Form::email('email', @$appointment->email, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter email' )) --}}
+													{{-- Form::email('email', $appointment->email, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter email' )) --}}
 													{{--@if ($errors->has('email'))--}}
 														<span class="custom-error" role="alert">
-															<strong>{{--@$errors->first('email')--}}</strong>
+															<strong>{{--$errors->first('email')--}}</strong>
 														</span>
 													{{--@endif--}}
 												</div>
@@ -174,13 +174,13 @@
 											    <select class="form-control  select2" name="noe_id" disabled>
 												    <option value="" >Select Nature of Enquiry</option>
 											        <?php foreach(\App\Models\NatureOfEnquiry::all() as $list) { ?>
-                                                        <option <?php if(@$list->id == $appointment->noe_id){ echo 'selected'; } ?> value="{{@$list->id}}" >{{@$list->title}}</option>
+                                                        <option <?php if($list->id == $appointment->noe_id){ echo 'selected'; } ?> value="{{$list->id}}" >{{$list->title}}</option>
                                                     <?php } ?>
 											    </select>
 
                                                 @if ($errors->has('noe_id'))
                                                 <span class="custom-error" role="alert">
-                                                    <strong>{{ @$errors->first('noe_id') }}</strong>
+                                                    <strong>{{ $errors->first('noe_id') }}</strong>
                                                 </span>
                                                 @endif
 										    </div>
@@ -190,7 +190,7 @@
                                         <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <label for="status">Service </label>
-                                                <input name="service" type="text" value="@$appointment->service->title" class="form-control" autocomplete="off">
+                                                <input name="service" type="text" value="$appointment->service->title" class="form-control" autocomplete="off">
                                             </div>
                                         </div>
 
@@ -202,10 +202,10 @@
 													<div class="invites">
 														<input class="invites" id="invites" type="text" name="invites" readonly >
 													</div>
-													{{--Form::number('invites', @$appointment->invites, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter invites' ))--}}
+													{{--Form::number('invites', $appointment->invites, array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','placeholder'=>'Enter invites' ))--}}
 													{{--@if ($errors->has('invites'))--}}
 														<span class="custom-error" role="alert">
-															<strong>{{--@$errors->first('invites')--}}</strong>
+															<strong>{{--$errors->first('invites')--}}</strong>
 														</span>
 													{{--@endif--}}
 												</div>
@@ -216,10 +216,10 @@
 										<div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="description">Description <span class="span_req">*</span></label>
-												<input name="description" type="text" value="@$appointment->description" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter description">
+												<input name="description" type="text" value="$appointment->description" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter description">
 												@if ($errors->has('description'))
 													<span class="custom-error" role="alert">
-														<strong>{{ @$errors->first('description') }}</strong>
+														<strong>{{ $errors->first('description') }}</strong>
 													</span>
 												@endif
 											</div>
@@ -244,7 +244,7 @@
                                                 </select>
 												@if ($errors->has('status'))
 													<span class="custom-error" role="alert">
-														<strong>{{ @$errors->first('status') }}</strong>
+														<strong>{{ $errors->first('status') }}</strong>
 													</span>
 												@endif
 											</div>
@@ -264,7 +264,7 @@
                                                 </select>
 												@if ($errors->has('appointment_details'))
 													<span class="custom-error" role="alert">
-														<strong>{{ @$errors->first('appointment_details') }}</strong>
+														<strong>{{ $errors->first('appointment_details') }}</strong>
 													</span>
 												@endif
 											</div>

@@ -27,7 +27,7 @@
 											<div class="form-group">
 												<label for="client">Client name</label>
 												<div class="cus_field_input">
-													<input name="client_id" type="text" value="@$appointment->clients->first_name.' '.@$appointment->clients->last_name" class="form-control" autocomplete="off">
+													<input name="client_id" type="text" value="$appointment->clients->first_name.' '.$appointment->clients->last_name" class="form-control" autocomplete="off">
 												</div>
 											</div>
 										</div>
@@ -36,13 +36,13 @@
 											<div class="form-group">
 												<label for="user">Added By</label>
 												{{--@if($appointment->user)--}}
-												{{--Form::text('user_id', @$appointment->user->first_name.' '.@$appointment->user->last_name, array('class' => 'form-control', 'autocomplete'=>'off','placeholder'=>'Enter User Name','readonly' ))--}}
+												{{--Form::text('user_id', $appointment->user->first_name.' '.$appointment->user->last_name, array('class' => 'form-control', 'autocomplete'=>'off','placeholder'=>'Enter User Name','readonly' ))--}}
 												{{--@else--}}
 												{{--Form::text('user_id', 'N/A', array('class' => 'form-control', 'autocomplete'=>'off','placeholder'=>'Enter User Name','readonly' ))--}}
 												{{--@endif--}}
 
                                                 @if($appointment->user)
-                                                <input name="user_id" type="text" value="@$appointment->user->first_name.' '.$appointment->user->last_name" class="form-control" autocomplete="off" placeholder="Enter User Name">
+                                                <input name="user_id" type="text" value="$appointment->user->first_name.' '.$appointment->user->last_name" class="form-control" autocomplete="off" placeholder="Enter User Name">
 												@else
                                                 <input name="user_id" type="text" value="N/A" class="form-control" autocomplete="off" placeholder="Enter User Name">
 												@endif
@@ -55,14 +55,14 @@
 										<!--<div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="timezone">Timezone </label>
-												{{--Form::text('timezone', @$appointment->timezone, array('class' => 'form-control', 'autocomplete'=>'off','readonly'))--}}
+												{{--Form::text('timezone', $appointment->timezone, array('class' => 'form-control', 'autocomplete'=>'off','readonly'))--}}
 											</div>
 										</div>-->
 										<div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="date">Date</label>
 												<div class="cus_field_input">
-													{{ Form::text('date', date('d/m/Y', strtotime(@$appointment->date)) , array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','readonly' )) }}
+													{{ Form::text('date', date('d/m/Y', strtotime($appointment->date)) , array('class' => 'form-control', 'data-valid'=>'', 'autocomplete'=>'off','readonly' )) }}
 												</div>
 											</div>
 										</div>
@@ -70,7 +70,7 @@
                                         <div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="time">Time </label>
-												<input name="time" type="text" value="@$appointment->timeslot_full" class="form-control" autocomplete="off">
+												<input name="time" type="text" value="$appointment->timeslot_full" class="form-control" autocomplete="off">
 											</div>
 										</div>
 									</div>
@@ -79,14 +79,14 @@
 										<div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="time">Time </label>
-												{{--Form::text('time', @$appointment->time, array('class' => 'form-control', 'autocomplete'=>'off','readonly' ))--}}
+												{{--Form::text('time', $appointment->time, array('class' => 'form-control', 'autocomplete'=>'off','readonly' ))--}}
 											</div>
 										</div>
 										<div class="col-12 col-md-6 col-lg-6">
 											<div class="form-group">
 												<label for="title">Title</label>
 												<div class="cus_field_input">
-													{{--Form::text('title', @$appointment->title, array('class' => 'form-control', 'autocomplete'=>'off','readonly' ))--}}
+													{{--Form::text('title', $appointment->title, array('class' => 'form-control', 'autocomplete'=>'off','readonly' ))--}}
 												</div>
 											</div>
 										</div>
@@ -97,14 +97,14 @@
                                             <div class="form-group">
                                                 <label for="invites">Full name</label>
                                                 <div class="cus_field_input">
-                                                    {{--Form::text('full_name', @$appointment->full_name, array('class' => 'form-control', 'autocomplete'=>'off','readonly'))--}}
+                                                    {{--Form::text('full_name', $appointment->full_name, array('class' => 'form-control', 'autocomplete'=>'off','readonly'))--}}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <label for="status">Email </label>
-                                                {{--Form::text('email', @$appointment->email, array('class' => 'form-control', 'autocomplete'=>'off','readonly'))--}}
+                                                {{--Form::text('email', $appointment->email, array('class' => 'form-control', 'autocomplete'=>'off','readonly'))--}}
                                             </div>
                                         </div>
 									</div>-->
@@ -114,14 +114,14 @@
 												<div class="form-group">
 													<label for="invites">Nature of Enquiry</label>
 													<div class="cus_field_input">
-														<input name="nature_of_enquiry" type="text" value="@$appointment->natureOfEnquiry->title" class="form-control" autocomplete="off">
+														<input name="nature_of_enquiry" type="text" value="$appointment->natureOfEnquiry->title" class="form-control" autocomplete="off">
 													</div>
 												</div>
 											</div>
 											<div class="col-12 col-md-6 col-lg-6">
 												<div class="form-group">
 													<label for="status">Service </label>
-													<input name="service" type="text" value="@$appointment->service->title" class="form-control" autocomplete="off">
+													<input name="service" type="text" value="$appointment->service->title" class="form-control" autocomplete="off">
 												</div>
 											</div>
 										</div>
@@ -169,7 +169,7 @@
 
                                                 @if ($errors->has('appointment_details'))
                                                     <span class="custom-error" role="alert">
-                                                        <strong>{{ @$errors->first('appointment_details') }}</strong>
+                                                        <strong>{{ $errors->first('appointment_details') }}</strong>
                                                     </span>
                                                 @endif
                                             </div>
@@ -178,7 +178,7 @@
                                             <div class="form-group">
                                                 <label for="invites">Invites</label>
                                                 <div class="cus_field_input">
-                                                    {{--Form::text('invites', @$appointment->invites, array('class' => 'form-control', 'autocomplete'=>'off','readonly'))--}}
+                                                    {{--Form::text('invites', $appointment->invites, array('class' => 'form-control', 'autocomplete'=>'off','readonly'))--}}
                                                 </div>
                                             </div>
                                         </div>-->

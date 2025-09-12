@@ -82,7 +82,7 @@ if( isset($disableSlotArr) && !empty($disableSlotArr) && count($disableSlotArr) 
 
                             <form action="{{route('admin.feature.appointmentdisabledate.edit')}}" id="myForm" autocomplete="off" method="post">
                             @csrf
-                            <input type="hidden" name="id" value="@$fetchedData->id">
+                            <input type="hidden" name="id" value="$fetchedData->id">
                             <div id="time-slots-container">
                                 <?php
                                 //dd($disableSlotArr);
@@ -103,7 +103,7 @@ if( isset($disableSlotArr) && !empty($disableSlotArr) && count($disableSlotArr) 
                                             <input type="text" class="form-control date" id="date_<?php echo $diskey;?>" name="disabledates[<?php echo $diskey;?>][]" value="{{ date('d/m/Y', strtotime($disval['disabledates'])) }}"/>
                                             @if ($errors->has('disabledates'))
                                                 <span class="custom-error" role="alert">
-                                                    <strong>{{ @$errors->first('disabledates') }}</strong>
+                                                    <strong>{{ $errors->first('disabledates') }}</strong>
                                                 </span>
                                             @endif
                                         </div>
@@ -144,7 +144,7 @@ if( isset($disableSlotArr) && !empty($disableSlotArr) && count($disableSlotArr) 
 
                                             @if ($errors->has('slots'))
                                                 <span class="custom-error" role="alert">
-                                                    <strong>{{ @$errors->first('slots') }}</strong>
+                                                    <strong>{{ $errors->first('slots') }}</strong>
                                                 </span>
                                             @endif
                                         </div>
@@ -175,7 +175,7 @@ if( isset($disableSlotArr) && !empty($disableSlotArr) && count($disableSlotArr) 
                                                 <input type="text" class="form-control date" name="disabledates[0][]" data-valid="required"/>
                                                 @if ($errors->has('disabledates'))
                                                     <span class="custom-error" role="alert">
-                                                        <strong>{{ @$errors->first('disabledates') }}</strong>       
+                                                        <strong>{{ $errors->first('disabledates') }}</strong>       
                                                     </span>
                                                 @endif
                                             </div>
@@ -192,7 +192,7 @@ if( isset($disableSlotArr) && !empty($disableSlotArr) && count($disableSlotArr) 
 
                                                 @if ($errors->has('slots'))
                                                     <span class="custom-error" role="alert">
-                                                        <strong>{{ @$errors->first('slots') }}</strong>
+                                                        <strong>{{ $errors->first('slots') }}</strong>
                                                     </span>
                                                 @endif
                                             </div>

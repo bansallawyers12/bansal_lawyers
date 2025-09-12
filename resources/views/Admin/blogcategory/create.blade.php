@@ -35,7 +35,7 @@
 								<input name="name" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Name">
 								@if ($errors->has('name'))
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('name') }}</strong>
+										<strong>{{ $errors->first('name') }}</strong>
 									</span> 
 								@endif
 								</div>
@@ -46,7 +46,7 @@
 									<input name="slug" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Slug">
 									@if ($errors->has('slug'))
 										<span class="custom-error" role="alert">
-											<strong>{{ @$errors->first('slug') }}</strong>
+											<strong>{{ $errors->first('slug') }}</strong>
 										</span> 
 									@endif
 								</div>

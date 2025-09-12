@@ -30,6 +30,36 @@
 
 @section('content')
 
+<style>
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    text-decoration: none;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #1B4D89;
+}
+
+.badge-primary:hover {
+    color: #fff;
+    background-color: #0d3a6b;
+    text-decoration: none;
+}
+
+.blog-category {
+    margin-bottom: 10px;
+}
+</style>
+
 <div class="hero-wrap js-fullheight" data-stellar-background-ratio="0.5">
     <img src="asset('images/coart_1.jpg')" id="hero-image" alt="Top-rated lawyers in Australia – Expert legal services" class="hero-image"  loading="eager">
   
@@ -531,6 +561,11 @@
                                 </div>
                             </div>
                             <h3 class="heading"><a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}">{{@$list->title}}</a></h3>
+                            @if(isset($list->categorydetail) && $list->categorydetail)
+                                <div class="blog-category mb-2">
+                                    <a href="{{ route('blog.category', $list->categorydetail->slug) }}" class="badge badge-primary">{{ $list->categorydetail->name }}</a>
+                                </div>
+                            @endif
                             <!-- <div class="meta">
                                 <span class="day" style="color: black;"><?php echo date('d', strtotime($list->created_at));?></span>
                                 <span class="mos" style="color: black;"><?php echo date('M', strtotime($list->created_at));?></span>

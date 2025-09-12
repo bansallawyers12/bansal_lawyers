@@ -24,6 +24,71 @@
 @endsection
 @section('content')
 
+<style>
+.category-filter {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.category-filter h4 {
+    color: #1B4D89;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category-buttons .btn {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #1B4D89;
+    color: #1B4D89;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.category-buttons .btn:hover,
+.category-buttons .btn.active {
+    background: #1B4D89;
+    color: #fff;
+    border-color: #1B4D89;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    text-decoration: none;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #1B4D89;
+}
+
+.badge-primary:hover {
+    color: #fff;
+    background-color: #0d3a6b;
+    text-decoration: none;
+}
+
+.blog-category {
+    margin-bottom: 10px;
+}
+</style>
 
 <section class="hero-wrap hero-wrap-2" style="background-image: url('public/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>

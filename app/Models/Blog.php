@@ -10,7 +10,7 @@ class Blog extends Authenticatable {
 	// use Sortable;
 
 	protected $fillable = [
-        'id', 'title', 'alias', 'content', 'created_at', 'updated_at'
+        'id', 'title', 'alias', 'content', 'slug', 'image', 'description', 'parent_category', 'status', 'meta_title', 'meta_description', 'meta_keyword', 'created_at', 'updated_at'
     ];
 	
 	public $sortable = ['id', 'title', 'created_at', 'updated_at'];

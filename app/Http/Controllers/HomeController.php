@@ -99,8 +99,9 @@ class HomeController extends Controller
 
 	public function index(Request $request)
     {
-		// Optimized blog query - single query with pagination
+		// Optimized blog query - single query with pagination and category relationship
 		$bloglists = Blog::where('status', 1)
+			->with(['categorydetail'])
 			->orderByDesc('id')
 			->paginate(3);
 		
@@ -214,11 +215,50 @@ class HomeController extends Controller
 
 	public function blog(Request $request)
     {
-		$blogquery 		= Blog::where('id', '!=', '')->where('status', '=', 1);
-		$blogData 	= $blogquery->count();	//for all data
-		$bloglists		=  $blogquery->orderby('id','DESC')->get();
+		$blogquery = Blog::where('id', '!=', '')->where('status', '=', 1)->with(['categorydetail']);
+		
+		// Filter by category if provided
+		if ($request->has('category') && !empty($request->category)) {
+			$categorySlug = $request->category;
+			$category = BlogCategory::where('slug', $categorySlug)->first();
+			if ($category) {
+				$blogquery->where('parent_category', $category->id);
+			}
+		}
+		
+		$blogData = $blogquery->count();	//for all data
+		$bloglists = $blogquery->orderby('id','DESC')->get();
+		
+		// Get all categories for filter
+		$blogCategories = BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
+		
 		//return view('blog', compact(['bloglists', 'blogData']));
-        return view('bloglatest', compact(['bloglists', 'blogData']));
+        return view('bloglatest', compact(['bloglists', 'blogData', 'blogCategories']));
+    }
+    
+    public function blogCategory(Request $request, $categorySlug = null)
+    {
+        if (isset($categorySlug) && !empty($categorySlug)) {
+            $category = BlogCategory::where('slug', $categorySlug)->where('status', 1)->first();
+            
+            if ($category) {
+                $blogquery = Blog::where('parent_category', $category->id)
+                                ->where('status', 1)
+                                ->with(['categorydetail']);
+                
+                $blogData = $blogquery->count();
+                $bloglists = $blogquery->orderby('id','DESC')->get();
+                
+                // Get all categories for filter
+                $blogCategories = BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
+                
+                return view('bloglatest', compact(['bloglists', 'blogData', 'blogCategories', 'category']));
+            } else {
+                return Redirect::to('/blog')->with('error', 'Category not found');
+            }
+        } else {
+            return Redirect::to('/blog')->with('error', 'Invalid category');
+        }
     }
   
 	public function blogdetail(Request $request, $slug = null)

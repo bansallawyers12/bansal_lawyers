@@ -28,16 +28,16 @@
 								<div class="col-6 col-md-6 col-lg-6">
 									<div class="form-group"> 
 										<label for="test_pdf">Company Logo</label>
-										<input type="hidden" id="old_profile_img" name="old_profile_img" value="{{@$fetchedData->profile_img}}" />
+										<input type="hidden" id="old_profile_img" name="old_profile_img" value="{{$fetchedData->profile_img}}" />
 										<div class="profile_upload">
 											<div class="upload_content">
-											@if(@$fetchedData->profile_img != '')
-												<img src="{{ asset('img/profile_imgs')}}/{{@$fetchedData->profile_img}}" style="width:100px;height:100px;" id="output"/> 
+											@if($fetchedData->profile_img != '')
+												<img src="{{ asset('img/profile_imgs')}}/{{$fetchedData->profile_img}}" style="width:100px;height:100px;" id="output"/> 
 											@else
 												<img id="output" src="{{ asset('images/no_image.jpg')}}"/> 
 											@endif
-												<i <?php if(@$fetchedData->profile_img != ''){ echo 'style="display:none;"'; } ?> class="fa fa-camera if_image"></i>
-												<span <?php if(@$fetchedData->profile_img != ''){ echo 'style="display:none;"'; } ?> class="if_image">Upload Company Logo</span>
+												<i <?php if($fetchedData->profile_img != ''){ echo 'style="display:none;"'; } ?> class="fa fa-camera if_image"></i>
+												<span <?php if($fetchedData->profile_img != ''){ echo 'style="display:none;"'; } ?> class="if_image">Upload Company Logo</span>
 											</div>
 											<input onchange="loadFile(event)" type="file" id="profile_img" name="profile_img" class="form-control" autocomplete="off" />
 										</div>	
@@ -45,7 +45,7 @@
 										<div class="form-group">
 											<label for="first_name">First Name <span style="color:#ff0000;">*</span></label>
 											
-											<input name="first_name" type="text" value="@$fetchedData->first_name" class="form-control" data-valid="required">
+											<input name="first_name" type="text" value="$fetchedData->first_name" class="form-control" data-valid="required">
 										
 											@if ($errors->has('first_name'))
 												<span class="custom-error" role="alert">
@@ -55,7 +55,7 @@
 										</div>
 									<div class="form-group">
 										<label for="last_name">Last Name <span style="color:#ff0000;">*</span></label>
-											<input name="last_name" type="text" value="@$fetchedData->last_name" class="form-control" data-valid="required">
+											<input name="last_name" type="text" value="$fetchedData->last_name" class="form-control" data-valid="required">
 										
 											@if ($errors->has('last_name'))
 												<span class="custom-error" role="alert">
@@ -65,7 +65,7 @@
 										</div>
 										<div class="form-group">
 											<label for="email">Company Email <span style="color:#ff0000;">*</span></label>
-												<input name="email" type="text" value="@$fetchedData->email" class="form-control" data-valid="required email" disabled="disabled">
+												<input name="email" type="text" value="$fetchedData->email" class="form-control" data-valid="required email" disabled="disabled">
 										
 											@if ($errors->has('email'))
 												<span class="custom-error" role="alert">
@@ -75,7 +75,7 @@
 										</div>
 										<div class="form-group">
 											<label for="phone">Company Phone <span style="color:#ff0000;">*</span></label>
-												<input name="phone" type="text" value="@$fetchedData->phone" class="form-control mask" data-valid="required" placeholder="000-000-0000">
+												<input name="phone" type="text" value="$fetchedData->phone" class="form-control mask" data-valid="required" placeholder="000-000-0000">
 										
 											@if ($errors->has('phone'))
 												<span class="custom-error" role="alert">
@@ -85,7 +85,7 @@
 										</div>
 										<div class="form-group">
 											<label for="company_name">Company Name <span style="color:#ff0000;">*</span></label>
-												<input name="company_name" type="text" value="@$fetchedData->company_name" class="form-control mask" data-valid="required" placeholder="Company Name">
+												<input name="company_name" type="text" value="$fetchedData->company_name" class="form-control mask" data-valid="required" placeholder="Company Name">
 										
 											@if ($errors->has('company_name'))
 												<span class="custom-error" role="alert">
@@ -97,7 +97,7 @@
 									<div class="col-6 col-md-6 col-lg-6">
 										<div class="form-group">
 											<label for="company_website">Company Website</label>
-												<input name="company_website" type="text" value="@$fetchedData->company_website" class="form-control mask" data-valid="" placeholder="Company Website">
+												<input name="company_website" type="text" value="$fetchedData->company_website" class="form-control mask" data-valid="" placeholder="Company Website">
 										
 											@if ($errors->has('company_website'))
 												<span class="custom-error" role="alert">
@@ -107,7 +107,7 @@
 										</div>
 										<div class="form-group">
 											<label for="company_fax">Company Fax</label>
-												<input name="company_fax" type="text" value="@$fetchedData->company_fax" class="form-control" data-valid="" placeholder="Company Fax">
+												<input name="company_fax" type="text" value="$fetchedData->company_fax" class="form-control" data-valid="" placeholder="Company Fax">
 										
 											@if ($errors->has('company_fax'))
 												<span class="custom-error" role="alert">
@@ -121,7 +121,7 @@
 												<?php
 													foreach(\App\Models\Country::all() as $list){
 														?>
-														<option value="{{@$list->sortname}}" <?php if($fetchedData->country == @$list->sortname){ echo 'selected'; } ?>>{{@$list->name}}</option>
+														<option value="{{$list->sortname}}" <?php if($fetchedData->country == $list->sortname){ echo 'selected'; } ?>>{{$list->name}}</option>
 														<?php
 													}
 													?>
@@ -135,7 +135,7 @@
 										</div>
 										<!--<div class="form-group">
 											<label for="state">Primary Email </label>
-												<input name="primary_email" type="text" value="@$fetchedData->primary_email" class="form-control" data-valid="email">
+												<input name="primary_email" type="text" value="$fetchedData->primary_email" class="form-control" data-valid="email">
 										
 											@if ($errors->has('primary_email'))
 												<span class="custom-error" role="alert">
@@ -145,7 +145,7 @@
 										</div>	-->
 										<div class="form-group">
 											<label for="state">State <span style="color:#ff0000;">*</span></label>
-												<input name="state" type="text" value="@$fetchedData->state" class="form-control" data-valid="required">
+												<input name="state" type="text" value="$fetchedData->state" class="form-control" data-valid="required">
 										
 											@if ($errors->has('state'))
 												<span class="custom-error" role="alert">
@@ -155,7 +155,7 @@
 										</div>	
 										<div class="form-group">
 											<label for="city">City <span style="color:#ff0000;">*</span></label>
-												<input name="city" type="text" value="@$fetchedData->city" class="form-control" data-valid="required">
+												<input name="city" type="text" value="$fetchedData->city" class="form-control" data-valid="required">
 										
 											@if ($errors->has('city'))
 												<span class="custom-error" role="alert">
@@ -165,7 +165,7 @@
 										</div>	
 										<div class="form-group">
 											<label for="zip">Zip Code <span style="color:#ff0000;">*</span></label>
-												<input name="zip" type="text" value="@$fetchedData->zip" class="form-control" data-valid="required">
+												<input name="zip" type="text" value="$fetchedData->zip" class="form-control" data-valid="required">
 										
 											@if ($errors->has('zip'))
 												<span class="custom-error" role="alert">
@@ -175,7 +175,7 @@
 										</div> 	
 										<!--<div class="form-group">
 											<label for="gst_no">GST No. <span style="color:#ff0000;">*</span></label>
-												<input name="gst_no" type="text" value="@$fetchedData->gst_no" class="form-control" data-valid="required">
+												<input name="gst_no" type="text" value="$fetchedData->gst_no" class="form-control" data-valid="required">
 										
 											@if ($errors->has('gst_no'))
 												<span class="custom-error" role="alert">
@@ -185,7 +185,7 @@
 										</div>-->	
 										<div class="form-group">
 											<label for="address">Address <span style="color:#ff0000;">*</span></label>
-												<input name="address" type="text" value="@$fetchedData->address" class="form-control" placeholder="Please write Address..." data-valid="required">
+												<input name="address" type="text" value="$fetchedData->address" class="form-control" placeholder="Please write Address..." data-valid="required">
 										
 											@if ($errors->has('address'))
 												<span class="custom-error" role="alert">
@@ -210,7 +210,7 @@
 @section('scripts')
 <script>
 jQuery(document).ready(function($){
-	$('#select_country').attr('data-selected-country','<?php echo @$fetchedData->country; ?>');
+	$('#select_country').attr('data-selected-country','<?php echo $fetchedData->country; ?>');
 		$('#select_country').flagStrap();
 });
 </script>

@@ -9,8 +9,8 @@ use Illuminate\Routing\Route;
 
 use App\Models\CmsPage;
 
-use Auth;
-use Config;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class CmsPageController extends Controller
 {

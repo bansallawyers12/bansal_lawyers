@@ -50,16 +50,16 @@
 								</tr> 
 							  </thead>
 							  <tbody class="tdata">	
-								@foreach (@$lists as $list)	
-								<tr id="id_{{@$list->id}}"> 
-								  <td>{{@$list->id}}</td> 
-								  <td style="white-space: initial;">{{ @$list->name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->name, '50', '...') }}</td> 
-								  <td style="white-space: initial;">{{ @$list->slug }}</td> 
-								  <td style="white-space: initial;">{{ @$list->parent->name ?? "N/A"}}</td> 
-								  <td style="white-space: initial;"><input data-id="{{@$list->id}}"  data-status="{{@$list->status}}" data-col="status" data-table="blog_categories" class="change-status" value="1" type="checkbox" name="status" {{ (@$list->status == 1 ? 'checked' : '')}} data-bootstrap-switch></td> 
+								@foreach ($lists as $list)	
+								<tr id="id_{{$list->id}}"> 
+								  <td>{{$list->id}}</td> 
+								  <td style="white-space: initial;">{{ $list->name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->name, '50', '...') }}</td> 
+								  <td style="white-space: initial;">{{ $list->slug }}</td> 
+								  <td style="white-space: initial;">{{ $list->parent->name ?? "N/A"}}</td> 
+								  <td style="white-space: initial;"><input data-id="{{$list->id}}"  data-status="{{$list->status}}" data-col="status" data-table="blog_categories" class="change-status" value="1" type="checkbox" name="status" {{ ($list->status == 1 ? 'checked' : '')}} data-bootstrap-switch></td> 
 								  <td>
-										<a class="btn btn-info" href="{{URL::to('/admin/blogcategories/edit/'.base64_encode(convert_uuencode(@$list->id)))}}"><i class="fa fa-edit"></i> Edit</a>
-										<a class="btn btn-danger" href="javascript:;" onClick="deleteAction({{@$list->id}}, 'blog_categories')"><i class="fa fa-trash"></i> Delete</a>
+										<a class="btn btn-info" href="{{URL::to('/admin/blogcategories/edit/'.base64_encode(convert_uuencode($list->id)))}}"><i class="fa fa-edit"></i> Edit</a>
+										<a class="btn btn-danger" href="javascript:;" onClick="deleteAction({{$list->id}}, 'blog_categories')"><i class="fa fa-trash"></i> Delete</a>
 								  </td>
 								</tr>	
 							  @endforeach		

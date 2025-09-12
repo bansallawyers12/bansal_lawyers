@@ -58,19 +58,19 @@
 							  </thead>
 							  <tbody class="tdata">	
 							  
-								@foreach (@$lists as $list)	
-								<tr id="id_{{@$list->id}}"> 
+								@foreach ($lists as $list)	
+								<tr id="id_{{$list->id}}"> 
 								 <td>{{ ++$i }}</td>
                                   <td style="white-space: initial;"><img src="{{ asset('img/cmspage')}}/{{$list->image}}" style="width: 50px;height: 50px;"/></td> 
-								  <td style="white-space: initial;">{{ @$list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->title, '50', '...') }}</td> 
-								  <td style="white-space: initial;">{{ @$list->slug }}</td> 
+								  <td style="white-space: initial;">{{ $list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->title, '50', '...') }}</td> 
+								  <td style="white-space: initial;">{{ $list->slug }}</td> 
                                   
-                                  <td style="white-space: initial;"><input data-id="{{@$list->id}}"  data-status="{{@$list->status}}" data-col="status" data-table="cms_pages" class="change-status" value="1" type="checkbox" name="status" {{ (@$list->status == 1 ? 'checked' : '')}} data-bootstrap-switch></td>
+                                  <td style="white-space: initial;"><input data-id="{{$list->id}}"  data-status="{{$list->status}}" data-col="status" data-table="cms_pages" class="change-status" value="1" type="checkbox" name="status" {{ ($list->status == 1 ? 'checked' : '')}} data-bootstrap-switch></td>
 
 				
 								  <td>
-									<a href="{{URL::to('/admin/cms_pages/edit/'.base64_encode(convert_uuencode(@$list->id)))}}"><i class="fa fa-edit"></i></a>
-									<a href="javascript:;" onClick="deleteAction({{@$list->id}}, 'cms_pages')"> <i class="fa fa-trash"></i></a>
+									<a href="{{URL::to('/admin/cms_pages/edit/'.base64_encode(convert_uuencode($list->id)))}}"><i class="fa fa-edit"></i></a>
+									<a href="javascript:;" onClick="deleteAction({{$list->id}}, 'cms_pages')"> <i class="fa fa-trash"></i></a>
 
 								  </td>
 								</tr>	
