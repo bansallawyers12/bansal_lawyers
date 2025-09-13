@@ -173,8 +173,6 @@
 		};
 		
 		$(document).ready(function () {
-		    // Note: Notification permission will be requested when user interacts with notifications
-		    // This prevents the "may only be requested from inside a short running user-generated event handler" warning
 
 		    $(".tel_input").on("blur", function() {
                 /*if (/^0/.test(this.value)) {

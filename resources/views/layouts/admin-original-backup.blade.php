@@ -178,14 +178,6 @@
 					if (this.$refs.clientSearch) {
 						$(this.$refs.clientSearch).select2({
 							closeOnSelect: true,
-							ajax: {
-								url: '{{URL::to('/admin/clients/get-allclients')}}',
-								dataType: 'json',
-								processResults: (data) => ({
-									results: data.items
-								}),
-								cache: true
-							},
 							templateResult: this.formatRepoMain,
 							templateSelection: this.formatRepoSelectionMain
 						});
@@ -727,23 +719,6 @@
    $('#utype').val(data.status);
 });
 
-			$('.js-data-example-ajax-check').select2({
-		 multiple: true,
-		 closeOnSelect: false,
-		dropdownParent: $('#checkinmodal'),
-		  ajax: {
-			url: '{{URL::to('/admin/clients/get-recipients')}}',
-			dataType: 'json',
-			processResults: function (data) {
-			  // Transforms the top-level key of the response object from 'items' to 'results'
-			  return {
-				results: data.items
-			  };
-
-			},
-			 cache: true
-
-		  },
 	templateResult: formatRepocheck,
 	templateSelection: formatRepoSelectioncheck
 });

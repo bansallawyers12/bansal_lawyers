@@ -10,7 +10,6 @@ use App\Models\Admin;
 // use App\Models\InvoiceDetail;
 // use App\Models\InvoicePayment;
 // use App\Models\InvoiceFollowup;
-// use App\Models\TaxRate;
 // use App\Models\Currency;
  use DateTime;
  use App\Mail\CommonMail;

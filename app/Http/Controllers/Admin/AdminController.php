@@ -85,30 +85,6 @@ class AdminController extends Controller
 
     }
 
-    public function fetchnotification(Request $request){
-         // Notification functionality removed
-         $data = array(
-           'unseen_notification'  => 0
-        );
-        return response()->json($data);
-    }
-    
-    public function fetchmessages(Request $request){
-        // Notification functionality removed
-        return 0;
-    }
-    
-    public function fetchInPersonWaitingCount(Request $request){
-        // CheckinLog functionality removed
-        $data = array('InPersonwaitingCount'  => 0);
-        return response()->json($data);
-   }
-
-    public function fetchTotalActivityCount(Request $request){
-        // Note functionality removed
-        $data = array('assigneesCount'  => 0);
-        return response()->json($data);
-    }
 
    
 	/**
@@ -144,24 +120,6 @@ class AdminController extends Controller
 			//return view('Admin.my_profile', compact(['fetchedData', 'countries']));
 			return view('Admin.settings.returnsetting');
 		}
-	}
-	public function taxrates(Request $request){
-		// TaxRate functionality removed - not needed for appointment system
-		return redirect()->back()->with('error', 'Tax rate functionality has been disabled');
-	}
-	public function taxratescreate(Request $request){
-		// TaxRate functionality removed - not needed for appointment system
-		return redirect()->back()->with('error', 'Tax rate functionality has been disabled');
-	}
-
-	public function edittaxrates(Request $request, $id = Null){
-		// TaxRate functionality removed - not needed for appointment system
-		return redirect()->back()->with('error', 'Tax rate functionality has been disabled');
-	}
-
-	public function savetaxrate(Request $request){
-		// TaxRate functionality removed - not needed for appointment system
-		return redirect()->back()->with('error', 'Tax rate functionality has been disabled');
 	}
 	public function myProfile(Request $request)
 	{
@@ -1008,55 +966,6 @@ class AdminController extends Controller
 		return response()->json(array('status'=>$status, 'message'=>$message));
 	}
 
-	public function getStates(Request $request)
-	{
-		$status 			= 	0;
-		$data				= array();
-		$method 			= 	$request->method();
-
-		if ($request->isMethod('post'))
-		{
-			$message = 'States lookup has been disabled.';
-		}
-		else
-		{
-			$message = config('constants.post_method');
-		}
-		return response()->json(array('status'=>$status, 'message'=>$message, 'data'=>$data));
-	}
-
-	public function getChapters(Request $request)
-	{
-		$status 			= 	0;
-		$data				= array();
-		$method 			= 	$request->method();
-
-		if ($request->isMethod('post'))
-		{
-			$message = 'Chapters lookup has been disabled.';
-		}
-		else
-		{
-			$message = config('constants.post_method');
-		}
-		return response()->json(array('status'=>$status, 'message'=>$message, 'data'=>$data));
-	}
-
-	public function addCkeditiorImage(Request $request)
-	{
-		$status 			= 	0;
-		$method 			= 	$request->method();
-
-		if ($request->isMethod('post'))
-		{
-			$message = 'CKEditor image upload has been disabled.';
-		}
-		else
-		{
-			$message = config('constants.post_method');
-		}
-		return response()->json(array('status'=>$status, 'message'=>$message));
-	}
 
 	public function sessions(Request $request)
 	{
@@ -1176,43 +1085,6 @@ class AdminController extends Controller
         	return redirect('/admin/gen-settings')->with('success', 'Record updated successfully');
     }
 
-    public function checkclientexist(Request $request){
-        if($request->type == 'email'){
-         $clientexists = \App\Models\Admin::where('email', $request->vl)->where('role',7)->exists();
-            if($clientexists){
-                echo 1;
-            }else{
-                echo 0;
-            }
-        }else if($request->type == 'clientid'){
-         $clientexists = \App\Models\Admin::where('client_id', $request->vl)->where('role',7)->exists();
-            if($clientexists){
-                echo 1;
-            }else{
-                echo 0;
-            }
-        }else{
-            $clientexists = \App\Models\Admin::where('phone', $request->vl)->where('role',7)->exists();
-            if($clientexists){
-                echo 1;
-            }else{
-                echo 0;
-            }
-        }
-    }
 
-	public function allnotification(Request $request){
-		// Notification functionality removed
-		return view('Admin.notifications', compact([]));
-	}
 
-    public function getAllClients(Request $request){
-        // Client functionality removed - return empty response
-        return response()->json(['items' => []]);
-    }
-
-    public function getRecipients(Request $request){
-        // Recipient functionality removed - return empty response  
-        return response()->json(['items' => []]);
-    }
 }

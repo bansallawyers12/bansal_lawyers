@@ -304,28 +304,7 @@
 							closeAfterSelect: true
 						});
 						
-						// Initialize client search select
-						modernSelect.init('.js-data-example-ajaxccsearch', {
-							url: '{{URL::to('/admin/clients/get-allclients')}}',
-							placeholder: 'Search for a client',
-							closeAfterSelect: true,
-							render: {
-								option: this.formatRepoMain,
-								item: this.formatRepoSelectionMain
-							}
-						});
 						
-						// Initialize check search select
-						modernSelect.init('.js-data-example-ajax-check', {
-							url: '{{URL::to('/admin/clients/get-recipients')}}',
-							placeholder: 'Search for a check',
-							multiple: true,
-							closeAfterSelect: false,
-							render: {
-								option: this.formatRepoCheck,
-								item: this.formatRepoSelectionCheck
-							}
-						});
 						
 						// Handle modern select change events
 						document.querySelectorAll('.js-data-example-ajaxccsearch').forEach(select => {

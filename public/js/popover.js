@@ -301,22 +301,6 @@ console.log(timestring);
        
     $("[data-role=popover]").on('shown.bs.popover', function(){
         
-        $('.js-data-example-ajaxccsearch__addmytask').select2({
-            closeOnSelect: true,
-            ajax: {
-                url: '/admin/clients/get-allclients',
-                dataType: 'json',
-                processResults: function (data) {
-                    // Transforms the top-level key of the response object from 'items' to 'results'
-                    return {
-                    results: data.items
-                    };
-                },
-                cache: true
-            },
-            templateResult: formatRepomain_addmytask,
-            templateSelection: formatRepoSelectionmain_addmytask
-        });
         
          /* $("#popoverdate").inputmask("dd/mm/yyyy", {
             "placeholder": "dd/mm/yyyy"

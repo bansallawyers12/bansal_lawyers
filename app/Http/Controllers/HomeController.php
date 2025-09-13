@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Cache;
 
 use App\Models\WebsiteSetting;
 use App\Models\Slider;
@@ -32,7 +33,9 @@ class HomeController extends Controller
 {
 	public function __construct(Request $request)
     {
-		$siteData = WebsiteSetting::first();
+		$siteData = Cache::remember('site_data', 3600, function () {
+			return WebsiteSetting::first();
+		});
 		\View::share('siteData', $siteData);
 	}
 
@@ -67,34 +70,51 @@ class HomeController extends Controller
 
 	public function Page(Request $request, $slug= null)
     {
-		if( RecentCase::where('slug', '=', $slug)->exists() ) { //dd('@@@');
-            $casedetailquery 	= RecentCase::where('slug', '=', $slug)->where('status', '=', 1);
-            $casedetailists		=  $casedetailquery->first(); //dd($casedetailists);
-            return view('casedetail', compact(['casedetailists']));
-        }
-		else if( Blog::where('slug', '=', $slug)->exists() ) { //dd('@@@');
-            $blogdetailquery 		= Blog::where('slug', '=', $slug)->where('status', '=', 1)->with(['categorydetail']);
-            $blogdetailists		=  $blogdetailquery->first(); //dd($blogdetailists);
-          
-             //latest blogs
-            $latestbloglists = Blog::where('status', 1)->latest()->take(5)->get();//dd($latestbloglists);
-            return view('blogdetail', compact(['blogdetailists','latestbloglists']));
-        }
-        else if(CmsPage::where('slug', '=', $slug)->exists()) { //dd('####');
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $slug);
-            $pagedata 	= $pagequery->first(); //dd($pagedata);
-            if($pagedata){
-                if( isset($pagedata->slug) &&  $pagedata->slug == 'criminal-law' || $pagedata->slug == 'family-law'  || $pagedata->slug == 'personal-law'  || $pagedata->slug == 'corporate-law'  || $pagedata->slug == 'commercial-law'  || $pagedata->slug == 'property-law'  || $pagedata->slug == 'migration-law' || $pagedata->slug == 'divorce' || $pagedata->slug == 'child-custody' || $pagedata->slug == 'family-violence' || $pagedata->slug == 'property-settlement' || $pagedata->slug == 'family-violence-orders' || $pagedata->slug == 'juridicational-error-federal-circuit-court-application' || $pagedata->slug == 'art-application' || $pagedata->slug == 'visa-refusals-visa-cancellation' || $pagedata->slug == 'federal-court-application' || $pagedata->slug == 'intervenition-orders' || $pagedata->slug == 'trafic-offences' || $pagedata->slug == 'drink-driving-offences' || $pagedata->slug == 'assualt-charges' || $pagedata->slug == 'business-law' || $pagedata->slug == 'leasing-or-selling-a-business' || $pagedata->slug == 'contracts-or-business-agreements' || $pagedata->slug == 'loan-agreement'  || $pagedata->slug == 'conveyancing' || $pagedata->slug == 'building-and-construction-disputes' || $pagedata->slug == 'caveats-disputs-and-removal' ) {
-                    return view('Frontend.cms.index_inner', compact(['pagedata']));
-                } else {
-                    return view('Frontend.cms.index', compact(['pagedata']));
-                }
-            }
-        }
-        else { //dd('elsee');
-          abort(404);
-        }
+		// Optimized: Single query to find the page type instead of multiple exists() checks
+		$pageData = null;
+		$pageType = null;
+		
+		// Check RecentCase first
+		$casedetailists = RecentCase::where('slug', '=', $slug)->where('status', '=', 1)->first();
+		if($casedetailists) {
+			return view('casedetail', compact(['casedetailists']));
+		}
+		
+		// Check Blog
+		$blogdetailists = Blog::where('slug', '=', $slug)->where('status', '=', 1)->with(['categorydetail'])->first();
+		if($blogdetailists) {
+			// Cache latest blogs for better performance
+			$latestbloglists = Cache::remember('latest_blogs', 1800, function () {
+				return Blog::where('status', 1)->latest()->take(5)->get();
+			});
+			return view('blogdetail', compact(['blogdetailists','latestbloglists']));
+		}
+		
+		// Check CmsPage
+		$pagedata = CmsPage::where('slug', '=', $slug)->first();
+		if($pagedata) {
+			// Optimized: Use array for practice area slugs instead of long OR chain
+			$practiceAreaSlugs = [
+				'criminal-law', 'family-law', 'personal-law', 'corporate-law', 
+				'commercial-law', 'property-law', 'migration-law', 'divorce', 
+				'child-custody', 'family-violence', 'property-settlement', 
+				'family-violence-orders', 'juridicational-error-federal-circuit-court-application', 
+				'art-application', 'visa-refusals-visa-cancellation', 'federal-court-application', 
+				'intervenition-orders', 'trafic-offences', 'drink-driving-offences', 
+				'assualt-charges', 'business-law', 'leasing-or-selling-a-business', 
+				'contracts-or-business-agreements', 'loan-agreement', 'conveyancing', 
+				'building-and-construction-disputes', 'caveats-disputs-and-removal'
+			];
+			
+			if(in_array($pagedata->slug, $practiceAreaSlugs)) {
+				return view('Frontend.cms.index_inner', compact(['pagedata']));
+			} else {
+				return view('Frontend.cms.index', compact(['pagedata']));
+			}
+		}
+		
+		// Page not found
+		abort(404);
     }
 
 	public function index(Request $request)
@@ -215,42 +235,46 @@ class HomeController extends Controller
 
 	public function blog(Request $request)
     {
-		$blogquery = Blog::where('id', '!=', '')->where('status', '=', 1)->with(['categorydetail']);
+		// Optimized: Cache blog categories as they rarely change
+		$blogCategories = Cache::remember('blog_categories', 3600, function () {
+			return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
+		});
 		
-		// Filter by category if provided
+		$blogquery = Blog::where('status', '=', 1)->with(['categorydetail']);
+		
+		// Filter by category if provided - optimized query
 		if ($request->has('category') && !empty($request->category)) {
 			$categorySlug = $request->category;
-			$category = BlogCategory::where('slug', $categorySlug)->first();
+			$category = $blogCategories->where('slug', $categorySlug)->first();
 			if ($category) {
 				$blogquery->where('parent_category', $category->id);
 			}
 		}
 		
-		$blogData = $blogquery->count();	//for all data
+		// Optimized: Get count and data in single query where possible
 		$bloglists = $blogquery->orderby('id','DESC')->get();
+		$blogData = $bloglists->count();
 		
-		// Get all categories for filter
-		$blogCategories = BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
-		
-		//return view('blog', compact(['bloglists', 'blogData']));
         return view('bloglatest', compact(['bloglists', 'blogData', 'blogCategories']));
     }
     
     public function blogCategory(Request $request, $categorySlug = null)
     {
         if (isset($categorySlug) && !empty($categorySlug)) {
-            $category = BlogCategory::where('slug', $categorySlug)->where('status', 1)->first();
+            // Optimized: Use cached categories instead of separate query
+            $blogCategories = Cache::remember('blog_categories', 3600, function () {
+                return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
+            });
+            
+            $category = $blogCategories->where('slug', $categorySlug)->first();
             
             if ($category) {
                 $blogquery = Blog::where('parent_category', $category->id)
                                 ->where('status', 1)
                                 ->with(['categorydetail']);
                 
-                $blogData = $blogquery->count();
                 $bloglists = $blogquery->orderby('id','DESC')->get();
-                
-                // Get all categories for filter
-                $blogCategories = BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
+                $blogData = $bloglists->count();
                 
                 return view('bloglatest', compact(['bloglists', 'blogData', 'blogCategories', 'category']));
             } else {
@@ -264,16 +288,20 @@ class HomeController extends Controller
 	public function blogdetail(Request $request, $slug = null)
     {
 		if(isset($slug) && !empty($slug)){
-			if(Blog::where('slug', '=', $slug)->exists()) {
-				$blogdetailquery 		= Blog::where('slug', '=', $slug)->where('status', '=', 1)->with(['categorydetail']);
-				$blogdetailists		=  $blogdetailquery->first();
-              
-                // Get latest blogs excluding the current slug
-            	$latestbloglists = Blog::where('status', 1)
-                                    ->where('slug', '!=', $slug) // Exclude current blog
-                                    ->latest()
-                                    ->take(5)
-                                    ->get();
+			// Optimized: Single query instead of exists() check first
+			$blogdetailists = Blog::where('slug', '=', $slug)->where('status', '=', 1)->with(['categorydetail'])->first();
+			
+			if($blogdetailists) {
+                // Optimized: Cache latest blogs with exclusion key
+                $cacheKey = 'latest_blogs_exclude_' . $slug;
+            	$latestbloglists = Cache::remember($cacheKey, 1800, function () use ($slug) {
+                    return Blog::where('status', 1)
+                        ->where('slug', '!=', $slug)
+                        ->latest()
+                        ->take(5)
+                        ->get();
+                });
+                
                 return view('blogdetail', compact(['blogdetailists','latestbloglists']));
 			} else {
 				return Redirect::to('/blogs')->with('error', 'Blog'.Config::get('constants.not_exist'));
