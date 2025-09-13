@@ -313,6 +313,35 @@ class HomeController extends Controller
         return view('bookappointment1');
     }
 
+    // Experimental Design Methods
+    public function indexExperimental(Request $request)
+    {
+        // Optimized blog query - single query with pagination and category relationship
+        $bloglists = Blog::where('status', 1)
+            ->with(['categorydetail'])
+            ->orderByDesc('id')
+            ->paginate(3);
+        
+        // Get total count from pagination object to avoid separate query
+        $blogData = $bloglists->total();
+        
+        return view('index_experimental', compact(['bloglists', 'blogData']));
+    }
+
+    public function contactusExperimental(Request $request)
+    {
+        return view('contact_experimental');
+    }
+
+    public function bookappointmentExperimental()
+    {
+        return view('bookappointment_experimental');
+    }
+
+    public function experimentalNavigation()
+    {
+        return view('experimental_navigation');
+    }
 
     public function getdatetime(Request $request)
     {

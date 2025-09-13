@@ -40,6 +40,12 @@ Route::get('/search_result', [App\Http\Controllers\HomeController::class, 'searc
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus']);
 Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'contact']);
 
+// Experimental Design Routes
+Route::get('/experimental', [App\Http\Controllers\HomeController::class, 'indexExperimental'])->name('home.experimental');
+Route::get('/experimental/contact', [App\Http\Controllers\HomeController::class, 'contactusExperimental'])->name('contact.experimental');
+Route::get('/experimental/book-an-appointment', [App\Http\Controllers\HomeController::class, 'bookappointmentExperimental'])->name('bookappointment.experimental');
+Route::get('/experimental/navigation', [App\Http\Controllers\HomeController::class, 'experimentalNavigation'])->name('experimental.navigation');
+
 Route::get('stripe/{appointmentId}', [App\Http\Controllers\HomeController::class, 'stripe']);
 Route::post('stripe', [App\Http\Controllers\HomeController::class, 'stripePost'])->name('stripe.post1');
 
