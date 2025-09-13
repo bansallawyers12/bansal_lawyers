@@ -12,7 +12,7 @@
 	<meta name="keyword" content="Bansal Lawyers">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>Bansal Lawyers | @yield('title')</title>
-	<!--<link rel="icon" type="image/png" href="{{ asset('img/favicon.png')}}">-->
+	<!--<link rel="icon" type="image/png" href="{{ asset('images/favicon.png')}}">-->
 	<link rel="stylesheet" href="{{ asset('css/app.min.css')}}">
 	 <link rel="stylesheet" href="{{ asset('css/fullcalendar.min.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/summernote-bs4.css')}}">
@@ -39,7 +39,9 @@
 
 <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
-<script src="{{ asset('js/jquery-3.6.0.min.js')}}"></script>
+<!-- Updated to jQuery 3.7.1 -->
+<script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
+<script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
 
 <style>
 .dropbtn {

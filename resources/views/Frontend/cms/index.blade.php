@@ -44,18 +44,18 @@
 	<?php
     if( isset($pagedata->slug) ) {
         if($pagedata->slug == "about" ) {
-            $bg_image = asset('img/Aboutus.jpg');
+            $bg_image = asset('images/Aboutus.jpg');
         } else if($pagedata->slug == "practice-areas" ) {
-            $bg_image = asset('img/PracticeArea.jpg');
+            $bg_image = asset('images/PracticeArea.jpg');
         } else if($pagedata->slug == "case" ) {
-            $bg_image = asset('img/CaseStudies.jpg');
+            $bg_image = asset('images/CaseStudies.jpg');
         } else if($pagedata->slug == "blog" ) {
-            $bg_image = asset('img/Blog.jpg');
+            $bg_image = asset('images/Blog.jpg');
         } else {
-            $bg_image = asset('img/bg_1.jpg');
+            $bg_image = asset('images/bg_1.jpg');
         }
     } else {
-        $bg_image = asset('img/bg_1.jpg');
+        $bg_image = asset('images/bg_1.jpg');
     }?>
 	<section class="hero-wrap hero-wrap-2" style="background-image: url('<?php echo $bg_image;?>');margin-bottom: 40px;max-height:422px !important;" data-stellar-background-ratio="0.5">
         <div class="overlay"></div>

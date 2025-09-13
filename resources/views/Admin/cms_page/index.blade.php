@@ -63,9 +63,9 @@
 								 <td>{{ ++$i }}</td>
                                   <td style="white-space: initial;">
 									@if(isset($list->image) && $list->image != "" && file_exists(public_path('img/cmspage/' . $list->image)))
-										<img src="{{ asset('img/cmspage/' . $list->image) }}" style="width: 50px;height: 50px;"/>
+										<img src="{{ asset('images/cmspage/' . $list->image) }}" style="width: 50px;height: 50px;"/>
 									@else
-										<img src="{{ asset('img/avatars/no_image.jpeg') }}" style="width: 50px;height: 50px;"/>
+										<img src="{{ asset('images/avatars/no_image.jpeg') }}" style="width: 50px;height: 50px;"/>
 									@endif
 								  </td>
 								  <td style="white-space: initial;">{{ $list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->title, '50', '...') }}</td> 

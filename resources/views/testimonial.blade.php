@@ -9,7 +9,7 @@
       Testimonials Section
     ============================-->
 
-<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({!! asset('img/Frontend/bg-2.jpg') !!}); padding-top:40px">
+<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({!! asset('images/bg_2.jpg') !!}); padding-top:40px">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -35,7 +35,7 @@
 								<div class="single-step d-flex">
 									<div class="col-md-12">
 										<div class="step-content">
-											<img src="{{ asset('img/testimonial_img/' . @$list->image) }}" style="margin-right:15px; margin-bottom:15px; width:120px" alt="{{@$list->name}}" align="left" />
+											<img src="{{ asset('images/testimonial_img/' . @$list->image) }}" style="margin-right:15px; margin-bottom:15px; width:120px" alt="{{@$list->name}}" align="left" />
 											<h6>{{@$list->name}}</h6>
 											<p>{{@$list->description}}</p>
 										</div>

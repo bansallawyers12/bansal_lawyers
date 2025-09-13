@@ -75,24 +75,24 @@
 								<!-- <tr id="id_{{$list->id}}">  -->
 								  <!-- <td>{{$list->id}}</td>  -->
 								 {{-- @if($list->image)--}}
-								  <!--<td><img src="{{ asset('img/blog/' . $list->image) }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>-->
+								  <!--<td><img src="{{ asset('images/blog/' . $list->image) }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>-->
 								  {{--@else--}}
-								  <!--<td><img src="{{ asset('img/avatars/no_image.jpeg') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>-->
+								  <!--<td><img src="{{ asset('images/avatars/no_image.jpeg') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>-->
 								 {{-- @endif--}}
 
 								    <?php
                                     if(isset($list->image) && $list->image != ""){
                                         $extension = pathinfo($list->image, PATHINFO_EXTENSION); //echo $extension;
                                         if( strtolower($extension) == 'mp4' ){ ?>
-                                            <td><img src="{{ asset('img/avatars/mp4-outline.png') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
+                                            <td><img src="{{ asset('images/avatars/mp4-outline.png') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
                                         <?php } else if(strtolower($extension) == 'pdf') { ?>
-                                            <td><img src="{{ asset('img/avatars/pdf_icon.png') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
+                                            <td><img src="{{ asset('images/avatars/pdf_icon.png') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
                                         <?php } else { ?>
-                                            <td><img src="{{ asset('img/blog/' . $list->image) }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
+                                            <td><img src="{{ asset('images/blog/' . $list->image) }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
                                         <?php
                                         }
                                     } else {?>
-                                        <td><img src="{{ asset('img/avatars/no_image.jpeg') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
+                                        <td><img src="{{ asset('images/avatars/no_image.jpeg') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
                                     <?php } ?>
 
 								  <td style="white-space: initial;">{{ $list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->title, '50', '...') }}</td>

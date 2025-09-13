@@ -92,7 +92,7 @@
     <!-- End Schema Markup -->
 	
 	<!-- Favicons-->
-	<link rel="shortcut icon" href="{{ asset('img/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
+	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
 
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
@@ -132,7 +132,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css')}}">
     <!-- Bootstrap JS and jQuery -->
-    <script src="{{ asset('js/jquery_lawyers-3.6.0.min.js')}}"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
+    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
     <script src="{{ asset('js/bootstrap_lawyers.bundle.min.js')}}"></script>
 
     <style>
@@ -171,24 +172,8 @@
         </svg>
     </div>
 
-    <!-- JavaScript Files - Consolidated jQuery 3.6.0 -->
-    <script>
-        // Prevent jQuery conflicts and ensure proper loading order
-        window.jQuery = window.jQuery || window.$;
-        if (window.jQuery) {
-            window.jQuery.migrateMute = true;
-        }
-    </script>
-    <script src="{{ asset('js/jquery-3.6.0.min.js')}}"></script>
-    <script src="{{ asset('js/jquery-migrate-3.0.1.min.js')}}"></script>
-    <script>
-        // Ensure jQuery Migrate is muted after loading
-        if (typeof jQuery !== 'undefined') {
-            jQuery.migrateMute = true;
-            jQuery.migrateWarnings = [];
-            jQuery.migrateTrace = false;
-        }
-    </script>
+    <!-- JavaScript Files - Consolidated jQuery 3.7.1 -->
+    <!-- jQuery and jQuery Migrate already loaded above -->
     
     <!-- Core Dependencies -->
     <script src="{{ asset('js/popper.min.js')}}"></script>
@@ -251,6 +236,35 @@
                     return { top: 0, left: 0 };
                 }
                 return originalOffset.apply(this, arguments);
+            };
+            
+            // Override jQuery position method
+            var originalPosition = $.fn.position;
+            $.fn.position = function() {
+                if (this.length === 0) {
+                    console.warn('jQuery position called on empty selection');
+                    return { top: 0, left: 0 };
+                }
+                return originalPosition.apply(this, arguments);
+            };
+            
+            // Override jQuery width/height methods
+            var originalWidth = $.fn.width;
+            $.fn.width = function() {
+                if (this.length === 0) {
+                    console.warn('jQuery width called on empty selection');
+                    return 0;
+                }
+                return originalWidth.apply(this, arguments);
+            };
+            
+            var originalHeight = $.fn.height;
+            $.fn.height = function() {
+                if (this.length === 0) {
+                    console.warn('jQuery height called on empty selection');
+                    return 0;
+                }
+                return originalHeight.apply(this, arguments);
             };
         });
     </script>

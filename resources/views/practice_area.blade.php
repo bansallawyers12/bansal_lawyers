@@ -812,7 +812,7 @@
                                                 <div class="elementor-post__card">
                                                     <a class="elementor-post__thumbnail__link" href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" tabindex="-1">
                                                         <div class="elementor-post__thumbnail">
-                                                            <img decoding="async" width="150" height="150" src="{{ asset('img/' . @$list->image) }}" alt="{{@$list->image_alt}}">
+                                                            <img decoding="async" width="150" height="150" src="{{ asset('images/' . @$list->image) }}" alt="{{@$list->image_alt}}">
                                                         </div>
                                                     </a>
                                                     <div class="elementor-post__text">
@@ -845,7 +845,7 @@
                                             @endif
 
                                             <div style="height: 94px;padding-top: 10px;font-weight: 400;">
-                                                <img src="{{ asset('img/bansal_2.jpg') }}" width="70" height="80" alt="Ajay Bansal - CEO of Bansal Lawyers">
+                                                <img src="{{ asset('images/bansal_2.jpg') }}" width="70" height="80" alt="Ajay Bansal - CEO of Bansal Lawyers">
 
                                                 <div style="color: #FFF;font-size: 16px;float: right;padding-top: 20px;width: 71%;">
                                                     There's No Legal Puzzle,<br>
@@ -884,7 +884,8 @@
         <!-- End right-side Code -->
     </div>
 
-	<script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+	<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+	<script src="{{ asset('js/jquery-migrate-3.4.1.min.js') }}"></script>
     <script>
     jQuery(document).ready(function($){
 

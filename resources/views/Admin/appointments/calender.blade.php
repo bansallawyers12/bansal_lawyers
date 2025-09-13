@@ -19,6 +19,9 @@
 					<div class="card">
 						<div class="card-header">
 						    <h4>{{ $type }} Calendar</h4>
+						    <div class="alert alert-info" style="padding: 8px 12px; margin-top: 10px; font-size: 12px; border-radius: 4px;">
+						        <i class="fa fa-clock-o"></i> <strong>Timezone:</strong> All times are displayed in Melbourne, Australia time (AEST/AEDT)
+						    </div>
 						</div>
 						<div class="card-body">
 							 <div class="fc-overflow">
@@ -59,17 +62,25 @@ foreach($appointments as $appointment){
 		//$row['description'] = $appointment->description;
         //$row['description'] = htmlspecialchars($appointment->description, ENT_QUOTES, 'UTF-8');
 
-		$row['startdate'] = date("Y-m-d H:i:s",strtotime($appointment->date));
+	$row['startdate'] = date("Y-m-d H:i:s",strtotime($appointment->date));
 
-		//$row['start'] = date("F d, Y h:i A",strtotime($datetime));
-      	$row['start'] = date("Y-m-d H:i:s",strtotime($datetime));
+	//$row['start'] = date("F d, Y h:i A",strtotime($datetime));
+     	// Fix timezone issue: Use datetime string directly without timezone conversion
+     	// Check if time already has seconds, if not add them
+     	$time_with_seconds = (strlen($appointment->time) == 5) ? $appointment->time . ':00' : $appointment->time;
+     	$datetime_string = $appointment->date . ' ' . $time_with_seconds;
+     	$row['start'] = $datetime_string;
 
 		//$row['end'] = date("F d, Y h:i A",strtotime($appointment->date));
         if( isset($appointment->timeslot_full) && $appointment->timeslot_full != "" ) {
             $timeslot_full_arr = explode("-", $appointment->timeslot_full);
             if(!empty($timeslot_full_arr)){
-                $appointment_end_date_time = $appointment->date.' '.$timeslot_full_arr[1];
-                $row['end'] = date("Y-m-d H:i:s",strtotime($appointment_end_date_time));
+                // Fix timezone issue: Parse end time without timezone conversion
+                $end_time_24h = date("H:i", strtotime($timeslot_full_arr[1]));
+                // Check if time already has seconds, if not add them
+                $end_time_with_seconds = (strlen($end_time_24h) == 5) ? $end_time_24h . ':00' : $end_time_24h;
+                $appointment_end_date_time = $appointment->date . ' ' . $end_time_with_seconds;
+                $row['end'] = $appointment_end_date_time;
             }
         }
 
@@ -232,16 +243,8 @@ var calendar = $("#myEvent").fullCalendar({
   },
   events: events,
   timeFormat: 'h:mm A',
-  // Ensure proper parsing of ISO 8601 dates
-  eventDataTransform: function(eventData) {
-    if (eventData.start) {
-      eventData.start = moment(eventData.start).toISOString();
-    }
-    if (eventData.end) {
-      eventData.end = moment(eventData.end).toISOString();
-    }
-    return eventData;
-  },
+  timezone: 'Australia/Melbourne',
+  // Remove timezone conversion to prevent date/time shifting
   eventClick: function(info) {
 		console.log(info);
             var details = $('#event-details-modal');

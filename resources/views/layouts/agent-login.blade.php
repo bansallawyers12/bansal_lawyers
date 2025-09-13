@@ -8,10 +8,10 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="description" content="Best tour planner is leading travel agency in delhi offer best holiday packages services">
 	<meta name="author" content="Ansonika">
-	<link rel="shortcut icon" type="image/png" href="{!! asset('img/favicon.png') !!}"/>
+	<link rel="shortcut icon" type="image/png" href="{!! asset('images/favicon.png') !!}"/>
 	<title>CRM Digitrex | @yield('title')</title>
 	<!-- Favicons-->
-	<link rel="shortcut icon" href="{!! asset('img/Frontend/img/favicon.png') !!}" type="image/x-icon">
+	<link rel="shortcut icon" href="{!! asset('images/Frontend/img/favicon.png') !!}" type="image/x-icon">
 			 
 	 <!-- BASE CSS -->
 	<link href="{{ asset('css/app.min.css')}}" rel="stylesheet">	

@@ -69,7 +69,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   	<!-- End Schema Markup -->
   
      <!-- Favicons-->
-	<link rel="shortcut icon" href="{{ asset('img/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
+	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" media="print" onload="this.media='all'">
 
@@ -95,8 +95,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
     <!-- Bootstrap JS and jQuery - Consolidated -->
-    <script src="{{ asset('js/jquery-3.6.0.min.js')}}" defer></script>
-    <script src="{{ asset('js/bootstrap_lawyers.bundle.min.js')}}" defer></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
+    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
+    <script src="{{ asset('js/bootstrap_lawyers.bundle.min.js')}}"></script>
   
     <!-- Meta Pixel Code -->
     <script>
@@ -876,52 +877,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      
 	</style>
   
-  	<!-- jQuery already loaded above -->
-  	<script>
- 	$(document).ready(function () { //alert('ready');
-        // Global error handler to prevent console errors from affecting performance
-        window.addEventListener('error', function(e) {
-            // Suppress jQuery Migrate warnings
-            if (e.message && e.message.includes('JQMIGRATE')) {
-                return true; // Suppress jQuery Migrate warnings
-            }
-            return true; // Prevent default error handling
-        });
-        
-        // jQuery error handler
-        $(window).on('error', function(e) {
-            // Suppress jQuery Migrate warnings
-            if (e.originalEvent && e.originalEvent.message && e.originalEvent.message.includes('JQMIGRATE')) {
-                return true; // Suppress jQuery Migrate warnings
-            }
-            return true;
-        });
-        
-        // Override console methods to suppress jQuery Migrate warnings
-        var originalWarn = console.warn;
-        var originalLog = console.log;
-        var originalError = console.error;
-        
-        console.warn = function(message) {
-            if (typeof message === 'string' && message.includes('JQMIGRATE')) {
-                return; // Suppress jQuery Migrate warnings
-            }
-            originalWarn.apply(console, arguments);
-        };
-        
-        console.log = function(message) {
-            if (typeof message === 'string' && message.includes('JQMIGRATE')) {
-                return; // Suppress jQuery Migrate warnings
-            }
-            originalLog.apply(console, arguments);
-        };
-        
-        console.error = function(message) {
-            if (typeof message === 'string' && message.includes('JQMIGRATE')) {
-                return; // Suppress jQuery Migrate warnings
-            }
-            originalError.apply(console, arguments);
-        };
+	<!-- jQuery and jQuery Migrate already loaded above -->
+	<script>
+	$(document).ready(function () {
         function updateHeroImage() {
             var windowWidth = $(window).width();
           	var windowHeight = $(window).height();
@@ -929,15 +887,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
             if (windowWidth < 768) {
                 // Mobile Image
-                //imageElement.attr("src", "{{ asset('img/coart_1-mobile.jpg') }}");
-                imageElement.attr("src", "{{ asset('img/coart_1.jpg') }}");
+                //imageElement.attr("src", "{{ asset('images/coart_1-mobile.jpg') }}");
+                imageElement.attr("src", "{{ asset('images/coart_1.jpg') }}");
             } else if (windowWidth >= 768 && windowWidth < 1024) {
                 // Tablet Image
-                //imageElement.attr("src", "{{ asset('img/coart_1-tablet.jpg') }}");
-                imageElement.attr("src", "{{ asset('img/coart_1.jpg') }}");
+                //imageElement.attr("src", "{{ asset('images/coart_1-tablet.jpg') }}");
+                imageElement.attr("src", "{{ asset('images/coart_1.jpg') }}");
             } else {
                 // Desktop Image
-                imageElement.attr("src", "{{ asset('img/coart_1.jpg') }}");
+                imageElement.attr("src", "{{ asset('images/coart_1.jpg') }}");
             }
         }
 
@@ -1176,18 +1134,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 
     <!-- JavaScript Files - Optimized Loading Order -->
-    <!-- jQuery already loaded above with defer -->
-    <script>
-        // Ensure jQuery Migrate is properly configured
-        window.addEventListener('DOMContentLoaded', function() {
-            if (typeof jQuery !== 'undefined') {
-                jQuery.migrateMute = true;
-                jQuery.migrateWarnings = [];
-                jQuery.migrateTrace = false;
-            }
-        });
-    </script>
-    <script src="{{ asset('js/jquery-migrate-3.0.1.min.js')}}"></script>
+    <!-- jQuery and jQuery Migrate already loaded above -->
     <script src="{{ asset('js/popper.min.js')}}"></script>
     <script src="{{ asset('js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>

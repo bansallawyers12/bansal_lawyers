@@ -3,7 +3,8 @@
 <head>
     <title>Stripe Payment</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
-    <script src="{{ asset('js/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
+    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
 </head>
 <body>
 

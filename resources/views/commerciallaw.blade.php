@@ -595,7 +595,7 @@
                                             <div class="elementor-post__card">
                                                 <a class="elementor-post__thumbnail__link" href="/business-law" tabindex="-1">
                                                     <div class="elementor-post__thumbnail">
-                                                        <img decoding="async" width="150" height="150" src="{{ asset('img/Business_Law.png') }}" alt="Business Law">
+                                                        <img decoding="async" width="150" height="150" src="{{ asset('images/Business_Law.png') }}" alt="Business Law">
                                                     </div>
                                                 </a>
                                                 <div class="elementor-post__text">
@@ -612,7 +612,7 @@
                                             <div class="elementor-post__card">
                                                 <a class="elementor-post__thumbnail__link" href="/leasing-or-selling-a-business" tabindex="-1">
                                                     <div class="elementor-post__thumbnail">
-                                                        <img decoding="async" width="150" height="150" src="{{ asset('img/leasing_and_selling_business.png') }}" alt="Leasing or selling a business">
+                                                        <img decoding="async" width="150" height="150" src="{{ asset('images/leasing_and_selling_business.png') }}" alt="Leasing or selling a business">
                                                     </div>
                                                 </a>
                                                 <div class="elementor-post__text">
@@ -628,7 +628,7 @@
                                             <div class="elementor-post__card">
                                                 <a class="elementor-post__thumbnail__link" href="/leasing-or-selling-a-business" tabindex="-1">
                                                     <div class="elementor-post__thumbnail">
-                                                        <img decoding="async" width="150" height="150" src="{{ asset('img/contract_or_business_agreement.png') }}" alt="Contracts or Business Agreements">
+                                                        <img decoding="async" width="150" height="150" src="{{ asset('images/contract_or_business_agreement.png') }}" alt="Contracts or Business Agreements">
                                                     </div>
                                                 </a>
                                                 <div class="elementor-post__text">
@@ -645,7 +645,7 @@
                                             <div class="elementor-post__card">
                                                 <a class="elementor-post__thumbnail__link" href="/leasing-or-selling-a-business" tabindex="-1">
                                                     <div class="elementor-post__thumbnail">
-                                                        <img decoding="async" width="150" height="150" src="{{ asset('img/loan_agreement.png') }}" alt="Loan Agreement">
+                                                        <img decoding="async" width="150" height="150" src="{{ asset('images/loan_agreement.png') }}" alt="Loan Agreement">
                                                     </div>
                                                 </a>
                                                 <div class="elementor-post__text">

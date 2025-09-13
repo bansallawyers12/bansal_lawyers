@@ -253,7 +253,7 @@ b, strong {
 }
 
 </style>
-<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({{ asset('img/Frontend/bg-2.jpg') }}); padding-top:40px">
+<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({{ asset('images/bg_2.jpg') }}); padding-top:40px">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -319,7 +319,7 @@ b, strong {
                             <div id="confirm_div" class="col-12 col-md-6 col-lg-6" style="margin-left: 15px;width: 90%;">
 
                                 <div id="loading">
-                                    <img id="loading-image" src="{{ asset('img/ajax-loader.gif') }}" alt="Loading..." />
+                                    <img id="loading-image" src="{{ asset('images/ajax-loader.gif') }}" alt="Loading..." />
                                 </div>
 
                                 <div class="row nature_of_enquiry_row" id="nature_of_enquiry">
@@ -414,6 +414,9 @@ b, strong {
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="description">Date & Time</label>
+                                                        <div class="alert alert-info" style="padding: 8px 12px; margin-bottom: 10px; font-size: 12px; border-radius: 4px;">
+                                                            <i class="fa fa-clock-o"></i> <strong>Timezone:</strong> All times are displayed in Melbourne, Australia time (AEST/AEDT)
+                                                        </div>
 
                                                         <div style="width:150%;height:205px;">
                                                             <div style="width:30%">
@@ -531,7 +534,7 @@ b, strong {
             <form role="form" action="{{ route('stripe.post') }}" method="post" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
             @csrf
                 <div id="loading_popup">
-                    <img id="loading-image_popup" src="{{ asset('img/ajax-loader.gif') }}" alt="Loading..." />
+                    <img id="loading-image_popup" src="{{ asset('images/ajax-loader.gif') }}" alt="Loading..." />
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="noe_id" id="noe_id_paid" value="">
@@ -887,42 +890,81 @@ jQuery(document).ready(function($){
 							datesDisabled: datesForDisable,
 							daysOfWeekDisabled: daysOfWeek,
 							beforeShowDay: function(date) {
-								var day = date.getDay();  //console.log('day='+day);
-								var hours = date.getHours();  //console.log('hours='+hours);
-								var dateString = moment(date).format('YYYY-MM-DD'); //console.log('dateString='+dateString);
-								// Disable specific time slots for specific dates
-								if (dateString === '2024-05-23' && (hours == 10 ) ) {
-									return { enabled: false, tooltip: 'Time slots are disabled for this date' };
+								try {
+									var day = date.getDay();  //console.log('day='+day);
+									var hours = date.getHours();  //console.log('hours='+hours);
+									var dateString = moment(date).format('YYYY-MM-DD'); //console.log('dateString='+dateString);
+									// Disable specific time slots for specific dates
+									if (dateString === '2024-05-23' && (hours == 10 ) ) {
+										return { enabled: false, tooltip: 'Time slots are disabled for this date' };
+									}
+									// Enable all other time slots
+									return { enabled: true };
+								} catch (e) {
+									console.warn('Error in beforeShowDay:', e);
+									return { enabled: true };
 								}
-								// Enable all other time slots
-								return { enabled: true };
 							},
 							format: 'dd/mm/yyyy'
 						});
 						console.log('Calendar initialized successfully');
 					} catch (error) {
 						console.error('Error initializing calendar:', error);
+						// Fallback: try to initialize with minimal options
+						try {
+							$('#datetimepicker').datepicker({
+								startDate: new Date(),
+								format: 'dd/mm/yyyy'
+							});
+							console.log('Calendar initialized with fallback options');
+						} catch (fallbackError) {
+							console.error('Fallback calendar initialization failed:', fallbackError);
+						}
 					}
 					$('#datetimepicker').on('changeDate', function(e) {
-                        var date = e.format('YYYY-MM-DD'); // Use ISO format for backend
-                        var displayDate = e.format('DD/MM/YYYY'); // Keep display format for user
-                        var checked_date = e.date.toLocaleDateString('en-US');
-                        
-                        // Fix date display - ensure proper formatting
-                        if (displayDate && displayDate !== 'Invalid date') {
-                            $('.showselecteddate').html(displayDate);
-                        } else {
-                            // Fallback formatting
-                            var day = e.date.getDate();
-                            var month = e.date.getMonth() + 1;
-                            var year = e.date.getFullYear();
-                            var formattedDate = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
-                            $('.showselecteddate').html(formattedDate);
+                        try {
+                            // Fix: Use moment.js to format dates properly
+                            if (!moment || typeof moment !== 'function') {
+                                console.error('Moment.js not loaded, using fallback formatting');
+                                // Fallback formatting without moment.js
+                                var day = e.date.getDate();
+                                var month = e.date.getMonth() + 1;
+                                var year = e.date.getFullYear();
+                                var date = year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+                                var displayDate = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
+                            } else {
+                                var date = moment(e.date).format('YYYY-MM-DD'); // Use ISO format for backend
+                                var displayDate = moment(e.date).format('DD/MM/YYYY'); // Keep display format for user
+                            }
+                            var checked_date = e.date.toLocaleDateString('en-US');
+                            
+                            // Fix date display - ensure proper formatting
+                            if (displayDate && displayDate !== 'Invalid date') {
+                                $('.showselecteddate').html(displayDate);
+                            } else {
+                                // Fallback formatting
+                                var day = e.date.getDate();
+                                var month = e.date.getMonth() + 1;
+                                var year = e.date.getFullYear();
+                                var formattedDate = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
+                                $('.showselecteddate').html(formattedDate);
+                            }
+                            
+                            $('input[name="date"]').val(date);
+                            $('#timeslot_col_date').val(date);
+                            console.log('Set date to:', date);
+                        } catch (error) {
+                            console.error('Error in date change event:', error);
+                            // Fallback: use current date
+                            var currentDate = new Date();
+                            var fallbackDate = currentDate.getFullYear() + '-' + 
+                                             String(currentDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                                             String(currentDate.getDate()).padStart(2, '0');
+                            $('input[name="date"]').val(fallbackDate);
+                            $('#timeslot_col_date').val(fallbackDate);
+                            $('.showselecteddate').html(currentDate.toLocaleDateString('en-GB'));
+                            console.log('Using fallback date:', fallbackDate);
                         }
-                        
-                        $('input[name="date"]').val(date);
-                        $('#timeslot_col_date').val(date);
-                        console.log('Set date to:', date);
 
                         $('.timeslots').html('');
                         var start_time = parseTime(starttime),
@@ -945,28 +987,31 @@ jQuery(document).ready(function($){
                                     for(var i = start_time; i<end_time; i = i+interval){
                                         var timeString = start_timer + interval;
                                         // Prepend any date. Use your birthday.
-                                        const timeString12hr = new Date('1970-01-01T' + convertHours(start_timer) + 'Z')
-                                        .toLocaleTimeString('en-US',
-                                            {timeZone:'UTC',hour12:true,hour:'numeric',minute:'numeric'}
-                                        );
-                                        const timetoString12hr = new Date('1970-01-01T' + convertHours(timeString) + 'Z')
-                                        .toLocaleTimeString('en-US',
-                                            {timeZone:'UTC',hour12:true,hour:'numeric',minute:'numeric'}
-                                        );
+                                        // Fix: Handle 12-hour format properly
+                                        var start_hour = Math.floor(start_timer/60);
+                                        var start_min = start_timer % 60;
+                                        var end_hour = Math.floor(timeString/60);
+                                        var end_min = timeString % 60;
+                                        
+                                        // Convert to 12-hour format manually
+                                        var timeString12hr = formatTo12Hour(start_hour, start_min);
+                                        var timetoString12hr = formatTo12Hour(end_hour, end_min);
 
                                         var today_date = new Date();
-                                        //const options = { timeZone: 'Australia/Sydney'};
-                                        today_date = today_date.toLocaleDateString('en-US');
+                                        // Use Melbourne timezone for current date
+                                        const options = { timeZone: 'Australia/Melbourne'};
+                                        today_date = today_date.toLocaleDateString('en-AU', options);
 
-                                        // current time
+                                        // current time in Melbourne timezone
                                         var now = new Date();
-                                        var nowTime = new Date('1/1/1900 ' + now.toLocaleTimeString(navigator.language, {
+                                        var nowTime = new Date('1/1/1900 ' + now.toLocaleTimeString('en-AU', {
+                                            timeZone: 'Australia/Melbourne',
                                             hour: '2-digit',
                                             minute: '2-digit',
                                             hour12: true
 									    }));
 
-                                        var current_time=nowTime.toLocaleTimeString('en-US');
+                                        var current_time=nowTime.toLocaleTimeString('en-AU');
                                         if(objdisable.length > 0){
                                             //if(jQuery.inArray(timeString12hr, objdisable) != -1  || jQuery.inArray(timetoString12hr, objdisable) != -1) { //console.log('ifff');
                                             if(jQuery.inArray(timeString12hr, objdisable) != -1  ) {
@@ -1208,6 +1253,19 @@ jQuery(document).ready(function($){
     function pad (str, max) {
         str = str.toString();
         return str.length < max ? pad("0" + str, max) : str;
+    }
+
+    function formatTo12Hour(hour, min) {
+        var period = 'AM';
+        if (hour === 0) {
+            hour = 12; // 12 AM (midnight)
+        } else if (hour === 12) {
+            period = 'PM'; // 12 PM (noon)
+        } else if (hour > 12) {
+            hour = hour - 12;
+            period = 'PM';
+        }
+        return hour + ':' + pad(min, 2) + ' ' + period;
     }
 
     function calculate_time_slot(start_time, end_time, interval = "15"){

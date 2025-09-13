@@ -12,13 +12,14 @@
 	<meta name="keyword" content="Bansal Lawyers">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>Bansal Lawyers | @yield('title')</title>
-	<!--<link rel="icon" type="image/png" href="{{ asset('img/favicon.png')}}">-->
+	<!--<link rel="icon" type="image/png" href="{{ asset('images/favicon.png')}}">-->
 	<!-- Modern Vite CSS Bundle - Optimized Performance -->
 	@vite(['resources/sass/app.scss', 'resources/css/admin.css'])
 
 
 <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
+<!-- Updated to jQuery 3.7.1 -->
 
 <style@cspnonce>
 .dropbtn {

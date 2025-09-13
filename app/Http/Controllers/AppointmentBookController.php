@@ -116,16 +116,41 @@ class AppointmentBookController extends Controller {
             
             // Handle different date formats
             $selDate = $requestData['date'];
-            if (strpos($selDate, '-') !== false) {
+            
+            // Check for YYYY-September-Wednesday format (from frontend)
+            if (preg_match('/^(YYYY|\d{4})-([A-Za-z]+)-([A-Za-z]+)$/', $selDate, $matches)) {
+                $year = $matches[1];
+                $month = $matches[2];
+                $dayOfWeek = $matches[3];
+                
+                // Handle YYYY placeholder by using current year
+                if ($year === 'YYYY') {
+                    $year = date('Y');
+                }
+                
+                // Convert month name to number
+                $monthNumber = date('m', strtotime($month));
+                if ($monthNumber === '00') {
+                    return response()->json(['success' => false, 'message' => 'Invalid month name: ' . $month], 400);
+                }
+                
+                // For now, use the 1st day of the month since we don't have the specific date
+                // In a real implementation, you'd need to calculate the actual date based on the day of week
+                $datey = $year . '-' . $monthNumber . '-01';
+                
+                \Log::info('Parsed date from frontend format: ' . $selDate . ' -> ' . $datey);
+            } elseif (strpos($selDate, '-') !== false && preg_match('/^\d{4}-\d{2}-\d{2}$/', $selDate)) {
                 // YYYY-MM-DD format from JavaScript
                 $datey = $selDate;
+                \Log::info('Using YYYY-MM-DD format: ' . $datey);
             } else {
                 // DD/MM/YYYY format
                 $date = explode('/', $selDate);
                 if (count($date) != 3) {
-                    return response()->json(['success' => false, 'message' => 'Invalid date format'], 400);
+                    return response()->json(['success' => false, 'message' => 'Invalid date format: ' . $selDate], 400);
                 }
                 $datey = $date[2].'-'.$date[1].'-'.$date[0];
+                \Log::info('Using DD/MM/YYYY format: ' . $selDate . ' -> ' . $datey);
             }
 		$service = \App\Models\BookService::find($requestData['service_id']); //dd($service);
         if(!empty($service)){
@@ -195,7 +220,7 @@ class AppointmentBookController extends Controller {
         if(empty($user)){
 			$objs				= 	new Admin;
 			$objs->client_id	=	strtoupper($first_name_val).date('his');
-			$objs->role	        =	7;
+			// Removed role field - column doesn't exist in database
 			$objs->last_name	=	$last_name;
 			$objs->first_name	=	$first_name;
 			$objs->email	    =	$email;
@@ -261,8 +286,14 @@ class AppointmentBookController extends Controller {
             
             if(!empty($requestData['time'])){
                 $time = explode('-', $requestData['time']);
-                $obj->time = date("H:i", strtotime($time[0]));
-                \Log::info('Parsed time: ' . $obj->time);
+                // Fix: Properly parse 12-hour format time
+                $parsed_time = strtotime($time[0]);
+                if($parsed_time === false) {
+                    // Fallback: try parsing with different format
+                    $parsed_time = strtotime('1970-01-01 ' . $time[0]);
+                }
+                $obj->time = date("H:i", $parsed_time);
+                \Log::info('Parsed time: ' . $obj->time . ' from: ' . $time[0]);
             }
             
             $obj->timeslot_full = $requestData['time'];

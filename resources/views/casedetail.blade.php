@@ -43,7 +43,7 @@
 @endsection
 @section('content')
 
-<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('img/bg_1.jpg') }}');display:none;" data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('images/bg_1.jpg') }}');display:none;" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-center">
@@ -369,7 +369,7 @@ ul,li {
           ?>
   			 <div class="et_pb_title_featured_container">
                 <span class="et_pb_image_wrap">
-                    <img fetchpriority="high" decoding="async"  src="{{ asset('img/blog/' . @$casedetailists->image) }}" alt="{{@$casedetailists->slug}}" class="wp-image-512">
+                    <img fetchpriority="high" decoding="async"  src="{{ asset('images/blog/' . @$casedetailists->image) }}" alt="{{@$casedetailists->slug}}" class="wp-image-512">
                 </span>
             </div>
 

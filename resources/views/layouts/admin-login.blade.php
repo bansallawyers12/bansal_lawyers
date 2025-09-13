@@ -8,10 +8,10 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="description" content="">
 	<meta name="author" content="Bansal Lawyers">
-	<!--<link rel="shortcut icon" type="image/png" href="{{--asset('img/favicon.png')--}}"/>-->
+	<!--<link rel="shortcut icon" type="image/png" href="{{--asset('images/favicon.png')--}}"/>-->
 	<title>Bansal Lawyers | @yield('title')</title>
 	<!-- Favicons-->
-	<!--<link rel="shortcut icon" href="{{--asset('img/Frontend/img/bansal-favicon.png')--}}" type="image/x-icon">-->
+	<!--<link rel="shortcut icon" href="{{--asset('images/Frontend/img/bansal-favicon.png')--}}" type="image/x-icon">-->
 
 	 <!-- BASE CSS -->
 	<link href="{{ asset('css/app.min.css')}}" rel="stylesheet">

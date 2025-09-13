@@ -90,7 +90,7 @@
 }
 </style>
 
-<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('img/bg_1.jpg') }}');" data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('images/bg_1.jpg') }}');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-center">
@@ -131,7 +131,7 @@
                 <div class="col-md-4 d-flex ftco-animate">
                     <div class="blog-entry justify-content-end">
                        <a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" class="block-20" 
-   style="background-image: url('{{ asset('img/blog/' . @$list->image) }}');color:#1B4D89 !important;" 
+   style="background-image: url('{{ asset('images/blog/' . @$list->image) }}');color:#1B4D89 !important;" 
    onclick="showFullBlog(1)">
    <span class="visually-hidden">{{ @$list->title }}</span>
 </a>

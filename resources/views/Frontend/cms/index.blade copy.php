@@ -11,14 +11,14 @@
 	<meta property="og:site_name" content="<?php echo @\App\Models\ThemeOption::where('meta_key','site_name')->first()->meta_value; ?>" />
 	<meta property="article:publisher" content="https://www.facebook.com/people/Bansal-Lawyers/61562008576642/" />
 	<meta property="article:modified_time" content="2023-04-04T21:06:24+00:00" />
-	<!--<meta property="og:image" content="{{ asset('img/bansal-immigration-icon.jpg') }}" />-->
+	<!--<meta property="og:image" content="{{ asset('images/bansal-immigration-icon.jpg') }}" />-->
 	<meta property="og:image:width" content="200" />
 	<meta property="og:image:height" content="200" />
 	<meta property="og:image:type" content="image/jpeg" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="{{@$pagedata->meta_title}}" />
 	<meta name="twitter:description" content="{{@$pagedata->meta_description}}" />
-	<!--<meta name="twitter:image" content="{{ asset('img/bansal-immigration-icon.jpg') }}" />-->
+	<!--<meta name="twitter:image" content="{{ asset('images/bansal-immigration-icon.jpg') }}" />-->
 	<meta name="twitter:site" content="{{--@Bansalimmi--}}" />
 	<meta name="twitter:label1" content="Est. reading time" />
 	<meta name="twitter:data1" content="6 minutes" />-->
@@ -26,7 +26,7 @@
 @section('content')
 
 
-<!--<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({{--asset('img/Frontend/bg-2.jpg')--}});">
+<!--<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({{--asset('images/bg_2.jpg')--}});">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -46,7 +46,7 @@
 			<div class="col-12 col-md-12">
 				<div class="cus_inner_content">
 					<?php if($pagedata->image != ''){ ?>
-					<img src="{{ asset('img/cmspage/') }}/<?php echo $pagedata->image; ?>" alt="" class="page_image" />
+					<img src="{{ asset('images/cmspage/') }}/<?php echo $pagedata->image; ?>" alt="" class="page_image" />
 					<?php } ?>
                     <?php echo $pagedata->content; ?>
                 </div>

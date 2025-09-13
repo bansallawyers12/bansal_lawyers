@@ -1,6 +1,16 @@
-AOS.init({
-	duration: 800,
-	easing: 'slide'
+// AOS initialization with proper guards
+document.addEventListener("DOMContentLoaded", function() {
+	// Check if AOS is available and DOM elements exist
+	if (typeof AOS !== 'undefined') {
+		// Check if there are any AOS elements on the page
+		var aosElements = document.querySelectorAll('[data-aos]');
+		if (aosElements.length > 0) {
+			AOS.init({
+				duration: 800,
+				easing: 'slide'
+			});
+		}
+	}
 });
 
 (function ($) {
@@ -404,6 +414,11 @@ document.addEventListener("DOMContentLoaded", function () {
     var modalOpened = false; // Prevent multiple triggers
 
 	function checkIfInView() {
+		// Fix: Add null check to prevent getBoundingClientRect errors
+		if (!videoSection) {
+			console.warn('Video section element not found, skipping scroll check');
+			return;
+		}
 		var rect = videoSection.getBoundingClientRect();
 		var windowHeight = window.innerHeight || document.documentElement.clientHeight;
 		var sectionCenter = rect.top + rect.height / 2; // Get the center position of the section

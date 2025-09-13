@@ -12,7 +12,7 @@
 	<meta name="keyword" content="Bansal Lawyers">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>Bansal Lawyers | @yield('title')</title>
-	<!--<link rel="icon" type="image/png" href="{{ asset('img/favicon.png')}}">-->
+	<!--<link rel="icon" type="image/png" href="{{ asset('images/favicon.png')}}">-->
 	<!-- Modern Vite CSS Bundle - Optimized Performance -->
 	@vite(['resources/sass/app.scss', 'resources/css/admin.css'])
 

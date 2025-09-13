@@ -18,7 +18,7 @@
 				<tbody>
 					<tr>
 						<td style="text-align: left;">
-                            <img width="80" style="height:auto;display:block;" src="{{ asset('img/profile_imgs/' . $admin->profile_img) }}" alt="Logo"/>
+                            <img width="80" style="height:auto;display:block;" src="{{ asset('images/profile_imgs/' . $admin->profile_img) }}" alt="Logo"/>
                             
 							<p style="font-size: 15px;line-height: 21px;color: #333;font-weight: normal;">
                                 BANSAL EDUCATION GROUP<br/>

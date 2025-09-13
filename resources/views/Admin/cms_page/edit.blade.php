@@ -62,9 +62,9 @@
 									<input type="file" name="image" class="form-control" autocomplete="off"  />
 									<div class="show-uploded-img">
 										@if(!empty($fetchedData->image) && file_exists(public_path('img/cmspage/' . $fetchedData->image)))
-											<img width="70" src="{{ asset('img/cmspage/' . $fetchedData->image) }}" class="img-avatar"/>
+											<img width="70" src="{{ asset('images/cmspage/' . $fetchedData->image) }}" class="img-avatar"/>
 										@else
-											<img width="70" src="{{ asset('img/avatars/no_image.jpeg') }}" class="img-avatar"/>
+											<img width="70" src="{{ asset('images/avatars/no_image.jpeg') }}" class="img-avatar"/>
 										@endif
 										@if ($errors->has('image'))
 											<span class="custom-error" role="alert">
@@ -160,7 +160,7 @@
 									</div>
 									<div class="upload_img">
 										@if(!empty($fetchedData->pdf_doc))
-											<a target="_blank" href="{{ asset('img/cmspage/' . $fetchedData->pdf_doc) }}">Click Here To Open PDF/Video</a>
+											<a target="_blank" href="{{ asset('images/cmspage/' . $fetchedData->pdf_doc) }}">Click Here To Open PDF/Video</a>
 										@endif
 									</div>
 								</div>

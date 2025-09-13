@@ -9,7 +9,7 @@
 		<meta name="author" content="">
 		<meta name="keyword" content="E-Weblink CRM">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
-		<link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}"/>
+		<link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.png') }}"/>
 		<title>CRM Digitrex | @yield('title')</title>
 		  
 		<!-- Font Awesome -->
@@ -38,7 +38,8 @@
 	  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 	  
 		<!-- jQuery -->
-		<script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>	 
+		<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+		<script src="{{ asset('js/jquery-migrate-3.4.1.min.js') }}"></script>	 
 		<script>var billingdata = new Array();</script>	 
 		
 	<style>
