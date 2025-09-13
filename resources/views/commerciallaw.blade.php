@@ -28,7 +28,7 @@
         <meta property="og:type" content="website">
         <meta property="og:title" content="{{@$pagedata->meta_title}}">
         <meta property="og:description" content="{{@$pagedata->meta_description}}">
-        <meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+        <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
         <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
         <!-- Twitter Meta Tags -->
@@ -39,7 +39,7 @@
         <meta name="twitter:description" content="{{@$pagedata->meta_description}}">
         <meta name="twitter:title" content="{{@$pagedata->meta_title}}">
         <meta name="twitter:description" content="{{@$pagedata->meta_description}}">
-        <meta property="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+        <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
         <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
     <?php
     }
@@ -53,7 +53,7 @@
         <meta property="og:type" content="website">
         <meta property="og:title" content="Commercial Lawyers Melbourne | Business Contracts & Legal Solutions Australia | Bansal Lawyers">
         <meta property="og:description" content="Need expert commercial law advice? Bansal Lawyers in Melbourne specializes in business contracts, disputes, and legal solutions. Get professional legal guidance for your business today!">
-        <meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+        <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
         <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
         <!-- Twitter Meta Tags -->
@@ -64,7 +64,7 @@
         <meta name="twitter:description" content="Need expert commercial law advice? Bansal Lawyers in Melbourne specializes in business contracts, disputes, and legal solutions. Get professional legal guidance for your business today!">
         <meta name="twitter:title" content="Commercial Lawyers Melbourne | Business Contracts & Legal Solutions Australia | Bansal Lawyers">
         <meta name="twitter:description" content="Need expert commercial law advice? Bansal Lawyers in Melbourne specializes in business contracts, disputes, and legal solutions. Get professional legal guidance for your business today!">
-        <meta property="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+        <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
         <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
     <?php
     } ?>

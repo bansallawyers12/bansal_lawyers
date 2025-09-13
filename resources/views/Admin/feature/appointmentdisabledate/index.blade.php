@@ -34,11 +34,11 @@
                                                                                 <th></th>
                                                                         </tr>
                                                                 </thead>
-                                                                @if(@$totalData !== 0)
+                                                                @if($totalData !== 0)
                                                                 <?php $i=0; ?>
                                                                 <tbody class="tdata">
-                                                                @foreach (@$lists as $list)
-                                                                        <tr id="id_{{@$list->id}}">
+                                                                @foreach ($lists as $list)
+                                                                        <tr id="id_{{$list->id}}">
                                         <td><?php
                                         if(isset($list->person_id)){
                                             if($list->person_id == 1){
@@ -83,7 +83,7 @@
                                                                                                 <button class="btn btn-primary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                                                                                                 <div class="dropdown-menu">
                                                                                                         <a class="dropdown-item has-icon" href="{{route('admin.feature.appointmentdisabledate.edit', base64_encode(convert_uuencode($list->id)))}}"><i class="far fa-edit"></i> Edit</a>
-                                                    <a class="dropdown-item has-icon" href="javascript:;" onClick="deleteSlotAction({{@$list->id}}, 'book_service_disable_slots')"><i class="fas fa-trash"></i> Delete</a>
+                                                    <a class="dropdown-item has-icon" href="javascript:;" onClick="deleteSlotAction({{$list->id}}, 'book_service_disable_slots')"><i class="fas fa-trash"></i> Delete</a>
                                                 </div>
                                                                                         </div>
                                                                                 </td>

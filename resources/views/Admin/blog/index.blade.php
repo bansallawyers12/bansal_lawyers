@@ -71,11 +71,11 @@
 								</tr>
 							  </thead>
 							  <tbody class="tdata">
-								@foreach (@$lists as $list)
-								<!-- <tr id="id_{{@$list->id}}">  -->
-								  <!-- <td>{{@$list->id}}</td>  -->
+								@foreach ($lists as $list)
+								<!-- <tr id="id_{{$list->id}}">  -->
+								  <!-- <td>{{$list->id}}</td>  -->
 								 {{-- @if($list->image)--}}
-								  <!--<td><img src="{{ asset('img/blog/' . @$list->image) }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>-->
+								  <!--<td><img src="{{ asset('img/blog/' . $list->image) }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>-->
 								  {{--@else--}}
 								  <!--<td><img src="{{ asset('img/avatars/no_image.jpeg') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>-->
 								 {{-- @endif--}}
@@ -88,23 +88,23 @@
                                         <?php } else if(strtolower($extension) == 'pdf') { ?>
                                             <td><img src="{{ asset('img/avatars/pdf_icon.png') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
                                         <?php } else { ?>
-                                            <td><img src="{{ asset('img/blog/' . @$list->image) }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
+                                            <td><img src="{{ asset('img/blog/' . $list->image) }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
                                         <?php
                                         }
                                     } else {?>
                                         <td><img src="{{ asset('img/avatars/no_image.jpeg') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></td>
                                     <?php } ?>
 
-								  <td style="white-space: initial;">{{ @$list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit(@$list->title, '50', '...') }}</td>
-								  <td style="white-space: initial;">{{ @$list->slug }}</td>
-								  <td style="white-space: initial;">{{ @$list->categorydetail->name }}</td>
-								  <td style="white-space: initial;"><input data-id="{{@$list->id}}"  data-status="{{@$list->status}}" data-col="status" data-table="blogs" class="change-status" value="1" type="checkbox" name="status" {{ (@$list->status == 1 ? 'checked' : '')}} data-bootstrap-switch></td>
+								  <td style="white-space: initial;">{{ $list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->title, '50', '...') }}</td>
+								  <td style="white-space: initial;">{{ $list->slug }}</td>
+								  <td style="white-space: initial;">{{ $list->categorydetail->name }}</td>
+								  <td style="white-space: initial;"><input data-id="{{$list->id}}"  data-status="{{$list->status}}" data-col="status" data-table="blogs" class="change-status" value="1" type="checkbox" name="status" {{ ($list->status == 1 ? 'checked' : '')}} data-bootstrap-switch></td>
 								  <td>
 									<!-- <div class="nav-item dropdown action_dropdown"> -->
 										<!-- <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a> -->
 										<!-- <div class="dropdown-menu"> -->
-											<a class="btn btn-info" href="{{URL::to('/admin/blog/edit/'.base64_encode(convert_uuencode(@$list->id)))}}"> Edit</a>
-											<a class="btn btn-danger" href="javascript:;" onClick="deleteAction({{@$list->id}}, 'blogs')"> Delete</a>
+											<a class="btn btn-info" href="{{URL::to('/admin/blog/edit/'.base64_encode(convert_uuencode($list->id)))}}"> Edit</a>
+											<a class="btn btn-danger" href="javascript:;" onClick="deleteAction({{$list->id}}, 'blogs')"> Delete</a>
 										<!-- </div>
 									</div>  -->
 								  </td>

@@ -79,7 +79,7 @@ foreach($appointments as $appointment){
 
 		$row['appointtime'] = $appointment->time;
 		$row['status'] = $appointment->status;
-		$row['url'] = URL::to('/admin/clients/detail/'.base64_encode(convert_uuencode(@$appointment->client_id)));
+		$row['url'] = URL::to('/admin/clients/detail/'.base64_encode(convert_uuencode($appointment->client_id)));
 
         /*if($appointment->status == 1 || $appointment->status == 2 ){ //1=>Approved,2=>Completed
 			$row['backgroundColor'] = "#54ca68"; //Green

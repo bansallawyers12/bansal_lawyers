@@ -12,7 +12,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Case Studies | Successful Legal Results with Bansal Lawyers Melbourne">
     <meta property="og:description" content="Discover Bansal Lawyers&#039; case studies showcasing successful outcomes in family law, immigration, property disputes, and more. See how our expert legal team in Melbourne can help you achieve the best possible result.">
-    <meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
     <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 	<!-- Twitter Meta Tags -->
@@ -21,7 +21,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/case">
     <meta name="twitter:title" content="Case Studies | Successful Legal Results with Bansal Lawyers Melbourne">
     <meta name="twitter:description" content="Discover Bansal Lawyers&#039; case studies showcasing successful outcomes in family law, immigration, property disputes, and more. See how our expert legal team in Melbourne can help you achieve the best possible result.">
-    <meta name="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+    <meta name="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
     <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 @endsection

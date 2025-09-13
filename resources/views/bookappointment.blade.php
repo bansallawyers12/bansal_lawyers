@@ -11,7 +11,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Book an Appointment | Schedule a Consultation with Top Law Firm Bansal Lawyers Melbourne">
     <meta property="og:description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more.">
-    <meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Twitter Meta Tags -->
@@ -20,7 +20,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/book-an-appointment">
     <meta name="twitter:title" content="Book an Appointment | Schedule a Consultation with Top Law Firm Bansal Lawyers Melbourne">
     <meta name="twitter:description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more.">
-    <meta property="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 <!-- Hotjar Tracking Code for https://www.bansallawyers.com.au/migration-law -->
@@ -294,7 +294,7 @@ b, strong {
 							<ul class="nav nav-tabs" id="myTab" role="tablist">
 								<li class="tab_logo">
 									<a href="#">
-										<img src="{{ asset('img/logo/Bansal_Lawyers.png') }}" alt="" style="background-color: #1B4D89;"/>
+											<img src="{{ asset('images/logo/Bansal_Lawyers.png') }}" alt="" style="background-color: #1B4D89;"/>
 									</a>
 								</li>
 								<li class="nav-item">

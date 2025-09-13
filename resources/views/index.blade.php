@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Best Immigration Lawyer in Melbourne Australia | Bansal Lawyers">
 <meta property="og:description" content="Looking for top-rated lawyers in Australia? Bansal Lawyers offers expert legal services in immigration, family, criminal, and business law. Get legal help today!">
-<meta property="og:image" content="<?php echo URL::to('/'); ?>/images/logo/Bansal_Lawyers.png">
+<meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 <!-- Twitter Meta Tags -->
@@ -22,7 +22,7 @@
 <meta property="twitter:url" content="<?php echo URL::to('/'); ?>">
 <meta name="twitter:title" content="Best Immigration Lawyer in Melbourne Australia | Bansal Lawyers">
 <meta name="twitter:description" content="Looking for top-rated lawyers in Australia? Bansal Lawyers offers expert legal services in immigration, family, criminal, and business law. Get legal help today!">
-<meta property="twitter:image" content="<?php echo URL::to('/'); ?>/images/logo/Bansal_Lawyers.png">
+<meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 

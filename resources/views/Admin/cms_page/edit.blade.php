@@ -37,7 +37,7 @@
 								<input name="title" type="text" value="{{ old('title', $fetchedData->title ?? '') }}" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Name">
 								@if ($errors->has('title'))
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('title') }}</strong>
+										<strong>{{ $errors->first('title') }}</strong>
 									</span>
 								@endif
 								</div>
@@ -49,7 +49,7 @@
 									<input name="slug" type="text" value="{{ old('slug', $fetchedData->slug ?? '') }}" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Slug">
 									@if ($errors->has('slug'))
 										<span class="custom-error" role="alert">
-											<strong>{{ @$errors->first('slug') }}</strong>
+											<strong>{{ $errors->first('slug') }}</strong>
 										</span>
 									@endif
 								</div>
@@ -68,7 +68,7 @@
 										@endif
 										@if ($errors->has('image'))
 											<span class="custom-error" role="alert">
-												<strong>{{ @$errors->first('image') }}</strong>
+												<strong>{{ $errors->first('image') }}</strong>
 											</span>
 										@endif
 									</div>
@@ -81,7 +81,7 @@
 								<input name="image_alt" type="text" value="{{ old('image_alt', $fetchedData->image_alt ?? '') }}" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Image Alt Attr">
 								@if ($errors->has('image_alt'))
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('image_alt') }}</strong>
+										<strong>{{ $errors->first('image_alt') }}</strong>
 									</span>
 								@endif
 								</div>
@@ -90,13 +90,13 @@
 							<div class="form-group row">
 								<label for="description" class="col-sm-2 col-form-label">Description <span style="color:#ff0000;">*</span></label>
 								<div class="col-sm-10">
-									<!--<textarea name="description" data-valid="required" value="" class="textarea" placeholder="Please Add Description Here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{@$fetchedData->content}}</textarea>-->
+									<!--<textarea name="description" data-valid="required" value="" class="textarea" placeholder="Please Add Description Here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{$fetchedData->content}}</textarea>-->
 
 									<textarea class="form-control"  id="description" placeholder="Please Add Description Here" rows="5" name="description">{!! old('description', $fetchedData->content ?? '') !!}</textarea>
 
 									@if ($errors->has('description'))
 										<span class="custom-error" role="alert">
-											<strong>{{ @$errors->first('description') }}</strong>
+											<strong>{{ $errors->first('description') }}</strong>
 										</span>
 									@endif
 								</div>
@@ -107,7 +107,7 @@
 								<input name="meta_title" type="text" value="{{ old('meta_title', $fetchedData->meta_title ?? '') }}" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Title">
 								@if ($errors->has('meta_title'))
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('meta_title') }}</strong>
+										<strong>{{ $errors->first('meta_title') }}</strong>
 									</span>
 								@endif
 								</div>
@@ -118,7 +118,7 @@
 									<textarea name="meta_description" data-valid="" value="" class="form-control" placeholder="Please Add Description Here">{{ old('meta_description', $fetchedData->meta_description ?? '') }}</textarea>
 									@if ($errors->has('meta_description'))
 										<span class="custom-error" role="alert">
-											<strong>{{ @$errors->first('meta_description') }}</strong>
+											<strong>{{ $errors->first('meta_description') }}</strong>
 										</span>
 									@endif
 								</div>
@@ -130,7 +130,7 @@
 								<input name="meta_keyward" type="text" value="{{ old('meta_keyward', $fetchedData->meta_keyward ?? '') }}" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Keyward">
 								@if ($errors->has('meta_keyward'))
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('meta_keyward') }}</strong>
+										<strong>{{ $errors->first('meta_keyward') }}</strong>
 									</span>
 								@endif
 								</div>
@@ -142,7 +142,7 @@
                                 <input name="youtube_url" type="text" value="{{ old('youtube_url', $fetchedData->youtube_url ?? '') }}" class="form-control" data-valid="" autocomplete="off" placeholder="Enter youtube video url">
                                 @if ($errors->has('youtube_url'))
                                     <span class="custom-error" role="alert">
-                                        <strong>{{ @$errors->first('youtube_url') }}</strong>
+                                        <strong>{{ $errors->first('youtube_url') }}</strong>
                                     </span>
                                 @endif
                                 </div>

@@ -23,7 +23,7 @@
 					  <!-- /.card-header -->
 					  <!-- form start -->
 					  <form action="admin/blogcategories/edit" autocomplete="off" method="post">
-					   <input type="hidden" name="id" value="@$fetchedData->id">
+					   <input type="hidden" name="id" value="$fetchedData->id">
 						<div class="card-body">
 							<div class="form-group" style="text-align:right;">
 								<a style="margin-right:5px;" href="{{route('admin.blogcategory.index')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>  
@@ -32,10 +32,10 @@
 							<div class="form-group row"> 
 								<label for="name" class="col-sm-2 col-form-label">Name <span style="color:#ff0000;">*</span></label>
 								<div class="col-sm-10">
-								<input name="name" type="text" value="@$fetchedData->name" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Name">
+								<input name="name" type="text" value="$fetchedData->name" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Name">
 								@if ($errors->has('name'))
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('name') }}</strong>
+										<strong>{{ $errors->first('name') }}</strong>
 									</span> 
 								@endif
 								</div>
@@ -43,10 +43,10 @@
 						  <div class="form-group row"> 
 								<label for="slug" class="col-sm-2 col-form-label">Slug <span style="color:#ff0000;">*</span></label>
 								<div class="col-sm-10">
-									<input name="slug" type="text" value="@$fetchedData->slug" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Slug">
+									<input name="slug" type="text" value="$fetchedData->slug" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Slug">
 									@if ($errors->has('slug'))
 										<span class="custom-error" role="alert">
-											<strong>{{ @$errors->first('slug') }}</strong>
+											<strong>{{ $errors->first('slug') }}</strong>
 										</span> 
 									@endif
 								</div>
@@ -71,7 +71,7 @@
 						  <div class="form-group row">
 								<label for="status" class="col-sm-2 col-form-label">Is Active</label>
 								<div class="col-sm-10">
-									<input value="1" type="checkbox" name="status" {{ (@$fetchedData->status == 1 ? 'checked' : '')}} data-bootstrap-switch>
+									<input value="1" type="checkbox" name="status" {{ ($fetchedData->status == 1 ? 'checked' : '')}} data-bootstrap-switch>
 								</div>
 							</div> 
 						  <div class="form-group float-right">

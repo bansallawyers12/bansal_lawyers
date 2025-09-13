@@ -35,7 +35,7 @@
 								<input name="title" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Title">
 								@if ($errors->has('title'))
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('title') }}</strong>
+										<strong>{{ $errors->first('title') }}</strong>
 									</span>
 								@endif
 								</div>
@@ -46,7 +46,7 @@
 									<input name="slug" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Slug">
 									@if ($errors->has('slug'))
 										<span class="custom-error" role="alert">
-											<strong>{{ @$errors->first('slug') }}</strong>
+											<strong>{{ $errors->first('slug') }}</strong>
 										</span>
 									@endif
 								</div>
@@ -67,7 +67,7 @@
 									</select>
 									@if ($errors->has('parent_category'))
 										<span class="custom-error" role="alert">
-											<strong>{{ @$errors->first('parent_category') }}</strong>
+											<strong>{{ $errors->first('parent_category') }}</strong>
 										</span>
 									@endif
 								</div>
@@ -82,7 +82,7 @@
 									</div>
 									@if ($errors->has('image'))
 										<span class="custom-error" role="alert">
-											<strong>{{ @$errors->first('image') }}</strong>
+											<strong>{{ $errors->first('image') }}</strong>
 										</span>
 									@endif
 								</div>
@@ -91,10 +91,10 @@
                              <div class="form-group row">
                                 <label for="image_alt" class="col-sm-2 col-form-label">Image Alt Attr</label>
                                 <div class="col-sm-10">
-                                <input name="image_alt" type="text" value="@$fetchedData->image_alt" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Image Alt Attr">
+                                <input name="image_alt" type="text" value="$fetchedData->image_alt" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Image Alt Attr">
                                 @if ($errors->has('image_alt'))
                                     <span class="custom-error" role="alert">
-                                        <strong>{{ @$errors->first('image_alt') }}</strong>
+                                        <strong>{{ $errors->first('image_alt') }}</strong>
                                     </span>
                                 @endif
                                 </div>
@@ -106,7 +106,7 @@
 								<input name="short_description" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Short Description">
 								@if ($errors->has('short_description'))
 									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('short_description') }}</strong>
+										<strong>{{ $errors->first('short_description') }}</strong>
 									</span>
 								@endif
 								</div>
@@ -123,10 +123,10 @@
 							<div class="form-group row">
                                 <label for="meta_title" class="col-sm-2 col-form-label">Meta Title </label>
                                 <div class="col-sm-10">
-                                <input name="meta_title" type="text" value="@$fetchedData->meta_title" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Title">
+                                <input name="meta_title" type="text" value="$fetchedData->meta_title" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Title">
                                 @if ($errors->has('meta_title'))
                                     <span class="custom-error" role="alert">
-                                        <strong>{{ @$errors->first('meta_title') }}</strong>
+                                        <strong>{{ $errors->first('meta_title') }}</strong>
                                     </span>
                                 @endif
                                 </div>
@@ -135,10 +135,10 @@
                             <div class="form-group row">
                                 <label for="meta_description" class="col-sm-2 col-form-label">Meta Description </label>
                                 <div class="col-sm-10">
-                                    <textarea name="meta_description" data-valid="" value="" class="form-control" placeholder="Please Add Description Here">{{@$fetchedData->meta_description}}</textarea>
+                                    <textarea name="meta_description" data-valid="" value="" class="form-control" placeholder="Please Add Description Here">{{$fetchedData->meta_description}}</textarea>
                                     @if ($errors->has('meta_description'))
                                         <span class="custom-error" role="alert">
-                                            <strong>{{ @$errors->first('meta_description') }}</strong>
+                                            <strong>{{ $errors->first('meta_description') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -147,10 +147,10 @@
                             <div class="form-group row">
                                 <label for="meta_keyword" class="col-sm-2 col-form-label">Meta Keyword</label>
                                 <div class="col-sm-10">
-                                    <input name="meta_keyword" type="text" value="@$fetchedData->meta_keyword" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Keyword">
+                                    <input name="meta_keyword" type="text" value="$fetchedData->meta_keyword" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Keyword">
                                     @if ($errors->has('meta_keyword'))
                                         <span class="custom-error" role="alert">
-                                            <strong>{{ @$errors->first('meta_keyword') }}</strong>
+                                            <strong>{{ $errors->first('meta_keyword') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -160,10 +160,10 @@
                             <div class="form-group row">
                                 <label for="youtube_url" class="col-sm-2 col-form-label">Youtube Video Url</label>
                                 <div class="col-sm-10">
-                                    <input name="youtube_url" type="text" value="@$fetchedData->youtube_url" class="form-control" data-valid="" autocomplete="off" placeholder="Enter youtube video url">
+                                    <input name="youtube_url" type="text" value="$fetchedData->youtube_url" class="form-control" data-valid="" autocomplete="off" placeholder="Enter youtube video url">
                                     @if ($errors->has('youtube_url'))
                                         <span class="custom-error" role="alert">
-                                            <strong>{{ @$errors->first('youtube_url') }}</strong>
+                                            <strong>{{ $errors->first('youtube_url') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -180,7 +180,7 @@
 									</div>
 									@if ($errors->has('pdf_doc'))
 										<span class="custom-error" role="alert">
-											<strong>{{ @$errors->first('pdf_doc') }}</strong>
+											<strong>{{ $errors->first('pdf_doc') }}</strong>
 										</span>
 									@endif
 								</div>

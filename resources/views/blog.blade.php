@@ -9,7 +9,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Legal Insights & Updates | Bansal Lawyers Blog Melbourne">
   <meta property="og:description" content="Stay informed with Bansal Lawyers' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.">
-  <meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+  <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
   <!-- Twitter Meta Tags -->
@@ -18,7 +18,7 @@
   <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/blog">
   <meta name="twitter:title" content="Legal Insights & Updates | Bansal Lawyers Blog Melbourne">
   <meta name="twitter:description" content="Stay informed with Bansal Lawyers' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.">
-  <meta property="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+  <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 @endsection

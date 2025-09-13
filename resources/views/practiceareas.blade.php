@@ -12,7 +12,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Legal Services in Australia | Family, Immigration, Property & More">
     <meta property="og:description" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!">
-    <meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 
@@ -22,7 +22,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/practice-areas">
     <meta name="twitter:title" content="Legal Services in Australia | Family, Immigration, Property & More">
     <meta name="twitter:description" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!">
-    <meta property="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
+    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 @endsection

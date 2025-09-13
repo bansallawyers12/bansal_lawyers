@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Get Expert Legal Assistance from Best law firms in Melbourne Australia | Bansal Lawyers">
     <meta property="og:description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!">
-    <meta property="og:image" content="<?php echo URL::to('/'); ?>/images/logo/Bansal_Lawyers.png">
+    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Twitter Meta Tags -->
@@ -24,7 +24,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/contact">
     <meta name="twitter:title" content="Get Expert Legal Assistance from Best law firms in Melbourne Australia | Bansal Lawyers">
     <meta name="twitter:description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!">
-    <meta property="twitter:image" content="<?php echo URL::to('/'); ?>/images/logo/Bansal_Lawyers.png">
+    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 @endsection

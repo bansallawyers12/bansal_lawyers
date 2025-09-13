@@ -74,7 +74,7 @@
                                             <td>
                                                 {{ $appointment->clients->first_name }}  {{$appointment->clients->last_name}} <br>
                                                 {{ $appointment->clients->client_id }}
-                                                <!--<a href="{{--URL::to('/admin/clients/detail/'.base64_encode(convert_uuencode(@$appointment->client_id)))--}}" target="_blank" >{{--$appointment->clients->client_id--}}</a>-->
+                                                <!--<a href="{{--URL::to('/admin/clients/detail/'.base64_encode(convert_uuencode($appointment->client_id)))--}}" target="_blank" >{{--$appointment->clients->client_id--}}</a>-->
                                             
                                             </td>
 											<td>{{date('d/m/Y', strtotime($appointment->date ))}} {{ $appointment->time }}</td>

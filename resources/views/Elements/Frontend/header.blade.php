@@ -1,7 +1,7 @@
 <nav class="navbar px-md-0 navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
         <a class="navbar-brand" href="<?php echo URL::to('/'); ?>" style="/*background: #fff; padding: 3px 5px; border-radius: 5px; */ margin-left: -10px;">
-            <img id="image_logo" src="{{ asset('img/logo/Bansal_Lawyers.png')}}" alt="Bansal Lawyers – Best Law Firm in Australia" style="height: 50px; max-width: 100%; object-fit: contain; width: auto;">
+            <img id="image_logo" src="{{ asset('images/logo/Bansal_Lawyers.png')}}" alt="Bansal Lawyers – Best Law Firm in Australia" style="height: 50px; max-width: 100%; object-fit: contain; width: auto;">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
             aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
