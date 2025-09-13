@@ -68,12 +68,38 @@ class AppointmentBookController extends Controller {
         try {
             $requestData = $request->all();
             
+            // DEBUG: Log all incoming request data
+            \Log::info('=== STOREPAID DEBUG START ===');
+            \Log::info('Request method: ' . $request->method());
+            \Log::info('Request URL: ' . $request->fullUrl());
+            \Log::info('Request headers: ', $request->headers->all());
+            \Log::info('Request data: ', $requestData);
+            \Log::info('CSRF token: ' . $request->header('X-CSRF-TOKEN'));
+            
+            // DEBUG: Check each field individually
+            $fieldChecks = [];
+            foreach ($requestData as $key => $value) {
+                $fieldChecks[$key] = [
+                    'value' => $value,
+                    'empty' => empty($value),
+                    'type' => gettype($value)
+                ];
+            }
+            \Log::info('Field analysis: ', $fieldChecks);
+            
             // Validate required fields
             $requiredFields = ['service_id', 'noe_id', 'fullname', 'description', 'email', 'phone', 'date', 'time', 'appointment_details'];
+            $missingFields = [];
             foreach ($requiredFields as $field) {
                 if (empty($requestData[$field])) {
-                    return response()->json(['success' => false, 'message' => "Missing required field: $field"], 400);
+                    $missingFields[] = $field;
+                    \Log::warning("Missing required field: $field");
                 }
+            }
+            
+            if (!empty($missingFields)) {
+                \Log::error('Validation failed - missing fields: ' . implode(', ', $missingFields));
+                return response()->json(['success' => false, 'message' => "Missing required fields: " . implode(', ', $missingFields)], 400);
             }
             
             // Only handle paid appointments (service_id = 1) for Ajay Bansal
@@ -204,6 +230,22 @@ class AppointmentBookController extends Controller {
             $service_title_text = "";
         }
 
+            // DEBUG: Log appointment data before saving
+            \Log::info('=== APPOINTMENT DATA DEBUG ===');
+            \Log::info('client_id: ' . $client_id);
+            \Log::info('client_unique_id: ' . $client_unique_id);
+            \Log::info('service_id: ' . $service_id);
+            \Log::info('noe_id: ' . $noe_id);
+            \Log::info('fullname: ' . $fullname);
+            \Log::info('description: ' . $description);
+            \Log::info('email: ' . $email);
+            \Log::info('phone: ' . $phone);
+            \Log::info('date: ' . $datey);
+            \Log::info('appontment_status: ' . $appontment_status);
+            \Log::info('time: ' . $requestData['time']);
+            \Log::info('appointment_details: ' . $requestData['appointment_details']);
+            \Log::info('stripeToken: ' . $stripeToken);
+            
             // Create appointment record
             $obj = new Appointment;
             $obj->client_id = $client_id;
@@ -220,13 +262,23 @@ class AppointmentBookController extends Controller {
             if(!empty($requestData['time'])){
                 $time = explode('-', $requestData['time']);
                 $obj->time = date("H:i", strtotime($time[0]));
+                \Log::info('Parsed time: ' . $obj->time);
             }
             
             $obj->timeslot_full = $requestData['time'];
             $obj->invites = 0;
             $obj->appointment_details = $requestData['appointment_details'];
             $obj->order_hash = $stripeToken;
+            
+            // DEBUG: Log the appointment object before saving
+            \Log::info('Appointment object attributes: ', $obj->getAttributes());
+            
             $saved = $obj->save();
+            \Log::info('Appointment save result: ' . ($saved ? 'SUCCESS' : 'FAILED'));
+            
+            if (!$saved) {
+                \Log::error('Appointment save failed - validation errors: ', $obj->getErrors());
+            }
         if($saved)
         {
             // Note and ActivitiesLog functionality removed

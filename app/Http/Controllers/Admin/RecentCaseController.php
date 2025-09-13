@@ -10,8 +10,8 @@ use Illuminate\Routing\Route;
 use App\Models\RecentCase;
 
 
-use Auth;
-use Config;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class RecentCaseController extends Controller {
     /**

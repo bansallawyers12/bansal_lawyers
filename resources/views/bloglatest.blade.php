@@ -38,6 +38,70 @@
         height: 260px !important;
     }
 }
+
+.category-filter {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.category-filter h4 {
+    color: #1B4D89;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category-buttons .btn {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #1B4D89;
+    color: #1B4D89;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.category-buttons .btn:hover,
+.category-buttons .btn.active {
+    background: #1B4D89;
+    color: #fff;
+    border-color: #1B4D89;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    text-decoration: none;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #1B4D89;
+}
+
+.badge-primary:hover {
+    color: #fff;
+    background-color: #0d3a6b;
+    text-decoration: none;
+}
+
+.blog-category {
+    margin-bottom: 10px;
+}
 </style>
 
 <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('img/Blog.jpg') }}');max-height:422px !important;" data-stellar-background-ratio="0.5">
@@ -45,10 +109,19 @@
     <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-center">
             <div class="col-md-9 ftco-animate pb-5 text-center">
-                <h1 class="mb-3 bread" id="blog-title">Blog</h1>
+                <h1 class="mb-3 bread" id="blog-title">
+                    @if(isset($category) && $category)
+                        {{ $category->name }} - Blog
+                    @else
+                        Blog
+                    @endif
+                </h1>
                 <p class="breadcrumbs">
                     <span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span>
-                    <span>Blog <i class="ion-ios-arrow-forward"></i></span>
+                    <span><a href="/blog">Blog <i class="ion-ios-arrow-forward"></i></a></span>
+                    @if(isset($category) && $category)
+                        <span>{{ $category->name }} <i class="ion-ios-arrow-forward"></i></span>
+                    @endif
                 </p>
             </div>
         </div>
@@ -58,6 +131,24 @@
 
 <section class="ftco-section bg-light">
     <div class="container">
+        <!-- Category Filter Section -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="category-filter">
+                    <h4>Filter by Category:</h4>
+                    <div class="category-buttons">
+                        <a href="{{ route('blog.index') }}" class="btn btn-outline-primary {{ !request('category') && !isset($category) ? 'active' : '' }}">All Categories</a>
+                        @foreach($blogCategories as $cat)
+                            <a href="{{ route('blog.category', $cat->slug) }}" 
+                               class="btn btn-outline-primary {{ (isset($category) && $category->id == $cat->id) ? 'active' : '' }}">
+                                {{ $cat->name }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row d-flex" id="blog-list">
             @foreach (@$bloglists as $list)
                 <div class="col-md-4 d-flex ftco-animate">
@@ -73,6 +164,11 @@
                         <div class="text px-4 py-4" style="margin-bottom: -40px;">
                             <h3 class="heading mb-0"><a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" onclick="showFullBlog(1)">{{@$list->title}}</a></h3>
                             <p class="post-meta"><span class="published"><?php echo date('M d,Y', strtotime($list->created_at));?></span></p>
+                            @if(isset($list->categorydetail) && $list->categorydetail)
+                                <div class="blog-category mb-2">
+                                    <a href="{{ route('blog.category', $list->categorydetail->slug) }}" class="badge badge-primary">{{ $list->categorydetail->name }}</a>
+                                </div>
+                            @endif
                         </div>
                         <div class="text p-4 float-right d-block">
                             <!--<div class="topper d-flex align-items-center">

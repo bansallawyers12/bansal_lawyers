@@ -67,7 +67,7 @@
 									@else
 										<img src="{{ asset('img/avatars/no_image.jpeg') }}" style="width: 50px;height: 50px;"/>
 									@endif
-								  </td> 
+								  </td>
 								  <td style="white-space: initial;">{{ $list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->title, '50', '...') }}</td> 
 								  <td style="white-space: initial;">{{ $list->slug }}</td> 
                                   

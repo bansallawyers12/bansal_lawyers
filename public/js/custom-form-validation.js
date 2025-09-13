@@ -16,6 +16,16 @@ function safeGetElement(id) {
     return element;
 }
 
+// Safe form access function
+function safeGetForm(id) {
+    var form = document.getElementById(id);
+    if (!form) {
+        console.warn('Form with ID "' + id + '" not found');
+        return null;
+    }
+    return form;
+}
+
 // Wait for DOM to be ready before executing validation
 $(document).ready(function() {
     // Ensure all form elements are available before validation
@@ -23,10 +33,20 @@ $(document).ready(function() {
 
 function customValidate(formName, savetype = '')
 	{
-		$(".popuploader").show(); //all form submit
-		
-		var i = 0;	
-		$(".custom-error").remove(); //remove all errors when submit the button
+		// Add null checks and error handling
+		try {
+			$(".popuploader").show(); //all form submit
+			
+			// Check if form exists
+			var form = $("form[name="+formName+"]");
+			if (form.length === 0) {
+				console.error('Form with name "' + formName + '" not found');
+				$(".popuploader").hide();
+				return false;
+			}
+			
+			var i = 0;	
+			$(".custom-error").remove(); //remove all errors when submit the button
 		
 		$("form[name="+formName+"] :input[data-valid]").each(function(){
 			var dataValidation = $(this).attr('data-valid');
@@ -367,8 +387,7 @@ function customValidate(formName, savetype = '')
 							}
 						});		
 					}
-
-					 if(formName == 'create_client_receipt'){
+					else if(formName == 'create_client_receipt'){
 						var client_id = $('#create_client_receipt input[name="client_id"]').val();
 						var myform = document.getElementById('create_client_receipt');
 						var fd = new FormData(myform);
@@ -455,8 +474,7 @@ function customValidate(formName, savetype = '')
                             }
 						});
 					}
-
-					if(formName == 'educationform'){
+					else if(formName == 'educationform'){
 						var client_id = $('#educationform input[name="client_id"]').val();
 						var myform = document.getElementById('educationform');
 						var fd = new FormData(myform);	
@@ -1491,9 +1509,7 @@ function customValidate(formName, savetype = '')
 								}
 							});	
 					  	}
-					}
-
-					if(formName == 'appliappointform'){
+					}else if(formName == 'appliappointform'){
 						var client_id = $('#appliappointform input[name="client_id"]').val();
 						var noteid = $('#appliappointform input[name="noteid"]').val();
 						var myform = document.getElementById('appliappointform');
@@ -1847,7 +1863,7 @@ $('#add_application').modal('hide');
 						
 						
 					}
-				else if(formName == 'submit-review')
+					else if(formName == 'submit-review')
 					{
 						$("form[name=submit-review] :input[data-max]").each(function(){
 							var data_max  = $(this).attr('data-max');
@@ -1865,7 +1881,7 @@ $('#add_application').modal('hide');
 								}	
 						});	
 					}
-				else
+					else
 					{	
 						if(formName == 'invoiceform')
 						{
@@ -1876,6 +1892,11 @@ $('#add_application').modal('hide');
 					} 
 			}	
 		
+		} catch (error) {
+			console.error('Error in customValidate:', error);
+			$(".popuploader").hide();
+			return false;
+		}
 	}	
 	
 
@@ -2007,7 +2028,7 @@ function customInvoiceValidate(formName, savetype)
 							}
 						});
 					}
-				else
+					else
 					{	
 				
 						$("form[name="+formName+"]").submit();

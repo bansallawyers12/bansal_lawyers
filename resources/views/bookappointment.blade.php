@@ -787,6 +787,7 @@ jQuery(document).ready(function($){
             $('#myTab a[href="#'+v+'"]').trigger('click');
         }
         $('input[name="noe_id"]').val(id);
+        console.log('Set noe_id to:', id);
 	});
 
     $(document).delegate('.appointment_item', 'change', function(){
@@ -807,6 +808,7 @@ jQuery(document).ready(function($){
             $('#myTab a[href="#'+v+'"]').trigger('click');
         }
         $('input[name="appointment_details"]').val(id);
+        console.log('Set appointment_details to:', id);
 	});
 
 
@@ -920,6 +922,7 @@ jQuery(document).ready(function($){
                         
                         $('input[name="date"]').val(date);
                         $('#timeslot_col_date').val(date);
+                        console.log('Set date to:', date);
 
                         $('.timeslots').html('');
                         var start_time = parseTime(starttime),
@@ -1165,6 +1168,7 @@ jQuery(document).ready(function($){
 		//alert('totime='+totime);
 		$('input[name="time"]').val(fromtime+'-'+totime);
         $('#timeslot_col_time').val(fromtime+'-'+totime);
+        console.log('Set time to:', fromtime+'-'+totime);
        /* $('.full_name').text($('.fullname').val());
         $('.email').text($('.email').val());
         $('.title').text($('.title').val());
@@ -1287,6 +1291,9 @@ jQuery(document).ready(function($){
     }
 
     $(document).delegate('.submitappointment_paid','click',function (e) {
+		console.log('=== PAID APPOINTMENT CLICK DEBUG ===');
+		console.log('Submit button clicked');
+		
 		var flag = 1;
 		$('.errors').html('');
 		var fullname = $('.fullname').val();
@@ -1296,48 +1303,127 @@ jQuery(document).ready(function($){
 		var date = $('input[name="date"]').val();
 		var time = $('input[name="time"]').val();
 		var service_id = $('input[name="service_id"]').val();
+		var noe_id = $('input[name="noe_id"]').val();
+		var appointment_details = $('input[name="appointment_details"]').val();
 
 		var description = $('.description').val();
+		
+		console.log('Form field values:');
+		console.log('fullname:', fullname);
+		console.log('email:', email);
+		console.log('phone:', phone);
+		console.log('description:', description);
+		console.log('date:', date);
+		console.log('time:', time);
+		console.log('service_id:', service_id);
+		console.log('noe_id:', noe_id);
+		console.log('appointment_details:', appointment_details);
+		
 		if( !$.trim(date) ){
 			flag = 0;
+			console.log('Validation failed: Date is required');
 			$('.errors').append('<li><span class="custom-error" role="alert">Date is required</span></li>');
 		}if( !$.trim(time) ){
 			flag = 0;
+			console.log('Validation failed: Time is required');
 			$('.errors').append('<li><span class="custom-error" role="alert">Time is required</span></li>');
 		}if( !$.trim(service_id) ){
 			flag = 0;
+			console.log('Validation failed: Service is required');
 			$('.errors').append('<li><span class="custom-error" role="alert">Service is required</span></li>');
 		}
 		if( !$.trim(fullname) ){
 			flag = 0;
+			console.log('Validation failed: Name is required');
 			$('.errors').append('<li><span class="custom-error" role="alert">Name is required</span></li>');
 		}
 		if( !$.trim(email) ){
 			flag = 0;
+			console.log('Validation failed: Email is required');
 			$('.errors').append('<li><span class="custom-error" role="alert">Email is required</span></li>');
 		}
 		if( !$.trim(phone) ){
 			flag = 0;
+			console.log('Validation failed: Phone is required');
 			$('.errors').append('<li><span class="custom-error" role="alert">Phone is required</span></li>');
 		}
 		if( !$.trim(description) ){
 			flag = 0;
+			console.log('Validation failed: Description is required');
 			$('.errors').append('<li><span class="custom-error" role="alert">Description is required</span></li>');
 		}
+		if( !$.trim(noe_id) ){
+			flag = 0;
+			console.log('Validation failed: Nature of Enquiry is required');
+			$('.errors').append('<li><span class="custom-error" role="alert">Nature of Enquiry is required</span></li>');
+		}
+		if( !$.trim(appointment_details) ){
+			flag = 0;
+			console.log('Validation failed: Appointment Details is required');
+			$('.errors').append('<li><span class="custom-error" role="alert">Appointment Details is required</span></li>');
+		}
+
+		console.log('Final validation flag:', flag);
+		console.log('Errors found:', $('.errors').html());
 
         if(flag == 0){
+            console.log('Validation failed, closing popup');
             closePopup();
         }
 
 		if(flag == 1){
+            // DEBUG: Log all form data before submission
+            console.log('=== PAID APPOINTMENT SUBMISSION DEBUG ===');
+            console.log('Flag value:', flag);
+            console.log('Form validation passed, proceeding with submission');
+            
+            // DEBUG: Check all required field values
+            var debugData = {
+                fullname: fullname,
+                email: email,
+                phone: phone,
+                description: description,
+                date: $('input[name="date"]').val(),
+                time: $('input[name="time"]').val(),
+                service_id: $('input[name="service_id"]').val(),
+                noe_id: $('input[name="noe_id"]').val(),
+                appointment_details: $('input[name="appointment_details"]').val(),
+                enquiry_item: $('.enquiry_item').val(),
+                timeslot_col_date: $('#timeslot_col_date').val(),
+                timeslot_col_time: $('#timeslot_col_time').val()
+            };
+            console.log('Field values before submission:', debugData);
+            
+            // DEBUG: Check if any required fields are empty
+            var emptyFields = [];
+            Object.keys(debugData).forEach(function(key) {
+                if (!debugData[key] || debugData[key] === '') {
+                    emptyFields.push(key);
+                }
+            });
+            if (emptyFields.length > 0) {
+                console.warn('Empty fields detected:', emptyFields);
+            }
+            
+            // DEBUG: Check form serialization
+            var formData = $('#appintment_form').serialize();
+            console.log('Form serialized data:', formData);
+            
+            var dataArr = $('#appintment_form').serializeArray();
+            console.log('Form serialized array:', dataArr);
+            
             // Submit paid appointment directly (simplified for Ajay Bansal only)
             $('#loading').show();
             
             // Build payload from the main form
-            var dataArr = $('#appintment_form').serializeArray();
             dataArr.push({name:'promo_code', value: $.trim($('#promo_code').val() || '')});
             dataArr.push({name:'stripeToken', value: 'manual_'+(new Date().getTime())});
             dataArr.push({name:'cardName', value: $.trim(fullname)});
+            
+            console.log('Final data array being sent:', dataArr);
+            console.log('Final data string:', $.param(dataArr));
+            console.log('CSRF Token:', $('meta[name="csrf-token"]').attr('content'));
+            console.log('Request URL:', '{{URL::to('/book-an-appointment/storepaid')}}');
             
             $.ajax({
                 type:'POST',
@@ -1345,23 +1431,37 @@ jQuery(document).ready(function($){
                 url:'{{URL::to('/book-an-appointment/storepaid')}}',
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 dataType:'json',
+                beforeSend: function() {
+                    console.log('AJAX request starting...');
+                },
                 success:function(obj){
+                    console.log('AJAX Success Response:', obj);
                     $('#loading').hide();
                     if(obj.success){
+                        console.log('Appointment saved successfully');
                         $('html, body').animate({scrollTop: $('#confirm_div').offset().top -100 }, 'slow');
                         $('#confirm_div').html('<div class="tab_header"><h4></h4></div><div class="tab_body"><h4 style="text-align: center;padding: 20px;">'+obj.message+'</h4></div>');
                         setTimeout(function(){ window.location.reload(); }, 5000);
                     }else{
+                        console.error('Backend returned success=false:', obj);
                         alert('Please try again. There is a issue in our system: ' + (obj.message || 'Unknown error'));
                     }
                 },
                 error:function(xhr, status, error){
+                    console.error('AJAX Error Details:');
+                    console.error('Status:', status);
+                    console.error('Error:', error);
+                    console.error('Response Text:', xhr.responseText);
+                    console.error('Response Status:', xhr.status);
+                    console.error('Response Headers:', xhr.getAllResponseHeaders());
                     $('#loading').hide();
-                    console.error('AJAX Error:', xhr.responseText);
-                    alert('Network error. Please try again. Error: ' + error);
+                    alert('Network error. Please try again. Error: ' + error + ' (Status: ' + xhr.status + ')');
                 }
             });
             return; // Stop further processing
+        } else {
+            console.log('Form validation failed, flag =', flag);
+            console.log('Not submitting appointment');
         }
 	});
 });

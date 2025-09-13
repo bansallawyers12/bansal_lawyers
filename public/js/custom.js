@@ -18,20 +18,34 @@ window.addEventListener('error', function(e) {
     }
 });
 
-// Safe DOM element access function
-function safeGetElement(id) {
-    var element = document.getElementById(id);
-    if (!element) {
-        console.warn('Element with ID "' + id + '" not found');
-        return null;
-    }
-    return element;
-}
 
 // Wait for DOM to be ready before executing any code
 $(document).ready(function() {
     // All DOM manipulation code will be wrapped here
     console.log('DOM is ready - safe to access elements');
+    
+    // Move all DOM manipulation code here
+    $('.change-status').on('change', function (event, state) {
+        
+        var id = $.trim($(this).attr('data-id'));
+        var current_status = $.trim($(this).attr('data-status'));
+        var table = $.trim($(this).attr('data-table'));
+        var col = $.trim($(this).attr('data-col'));
+        
+        if(id != "" && current_status != "" && table != ""){
+            updateStatus(id, current_status, table, col);
+        }
+    });
+    
+    // Add null checks before DOM access
+    function safeGetElement(id) {
+        var element = document.getElementById(id);
+        if (!element) {
+            console.warn('Element with ID "' + id + '" not found');
+            return null;
+        }
+        return element;
+    }
 });
 
 //Delete Function Start
@@ -307,20 +321,6 @@ $(document).ready(function() {
 	}
 
 
-	// Move event handlers inside DOM ready
-	$(document).ready(function() {
-		$('.change-status').on('change', function (event, state) {
-			
-			var id = $.trim($(this).attr('data-id'));
-			var current_status = $.trim($(this).attr('data-status'));
-			var table = $.trim($(this).attr('data-table'));
-			var col = $.trim($(this).attr('data-col'));
-			
-			if(id != "" && current_status != "" && table != ""){
-				updateStatus(id, current_status, table, col);
-			}
-		});
-	});
 	
 	function updateStatus( id, current_status, table,col ) {
 		$(".server-error").html(''); //remove server error.	
