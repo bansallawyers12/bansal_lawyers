@@ -12,7 +12,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Legal Services in Australia | Family, Immigration, Property & More">
     <meta property="og:description" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!">
-    <meta property="og:image" content="asset('images/logo/Bansal_Lawyers.png')">
+    <meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 
@@ -22,7 +22,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/practice-areas">
     <meta name="twitter:title" content="Legal Services in Australia | Family, Immigration, Property & More">
     <meta name="twitter:description" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!">
-    <meta property="twitter:image" content="asset('images/logo/Bansal_Lawyers.png')">
+    <meta property="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 @endsection
@@ -30,7 +30,7 @@
 
 
 	<!--Content-->
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('asset('images/PracticeArea.jpg')');margin-bottom: 40px;max-height:422px !important;" data-stellar-background-ratio="0.5">
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('img/PracticeArea.jpg') }}');margin-bottom: 40px;max-height:422px !important;" data-stellar-background-ratio="0.5">
         <div class="overlay"></div>
         <div class="container">
             <div class="row no-gutters slider-text align-items-end justify-content-center">
@@ -55,7 +55,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="asset('images/family-law.png')" alt="Compassionate Legal Support for Family Law Cases" class="image-style-icon-92-x-92">
+                                            <img loading="lazy" src="{{ asset('img/family-law.png') }}" alt="Compassionate Legal Support for Family Law Cases" class="image-style-icon-92-x-92">
                                         </div>
                                     </div>
 
@@ -78,7 +78,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="asset('images/immigration-law.png')" alt="Expert Immigration Lawyers Helping You Settle in Australia" class="image-style-icon-92-x-92">
+                                            <img loading="lazy" src="{{ asset('img/immigration-law.png') }}" alt="Expert Immigration Lawyers Helping You Settle in Australia" class="image-style-icon-92-x-92">
                                         </div>
                                     </div>
 
@@ -101,7 +101,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="asset('images/criminal-law.png')" alt="icon for overview" class="image-style-icon-92-x-92">
+                                            <img loading="lazy" src="{{ asset('img/criminal-law.png') }}" alt="icon for overview" class="image-style-icon-92-x-92">
                                         </div>
                                     </div>
 
@@ -126,7 +126,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="asset('images/commercial-law.png')" alt="icon for overview" class="image-style-icon-92-x-92">
+                                            <img loading="lazy" src="{{ asset('img/commercial-law.png') }}" alt="icon for overview" class="image-style-icon-92-x-92">
                                         </div>
                                     </div>
 
@@ -150,7 +150,7 @@
                                     <div class="card-header">
                                         <div
                                             class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="asset('images/property-law.png')"
+                                            <img loading="lazy" src="{{ asset('img/property-law.png') }}"
                                                 alt="icon for overview" class="image-style-icon-92-x-92">
                                         </div>
                                     </div>

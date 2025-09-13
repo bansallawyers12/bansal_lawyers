@@ -1205,4 +1205,14 @@ class AdminController extends Controller
 		// Notification functionality removed
 		return view('Admin.notifications', compact([]));
 	}
+
+    public function getAllClients(Request $request){
+        // Client functionality removed - return empty response
+        return response()->json(['items' => []]);
+    }
+
+    public function getRecipients(Request $request){
+        // Recipient functionality removed - return empty response  
+        return response()->json(['items' => []]);
+    }
 }

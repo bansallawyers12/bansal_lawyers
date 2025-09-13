@@ -25,7 +25,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{@$pagedata->meta_title}}">
     <meta property="og:description" content="{{@$pagedata->meta_description}}">
-    <meta property="og:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+    <meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Twitter Meta Tags -->
@@ -34,7 +34,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/{{@$pagedata->slug}}">
     <meta name="twitter:title" content="{{@$pagedata->meta_title}}">
     <meta name="twitter:description" content="{{@$pagedata->meta_description}}">
-    <meta property="twitter:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+    <meta property="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 @endsection
 

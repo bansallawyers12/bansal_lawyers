@@ -11,7 +11,7 @@ class CmsPage extends Authenticatable
 	use Sortable;
 
 	protected $fillable = [
-        'id', 'title', 'alias', 'content', 'created_at', 'updated_at'
+        'id', 'title', 'alias', 'content', 'image', 'image_alt', 'slug', 'meta_title', 'meta_description', 'meta_keyward', 'youtube_url', 'pdf_doc', 'status', 'user_id', 'created_at', 'updated_at'
     ];
 	
 	public $sortable = ['id', 'title', 'created_at', 'updated_at'];

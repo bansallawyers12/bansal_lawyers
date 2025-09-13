@@ -55,24 +55,24 @@
                                 </div>
                                 <div class="upload_img">
                                     {{--@if(@$fetchedData->image != '')--}}
-                                        <!--<img width="70" src="{{URL::to('/public/img/blog')}}/{{@$fetchedData->image}}" class="<?php echo @$fetchedData->title; ?>"/>-->
+                                        <!--<img width="70" src="{{ asset('img/blog/' . @$fetchedData->image) }}" class="<?php echo @$fetchedData->title; ?>"/>-->
                                     {{--@endif--}}
 
                                     <?php
                                     if(isset($fetchedData->image) && $fetchedData->image != ""){
                                         $extension = pathinfo($fetchedData->image, PATHINFO_EXTENSION); //echo $extension;
                                         if( strtolower($extension) == 'mp4' ){
-                                            //$src = 'https://bansallawyers.com.au/public/img/blog/'.$fetchedData->image.'?autoplay=1&mute=1';
+                                            //$src = '{{ asset('img/blog/' . $fetchedData->image) }}?autoplay=1&mute=1';
                                             ?>
-                                            <iframe width="200" height="100" src="{{URL::to('/public/img/blog')}}/{{@$fetchedData->image}}?autoplay=1&mute=1"></iframe>
+                                            <iframe width="200" height="100" src="{{ asset('img/blog/' . @$fetchedData->image) }}?autoplay=1&mute=1"></iframe>
                                         <?php
                                         } else if(strtolower($extension) == 'pdf') {
-                                            //$pdfUrl = 'https://bansallawyers.com.au/public/img/blog/'.$fetchedData->image;
+                                            //$pdfUrl = '{{ asset('img/blog/' . $fetchedData->image) }}';
                                             ?>
-                                            <a href="{{URL::to('/public/img/blog')}}/{{@$fetchedData->image}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Click Here To View"><img src="{{URL::to('/public/img/avatars/pdf_icon.png')}}" alt="" style="width:80px;height:80px;border-radius: 50%;"></a>
+                                            <a href="{{ asset('img/blog/' . @$fetchedData->image) }}" target="_blank" data-toggle="tooltip" data-placement="top" title="Click Here To View"><img src="{{ asset('img/avatars/pdf_icon.png') }}" alt="" style="width:80px;height:80px;border-radius: 50%;"></a>
                                             <?php
                                         } else { ?>
-                                            <img width="70" src="{{URL::to('/public/img/blog')}}/{{@$fetchedData->image}}" class="<?php echo @$fetchedData->title; ?>"/>
+                                            <img width="70" src="{{ asset('img/blog/' . @$fetchedData->image) }}" class="<?php echo @$fetchedData->title; ?>"/>
                                         <?php
                                         }
                                     } ?>
@@ -172,7 +172,7 @@
                                 </div>
                                 <div class="upload_img">
                                     @if(@$fetchedData->pdf_doc != '')
-                                        <a target="_blank" href="https://bansallawyers.com.au/public/img/blog/{{@$fetchedData->pdf_doc}}">Click Here To Open PDF/Video</a>
+                                        <a target="_blank" href="{{ asset('img/blog/{{@$fetchedData->pdf_doc}}') }}" >Click Here To Open PDF/Video</a>
                                     @endif
                                 </div>
                             </div>

@@ -61,8 +61,10 @@
 									<input type="hidden" id="old_image" name="old_image" value="{{ $fetchedData->image ?? '' }}" />
 									<input type="file" name="image" class="form-control" autocomplete="off"  />
 									<div class="show-uploded-img">
-										@if(!empty($fetchedData->image))
-											<img width="70" src="{{URL::to('public/img/cmspage')}}/{{ $fetchedData->image }}" class="img-avatar"/>
+										@if(!empty($fetchedData->image) && file_exists(public_path('img/cmspage/' . $fetchedData->image)))
+											<img width="70" src="{{ asset('img/cmspage/' . $fetchedData->image) }}" class="img-avatar"/>
+										@else
+											<img width="70" src="{{ asset('img/avatars/no_image.jpeg') }}" class="img-avatar"/>
 										@endif
 										@if ($errors->has('image'))
 											<span class="custom-error" role="alert">
@@ -158,7 +160,7 @@
 									</div>
 									<div class="upload_img">
 										@if(!empty($fetchedData->pdf_doc))
-											<a target="_blank" href="https://{{ $_SERVER['HTTP_HOST'] }}/public/img/blog/{{ $fetchedData->pdf_doc }}">Click Here To Open PDF/Video</a>
+											<a target="_blank" href="{{ asset('img/cmspage/' . $fetchedData->pdf_doc) }}">Click Here To Open PDF/Video</a>
 										@endif
 									</div>
 								</div>

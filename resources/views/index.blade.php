@@ -31,7 +31,7 @@
 @section('content')
 
 <div class="hero-wrap js-fullheight" data-stellar-background-ratio="0.5">
-    <img src="asset('images/coart_1.jpg')" id="hero-image" alt="Top-rated lawyers in Australia – Expert legal services" class="hero-image"  loading="eager">
+    <img src="{{ asset('img/coart_1.jpg') }}" id="hero-image" alt="Top-rated lawyers in Australia – Expert legal services" class="hero-image"  loading="eager">
   
     <div class="overlay"></div>
     <div class="container">
@@ -141,8 +141,8 @@
                 <!-- START: Video Section -->
                 <div class="col-md-6 d-flex">
                     <div class="img img-video d-flex align-self-stretch align-items-center justify-content-center"
-                        style="background-image: url('asset('images/bansal_2.jpg')');background-position: top center;">
-                      <img src="asset('images/bansal_2.jpg')" alt="Ajay Bansal - CEO of Bansal Lawyers" style="display:none;">
+                        style="background-image: url('{{ asset('img/bansal_2.jpg') }}');background-position: top center;">
+                      <img src="{{ asset('img/bansal_2.jpg') }}" alt="Ajay Bansal - CEO of Bansal Lawyers" style="display:none;">
                         <a href="javascript:void(0);"
                             class="icon-video d-flex justify-content-center align-items-center"
                             onclick="openVideoModal()">
@@ -257,7 +257,7 @@
                     <div class="carousel-case owl-carousel ftco-owl">
                        <!-- Case 1 -->
                         <div class="item">
-                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('asset('images/Corporate_Legal_Separation_Corporate_Law.png')');">
+                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('{{ asset('img/Corporate_Legal_Separation_Corporate_Law.png') }}');">
                                 
                             </div>
                           
@@ -268,7 +268,7 @@
                         </div>
                         <!-- Case 2 -->
                         <div class="item">
-                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('asset('images/Family_Law_Resolution.png')');">
+                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('{{ asset('img/Family_Law_Resolution.png') }}');">
                                 
                             </div>
                             <div class="text text-center">
@@ -278,7 +278,7 @@
                         </div>
                         <!-- Case 3 -->
                         <div class="item">
-                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('asset('images/Employment_Law_Dispute_Labor_Law.png')');">
+                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('{{ asset('img/Employment_Law_Dispute_Labor_Law.png') }}');">
                                 
                             </div>
                             
@@ -289,7 +289,7 @@
                         </div>
                         <!-- Case 4 -->
                         <div class="item">
-                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('asset('images/Criminal_Defense_Victory_Criminal_Law.png')');">
+                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('{{ asset('img/Criminal_Defense_Victory_Criminal_Law.png') }}');">
                                 
                             </div>
                           
@@ -301,7 +301,7 @@
 
                         <!-- Case 5 -->
                         <div class="item">
-                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('asset('images/Intellectual_Property_Protection_IP_Law.png')');">
+                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('{{ asset('img/Intellectual_Property_Protection_IP_Law.png') }}');">
                                 
                             </div>
                             <div class="text text-center">
@@ -312,7 +312,7 @@
 
                         <!-- Case 6-->
                         <div class="item">
-                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('asset('images/Real_Estate_Transaction_Real_Estate_Law.png')');">
+                            <div class="case img d-flex align-items-center justify-content-center" style="background-image: url('{{ asset('img/Real_Estate_Transaction_Real_Estate_Law.png') }}');">
                                 
                             </div>
                           
@@ -339,7 +339,7 @@
             <div class="row d-md-flex justify-content-end">
               
               	 <div class="col-md-6">
-                    <img src="asset('images/bg_2.jpg')" alt="Ajay Bansal">
+                    <img src="{{ asset('img/bg_2.jpg') }}" alt="Ajay Bansal">
                  </div>
               
                 <div class="col-md-6 half p-3 py-5 pl-md-5 ftco-animate heading-section heading-section-white">
@@ -516,8 +516,8 @@
                     <div class="blog-entry">
                         <a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" 
    class="block-20" 
-   style="background-image: url('{{ !empty(@$list->image) ? asset('img/blog/' . @$list->image) : asset('images/Blog.jpg') }}'); color:#1B4D89 !important;"
-   onerror="this.style.backgroundImage='url(asset('images/Blog.jpg'))'">
+   style="background-image: url('{{ !empty(@$list->image) ? asset('img/blog/' . @$list->image) : asset('img/Blog.jpg') }}'); color:#1B4D89 !important;"
+   onerror="this.style.backgroundImage='url({{ asset('img/Blog.jpg') }})'">
    <span class="sr-only">{{ @$list->title }}</span>
 </a>
                         <div class="text p-4">

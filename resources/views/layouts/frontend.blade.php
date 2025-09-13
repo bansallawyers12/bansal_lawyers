@@ -929,15 +929,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
             if (windowWidth < 768) {
                 // Mobile Image
-                //imageElement.attr("src", "{{ asset('images/coart_1-mobile.jpg') }}");
-                imageElement.attr("src", "{{ asset('images/coart_1.jpg') }}");
+                //imageElement.attr("src", "{{ asset('img/coart_1-mobile.jpg') }}");
+                imageElement.attr("src", "{{ asset('img/coart_1.jpg') }}");
             } else if (windowWidth >= 768 && windowWidth < 1024) {
                 // Tablet Image
-                //imageElement.attr("src", "{{ asset('images/coart_1-tablet.jpg') }}");
-                imageElement.attr("src", "{{ asset('images/coart_1.jpg') }}");
+                //imageElement.attr("src", "{{ asset('img/coart_1-tablet.jpg') }}");
+                imageElement.attr("src", "{{ asset('img/coart_1.jpg') }}");
             } else {
                 // Desktop Image
-                imageElement.attr("src", "{{ asset('images/coart_1.jpg') }}");
+                imageElement.attr("src", "{{ asset('img/coart_1.jpg') }}");
             }
         }
 
@@ -1010,8 +1010,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         var navbar = null;
         
         // Cache logo paths for maximum performance
-        var defaultLogoPath = "{{ asset('images/logo/Bansal_Lawyers.png') }}";
-        var scrolledLogoPath = "{{ asset('images/logo/Bansal_Lawyers_scroll.png') }}";
+        var defaultLogoPath = "{{ asset('img/logo/Bansal_Lawyers.png') }}";
+        var scrolledLogoPath = "{{ asset('img/logo/Bansal_Lawyers_scroll.png') }}";
         
         // Initialize logo elements with error handling
         function initLogoElements() {
@@ -1063,7 +1063,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         // Add error handling for logo loading
         $('#image_logo').on('error', function() {
             // Fallback to default logo if scrolled logo fails to load
-            $(this).attr('src', "{{ asset('images/logo/Bansal_Lawyers.png') }}?timestamp=" + new Date().getTime());
+            $(this).attr('src', "{{ asset('img/logo/Bansal_Lawyers.png') }}?timestamp=" + new Date().getTime());
         });
 
         // Aggressive preloading for instant logo switching
@@ -1072,8 +1072,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             var scrolledLogo = new Image();
             
             // Force immediate loading
-            defaultLogo.src = "{{ asset('images/logo/Bansal_Lawyers.png') }}?v=" + Date.now();
-            scrolledLogo.src = "{{ asset('images/logo/Bansal_Lawyers_scroll.png') }}?v=" + Date.now();
+            defaultLogo.src = "{{ asset('img/logo/Bansal_Lawyers.png') }}?v=" + Date.now();
+            scrolledLogo.src = "{{ asset('img/logo/Bansal_Lawyers_scroll.png') }}?v=" + Date.now();
         }
 
         // Start preloading immediately when script loads

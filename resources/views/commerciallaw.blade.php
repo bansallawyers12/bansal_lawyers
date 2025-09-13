@@ -28,7 +28,7 @@
         <meta property="og:type" content="website">
         <meta property="og:title" content="{{@$pagedata->meta_title}}">
         <meta property="og:description" content="{{@$pagedata->meta_description}}">
-        <meta property="og:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+        <meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
         <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
         <!-- Twitter Meta Tags -->
@@ -39,7 +39,7 @@
         <meta name="twitter:description" content="{{@$pagedata->meta_description}}">
         <meta name="twitter:title" content="{{@$pagedata->meta_title}}">
         <meta name="twitter:description" content="{{@$pagedata->meta_description}}">
-        <meta property="twitter:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+        <meta property="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
         <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
     <?php
     }
@@ -53,7 +53,7 @@
         <meta property="og:type" content="website">
         <meta property="og:title" content="Commercial Lawyers Melbourne | Business Contracts & Legal Solutions Australia | Bansal Lawyers">
         <meta property="og:description" content="Need expert commercial law advice? Bansal Lawyers in Melbourne specializes in business contracts, disputes, and legal solutions. Get professional legal guidance for your business today!">
-        <meta property="og:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+        <meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
         <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
         <!-- Twitter Meta Tags -->
@@ -64,7 +64,7 @@
         <meta name="twitter:description" content="Need expert commercial law advice? Bansal Lawyers in Melbourne specializes in business contracts, disputes, and legal solutions. Get professional legal guidance for your business today!">
         <meta name="twitter:title" content="Commercial Lawyers Melbourne | Business Contracts & Legal Solutions Australia | Bansal Lawyers">
         <meta name="twitter:description" content="Need expert commercial law advice? Bansal Lawyers in Melbourne specializes in business contracts, disputes, and legal solutions. Get professional legal guidance for your business today!">
-        <meta property="twitter:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+        <meta property="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
         <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
     <?php
     } ?>
@@ -595,7 +595,7 @@
                                             <div class="elementor-post__card">
                                                 <a class="elementor-post__thumbnail__link" href="/business-law" tabindex="-1">
                                                     <div class="elementor-post__thumbnail">
-                                                        <img decoding="async" width="150" height="150" src="public/images/Business_Law.png" alt="Business Law">
+                                                        <img decoding="async" width="150" height="150" src="{{ asset('img/Business_Law.png') }}" alt="Business Law">
                                                     </div>
                                                 </a>
                                                 <div class="elementor-post__text">
@@ -612,7 +612,7 @@
                                             <div class="elementor-post__card">
                                                 <a class="elementor-post__thumbnail__link" href="/leasing-or-selling-a-business" tabindex="-1">
                                                     <div class="elementor-post__thumbnail">
-                                                        <img decoding="async" width="150" height="150" src="public/images/leasing_and_selling_business.png" alt="Leasing or selling a business">
+                                                        <img decoding="async" width="150" height="150" src="{{ asset('img/leasing_and_selling_business.png') }}" alt="Leasing or selling a business">
                                                     </div>
                                                 </a>
                                                 <div class="elementor-post__text">
@@ -628,7 +628,7 @@
                                             <div class="elementor-post__card">
                                                 <a class="elementor-post__thumbnail__link" href="/leasing-or-selling-a-business" tabindex="-1">
                                                     <div class="elementor-post__thumbnail">
-                                                        <img decoding="async" width="150" height="150" src="public/images/contract_or_business_agreement.png" alt="Contracts or Business Agreements">
+                                                        <img decoding="async" width="150" height="150" src="{{ asset('img/contract_or_business_agreement.png') }}" alt="Contracts or Business Agreements">
                                                     </div>
                                                 </a>
                                                 <div class="elementor-post__text">
@@ -645,7 +645,7 @@
                                             <div class="elementor-post__card">
                                                 <a class="elementor-post__thumbnail__link" href="/leasing-or-selling-a-business" tabindex="-1">
                                                     <div class="elementor-post__thumbnail">
-                                                        <img decoding="async" width="150" height="150" src="public/images/loan_agreement.png" alt="Loan Agreement">
+                                                        <img decoding="async" width="150" height="150" src="{{ asset('img/loan_agreement.png') }}" alt="Loan Agreement">
                                                     </div>
                                                 </a>
                                                 <div class="elementor-post__text">

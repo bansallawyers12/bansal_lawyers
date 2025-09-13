@@ -76,7 +76,15 @@ Route::prefix('admin')->group(function() {
 			Route::get('/sessions', [App\Http\Controllers\Admin\AdminController::class, 'sessions'])->name('admin.sessions');
 			Route::post('/sessions', [App\Http\Controllers\Admin\AdminController::class, 'sessions'])->name('admin.sessions');
         Route::post('/delete_action', [App\Http\Controllers\Admin\AdminController::class, 'deleteAction']);
-
+        Route::post('/declined_action', [App\Http\Controllers\Admin\AdminController::class, 'declinedAction']);
+        Route::post('/approved_action', [App\Http\Controllers\Admin\AdminController::class, 'approvedAction']);
+        Route::post('/process_action', [App\Http\Controllers\Admin\AdminController::class, 'processAction']);
+        Route::post('/archive_action', [App\Http\Controllers\Admin\AdminController::class, 'archiveAction']);
+        Route::post('/move_action', [App\Http\Controllers\Admin\AdminController::class, 'moveAction']);
+        Route::get('/fetch-notification', [App\Http\Controllers\Admin\AdminController::class, 'fetchnotification']);
+        Route::get('/fetch-messages', [App\Http\Controllers\Admin\AdminController::class, 'fetchmessages']);
+        Route::get('/clients/get-allclients', [App\Http\Controllers\Admin\AdminController::class, 'getAllClients']);
+        Route::get('/clients/get-recipients', [App\Http\Controllers\Admin\AdminController::class, 'getRecipients']);
 
         //Blog
 			Route::get('/blog', [App\Http\Controllers\Admin\BlogController::class, 'index'])->name('admin.blog.index');

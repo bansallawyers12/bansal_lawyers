@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Legal Insights & Updates | Bansal Lawyers Blog Melbourne">
 <meta property="og:description" content="Stay informed with Bansal Lawyers' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.">
-<meta property="og:image" content="asset('images/logo/Bansal_Lawyers.png')">
+<meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
 <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 <!-- Twitter Meta Tags -->
@@ -18,7 +18,7 @@
 <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/blog">
 <meta name="twitter:title" content="Legal Insights & Updates | Bansal Lawyers Blog Melbourne">
 <meta name="twitter:description" content="Stay informed with Bansal Lawyers' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.">
-<meta property="twitter:image" content="asset('images/logo/Bansal_Lawyers.png')">
+<meta property="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
 <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 @endsection
 @section('content')
@@ -40,7 +40,7 @@
 }
 </style>
 
-<section class="hero-wrap hero-wrap-2" style="background-image: url('asset('images/Blog.jpg')');max-height:422px !important;" data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('img/Blog.jpg') }}');max-height:422px !important;" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-center">
@@ -64,7 +64,7 @@
                     <div class="blog-entry justify-content-end">
                     <a href="<?php echo URL::to('/'); ?>/{{ @$list->slug }}" 
    class="block-20" 
-   style="background-image: url('public/img/blog/{{ @$list->image }}');" 
+   style="background-image: url('{{ asset('img/blog/' . @$list->image) }}');" 
    onclick="showFullBlog(1)">
    <span style="position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
        Read more about {{ @$list->title }}

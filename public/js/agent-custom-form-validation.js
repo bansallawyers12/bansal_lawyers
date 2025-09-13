@@ -94,7 +94,8 @@ function customValidate(formName, savetype = '')
 									$(this).after(errorDisplay(equal+' '+digit+' character.'));  
 								}	
 						}
-				}			
+				}
+			}
 		});
 		
 		if(i > 0)
@@ -1900,7 +1901,8 @@ function customInvoiceValidate(formName, savetype)
 									$(this).after(errorDisplay(equal+' '+digit+' character.'));  
 								}	
 						}
-				}			
+				}
+			}
 		});
 		
 		if(i > 0)

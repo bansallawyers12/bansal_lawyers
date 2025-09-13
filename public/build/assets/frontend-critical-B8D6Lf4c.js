@@ -1,0 +1,1 @@
+import"./vendor-animations-RF5phH7_.js";import"./vendor-misc-D2f3rC3k.js";document.addEventListener("DOMContentLoaded",function(){window.AOS&&(AOS.init({duration:800,easing:"slide",once:!0,mirror:!1,anchorPlacement:"top-bottom",disable:function(){return window.innerWidth<768}}),window.MutationObserver&&AOS.refreshHard())}),window.FrontendCritical={initialized:!0,version:"2.0.0"};

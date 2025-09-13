@@ -368,7 +368,7 @@ function customValidate(formName, savetype = '')
 						});		
 					}
 
-					 else if(formName == 'create_client_receipt'){
+					 if(formName == 'create_client_receipt'){
 						var client_id = $('#create_client_receipt input[name="client_id"]').val();
 						var myform = document.getElementById('create_client_receipt');
 						var fd = new FormData(myform);
@@ -456,8 +456,7 @@ function customValidate(formName, savetype = '')
 						});
 					}
 
-
-					}else if(formName == 'educationform'){
+					if(formName == 'educationform'){
 						var client_id = $('#educationform input[name="client_id"]').val();
 						var myform = document.getElementById('educationform');
 						var fd = new FormData(myform);	
@@ -1494,7 +1493,7 @@ function customValidate(formName, savetype = '')
 					  	}
 					}
 
-					}else if(formName == 'appliappointform'){
+					if(formName == 'appliappointform'){
 						var client_id = $('#appliappointform input[name="client_id"]').val();
 						var noteid = $('#appliappointform input[name="noteid"]').val();
 						var myform = document.getElementById('appliappointform');

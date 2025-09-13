@@ -14,7 +14,6 @@
 	<title>Bansal Lawyers | @yield('title')</title>
 	<!--<link rel="icon" type="image/png" href="{{ asset('img/favicon.png')}}">-->
 	<link rel="stylesheet" href="{{ asset('css/app.min.css')}}">
-	<link rel="stylesheet" href="{{ asset('css/iziToast.min.css')}}">
 	 <link rel="stylesheet" href="{{ asset('css/fullcalendar.min.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/summernote-bs4.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/daterangepicker.css')}}">
@@ -135,7 +134,6 @@
 	<script src="{{ asset('js/select2.full.min.js')}}"></script>
 	<script src="{{ asset('js/bootstrap-formhelpers.min.js')}}"></script>
 	<script src="{{ asset('js/intlTelInput.js')}}"></script>
-	<script src="{{ asset('js/iziToast.min.js')}}"></script>
 	
 	<!-- Custom Scripts (load last to ensure DOM is ready) -->
 	<script src="{{ asset('js/custom-form-validation.js')}}"></script>
@@ -148,6 +146,8 @@
 	<!--<script src="{{--asset('js/jquery.flagstrap.js')--}}"></script>-->
 	<script>
 		$(document).ready(function () {
+		    // Note: Notification permission will be requested when user interacts with notifications
+		    // This prevents the "may only be requested from inside a short running user-generated event handler" warning
 
 		    $(".tel_input").on("blur", function() {
                 /*if (/^0/.test(this.value)) {
@@ -158,201 +158,12 @@
                 this.value =  this.value;
             });
 
-		    $('.assineeselect2').select2({
-		       dropdownParent: $('#checkinmodal'),
-		    });
-			$('.js-data-example-ajaxccsearch').select2({
-
-		 closeOnSelect: true,
-
-		  ajax: {
-			url: '{{URL::to('/admin/clients/get-allclients')}}',
-			dataType: 'json',
-			processResults: function (data) {
-			  // Transforms the top-level key of the response object from 'items' to 'results'
-			  return {
-				results: data.items
-			  };
-
-			},
-			 cache: true
-
-		  },
-	templateResult: formatRepomain,
-	templateSelection: formatRepoSelectionmain
-
-});
-function formatRepomain (repo) {
-  if (repo.loading) {
-    return repo.text;
-  }
-
-  var $container = $(
-    "<div dataid="+repo.cid+" class='selectclient select2-result-repository ag-flex ag-space-between ag-align-center')'>" +
-
-      "<div  class='ag-flex ag-align-start'>" +
-        "<div  class='ag-flex ag-flex-column col-hr-1'><div class='ag-flex'><span  class='select2-result-repository__title text-semi-bold'></span>&nbsp;</div>" +
-        "<div class='ag-flex ag-align-center'><small class='select2-result-repository__description'></small ></div>" +
-
-      "</div>" +
-      "</div>" +
-	   "<div class='ag-flex ag-flex-column ag-align-end'>" +
-
-        "<span class='select2resultrepositorystatistics'>" +
-
-        "</span>" +
-      "</div>" +
-    "</div>"
-  );
-
-  $container.find(".select2-result-repository__title").text(repo.name);
-  $container.find(".select2-result-repository__description").text(repo.email);
-  if(repo.status == 'Archived'){
-	  $container.find(".select2resultrepositorystatistics").append('<span class="ui label  select2-result-repository__statistics">'+repo.status+'</span>');
-  }else{
-	    $container.find(".select2resultrepositorystatistics").append('<span class="ui label yellow select2-result-repository__statistics">'+repo.status+'</span>');
-  }
-
-  return $container;
-}
-
-function formatRepoSelectionmain (repo) {
-  return repo.name || repo.text;
-}
-
- $('.js-data-example-ajaxccsearch').on('change', function () {
-         var v = $(this).val();
-         var s = v.split('/');
-         if(s[1] == 'Client'){
-              window.location = '{{URL::to('/admin/clients/detail/')}}/'+s[0]; // redirect
-         }else{
-              window.location = '{{URL::to('/admin/leads/history/')}}/'+s[0]; // redirect
-         }
-
-          return false;
-      });
 
 
-$(document).delegate('.opencheckin', 'click', function(){
 
-	$('#checkinmodal').modal('show');
-});
-	$(document).delegate('.visitpurpose', 'blur', function(){
-		var visitpurpose = $(this).val();
-		var appliid = $(this).attr('data-id');
-		$('.popuploader').show();
-		$.ajax({
-			url: site_url+'/admin/update_visit_purpose',
-			type:'POST',
-			data:{id: appliid,visit_purpose:visitpurpose},
-			success: function(responses){
-				 $.ajax({
-					url: site_url+'/admin/get-checkin-detail',
-					type:'GET',
-					data:{id: appliid},
-					success: function(res){
-						 $('.popuploader').hide();
-						$('.showchecindetail').html(res);
-					}
-				});
 
-			}
-		});
-	});
 
-	$(document).delegate('.savevisitcomment', 'click', function(){
-		var visitcomment = $('.visit_comment').val();
-		var appliid = $(this).attr('data-id');
-		$('.popuploader').show();
-		$.ajax({
-			url: site_url+'/admin/update_visit_comment',
-			type:'POST',
-			data:{id: appliid,visit_comment:visitcomment},
-			success: function(responses){
-				// $('.popuploader').hide();
-				$('.visit_comment').val('');
-				$.ajax({
-					url: site_url+'/admin/get-checkin-detail',
-					type:'GET',
-					data:{id: appliid},
-					success: function(res){
-						 $('.popuploader').hide();
-						$('.showchecindetail').html(res);
-					}
-				});
-			}
-		});
-	});
 
-	$(document).delegate('.attendsession', 'click', function(){
-		var appliid = $(this).attr('data-id');
-		$('.popuploader').show();
-		$.ajax({
-			url: site_url+'/admin/attend_session',
-			type:'POST',
-			data:{id: appliid,waitcountdata: $('#waitcountdata').val()},
-			success: function(response){
-
-				 var obj = $.parseJSON(response);
-				if(obj.status){
-					$.ajax({
-					url: site_url+'/admin/get-checkin-detail',
-					type:'GET',
-					data:{id: appliid},
-					success: function(res){
-						 $('.popuploader').hide();
-						$('.showchecindetail').html(res);
-					}
-				});
-					$('.checindata #id_'+appliid).remove();
-				}else{
-					alert(obj.message);
-				}
-			}
-		});
-	});
-
-	$(document).delegate('.completesession', 'click', function(){
-		var appliid = $(this).attr('data-id');
-		$('.popuploader').show();
-		$.ajax({
-			url: site_url+'/admin/complete_session',
-			type:'POST',
-			data:{id: appliid,attendcountdata: $('#attendcountdata').val()},
-			success: function(response){
-
-				 var obj = $.parseJSON(response);
-				if(obj.status){
-					$.ajax({
-					url: site_url+'/admin/get-checkin-detail',
-					type:'GET',
-					data:{id: appliid},
-					success: function(res){
-						 $('.popuploader').hide();
-						$('.showchecindetail').html(res);
-					}
-				});
-					$('.checindata #id_'+appliid).remove();
-				}else{
-					alert(obj.message);
-				}
-			}
-		});
-	});
-	$(document).delegate('.opencheckindetail', 'click', function(){
-		$('#checkindetailmodal').modal('show');
-		$('.popuploader').show();
-		var appliid = $(this).attr('id');
-		$.ajax({
-				url: site_url+'/admin/get-checkin-detail',
-				type:'GET',
-				data:{id: appliid},
-				success: function(responses){
-					 $('.popuploader').hide();
-					$('.showchecindetail').html(responses);
-				}
-			});
-	});
 			/* $(".niceCountryInputSelector").each(function(i,e){
 				new NiceCountryInput(e).init();
 			}); */
@@ -732,70 +543,6 @@ $(document).delegate('.opencheckin', 'click', function(){
 				$('.card .card-body .grid_data').show();
 			});
 
-		$('.js-data-example-ajax-check').on("select2:select", function(e) {
-  var data = e.params.data;
-  console.log(data);
-   $('#utype').val(data.status);
-});
-
-			$('.js-data-example-ajax-check').select2({
-		 multiple: true,
-		 closeOnSelect: false,
-		dropdownParent: $('#checkinmodal'),
-		  ajax: {
-			url: '{{URL::to('/admin/clients/get-recipients')}}',
-			dataType: 'json',
-			processResults: function (data) {
-			  // Transforms the top-level key of the response object from 'items' to 'results'
-			  return {
-				results: data.items
-			  };
-
-			},
-			 cache: true
-
-		  },
-	templateResult: formatRepocheck,
-	templateSelection: formatRepoSelectioncheck
-});
-function formatRepocheck (repo) {
-  if (repo.loading) {
-    return repo.text;
-  }
-
-  var $container = $(
-    "<div  class='select2-result-repository ag-flex ag-space-between ag-align-center'>" +
-
-      "<div  class='ag-flex ag-align-start'>" +
-        "<div  class='ag-flex ag-flex-column col-hr-1'><div class='ag-flex'><span  class='select2-result-repository__title text-semi-bold'></span>&nbsp;</div>" +
-        "<div class='ag-flex ag-align-center'><small class='select2-result-repository__description'></small ></div>" +
-
-      "</div>" +
-      "</div>" +
-	   "<div class='ag-flex ag-flex-column ag-align-end'>" +
-
-        "<span class='select2resultrepositorystatistics'>" +
-
-        "</span>" +
-      "</div>" +
-    "</div>"
-  );
-
-  $container.find(".select2-result-repository__title").text(repo.name);
-  $container.find(".select2-result-repository__description").text(repo.email);
-  if(repo.status == 'Archived'){
-	  $container.find(".select2resultrepositorystatistics").append('<span class="ui label  select2-result-repository__statistics">'+repo.status+'</span>');
-  }else{
-	    $container.find(".select2resultrepositorystatistics").append('<span class="ui label yellow select2-result-repository__statistics">'+repo.status+'</span>');
-  }
-
-
-  return $container;
-}
-
-function formatRepoSelectioncheck (repo) {
-  return repo.name || repo.text;
-}
 
 		/* $('.timepicker').timepicker({
 			minuteStep: 1,
@@ -805,197 +552,17 @@ function formatRepoSelectioncheck (repo) {
 
 $(document).ready(function(){
 
-    document.getElementById('countbell_notification').parentNode.addEventListener('click', function(event){
-       window.location = "/admin/all-notifications";
-    })
-
-    function load_unseen_notification(view = '')
-    {
-        $.ajax({
-            url:"{{URL::to('/admin/fetch-notification')}}",
-            method:"GET",
-            dataType:"json",
-            success:function(data)
-            {
-                //$('.showallnotifications').html(data.notification);
-                if(data.unseen_notification > 0)
-                {
-                    $('.countbell').html(data.unseen_notification);
-                }
-            }
-        });
-    }
-
-    function load_unseen_messages(view = '')
-    {
-        load_unseen_notification();
-		var playing = false;
-        $.ajax({
-            url:"{{URL::to('/admin/fetch-messages')}}",
-            method:"GET",
-            success:function(data)
-            {
-                if(data != 0){
-                    iziToast.show({
-                        backgroundColor: 'rgba(0,0,255,0.3)',
-                        messageColor: 'rgba(255,255,255)',
-                        title: '',
-                        message: data,
-                        position: 'bottomRight'
-                    });
-                    $(this).toggleClass("down");
-
-                    if (playing == false) {
-                      document.getElementById('player').play();
-                      playing = true;
-                      $(this).text("stop sound");
-
-                    } else {
-                        document.getElementById('player').pause();
-                        playing = false;
-                        $(this).text("restart sound");
-                    }
-                }
-            }
-        });
-    }
-
-    /* function load_InPersonWaitingCount(view = '') {
-        $.ajax({
-            url:"{{URL::to('/admin/fetch-InPersonWaitingCount')}}",
-            method:"GET",
-            dataType:"json",
-            success:function(data) {
-                //$('.showallnotifications').html(data.notification);
-                if(data.InPersonwaitingCount > 0){
-                    $('.countInPersonWaitingAction').html(data.InPersonwaitingCount);
-                }
-            }
-        });
-    }
-
-    function load_TotalActivityCount(view = '') {
-        $.ajax({
-            url:"{{URL::to('/admin/fetch-TotalActivityCount')}}",
-            method:"GET",
-            dataType:"json",
-            success:function(data) {
-                if(data.assigneesCount > 0){
-                    $('.countTotalActivityAction').html(data.assigneesCount);
-                }
-            }
-        });
-    } */
-
-
-    setInterval(function(){
-      //load_unseen_messages();
 
 
 
-        //load_unseen_notification();
-        //load_InPersonWaitingCount();
-        //load_TotalActivityCount();
-    },120000); //5000
+
+
 
 });
 
 	</script>
 
-	<div id="checkinmodal"  data-backdrop="static" data-keyboard="false" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="clientModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="clientModalLabel">Create In Person Client</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form method="post" name="checkinmodalsave" id="checkinmodalsave" action="{{URL::to('/admin/checkin')}}" autocomplete="off" enctype="multipart/form-data">
-				@csrf
 
-					<div class="row">
-						<div class="col-12 col-md-6 col-lg-6">
-							<div class="form-group">
-								<label for="email_from">Search Contact <span class="span_req">*</span></label>
-								<select data-valid="required" class="js-data-example-ajax-check" name="contact"></select>
-								@if ($errors->has('email_from'))
-									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('email_from') }}</strong>
-									</span>
-								@endif
-							</div>
-						</div>
-						<input type="hidden" id="utype" name="utype" value="">
-						<div class="col-12 col-md-6 col-lg-6">
-							<div class="form-group">
-								<label for="email_from">Office <span class="span_req">*</span></label>
-								<select data-valid="required" class="form-control" name="office">
-									<option value="">Select</option>
-									<option value="1">Main Office</option>
-								</select>
-
-							</div>
-						</div>
-
-						<div class="col-12 col-md-12 col-lg-12">
-							<div class="form-group">
-								<label for="message">Visit Purpose <span class="span_req">*</span></label>
-								<textarea class="form-control" name="message"></textarea>
-								@if ($errors->has('message'))
-									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('message') }}</strong>
-									</span>
-								@endif
-							</div>
-						</div>
-
-						<div class="col-12 col-md-12 col-lg-12">
-							<div class="form-group">
-								<label for="message">Select In Person Assignee <span class="span_req">*</span></label>
-								<?php
-								$assignee = \App\Models\Admin::all();
-								?>
-								<select class="form-control assineeselect2" name="assignee">
-								@foreach($assignee as $assigne)
-									<option value="{{$assigne->id}}">{{$assigne->first_name}} ({{$assigne->email}})</option>
-								@endforeach
-								</select>
-								@if ($errors->has('message'))
-									<span class="custom-error" role="alert">
-										<strong>{{ @$errors->first('message') }}</strong>
-									</span>
-								@endif
-							</div>
-						</div>
-						<div class="col-12 col-md-12 col-lg-12">
-							<button onclick="customValidate('checkinmodalsave')" type="button" class="btn btn-primary">Send</button>
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id="checkindetailmodal"  data-backdrop="static" data-keyboard="false" class="modal fade custom_modal" tabindex="-1" role="dialog" aria-labelledby="clientModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="clientModalLabel">In Person Details</h5>
-				<a style="margin-left:10px;" href="javascript:;"><i class="fa fa-trash"></i> Archive</a>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body showchecindetail">
-
-			</div>
-		</div>
-	</div>
-</div>
 @yield('scripts')
 	<!--<script src="{{--asset('js/custom-chart.js')--}}"></script>-->
 </body>

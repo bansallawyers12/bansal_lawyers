@@ -13,24 +13,24 @@
 		<title>CRM Digitrex | @yield('title')</title>
 		  
 		<!-- Font Awesome -->
-	  <link rel="stylesheet" href="{{URL::asset('icons/font-awesome/css/all.min.css')}}">
+	  <link rel="stylesheet" href="{{ asset('icons/font-awesome/css/all.min.css') }}">
 	  <!-- Ionicons -->
 	  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	  <!-- Datatable -->
 	  
 	  <!-- Select2 -->
-	  <link rel="stylesheet" href="{{URL::asset('css/select2.min.css')}}">
-	  <link rel="stylesheet" href="{{URL::asset('css/select2-bootstrap4.min.css')}}">
+	  <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+	  <link rel="stylesheet" href="{{ asset('css/select2-bootstrap4.min.css') }}">
 	  <!-- Theme style -->
-	  <link rel="stylesheet" href="{{URL::asset('css/admintheme.min.css')}}">
+	  <link rel="stylesheet" href="{{ asset('css/admintheme.min.css') }}">
 	  <!-- overlayScrollbars -->
 	 
-	  <link rel="stylesheet" type="text/css" href="{{URL::asset('css/bootstrap-select.min.css')}}" >
+	  <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-select.min.css') }}" >
 	  <!-- summernote -->
-	  <link rel="stylesheet" href="{{URL::asset('css/summernote-bs4.css')}}"> 
+	  <link rel="stylesheet" href="{{ asset('css/summernote-bs4.css') }}"> 
 	  <!-- style --> 
-	  <link rel="stylesheet" href="{{URL::asset('css/style.css')}}">
-	  <link rel="stylesheet" href="{{URL::asset('css/font-awesome.min.css')}}">
+	  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+	  <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
 	 
 	  <!--<link rel="stylesheet" href="{{URL::asset('css/niceCountryInput.css')}}">-->
@@ -38,7 +38,7 @@
 	  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 	  
 		<!-- jQuery -->
-		<script src="{{URL::asset('js/jquery.min.js')}}"></script>	 
+		<script src="{{ asset('js/jquery.min.js') }}"></script>	 
 		<script>var billingdata = new Array();</script>	 
 		
 	<style>
@@ -335,29 +335,29 @@
 		<!-- /.modal -->
 		
 		<!-- jQuery UI 1.11.4 -->
-		<script src="{{URL::asset('js/moment.min.js')}}"></script>
+		<script src="{{ asset('js/moment.min.js') }}"></script>
 		   
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script> 
-		<script src="{{URL::asset('js/bootstrap.bundle.min.js')}}"></script>	
+		<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>	
 		<!-- Datatable  -->
 		
 		<!-- Select2 -->		
 		<!--<script src="{{URL::asset('js/select2.full.min.js')}}"></script>	-->
 		<!-- Select2 -->		
-		<script src="{{URL::asset('js/select2.min.js')}}"></script>			
+		<script src="{{ asset('js/select2.min.js') }}"></script>			
 		<!-- daterangepicker -->
 		
 		<!-- Summernote -->
-		<script src="{{URL::asset('js/summernote-bs4.min.js')}}"></script>
+		<script src="{{ asset('js/summernote-bs4.min.js') }}"></script>
 		
 		
 		<!-- Admin Theme App -->
-		<script src="{{URL::asset('js/admintheme.min.js')}}"></script>
+		<script src="{{ asset('js/admintheme.min.js') }}"></script>
 		
 		<!-- Admin Theme dashboard demo (This is only for demo purposes) -->
 		
 		
-		<script src="{{URL::asset('js/custom-form-validation.js')}}"></script>
+		<script src="{{ asset('js/custom-form-validation.js') }}"></script>
 		  
 		
 		<script type="text/javascript">

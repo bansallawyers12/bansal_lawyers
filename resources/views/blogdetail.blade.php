@@ -26,7 +26,7 @@
      <meta property="og:type" content="website">
      <meta property="og:title" content="{{@$blogdetailists->meta_title}}">
      <meta property="og:description" content="{{@$blogdetailists->meta_description}}">
-     <meta property="og:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+     <meta property="og:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
      <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
      <!-- Twitter Meta Tags -->
@@ -35,7 +35,7 @@
      <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/{{@$blogdetailists->slug}}">
      <meta name="twitter:title" content="{{@$blogdetailists->meta_title}}">
      <meta name="twitter:description" content="{{@$blogdetailists->meta_description}}">
-     <meta property="twitter:image" content="<?php echo URL::to('/'); ?>/public/images/logo/Bansal_Lawyers.png">
+     <meta property="twitter:image" content="{{ asset('img/logo/Bansal_Lawyers.png') }}">
      <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 
@@ -43,7 +43,7 @@
 @endsection
 @section('content')
 
-<section class="hero-wrap hero-wrap-2" style="background-image: url('public/images/bg_1.jpg');display:none;" data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('img/bg_1.jpg') }}');display:none;" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-center">
@@ -403,7 +403,7 @@ ul,li {
           ?>
   			 <div class="et_pb_title_featured_container">
                 <span class="et_pb_image_wrap">
-                    <img fetchpriority="high" decoding="async"  src="public/img/blog/{{@$blogdetailists->image}}" alt="{{@$blogdetailists->slug}}" class="wp-image-512">
+                    <img fetchpriority="high" decoding="async"  src="{{ asset('img/blog/' . @$blogdetailists->image) }}" alt="{{@$blogdetailists->slug}}" class="wp-image-512">
                 </span>
             </div>
   
@@ -428,7 +428,7 @@ ul,li {
                         <a href="<?php echo URL::to('/'); ?>/{{ @$list->slug }}" 
    class="d-block" 
    hreflang="en">
-    <img src="public/img/blog/{{ @$list->image }}" 
+    <img src="{{ asset('img/blog/' . @$list->image) }}" 
          alt="{{ @$list->title }}" 
          class="img-bd-7">
 </a>
