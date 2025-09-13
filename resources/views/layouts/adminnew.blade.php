@@ -38,7 +38,7 @@
 	  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 	  
 		<!-- jQuery -->
-		<script src="{{ asset('js/jquery.min.js') }}"></script>	 
+		<script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>	 
 		<script>var billingdata = new Array();</script>	 
 		
 	<style>

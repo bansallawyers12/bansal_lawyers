@@ -94,8 +94,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css')}}" media="print" onload="this.media='all'">
 
 
-    <!-- Bootstrap JS and jQuery -->
-    <script src="{{ asset('js/jquery_lawyers-3.6.0.min.js')}}" defer></script>
+    <!-- Bootstrap JS and jQuery - Consolidated -->
+    <script src="{{ asset('js/jquery-3.6.0.min.js')}}" defer></script>
     <script src="{{ asset('js/bootstrap_lawyers.bundle.min.js')}}" defer></script>
   
     <!-- Meta Pixel Code -->
@@ -876,7 +876,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      
 	</style>
   
-  	<script src="{{ asset('js/jquery-3.6.0.min.js')}}"></script>
+  	<!-- jQuery already loaded above -->
   	<script>
  	$(document).ready(function () { //alert('ready');
         // Global error handler to prevent console errors from affecting performance
@@ -1176,33 +1176,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 
     <!-- JavaScript Files - Optimized Loading Order -->
-    <script src="{{ asset('js/jquery.min.js')}}"></script>
+    <!-- jQuery already loaded above with defer -->
     <script>
-        // Disable jQuery Migrate logging BEFORE loading migrate
-        window.jQuery = window.jQuery || window.$;
-        if (window.jQuery) {
-            window.jQuery.migrateMute = true;
-        }
-    </script>
-    <script src="{{ asset('js/jquery-migrate-3.0.1.min.js')}}"></script>
-    <script>
-        // Ensure jQuery Migrate is muted after loading
-        if (typeof jQuery !== 'undefined') {
-            jQuery.migrateMute = true;
-            jQuery.migrateWarnings = [];
-            jQuery.migrateTrace = false;
-            
-            // Override jQuery Migrate warning functions
-            if (jQuery.migrateWarn) {
-                jQuery.migrateWarn = function() { return; };
-            }
-            if (jQuery.migrateTrace) {
-                jQuery.migrateTrace = function() { return; };
-            }
-        }
-        
-        // Additional suppression for jQuery Migrate
-        window.addEventListener('load', function() {
+        // Ensure jQuery Migrate is properly configured
+        window.addEventListener('DOMContentLoaded', function() {
             if (typeof jQuery !== 'undefined') {
                 jQuery.migrateMute = true;
                 jQuery.migrateWarnings = [];
@@ -1210,6 +1187,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
         });
     </script>
+    <script src="{{ asset('js/jquery-migrate-3.0.1.min.js')}}"></script>
     <script src="{{ asset('js/popper.min.js')}}"></script>
     <script src="{{ asset('js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>

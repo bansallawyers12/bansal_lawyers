@@ -402,6 +402,10 @@ jQuery(document).ready(function($){
             daysOfWeekDisabled: daysOfWeek,
             format: 'dd/mm/yyyy',
             autoclose: true
+        }).on('changeDate', function(e) {
+            // Convert to ISO format for backend processing
+            var isoDate = e.format('yyyy-mm-dd');
+            $(this).data('iso-date', isoDate);
         });
     }
 
@@ -413,6 +417,10 @@ jQuery(document).ready(function($){
         daysOfWeekDisabled: daysOfWeek,
         format: 'dd/mm/yyyy',
         autoclose: true
+    }).on('changeDate', function(e) {
+        // Convert to ISO format for backend processing
+        var isoDate = e.format('yyyy-mm-dd');
+        $(this).data('iso-date', isoDate);
     });
 
     var totalRowsCnt = '<?php echo count($disableSlotArr);?>';

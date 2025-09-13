@@ -59,17 +59,17 @@ foreach($appointments as $appointment){
 		//$row['description'] = $appointment->description;
         //$row['description'] = htmlspecialchars($appointment->description, ENT_QUOTES, 'UTF-8');
 
-		$row['startdate'] = date("F d, Y h:i A",strtotime($appointment->date));
+		$row['startdate'] = date("Y-m-d H:i:s",strtotime($appointment->date));
 
 		//$row['start'] = date("F d, Y h:i A",strtotime($datetime));
-      	$row['start'] = date("d F, Y h:i A",strtotime($datetime));
+      	$row['start'] = date("Y-m-d H:i:s",strtotime($datetime));
 
 		//$row['end'] = date("F d, Y h:i A",strtotime($appointment->date));
         if( isset($appointment->timeslot_full) && $appointment->timeslot_full != "" ) {
             $timeslot_full_arr = explode("-", $appointment->timeslot_full);
             if(!empty($timeslot_full_arr)){
                 $appointment_end_date_time = $appointment->date.' '.$timeslot_full_arr[1];
-                $row['end'] = date("d F, Y h:i A",strtotime($appointment_end_date_time));
+                $row['end'] = date("Y-m-d H:i:s",strtotime($appointment_end_date_time));
             }
         }
 
@@ -232,6 +232,16 @@ var calendar = $("#myEvent").fullCalendar({
   },
   events: events,
   timeFormat: 'h:mm A',
+  // Ensure proper parsing of ISO 8601 dates
+  eventDataTransform: function(eventData) {
+    if (eventData.start) {
+      eventData.start = moment(eventData.start).toISOString();
+    }
+    if (eventData.end) {
+      eventData.end = moment(eventData.end).toISOString();
+    }
+    return eventData;
+  },
   eventClick: function(info) {
 		console.log(info);
             var details = $('#event-details-modal');

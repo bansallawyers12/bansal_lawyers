@@ -171,19 +171,52 @@
         </svg>
     </div>
 
-    <!-- JavaScript Files -->
-    <script src="{{ asset('js/jquery.min.js')}}"></script>
+    <!-- JavaScript Files - Consolidated jQuery 3.6.0 -->
+    <script>
+        // Prevent jQuery conflicts and ensure proper loading order
+        window.jQuery = window.jQuery || window.$;
+        if (window.jQuery) {
+            window.jQuery.migrateMute = true;
+        }
+    </script>
+    <script src="{{ asset('js/jquery-3.6.0.min.js')}}"></script>
     <script src="{{ asset('js/jquery-migrate-3.0.1.min.js')}}"></script>
+    <script>
+        // Ensure jQuery Migrate is muted after loading
+        if (typeof jQuery !== 'undefined') {
+            jQuery.migrateMute = true;
+            jQuery.migrateWarnings = [];
+            jQuery.migrateTrace = false;
+        }
+    </script>
+    
+    <!-- Core Dependencies -->
     <script src="{{ asset('js/popper.min.js')}}"></script>
     <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('js/moment.min.js')}}"></script>
+    
+    <!-- jQuery Plugins -->
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>
     <script src="{{ asset('js/jquery.waypoints.min.js')}}"></script>
     <script src="{{ asset('js/jquery.stellar.min.js')}}"></script>
     <script src="{{ asset('js/owl.carousel.min.js')}}"></script>
     <script src="{{ asset('js/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{ asset('js/aos.min.js')}}"></script>
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}"></script>
     <script src="{{ asset('js/scrollax.min.js')}}"></script>
+    
+    <!-- Date Picker -->
+    <script src="{{ asset('js/Frontend/bootstrap-datepicker.min.js')}}"></script>
+    
+    <!-- Other Libraries -->
+    <script src="{{ asset('js/aos.min.js')}}"></script>
+    <script src="{{ asset('js/Frontend/easing.min.js')}}"></script>
+    <script src="{{ asset('js/Frontend/hoverIntent.min.js')}}"></script>
+    <script src="{{ asset('js/Frontend/superfish.min.js')}}"></script>
+    <script src="{{ asset('js/Frontend/wow.min.js')}}"></script>
+    <script src="{{ asset('js/Frontend/sticky.min.js')}}"></script>
+    <script src="{{ asset('js/Frontend/font_awesome5.min.js')}}"></script>
+    
+    <!-- Google Maps -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&callback=initMap"></script>
     <script>
       function initMap(){
@@ -193,37 +226,40 @@
         document.head.appendChild(s);
       }
     </script>
+    
+    <!-- Main Application Script -->
     <script src="{{ asset('js/main.min.js')}}"></script>
 
+    <!-- Global Error Handler -->
+    <script>
+        // Global error handler to prevent getBoundingClientRect errors
+        window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('getBoundingClientRect')) {
+                console.warn('DOM element access error prevented:', e.message);
+                e.preventDefault();
+                return true;
+            }
+        });
+        
+        // Additional protection for jQuery operations
+        $(document).ready(function() {
+            // Override jQuery methods that might cause getBoundingClientRect errors
+            var originalOffset = $.fn.offset;
+            $.fn.offset = function() {
+                if (this.length === 0) {
+                    console.warn('jQuery offset called on empty selection');
+                    return { top: 0, left: 0 };
+                }
+                return originalOffset.apply(this, arguments);
+            };
+        });
+    </script>
 
     <!-- COMMON SCRIPTS -->
 		<script type="text/javascript">
 			var site_url = "<?php echo URL::to('/'); ?>";
 			var redirecturl = "<?php echo URL::to('/thanks'); ?>";
 		</script>
-
-		<script src="{{ asset('js/Frontend/jquery-2.2.4.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/popper.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/bootstrap.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/plugins.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/active.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/jquery.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/jquery-migrate.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/bootstrap.bundle.min.js')}}"></script>
-		<script src="{{ asset('js/moment.min.js')}}"></script>
-
-		<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>-->
-  		<script src="{{ asset('js/Frontend/bootstrap-datepicker.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/easing.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/hoverIntent.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/superfish.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/wow.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/owl.carousel.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/magnific-popup.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/sticky.min.js')}}"></script>
-		<script src="{{ asset('js/Frontend/main.min.js')}}"></script>
-
-		<script src="{{ asset('js/Frontend/font_awesome5.min.js')}}"></script>
 
 		<script>
 		jQuery(document).ready(function($){

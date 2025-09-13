@@ -93,8 +93,15 @@
 													</div>
                                                     <?php
                                                     if( isset($appointment->date) && $appointment->date != "") {
-                                                        $dateArr = explode('-', $appointment->date);
-                                                        $datey = $dateArr[2].'/'.$dateArr[1].'/'.$dateArr[0];
+                                                        // Handle both ISO format (Y-m-d) and existing format
+                                                        if (strpos($appointment->date, '-') !== false && strlen($appointment->date) == 10) {
+                                                            // ISO format: Y-m-d
+                                                            $dateArr = explode('-', $appointment->date);
+                                                            $datey = $dateArr[2].'/'.$dateArr[1].'/'.$dateArr[0];
+                                                        } else {
+                                                            // Legacy format or other formats
+                                                            $datey = date('d/m/Y', strtotime($appointment->date));
+                                                        }
                                                     } else {
                                                         $datey = '';
                                                     }?>

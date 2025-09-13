@@ -275,230 +275,181 @@ class HomeController extends Controller
 
 
     public function getdatetime(Request $request)
-    {   //dd($request->all());
-        $enquiry_item = $request->enquiry_item;
-        $req_service_id = $request->id;
-        //echo $enquiry_item."===".$req_service_id; die;
-        if( $enquiry_item != "" && $req_service_id != "")
-        {
-            if( $req_service_id == 1 ) { //Paid service
-                $person_id = 1; //Ajay
-                $service_type = $req_service_id; //Paid service
+    {
+        try {
+            $enquiry_item = $request->enquiry_item;
+            $req_service_id = $request->id;
+            
+            // Only handle paid appointments (service_id = 1) for Ajay Bansal
+            if ($req_service_id != 1) {
+                return response()->json(['success' => false, 'message' => 'Only paid appointments are available']);
             }
-        }
-        //echo $person_id."===".$service_type; die;
-        $bookservice = \App\Models\BookService::where('id', $req_service_id)->first();//dd($bookservice);
-        $service = \App\Models\BookServiceSlotPerPerson::where('person_id', $person_id)->where('service_type', $service_type)->first();//dd($service);
-	    if( $service ){
-		   $weekendd  =array();
-		    if($service->weekend != ''){
-				$weekend = explode(',',$service->weekend);
-				foreach($weekend as $e){
-					if($e == 'Sun'){
-						$weekendd[] = 0;
-					}else if($e == 'Mon'){
-						$weekendd[] = 1;
-					}else if($e == 'Tue'){
-						$weekendd[] = 2;
-					}else if($e == 'Wed'){
-						$weekendd[] = 3;
-					}else if($e == 'Thu'){
-						$weekendd[] = 4;
-					}else if($e == 'Fri'){
-						$weekendd[] = 5;
-					}else if($e == 'Sat'){
-						$weekendd[] = 6;
-					}
-				}
-			}
-			$start_time = date('H:i',strtotime($service->start_time));
-			$end_time = date('H:i',strtotime($service->end_time));
-
-            /*$disabledatesarray = array();  dd($service->disabledates);
-			if($service->disabledates != ''){
-				$dates = json_decode($service->disabledates,true); dd($dates);
-                $dates  = array_flip($dates); //var_dump($dates);
-				foreach($dates as $date){
-					//$datey = explode('/', $date); //08/03/2024  ["11/03/2024", "13/03/2024"];
-					//$disabledatesarray[] = $datey[1].'-'.$datey[0].'-'.$datey[2];
-                    $disabledatesarray[] = $date;
-				}
-                //dd($disabledatesarray);
-			}*/
-            if($service->disabledates != ''){
-                $disabledatesarray =  array();
-                if( strpos($service->disabledates, ',') !== false ) {
-                    $disabledatesArr = explode(',',$service->disabledates);
-                    $disabledatesarray = $disabledatesArr;
-                } else {
-                    $disabledatesarray = array($service->disabledates);
+            
+            // Ajay Bansal's configuration (person_id = 1, service_type = 1)
+            $person_id = 1; // Ajay Bansal
+            $service_type = 1; // Paid service
+            
+            $bookservice = \App\Models\BookService::where('id', $req_service_id)->first();
+            if (!$bookservice) {
+                return response()->json(['success' => false, 'message' => 'Service not found']);
+            }
+            
+            $service = \App\Models\BookServiceSlotPerPerson::where('person_id', $person_id)->where('service_type', $service_type)->first();
+            
+            if ($service) {
+                $weekendd = array();
+                if ($service->weekend != '') {
+                    $weekend = explode(',', $service->weekend);
+                    foreach ($weekend as $e) {
+                        switch (trim($e)) {
+                            case 'Sun':
+                                $weekendd[] = 0;
+                                break;
+                            case 'Mon':
+                                $weekendd[] = 1;
+                                break;
+                            case 'Tue':
+                                $weekendd[] = 2;
+                                break;
+                            case 'Wed':
+                                $weekendd[] = 3;
+                                break;
+                            case 'Thu':
+                                $weekendd[] = 4;
+                                break;
+                            case 'Fri':
+                                $weekendd[] = 5;
+                                break;
+                            case 'Sat':
+                                $weekendd[] = 6;
+                                break;
+                        }
+                    }
                 }
-            } else {
-                $disabledatesarray =  array();
-            }
+                
+                $start_time = date('H:i', strtotime($service->start_time));
+                $end_time = date('H:i', strtotime($service->end_time));
 
-            // Add the current date to the array
-            $disabledatesarray[] = date('d/m/Y'); //dd($disabledatesarray);
-            return response()->json(array('success'=>true, 'duration' =>$bookservice->duration,'weeks' => $weekendd,'start_time' =>$start_time,'end_time'=>$end_time,'disabledatesarray'=>$disabledatesarray));
-	   }else{
-		 return response()->json(array('success'=>false, 'duration' =>0));
-	   }
+                // Handle disabled dates
+                $disabledatesarray = array();
+                if ($service->disabledates != '') {
+                    if (strpos($service->disabledates, ',') !== false) {
+                        $disabledatesArr = explode(',', $service->disabledates);
+                        $disabledatesarray = array_map('trim', $disabledatesArr);
+                    } else {
+                        $disabledatesarray = array(trim($service->disabledates));
+                    }
+                }
+
+                // Add the current date to the array to prevent past date selection
+                $disabledatesarray[] = date('d/m/Y');
+                
+                return response()->json([
+                    'success' => true, 
+                    'duration' => $bookservice->duration,
+                    'weeks' => $weekendd,
+                    'start_time' => $start_time,
+                    'end_time' => $end_time,
+                    'disabledatesarray' => $disabledatesarray
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'Service configuration not found'
+                ]);
+            }
+        } catch (\Exception $e) {
+            \Log::error('getdatetime error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false, 
+                'message' => 'Server error occurred'
+            ]);
+        }
     }
 
 
-    public function getdatetimebackend(Request $request)
-    {   //dd($request->all());
-        $enquiry_item = $request->enquiry_item;
-        $req_service_id = $request->id;
-        //echo $enquiry_item."===".$req_service_id; die;
-        if( $enquiry_item != "" && $req_service_id != "")
-        {
-            if( $req_service_id == 1 ) { //Paid service
-                $person_id = 1; //Ajay
-                $service_type = $req_service_id; //Paid service
-            }
-            else if( $req_service_id == 2 ) { //Free service
-                if( $enquiry_item == 1 || $enquiry_item == 6 || $enquiry_item == 7 ){
-                    //1 => Permanent Residency Appointment
-                    //6 => Complex matters: AAT, Protection visa, Federal Cas
-                    //7 => Visa Cancellation/ NOICC/ Visa refusals
-                    $person_id = 1; //Ajay
-                    $service_type = $req_service_id; //Free service
-                }
-                else if( $enquiry_item == 2 || $enquiry_item == 3 ){
-                    //2 => Temporary Residency Appointment
-                    //3 => JRP/Skill Assessment
-                    $person_id = 2; //Shubam
-                    $service_type = $req_service_id; //Free service
-                }
-                else if( $enquiry_item == 4 ){ //Tourist Visa
-                    $person_id = 3; //Tourist
-                    $service_type = $req_service_id; //Free service
-                }
-                else if( $enquiry_item == 5 ){ //Education/Course Change/Student Visa/Student Dependent Visa (for education selection only)
-                    $person_id = 4; //Education
-                    $service_type = $req_service_id; //Free service
-                }
-            }
-        }
-        //echo $person_id."===".$service_type; die;
-        $bookservice = \App\Models\BookService::where('id', $req_service_id)->first();//dd($bookservice);
-        $service = \App\Models\BookServiceSlotPerPerson::where('person_id', $person_id)->where('service_type', $service_type)->first();//dd($service);
-	    if( $service ){
-		   $weekendd  =array();
-		    if($service->weekend != ''){
-				$weekend = explode(',',$service->weekend);
-				foreach($weekend as $e){
-					if($e == 'Sun'){
-						$weekendd[] = 0;
-					}else if($e == 'Mon'){
-						$weekendd[] = 1;
-					}else if($e == 'Tue'){
-						$weekendd[] = 2;
-					}else if($e == 'Wed'){
-						$weekendd[] = 3;
-					}else if($e == 'Thu'){
-						$weekendd[] = 4;
-					}else if($e == 'Fri'){
-						$weekendd[] = 5;
-					}else if($e == 'Sat'){
-						$weekendd[] = 6;
-					}
-				}
-			}
-			$start_time = date('H:i',strtotime($service->start_time));
-			$end_time = date('H:i',strtotime($service->end_time));
-
-            /*$disabledatesarray = array();  dd($service->disabledates);
-			if($service->disabledates != ''){
-				$dates = json_decode($service->disabledates,true); dd($dates);
-                $dates  = array_flip($dates); //var_dump($dates);
-				foreach($dates as $date){
-					//$datey = explode('/', $date); //08/03/2024  ["11/03/2024", "13/03/2024"];
-					//$disabledatesarray[] = $datey[1].'-'.$datey[0].'-'.$datey[2];
-                    $disabledatesarray[] = $date;
-				}
-                //dd($disabledatesarray);
-			}*/
-            if($service->disabledates != ''){
-                $disabledatesarray =  array();
-                if( strpos($service->disabledates, ',') !== false ) {
-                    $disabledatesArr = explode(',',$service->disabledates);
-                    $disabledatesarray = $disabledatesArr;
-                } else {
-                    $disabledatesarray = array($service->disabledates);
-                }
-            } else {
-                $disabledatesarray =  array();
-            }
-            // Add the current date to the array
-            //$disabledatesarray[] = date('d/m/Y'); //dd($disabledatesarray);
-            return response()->json(array('success'=>true, 'duration' =>$bookservice->duration,'weeks' => $weekendd,'start_time' =>$start_time,'end_time'=>$end_time,'disabledatesarray'=>$disabledatesarray));
-	   }else{
-		 return response()->json(array('success'=>false, 'duration' =>0));
-	   }
-    }
+    // Removed getdatetimebackend method - only handling paid appointments for Ajay Bansal
 
 	public function getdisableddatetime(Request $request)
     {
-		$requestData = $request->all(); //dd($requestData);
-		$date = explode('/', $requestData['sel_date']);
-		$datey = $date[2].'-'.$date[1].'-'.$date[0];
-        if ( isset($request->service_id) && $request->service_id == 1 ) { //Paid
-            if( isset($request->service_id) && $request->service_id == 1  ){ //Ajay Paid Service
-                $book_service_slot_per_person_tbl_unique_id = 1;
+        try {
+            $requestData = $request->all();
+            
+            // Validate required parameters
+            if (!isset($requestData['sel_date']) || !isset($request->service_id)) {
+                return response()->json(['success' => false, 'message' => 'Missing required parameters']);
             }
-
+            
+            // Only handle paid appointments (service_id = 1) for Ajay Bansal
+            if ($request->service_id != 1) {
+                return response()->json(['success' => false, 'message' => 'Only paid appointments are available']);
+            }
+            
+            // Handle different date formats
+            $selDate = $requestData['sel_date'];
+            if (strpos($selDate, '-') !== false) {
+                // YYYY-MM-DD format from JavaScript
+                $datey = $selDate;
+            } else {
+                // DD/MM/YYYY format
+                $date = explode('/', $selDate);
+                if (count($date) != 3) {
+                    return response()->json(['success' => false, 'message' => 'Invalid date format']);
+                }
+                $datey = $date[2].'-'.$date[1].'-'.$date[0];
+            }
+            
+            // Ajay Bansal's configuration (person_id = 1, service_type = 1)
+            $book_service_slot_per_person_tbl_unique_id = 1;
+            
+            // Check for existing appointments on this date
             $service = \App\Models\Appointment::select('id', 'date', 'time')
-            ->where('status', '!=', 7)
-            ->whereDate('date', $datey)
-            ->where(function ($query) {
-                $query->where(function ($q) {
-                    $q->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
-                    ->where('service_id', 1);
-                });
-            })->exists();
+                ->where('status', '!=', 7)
+                ->whereDate('date', $datey)
+                ->where('service_id', 1)
+                ->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
+                ->exists();
 
             $servicelist = \App\Models\Appointment::select('id', 'date', 'time')
-            ->where('status', '!=', 7)
-            ->whereDate('date', $datey)
-            ->where(function ($query) {
-                $query->where(function ($q) {
-                    $q->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
-                    ->where('service_id', 1);
-                });
-            })->get();
+                ->where('status', '!=', 7)
+                ->whereDate('date', $datey)
+                ->where('service_id', 1)
+                ->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
+                ->get();
+
+            $disabledtimeslotes = array();
+            
+            // Add existing appointment times to disabled slots
+            if ($service && $servicelist->isNotEmpty()) {
+                foreach($servicelist as $list) {
+                    $disabledtimeslotes[] = date('g:i A', strtotime($list->time));
+                }
+            }
+            
+            // Get manually disabled slots from BookServiceDisableSlot table
+            $disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')
+                ->where('book_service_slot_per_person_id', $book_service_slot_per_person_tbl_unique_id)
+                ->whereDate('disabledates', $datey)
+                ->get();
+                
+            if ($disabled_slot_arr->isNotEmpty()) {
+                $newArray = explode(",", $disabled_slot_arr[0]->slots);
+                $disabledtimeslotes = array_merge($disabledtimeslotes, $newArray);
+            }
+            
+            return response()->json([
+                'success' => true, 
+                'disabledtimeslotes' => $disabledtimeslotes
+            ]);
+            
+        } catch (\Exception $e) {
+            \Log::error('getdisableddatetime error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false, 
+                'message' => 'Server error occurred',
+                'disabledtimeslotes' => []
+            ]);
         }
-
-        //dd($servicelist);
-        $disabledtimeslotes = array();
-	    if($service){
-            foreach($servicelist as $list){
-                $disabledtimeslotes[] = date('g:i A', strtotime($list->time)); //'H:i A'
-			}
-            //$disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')->where('book_service_id', $request->service_id)->whereDate('disabledates', $datey)->get();
-            $disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')->where('book_service_slot_per_person_id', $book_service_slot_per_person_tbl_unique_id)->whereDate('disabledates', $datey)->get();
-            //dd($disabled_slot_arr);
-            if(!empty($disabled_slot_arr) && count($disabled_slot_arr) >0 ){
-                $newArray = explode(",",$disabled_slot_arr[0]->slots); //dd($newArray);
-            } else {
-                $newArray = array();
-            }
-            $disabledtimeslotes = array_merge($disabledtimeslotes, $newArray); //dd($disabledtimeslotes);
-		    return response()->json(array('success'=>true, 'disabledtimeslotes' =>$disabledtimeslotes));
-	    } else {
-            //$disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')->where('book_service_id', $request->service_id)->whereDate('disabledates', $datey)->get();
-            $disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')->where('book_service_slot_per_person_id', $book_service_slot_per_person_tbl_unique_id)->whereDate('disabledates', $datey)->get();
-            //dd($disabled_slot_arr);
-
-            if(!empty($disabled_slot_arr) && count($disabled_slot_arr) >0 ){
-                $newArray = explode(",",$disabled_slot_arr[0]->slots); //dd($newArray);
-            } else {
-                $newArray = array();
-            }
-            $disabledtimeslotes = array_merge($disabledtimeslotes, $newArray); //dd($disabledtimeslotes);
-		    return response()->json(array('success'=>true, 'disabledtimeslotes' =>$disabledtimeslotes));
-	    }
     }
 
 

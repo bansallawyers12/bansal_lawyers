@@ -513,7 +513,10 @@ $(function () {
 		 autoUpdateInput: false,
         showDropdowns: true
       }).on("apply.daterangepicker", function (e, picker) {
-        picker.element.val(picker.startDate.format(picker.locale.format));
+        var isoDate = picker.startDate.format('YYYY-MM-DD');
+        picker.element.val(isoDate);
+        // Store ISO date for backend processing
+        picker.element.data('iso-date', isoDate);
     });
     }if ($(".dobdatepicker").length) {
       $(".dobdatepicker").daterangepicker({
@@ -522,7 +525,11 @@ $(function () {
 		autoUpdateInput: false,
         showDropdowns: true
       }).on("apply.daterangepicker", function (e, picker) {
-        picker.element.val(picker.startDate.format(picker.locale.format));
+        var displayDate = picker.startDate.format('DD/MM/YYYY');
+        var isoDate = picker.startDate.format('YYYY-MM-DD');
+        picker.element.val(displayDate);
+        // Store ISO date for backend processing
+        picker.element.data('iso-date', isoDate);
     });
     }
     if ($(".dobdatepickers").length) {

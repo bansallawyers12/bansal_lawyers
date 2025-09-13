@@ -337,21 +337,19 @@ b, strong {
                                 <div class="row services_row" id="services" style="display: none;">
                                     <div class="form-group">
                                         <label for="service_id" class="heading_title">Services</label>
-                                        @foreach(\App\Models\BookService::where('status',1)->get() as $bookservices)
-                                            <div class="services_item_header" id="serviceval_{{$bookservices->id}}">
+                                        @php
+                                            $paidService = \App\Models\BookService::where('status',1)->where('id',1)->first();
+                                        @endphp
+                                        @if($paidService)
+                                            <div class="services_item_header" id="serviceval_1">
                                                 <div class="services_item_title">
-                                                    <input type="radio" class="services_item" name="radioGroup"  value="{{$bookservices->id}}">
-                                                    <!--<div class="services_item_img" style="display:inline-block;margin-left: 10px;">
-                                                        <img class="" style="width: 80px;height:80px;" src="{{--asset('img/service_img')--}}/{{--$bookservices->image--}}">
-                                                    </div>-->
-                                                    <span class="services_item_title_span">{{$bookservices->title}} ({{$bookservices->duration_for_display}} minutes)</span>
-                                                    <!--<span class="services_item_duration">{{--$bookservices->duration--}} minutes</span>-->
-                                                    <span class="services_item_price"> {{$bookservices->price}}</span>
-                                                    <!--<span class="services_item_description">{{--$bookservices->description--}}</span>-->
+                                                    <input type="radio" class="services_item" name="radioGroup" value="1" checked>
+                                                    <span class="services_item_title_span">{{$paidService->title}} ({{$paidService->duration_for_display}} minutes)</span>
+                                                    <span class="services_item_price">{{$paidService->price}}</span>
                                                 </div>
                                             </div>
-                                        @endforeach
-                                        <input type="hidden"  id="service_id" name="service_id" value="">
+                                        @endif
+                                        <input type="hidden" id="service_id" name="service_id" value="1">
                                     </div>
                                 </div>
 
@@ -373,11 +371,10 @@ b, strong {
 									</div>
 									<form id="fromtopupvalues">
                                         <div class="tab_body">
-                                            <input type="hidden" class="form-control " placeholder="" name="noe_id" />
-                                            <input type="hidden" class="form-control " placeholder="" name="service_id" />
-                                            <input type="hidden" class="form-control " placeholder="" name="date" />
-                                            <input type="hidden" class="form-control " placeholder="" name="time" />
-                                            <input type="hidden" class="form-control " placeholder="" name="appointment_details" />
+                                            <input type="hidden" class="form-control" name="noe_id" value="" />
+                                            <input type="hidden" class="form-control" name="date" value="" />
+                                            <input type="hidden" class="form-control" name="time" value="" />
+                                            <input type="hidden" class="form-control" name="appointment_details" value="" />
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -498,8 +495,8 @@ b, strong {
                                                     <div class="form-btn text-center">
                                                         <!--If paid option selected -->
                                                         <!--<input type="button" class="btn btn-primary submitappointment_paid" style="margin-bottom:12px;margin-top:12px;" name="submit" value="Pay & Submit" />-->
-                                                        <!-- Button trigger modal -->
-                                                        <button type="button" class="btn btn-primary submitappointment_paid" data-toggle="modal" data-target="#exampleModal" style="margin-bottom:12px;margin-top:12px;">
+                                                        <!-- Direct submit button for paid appointments -->
+                                                        <button type="button" class="btn btn-primary submitappointment_paid" style="margin-bottom:12px;margin-top:12px;">
                                                             Pay & Submit
                                                         </button>
                                                         <!--If free option selected -->
@@ -757,7 +754,8 @@ jQuery(document).ready(function($){
         var id = $(this).val();//alert(id);
         if(id != ""){
             var v = 'services';
-            $('#serviceval_2').show();
+            // Only show paid service (serviceval_1)
+            $('#serviceval_1').show();
             $('.services_row').show();
             $('#myTab .nav-item #nature_of_enquiry-tab').addClass('disabled');
             $('#myTab .nav-item #services-tab').removeClass('disabled');
@@ -818,24 +816,27 @@ jQuery(document).ready(function($){
         $('.appointment_item').val("");
 
         var id = $(this).val(); //console.log('id='+id);
-        if ($("input[name='radioGroup'][value='+id+']").prop("checked"))
+        
+        // Only handle paid service (id = 1) for Ajay Bansal
+        if (id == 1) {
+            $('.services_item[value="1"]').prop('checked', true);
+            $('#service_id').val(1);
+            $('.submitappointment_paid').show();
+            $('.submitappointment').hide();
+            $('.coupon-wrapper').show();
 
-        $('.services_item[value="1"]').prop('checked', true);
-
-        $('#service_id').val(id);
-        // Only paid appointments for Ajay
-        $('.submitappointment_paid').show();
-        $('.submitappointment').hide();
-        $('.coupon-wrapper').show();
-
-        if(id != ""){
-            var v = 'appointment_details';
-            $('.appointment_row').show();
+            if(id != ""){
+                var v = 'appointment_details';
+                $('.appointment_row').show();
+            } else {
+                var v = 'services';
+                $('.appointment_row').hide();
+                //$('.info_row').hide();
+                //$('.confirm_row').hide();
+            }
         } else {
-            var v = 'services';
-            $('.appointment_row').hide();
-            //$('.info_row').hide();
-            //$('.confirm_row').hide();
+            // Invalid service selected - only paid appointments available
+            alert('Only paid appointments are available');
         }
 
 
@@ -863,29 +864,60 @@ jQuery(document).ready(function($){
                     var datesForDisable = obj.disabledatesarray;
                     //var datesForDisable = ["11/03/2024", "13/03/2024"];
 					console.log('Initializing calendar with data:', {duration, daysOfWeek, starttime, endtime, datesForDisable});
-					$('#datetimepicker').datepicker({
-						inline: true,
-						startDate: new Date(),
-						datesDisabled: datesForDisable,
-						daysOfWeekDisabled: daysOfWeek,
-                        beforeShowDay: function(date) {
-                            var day = date.getDay();  //console.log('day='+day);
-                            var hours = date.getHours();  //console.log('hours='+hours);
-                            var dateString = moment(date).format('YYYY-MM-DD'); //console.log('dateString='+dateString);
-                            // Disable specific time slots for specific dates
-                            if (dateString === '2024-05-23' && (hours == 10 ) ) {
-                                return { enabled: false, tooltip: 'Time slots are disabled for this date' };
-                            }
-                            // Enable all other time slots
-                            return { enabled: true };
-                        },
-						format: 'dd/mm/yyyy'
-					});
-					console.log('Calendar initialized successfully');
+					
+					// Check if calendar element exists before initializing
+					var calendarElement = document.getElementById('datetimepicker');
+					if (!calendarElement) {
+						console.error('Calendar element #datetimepicker not found');
+						return;
+					}
+					
+					// Check if jQuery datepicker is available
+					if (typeof $.fn.datepicker === 'undefined') {
+						console.error('Bootstrap datepicker not loaded');
+						return;
+					}
+					
+					try {
+						$('#datetimepicker').datepicker({
+							inline: true,
+							startDate: new Date(),
+							datesDisabled: datesForDisable,
+							daysOfWeekDisabled: daysOfWeek,
+							beforeShowDay: function(date) {
+								var day = date.getDay();  //console.log('day='+day);
+								var hours = date.getHours();  //console.log('hours='+hours);
+								var dateString = moment(date).format('YYYY-MM-DD'); //console.log('dateString='+dateString);
+								// Disable specific time slots for specific dates
+								if (dateString === '2024-05-23' && (hours == 10 ) ) {
+									return { enabled: false, tooltip: 'Time slots are disabled for this date' };
+								}
+								// Enable all other time slots
+								return { enabled: true };
+							},
+							format: 'dd/mm/yyyy'
+						});
+						console.log('Calendar initialized successfully');
+					} catch (error) {
+						console.error('Error initializing calendar:', error);
+					}
 					$('#datetimepicker').on('changeDate', function(e) {
-                        var date = e.format();
-                        var checked_date=e.date.toLocaleDateString('en-US');
-                        $('.showselecteddate').html(date);
+                        var date = e.format('YYYY-MM-DD'); // Use ISO format for backend
+                        var displayDate = e.format('DD/MM/YYYY'); // Keep display format for user
+                        var checked_date = e.date.toLocaleDateString('en-US');
+                        
+                        // Fix date display - ensure proper formatting
+                        if (displayDate && displayDate !== 'Invalid date') {
+                            $('.showselecteddate').html(displayDate);
+                        } else {
+                            // Fallback formatting
+                            var day = e.date.getDate();
+                            var month = e.date.getMonth() + 1;
+                            var year = e.date.getFullYear();
+                            var formattedDate = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
+                            $('.showselecteddate').html(formattedDate);
+                        }
+                        
                         $('input[name="date"]').val(date);
                         $('#timeslot_col_date').val(date);
 
@@ -1298,71 +1330,39 @@ jQuery(document).ready(function($){
         }
 
 		if(flag == 1){
-            // If payable amount is zero (via coupon), bypass Stripe modal and submit directly
-            var payable = parseFloat($('#payable_amount').val() || '0');
-            if(!isNaN(payable) && payable <= 0){
-                $('#loading').show();
-                // Build payload from the main form and append promo + synthetic token
-                var dataArr = $('#appintment_form').serializeArray();
-                dataArr.push({name:'promo_code', value: $.trim($('#promo_code').val() || '')});
-                dataArr.push({name:'stripeToken', value: 'promo_free_'+(new Date().getTime())});
-                dataArr.push({name:'cardName', value: $.trim(fullname)});
-                $.ajax({
-                    type:'POST',
-                    data: $.param(dataArr),
-                    url:'{{URL::to('/book-an-appointment/storepaid')}}',
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    dataType:'json',
-                    success:function(obj){
-                        $('#loading').hide();
-                        if(obj.success){
-                            $('html, body').animate({scrollTop: $('#confirm_div').offset().top -100 }, 'slow');
-                            $('#confirm_div').html('<div class="tab_header"><h4></h4></div><div class="tab_body"><h4 style="text-align: center;padding: 20px;">'+obj.message+'</h4></div>');
-                            setTimeout(function(){ window.location.reload(); }, 5000);
-                        }else{
-                            alert('Please try again. There is a issue in our system');
-                        }
-                    },
-                    error:function(){
-                        $('#loading').hide();
-                        alert('Network error. Please try again.');
-                    }
-                });
-                return; // stop opening modal
-            }
-            $('#noe_id_paid').val( $('input[name="noe_id"]').val() );
-            $('#radioGroup_paid').val( $('input[name="radioGroup"]').val() );
-            $('#service_id_paid').val( $('input[name="service_id"]').val() );
-            $('#appointment_details_paid').val( $('input[name="appointment_details"]').val() );
-
-            $('#date_paid').val(date);
-            $('#time_paid').val(time);
-
-            $('#fullname_paid').val(fullname);
-            $('#email_paid').val(email);
-            $('#phone_paid').val(phone);
-            //$('#title_paid').val(title);
-            $('#description_paid').val(description);
-
-            /*$('#loading').show();
-			$.ajax({
-			    type:'POST',
-			    data: $('#appintment_form').serialize(),
-			    url:'{{URL::to('/book-an-appointment/storepaid')}}',
-			    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-			    success:function(data){
-				    $('#loading').hide();
-				    var obj = JSON.parse(data);
-				    if(obj.success){
+            // Submit paid appointment directly (simplified for Ajay Bansal only)
+            $('#loading').show();
+            
+            // Build payload from the main form
+            var dataArr = $('#appintment_form').serializeArray();
+            dataArr.push({name:'promo_code', value: $.trim($('#promo_code').val() || '')});
+            dataArr.push({name:'stripeToken', value: 'manual_'+(new Date().getTime())});
+            dataArr.push({name:'cardName', value: $.trim(fullname)});
+            
+            $.ajax({
+                type:'POST',
+                data: $.param(dataArr),
+                url:'{{URL::to('/book-an-appointment/storepaid')}}',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                dataType:'json',
+                success:function(obj){
+                    $('#loading').hide();
+                    if(obj.success){
                         $('html, body').animate({scrollTop: $('#confirm_div').offset().top -100 }, 'slow');
-					    $('#confirm_div').html('<div class="tab_header"><h4></h4></div><div class="tab_body"><h4 style="text-align: center;padding: 20px;">'+obj.message+'</h4></div>');
-					    setTimeout(function(){ window.location.reload(); }, 5000);
-				    }else{
-					    alert('Please try again. There is a issue in our system');
-				    }
-			    }
-		    });*/
-		}
+                        $('#confirm_div').html('<div class="tab_header"><h4></h4></div><div class="tab_body"><h4 style="text-align: center;padding: 20px;">'+obj.message+'</h4></div>');
+                        setTimeout(function(){ window.location.reload(); }, 5000);
+                    }else{
+                        alert('Please try again. There is a issue in our system: ' + (obj.message || 'Unknown error'));
+                    }
+                },
+                error:function(xhr, status, error){
+                    $('#loading').hide();
+                    console.error('AJAX Error:', xhr.responseText);
+                    alert('Network error. Please try again. Error: ' + error);
+                }
+            });
+            return; // Stop further processing
+        }
 	});
 });
 </script>

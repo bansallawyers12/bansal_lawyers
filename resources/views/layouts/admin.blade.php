@@ -39,7 +39,7 @@
 
 <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
-<script src="{{ asset('js/jquery_min_latest.js')}}"></script>
+<script src="{{ asset('js/jquery-3.6.0.min.js')}}"></script>
 
 <style>
 .dropbtn {
@@ -145,6 +145,31 @@
 	<!--<script src="{{--asset('js/apexcharts.min.js')--}}"></script>-->
 	<!--<script src="{{--asset('js/jquery.flagstrap.js')--}}"></script>-->
 	<script>
+		// Date handling utilities for consistent ISO format usage
+		window.DateUtils = {
+			// Convert display date to ISO format for backend
+			toISO: function(dateString, currentFormat) {
+				if (!dateString) return '';
+				if (currentFormat === 'DD/MM/YYYY') {
+					var parts = dateString.split('/');
+					return parts[2] + '-' + parts[1].padStart(2, '0') + '-' + parts[0].padStart(2, '0');
+				}
+				return moment(dateString).format('YYYY-MM-DD');
+			},
+			
+			// Convert ISO date to display format
+			toDisplay: function(isoDate, format) {
+				if (!isoDate) return '';
+				format = format || 'DD/MM/YYYY';
+				return moment(isoDate).format(format);
+			},
+			
+			// Validate ISO date format
+			isValidISO: function(dateString) {
+				return moment(dateString, 'YYYY-MM-DD', true).isValid();
+			}
+		};
+		
 		$(document).ready(function () {
 		    // Note: Notification permission will be requested when user interacts with notifications
 		    // This prevents the "may only be requested from inside a short running user-generated event handler" warning
