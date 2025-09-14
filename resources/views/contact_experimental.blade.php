@@ -69,7 +69,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('images/Contactus.jpg') center/cover;
+    background: url('{{ asset("images/Contactus.jpg") }}') center/cover;
     opacity: 0.2;
     z-index: 1;
 }
@@ -531,51 +531,6 @@
     box-shadow: 0 4px 15px rgba(21, 87, 36, 0.1);
 }
 
-/* Stats Section */
-.modern-stats {
-    background: var(--gradient-primary);
-    color: var(--white);
-    padding: 80px 0;
-    margin: 100px 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.modern-stats::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-    opacity: 0.3;
-}
-
-.modern-stats .container {
-    position: relative;
-    z-index: 2;
-}
-
-.modern-stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-    text-align: center;
-}
-
-.modern-stat-item h3 {
-    font-size: 3rem;
-    font-weight: 800;
-    margin-bottom: 10px;
-    color: var(--accent-color);
-}
-
-.modern-stat-item p {
-    font-size: 1.2rem;
-    opacity: 0.9;
-    font-weight: 500;
-}
 
 /* Floating Contact Form */
 .floating-form-container {
@@ -1027,10 +982,6 @@
         font-size: 2rem;
     }
     
-    .modern-stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
-    }
     
     .floating-form-container {
         bottom: 20px;
@@ -1086,9 +1037,6 @@
         font-size: 2rem;
     }
     
-    .modern-stats-grid {
-        grid-template-columns: 1fr;
-    }
     
     .floating-form-panel {
         width: 320px;
@@ -1146,29 +1094,6 @@
     </div>
 </section>
 
-<!-- Stats Section -->
-<section class="modern-stats">
-    <div class="container">
-        <div class="modern-stats-grid">
-            <div class="modern-stat-item" data-aos="fade-up" data-aos-delay="100">
-                <h3>500+</h3>
-                <p>Cases Won</p>
-            </div>
-            <div class="modern-stat-item" data-aos="fade-up" data-aos-delay="200">
-                <h3>15+</h3>
-                <p>Years Experience</p>
-            </div>
-            <div class="modern-stat-item" data-aos="fade-up" data-aos-delay="300">
-                <h3>98%</h3>
-                <p>Client Satisfaction</p>
-            </div>
-            <div class="modern-stat-item" data-aos="fade-up" data-aos-delay="400">
-                <h3>24/7</h3>
-                <p>Legal Support</p>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- Modern Contact Section -->
 <section class="modern-contact-section">
@@ -1179,7 +1104,7 @@
             <div class="modern-contact-grid">
                 <div class="modern-contact-item" data-aos="fade-up" data-aos-delay="100">
                     <div class="icon">
-                        <i class="fa fa-map-marker-alt"></i>
+                        <i class="fa fa-map-marker"></i>
                     </div>
                     <h4>Visit Our Office</h4>
                     <p>Level 8/278 Collins St,<br>Melbourne VIC 3000,<br>Australia</p>

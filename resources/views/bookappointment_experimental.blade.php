@@ -39,36 +39,36 @@
 @section('content')
 
 <style>
-/* Appointment Page Styles - Blue Theme */
-.experimental-appointment-hero {
-    background: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%);
+
+/* Hero Section Styles */
+.hero-appointment-section {
+    background: linear-gradient(135deg, #0a1a2e 0%, #16213e 50%, #1B4D89 100%);
     color: white;
     padding: 80px 0;
-    text-align: center;
     position: relative;
     overflow: hidden;
 }
 
-.experimental-appointment-hero::before {
+.hero-appointment-section::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset('images/bg_2.jpg') }}') center/cover;
-    opacity: 0.2;
+    background: url('{{ asset('images/coart_1.jpg') }}') center/cover;
+    opacity: 0.1;
     z-index: 1;
 }
 
-.experimental-appointment-hero .container {
+.hero-content {
     position: relative;
     z-index: 2;
 }
 
-.hero-content {
-    max-width: 800px;
-    margin: 0 auto;
+.hero-text {
+    text-align: center;
+    margin-bottom: 60px;
 }
 
 .hero-badge {
@@ -87,269 +87,286 @@
 
 .hero-badge i {
     color: #ffaf02;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
-.experimental-appointment-hero h1 {
-    font-size: 3.2rem;
-    font-weight: 800;
-    margin-bottom: 1.2rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    line-height: 1.2;
+.hero-text h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    color: #ffffff;
 }
 
-.hero-subtitle {
-    font-size: 1.3rem;
-    opacity: 0.95;
-    margin-bottom: 40px;
-    line-height: 1.6;
-    font-weight: 400;
+.hero-text h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #f8f9fa;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
 }
 
-.hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    margin: 40px 0;
-    flex-wrap: wrap;
-}
-
-.stat-item {
-    text-align: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px 25px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.stat-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #ffaf02;
-    margin-bottom: 5px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.stat-label {
-    font-size: 0.9rem;
-    opacity: 0.9;
-    font-weight: 500;
-}
-
-.hero-cta {
-    margin-top: 50px;
-}
-
-.hero-cta-btn {
-    background: linear-gradient(135deg, #ffaf02, #ff8c00);
-    color: #1B4D89;
-    border: none;
-    padding: 18px 40px;
-    border-radius: 50px;
+.hero-description {
     font-size: 1.2rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(255, 175, 2, 0.4);
-    display: inline-flex;
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    color: #e9ecef;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+.hero-pricing {
+    display: flex;
     align-items: center;
-    gap: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.hero-cta-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(255, 175, 2, 0.6);
-    background: linear-gradient(135deg, #ff8c00, #ffaf02);
-}
-
-.hero-cta-btn i {
-    font-size: 1.3rem;
-}
-
-.cta-note {
-    margin-top: 15px;
-    font-size: 0.95rem;
-    opacity: 0.9;
-    font-weight: 500;
-}
-
-/* Success Stories Section */
-.success-stories-section {
-    padding: 80px 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    position: relative;
-}
-
-.success-stories-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-    opacity: 0.3;
-    z-index: 1;
-}
-
-.success-stories-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-}
-
-.success-stories-content h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1B4D89;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
     margin-bottom: 20px;
 }
 
-.section-subtitle {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 60px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+.hero-pricing .price-amount {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #ffaf02;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
-.success-grid {
+.hero-pricing .price-note {
+    font-size: 1rem;
+    color: #e9ecef;
+    font-weight: 500;
+}
+
+.hero-features {
+    margin-bottom: 50px;
+}
+
+.feature-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-    margin-bottom: 60px;
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.success-card {
-    background: white;
-    padding: 40px 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
-    border: 2px solid transparent;
     position: relative;
     overflow: hidden;
 }
 
-.success-card::before {
+.feature-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+    background: linear-gradient(135deg, #ffaf02, #ff8c00);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
 }
 
-.success-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    border-color: #1B4D89;
+.feature-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.success-icon {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+.feature-card:hover::before {
+    transform: scaleX(1);
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #ffaf02, #ff8c00);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 25px;
+    margin: 0 auto 20px;
     transition: all 0.3s ease;
 }
 
-.success-card:hover .success-icon {
+.feature-card:hover .feature-icon {
     transform: scale(1.1);
-    background: linear-gradient(135deg, #ffaf02, #ff8c00);
+    box-shadow: 0 5px 15px rgba(255, 175, 2, 0.4);
 }
 
-.success-icon i {
-    font-size: 2rem;
+.feature-icon i {
+    font-size: 1.8rem;
     color: white;
 }
 
-.success-card h3 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #1B4D89;
+.feature-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
     margin-bottom: 15px;
+    color: #ffffff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
-.success-card p {
-    color: #666;
-    line-height: 1.6;
-    font-size: 1rem;
+.feature-card p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #e9ecef;
+    margin: 0;
 }
 
-.testimonial-slider {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+.trust-badges {
+    display: flex;
+    justify-content: center;
     gap: 30px;
-    max-width: 1000px;
-    margin: 0 auto;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
 }
 
-.testimonial-card {
-    background: white;
-    padding: 40px;
+.trust-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    min-width: 120px;
+}
+
+.trust-badge:hover {
+    background: rgba(255, 175, 2, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 175, 2, 0.3);
+}
+
+.trust-badge i {
+    font-size: 1.8rem;
+    color: #ffaf02;
+    transition: color 0.3s ease;
+}
+
+.trust-badge:hover i {
+    color: #ffffff;
+}
+
+.trust-badge span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.hero-contact {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(27, 77, 137, 0.1);
     position: relative;
-    border-left: 5px solid #1B4D89;
+    overflow: hidden;
 }
 
-.testimonial-content {
-    position: relative;
-}
-
-.quote-icon {
+.hero-contact::before {
+    content: '';
     position: absolute;
-    top: -20px;
-    left: 30px;
-    width: 40px;
-    height: 40px;
-    background: #1B4D89;
-    border-radius: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+}
+
+.contact-content h3 {
+    color: #1B4D89;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 15px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
-.quote-icon i {
-    color: white;
+.contact-content h3 i {
+    color: #ffaf02;
+    font-size: 1.4rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.contact-content p {
+    color: #2c3e50;
     font-size: 1.2rem;
+    margin: 0;
+    line-height: 1.6;
+    font-weight: 500;
 }
 
-.testimonial-content p {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: #333;
-    font-style: italic;
-    margin-bottom: 25px;
-    padding-top: 20px;
-}
-
-.testimonial-author strong {
+.contact-content strong {
     color: #1B4D89;
-    font-size: 1.1rem;
-    display: block;
-    margin-bottom: 5px;
+    font-weight: 800;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
-.testimonial-author span {
-    color: #666;
-    font-size: 0.9rem;
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-text h2 {
+        font-size: 1.5rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+    }
+    
+    .hero-pricing .price-amount {
+        font-size: 2rem;
+    }
+    
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .trust-badges {
+        gap: 15px;
+    }
+    
+    .trust-badge {
+        min-width: 100px;
+        padding: 12px 20px;
+    }
+    
+    .hero-contact {
+        padding: 25px 20px;
+    }
+    
+    .contact-content h3 {
+        font-size: 1.4rem;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .contact-content p {
+        font-size: 1.1rem;
+    }
 }
 
 .experimental-appointment-section {
@@ -660,8 +677,8 @@
 /* Consultation Header */
 .consultation-header {
     text-align: center;
-    margin-bottom: 40px;
-    padding: 30px;
+    margin-bottom: 25px;
+    padding: 20px;
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     border-radius: 15px;
     border: 2px solid #e9ecef;
@@ -669,25 +686,25 @@
 
 .consultation-header h3 {
     color: #1B4D89;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .consultation-header h3 i {
     color: #ffaf02;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
 }
 
 .consultation-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #666;
-    margin-bottom: 20px;
-    line-height: 1.6;
+    margin-bottom: 15px;
+    line-height: 1.5;
 }
 
 .consultation-price {
@@ -719,14 +736,14 @@
 .consultation-options {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 15px;
 }
 
 .experimental-service-item {
     background: white;
     border: 3px solid #e9ecef;
     border-radius: 15px;
-    padding: 25px;
+    padding: 18px;
     margin-bottom: 0;
     transition: all 0.3s ease;
     cursor: pointer;
@@ -775,13 +792,13 @@
 .service-header {
     display: flex;
     align-items: center;
-    gap: 20px;
-    margin-bottom: 15px;
+    gap: 15px;
+    margin-bottom: 12px;
 }
 
 .service-icon {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     background: linear-gradient(135deg, #1B4D89, #2c5aa0);
     border-radius: 50%;
     display: flex;
@@ -797,7 +814,7 @@
 }
 
 .service-icon i {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: white;
 }
 
@@ -833,22 +850,22 @@
 
 .experimental-service-description {
     color: #666;
-    margin-bottom: 15px;
-    font-size: 1rem;
-    line-height: 1.6;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .service-benefits {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
 }
 
 .benefit-item {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.9rem;
+    gap: 5px;
+    font-size: 0.8rem;
     color: #28a745;
     font-weight: 500;
 }
@@ -1815,49 +1832,6 @@
 }
 
 @media (max-width: 768px) {
-    .experimental-appointment-hero {
-        padding: 40px 0;
-    }
-    
-    .experimental-appointment-hero h1 {
-        font-size: 2.2rem;
-    }
-    
-    .hero-subtitle {
-        font-size: 1.1rem;
-    }
-    
-    .hero-stats {
-        gap: 20px;
-        margin: 30px 0;
-    }
-    
-    .stat-item {
-        padding: 15px 20px;
-    }
-    
-    .stat-number {
-        font-size: 2rem;
-    }
-    
-    .hero-cta-btn {
-        padding: 15px 30px;
-        font-size: 1.1rem;
-    }
-    
-    .success-stories-content h2 {
-        font-size: 2rem;
-    }
-    
-    .success-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-    
-    .testimonial-slider {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
     
     .experimental-appointment-section {
         padding: 30px 0;
@@ -2084,187 +2058,109 @@
 }
 </style>
 
-<!-- Enhanced Hero Section with Motivational Elements -->
-<section class="experimental-appointment-hero">
+
+
+<!-- Hero Section -->
+<section class="hero-appointment-section">
     <div class="container">
         <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fa fa-shield"></i>
-                <span>Trusted by 1000+ Clients</span>
-            </div>
-            <h1>Your Legal Journey Starts Here</h1>
-            <p class="hero-subtitle">Get expert legal guidance from Melbourne's most trusted law firm. Book your consultation today and take the first step towards resolving your legal matter with confidence.</p>
-            
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label">Years Experience</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">98%</div>
-                    <div class="stat-label">Success Rate</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Support Available</div>
-                </div>
-            </div>
-            
-            <div class="hero-cta">
-                <button class="hero-cta-btn" onclick="document.querySelector('.experimental-form-section').scrollIntoView({behavior: 'smooth'})">
-                    <i class="fa fa-calendar-check-o"></i>
-                    Book Your Free Consultation
-                </button>
-                <p class="cta-note">✓ No obligation • ✓ Confidential • ✓ Expert advice</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Motivational Success Stories Section -->
-<section class="success-stories-section">
-    <div class="container">
-        <div class="success-stories-content">
-            <h2>Why Choose Bansal Lawyers?</h2>
-            <p class="section-subtitle">Join thousands of satisfied clients who have successfully resolved their legal matters with our expert guidance</p>
-            
-            <div class="success-grid">
-                <div class="success-card">
-                    <div class="success-icon">
-                        <i class="fa fa-trophy"></i>
-                    </div>
-                    <h3>Proven Track Record</h3>
-                    <p>98% success rate in immigration cases and 95% in family law matters. Our expertise speaks for itself.</p>
-                </div>
-                
-                <div class="success-card">
-                    <div class="success-icon">
-                        <i class="fa fa-users"></i>
-                    </div>
-                    <h3>1000+ Happy Clients</h3>
-                    <p>From individuals to families, we've helped clients from all walks of life achieve their legal goals.</p>
-                </div>
-                
-                <div class="success-card">
-                    <div class="success-icon">
-                        <i class="fa fa-clock-o"></i>
-                    </div>
-                    <h3>15+ Years Experience</h3>
-                    <p>Decades of experience in Australian law with deep understanding of local regulations and processes.</p>
-                </div>
-            </div>
-            
-            <div class="testimonial-slider">
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <div class="quote-icon">
-                            <i class="fa fa-quote-left"></i>
-                        </div>
-                        <p>"Bansal Lawyers helped me get my permanent residency when I thought it was impossible. Their expertise and dedication made all the difference. Highly recommended!"</p>
-                        <div class="testimonial-author">
-                            <strong>Sarah M.</strong>
-                            <span>Immigration Client</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <div class="quote-icon">
-                            <i class="fa fa-quote-left"></i>
-                        </div>
-                        <p>"Professional, compassionate, and incredibly knowledgeable. They guided me through my divorce proceedings with care and expertise. Thank you!"</p>
-                        <div class="testimonial-author">
-                            <strong>Michael R.</strong>
-                            <span>Family Law Client</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Experimental Appointment Section -->
-<section class="experimental-appointment-section">
-    <div class="container">
-        <!-- Enhanced Information Card with Trust Elements -->
-        <div class="experimental-info-card">
-            <div class="info-header">
-                <h2><i class="fa fa-calendar-check-o"></i> Ready to Get Started?</h2>
-                <p class="info-subtitle">Book your consultation in just a few simple steps and take control of your legal situation</p>
-            </div>
-            
-            <div class="info-grid">
-                <div class="info-section">
-                    <h3><i class="fa fa-shield"></i> What You Get</h3>
-                    <ul class="experimental-info-list">
-                        <li>
-                            <strong>Expert Legal Advice:</strong>
-                            <span>Professional guidance from experienced lawyers specializing in your area of need.</span>
-                        </li>
-                        <li>
-                            <strong>Multiple Consultation Options:</strong>
-                            <span>In-person, phone, or video consultations - choose what works best for you.</span>
-                        </li>
-                        <li>
-                            <strong>Confidential & Secure:</strong>
-                            <span>Your information is protected with the highest level of confidentiality.</span>
-                        </li>
-                        <li>
-                            <strong>Clear Next Steps:</strong>
-                            <span>Leave with a clear action plan tailored to your specific situation.</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="info-section">
-                    <h3><i class="fa fa-info-circle"></i> Booking Details</h3>
-                    <ul class="experimental-info-list">
-                        <li>
-                            <strong>Consultation Fee:</strong>
-                            <span><strong>$150 AUD</strong> (incl. GST) - One-time payment, no hidden fees.</span>
-                        </li>
-                        <li>
-                            <strong>Flexible Scheduling:</strong>
-                            <span>Book appointments that fit your schedule, including evenings and weekends.</span>
-                        </li>
-                        <li>
-                            <strong>Cancellation Policy:</strong>
-                            <span>Free cancellation/rescheduling up to 24 hours in advance.</span>
-                        </li>
-                        <li>
-                            <strong>Emergency Support:</strong>
-                            <span>Urgent matters? Contact us directly for priority consultation.</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="trust-indicators">
-                <div class="trust-item">
-                    <i class="fa fa-lock"></i>
-                    <span>SSL Secured</span>
-                </div>
-                <div class="trust-item">
-                    <i class="fa fa-certificate"></i>
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <i class="fa fa-gavel"></i>
                     <span>Licensed Lawyers</span>
                 </div>
-                <div class="trust-item">
+                <h1>Expert Legal Consultation</h1>
+                <h2>Specializing in Your Area of Need</h2>
+                <p class="hero-description">
+                    Get professional legal guidance from experienced lawyers who understand Australian law. 
+                    Our team provides comprehensive legal services across immigration, family, criminal, and business law matters.
+                </p>
+                <div class="hero-pricing">
+                    <span class="price-amount">$150 AUD</span>
+                    <span class="price-note">(incl. GST) - One-time payment, no hidden fees</span>
+                </div>
+            </div>
+            
+            <div class="hero-features">
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <h3>Multiple Consultation Options</h3>
+                        <p>In-person, phone, or video consultations - choose what works best for you.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-shield"></i>
+                        </div>
+                        <h3>Confidential & Secure</h3>
+                        <p>Your information is protected with the highest level of confidentiality.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-map-signs"></i>
+                        </div>
+                        <h3>Clear Next Steps</h3>
+                        <p>Leave with a clear action plan tailored to your specific situation.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <h3>Flexible Scheduling</h3>
+                        <p>Book appointments that fit your schedule, including evenings and weekends.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-refresh"></i>
+                        </div>
+                        <h3>Cancellation Policy</h3>
+                        <p>Free cancellation/rescheduling up to 24 hours in advance.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-phone"></i>
+                        </div>
+                        <h3>Emergency Support</h3>
+                        <p>Urgent matters? Contact us directly for priority consultation.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <i class="fa fa-gavel"></i>
+                    <span>Licensed Lawyers</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fa fa-shield"></i>
+                    <span>Client Confidentiality</span>
+                </div>
+                <div class="trust-badge">
                     <i class="fa fa-star"></i>
                     <span>5-Star Rated</span>
                 </div>
-                <div class="trust-item">
+                <div class="trust-badge">
                     <i class="fa fa-clock-o"></i>
                     <span>Quick Response</span>
                 </div>
             </div>
             
-            <div class="experimental-contact-info">
-                <h4><i class="fa fa-phone"></i> Need Immediate Assistance?</h4>
-                <p>Call us at <strong>1300 BANSAL (1300 226 725)</strong> or email for personalized help with your booking.</p>
+            <div class="hero-contact">
+                <div class="contact-content">
+                    <h3><i class="fa fa-phone"></i> Need Immediate Assistance?</h3>
+                    <p>Call us at <strong>1300 BANSAL (1300 226 725)</strong> or email for personalized help with your booking.</p>
+                </div>
             </div>
         </div>
+    </div>
+</section>
 
         <!-- Appointment Form -->
         <div class="experimental-form-section">
