@@ -86,6 +86,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <link rel="stylesheet" href="{{ asset('css/flaticon.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/icomoon.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
 
 

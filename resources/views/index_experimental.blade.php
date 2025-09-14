@@ -61,7 +61,7 @@
 
 /* Experimental Design Styles */
 .experimental-banner {
-    background: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%);
+    background: linear-gradient(135deg, #0a1a2e 0%, #16213e 50%, #1B4D89 100%);
     color: white;
     padding: 60px 0;
     text-align: center;
@@ -77,7 +77,7 @@
     right: 0;
     bottom: 0;
     background: url('{{ asset('images/coart_1.jpg') }}') center/cover;
-    opacity: 0.3;
+    opacity: 0.15;
     z-index: 1;
 }
 
@@ -90,7 +90,18 @@
     font-size: 3.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    color: #ffffff;
+}
+
+.experimental-banner h2 {
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    color: #f8f9fa;
+}
+
+.experimental-banner h3 {
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    color: #e9ecef;
 }
 
 .experimental-banner p {
@@ -99,6 +110,9 @@
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    color: #f1f3f4;
+    line-height: 1.6;
 }
 
 .experimental-cta {
@@ -121,13 +135,13 @@
 }
 
 .experimental-section {
-    padding: 80px 0;
+    padding: 60px 0;
 }
 
 .experimental-card {
     background: white;
     border-radius: 15px;
-    padding: 40px 30px;
+    padding: 30px 25px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     height: 100%;
@@ -168,29 +182,29 @@
 
 .experimental-about {
     background: #f8f9fa;
-    padding: 80px 0;
+    padding: 60px 0;
 }
 
 .experimental-about-content {
     background: white;
     border-radius: 20px;
-    padding: 60px;
+    padding: 45px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
 .experimental-testimonial {
     background: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%);
     color: white;
-    padding: 80px 0;
+    padding: 60px 0;
 }
 
 .experimental-testimonial-card {
     background: rgba(255,255,255,0.1);
     border-radius: 15px;
-    padding: 40px;
+    padding: 30px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.2);
-    margin: 20px 0;
+    margin: 15px 0;
 }
 
 .experimental-testimonial-card p {
@@ -233,6 +247,47 @@
     
     .experimental-card {
         padding: 30px 20px;
+    }
+    
+    /* Contact Section Mobile Styles */
+    .experimental-section[style*="background: linear-gradient"] {
+        padding: 40px 0 !important;
+    }
+    
+    .experimental-section[style*="background: linear-gradient"] .container > .row > div {
+        padding: 0 15px;
+    }
+    
+    .experimental-section[style*="background: linear-gradient"] .container > .row > div > div[style*="background: rgba(255,255,255,0.15)"] {
+        padding: 20px 12px !important;
+        margin: 10px 0;
+    }
+    
+    .experimental-section[style*="background: linear-gradient"] h2 {
+        font-size: 1.6rem !important;
+    }
+    
+    .experimental-section[style*="background: linear-gradient"] h3 {
+        font-size: 1.2rem !important;
+    }
+    
+    .experimental-section[style*="background: linear-gradient"] .g-recaptcha {
+        transform: scale(0.7);
+        transform-origin: center;
+    }
+    
+    .experimental-section[style*="background: linear-gradient"] .form-group {
+        margin-bottom: 0.8rem !important;
+    }
+    
+    .experimental-section[style*="background: linear-gradient"] input,
+    .experimental-section[style*="background: linear-gradient"] textarea {
+        padding: 8px 10px !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .experimental-section[style*="background: linear-gradient"] label {
+        font-size: 0.8rem !important;
     }
 }
 </style>
@@ -297,6 +352,80 @@
                             <p>Our Experienced Team with high experience of years in the legal field in Australia, Bansal Lawyers provides best legal services which supported by a team of highly skilled & professional lawyers.</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experimental Practice Areas Section -->
+<section class="experimental-section" style="background: #f8f9fa;">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-8 text-center">
+                <h2 style="color: #1B4D89; font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem;">Our Practice Areas</h2>
+                <p style="color: #666; font-size: 1.1rem; line-height: 1.6;">We provide comprehensive legal services across multiple practice areas to meet all your legal needs in Australia.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="experimental-card" style="text-align: center;">
+                    <div class="icon">
+                        <span class="flaticon-family"></span>
+                    </div>
+                    <h3>Family Law</h3>
+                    <p>Divorce, separation, children, property and other family law matters. Expert guidance for complex family situations.</p>
+                    <a href="/family-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="experimental-card" style="text-align: center;">
+                    <div class="icon">
+                        <span class="flaticon-handshake"></span>
+                    </div>
+                    <h3>Migration Law</h3>
+                    <p>Visa applications, appeals, permanent residency, and citizenship matters. Your pathway to Australia.</p>
+                    <a href="/migration-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="experimental-card" style="text-align: center;">
+                    <div class="icon">
+                        <span class="flaticon-auction"></span>
+                    </div>
+                    <h3>Criminal Law</h3>
+                    <p>Assault charges, traffic offenses, and criminal defense. Protecting your rights and future in Australia.</p>
+                    <a href="/criminal-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="experimental-card" style="text-align: center;">
+                    <div class="icon">
+                        <span class="flaticon-lawyer"></span>
+                    </div>
+                    <h3>Commercial Law</h3>
+                    <p>Business formation, contracts, corporate governance, and commercial disputes. Supporting your business growth.</p>
+                    <a href="/commercial-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="experimental-card" style="text-align: center;">
+                    <div class="icon">
+                        <span class="flaticon-house"></span>
+                    </div>
+                    <h3>Property Law</h3>
+                    <p>Property transactions, leasing, development, and property disputes. Securing your property interests.</p>
+                    <a href="/property-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="experimental-card" style="text-align: center; background: linear-gradient(135deg, #1B4D89, #2c5aa0); color: white;">
+                    <div class="icon" style="background: rgba(255,255,255,0.2);">
+                        <span class="flaticon-auction"></span>
+                    </div>
+                    <h3 style="color: white;">All Practice Areas</h3>
+                    <p style="color: rgba(255,255,255,0.9);">View our complete range of legal services and find the right solution for your needs.</p>
+                    <a href="/practice-areas" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem; background: white; color: #1B4D89;">View All Services</a>
                 </div>
             </div>
         </div>
@@ -429,36 +558,106 @@
 </section>
 
 <!-- Experimental Contact Section -->
-<section class="experimental-section" style="background: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%); color: white;">
-    <div class="container">
+<section class="experimental-section" style="background: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%); color: white; position: relative; overflow: hidden;">
+    <!-- Background Pattern -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 50% 10%, rgba(255,255,255,0.05) 0.5px, transparent 0.5px), radial-gradient(circle at 10% 60%, rgba(255,255,255,0.05) 0.5px, transparent 0.5px), radial-gradient(circle at 90% 40%, rgba(255,255,255,0.05) 0.5px, transparent 0.5px); background-size: 20px 20px, 20px 20px, 15px 15px, 15px 15px, 15px 15px; opacity: 0.3; z-index: 1;"></div>
+    
+    <div class="container" style="position: relative; z-index: 2;">
         <div class="row align-items-center">
-            <div class="col-lg-6 mb-4">
-                <img src="{{ asset('images/bg_2.jpg') }}" alt="Contact Bansal Lawyers" class="img-fluid rounded" style="box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="text-center">
+                    <img src="{{ asset('images/bg_2.jpg') }}" alt="Contact Bansal Lawyers" class="img-fluid rounded" style="box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-radius: 20px !important; max-width: 100%; height: auto;">
+                    <div class="mt-4">
+                        <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem;">Get in Touch Today</h3>
+                        <p style="font-size: 1.1rem; opacity: 0.9; line-height: 1.6;">
+                            Ready to discuss your legal needs? Our experienced team is here to provide you with expert legal guidance and support.
+                        </p>
+                        <div class="mt-4">
+                            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+                                <i class="ion-ios-telephone" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
+                                <span style="font-size: 1.1rem; font-weight: 500;">+61 3 1234 5678</span>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: center;">
+                                <i class="ion-ios-email" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
+                                <span style="font-size: 1.1rem; font-weight: 500;">info@bansallawyers.com.au</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-6">
-                <div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 50px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                <div style="background: rgba(255,255,255,0.15); border-radius: 15px; padding: 25px; backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
                     @if ($message = Session::get('success'))
-                        <div class="alert alert-success" style="margin-bottom: 30px;">
-                            <p>{{ $message }}</p>
+                        <div class="alert alert-success" style="margin-bottom: 15px; border-radius: 8px; border: none; background: rgba(40, 167, 69, 0.9); color: white; padding: 8px 12px; font-size: 0.85rem;">
+                            <i class="ion-ios-checkmark-circle" style="margin-right: 6px;"></i>
+                            <strong>Success!</strong> {{ $message }}
                         </div>
                     @endif
-                    <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem;">Contact Us</h2>
-                    <form action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data">
+                    
+                    @if ($errors->any())
+                        <div class="alert alert-danger" style="margin-bottom: 15px; border-radius: 8px; border: none; background: rgba(220, 53, 69, 0.9); color: white; padding: 8px 12px; font-size: 0.85rem;">
+                            <i class="ion-ios-warning" style="margin-right: 6px;"></i>
+                            <strong>Please correct the following errors:</strong>
+                            <ul style="margin: 6px 0 0 0; padding-left: 12px; font-size: 0.8rem;">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
+                    <div class="text-center mb-2">
+                        <h2 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.2rem;">Contact Us</h2>
+                        <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0;">Send us a message and we'll get back to you</p>
+                    </div>
+                    
+                    <form action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data" id="contactForm">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <div class="form-group mb-3">
-                            <input type="text" class="form-control" name="name" placeholder="Your Name" required style="border-radius: 10px; border: none; padding: 15px; font-size: 1rem;">
+                        
+                        <div class="form-group mb-2">
+                            <label for="name" style="color: white; font-weight: 600; margin-bottom: 3px; display: block; font-size: 0.85rem;">Full Name *</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter your full name" required 
+                                   style="border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); padding: 8px 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); color: #333; transition: all 0.3s ease;"
+                                   onfocus="this.style.borderColor='#fff'; this.style.background='rgba(255,255,255,1)';" 
+                                   onblur="this.style.borderColor='rgba(255,255,255,0.3)'; this.style.background='rgba(255,255,255,0.9)';">
                         </div>
-                        <div class="form-group mb-3">
-                            <input type="email" class="form-control" name="email" placeholder="Your Email" required style="border-radius: 10px; border: none; padding: 15px; font-size: 1rem;">
+                        
+                        <div class="form-group mb-2">
+                            <label for="email" style="color: white; font-weight: 600; margin-bottom: 3px; display: block; font-size: 0.85rem;">Email Address *</label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email address" required 
+                                   style="border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); padding: 8px 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); color: #333; transition: all 0.3s ease;"
+                                   onfocus="this.style.borderColor='#fff'; this.style.background='rgba(255,255,255,1)';" 
+                                   onblur="this.style.borderColor='rgba(255,255,255,0.3)'; this.style.background='rgba(255,255,255,0.9)';">
                         </div>
-                        <div class="form-group mb-3">
-                            <input type="text" class="form-control" name="subject" placeholder="Subject" required style="border-radius: 10px; border: none; padding: 15px; font-size: 1rem;">
+                        
+                        <div class="form-group mb-2">
+                            <label for="subject" style="color: white; font-weight: 600; margin-bottom: 3px; display: block; font-size: 0.85rem;">Subject *</label>
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="What is this about?" required 
+                                   style="border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); padding: 8px 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); color: #333; transition: all 0.3s ease;"
+                                   onfocus="this.style.borderColor='#fff'; this.style.background='rgba(255,255,255,1)';" 
+                                   onblur="this.style.borderColor='rgba(255,255,255,0.3)'; this.style.background='rgba(255,255,255,0.9)';">
                         </div>
-                        <div class="form-group mb-4">
-                            <textarea name="message" id="message" cols="30" rows="5" class="form-control" placeholder="Message" required style="border-radius: 10px; border: none; padding: 15px; font-size: 1rem;"></textarea>
+                        
+                        <div class="form-group mb-2">
+                            <label for="message" style="color: white; font-weight: 600; margin-bottom: 3px; display: block; font-size: 0.85rem;">Message *</label>
+                            <textarea name="message" id="message" cols="30" rows="3" class="form-control" placeholder="Tell us about your legal needs..." required 
+                                      style="border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); padding: 8px 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); color: #333; transition: all 0.3s ease; resize: vertical;"
+                                      onfocus="this.style.borderColor='#fff'; this.style.background='rgba(255,255,255,1)';" 
+                                      onblur="this.style.borderColor='rgba(255,255,255,0.3)'; this.style.background='rgba(255,255,255,0.9)';"></textarea>
                         </div>
+                        
+                        <!-- Google reCAPTCHA v2 -->
+                        <div class="form-group mb-2">
+                            <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') }}" 
+                                 style="display: flex; justify-content: center; transform: scale(0.8);"></div>
+                        </div>
+                        
                         <div class="form-group">
-                            <button type="submit" class="experimental-cta" style="width: 100%; text-align: center; border: none; background: white; color: #1B4D89; padding: 15px 30px; border-radius: 50px; font-weight: 600; font-size: 1.1rem;">
+                            <button type="submit" class="experimental-cta" 
+                                    style="width: 100%; text-align: center; border: none; background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); color: #1B4D89; padding: 10px 20px; border-radius: 30px; font-weight: 700; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease; position: relative; overflow: hidden;"
+                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.3)';"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)';">
+                                <i class="ion-ios-paper-plane" style="margin-right: 6px;"></i>
                                 Send Message
                             </button>
                         </div>
@@ -472,5 +671,160 @@
 @endsection
 
 @section('scripts')
+<!-- Google reCAPTCHA v2 Script -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form validation and submission handling
+    const contactForm = document.getElementById('contactForm');
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    
+    // Add loading state to submit button
+    contactForm.addEventListener('submit', function(e) {
+        // Check if reCAPTCHA is completed
+        const recaptchaResponse = grecaptcha.getResponse();
+        if (!recaptchaResponse) {
+            e.preventDefault();
+            alert('Please complete the reCAPTCHA verification.');
+            return false;
+        }
+        
+        // Show loading state
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = '<i class="ion-ios-refresh" style="margin-right: 10px; animation: spin 1s linear infinite;"></i>Sending...';
+        submitButton.disabled = true;
+        
+        // Re-enable button after 5 seconds as fallback
+        setTimeout(function() {
+            submitButton.innerHTML = originalText;
+            submitButton.disabled = false;
+        }, 5000);
+    });
+    
+    // Real-time form validation
+    const inputs = contactForm.querySelectorAll('input[required], textarea[required]');
+    inputs.forEach(function(input) {
+        input.addEventListener('blur', function() {
+            validateField(this);
+        });
+        
+        input.addEventListener('input', function() {
+            if (this.classList.contains('is-invalid')) {
+                validateField(this);
+            }
+        });
+    });
+    
+    function validateField(field) {
+        const value = field.value.trim();
+        const fieldName = field.name;
+        let isValid = true;
+        let errorMessage = '';
+        
+        // Remove existing validation classes
+        field.classList.remove('is-valid', 'is-invalid');
+        
+        // Check if field is empty
+        if (!value) {
+            isValid = false;
+            errorMessage = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required.`;
+        } else {
+            // Email validation
+            if (fieldName === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) {
+                    isValid = false;
+                    errorMessage = 'Please enter a valid email address.';
+                }
+            }
+            
+            // Name validation (minimum 2 characters)
+            if (fieldName === 'name' && value.length < 2) {
+                isValid = false;
+                errorMessage = 'Name must be at least 2 characters long.';
+            }
+            
+            // Subject validation (minimum 5 characters)
+            if (fieldName === 'subject' && value.length < 5) {
+                isValid = false;
+                errorMessage = 'Subject must be at least 5 characters long.';
+            }
+            
+            // Message validation (minimum 10 characters)
+            if (fieldName === 'message' && value.length < 10) {
+                isValid = false;
+                errorMessage = 'Message must be at least 10 characters long.';
+            }
+        }
+        
+        // Apply validation classes
+        if (isValid) {
+            field.classList.add('is-valid');
+            field.style.borderColor = '#28a745';
+        } else {
+            field.classList.add('is-invalid');
+            field.style.borderColor = '#dc3545';
+        }
+        
+        // Show/hide error message
+        let errorElement = field.parentNode.querySelector('.invalid-feedback');
+        if (!isValid) {
+            if (!errorElement) {
+                errorElement = document.createElement('div');
+                errorElement.className = 'invalid-feedback';
+                field.parentNode.appendChild(errorElement);
+            }
+            errorElement.textContent = errorMessage;
+            errorElement.style.display = 'block';
+            errorElement.style.color = '#dc3545';
+            errorElement.style.fontSize = '0.875rem';
+            errorElement.style.marginTop = '5px';
+        } else if (errorElement) {
+            errorElement.style.display = 'none';
+        }
+    }
+    
+    // Add smooth scroll effect for better UX
+    const formInputs = contactForm.querySelectorAll('input, textarea');
+    formInputs.forEach(function(input) {
+        input.addEventListener('focus', function() {
+            this.style.transform = 'scale(1.02)';
+            this.style.transition = 'transform 0.2s ease';
+        });
+        
+        input.addEventListener('blur', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+});
+
+// Add CSS for loading animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .is-valid {
+        border-color: #28a745 !important;
+        background-color: rgba(40, 167, 69, 0.1) !important;
+    }
+    
+    .is-invalid {
+        border-color: #dc3545 !important;
+        background-color: rgba(220, 53, 69, 0.1) !important;
+    }
+    
+    .invalid-feedback {
+        display: block;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 0.875rem;
+        color: #dc3545;
+    }
+`;
+document.head.appendChild(style);
+</script>
 @endsection

@@ -409,78 +409,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                         
 
-document.addEventListener("DOMContentLoaded", function () { 
-	var videoSection = document.querySelector(".img-video"); // Select video section
-    var modalOpened = false; // Prevent multiple triggers
-
-	function checkIfInView() {
-		// Fix: Add null check to prevent getBoundingClientRect errors
-		if (!videoSection) {
-			console.warn('Video section element not found, skipping scroll check');
-			return;
-		}
-		var rect = videoSection.getBoundingClientRect();
-		var windowHeight = window.innerHeight || document.documentElement.clientHeight;
-		var sectionCenter = rect.top + rect.height / 2; // Get the center position of the section
-		var viewportCenter = windowHeight / 2; // Get the center of the viewport
-
-		// Check if the section's center is near the viewport's center
-		if (Math.abs(sectionCenter - viewportCenter) < 30 && !modalOpened) { 
-			openVideoModal();
-			modalOpened = true; // Prevent reopening
-		}
-	}
-
-    function openVideoModal() {
-        var modal = document.getElementById("videoModal");
-        var iframe = document.getElementById("videoIframe");
-		if (modal && iframe) {
-            //iframe.src = "https://www.youtube.com/embed/3GZvPE99x6Y?autoplay=1";
-			iframe.src = "https://www.youtube.com/embed/3GZvPE99x6Y?autoplay=1&mute=1&rel=0&playsinline=1";
-            modal.style.display = "block";
-        }
-    }
-
-    function closeVideoModal() {
-        var modal = document.getElementById("videoModal");
-        var iframe = document.getElementById("videoIframe");
-
-        if (modal && iframe) {
-            iframe.src = "";
-            modal.style.display = "none";
-        }
-    }
-
-    // Listen for scroll event
-    window.addEventListener("scroll", checkIfInView);
-});                                            
-                                            
-
+// Video modal functions - Manual click only (no auto-trigger)
 function openVideoModal() {
-	var modal = document.getElementById("videoModal");
-	var iframe = document.getElementById("videoIframe");
-
-	if (modal && iframe) {
-		// Updated YouTube embed URL with autoplay enabled
-		iframe.src = "https://www.youtube.com/embed/3GZvPE99x6Y?autoplay=1";
-
-		// Display the modal
-		modal.style.display = "block";
-	}
+    var modal = document.getElementById("videoModal");
+    var iframe = document.getElementById("videoIframe");
+    if (modal && iframe) {
+        // Manual play only - no autoplay, user must click play button
+        iframe.src = "https://www.youtube.com/embed/3GZvPE99x6Y?rel=0&playsinline=1";
+        modal.style.display = "block";
+    }
 }
 
 function closeVideoModal() {
-	var modal = document.getElementById("videoModal");
-	var iframe = document.getElementById("videoIframe");
+    var modal = document.getElementById("videoModal");
+    var iframe = document.getElementById("videoIframe");
 
-	if (modal && iframe) {
-		// Reset the iframe src to stop the video
-		iframe.src = "";
-
-		// Hide the modal
-		modal.style.display = "none";
-	}
+    if (modal && iframe) {
+        iframe.src = "";
+        modal.style.display = "none";
+    }
 }
+                                            
+
 
 
 

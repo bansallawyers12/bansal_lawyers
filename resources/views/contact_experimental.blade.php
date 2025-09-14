@@ -414,7 +414,7 @@
 }
 
 .modern-form-group {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     position: relative;
 }
 
@@ -428,10 +428,10 @@
 
 .modern-form-control {
     width: 100%;
-    padding: 20px 25px;
+    padding: 15px 20px;
     border: 2px solid #e9ecef;
-    border-radius: 15px;
-    font-size: 1.1rem;
+    border-radius: 12px;
+    font-size: 1rem;
     transition: all 0.3s ease;
     background: #f8f9fa;
     position: relative;
@@ -451,23 +451,23 @@
 }
 
 .modern-textarea {
-    min-height: 150px;
+    min-height: 120px;
     resize: vertical;
 }
 
 .modern-submit-btn {
     background: var(--gradient-accent);
     color: var(--white);
-    padding: 20px 50px;
+    padding: 15px 40px;
     border: none;
     border-radius: 50px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
     display: block;
-    margin: 40px auto 0;
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+    margin: 25px auto 0;
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -825,12 +825,175 @@
     animation: pulse 2s infinite;
 }
 
+/* Photo Background Contact Section */
+.photo-contact-section {
+    position: relative;
+    min-height: 80vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.photo-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('{{ asset("images/Contactus.jpg") }}') center/cover;
+    background-attachment: fixed;
+    z-index: 1;
+}
+
+.photo-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(27, 77, 137, 0.85) 0%, 
+        rgba(44, 90, 160, 0.75) 50%, 
+        rgba(255, 107, 53, 0.7) 100%);
+    z-index: 2;
+}
+
+.photo-overlay {
+    position: relative;
+    z-index: 3;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.form-overlay-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-overlay-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: var(--gradient-accent);
+    border-radius: 25px 25px 0 0;
+}
+
+.form-overlay-card h3 {
+    color: var(--text-dark);
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    position: relative;
+}
+
+.form-overlay-card h3::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--gradient-accent);
+    border-radius: 2px;
+}
+
+.map-overlay-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    height: 600px;
+}
+
+.map-overlay-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: var(--gradient-accent);
+    border-radius: 25px 25px 0 0;
+    z-index: 1;
+}
+
+.map-container {
+    height: 100%;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* Enhanced form controls for overlay */
+.form-overlay-card .modern-form-control {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(27, 77, 137, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.form-overlay-card .modern-form-control:focus {
+    background: rgba(255, 255, 255, 1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.2);
+}
+
+.form-overlay-card .modern-submit-btn {
+    background: var(--gradient-accent);
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+}
+
+.form-overlay-card .modern-submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
     .modern-contact-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 25px;
         max-width: 600px;
+    }
+    
+    .photo-overlay {
+        padding: 30px 0;
+    }
+    
+    .form-overlay-card,
+    .map-overlay-card {
+        margin-bottom: 20px;
+    }
+    
+    .form-overlay-card {
+        padding: 25px;
+    }
+    
+    .map-overlay-card {
+        height: 450px;
     }
 }
 
@@ -884,6 +1047,34 @@
         height: 55px;
         font-size: 1.3rem;
     }
+    
+    /* Photo contact section mobile */
+    .photo-contact-section {
+        min-height: auto;
+    }
+    
+    .photo-background {
+        background-attachment: scroll;
+    }
+    
+    .photo-overlay {
+        min-height: auto;
+        padding: 20px 0;
+    }
+    
+    .form-overlay-card {
+        padding: 20px 15px;
+        margin-bottom: 15px;
+    }
+    
+    .form-overlay-card h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .map-overlay-card {
+        height: 350px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -906,6 +1097,26 @@
     
     .floating-form-body {
         padding: 20px;
+    }
+    
+    /* Photo contact section small mobile */
+    .form-overlay-card {
+        padding: 15px 10px;
+        border-radius: 15px;
+    }
+    
+    .form-overlay-card h3 {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+    }
+    
+    .map-overlay-card {
+        height: 300px;
+        border-radius: 15px;
+    }
+    
+    .photo-overlay {
+        padding: 15px 0;
     }
 }
 </style>
@@ -991,59 +1202,71 @@
             </div>
         </div>
 
-        <div class="row">
-            <!-- Contact Form -->
-            <div class="col-lg-6 mb-4">
-                <div class="modern-form-section" id="contact-form" data-aos="fade-right" data-aos-duration="1000">
-                    @if ($message = Session::get('success'))
-                        <div class="modern-alert">
-                            <i class="fa fa-check-circle"></i> {{ $message }}
-                        </div>
-                    @endif
-                    
-                    <h3>Send us a Message</h3>
-                    <form action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modern-form-group">
-                            <label for="name">Your Full Name</label>
-                            <input type="text" class="modern-form-control" name="name" placeholder="Enter your full name" required>
-                        </div>
-                        <div class="modern-form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" class="modern-form-control" name="email" placeholder="Enter your email address" required>
-                        </div>
-                        <div class="modern-form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" class="modern-form-control" name="subject" placeholder="What is this about?" required>
-                        </div>
-                        <div class="modern-form-group">
-                            <label for="message">Your Message</label>
-                            <textarea name="message" id="message" class="modern-form-control modern-textarea" placeholder="Tell us about your legal needs and how we can help you..." required></textarea>
-                        </div>
-                        
-                        <!-- Google reCAPTCHA -->
-                        <div class="modern-form-group">
-                            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key') }}"></div>
-                            @if ($errors->has('g-recaptcha-response'))
-                                <div class="text-danger mt-2">
-                                    <small>{{ $errors->first('g-recaptcha-response') }}</small>
-                                </div>
-                            @endif
-                        </div>
-                        
-                        <button type="submit" class="modern-submit-btn">
-                            <i class="fa fa-paper-plane"></i>
-                            Send Message
-                        </button>
-                    </form>
-                </div>
+        <!-- Full Photo Background Contact Section -->
+        <div class="photo-contact-section" id="contact-form" data-aos="fade-up" data-aos-duration="1000">
+            <div class="photo-background">
+                <!-- Photo will be set via CSS background -->
             </div>
+            <div class="photo-overlay">
+                <div class="container">
+                    <div class="row align-items-center min-vh-100">
+                        <!-- Contact Form Overlay -->
+                        <div class="col-lg-6">
+                            <div class="form-overlay-card" data-aos="fade-right" data-aos-duration="1000">
+                                @if ($message = Session::get('success'))
+                                    <div class="modern-alert">
+                                        <i class="fa fa-check-circle"></i> {{ $message }}
+                                    </div>
+                                @endif
+                                
+                                <h3>Send us a Message</h3>
+                                <form action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="modern-form-group">
+                                        <label for="name">Your Full Name</label>
+                                        <input type="text" class="modern-form-control" name="name" placeholder="Enter your full name" required>
+                                    </div>
+                                    <div class="modern-form-group">
+                                        <label for="email">Email Address</label>
+                                        <input type="email" class="modern-form-control" name="email" placeholder="Enter your email address" required>
+                                    </div>
+                                    <div class="modern-form-group">
+                                        <label for="subject">Subject</label>
+                                        <input type="text" class="modern-form-control" name="subject" placeholder="What is this about?" required>
+                                    </div>
+                                    <div class="modern-form-group">
+                                        <label for="message">Your Message</label>
+                                        <textarea name="message" id="message" class="modern-form-control modern-textarea" placeholder="Tell us about your legal needs and how we can help you..." required></textarea>
+                                    </div>
+                                    
+                                    <!-- Google reCAPTCHA -->
+                                    <div class="modern-form-group">
+                                        <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key') }}"></div>
+                                        @if ($errors->has('g-recaptcha-response'))
+                                            <div class="text-danger mt-2">
+                                                <small>{{ $errors->first('g-recaptcha-response') }}</small>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    
+                                    <button type="submit" class="modern-submit-btn">
+                                        <i class="fa fa-paper-plane"></i>
+                                        Send Message
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
 
-            <!-- Google Map -->
-            <div class="col-lg-6">
-                <div class="modern-map-section" data-aos="fade-left" data-aos-duration="1000">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.645409146537!2d144.9631536153164!3d-37.81664617975151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43c60387b1%3A0xd9be68c8b39a6074!2sLevel%208%2F278%20Collins%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sus!4v1696731567597!5m2!1sen!2sus"
-                        allowfullscreen="" loading="lazy"></iframe>
+                        <!-- Google Map Overlay -->
+                        <div class="col-lg-6">
+                            <div class="map-overlay-card" data-aos="fade-left" data-aos-duration="1000">
+                                <div class="map-container">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.645409146537!2d144.9631536153164!3d-37.81664617975151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43c60387b1%3A0xd9be68c8b39a6074!2sLevel%208%2F278%20Collins%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sus!4v1696731567597!5m2!1sen!2sus"
+                                        allowfullscreen="" loading="lazy"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
