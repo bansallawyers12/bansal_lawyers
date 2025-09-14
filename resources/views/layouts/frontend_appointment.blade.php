@@ -201,8 +201,8 @@
     <script src="{{ asset('js/Frontend/sticky.min.js')}}"></script>
     <script src="{{ asset('js/Frontend/font_awesome5.min.js')}}"></script>
     
-    <!-- Google Maps -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&callback=initMap"></script>
+    <!-- Google Maps - Removed for appointment page -->
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&callback=initMap"></script> -->
     <script>
       function initMap(){
         if(!document.getElementById('map')) return;
