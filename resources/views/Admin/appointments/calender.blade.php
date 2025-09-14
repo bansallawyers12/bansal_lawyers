@@ -74,14 +74,24 @@ foreach($appointments as $appointment){
 		//$row['end'] = date("F d, Y h:i A",strtotime($appointment->date));
         if( isset($appointment->timeslot_full) && $appointment->timeslot_full != "" ) {
             $timeslot_full_arr = explode("-", $appointment->timeslot_full);
-            if(!empty($timeslot_full_arr)){
+            if(!empty($timeslot_full_arr) && count($timeslot_full_arr) >= 2 && isset($timeslot_full_arr[1])){
                 // Fix timezone issue: Parse end time without timezone conversion
                 $end_time_24h = date("H:i", strtotime($timeslot_full_arr[1]));
                 // Check if time already has seconds, if not add them
                 $end_time_with_seconds = (strlen($end_time_24h) == 5) ? $end_time_24h . ':00' : $end_time_24h;
                 $appointment_end_date_time = $appointment->date . ' ' . $end_time_with_seconds;
                 $row['end'] = $appointment_end_date_time;
+            } else {
+                // Default to 1 hour duration if timeslot_full is invalid
+                $start_time = strtotime($appointment->date . ' ' . $appointment->time);
+                $end_time = $start_time + (60 * 60); // Add 1 hour
+                $row['end'] = date('Y-m-d H:i:s', $end_time);
             }
+        } else {
+            // Default to 1 hour duration if timeslot_full is missing
+            $start_time = strtotime($appointment->date . ' ' . $appointment->time);
+            $end_time = $start_time + (60 * 60); // Add 1 hour
+            $row['end'] = date('Y-m-d H:i:s', $end_time);
         }
 
 		// $row['appointdate'] = $appointment->date;

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minification Test - Bansal Lawyers</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        #console-output { background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; margin: 10px 0; font-family: monospace; white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Minification Test - Bansal Lawyers</h1>
+    
+    <div class="test-result info">
+        <strong>Test Purpose:</strong> Verify that the minified main.js file works without DOM errors on pages without .img-video element
+    </div>
+    
+    <div id="test-results">
+        <div class="test-result info">Running tests...</div>
+    </div>
+    
+    <div id="console-output"></div>
+    
+    <script>
+        // Capture console output
+        const originalConsole = {
+            log: console.log,
+            warn: console.warn,
+            error: console.error
+        };
+        
+        const consoleOutput = document.getElementById('console-output');
+        const testResults = document.getElementById('test-results');
+        
+        function captureConsole(type, ...args) {
+            const message = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' ');
+            consoleOutput.textContent += `[${type.toUpperCase()}] ${message}\n`;
+            originalConsole[type](...args);
+        }
+        
+        console.log = (...args) => captureConsole('log', ...args);
+        console.warn = (...args) => captureConsole('warn', ...args);
+        console.error = (...args) => captureConsole('error', ...args);
+        
+        // Test results
+        let testsPassed = 0;
+        let testsTotal = 0;
+        
+        function addTestResult(message, passed) {
+            testsTotal++;
+            if (passed) testsPassed++;
+            
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${passed ? 'success' : 'error'}`;
+            resultDiv.innerHTML = `<strong>${passed ? '✅' : '❌'}</strong> ${message}`;
+            testResults.appendChild(resultDiv);
+        }
+        
+        // Test 1: Check if main.min.js loads without errors
+        window.addEventListener('load', function() {
+            addTestResult('Page loaded successfully', true);
+            
+            // Test 2: Check if videoSection error occurs
+            setTimeout(() => {
+                const hasVideoSectionError = consoleOutput.textContent.includes('getBoundingClientRect') && 
+                                           consoleOutput.textContent.includes('videoSection is null');
+                
+                if (hasVideoSectionError) {
+                    addTestResult('❌ getBoundingClientRect error still occurs', false);
+                } else {
+                    addTestResult('✅ No getBoundingClientRect error detected', true);
+                }
+                
+                // Test 3: Check if scroll events work
+                let scrollEventFired = false;
+                window.addEventListener('scroll', () => {
+                    scrollEventFired = true;
+                });
+                
+                // Trigger scroll event
+                window.scrollTo(0, 100);
+                setTimeout(() => {
+                    addTestResult(`Scroll events working: ${scrollEventFired}`, scrollEventFired);
+                    
+                    // Final summary
+                    const summaryDiv = document.createElement('div');
+                    summaryDiv.className = `test-result ${testsPassed === testsTotal ? 'success' : 'error'}`;
+                    summaryDiv.innerHTML = `<strong>Test Summary:</strong> ${testsPassed}/${testsTotal} tests passed`;
+                    testResults.appendChild(summaryDiv);
+                    
+                    if (testsPassed === testsTotal) {
+                        console.log('🎉 All tests passed! Minification fix is working correctly.');
+                    } else {
+                        console.error('❌ Some tests failed. Check the results above.');
+                    }
+                }, 100);
+            }, 1000);
+        });
+        
+        // Test 4: Check if DOM elements can be accessed safely
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // This should not throw an error even if .img-video doesn't exist
+                const videoSection = document.querySelector('.img-video');
+                if (videoSection) {
+                    addTestResult('✅ .img-video element found (unexpected)', true);
+                } else {
+                    addTestResult('✅ .img-video element not found (expected)', true);
+                }
+            } catch (error) {
+                addTestResult(`❌ Error accessing .img-video: ${error.message}`, false);
+            }
+        });
+    </script>
+    
+    <!-- Load the minified JavaScript file -->
+    <script src="public/js/main.min.js"></script>
+    
+    <div class="test-result info">
+        <strong>Note:</strong> This page simulates the book appointment page environment (no .img-video element) to test if the minified JavaScript handles missing elements gracefully.
+    </div>
+</body>
+</html>

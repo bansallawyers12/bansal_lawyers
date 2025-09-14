@@ -2268,7 +2268,7 @@
 
         <!-- Appointment Form -->
         <div class="experimental-form-section">
-            <form class="experimental-appointment-form" id="appintment_form" action="<?php echo URL::to('/'); ?>/book-an-appointment/store" method="post" enctype="multipart/form-data">
+            <form class="experimental-appointment-form" id="appintment_form" action="<?php echo URL::to('/'); ?>/book-an-appointment/storepaid" method="post" enctype="multipart/form-data">
                 <!-- Tab Navigation -->
                 <div class="experimental-form-tabs">
                     <ul class="experimental-tab-nav">
@@ -2444,6 +2444,18 @@
                         <input type="hidden" id="timeslot_col_time" name="selected_time" value="">
                         <input type="hidden" name="date" id="date_input" value="">
                         <input type="hidden" name="time" id="time_input" value="">
+                        
+                        <!-- Promo code hidden inputs -->
+                        <input type="hidden" name="coupon_code" value="">
+                        <input type="hidden" name="discount_amount" value="">
+                        <input type="hidden" name="discount_percentage" value="">
+                        
+                        <!-- Backend required fields -->
+                        <input type="hidden" name="service_id" value="1">
+                        <input type="hidden" name="appointment_details" value="">
+                        <input type="hidden" name="cardName" value="">
+                        <input type="hidden" name="stripeToken" value="">
+                        <input type="hidden" name="promo_code" value="">
                         
                         <!-- Error message -->
                         <div class="booking-error" id="bookingError" style="display: none;">
@@ -2690,9 +2702,7 @@ $(function() {
                      return $(this).hasClass('error') || $(this).val() === '';
                  }).first();
                  if ($firstError.length) {
-                     $('html, body').animate({
-                         scrollTop: $firstError.offset().top - 100
-                     }, 'slow');
+                     // Removed scroll behavior - keep user in place
                      $firstError.focus();
                  }
              }
@@ -2744,9 +2754,7 @@ $(function() {
                      return $(this).hasClass('error') || $(this).val() === '';
                  }).first();
                  if ($firstError.length) {
-                     $('html, body').animate({
-                         scrollTop: $firstError.offset().top - 100
-                     }, 'slow');
+                     // Removed scroll behavior - keep user in place
                      $firstError.focus();
                  }
              }
@@ -2780,10 +2788,7 @@ $(function() {
             // Fade in new tab
             $('#' + tabId).fadeIn(300);
             
-            // Scroll to top of form
-            $('html, body').animate({
-                scrollTop: $('.experimental-form-section').offset().top - 100
-            }, 'slow');
+            // Removed scroll behavior - keep user in place
         });
     }
     
@@ -2906,16 +2911,45 @@ $(function() {
         }, 800); // 800ms delay to show selection feedback
     });
     
-    // Form field changes
+    // Form field changes - REMOVED date/time clearing logic
+    // The previous logic was clearing date/time fields every time user typed in info fields
+    // This was causing validation failures when user clicked "Review & Confirm"
     $('.infoFormFields').change(function() {
+        // Only hide confirm row, don't clear date/time fields
+        $('.confirm_row').hide();
+    });
+    
+    // Proper date/time clearing - only when consultation type changes
+    $('.consultation_type').change(function() {
+        // Clear date/time when consultation type changes
+        clearDateTimeSelection();
+    });
+    
+    function clearDateTimeSelection() {
+        // Clear JavaScript variables
+        selectedDate = null;
+        selectedTime = null;
+        
+        // Clear form fields
         $('#timeslot_col_date').val("");
         $('#timeslot_col_time').val("");
         $('input[name="date"]').val("");
         $('input[name="time"]').val("");
         $('#date_input').val("");
         $('#time_input').val("");
-        $('.confirm_row').hide();
-    });
+        
+        // Clear UI selections
+        $('.week-date').removeClass('selected');
+        $('.time-slot').removeClass('selected');
+        
+        // Hide time slots
+        $('#timeSlotsContainer').hide();
+        
+        // Update floating navigation
+        updateFloatingNavigation();
+        
+        console.log('Date/time selection cleared due to consultation type change');
+    }
     
     // Enquiry selection
     $('.enquiry_item').change(function() {
@@ -2983,13 +3017,83 @@ $(function() {
         if (validateForm()) {
             $('#loading').addClass('show');
             
-            // Simulate form submission (replace with actual AJAX call)
-            setTimeout(function() {
-                $('#loading').removeClass('show');
-                alert('Appointment submitted successfully! You will receive a confirmation email shortly.');
-                // Reset form or redirect
-                window.location.reload();
-            }, 2000);
+            // Disable submit button and show loading state
+            var $submitBtn = $('.submitappointment_paid');
+            $submitBtn.prop('disabled', true);
+            var originalText = $submitBtn.find('.btn-text').text();
+            $submitBtn.find('.btn-text').text('Processing...');
+            
+            // Prepare form data
+            var formData = {
+                service_id: $('input[name="service_id"]').val(),
+                noe_id: $('select[name="noe_id"]').val(),
+                fullname: $('input[name="fullname"]').val(),
+                email: $('input[name="email"]').val(),
+                phone: $('input[name="phone"]').val(),
+                date: $('input[name="date"]').val(),
+                time: $('input[name="time"]').val(),
+                description: $('textarea[name="description"]').val(),
+                appointment_details: $('input[name="appointment_details"]').val(),
+                consultation_type: $('input[name="consultation_type"]:checked').val(),
+                promo_code: $('input[name="promo_code"]').val(),
+                discount_amount: $('input[name="discount_amount"]').val(),
+                discount_percentage: $('input[name="discount_percentage"]').val(),
+                cardName: $('input[name="fullname"]').val(), // Use fullname as cardName
+                stripeToken: 'experimental_' + Date.now() // Generate token for experimental bookings
+            };
+            
+            // Add CSRF token
+            formData._token = $('meta[name="csrf-token"]').attr('content');
+            
+            console.log('Submitting form data:', formData);
+            
+            // Submit to backend
+            $.ajax({
+                url: '/book-an-appointment/storepaid',
+                method: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    $('#loading').removeClass('show');
+                    
+                    // Re-enable submit button
+                    $submitBtn.prop('disabled', false);
+                    $submitBtn.find('.btn-text').text(originalText);
+                    
+                    if (response.success) {
+                        // Success - show confirmation
+                        showSuccessMessage('Appointment booked successfully! You will receive a confirmation email shortly.');
+                        
+                        // Reset form after 3 seconds
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 3000);
+                    } else {
+                        // Backend validation error
+                        showErrorMessage(response.message || 'An error occurred while booking your appointment.');
+                    }
+                },
+                error: function(xhr) {
+                    $('#loading').removeClass('show');
+                    
+                    // Re-enable submit button
+                    $submitBtn.prop('disabled', false);
+                    $submitBtn.find('.btn-text').text(originalText);
+                    
+                    var errorMessage = 'An error occurred while booking your appointment.';
+                    
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    } else if (xhr.status === 422) {
+                        errorMessage = 'Please check all required fields and try again.';
+                    } else if (xhr.status === 500) {
+                        errorMessage = 'Server error. Please try again later.';
+                    }
+                    
+                    showErrorMessage(errorMessage);
+                    console.error('Form submission error:', xhr);
+                }
+            });
         }
     });
     
@@ -2998,8 +3102,24 @@ $(function() {
             case 'consultation_type':
                 return $('.consultation_type:checked').length > 0;
              case 'appointment_details':
-                 var hasDate = $('#timeslot_col_date').val() !== '';
-                 var hasTime = $('#timeslot_col_time').val() !== '';
+                 // Check multiple possible date/time field sources
+                 var hasDate = $('#timeslot_col_date').val() !== '' || 
+                              $('input[name="date"]').val() !== '' || 
+                              $('#date_input').val() !== '' ||
+                              (selectedDate && !isNaN(selectedDate.getTime()));
+                 var hasTime = $('#timeslot_col_time').val() !== '' || 
+                              $('input[name="time"]').val() !== '' || 
+                              $('#time_input').val() !== '' ||
+                              selectedTime !== null;
+                 
+                 console.log('Date validation - timeslot_col_date:', $('#timeslot_col_date').val());
+                 console.log('Date validation - input[name="date"]:', $('input[name="date"]').val());
+                 console.log('Date validation - selectedDate:', selectedDate);
+                 console.log('Time validation - timeslot_col_time:', $('#timeslot_col_time').val());
+                 console.log('Time validation - input[name="time"]:', $('input[name="time"]').val());
+                 console.log('Time validation - selectedTime:', selectedTime);
+                 console.log('Validation result - hasDate:', hasDate, 'hasTime:', hasTime);
+                 
                  if (!hasDate || !hasTime) {
                      $('#bookingError').show();
                      return false;
@@ -3140,6 +3260,34 @@ $(function() {
      let selectedDate = null;
      let selectedTime = null;
      
+     // Helper function to parse DD/MM/YYYY format dates
+     function parseDateFromDDMMYYYY(dateStr) {
+         if (!dateStr) return null;
+         
+         // Split the date string by '/'
+         const parts = dateStr.split('/');
+         if (parts.length !== 3) {
+             console.error('Invalid date format:', dateStr);
+             return null;
+         }
+         
+         // DD/MM/YYYY format: parts[0] = day, parts[1] = month, parts[2] = year
+         const day = parseInt(parts[0], 10);
+         const month = parseInt(parts[1], 10) - 1; // JavaScript months are 0-based
+         const year = parseInt(parts[2], 10);
+         
+         // Create date object
+         const date = new Date(year, month, day);
+         
+         // Validate the date
+         if (isNaN(date.getTime())) {
+             console.error('Invalid date:', dateStr);
+             return null;
+         }
+         
+         return date;
+     }
+     
      // Initialize the modern calendar
      function initializeModernCalendar() {
          console.log('Initializing modern calendar...');
@@ -3212,7 +3360,14 @@ $(function() {
          // Date selection
          $(document).off('click', '.week-date:not(.disabled)').on('click', '.week-date:not(.disabled)', function() {
              const dateStr = $(this).data('date');
-             selectedDate = new Date(dateStr);
+             selectedDate = parseDateFromDDMMYYYY(dateStr);
+             
+             // Check if date parsing was successful
+             if (!selectedDate) {
+                 console.error('Failed to parse date:', dateStr);
+                 alert('Error: Invalid date selected. Please try again.');
+                 return;
+             }
              
              // Update UI
              $('.week-date').removeClass('selected');
@@ -3247,7 +3402,7 @@ $(function() {
              // Update floating navigation
              updateFloatingNavigation();
              
-             console.log('Time selected:', selectedTime);
+             console.log('Timeslot selection complete - selectedTime:', selectedTime);
          });
      }
      
@@ -3298,7 +3453,7 @@ $(function() {
      }
      
      function updateFormInputs() {
-         if (selectedDate && selectedTime) {
+         if (selectedDate && selectedTime && !isNaN(selectedDate.getTime())) {
              const dateStr = formatDateForInput(selectedDate);
              const timeStr = selectedTime;
              
@@ -3317,10 +3472,24 @@ $(function() {
              updateSelectionSummary();
              
              console.log('Form inputs updated - Date:', dateStr, 'Time:', timeStr);
+         } else if (selectedDate && !isNaN(selectedDate.getTime())) {
+             // Update date only if time not selected yet
+             const dateStr = formatDateForInput(selectedDate);
+             $('#timeslot_col_date').val(dateStr);
+             $('input[name="date"]').val(dateStr);
+             $('#date_input').val(dateStr);
+             
+             console.log('Date input updated - Date:', dateStr);
          }
      }
      
      function formatDateForInput(date) {
+         // Check if date is valid
+         if (!date || isNaN(date.getTime())) {
+             console.error('Invalid date passed to formatDateForInput:', date);
+             return 'Invalid Date';
+         }
+         
          const day = String(date.getDate()).padStart(2, '0');
          const month = String(date.getMonth() + 1).padStart(2, '0');
          const year = date.getFullYear();
@@ -3328,6 +3497,11 @@ $(function() {
      }
      
      function isSameDay(date1, date2) {
+         // Check if both dates are valid
+         if (!date1 || !date2 || isNaN(date1.getTime()) || isNaN(date2.getTime())) {
+             return false;
+         }
+         
          return date1.getDate() === date2.getDate() &&
                 date1.getMonth() === date2.getMonth() &&
                 date1.getFullYear() === date2.getFullYear();
@@ -3399,17 +3573,17 @@ $(function() {
             return;
         }
         
-        // Simulate coupon validation (replace with actual API call)
+        // Validate promo codes: FREE100 (100% off) and HALF50 (50% off)
         var validCoupons = {
-            'WELCOME10': { discount: 10, type: 'percentage' },
-            'SAVE20': { discount: 20, type: 'percentage' },
-            'FIRST15': { discount: 15, type: 'percentage' }
+            'FREE100': { discount: 100, type: 'percentage', description: 'Free consultation' },
+            'HALF50': { discount: 50, type: 'percentage', description: '50% off consultation' }
         };
         
         if (validCoupons[couponCode.toUpperCase()]) {
             var coupon = validCoupons[couponCode.toUpperCase()];
-            var discountAmount = (150 * coupon.discount) / 100;
-            var finalAmount = 150 - discountAmount;
+            var consultationFee = 150; // Base consultation fee
+            var discountAmount = (consultationFee * coupon.discount) / 100;
+            var finalAmount = Math.max(0, consultationFee - discountAmount);
             
             // Update payment summary
             $('.discount-item').show();
@@ -3417,13 +3591,27 @@ $(function() {
             $('.total-amount').html('<strong>$' + finalAmount.toFixed(2) + ' AUD</strong>');
             $('.final-amount').text('$' + finalAmount.toFixed(2) + ' AUD');
             
-            showCouponMessage('Coupon applied successfully! You saved $' + discountAmount.toFixed(2), 'success');
+            // Show success message with savings
+            var savingsText = coupon.discount === 100 ? 'Free consultation!' : 'You saved $' + discountAmount.toFixed(2);
+            showCouponMessage('Promo code applied successfully! ' + savingsText, 'success');
             
             // Store coupon info for form submission
             $('input[name="coupon_code"]').val(couponCode);
+            $('input[name="promo_code"]').val(couponCode); // Also update promo_code field for backend
             $('input[name="discount_amount"]').val(discountAmount);
+            $('input[name="discount_percentage"]').val(coupon.discount);
+            
+            // Disable coupon input after successful application
+            $('#coupon_code').prop('disabled', true);
+            $('#apply_coupon').prop('disabled', true).text('Applied');
+            
+            // Add reset button
+            if (!$('#reset_coupon').length) {
+                $('#apply_coupon').after('<button type="button" class="experimental-btn btn-reset-coupon" id="reset_coupon" style="background: #6c757d; margin-left: 10px;"><i class="fa fa-refresh mr-2"></i>Reset</button>');
+            }
+            
         } else {
-            showCouponMessage('Invalid promo code. Please try again.', 'error');
+            showCouponMessage('Invalid promo code. Valid codes: FREE100 or HALF50', 'error');
         }
     });
     
@@ -3435,6 +3623,57 @@ $(function() {
             $message.fadeOut();
         }, 5000);
     }
+    
+    function showSuccessMessage(message) {
+        // Create success message overlay
+        var $overlay = $('<div class="success-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center;">' +
+            '<div style="background: white; padding: 40px; border-radius: 10px; text-align: center; max-width: 500px; margin: 20px;">' +
+            '<div style="color: #28a745; font-size: 48px; margin-bottom: 20px;"><i class="fa fa-check-circle"></i></div>' +
+            '<h3 style="color: #28a745; margin-bottom: 20px;">Success!</h3>' +
+            '<p style="color: #333; margin-bottom: 30px; font-size: 16px;">' + message + '</p>' +
+            '<button onclick="$(this).closest(\'.success-overlay\').remove()" style="background: #28a745; color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 16px;">OK</button>' +
+            '</div></div>');
+        
+        $('body').append($overlay);
+    }
+    
+    function showErrorMessage(message) {
+        // Create error message overlay
+        var $overlay = $('<div class="error-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center;">' +
+            '<div style="background: white; padding: 40px; border-radius: 10px; text-align: center; max-width: 500px; margin: 20px;">' +
+            '<div style="color: #dc3545; font-size: 48px; margin-bottom: 20px;"><i class="fa fa-exclamation-triangle"></i></div>' +
+            '<h3 style="color: #dc3545; margin-bottom: 20px;">Error</h3>' +
+            '<p style="color: #333; margin-bottom: 30px; font-size: 16px;">' + message + '</p>' +
+            '<button onclick="$(this).closest(\'.error-overlay\').remove()" style="background: #dc3545; color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 16px;">OK</button>' +
+            '</div></div>');
+        
+        $('body').append($overlay);
+    }
+    
+    // Reset coupon functionality
+    $(document).on('click', '#reset_coupon', function() {
+        // Reset form fields
+        $('#coupon_code').val('').prop('disabled', false);
+        $('#apply_coupon').prop('disabled', false).text('Apply');
+        
+        // Reset payment summary
+        $('.discount-item').hide();
+        $('.discount-amount').text('-$0.00 AUD');
+        $('.total-amount').html('<strong>$150.00 AUD</strong>');
+        $('.final-amount').text('$150.00 AUD');
+        
+        // Clear hidden inputs
+        $('input[name="coupon_code"]').val('');
+        $('input[name="promo_code"]').val('');
+        $('input[name="discount_amount"]').val('');
+        $('input[name="discount_percentage"]').val('');
+        
+        // Remove reset button
+        $('#reset_coupon').remove();
+        
+        // Show reset message
+        showCouponMessage('Promo code reset. You can enter a new code.', 'success');
+    });
     
     function updateSelectionSummary() {
         console.log('Updating selection summary...');
