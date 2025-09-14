@@ -203,6 +203,87 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Practice Areas Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h2 style="color: #1B4D89; font-size: 2.5rem; font-weight: 700; margin-bottom: 3rem; text-align: center;">Practice Areas - Experimental Pages</h2>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="experimental-card">
+                    <div class="icon">
+                        <i class="fa fa-gavel"></i>
+                    </div>
+                    <h3>Practice Areas Overview</h3>
+                    <p>Modern grid layout showcasing all practice areas with enhanced visual appeal, improved cards design, and better user experience.</p>
+                    <a href="/practice-areas-experimental" class="experimental-btn">View Experimental</a>
+                    <a href="/practice-areas" class="experimental-btn secondary">View Original</a>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="experimental-card">
+                    <div class="icon">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <h3>Family Law</h3>
+                    <p>Redesigned family law page with modern hero section, improved content layout, and enhanced sidebar with related pages and contact form.</p>
+                    <a href="/family-law-experimental" class="experimental-btn">View Experimental</a>
+                    <a href="/family-law" class="experimental-btn secondary">View Original</a>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="experimental-card">
+                    <div class="icon">
+                        <i class="fa fa-plane"></i>
+                    </div>
+                    <h3>Migration Law</h3>
+                    <p>Enhanced migration law page with modern design, improved content structure, and better visual hierarchy for immigration services.</p>
+                    <a href="/migration-law-experimental" class="experimental-btn">View Experimental</a>
+                    <a href="/migration-law" class="experimental-btn secondary">View Original</a>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="experimental-card">
+                    <div class="icon">
+                        <i class="fa fa-shield"></i>
+                    </div>
+                    <h3>Criminal Law</h3>
+                    <p>Modern criminal law page with enhanced content presentation, improved readability, and better visual appeal for legal services.</p>
+                    <a href="/criminal-law-experimental" class="experimental-btn">View Experimental</a>
+                    <a href="/criminal-law" class="experimental-btn secondary">View Original</a>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="experimental-card">
+                    <div class="icon">
+                        <i class="fa fa-briefcase"></i>
+                    </div>
+                    <h3>Commercial Law</h3>
+                    <p>Redesigned commercial law page with modern business-focused design, improved content structure, and enhanced user experience.</p>
+                    <a href="/commercial-law-experimental" class="experimental-btn">View Experimental</a>
+                    <a href="/commercial-law" class="experimental-btn secondary">View Original</a>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="experimental-card">
+                    <div class="icon">
+                        <i class="fa fa-home"></i>
+                    </div>
+                    <h3>Property Law</h3>
+                    <p>Enhanced property law page with modern real estate-focused design, improved content layout, and better visual presentation.</p>
+                    <a href="/property-law-experimental" class="experimental-btn">View Experimental</a>
+                    <a href="/property-law" class="experimental-btn secondary">View Original</a>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

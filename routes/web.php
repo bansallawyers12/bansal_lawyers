@@ -156,6 +156,14 @@ Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'crimi
 Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallaw'])->name('commercial-law');
 Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylaw'])->name('property-law');
 
+// Experimental Practice Area Pages
+Route::get('/practice-areas-experimental', [\App\Http\Controllers\HomeController::class, 'practiceareas_experimental'])->name('practice-areas-experimental');
+Route::get('/family-law-experimental', [\App\Http\Controllers\HomeController::class, 'familylaw_experimental'])->name('family-law-experimental');
+Route::get('/migration-law-experimental', [\App\Http\Controllers\HomeController::class, 'migrationlaw_experimental'])->name('migration-law-experimental');
+Route::get('/criminal-law-experimental', [\App\Http\Controllers\HomeController::class, 'criminallaw_experimental'])->name('criminal-law-experimental');
+Route::get('/commercial-law-experimental', [\App\Http\Controllers\HomeController::class, 'commerciallaw_experimental'])->name('commercial-law-experimental');
+Route::get('/property-law-experimental', [\App\Http\Controllers\HomeController::class, 'propertylaw_experimental'])->name('property-law-experimental');
+
 /*********************Practice Area Inner Pages ***********************/
 Route::get('/divorce', [\App\Http\Controllers\HomeController::class, 'divorce'])->name('divorce');
 Route::get('/child-custody', [\App\Http\Controllers\HomeController::class, 'childcustody'])->name('child-custody');

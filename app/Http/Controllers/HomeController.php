@@ -1193,4 +1193,35 @@ class HomeController extends Controller
         }
     }
 
+    // Experimental Practice Area Methods
+    public function practiceareas_experimental(Request $request)
+    { 
+        return view('practiceareas_experimental');
+    }
+
+    public function familylaw_experimental(Request $request)
+    {
+        return view('family_law_experimental');
+    }
+
+    public function migrationlaw_experimental(Request $request)
+    {
+        return view('migration_law_experimental');
+    }
+
+    public function criminallaw_experimental(Request $request)
+    {
+        return view('criminal_law_experimental');
+    }
+
+    public function commerciallaw_experimental(Request $request)
+    {
+        return view('commercial_law_experimental');
+    }
+
+    public function propertylaw_experimental(Request $request)
+    {
+        return view('property_law_experimental');
+    }
+
 }
