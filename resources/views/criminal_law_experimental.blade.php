@@ -3,10 +3,10 @@
     <title>Criminal Law Lawyers Melbourne | Assault Charges & Criminal Defense | Bansal Lawyers - Experimental</title>
     <meta name="description" content="Expert criminal law lawyers in Melbourne defending assault charges, traffic offenses, and criminal cases. Get professional criminal defense from Bansal Lawyers." />
     <meta name="keyword" content="criminal lawyer Melbourne, assault charges, criminal defense, traffic offenses, criminal law advice, criminal charges" />
-    <link rel="canonical" href="<?php echo URL::to('/'); ?>/criminal-law-experimental" />
+    <link rel="canonical" href="{{ url('/criminal-law-experimental') }}" />
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="<?php echo URL::to('/'); ?>/criminal-law-experimental">
+    <meta property="og:url" content="{{ url('/criminal-law-experimental') }}">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Criminal Law Lawyers Melbourne | Assault Charges & Criminal Defense | Bansal Lawyers - Experimental">
     <meta property="og:description" content="Expert criminal law lawyers in Melbourne defending assault charges, traffic offenses, and criminal cases. Get professional criminal defense from Bansal Lawyers.">
@@ -16,7 +16,7 @@
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
-    <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/criminal-law-experimental">
+    <meta property="twitter:url" content="{{ url('/criminal-law-experimental') }}">
     <meta name="twitter:title" content="Criminal Law Lawyers Melbourne | Assault Charges & Criminal Defense | Bansal Lawyers - Experimental">
     <meta name="twitter:description" content="Expert criminal law lawyers in Melbourne defending assault charges, traffic offenses, and criminal cases. Get professional criminal defense from Bansal Lawyers.">
     <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
@@ -29,9 +29,9 @@
 		"@type": "LegalService",
 		"name": "Criminal Law Services - Bansal Lawyers",
 		"description": "Expert criminal law lawyers in Melbourne defending assault charges, traffic offenses, and criminal cases. Get professional criminal defense from Bansal Lawyers.",
-		"url": "<?php echo URL::to('/'); ?>/criminal-law-experimental",
-		"logo": "<?php echo URL::to('/'); ?>{{ asset('images/logo/Bansal_Lawyers.png') }}",
-		"image": "<?php echo URL::to('/'); ?>{{ asset('images/logo/Bansal_Lawyers.png') }}",
+		"url": "{{ url('/criminal-law-experimental') }}",
+		"logo": "{{ url('/') }}{{ asset('images/logo/Bansal_Lawyers.png') }}",
+		"image": "{{ url('/') }}{{ asset('images/logo/Bansal_Lawyers.png') }}",
 		"address": {
 			"@type": "PostalAddress",
 			"streetAddress": "Level 8/278 Collins St",
@@ -98,19 +98,19 @@
 				"@type": "ListItem",
 				"position": 1,
 				"name": "Home",
-				"item": "<?php echo URL::to('/'); ?>"
+				"item": "{{ url('/') }}"
 			},
 			{
 				"@type": "ListItem",
 				"position": 2,
 				"name": "Practice Areas",
-				"item": "<?php echo URL::to('/'); ?>/practice-areas-experimental"
+				"item": "{{ url('/practice-areas-experimental') }}"
 			},
 			{
 				"@type": "ListItem",
 				"position": 3,
 				"name": "Criminal Law",
-				"item": "<?php echo URL::to('/'); ?>/criminal-law-experimental"
+				"item": "{{ url('/criminal-law-experimental') }}"
 			}
 		]
 	}
@@ -505,7 +505,7 @@
                     <!-- Contact Form -->
                     <div class="contact-form">
                         <h5>Get Legal Advice</h5>
-                        <form action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data">
+                        <form action="{{ url('/contact_lawyer') }}" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="name" placeholder="Your Name" required>

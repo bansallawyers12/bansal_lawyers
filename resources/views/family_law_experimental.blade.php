@@ -3,10 +3,10 @@
     <title>Family Law Lawyers Melbourne | Divorce, Separation & Child Custody | Bansal Lawyers - Experimental</title>
     <meta name="description" content="Expert family law lawyers in Melbourne helping with divorce, separation, child custody, property settlements. Get professional family law advice from Bansal Lawyers." />
     <meta name="keyword" content="family law Melbourne, divorce lawyer, separation lawyer, child custody, property settlement, family law advice, parenting arrangements" />
-    <link rel="canonical" href="<?php echo URL::to('/'); ?>/family-law-experimental" />
+    <link rel="canonical" href="{{ url('/family-law-experimental') }}" />
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="<?php echo URL::to('/'); ?>/family-law-experimental">
+    <meta property="og:url" content="{{ url('/family-law-experimental') }}">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Family Law Lawyers Melbourne | Divorce, Separation & Child Custody | Bansal Lawyers - Experimental">
     <meta property="og:description" content="Expert family law lawyers in Melbourne helping with divorce, separation, child custody, property settlements. Get professional family law advice from Bansal Lawyers.">
@@ -16,7 +16,7 @@
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
-    <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/family-law-experimental">
+    <meta property="twitter:url" content="{{ url('/family-law-experimental') }}">
     <meta name="twitter:title" content="Family Law Lawyers Melbourne | Divorce, Separation & Child Custody | Bansal Lawyers - Experimental">
     <meta name="twitter:description" content="Expert family law lawyers in Melbourne helping with divorce, separation, child custody, property settlements. Get professional family law advice from Bansal Lawyers.">
     <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
@@ -29,9 +29,9 @@
 		"@type": "LegalService",
 		"name": "Family Law Services - Bansal Lawyers",
 		"description": "Expert family law lawyers in Melbourne helping with divorce, separation, child custody, property settlements. Get professional family law advice from Bansal Lawyers.",
-		"url": "<?php echo URL::to('/'); ?>/family-law-experimental",
-		"logo": "<?php echo URL::to('/'); ?>{{ asset('images/logo/Bansal_Lawyers.png') }}",
-		"image": "<?php echo URL::to('/'); ?>{{ asset('images/logo/Bansal_Lawyers.png') }}",
+		"url": "{{ url('/family-law-experimental') }}",
+		"logo": "{{ url('/') }}{{ asset('images/logo/Bansal_Lawyers.png') }}",
+		"image": "{{ url('/') }}{{ asset('images/logo/Bansal_Lawyers.png') }}",
 		"address": {
 			"@type": "PostalAddress",
 			"streetAddress": "Level 8/278 Collins St",
@@ -98,19 +98,19 @@
 				"@type": "ListItem",
 				"position": 1,
 				"name": "Home",
-				"item": "<?php echo URL::to('/'); ?>"
+				"item": "{{ url('/') }}"
 			},
 			{
 				"@type": "ListItem",
 				"position": 2,
 				"name": "Practice Areas",
-				"item": "<?php echo URL::to('/'); ?>/practice-areas-experimental"
+				"item": "{{ url('/practice-areas-experimental') }}"
 			},
 			{
 				"@type": "ListItem",
 				"position": 3,
 				"name": "Family Law",
-				"item": "<?php echo URL::to('/'); ?>/family-law-experimental"
+				"item": "{{ url('/family-law-experimental') }}"
 			}
 		]
 	}
@@ -513,7 +513,7 @@
                     <!-- Contact Form -->
                     <div class="contact-form">
                         <h5>Get Legal Advice</h5>
-                        <form action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data">
+                        <form action="{{ url('/contact_lawyer') }}" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="name" placeholder="Your Name" required>

@@ -12,9 +12,9 @@
 	<title>Legal Help in Melbourne | Best Law Firm – Bansal Lawyers - Modern</title>
     <meta name="description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!" />
 
-    <link rel="canonical" href="<?php echo URL::to('/'); ?>/contact" />
+    <link rel="canonical" href="{{ url('/contact') }}" />
         <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="<?php echo URL::to('/'); ?>/contact">
+    <meta property="og:url" content="{{ url('/contact') }}">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Get Expert Legal Assistance from Best law firms in Melbourne Australia | Bansal Lawyers">
     <meta property="og:description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!">
@@ -24,7 +24,7 @@
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
-    <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/contact">
+    <meta property="twitter:url" content="{{ url('/contact') }}">
     <meta name="twitter:title" content="Get Expert Legal Assistance from Best law firms in Melbourne Australia | Bansal Lawyers">
     <meta name="twitter:description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!">
     <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
@@ -1145,7 +1145,7 @@
                                 @endif
                                 
                                 <h3>Send us a Message</h3>
-                                <form action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data">
+                                <form action="{{ url('/contact_lawyer') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="modern-form-group">
                                         <label for="name">Your Full Name</label>
@@ -1221,7 +1221,7 @@
                 <span id="floatingFormMessage"></span>
             </div>
             
-            <form id="floatingContactForm" action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data">
+            <form id="floatingContactForm" action="{{ url('/contact_lawyer') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="floating-form-group">
                     <label for="floating_name">Your Name</label>

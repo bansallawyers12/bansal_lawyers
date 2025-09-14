@@ -1,37 +1,39 @@
-@extends('layouts.frontend')
-@section('seoinfo')
+<?php $__env->startSection('seoinfo'); ?>
     <title>Property Law Lawyers Melbourne | Real Estate & Property Legal Services | Bansal Lawyers - Experimental</title>
     <meta name="description" content="Expert property law lawyers in Melbourne helping with real estate transactions, property disputes, leasing agreements. Get professional property legal advice from Bansal Lawyers." />
     <meta name="keyword" content="property lawyer Melbourne, real estate law, property transactions, property disputes, leasing agreements, conveyancing" />
-    <link rel="canonical" href="{{ url('/property-law-experimental') }}" />
+    <link rel="canonical" href="<?php echo e(url('/property-law-experimental')); ?>" />
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="{{ url('/property-law-experimental') }}">
+    <meta property="og:url" content="<?php echo e(url('/property-law-experimental')); ?>">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Property Law Lawyers Melbourne | Real Estate & Property Legal Services | Bansal Lawyers - Experimental">
     <meta property="og:description" content="Expert property law lawyers in Melbourne helping with real estate transactions, property disputes, leasing agreements. Get professional property legal advice from Bansal Lawyers.">
-    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
     <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
-    <meta property="twitter:url" content="{{ url('/property-law-experimental') }}">
+    <meta property="twitter:url" content="<?php echo e(url('/property-law-experimental')); ?>">
     <meta name="twitter:title" content="Property Law Lawyers Melbourne | Real Estate & Property Legal Services | Bansal Lawyers - Experimental">
     <meta name="twitter:description" content="Expert property law lawyers in Melbourne helping with real estate transactions, property disputes, leasing agreements. Get professional property legal advice from Bansal Lawyers.">
-    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="twitter:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
     <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 	<!-- Schema Markup for Property Law Services -->
 	<script type="application/ld+json">
 	{
-		"@context": "https://schema.org",
+		"<?php $__contextArgs = [];
+if (context()->has($__contextArgs[0])) :
+if (isset($value)) { $__contextPrevious[] = $value; }
+$value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
 		"@type": "LegalService",
 		"name": "Property Law Services - Bansal Lawyers",
 		"description": "Expert property law lawyers in Melbourne helping with real estate transactions, property disputes, leasing agreements. Get professional property legal advice from Bansal Lawyers.",
-		"url": "{{ url('/property-law-experimental') }}",
-		"logo": "{{ url('/') }}{{ asset('images/logo/Bansal_Lawyers.png') }}",
-		"image": "{{ url('/') }}{{ asset('images/logo/Bansal_Lawyers.png') }}",
+		"url": "<?php echo e(url('/property-law-experimental')); ?>",
+		"logo": "<?php echo e(url('/')); ?><?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>",
+		"image": "<?php echo e(url('/')); ?><?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>",
 		"address": {
 			"@type": "PostalAddress",
 			"streetAddress": "Level 8/278 Collins St",
@@ -91,26 +93,29 @@
 	<!-- Breadcrumb Schema -->
 	<script type="application/ld+json">
 	{
-		"@context": "https://schema.org",
+		"<?php $__contextArgs = [];
+if (context()->has($__contextArgs[0])) :
+if (isset($value)) { $__contextPrevious[] = $value; }
+$value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
 		"@type": "BreadcrumbList",
 		"itemListElement": [
 			{
 				"@type": "ListItem",
 				"position": 1,
 				"name": "Home",
-				"item": "{{ url('/') }}"
+				"item": "<?php echo e(url('/')); ?>"
 			},
 			{
 				"@type": "ListItem",
 				"position": 2,
 				"name": "Practice Areas",
-				"item": "{{ url('/practice-areas-experimental') }}"
+				"item": "<?php echo e(url('/practice-areas-experimental')); ?>"
 			},
 			{
 				"@type": "ListItem",
 				"position": 3,
 				"name": "Property Law",
-				"item": "{{ url('/property-law-experimental') }}"
+				"item": "<?php echo e(url('/property-law-experimental')); ?>"
 			}
 		]
 	}
@@ -119,7 +124,10 @@
 	<!-- FAQ Schema -->
 	<script type="application/ld+json">
 	{
-		"@context": "https://schema.org",
+		"<?php $__contextArgs = [];
+if (context()->has($__contextArgs[0])) :
+if (isset($value)) { $__contextPrevious[] = $value; }
+$value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
 		"@type": "FAQPage",
 		"mainEntity": [
 			{
@@ -158,9 +166,9 @@
 	}
 	</script>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <style>
 /* Experimental Property Law Page Styles */
@@ -194,7 +202,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset("images/PracticeArea.jpg") }}') center/cover;
+    background: url('<?php echo e(asset("images/PracticeArea.jpg")); ?>') center/cover;
     opacity: 0.3;
     z-index: 1;
 }
@@ -479,21 +487,21 @@
                     
                     <!-- Related Page 1 -->
                     <div class="related-page">
-                        <img src="{{ asset('images/commercial-law.png') }}" alt="Commercial Law Lawyers Melbourne - Business Contracts and Legal Solutions" width="60" height="60">
+                        <img src="<?php echo e(asset('images/commercial-law.png')); ?>" alt="Commercial Law Lawyers Melbourne - Business Contracts and Legal Solutions" width="60" height="60">
                         <h6>Commercial Law Services</h6>
                         <a href="/commercial-law-experimental">READ THIS MORE >></a>
                     </div>
 
                     <!-- Related Page 2 -->
                     <div class="related-page">
-                        <img src="{{ asset('images/family-law.png') }}" alt="Family Law Lawyers Melbourne - Divorce, Separation and Child Custody" width="60" height="60">
+                        <img src="<?php echo e(asset('images/family-law.png')); ?>" alt="Family Law Lawyers Melbourne - Divorce, Separation and Child Custody" width="60" height="60">
                         <h6>Family Law Services</h6>
                         <a href="/family-law-experimental">READ THIS MORE >></a>
                     </div>
 
                     <!-- Related Page 3 -->
                     <div class="related-page">
-                        <img src="{{ asset('images/criminal-law.png') }}" alt="Criminal Defense Lawyers Melbourne - Assault Charges and Legal Defense" width="60" height="60">
+                        <img src="<?php echo e(asset('images/criminal-law.png')); ?>" alt="Criminal Defense Lawyers Melbourne - Assault Charges and Legal Defense" width="60" height="60">
                         <h6>Criminal Law Services</h6>
                         <a href="/criminal-law-experimental">READ THIS MORE >></a>
                     </div>
@@ -501,8 +509,8 @@
                     <!-- Contact Form -->
                     <div class="contact-form">
                         <h5>Get Legal Advice</h5>
-                        <form action="{{ url('/contact_lawyer') }}" method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <form action="<?php echo e(url('/contact_lawyer')); ?>" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="name" placeholder="Your Name" required>
                             </div>
@@ -526,4 +534,5 @@
     </div>
 </section>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/property_law_experimental.blade.php ENDPATH**/ ?>

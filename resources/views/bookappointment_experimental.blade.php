@@ -4,10 +4,10 @@
     <title>Book Appointment with Top Law Firm in Melbourne - Experimental</title>
     <meta name="description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more." />
 
-	<link rel="canonical" href="<?php echo URL::to('/'); ?>/book-an-appointment" />
+	<link rel="canonical" href="{{ url('/book-an-appointment') }}" />
 
 	<!-- Facebook Meta Tags -->
-    <meta property="og:url" content="<?php echo URL::to('/'); ?>/book-an-appointment">
+    <meta property="og:url" content="{{ url('/book-an-appointment') }}">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Book an Appointment | Schedule a Consultation with Top Law Firm Bansal Lawyers Melbourne">
     <meta property="og:description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more.">
@@ -17,7 +17,7 @@
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
-    <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/book-an-appointment">
+    <meta property="twitter:url" content="{{ url('/book-an-appointment') }}">
     <meta name="twitter:title" content="Book an Appointment | Schedule a Consultation with Top Law Firm Bansal Lawyers Melbourne">
     <meta name="twitter:description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more.">
     <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
@@ -2164,7 +2164,7 @@
 
         <!-- Appointment Form -->
         <div class="experimental-form-section">
-            <form class="experimental-appointment-form" id="appintment_form" action="<?php echo URL::to('/'); ?>/book-an-appointment/storepaid" method="post" enctype="multipart/form-data">
+            <form class="experimental-appointment-form" id="appintment_form" action="{{ url('/book-an-appointment/storepaid') }}" method="post" enctype="multipart/form-data">
                 <!-- Tab Navigation -->
                 <div class="experimental-form-tabs">
                     <ul class="experimental-tab-nav">

@@ -13,10 +13,10 @@
 <meta name="author" content="Ajay Bansal" />
 <meta name="robots" content="index, follow" />
 
-<link rel="canonical" href="<?php echo URL::to('/'); ?>/about" />
+<link rel="canonical" href="{{ url('/about') }}" />
 
 <!-- Facebook Meta Tags -->
-<meta property="og:url" content="<?php echo URL::to('/'); ?>/about">
+<meta property="og:url" content="{{ url('/about') }}">
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Meet Ajay Bansal - Director of Bansal Lawyers | Melbourne Legal Expert">
 <meta property="og:description" content="Meet Ajay Bansal, Director of Bansal Lawyers. Expert legal services in Melbourne for Immigration Law, Family Law, Property disputes, and more. Trusted legal advice in Australia.">
@@ -28,7 +28,7 @@
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="bansallawyers.com.au">
-<meta property="twitter:url" content="<?php echo URL::to('/'); ?>/about">
+<meta property="twitter:url" content="{{ url('/about') }}">
 <meta name="twitter:title" content="Meet Ajay Bansal - Director of Bansal Lawyers | Melbourne Legal Expert">
 <meta name="twitter:description" content="Meet Ajay Bansal, Director of Bansal Lawyers. Expert legal services in Melbourne for Immigration Law, Family Law, Property disputes, and more. Trusted legal advice in Australia.">
 <meta property="twitter:image" content="{{ asset('images/ajay-bansal2.jpg') }}">

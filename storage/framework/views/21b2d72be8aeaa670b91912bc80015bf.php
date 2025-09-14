@@ -1,40 +1,43 @@
-@extends('layouts.frontend')
-@section('seoinfo')
+
+<?php $__env->startSection('seoinfo'); ?>
 	<title>Immigration, family and more lawyers consultation in Melbourne - Experimental</title>
 	<meta name="description" content="If you are looking expert lawyers consultation in Melbourne? Get professional legal advice from experienced lawyers to guide you legal challenges with confidence." />
 
     <meta name="keyword" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!" />
 
-    <link rel="canonical" href="{{ url('/practice-areas-experimental') }}" />
+    <link rel="canonical" href="<?php echo e(url('/practice-areas-experimental')); ?>" />
 
 	<!-- Facebook Meta Tags -->
-    <meta property="og:url" content="{{ url('/practice-areas-experimental') }}">
+    <meta property="og:url" content="<?php echo e(url('/practice-areas-experimental')); ?>">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Legal Services in Australia | Family, Immigration, Property & More - Experimental">
     <meta property="og:description" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!">
-    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 
 	<!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
-    <meta property="twitter:url" content="{{ url('/practice-areas-experimental') }}">
+    <meta property="twitter:url" content="<?php echo e(url('/practice-areas-experimental')); ?>">
     <meta name="twitter:title" content="Legal Services in Australia | Family, Immigration, Property & More - Experimental">
     <meta name="twitter:description" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!">
-	<meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+	<meta property="twitter:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 	<!-- Schema Markup for Legal Services -->
 	<script type="application/ld+json">
 	{
-		"@context": "https://schema.org",
+		"<?php $__contextArgs = [];
+if (context()->has($__contextArgs[0])) :
+if (isset($value)) { $__contextPrevious[] = $value; }
+$value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
 		"@type": "LegalService",
 		"name": "Bansal Lawyers - Practice Areas",
 		"description": "Comprehensive legal services across multiple practice areas including family law, immigration, criminal law, commercial law, and property law in Melbourne, Australia.",
-		"url": "{{ url('/practice-areas-experimental') }}",
-		"logo": "{{ url('/') }}{{ asset('images/logo/Bansal_Lawyers.png') }}",
-		"image": "{{ url('/') }}{{ asset('images/logo/Bansal_Lawyers.png') }}",
+		"url": "<?php echo e(url('/practice-areas-experimental')); ?>",
+		"logo": "<?php echo e(url('/')); ?><?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>",
+		"image": "<?php echo e(url('/')); ?><?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>",
 		"address": {
 			"@type": "PostalAddress",
 			"streetAddress": "Level 8/278 Collins St",
@@ -108,27 +111,30 @@
 	<!-- Breadcrumb Schema -->
 	<script type="application/ld+json">
 	{
-		"@context": "https://schema.org",
+		"<?php $__contextArgs = [];
+if (context()->has($__contextArgs[0])) :
+if (isset($value)) { $__contextPrevious[] = $value; }
+$value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
 		"@type": "BreadcrumbList",
 		"itemListElement": [
 			{
 				"@type": "ListItem",
 				"position": 1,
 				"name": "Home",
-				"item": "{{ url('/') }}"
+				"item": "<?php echo e(url('/')); ?>"
 			},
 			{
 				"@type": "ListItem",
 				"position": 2,
 				"name": "Practice Areas",
-				"item": "{{ url('/practice-areas-experimental') }}"
+				"item": "<?php echo e(url('/practice-areas-experimental')); ?>"
 			}
 		]
 	}
 	</script>
 
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 
 <style>
 /* Experimental Practice Areas Page Styles */
@@ -162,7 +168,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset("images/PracticeArea.jpg") }}') center/cover;
+    background: url('<?php echo e(asset("images/PracticeArea.jpg")); ?>') center/cover;
     opacity: 0.3;
     z-index: 1;
 }
@@ -404,4 +410,6 @@
     </div>
 </section>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/practiceareas_experimental.blade.php ENDPATH**/ ?>
