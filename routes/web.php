@@ -46,6 +46,7 @@ Route::get('/experimental/contact', [App\Http\Controllers\HomeController::class,
 Route::get('/experimental/book-an-appointment', [App\Http\Controllers\HomeController::class, 'bookappointmentExperimental'])->name('bookappointment.experimental');
 Route::get('/experimental/navigation', [App\Http\Controllers\HomeController::class, 'experimentalNavigation'])->name('experimental.navigation');
 Route::get('/experimental/about', [App\Http\Controllers\HomeController::class, 'aboutExperimental'])->name('about.experimental');
+Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
 
 Route::get('stripe/{appointmentId}', [App\Http\Controllers\HomeController::class, 'stripe']);
 Route::post('stripe', [App\Http\Controllers\HomeController::class, 'stripePost'])->name('stripe.post1');

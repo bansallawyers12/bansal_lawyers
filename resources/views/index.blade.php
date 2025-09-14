@@ -436,47 +436,6 @@
     </div>
 </section>
 
-<!-- Experimental About Section -->
-<section class="experimental-about">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-4">
-                <div class="experimental-about-content">
-                    <span style="color: #1B4D89; font-weight: 600; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">About Our Director</span>
-                    <h2 style="color: #1B4D89; font-size: 2.5rem; font-weight: 700; margin: 1rem 0;">Meet Ajay Bansal – Leading Immigration Lawyer in Melbourne</h2>
-                    <p style="color: #666; line-height: 1.6; margin-bottom: 2rem;">
-                        Meet our Director AJAY BANSAL of Bansal Lawyers your trusted legal expert in Melbourne, Australia. With years of professional experience in legal field in Australia, Ajay Bansal is committed to provide legal services to individuals, family, & business across Australia. He knows to get results in all legal issues in Australia like Immigration Law, Family Law, Property disputes, and many more legal services etc. Ajay is known for providing best solution in legal issues in Australia, he always focused to provide clients clear and satisfied legal advice makes him one of the top lawyers in Melbourne. He had a knowledge of Australian Law which helps him to make positive commitment with client for providing best results and solution outcome.
-                    </p>
-                    <p style="color: #666; line-height: 1.6; margin-bottom: 2rem;">
-                        At Bansal Lawyers, our mission is to offer best legal services in Melbourne and across Australia that help to protect rights of our client. Our vision is clear that we are the leading law firm in Melbourne Australia with a team of top-rated lawyers in our team to provide best legal solution to the client to protect their rights in Australia. We work with the highest standards of integrity, excellence, and commitment to your rights and the pursuit of justice, prioritizing your needs and goals at every step with modern solutions and creative legal strategies.
-                    </p>
-                    <div class="mt-4">
-                        <h3 style="color: #1B4D89; font-weight: 600;">Your Trusted Legal Partner</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="text-center">
-                    <div class="position-relative" style="display: inline-block;">
-                        <img src="{{ asset('images/bansal_2.jpg') }}" alt="Ajay Bansal - CEO of Bansal Lawyers" class="img-fluid rounded" style="box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 20px !important;">
-                        <div class="video-play-button" onclick="openVideoModal()" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: rgba(27, 77, 137, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onmouseover="this.style.background='rgba(27, 77, 137, 1)'; this.style.transform='translate(-50%, -50%) scale(1.1)'" onmouseout="this.style.background='rgba(27, 77, 137, 0.9)'; this.style.transform='translate(-50%, -50%) scale(1)'">
-                            <i class="ion-ios-play" style="color: white; font-size: 2rem; margin-left: 4px;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Video Modal -->
-<div id="videoModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8);">
-    <div class="modal-content" style="position: relative; margin: 5% auto; width: 90%; max-width: 800px; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
-        <span class="close" onclick="closeVideoModal()" style="position: absolute; top: -40px; right: 0; color: white; font-size: 28px; font-weight: bold; cursor: pointer; z-index: 1001; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">&times;</span>
-        <iframe id="videoIframe" style="width: 100%; height: 450px; border: none;" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-        </iframe>
-    </div>
-</div>
 
 <!-- Experimental Testimonials Section -->
 <section class="experimental-testimonial">

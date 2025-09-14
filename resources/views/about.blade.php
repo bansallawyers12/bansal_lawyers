@@ -12,6 +12,8 @@
 <meta name="keywords" content="Ajay Bansal, Director, Bansal Lawyers, Melbourne lawyer, Immigration lawyer, Family lawyer, Property lawyer, Commercial lawyer, Criminal lawyer, Legal expert Australia" />
 <meta name="author" content="Ajay Bansal" />
 <meta name="robots" content="index, follow" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="language" content="en-AU" />
 
 <link rel="canonical" href="<?php echo URL::to('/'); ?>/about" />
 
@@ -671,8 +673,18 @@
 }
 </style>
 
+<!-- Breadcrumb Navigation -->
+<nav aria-label="breadcrumb" style="background: #f8f9fa; padding: 15px 0;">
+    <div class="container">
+        <ol class="breadcrumb" style="margin: 0; background: none; padding: 0;">
+            <li class="breadcrumb-item"><a href="/" style="color: #1B4D89; text-decoration: none;">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" style="color: #666;">About Us</li>
+        </ol>
+    </div>
+</nav>
+
 <!-- Modern Hero Section -->
-<section class="modern-hero">
+<section class="modern-hero" itemscope itemtype="https://schema.org/Person">
     <div class="floating-elements">
         <div class="floating-element"></div>
         <div class="floating-element"></div>
@@ -680,8 +692,8 @@
     </div>
     <div class="container">
         <div class="modern-hero-content" data-aos="fade-up" data-aos-duration="1000">
-            <h1>Meet Ajay Bansal</h1>
-            <p class="subtitle">Director of Bansal Lawyers - Your trusted legal expert in Melbourne, Australia. Committed to providing exceptional legal services with clear, satisfied legal advice.</p>
+            <h1 itemprop="name">Meet Ajay Bansal</h1>
+            <p class="subtitle" itemprop="description">Director of Bansal Lawyers - Your trusted legal expert in Melbourne, Australia. Committed to providing exceptional legal services with clear, satisfied legal advice.</p>
             <div class="modern-cta-buttons">
                 <a href="#about-content" class="modern-cta-primary">
                     <i class="fa fa-user"></i>
@@ -705,12 +717,25 @@
                 <div class="about-image-container" data-aos="fade-right" data-aos-duration="1000" itemscope itemtype="https://schema.org/Person">
                     <img src="{{ asset('images/ajay-bansal2.jpg') }}" alt="Ajay Bansal - Director of Bansal Lawyers" class="director-portrait" itemprop="image">
                 </div>
-                <div class="about-text-content" data-aos="fade-left" data-aos-duration="1000" itemscope itemtype="https://schema.org/Person">
+                <article class="about-text-content" data-aos="fade-left" data-aos-duration="1000" itemscope itemtype="https://schema.org/Person">
                     <div class="subheading">Meet Our Director</div>
-                    <h3 itemprop="name">MEET AJAY BANSAL – DIRECTOR OF BANSAL LAWYERS</h3>
+                    <h2 itemprop="name">MEET AJAY BANSAL – DIRECTOR OF BANSAL LAWYERS</h2>
                     <p itemprop="description">Meet our Director <span itemprop="name">AJAY BANSAL</span> of Bansal Lawyers your trusted legal expert in Melbourne, Australia. With years of professional experience in legal field in Australia, <span itemprop="name">Ajay Bansal</span> is committed to provide legal services to individuals, family, & business across Australia. He knows to get results in all legal issues in Australia like Immigration Law, Family Law, Property disputes, and many more legal services etc.</p>
                     <p><span itemprop="jobTitle">Director</span> Ajay is known for providing best solution in legal issues in Australia, he always focused to provide clients clear and satisfied legal advice makes him one of the top lawyers in Melbourne. He had a knowledge of Australian Law which helps him to make positive commitment with client for providing best results and solution outcome.</p>
-                </div>
+                    
+                    <!-- Practice Areas -->
+                    <div class="practice-areas" style="margin-top: 2rem;">
+                        <h3 style="color: #1B4D89; font-size: 1.5rem; margin-bottom: 1rem;">Legal Practice Areas</h3>
+                        <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem;">
+                            <li style="color: #666; padding: 0.5rem 0;"><i class="fa fa-check" style="color: #1B4D89; margin-right: 0.5rem;"></i> <a href="/practice-areas" style="color: #1B4D89; text-decoration: none;">Immigration Law</a></li>
+                            <li style="color: #666; padding: 0.5rem 0;"><i class="fa fa-check" style="color: #1B4D89; margin-right: 0.5rem;"></i> <a href="/practice-areas" style="color: #1B4D89; text-decoration: none;">Family Law</a></li>
+                            <li style="color: #666; padding: 0.5rem 0;"><i class="fa fa-check" style="color: #1B4D89; margin-right: 0.5rem;"></i> <a href="/practice-areas" style="color: #1B4D89; text-decoration: none;">Property Law</a></li>
+                            <li style="color: #666; padding: 0.5rem 0;"><i class="fa fa-check" style="color: #1B4D89; margin-right: 0.5rem;"></i> <a href="/practice-areas" style="color: #1B4D89; text-decoration: none;">Commercial Law</a></li>
+                            <li style="color: #666; padding: 0.5rem 0;"><i class="fa fa-check" style="color: #1B4D89; margin-right: 0.5rem;"></i> <a href="/practice-areas" style="color: #1B4D89; text-decoration: none;">Criminal Law</a></li>
+                            <li style="color: #666; padding: 0.5rem 0;"><i class="fa fa-check" style="color: #1B4D89; margin-right: 0.5rem;"></i> <a href="/practice-areas" style="color: #1B4D89; text-decoration: none;">Business Law</a></li>
+                        </ul>
+                    </div>
+                </article>
             </div>
         </div>
 
@@ -768,7 +793,45 @@
     </div>
 </section>
 
-
+<!-- FAQ Section with Schema Markup -->
+<section class="faq-section" style="background: var(--bg-light); padding: 80px 0;">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up" data-aos-duration="1000">
+            <h2 style="color: var(--text-dark); font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem;">Frequently Asked Questions</h2>
+            <p style="color: var(--text-light); font-size: 1.1rem;">Common questions about Ajay Bansal and Bansal Lawyers</p>
+        </div>
+        
+        <div class="faq-container" style="max-width: 800px; margin: 0 auto;" itemscope itemtype="https://schema.org/FAQPage">
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="100" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem;" itemprop="name">Who is Ajay Bansal?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p style="color: var(--text-light); line-height: 1.6;" itemprop="text">Ajay Bansal is the Director of Bansal Lawyers, a trusted legal expert in Melbourne, Australia. With years of professional experience in the legal field, he specializes in Immigration Law, Family Law, Property disputes, and various other legal services across Australia.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="200" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem;" itemprop="name">What legal services does Bansal Lawyers provide?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p style="color: var(--text-light); line-height: 1.6;" itemprop="text">Bansal Lawyers provides comprehensive legal services including Immigration Law, Family Law, Property Law, Commercial Law, Criminal Law, and Business Law. We serve individuals, families, and businesses across Australia with expert legal guidance and representation.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="300" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem;" itemprop="name">Why choose Bansal Lawyers for legal services?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p style="color: var(--text-light); line-height: 1.6;" itemprop="text">Bansal Lawyers is committed to providing the best legal solutions with clear, satisfied legal advice. Our team upholds the highest standards of integrity, excellence, and commitment to your rights, making us one of the top law firms in Melbourne, Australia.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="400" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 1rem;" itemprop="name">How can I schedule a consultation?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p style="color: var(--text-light); line-height: 1.6;" itemprop="text">You can schedule a consultation by calling us directly, visiting our office at Level 8/278 Collins Street, Melbourne, or by <a href="/book-an-appointment" style="color: var(--primary-color); text-decoration: none;">booking an appointment online</a>. We're here to help with all your legal needs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <script>
 // Initialize AOS (Animate On Scroll)

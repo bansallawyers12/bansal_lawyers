@@ -376,6 +376,11 @@ class HomeController extends Controller
         return view('about_experimental');
     }
 
+    public function about()
+    {
+        return view('about');
+    }
+
     public function getdatetime(Request $request)
     {
         try {
