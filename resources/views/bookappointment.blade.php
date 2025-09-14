@@ -35,1493 +35,3629 @@
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 @endsection
+
 @section('content')
+
 <style>
-.timeslots .timeslot_col.active{background-color: #007bff;margin: 0px 10px 8px 0px;}
-#preloaderbook {
-	display:none;
-    background: #0d104d;
-    background: -webkit-linear-gradient(to right, #0d104d, #28408b);
-    background: linear-gradient(to right, #0d104d, #28408b);F
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 5000;
+
+/* Hero Section Styles */
+.hero-appointment-section {
+    background: linear-gradient(135deg, #0a1a2e 0%, #16213e 50%, #1B4D89 100%);
+    color: white;
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
 }
-#preloaderbook .circle-preloader {
-    display: block;
-    width: 60px;
-    height: 60px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    border-bottom-color: #ffffff;
-    border-radius: 50%;
+
+.hero-appointment-section::before {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    margin: auto;
-    animation: spin 2s infinite linear;
+    background: url('{{ asset('images/coart_1.jpg') }}') center/cover;
+    opacity: 0.1;
+    z-index: 1;
 }
 
-
-b, strong {
-    font-weight: bold !important;
-}
-.appointment_page ol li {
-    line-height: 30px !important;
-    padding-left: 20px !important;
-    margin-left: 10px !important;
+.hero-content {
+    position: relative;
+    z-index: 2;
 }
 
-/* Mobile responsive fixes for numbered list */
+.hero-text {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-badge i {
+    color: #ffaf02;
+    font-size: 1rem;
+}
+
+.hero-text h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    color: #ffffff;
+}
+
+.hero-text h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #f8f9fa;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    color: #e9ecef;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+.hero-pricing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.hero-pricing .price-amount {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #ffaf02;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-pricing .price-note {
+    font-size: 1rem;
+    color: #e9ecef;
+    font-weight: 500;
+}
+
+.hero-features {
+    margin-bottom: 50px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #ffaf02, #ff8c00);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.feature-card:hover::before {
+    transform: scaleX(1);
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #ffaf02, #ff8c00);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(255, 175, 2, 0.4);
+}
+
+.feature-icon i {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.feature-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #ffffff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.feature-card p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #e9ecef;
+    margin: 0;
+}
+
+.trust-badges {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.trust-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 25px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    min-width: 120px;
+}
+
+.trust-badge:hover {
+    background: rgba(255, 175, 2, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 175, 2, 0.3);
+}
+
+.trust-badge i {
+    font-size: 1.8rem;
+    color: #ffaf02;
+    transition: color 0.3s ease;
+}
+
+.trust-badge:hover i {
+    color: #ffffff;
+}
+
+.trust-badge span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.hero-contact {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(27, 77, 137, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-contact::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+}
+
+.contact-content h3 {
+    color: #1B4D89;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.contact-content h3 i {
+    color: #ffaf02;
+    font-size: 1.4rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.contact-content p {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    margin: 0;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.contact-content strong {
+    color: #1B4D89;
+    font-weight: 800;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Mobile Responsive */
 @media (max-width: 768px) {
-    .appointment_page ol {
-        padding-left: 25px !important;
-        margin-left: 0 !important;
+    .hero-text h1 {
+        font-size: 2.5rem;
     }
     
-    .appointment_page ol li {
-        padding-left: 15px !important;
-        margin-left: 0 !important;
-        margin-bottom: 10px !important;
-        line-height: 1.4 !important;
+    .hero-text h2 {
+        font-size: 1.5rem;
     }
     
-    .appointment_page ol li span {
-        display: block !important;
-        margin-top: 5px !important;
+    .hero-description {
+        font-size: 1rem;
+    }
+    
+    .hero-pricing .price-amount {
+        font-size: 2rem;
+    }
+    
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .trust-badges {
+        gap: 15px;
+    }
+    
+    .trust-badge {
+        min-width: 100px;
+        padding: 12px 20px;
+    }
+    
+    .hero-contact {
+        padding: 25px 20px;
+    }
+    
+    .contact-content h3 {
+        font-size: 1.4rem;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .contact-content p {
+        font-size: 1.1rem;
     }
 }
 
-.appointment_page p {
-    line-height: 25px !important;
+.experimental-appointment-section {
+    padding: 50px 0;
+    background: #f8f9fa;
 }
 
-.services_item_title_span {
-    font-size: 18px;
-    line-height: 21px;
-    /*color: #828F9A;*/
-    color:#000;
-    display: inline-block;
-    padding-left: 10px;
+.experimental-info-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+    border: 2px solid #f0f0f0;
+    position: relative;
+    overflow: hidden;
 }
 
-.services_item_duration {
-    font-size: 14px;
-    line-height: 18px;
-    color: #828F9A;
-    display: inline-block;
-}
-.services_item_price {
-    float: right;
-    display: inline-block;
-    font-size: 24px;
-    line-height: 30px;
-    color: #000;
-    margin-top: -6px;
-    margin-left: 10px;
+.experimental-info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
 }
 
-.services_item_description {
-    font-size: 14px;
-   /* line-height: 18px;*/
-    color: #828F9A;
-    display: inline-block;
-    margin-bottom: 10px;
-    margin-left: 25px;
-    margin-top: 5px;
+.info-header {
+    text-align: center;
+    margin-bottom: 40px;
 }
-.heading_title {
-    font-size: 18px;
-    line-height: 21px;
-    color: #000;
+
+.experimental-info-card h2 {
+    color: #1B4D89;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.experimental-info-card h2 i {
+    color: #ffaf02;
+    font-size: 2rem;
+}
+
+.info-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.info-section h3 {
+    color: #1B4D89;
+    font-size: 1.4rem;
     font-weight: 600;
-}
-.form-group label {
-    font-size: 15px;
-    line-height: 21px;
-    color: #000;
-    font-weight: 600;
-    margin: 0px 0px 6px;
-}
-.tab_header h4 {
-    font-size: 18px;
-    line-height: 21px;
-    color: #000;
-    font-weight: 600;
-    margin: 0px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
+.info-section h3 i {
+    color: #ffaf02;
+    font-size: 1.2rem;
+}
 
-#loading, #loading_popup{
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
-    position: fixed;
-    display: none;
-    opacity: 0.7;
-    background-color: #fff;
-    z-index: 99;
+.trust-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.trust-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.trust-item:hover {
+    background: #1B4D89;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(27, 77, 137, 0.3);
+}
+
+.trust-item i {
+    font-size: 1.5rem;
+    color: #1B4D89;
+    transition: color 0.3s ease;
+}
+
+.trust-item:hover i {
+    color: #ffaf02;
+}
+
+.trust-item span {
+    font-size: 0.9rem;
+    font-weight: 600;
     text-align: center;
 }
 
-#loading-image {
+.experimental-info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.experimental-info-list li {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 15px;
+    border-left: 4px solid #1B4D89;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.experimental-info-list li:hover {
+    transform: translateX(8px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.experimental-info-list li strong {
+    color: #1B4D89;
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.experimental-info-list li span {
+    color: #666;
+    line-height: 1.5;
+    display: block;
+    font-size: 0.95rem;
+}
+
+.experimental-contact-info {
+    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.experimental-contact-info h4 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.experimental-contact-info p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.experimental-form-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.experimental-form-tabs {
+    border-bottom: 2px solid #e9ecef;
+    margin-bottom: 25px;
+}
+
+.experimental-tab-nav {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.experimental-tab-nav li {
+    margin: 0;
+}
+
+.experimental-tab-nav a {
+    display: block;
+    padding: 12px 20px;
+    background: #f8f9fa;
+    color: #666;
+    text-decoration: none;
+    border-radius: 8px 8px 0 0;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    font-size: 0.9rem;
+}
+
+.experimental-tab-nav a.active {
+    background: #1B4D89;
+    color: white;
+    border-color: #1B4D89;
+}
+
+.experimental-tab-nav a.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.experimental-tab-content {
+    display: none;
+}
+
+.experimental-tab-content.active {
+    display: block;
+}
+
+.experimental-form-group {
+    margin-bottom: 20px;
+}
+
+.experimental-form-group label {
+    color: #1B4D89;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    font-size: 1rem;
+}
+
+.experimental-form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: #f8f9fa;
+}
+
+.experimental-form-control:focus {
+    outline: none;
+    border-color: #1B4D89;
+    box-shadow: 0 0 0 2px rgba(27, 77, 137, 0.1);
+    background: white;
+}
+
+.experimental-form-control::placeholder {
+    color: #999;
+}
+
+.experimental-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.experimental-btn {
+    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(27, 77, 137, 0.3);
+}
+
+.experimental-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(27, 77, 137, 0.4);
+}
+
+.experimental-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.experimental-btn.btn-back {
+    background: #f8f9fa;
+    color: #1B4D89;
+    border: 2px solid #1B4D89;
+    margin-right: 12px;
+}
+
+.experimental-btn.btn-back:hover {
+    background: #1B4D89;
+    color: white;
+}
+
+/* Consultation Header */
+.consultation-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    border: 2px solid #e9ecef;
+}
+
+.consultation-header h3 {
+    color: #1B4D89;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.consultation-header h3 i {
+    color: #ffaf02;
+    font-size: 1.3rem;
+}
+
+.consultation-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.consultation-price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.price-label {
+    font-size: 1rem;
+    color: #666;
+}
+
+.price-amount {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1B4D89;
+}
+
+.price-note {
+    font-size: 0.9rem;
+    color: #28a745;
+    font-weight: 600;
+}
+
+/* Consultation Options */
+.consultation-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.experimental-service-item {
+    background: white;
+    border: 3px solid #e9ecef;
+    border-radius: 15px;
+    padding: 18px;
+    margin-bottom: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.experimental-service-item::before {
+    content: '';
     position: absolute;
-    top: 100px;
-    left: 600px;
-    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
 }
 
-#loading-image_popup {
+.experimental-service-item:hover {
+    border-color: #1B4D89;
+    box-shadow: 0 8px 25px rgba(27, 77, 137, 0.15);
+    transform: translateY(-3px);
+}
+
+.experimental-service-item:hover::before {
+    transform: scaleX(1);
+}
+
+.experimental-service-item.selected {
+    border-color: #1B4D89;
+    background: linear-gradient(135deg, rgba(27, 77, 137, 0.05), rgba(44, 90, 160, 0.05));
+    box-shadow: 0 8px 25px rgba(27, 77, 137, 0.2);
+}
+
+.experimental-service-item.selected::before {
+    transform: scaleX(1);
+}
+
+.experimental-service-item input[type="radio"] {
     position: absolute;
-    top: 100px;
-    left: 100px;
-    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
 }
 
-
-.row.no-gutters {
-    margin-right: 0;
-    margin-left: 0;
+.service-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
 }
 
-.row.no-gutters > [class*='col-'] {
-    padding-right: 0;
-    padding-left: 0;
+.service-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
 }
 
-.card-expiry-month {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: none;
-    text-align: right; /* Center the placeholder */
-    padding-right: 0; /* Reduce padding */
+.experimental-service-item:hover .service-icon {
+    background: linear-gradient(135deg, #ffaf02, #ff8c00);
+    transform: scale(1.1);
 }
 
-.card-expiry-year {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-left: none;
-    text-align: left; /* Center the placeholder */
-    padding-left: 0; /* Reduce padding */
+.service-icon i {
+    font-size: 1.3rem;
+    color: white;
 }
 
-.hide {
+.service-title-section {
+    flex: 1;
+}
+
+.experimental-service-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1B4D89;
+    margin-bottom: 5px;
+}
+
+.service-badge {
+    display: inline-block;
+    background: #ffaf02;
+    color: #1B4D89;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.experimental-service-price {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1B4D89;
+    text-align: right;
+}
+
+.experimental-service-description {
+    color: #666;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.service-benefits {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: #28a745;
+    font-weight: 500;
+}
+
+.benefit-item i {
+    font-size: 0.8rem;
+}
+
+/* Consultation CTA */
+.consultation-cta {
+    text-align: center;
+    margin-top: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    border: 2px solid #e9ecef;
+}
+
+.urgency-notice {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    animation: pulse-urgency 2s infinite;
+}
+
+.urgency-notice i {
+    font-size: 1.1rem;
+}
+
+@keyframes pulse-urgency {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.consultation-cta-btn {
+    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+    color: white;
+    padding: 18px 40px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(27, 77, 137, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+
+.consultation-cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(27, 77, 137, 0.6);
+    background: linear-gradient(135deg, #2c5aa0, #1B4D89);
+}
+
+.consultation-cta-btn i {
+    font-size: 1.1rem;
+}
+
+.cta-guarantee {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #28a745;
+    font-weight: 600;
+    margin: 0;
+}
+
+.cta-guarantee i {
+    font-size: 1rem;
+}
+
+/* Final CTA Section */
+.final-cta-section {
+    text-align: center;
+    margin-top: 40px;
+    padding: 40px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 20px;
+    border: 2px solid #e9ecef;
+}
+
+.final-motivation {
+    margin-bottom: 30px;
+}
+
+.final-motivation h4 {
+    color: #1B4D89;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.final-motivation h4 i {
+    color: #ffaf02;
+    font-size: 1.4rem;
+}
+
+.final-motivation p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.final-cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.final-submit-btn {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 18px 40px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 250px;
+    justify-content: center;
+}
+
+.final-submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(40, 167, 69, 0.6);
+    background: linear-gradient(135deg, #20c997, #28a745);
+}
+
+.final-submit-btn i {
+    font-size: 1.3rem;
+}
+
+.btn-text {
+    font-size: 1.1rem;
+}
+
+.btn-price {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 600;
+}
+
+.final-guarantees {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.guarantee-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 20px;
+    background: white;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    min-width: 120px;
+}
+
+.guarantee-item:hover {
+    border-color: #28a745;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(40, 167, 69, 0.2);
+}
+
+.guarantee-item i {
+    font-size: 1.5rem;
+    color: #28a745;
+}
+
+.guarantee-item span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+}
+
+.processing-message {
+    background: #1B4D89;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    text-align: center;
+    margin-top: 10px;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Legal matter selection feedback */
+.enquiry_item.selected {
+    border-color: #1B4D89 !important;
+    box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.2) !important;
+    background: rgba(27, 77, 137, 0.05) !important;
+}
+
+/* Validation error message */
+.validation-error-message {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+    font-weight: 500;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Error field styling */
+.experimental-form-control.error {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+    background-color: #fff5f5 !important;
+}
+
+.error-message.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #dc3545;
+    font-weight: 500;
+}
+
+.validation-error-message ul {
+    text-align: left;
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.validation-error-message li {
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.experimental-calendar-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+}
+
+.experimental-timezone-info {
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+}
+
+.experimental-calendar-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.experimental-calendar {
+    flex: 1;
+    min-width: 280px;
+}
+
+.experimental-timeslots {
+    flex: 1;
+    min-width: 280px;
+}
+
+.experimental-timeslot {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin: 8px 8px 8px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    min-width: 100px;
+    font-size: 0.9rem;
+}
+
+.experimental-timeslot:hover {
+    border-color: #1B4D89;
+    background: rgba(27, 77, 137, 0.05);
+}
+
+.experimental-timeslot.active {
+    background: #1B4D89;
+    color: white;
+    border-color: #1B4D89;
+}
+
+.experimental-timeslot.unavailable {
+    background: #f8f9fa;
+    color: #999;
+    border-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.experimental-timeslot.unavailable:hover {
+    background: #f8f9fa;
+    color: #999;
+    border-color: #e9ecef;
+    transform: none;
+}
+
+/* Modern Booking Section */
+.modern-booking-section {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 2px solid #f0f0f0;
+}
+
+.booking-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.booking-header h3 {
+    color: #1B4D89;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.booking-header h3 i {
+    color: #ffaf02;
+    font-size: 1.5rem;
+}
+
+.booking-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.timezone-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.timezone-info i {
+    font-size: 1rem;
+}
+
+/* Date Navigation */
+.date-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    border: 2px solid #e9ecef;
+}
+
+.nav-btn {
+    background: #1B4D89;
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.nav-btn:hover {
+    background: #2c5aa0;
+    transform: scale(1.1);
+}
+
+.nav-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.current-week {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.week-range {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1B4D89;
+    margin-bottom: 10px;
+}
+
+.week-dates {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.week-date {
+    text-align: center;
+    padding: 15px 20px;
+    background: white;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 80px;
+}
+
+.week-date:hover {
+    border-color: #1B4D89;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(27, 77, 137, 0.2);
+}
+
+.week-date.selected {
+    background: #1B4D89;
+    color: white;
+    border-color: #1B4D89;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(27, 77, 137, 0.3);
+}
+
+.week-date.disabled {
+    background: #f8f9fa;
+    color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.week-date.disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.day-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    opacity: 0.8;
+}
+
+.day-number {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Time Slots Container */
+.time-slots-container {
+    margin-top: 30px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 25px;
+    border: 2px solid #e9ecef;
+}
+
+.time-slots-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.time-slots-header h4 {
+    color: #1B4D89;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.time-instructions {
+    color: #666;
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+.time-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.time-slot {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1B4D89;
+}
+
+.time-slot:hover {
+    border-color: #1B4D89;
+    background: rgba(27, 77, 137, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(27, 77, 137, 0.2);
+}
+
+.time-slot.selected {
+    background: #1B4D89;
+    color: white;
+    border-color: #1B4D89;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(27, 77, 137, 0.3);
+}
+
+.time-slot.unavailable {
+    background: #f8f9fa;
+    color: #ccc;
+    border-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.time-slot.unavailable:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Booking Error */
+.booking-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    animation: slideDown 0.3s ease;
+}
+
+.booking-error i {
+    font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .modern-booking-section {
+        padding: 20px;
+    }
+    
+    .booking-header h3 {
+        font-size: 1.6rem;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .date-navigation {
+        flex-direction: column;
+        gap: 20px;
+        padding: 15px;
+    }
+    
+    .current-week {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .week-date {
+        min-width: 70px;
+        padding: 12px 15px;
+    }
+    
+    .time-slots-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 8px;
+    }
+    
+    .time-slot {
+        padding: 12px 8px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Selection Summary Styles */
+.experimental-selection-summary {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px solid #1B4D89;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.experimental-selection-summary h4 {
+    color: #1B4D89;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.summary-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.summary-item {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #1B4D89;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.summary-item strong {
+    color: #1B4D89;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.summary-item span {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* Coupon Code Section */
+.experimental-coupon-section {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.experimental-coupon-section h4 {
+    color: #1B4D89;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.coupon-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.coupon-code {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.btn-apply-coupon {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.btn-apply-coupon:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+.coupon-message {
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.coupon-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.coupon-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Payment Summary */
+.experimental-payment-summary {
+    background: white;
+    border: 2px solid #1B4D89;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.payment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.payment-item:last-child {
+    border-bottom: none;
+}
+
+.total-item {
+    background: #f8f9fa;
+    margin: 10px -20px -20px -20px;
+    padding: 15px 20px;
+    border-radius: 0 0 8px 8px;
+    border-top: 2px solid #1B4D89;
+}
+
+.discount-item {
+    color: #28a745;
+}
+
+.final-amount {
+    font-weight: 700;
+}
+
+/* Hide original navigation buttons - use floating ones instead */
+.experimental-tab-content .text-center {
     display: none !important;
 }
 
-/* Media Query for Mobile Devices */
-@media (max-width: 480px) {
-    .datePickerCls {height: 230px;width:200px;}
-    .timeslotDivCls { width:65%;margin-top: 25px;}
-    .confirmTblCls {width: 320px !important;}
-    #loading-image,#loading-image_popup {position: absolute;top:0;left: 45px;z-index: 100;}
+/* Floating Navigation Buttons */
+.floating-nav {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    gap: 15px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
 }
 
-/* Media Query for low resolution  Tablets, Ipads */
-@media (min-width: 481px) and (max-width: 767px) {
-    .datePickerCls {height: 230px;width:200px;}
-    .timeslotDivCls { width:65%;margin-top: 25px;}
-    .confirmTblCls {width: 481px !important;}
+.floating-nav.show {
+    opacity: 1;
+    visibility: visible;
 }
 
-/* Media Query for Tablets Ipads portrait mode */
-@media (min-width: 768px) and (max-width: 1024px){
-    .datePickerCls {height: 230px;width:200px;}
-    .timeslotDivCls { width:65%;margin-top: 25px;}
-    .confirmTblCls {width: 458px !important;}
+.floating-btn {
+    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(27, 77, 137, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 140px;
+    justify-content: center;
 }
 
- /* Media Query for Laptops and Desktops */
- @media (min-width: 1025px) and (max-width: 1280px){
-    .datePickerCls {height: 210px;margin-left: 15px;}
-    .timeslotDivCls { width:65%;margin-left: 265px;margin-top: -212px;}
-    .confirmTblCls {width: 802px !important;}
+.floating-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(27, 77, 137, 0.4);
 }
 
-/* Media Query for Large screens */
-@media (min-width: 1281px) {
-    .datePickerCls {height: 210px;margin-left: 15px;}
-    /* .timeslotDivCls { width:65%;margin-left: 265px;margin-top: -212px;}*/
-    .timeslotDivCls { width:55%;margin-left: 300px;margin-top: -212px;}
-    .confirmTblCls {width: 802px !important;}
+.floating-btn.btn-back {
+    background: #6c757d;
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
 }
 
+.floating-btn.btn-back:hover {
+    background: #5a6268;
+    box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+}
+
+.floating-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 768px) {
+    .floating-nav {
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        transform: none;
+        flex-direction: column;
+    }
+    
+    .floating-btn {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .summary-items {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .modern-calendar-wrapper {
+        padding: 15px;
+    }
+    
+    .timeslot-header {
+        padding: 12px;
+    }
+}
+
+.experimental-confirmation-table {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.experimental-confirmation-table table {
+    width: 100%;
+    margin: 0;
+}
+
+.experimental-confirmation-table th {
+    background: #1B4D89;
+    color: white;
+    padding: 15px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.experimental-confirmation-table td {
+    padding: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.experimental-alert {
+    background: #d4edda;
+    color: #155724;
+    padding: 12px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #c3e6cb;
+    font-size: 0.9rem;
+}
+
+.experimental-loading {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.experimental-loading.show {
+    display: flex;
+}
+
+.experimental-loading-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.experimental-loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #eef3f6;
+    border-top: 4px solid #ffaf02;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    
+    .experimental-appointment-section {
+        padding: 30px 0;
+    }
+    
+    .experimental-info-card,
+    .experimental-form-section {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+    }
+    
+    .experimental-info-card h2 {
+        font-size: 1.8rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .trust-indicators {
+        gap: 15px;
+    }
+    
+    .trust-item {
+        padding: 12px 15px;
+    }
+    
+    .experimental-info-list li {
+        padding: 15px;
+        margin-bottom: 12px;
+    }
+    
+    .consultation-header {
+        padding: 20px;
+    }
+    
+    .consultation-header h3 {
+        font-size: 1.5rem;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .consultation-price {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .price-amount {
+        font-size: 1.8rem;
+    }
+    
+    .service-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .service-title-section {
+        order: 2;
+    }
+    
+    .experimental-service-price {
+        order: 3;
+        text-align: center;
+    }
+    
+    .service-benefits {
+        justify-content: center;
+    }
+    
+    .consultation-cta {
+        padding: 20px;
+        margin-top: 30px;
+    }
+    
+    .urgency-notice {
+        font-size: 0.85rem;
+        padding: 10px 16px;
+        margin-bottom: 20px;
+    }
+    
+    .consultation-cta-btn {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+    
+    .cta-guarantee {
+        font-size: 0.8rem;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .final-cta-section {
+        padding: 25px;
+        margin-top: 30px;
+    }
+    
+    .final-motivation h4 {
+        font-size: 1.4rem;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .final-motivation p {
+        font-size: 1rem;
+    }
+    
+    .final-cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .final-submit-btn {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .final-guarantees {
+        gap: 15px;
+    }
+    
+    .guarantee-item {
+        padding: 12px 15px;
+        min-width: 100px;
+    }
+    
+    .guarantee-item i {
+        font-size: 1.3rem;
+    }
+    
+    .guarantee-item span {
+        font-size: 0.8rem;
+    }
+    
+    .experimental-tab-nav {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .experimental-tab-nav a {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+    }
+    
+    .experimental-calendar-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .experimental-calendar,
+    .experimental-timeslots {
+        min-width: 100%;
+    }
+    
+    .experimental-timeslot {
+        min-width: 80px;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .experimental-btn {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+        min-width: 100px;
+    }
+    
+    .experimental-service-item {
+        padding: 20px;
+        margin-bottom: 12px;
+    }
+    
+    .experimental-service-title {
+        font-size: 1.1rem;
+    }
+    
+    .experimental-service-price {
+        font-size: 1.2rem;
+    }
+    
+    .summary-items {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .experimental-selection-summary {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .modern-calendar-wrapper {
+        padding: 15px;
+    }
+    
+    .timeslot-header {
+        padding: 10px;
+    }
+    
+    .modern-timeslots {
+        max-height: 250px;
+    }
+    
+    .coupon-input-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-apply-coupon {
+        width: 100%;
+    }
+    
+    .experimental-payment-summary {
+        padding: 15px;
+    }
+    
+    .payment-item {
+        font-size: 0.9rem;
+    }
+}
 </style>
-<section class="custom_breadcrumb bg-img bg-overlay" style="background-image: url({{ asset('images/bg_2.jpg') }}); padding-top:40px">
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<div class="section-heading text-center mx-auto">
-					<div class="section-header">
-						<h3>Book An  Appointment</h3>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<section class="custom_inner_page appointment_page" section-padding-5-0="" style="background-color:#F7F7F7;">
-	<div class="container">
-		<div class="row align-items-center">
-			<div class="col-12 col-md-12">
-				<div class="cus_inner_content">
-					<h1><strong style="font-size: 25px;">Important Information Regarding Booking an Appointment:</strong></h1>
-					<ol>
-						<li><span style="font-size: 15px;">Types of Consultations: We offer In-person, Phone, Zoom / Google Meeting consultations, so you can book according to your preference. </span></li>
-						<li><span style="font-size: 15px;">Consultation Charges: The consultation fee is 150 AUD incl GST. Payment is required at the time of booking.</span></li>
-						<li><span style="font-size: 15px;">Cancellation and Rescheduling: You can cancel or reschedule your appointment up to 24 hours in advance without any charges. </span></li>
-                        <li><span style="font-size: 15px;">Provide Comprehensive Case Details: For a more effective consultation, please provide a brief overview of your case or legal concern when booking. </span></li>
-                        <li><span style="font-size: 15px;">Privacy and Confidentiality: All consultations are strictly confidential. Your privacy is our priority. </span></li>
-                        <li><span style="font-size: 15px;">Emergency Appointments: In case of urgent matters, please contact our office directly to request a priority consultation. </span></li>
-                    </ol>
-					<p><strong>Contact Us: For any issues with the booking process or questions regarding your appointment, please feel free to call us at <span style="text-decoration: underline; color: #000000;">1300 BANSAL (1300 226 725)</span> or email us</strong></p>
-                  
-                  <!--<p><strong>Please note that <span style="font-size:16px;">Ajay Bansal</span> will be unavailable for the next two weeks. We appreciate your understanding and will respond to your inquiries as soon as possible.</strong></p>-->
-                  
-				</div>
-
-				<div class="appointment_form_tabs">
-					<form class="contact_form" id="appintment_form" action="<?php echo URL::to('/'); ?>/book-an-appointment/store" method="post" enctype="multipart/form-data">
-
-                        <div class="cus_tab_form">
-							<ul class="nav nav-tabs" id="myTab" role="tablist">
-								<li class="tab_logo">
-									<a href="#">
-											<img src="{{ asset('images/logo/Bansal_Lawyers.png') }}" alt="" style="background-color: #1B4D89;"/>
-									</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link active" id="nature_of_enquiry-tab" onclick="goto('nature_of_enquiry')" data-toggle="tab" href="#nature_of_enquiry" role="tab" aria-controls="nature_of_enquiry" aria-selected="true">Nature of Enquiry</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link disabled" id="services-tab" onclick="goto('services')" data-toggle="tab" href="#services" role="tab" aria-controls="services" aria-selected="true">Services</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link disabled" id="appointment_details-tab" onclick="goto('appointment_details')" data-toggle="tab" href="#appointment_details" role="tab" aria-controls="appointment_details" aria-selected="true">Appointment Details</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link disabled" id="info-tab" data-toggle="tab" onclick="goto('info')" href="#info" role="tab" aria-controls="info" aria-selected="true">Information</a>
-								</li>
-
-								<li class="nav-item">
-									<a class="nav-link disabled" id="confirm-tab" data-toggle="tab" onclick="goto('confirm')" href="#confirm" role="tab" aria-controls="confirm" aria-selected="false">Confirmation</a>
-								</li>
-                            </ul>
 
 
-                            <div id="confirm_div" class="col-12 col-md-6 col-lg-6" style="margin-left: 15px;width: 90%;">
 
-                                <div id="loading">
-                                    <img id="loading-image" src="{{ asset('images/ajax-loader.gif') }}" alt="Loading..." />
-                                </div>
-
-                                <div class="row nature_of_enquiry_row" id="nature_of_enquiry">
-                                    <div class="form-group">
-                                        <label for="noe_id" style="margin-top: 10px;" class="heading_title">Nature of Enquiry </label>
-                                        <select data-valid="" class="form-control enquiry_item" name="noe_id">
-                                            <option value="">Select</option>
-                                            @foreach(\App\Models\NatureOfEnquiry::where('status',1)->get() as $enquiry)
-                                                <option value="{{$enquiry->id}}">{{$enquiry->title}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row services_row" id="services" style="display: none;">
-                                    <div class="form-group">
-                                        <label for="service_id" class="heading_title">Services</label>
-                                        @php
-                                            $paidService = \App\Models\BookService::where('status',1)->where('id',1)->first();
-                                        @endphp
-                                        @if($paidService)
-                                            <div class="services_item_header" id="serviceval_1">
-                                                <div class="services_item_title">
-                                                    <input type="radio" class="services_item" name="radioGroup" value="1" checked>
-                                                    <span class="services_item_title_span">{{$paidService->title}} ({{$paidService->duration_for_display}} minutes)</span>
-                                                    <span class="services_item_price">{{$paidService->price}}</span>
-                                                </div>
-                                            </div>
-                                        @endif
-                                        <input type="hidden" id="service_id" name="service_id" value="1">
-                                    </div>
-                                </div>
-
-                                <div class="row appointment_row" id="appointment_details" style="display: none;">
-                                    <div class="form-group">
-                                        <label for="appointment_details" class="heading_title">Appointment details</label>
-                                        <select data-valid="" class="form-control appointment_item" name="appointment_details">
-                                            <option value="">Select</option>
-                                            <option value="In-person">In-person</option>
-                                            <option value="Phone"> Phone</option>
-                                            <option value="Zoom / Google Meeting">Zoom / Google Meeting</option>
-                                        </select>
-                                     </div>
-                                </div>
-
-                                <div class="row info_row" id="info" style="display: none;">
-                                    <div class="tab_header">
-										<!--<h4 style="margin: 15px 0px 15px;">Fill Information</h4>-->
-									</div>
-									<form id="fromtopupvalues">
-                                        <div class="tab_body">
-                                            <input type="hidden" class="form-control" name="noe_id" value="" />
-                                            <input type="hidden" class="form-control" name="date" value="" />
-                                            <input type="hidden" class="form-control" name="time" value="" />
-                                            <input type="hidden" class="form-control" name="appointment_details" value="" />
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="fullname">Full Name</label>
-                                                        <input type="text" class="form-control fullname infoFormFields" placeholder="Enter Name" name="fullname" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="email">Email</label>
-                                                        <input id="email" type="email" class="form-control email infoFormFields" placeholder="Enter Email" name="email" />
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="phone">Phone</label>
-                                                        <input id="phone" type="text" class="form-control phone infoFormFields" placeholder="Enter Phone" name="phone" />
-                                                    </div>
-                                                </div>
-                                                <!--<div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="title">Reference if any</label>
-                                                        <input type="text" class="form-control title" placeholder="Enter Reference" name="title" />
-                                                    </div>
-                                                </div>-->
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="description">Details Of Enquiry </label>
-                                                        <textarea class="form-control description infoFormFields" placeholder="Enter Details Of Enquiry" name="description"></textarea>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="description">Date & Time</label>
-                                                        <div class="alert alert-info" style="padding: 8px 12px; margin-bottom: 10px; font-size: 12px; border-radius: 4px;">
-                                                            <i class="fa fa-clock-o"></i> <strong>Timezone:</strong> All times are displayed in Melbourne, Australia time (AEST/AEDT)
-                                                        </div>
-
-                                                        <div style="width:150%;height:205px;">
-                                                            <div style="width:30%">
-                                                                <div id='datetimepicker' class="datePickerCls infoFormFields"></div>
-                                                            </div>
-                                                            <div class="timeslotDivCls">
-                                                                <div class="showselecteddate infoFormFields" style="font-size: 14px;text-align: center; padding: 5px 0 3px;border-bottom: 1px solid #E3EAF3;color: #0d0d0f !important;font-weight: bold;"></div>
-                                                                <div class="timeslots infoFormFields" style="overflow:scroll !important;height:185px;"></div>
-                                                            </div>
-                                                        </div>
-                                                        <input type="hidden"  id="timeslot_col_date"  value=""  >
-                                                        <input type="hidden"  id="timeslot_col_time"  value=""  >
-                                                        <span class="timeslot_col_date_time" role="alert" style="display: none;color:#f00;">Date and Time is required.</span>
-                                                    </div>
-                                                </div>
-                                                <!-- Coupon code input (only for Paid service) -->
-                                                <div class="col-md-6 coupon-wrapper" style="display:none;">
-                                                    <div class="form-group">
-                                                        <label for="promo_code">Coupon code</label>
-                                                        <div class="input-group">
-                                                            <input type="text" id="promo_code" class="form-control" placeholder="Enter coupon">
-                                                            <div class="input-group-append">
-                                                                <button type="button" class="btn btn-secondary" id="apply_coupon_btn">Apply</button>
-                                                            </div>
-                                                        </div>
-                                                        <small id="coupon_msg" style="display:none;"></small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-btn text-center">
-                                                        <input type="button" class="btn btn-primary  nextbtn" style="margin-bottom:12px;margin-top:12px;" data-steps="confirm" name="submit" value="Confirm" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-									</form>
-                                </div>
-
-
-                                <div class="row confirm_row" id="confirm" style="display: none;">
-                                    <div class="tab_header">
-										<h5 style="margin: 15px 0px 15px;">Confirm Details</h5>
-									</div>
-									<div class="tab_body">
-                                        <div class="row">
-											<div class="col-md-12">
-												<div class="table-responsive confirmTblCls">
-													<table class="table table-bordered table-striped">
-														<thead>
-															<tr>
-																<th>Full Name</th>
-																<th>Email</th>
-																<th>Phone</th>
-																<!--<th>Reference if any</th>-->
-																<th>Description</th>
-																<th>Date</th>
-																<th>Time</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td class="full_name"></td>
-																<td class="email"></td>
-																<td class="phone"></td>
-																<!--<td class="title"></td>-->
-																<td class="description"></td>
-																<td class="date"></td>
-																<td class="time"></td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-												<ul class="errors">
-												</ul>
-
-                                                <div class="col-md-12">
-                                                    <div class="form-btn text-center">
-                                                        <!--If paid option selected -->
-                                                        <!--<input type="button" class="btn btn-primary submitappointment_paid" style="margin-bottom:12px;margin-top:12px;" name="submit" value="Pay & Submit" />-->
-                                                        <!-- Direct submit button for paid appointments -->
-                                                        <button type="button" class="btn btn-primary submitappointment_paid" style="margin-bottom:12px;margin-top:12px;">
-                                                            Pay & Submit
-                                                        </button>
-                                                        <!--If free option selected -->
-                                                        <input type="button" class="btn btn-primary submitappointment" style="margin-bottom:12px;margin-top:12px;" name="submit" value="Submit" />
-
-                                                    </div>
-                                                </div>
-											</div>
-										</div>
-									</div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </form>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Payment Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<!-- Hero Section -->
+<section class="hero-appointment-section">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <i class="fa fa-gavel"></i>
+                    <span>Licensed Lawyers</span>
+                </div>
+                <h1>Expert Legal Consultation</h1>
+                <h2>Specializing in Your Area of Need</h2>
+                <p class="hero-description">
+                    Get professional legal guidance from experienced lawyers who understand Australian law. 
+                    Our team provides comprehensive legal services across immigration, family, criminal, and business law matters.
+                </p>
+                <div class="hero-pricing">
+                    <span class="price-amount">$150 AUD</span>
+                    <span class="price-note">(incl. GST) - One-time payment, no hidden fees</span>
+                </div>
             </div>
-            <form role="form" action="{{ route('stripe.post') }}" method="post" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
-            @csrf
-                <div id="loading_popup">
-                    <img id="loading-image_popup" src="{{ asset('images/ajax-loader.gif') }}" alt="Loading..." />
+            
+            <div class="hero-features">
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <h3>Multiple Consultation Options</h3>
+                        <p>In-person, phone, or video consultations - choose what works best for you.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-shield"></i>
+                        </div>
+                        <h3>Confidential & Secure</h3>
+                        <p>Your information is protected with the highest level of confidentiality.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-map-signs"></i>
+                        </div>
+                        <h3>Clear Next Steps</h3>
+                        <p>Leave with a clear action plan tailored to your specific situation.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <h3>Flexible Scheduling</h3>
+                        <p>Book appointments that fit your schedule, including evenings and weekends.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-refresh"></i>
+                        </div>
+                        <h3>Cancellation Policy</h3>
+                        <p>Free cancellation/rescheduling up to 24 hours in advance.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fa fa-phone"></i>
+                        </div>
+                        <h3>Emergency Support</h3>
+                        <p>Urgent matters? Contact us directly for priority consultation.</p>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <input type="hidden" name="noe_id" id="noe_id_paid" value="">
-                    <input type="hidden" name="radioGroup" id="radioGroup_paid" value="">
-                    <input type="hidden" name="service_id" id="service_id_paid" value="">
-                    <input type="hidden" name="appointment_details" id="appointment_details_paid" value="">
+            </div>
+            
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <i class="fa fa-gavel"></i>
+                    <span>Licensed Lawyers</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fa fa-shield"></i>
+                    <span>Client Confidentiality</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fa fa-star"></i>
+                    <span>5-Star Rated</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fa fa-clock-o"></i>
+                    <span>Quick Response</span>
+                </div>
+            </div>
+            
+            <div class="hero-contact">
+                <div class="contact-content">
+                    <h3><i class="fa fa-phone"></i> Need Immediate Assistance?</h3>
+                    <p>Call us at <strong>1300 BANSAL (1300 226 725)</strong> or email for personalized help with your booking.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-                    <input type="hidden" name="date" id="date_paid" value="">
-                    <input type="hidden" name="time" id="time_paid" value="">
-                    <input type="hidden" name="fullname" id="fullname_paid" value="">
-                    <input type="hidden" name="email" id="email_paid" value="">
-                    <input type="hidden" name="phone" id="phone_paid" value="">
-                    <input type="hidden" name="title" id="title_paid" value="">
-                    <input type="hidden" name="description" id="description_paid" value="">
-                    <input type="hidden" name="promo_code" id="promo_code_paid" value="">
-                    <input type="hidden" id="payable_amount" value="">
+        <!-- Appointment Form -->
+        <div class="experimental-form-section">
+            <form class="experimental-appointment-form" id="appintment_form" action="<?php echo URL::to('/'); ?>/book-an-appointment/storepaid" method="post" enctype="multipart/form-data">
+                <!-- Tab Navigation -->
+                <div class="experimental-form-tabs">
+                    <ul class="experimental-tab-nav">
+                        <li>
+                            <a href="#consultation_type" class="experimental-tab-link active" data-tab="consultation_type">
+                                <i class="fa fa-calendar mr-2"></i>Consultation Type
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#appointment_details" class="experimental-tab-link disabled" data-tab="appointment_details">
+                                <i class="fa fa-clock mr-2"></i>Date & Time
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#info" class="experimental-tab-link disabled" data-tab="info">
+                                <i class="fa fa-user mr-2"></i>Your Information
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#confirm" class="experimental-tab-link disabled" data-tab="confirm">
+                                <i class="fa fa-check-circle mr-2"></i>Confirmation
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
-                    <div class='form-row row'>
-						<div class='col-xs-12 col-md-12 form-group required'>
-							<label class='control-label'>Name on Card</label>
-							<input class='form-control card-name' size='4' type='text' maxlength="40">
-						</div>
-					</div>
+                <!-- Tab Content -->
+                <div class="experimental-tab-content active" id="consultation_type">
+                    <div class="consultation-header">
+                        <h3><i class="fa fa-calendar-plus-o"></i> Choose Your Consultation Type</h3>
+                        <p class="consultation-subtitle">Select the consultation method that works best for you. All consultations include expert legal advice and a clear action plan.</p>
+                        <div class="consultation-price">
+                            <span class="price-label">One-time fee:</span>
+                            <span class="price-amount">$150 AUD</span>
+                            <span class="price-note">(incl. GST • No hidden fees)</span>
+                        </div>
+                    </div>
+                        
+                        <div class="consultation-options">
+                            <div class="experimental-service-item" id="consultation_inperson">
+                                <input type="radio" class="consultation_type" name="consultation_type" value="In-person" id="inperson">
+                                <label for="inperson" style="cursor: pointer; width: 100%;">
+                                    <div class="service-header">
+                                        <div class="service-icon">
+                                            <i class="fa fa-building"></i>
+                                        </div>
+                                        <div class="service-title-section">
+                                            <div class="experimental-service-title">In-Person Consultation</div>
+                                            <div class="service-badge">Most Popular</div>
+                                        </div>
+                                        <div class="experimental-service-price"><strong>$150 AUD</strong></div>
+                                    </div>
+                                    <div class="experimental-service-description">
+                                        <strong>Perfect for complex cases</strong> - Meet face-to-face with our experienced lawyers at our Melbourne office. Ideal for detailed document review, sensitive matters, and when you need the full personal touch.
+                                    </div>
+                                    <div class="service-benefits">
+                                        <span class="benefit-item"><i class="fa fa-check"></i> Document review</span>
+                                        <span class="benefit-item"><i class="fa fa-check"></i> Personal interaction</span>
+                                        <span class="benefit-item"><i class="fa fa-check"></i> Secure environment</span>
+                                    </div>
+                                </label>
+                            </div>
 
-					<div class='form-row row'>
-						<div class='col-xs-12 col-md-12 form-group card required' style="border:none;">
-							<label class='control-label'>Card Number</label>
-							<input autocomplete='off' class='form-control card-number' size="20"  maxlength="20" type="text">
-						</div>
-					</div>
+                            <div class="experimental-service-item" id="consultation_phone">
+                                <input type="radio" class="consultation_type" name="consultation_type" value="Phone" id="phone">
+                                <label for="phone" style="cursor: pointer; width: 100%;">
+                                    <div class="service-header">
+                                        <div class="service-icon">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                        <div class="service-title-section">
+                                            <div class="experimental-service-title">Phone Consultation</div>
+                                            <div class="service-badge">Quick & Easy</div>
+                                        </div>
+                                        <div class="experimental-service-price"><strong>$150 AUD</strong></div>
+                                    </div>
+                                    <div class="experimental-service-description">
+                                        <strong>Convenient and accessible</strong> - Get expert legal advice from anywhere in Australia. Perfect for initial consultations, quick questions, and when you need immediate guidance.
+                                    </div>
+                                    <div class="service-benefits">
+                                        <span class="benefit-item"><i class="fa fa-check"></i> From anywhere</span>
+                                        <span class="benefit-item"><i class="fa fa-check"></i> Immediate advice</span>
+                                        <span class="benefit-item"><i class="fa fa-check"></i> Flexible timing</span>
+                                    </div>
+                                </label>
+                            </div>
 
-					<div class='form-row row'>
-						<div class='col-xs-12 col-md-3 form-group cvc required'>
-							<label class='control-label'>CVC</label>
-							<input autocomplete='off' class='form-control card-cvc' placeholder='ex. 311' size='4' maxlength="4" type='text'>
-						</div>
+                            <div class="experimental-service-item" id="consultation_video">
+                                <input type="radio" class="consultation_type" name="consultation_type" value="Zoom / Google Meeting" id="video">
+                                <label for="video" style="cursor: pointer; width: 100%;">
+                                    <div class="service-header">
+                                        <div class="service-icon">
+                                            <i class="fa fa-video-camera"></i>
+                                        </div>
+                                        <div class="service-title-section">
+                                            <div class="experimental-service-title">Video Consultation</div>
+                                            <div class="service-badge">Modern Choice</div>
+                                        </div>
+                                        <div class="experimental-service-price"><strong>$150 AUD</strong></div>
+                                    </div>
+                                    <div class="experimental-service-description">
+                                        <strong>Best of both worlds</strong> - Secure video calls via Zoom or Google Meet. Enjoy face-to-face interaction from the comfort of your home with screen sharing capabilities.
+                                    </div>
+                                    <div class="service-benefits">
+                                        <span class="benefit-item"><i class="fa fa-check"></i> Visual interaction</span>
+                                        <span class="benefit-item"><i class="fa fa-check"></i> Screen sharing</span>
+                                        <span class="benefit-item"><i class="fa fa-check"></i> Home comfort</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="consultation-cta">
+                        <div class="urgency-notice">
+                            <i class="fa fa-clock-o"></i>
+                            <span>Limited spots available this week - Book now to secure your preferred time</span>
+                        </div>
+                        <button type="button" class="experimental-btn next-tab consultation-cta-btn" data-next="appointment_details">
+                            <i class="fa fa-arrow-right"></i>
+                            Continue to Schedule
+                        </button>
+                        <p class="cta-guarantee">
+                            <i class="fa fa-shield"></i>
+                            <span>100% satisfaction guarantee • Free rescheduling • No hidden fees</span>
+                        </p>
+                    </div>
+                </div>
 
-						<!--<div class='col-xs-12 col-md-4 form-group expiration required'>
-							<label class='control-label'>Expiration Month</label>
-							<input class='form-control card-expiry-month' placeholder='MM' size='2' maxlength="2" type='text'>
-						</div>
-						<div class='col-xs-12 col-md-4 form-group expiration required'>
-							<label class='control-label'>Expiration Year</label>
-							<input class='form-control card-expiry-year' placeholder='YYYY' size='4' maxlength="4" type='text'>
-						</div>-->
-
-                        <div class='col-xs-12 col-md-8 form-group expiration required'>
-                            <label class='control-label'>Expiration Month & Year</label>
-                            <div class="row no-gutters">
-                                <div class="col-xs-6 col-md-3">
-                                    <input class='form-control card-expiry-month' placeholder='MM' size='2' maxlength="2" type='text'>
+                <div class="experimental-tab-content" id="appointment_details">
+                    <div class="modern-booking-section">
+                        <div class="booking-header">
+                            <h3><i class="fa fa-calendar"></i> Select Date & Time</h3>
+                            <p class="booking-subtitle">Choose your preferred consultation time from the available slots</p>
+                            <div class="timezone-info">
+                                <i class="fa fa-clock-o"></i> 
+                                <span>All times are in Melbourne, Australia time (AEST/AEDT)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="modern-calendar-container">
+                            <!-- Date Navigation -->
+                            <div class="date-navigation">
+                                <button type="button" class="nav-btn prev-week" id="prevWeek">
+                                    <i class="fa fa-chevron-left"></i>
+                                </button>
+                                <div class="current-week" id="currentWeek">
+                                    <!-- Week dates will be populated here -->
                                 </div>
-                                <div class="col-xs-6 col-md-3">
-                                    <input class='form-control card-expiry-year' placeholder='YYYY' size='4' maxlength="4" type='text'>
+                                <button type="button" class="nav-btn next-week" id="nextWeek">
+                                    <i class="fa fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Calendar Grid -->
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Calendar will be populated here -->
+                            </div>
+                            
+                            <!-- Time Slots -->
+                            <div class="time-slots-container" id="timeSlotsContainer" style="display: none;">
+                                <div class="time-slots-header">
+                                    <h4 id="selectedDateDisplay">Select a date first</h4>
+                                    <p class="time-instructions">Choose your preferred time slot</p>
+                                </div>
+                                <div class="time-slots-grid" id="timeSlotsGrid">
+                                    <!-- Time slots will be populated here -->
                                 </div>
                             </div>
                         </div>
-					</div>
-
-					<div class='form-row row'>
-						<div class='col-md-12 error form-group hide'>
-							<div class='alert-danger alert'>Please correct the errors and try again.</div>
-						</div>
-					</div>
+                        
+                        <!-- Hidden inputs for form submission -->
+                        <input type="hidden" id="timeslot_col_date" name="selected_date" value="">
+                        <input type="hidden" id="timeslot_col_time" name="selected_time" value="">
+                        <input type="hidden" name="date" id="date_input" value="">
+                        <input type="hidden" name="time" id="time_input" value="">
+                        
+                        <!-- Promo code hidden inputs -->
+                        <input type="hidden" name="coupon_code" value="">
+                        <input type="hidden" name="discount_amount" value="">
+                        <input type="hidden" name="discount_percentage" value="">
+                        
+                        <!-- Backend required fields -->
+                        <input type="hidden" name="service_id" value="1">
+                        <input type="hidden" name="appointment_details" value="">
+                        <input type="hidden" name="cardName" value="">
+                        <input type="hidden" name="stripeToken" value="">
+                        <input type="hidden" name="promo_code" value="">
+                        
+                        <!-- Error message -->
+                        <div class="booking-error" id="bookingError" style="display: none;">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <span>Please select both a date and time for your consultation</span>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="button" class="experimental-btn btn-back" data-prev="consultation_type">Back</button>
+                        <button type="button" class="experimental-btn next-tab" data-next="info">Next Step</button>
+                    </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button class="btn btn-primary btn-lg btn-block" id="pay_now_btn" type="submit">Pay Now (aud150)</button>
+                <div class="experimental-tab-content" id="info">
+                    <!-- Selection Summary -->
+                    <div class="experimental-selection-summary">
+                        <h4><i class="fa fa-check-circle mr-2"></i>Your Selection Summary</h4>
+                        <div class="summary-items">
+                            <div class="summary-item">
+                                <strong>Consultation Type:</strong>
+                                <span class="consultation-type-summary">Not selected</span>
+                            </div>
+                            <div class="summary-item">
+                                <strong>Date & Time:</strong>
+                                <span class="datetime-summary">Not selected</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="experimental-form-group">
+                        <label for="noe_id">Type of Legal Matter</label>
+                        <select class="experimental-form-control enquiry_item" name="noe_id" required>
+                            <option value="">Select the type of legal matter</option>
+                            @foreach(\App\Models\NatureOfEnquiry::where('status',1)->get() as $enquiry)
+                                <option value="{{$enquiry->id}}">{{$enquiry->title}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="experimental-form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" class="experimental-form-control fullname infoFormFields" placeholder="Enter your full name" name="fullname" required />
+                    </div>
+                    <div class="experimental-form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="experimental-form-control email infoFormFields" placeholder="Enter your email address" name="email" required />
+                    </div>
+                    <div class="experimental-form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="experimental-form-control phone infoFormFields" placeholder="Enter your phone number" name="phone" required />
+                    </div>
+                    <div class="experimental-form-group">
+                        <label for="description">Details Of Enquiry</label>
+                        <textarea class="experimental-form-control experimental-textarea description infoFormFields" placeholder="Please provide details about your legal matter" name="description" required></textarea>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="button" class="experimental-btn btn-back" data-prev="appointment_details">Back</button>
+                        <button type="button" class="experimental-btn next-tab" data-next="confirm">Review & Confirm</button>
+                    </div>
                 </div>
 
+                <div class="experimental-tab-content" id="confirm">
+                    <h3 style="color: #1B4D89; margin-bottom: 30px; text-align: center;">Confirm Your Appointment Details</h3>
+                    
+                    <div class="experimental-confirmation-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Consultation Type</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="consultation_type"></td>
+                                    <td class="full_name"></td>
+                                    <td class="email"></td>
+                                    <td class="phone"></td>
+                                    <td class="description"></td>
+                                    <td class="date"></td>
+                                    <td class="time"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Coupon Code Section -->
+                    <div class="experimental-coupon-section">
+                        <h4><i class="fa fa-ticket mr-2"></i>Have a Promo Code?</h4>
+                        <div class="coupon-input-group">
+                            <input type="text" class="experimental-form-control coupon-code" placeholder="Enter your promo code" name="coupon_code" id="coupon_code">
+                            <button type="button" class="experimental-btn btn-apply-coupon" id="apply_coupon">
+                                <i class="fa fa-check mr-2"></i>Apply
+                            </button>
+                        </div>
+                        <div class="coupon-message" id="coupon_message" style="display: none;"></div>
+                    </div>
+                    
+                    <!-- Payment Summary -->
+                    <div class="experimental-payment-summary">
+                        <div class="payment-item">
+                            <span>Consultation Fee:</span>
+                            <span class="consultation-fee">$150.00 AUD</span>
+                        </div>
+                        <div class="payment-item discount-item" style="display: none;">
+                            <span>Discount:</span>
+                            <span class="discount-amount">-$0.00 AUD</span>
+                        </div>
+                        <div class="payment-item total-item">
+                            <span><strong>Total:</strong></span>
+                            <span class="total-amount"><strong>$150.00 AUD</strong></span>
+                        </div>
+                    </div>
+                    
+                    <div class="final-cta-section">
+                        <div class="final-motivation">
+                            <h4><i class="fa fa-star"></i> You're Almost There!</h4>
+                            <p>Complete your booking now and take the first step towards resolving your legal matter with confidence. Our expert team is ready to help you succeed.</p>
+                        </div>
+                        
+                        <div class="final-cta-buttons">
+                            <button type="button" class="experimental-btn btn-back" data-prev="info">
+                                <i class="fa fa-arrow-left"></i> Back
+                            </button>
+                            <button type="button" class="experimental-btn submitappointment_paid final-submit-btn">
+                                <i class="fa fa-credit-card"></i>
+                                <span class="btn-text">Complete Booking</span>
+                                <span class="btn-price">$150.00 AUD</span>
+                            </button>
+                        </div>
+                        
+                        <div class="final-guarantees">
+                            <div class="guarantee-item">
+                                <i class="fa fa-shield"></i>
+                                <span>Secure Payment</span>
+                            </div>
+                            <div class="guarantee-item">
+                                <i class="fa fa-clock-o"></i>
+                                <span>Instant Confirmation</span>
+                            </div>
+                            <div class="guarantee-item">
+                                <i class="fa fa-undo"></i>
+                                <span>Free Rescheduling</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
+</section>
+
+<!-- Floating Navigation -->
+<div class="floating-nav" id="floatingNav">
+    <button type="button" class="floating-btn btn-back" id="floatingBackBtn" style="display: none;">
+        <i class="fa fa-arrow-left"></i>
+        Back
+    </button>
+    <button type="button" class="floating-btn" id="floatingNextBtn" style="display: none;">
+        <span class="btn-text">Next</span>
+        <i class="fa fa-arrow-right"></i>
+    </button>
 </div>
 
-<div id="querysuccess_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" class="modal fade custom_modal thankyoupack_modal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-				<div class="text-center padding64">
-					<div class="query_icons">
-						<i class="fa-light fa-paper-plane"></i>
-					</div>
-					<div class="query_heading">
-						<h4>Thank You!</h4>
-					</div>
-					<div class="query_info">
-						<p>Your request is submitted successfully!<br/> Our Expert will get in tough with you at the earliest.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<!-- Loading Overlay -->
+<div class="experimental-loading" id="loading">
+    <div class="experimental-loading-content">
+        <div class="experimental-loading-spinner"></div>
+        <p>Processing your appointment...</p>
+    </div>
 </div>
+
 @endsection
+
 @section('scripts')
 
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
 $(function() {
-
-
-
-    /*------------------------------------------
-    --------------------------------------------
-    Stripe Payment Code
-    --------------------------------------------
-    --------------------------------------------*/
-    var $form = $(".require-validation");
-    $('form.require-validation').bind('submit', function(e) {
-        var $form = $(".require-validation"),
-        inputSelector = ['input[type=email]', 'input[type=password]',
-                         'input[type=text]', 'input[type=file]',
-                         'textarea'].join(', '),
-        $inputs = $form.find('.required').find(inputSelector),
-        $errorMessage = $form.find('div.error'),
-        valid = true;
-        $errorMessage.addClass('hide');
-
-        $('.has-error').removeClass('has-error');
-        $inputs.each(function(i, el) {
-            var $input = $(el);
-            if ($input.val() === '') {
-                $input.parent().addClass('has-error');
-                $errorMessage.removeClass('hide');
-                e.preventDefault();
-            }
-        });
-
-        if (!$form.data('cc-on-file')) {
-            e.preventDefault();
-            Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-            Stripe.createToken({
-            number: $('.card-number').val(),
-            cvc: $('.card-cvc').val(),
-            exp_month: $('.card-expiry-month').val(),
-            exp_year: $('.card-expiry-year').val()
-            }, stripeResponseHandler);
+    // Tab navigation
+    $('.next-tab').click(function() {
+        var nextTab = $(this).data('next');
+        var currentTab = $('.experimental-tab-content.active').attr('id');
+        
+        // Validate current tab before proceeding
+        if (validateCurrentTab(currentTab)) {
+            switchTab(nextTab);
         }
     });
-
-    /*------------------------------------------
-    --------------------------------------------
-    Stripe Response Handler
-    --------------------------------------------
-    --------------------------------------------*/
-    function stripeResponseHandler(status, response) {
-        if (response.error) {
-            $('.error').removeClass('hide').find('.alert').text(response.error.message);
-        } else {
-            /* token contains id, last4, and card type */
-            var token = response['id'];
-            //$form.find('input[type=text]').empty();
-            var card_name = $form.find('.card-name').val();
-            $form.append("<input type='hidden' name='cardName' value='" + card_name + "'/>");
-            $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
-            //$form.get(0).submit();
-            stripeFormSubmit();
+    
+    // Back button navigation
+    $('.btn-back').click(function() {
+        var prevTab = $(this).data('prev');
+        switchTab(prevTab);
+    });
+    
+     // Floating navigation
+     $('#floatingNextBtn').click(function() {
+         var currentTab = $('.experimental-tab-content.active').attr('id');
+         
+         if (currentTab === 'confirm') {
+             // On confirmation tab, trigger form submission
+             $('.submitappointment_paid').click();
+         } else if (currentTab === 'info') {
+             // Information page - validate before proceeding
+             if (validateCurrentTab(currentTab)) {
+                 switchTab('confirm');
+             } else {
+                 // Show validation errors
+                 console.log('Validation failed on info page');
+                 
+                 // Create detailed error message
+                 var missingFields = window.missingFields || [];
+                 var errorText = 'Please complete the following required fields:';
+                 var fieldList = '<ul style="margin: 10px 0; padding-left: 20px;">';
+                 missingFields.forEach(function(field) {
+                     fieldList += '<li>' + field + '</li>';
+                 });
+                 fieldList += '</ul>';
+                 
+                 // Remove any existing error messages
+                 $('.validation-error-message').remove();
+                 
+                 // Show detailed error message
+                 var $errorMsg = $('<div class="validation-error-message">' + errorText + fieldList + '</div>');
+                 $('.experimental-selection-summary').after($errorMsg);
+                 
+                 // Remove error message after 5 seconds
+                 setTimeout(function() {
+                     $errorMsg.fadeOut(function() {
+                         $(this).remove();
+                     });
+                 }, 5000);
+                 
+                 // Scroll to first error field
+                 var $firstError = $('.experimental-form-control').filter(function() {
+                     return $(this).hasClass('error') || $(this).val() === '';
+                 }).first();
+                 if ($firstError.length) {
+                     // Removed scroll behavior - keep user in place
+                     $firstError.focus();
+                 }
+             }
+         } else {
+             var nextTab = getNextTab(currentTab);
+             if (nextTab && validateCurrentTab(currentTab)) {
+                 switchTab(nextTab);
+             }
+         }
+     });
+     
+     // Handle the "Review & Confirm" button specifically
+     $('.next-tab[data-next="confirm"]').click(function(e) {
+         e.preventDefault();
+         var currentTab = $('.experimental-tab-content.active').attr('id');
+         console.log('Review & Confirm button clicked, current tab:', currentTab);
+         
+         if (currentTab === 'info') {
+             if (validateCurrentTab(currentTab)) {
+                 console.log('Validation passed, switching to confirm tab');
+                 switchTab('confirm');
+             } else {
+                 console.log('Validation failed, showing errors');
+                 // Show validation errors
+                 var missingFields = window.missingFields || [];
+                 var errorText = 'Please complete the following required fields:';
+                 var fieldList = '<ul style="margin: 10px 0; padding-left: 20px;">';
+                 missingFields.forEach(function(field) {
+                     fieldList += '<li>' + field + '</li>';
+                 });
+                 fieldList += '</ul>';
+                 
+                 // Remove any existing error messages
+                 $('.validation-error-message').remove();
+                 
+                 // Show detailed error message
+                 var $errorMsg = $('<div class="validation-error-message">' + errorText + fieldList + '</div>');
+                 $('.experimental-selection-summary').after($errorMsg);
+                 
+                 // Remove error message after 5 seconds
+                 setTimeout(function() {
+                     $errorMsg.fadeOut(function() {
+                         $(this).remove();
+                     });
+                 }, 5000);
+                 
+                 // Scroll to first error field
+                 var $firstError = $('.experimental-form-control').filter(function() {
+                     return $(this).hasClass('error') || $(this).val() === '';
+                 }).first();
+                 if ($firstError.length) {
+                     // Removed scroll behavior - keep user in place
+                     $firstError.focus();
+                 }
+             }
+         }
+     });
+    
+    $('#floatingBackBtn').click(function() {
+        var currentTab = $('.experimental-tab-content.active').attr('id');
+        var prevTab = getPrevTab(currentTab);
+        
+        if (prevTab) {
+            switchTab(prevTab);
         }
-    }
-
-    function stripeFormSubmit(){
-        $('#loading_popup').show();
-        $.ajax({
-            type:'POST',
-            data: $('#payment-form').serialize(),
-            url:'{{URL::to('/book-an-appointment/storepaid')}}',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            dataType:'json',
-            success:function(obj){
-                $('#loading_popup').hide();
-                if(obj.success){
-                    $('#exampleModal').modal('hide');
-                    $('html, body').animate({scrollTop: $('#confirm_div').offset().top -100 }, 'slow');
-                    $('#confirm_div').html('<div class="tab_header"><h4></h4></div><div class="tab_body"><h4 style="text-align: center;padding: 20px;">'+obj.message+'</h4></div>');
-                    setTimeout(function(){ window.location.reload(); }, 5000);
-                }else{
-                    alert('Please try again. There is a issue in our system');
-                }
-            },
-            error:function(){
-                $('#loading_popup').hide();
-                alert('Network error. Please try again.');
-            }
+    });
+    
+    function switchTab(tabId) {
+        console.log('Switching to tab:', tabId);
+        
+        // Hide current tab with fade effect
+        $('.experimental-tab-content').fadeOut(300, function() {
+            $('.experimental-tab-content').removeClass('active');
+            $('.experimental-tab-link').removeClass('active').addClass('disabled');
+            
+            // Show target tab
+            $('#' + tabId).addClass('active');
+            $('[data-tab="' + tabId + '"]').removeClass('disabled').addClass('active');
+            
+            // Update floating navigation
+            updateFloatingNavigation();
+            
+            // Fade in new tab
+            $('#' + tabId).fadeIn(300);
+            
+            // Removed scroll behavior - keep user in place
         });
     }
-});
-</script>
-
-<script>
-function goto(str) { //alert(str);
-    const element = document.getElementById(str);
-    element.scrollIntoView();
-}
-
-jQuery(document).ready(function($){
-    $( "#myTab" ).tab( { disabled: [1, 2,3,4,5] } );
-	var duration = 30;
-	var starttime = '';
-	var endtime = '';
-	var daysOfWeek = '';
-
-	var disabledtimeslotes = new Array();
-
-	// Initialize calendar on page load if Nature of Enquiry is already selected
-	var enquiryValue = $('.enquiry_item').val();
-	if(enquiryValue && enquiryValue !== ""){
-		// Trigger the change event to initialize calendar
-		$('.enquiry_item').trigger('change');
-	}
-
-    $(document).delegate('.infoFormFields', 'change', function(){
+    
+    function getNextTab(currentTab) {
+        var tabOrder = ['consultation_type', 'appointment_details', 'info', 'confirm'];
+        var currentIndex = tabOrder.indexOf(currentTab);
+        return currentIndex < tabOrder.length - 1 ? tabOrder[currentIndex + 1] : null;
+    }
+    
+    function getPrevTab(currentTab) {
+        var tabOrder = ['consultation_type', 'appointment_details', 'info', 'confirm'];
+        var currentIndex = tabOrder.indexOf(currentTab);
+        return currentIndex > 0 ? tabOrder[currentIndex - 1] : null;
+    }
+    
+     function updateFloatingNavigation() {
+         var currentTab = $('.experimental-tab-content.active').attr('id');
+         var $floatingNav = $('#floatingNav');
+         var $backBtn = $('#floatingBackBtn');
+         var $nextBtn = $('#floatingNextBtn');
+         
+         console.log('Updating floating navigation for tab:', currentTab);
+         
+         // Show floating nav if not on first tab
+         if (currentTab !== 'consultation_type') {
+             $floatingNav.addClass('show');
+             $backBtn.show();
+             console.log('Showing back button');
+         } else {
+             $floatingNav.removeClass('show');
+             $backBtn.hide();
+             console.log('Hiding back button');
+         }
+         
+         // Show next button based on tab
+         if (currentTab === 'info') {
+             // Information page - always show next button
+             $nextBtn.show();
+             $nextBtn.find('.btn-text').text('Review & Confirm');
+             $nextBtn.html('<span class="btn-text">Review & Confirm</span><i class="fa fa-arrow-right"></i>');
+             console.log('Showing next button for info page (permanent)');
+         } else if (currentTab === 'confirm') {
+             // Confirmation page - always show pay & submit button
+             $nextBtn.show();
+             $nextBtn.find('.btn-text').text('Pay & Submit');
+             $nextBtn.html('<i class="fa fa-credit-card mr-2"></i><span class="btn-text">Pay & Submit</span>');
+             console.log('Showing pay & submit button for confirm page (permanent)');
+         } else if (currentTab && currentTab !== 'confirm') {
+             // Other tabs - show next button only if valid
+             var isValid = validateCurrentTab(currentTab);
+             console.log('Tab validation result for', currentTab, ':', isValid);
+             if (isValid) {
+                 $nextBtn.show();
+                 $nextBtn.find('.btn-text').text('Next');
+                 console.log('Showing next button for', currentTab);
+             } else {
+                 $nextBtn.hide();
+                 console.log('Hiding next button - validation failed for', currentTab);
+             }
+         } else {
+             $nextBtn.hide();
+             console.log('Hiding next button - no tab or invalid tab');
+         }
+     }
+     
+     // Prevent default behavior for the Review & Confirm button to avoid conflicts
+     $('.next-tab[data-next="confirm"]').on('click', function(e) {
+         e.preventDefault();
+         e.stopPropagation();
+     });
+    
+    // Tab link clicks
+    $('.experimental-tab-link').click(function(e) {
+        e.preventDefault();
+        var tab = $(this).data('tab');
+        
+        if (!$(this).hasClass('disabled')) {
+            $('.experimental-tab-content').removeClass('active');
+            $('.experimental-tab-link').removeClass('active');
+            
+            $('#' + tab).addClass('active');
+            $(this).addClass('active');
+        }
+    });
+    
+    // Consultation type selection
+    $('.consultation_type').change(function() {
+        var consultationType = $(this).val();
+        var $selectedItem = $(this).closest('.experimental-service-item');
+        
+        console.log('Consultation type selected:', consultationType);
+        
+        // Visual feedback - highlight selected item
+        $selectedItem.addClass('selected');
+        
+        $('input[name="appointment_details"]').val(consultationType);
+        
+        // Update selection summary
+        updateSelectionSummary();
+        
+        // Enable next tab
+        $('[data-tab="appointment_details"]').removeClass('disabled');
+        
+        // Update floating navigation
+        updateFloatingNavigation();
+        
+        // Show processing message
+        var $processingMsg = $('<div class="processing-message">Processing your selection...</div>');
+        $selectedItem.append($processingMsg);
+        
+        // Automatically proceed to next page after a short delay
+        setTimeout(function() {
+            console.log('Auto-proceeding to appointment details...');
+            if (validateCurrentTab('consultation_type')) {
+                console.log('Validation passed, switching to appointment_details');
+                switchTab('appointment_details');
+            } else {
+                console.log('Validation failed, not switching tabs');
+            }
+        }, 800); // 800ms delay to show selection feedback
+    });
+    
+    // Form field changes - REMOVED date/time clearing logic
+    // The previous logic was clearing date/time fields every time user typed in info fields
+    // This was causing validation failures when user clicked "Review & Confirm"
+    $('.infoFormFields').change(function() {
+        // Only hide confirm row, don't clear date/time fields
+        $('.confirm_row').hide();
+    });
+    
+    // Proper date/time clearing - only when consultation type changes
+    $('.consultation_type').change(function() {
+        // Clear date/time when consultation type changes
+        clearDateTimeSelection();
+    });
+    
+    function clearDateTimeSelection() {
+        // Clear JavaScript variables
+        selectedDate = null;
+        selectedTime = null;
+        
+        // Clear form fields
         $('#timeslot_col_date').val("");
         $('#timeslot_col_time').val("");
-        $('.confirm_row').hide();
-    });
-
-    $(document).delegate('.enquiry_item', 'change', function(){
-        var id = $(this).val();//alert(id);
-        if(id != ""){
-            var v = 'services';
-            // Only show paid service (serviceval_1)
-            $('#serviceval_1').show();
-            $('.services_row').show();
-            $('#myTab .nav-item #nature_of_enquiry-tab').addClass('disabled');
-            $('#myTab .nav-item #services-tab').removeClass('disabled');
-          
-            $(".services_item").prop('checked', true);
-			$('#service_id').val(1);
-
-            $(".services_item").trigger("change");
-            var v = 'appointment_details';
-            $('.appointment_row').show();
-
-            $('.info_row').hide();
-            $('.confirm_row').hide();
-
-            $('.timeslots').html('');
-            $('.showselecteddate').html('');
-
-            $('#timeslot_col_date').val("");
-            $('#timeslot_col_time').val(""); //Do blank Timeslot selected date and time
-        } else {
-            var v = 'nature_of_enquiry';
-            $('.services_row').hide();
-            $('.appointment_row').hide();
-            $('.info_row').hide();
-            $('.confirm_row').hide();
-
-            $('#myTab .nav-item #services-tab').addClass('disabled');
-            $('#myTab .nav-item #nature_of_enquiry-tab').removeClass('disabled');
-            $('#myTab a[href="#'+v+'"]').trigger('click');
-        }
-        $('input[name="noe_id"]').val(id);
-        console.log('Set noe_id to:', id);
-	});
-
-    $(document).delegate('.appointment_item', 'change', function(){
-        var id = $(this).val(); //$(this).attr('data-id');
-        if(id != ""){
-            var v = 'info';
-            $('.info_row').show();
-            $('#myTab .nav-item #appointment_details-tab').addClass('disabled');
-            $('#myTab .nav-item #info-tab').removeClass('disabled');
-            $('#myTab a[href="#'+v+'"]').trigger('click');
-        } else {
-            var v = 'appointment_details';
-            $('.info_row').hide();
-            $('.confirm_row').hide();
-
-            $('#myTab .nav-item #info-tab').addClass('disabled');
-            $('#myTab .nav-item #appointment_details-tab').removeClass('disabled');
-            $('#myTab a[href="#'+v+'"]').trigger('click');
-        }
-        $('input[name="appointment_details"]').val(id);
-        console.log('Set appointment_details to:', id);
-	});
-
-
-	$(document).delegate('.services_item', 'change', function(){
-        $('.info_row').hide();
-        $('.confirm_row').hide();
-        $('.appointment_item').val("");
-
-        var id = $(this).val(); //console.log('id='+id);
+        $('input[name="date"]').val("");
+        $('input[name="time"]').val("");
+        $('#date_input').val("");
+        $('#time_input').val("");
         
-        // Only handle paid service (id = 1) for Ajay Bansal
-        if (id == 1) {
-            $('.services_item[value="1"]').prop('checked', true);
+        // Clear UI selections
+        $('.week-date').removeClass('selected');
+        $('.time-slot').removeClass('selected');
+        
+        // Hide time slots
+        $('#timeSlotsContainer').hide();
+        
+        // Update floating navigation
+        updateFloatingNavigation();
+        
+        console.log('Date/time selection cleared due to consultation type change');
+    }
+    
+    // Enquiry selection
+    $('.enquiry_item').change(function() {
+        var id = $(this).val();
+        var $select = $(this);
+        console.log('Legal matter selected:', id);
+        
+        if (id != "") {
+            $('input[name="noe_id"]').val(id);
+            
+            // Visual feedback - highlight the select
+            $select.addClass('selected');
+            setTimeout(function() {
+                $select.removeClass('selected');
+            }, 1000);
+            
+            // Enable services tab
+            $('[data-tab="services"]').removeClass('disabled');
+            $('.services_item').prop('checked', true);
             $('#service_id').val(1);
-            $('.submitappointment_paid').show();
-            $('.submitappointment').hide();
-            $('.coupon-wrapper').show();
-
-            if(id != ""){
-                var v = 'appointment_details';
-                $('.appointment_row').show();
-            } else {
-                var v = 'services';
-                $('.appointment_row').hide();
-                //$('.info_row').hide();
-                //$('.confirm_row').hide();
-            }
-        } else {
-            // Invalid service selected - only paid appointments available
-            alert('Only paid appointments are available');
         }
-
-
-		$('.timeslots').html('');
-		$('.showselecteddate').html('');
-
-        $('#timeslot_col_date').val("");
-        $('#timeslot_col_time').val(""); //Do blank Timeslot selected date and time
-
-        var enquiry_item  = $('.enquiry_item').val(); //alert(enquiry_item);
-		$.ajax({
-			url:'{{URL::to('/getdatetime')}}',
-			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-			type:'POST',
-			data:{ id:id, enquiry_item:enquiry_item },
-			dataType:'json',
-			success:function(obj){
-				console.log('Calendar AJAX Success:', obj);
-				if(obj.success){
-                    duration = obj.duration;
-					daysOfWeek =  obj.weeks;
-					starttime =  obj.start_time;
-					endtime =  obj.end_time;
-					disabledtimeslotes = obj.disabledtimeslotes;
-                    var datesForDisable = obj.disabledatesarray;
-                    //var datesForDisable = ["11/03/2024", "13/03/2024"];
-					console.log('Initializing calendar with data:', {duration, daysOfWeek, starttime, endtime, datesForDisable});
-					
-					// Check if calendar element exists before initializing
-					var calendarElement = document.getElementById('datetimepicker');
-					if (!calendarElement) {
-						console.error('Calendar element #datetimepicker not found');
-						return;
-					}
-					
-					// Check if jQuery datepicker is available
-					if (typeof $.fn.datepicker === 'undefined') {
-						console.error('Bootstrap datepicker not loaded');
-						return;
-					}
-					
-					try {
-						$('#datetimepicker').datepicker({
-							inline: true,
-							startDate: new Date(),
-							datesDisabled: datesForDisable,
-							daysOfWeekDisabled: daysOfWeek,
-							beforeShowDay: function(date) {
-								try {
-									var day = date.getDay();  //console.log('day='+day);
-									var hours = date.getHours();  //console.log('hours='+hours);
-									var dateString = moment(date).format('YYYY-MM-DD'); //console.log('dateString='+dateString);
-									// Disable specific time slots for specific dates
-									if (dateString === '2024-05-23' && (hours == 10 ) ) {
-										return { enabled: false, tooltip: 'Time slots are disabled for this date' };
-									}
-									// Enable all other time slots
-									return { enabled: true };
-								} catch (e) {
-									console.warn('Error in beforeShowDay:', e);
-									return { enabled: true };
-								}
-							},
-							format: 'dd/mm/yyyy'
-						});
-						console.log('Calendar initialized successfully');
-					} catch (error) {
-						console.error('Error initializing calendar:', error);
-						// Fallback: try to initialize with minimal options
-						try {
-							$('#datetimepicker').datepicker({
-								startDate: new Date(),
-								format: 'dd/mm/yyyy'
-							});
-							console.log('Calendar initialized with fallback options');
-						} catch (fallbackError) {
-							console.error('Fallback calendar initialization failed:', fallbackError);
-						}
-					}
-					$('#datetimepicker').on('changeDate', function(e) {
-                        try {
-                            // Fix: Use moment.js to format dates properly
-                            if (!moment || typeof moment !== 'function') {
-                                console.error('Moment.js not loaded, using fallback formatting');
-                                // Fallback formatting without moment.js
-                                var day = e.date.getDate();
-                                var month = e.date.getMonth() + 1;
-                                var year = e.date.getFullYear();
-                                var date = year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
-                                var displayDate = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
-                            } else {
-                                var date = moment(e.date).format('YYYY-MM-DD'); // Use ISO format for backend
-                                var displayDate = moment(e.date).format('DD/MM/YYYY'); // Keep display format for user
-                            }
-                            var checked_date = e.date.toLocaleDateString('en-US');
-                            
-                            // Fix date display - ensure proper formatting
-                            if (displayDate && displayDate !== 'Invalid date') {
-                                $('.showselecteddate').html(displayDate);
-                            } else {
-                                // Fallback formatting
-                                var day = e.date.getDate();
-                                var month = e.date.getMonth() + 1;
-                                var year = e.date.getFullYear();
-                                var formattedDate = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
-                                $('.showselecteddate').html(formattedDate);
-                            }
-                            
-                            $('input[name="date"]').val(date);
-                            $('#timeslot_col_date').val(date);
-                            console.log('Set date to:', date);
-                        } catch (error) {
-                            console.error('Error in date change event:', error);
-                            // Fallback: use current date
-                            var currentDate = new Date();
-                            var fallbackDate = currentDate.getFullYear() + '-' + 
-                                             String(currentDate.getMonth() + 1).padStart(2, '0') + '-' + 
-                                             String(currentDate.getDate()).padStart(2, '0');
-                            $('input[name="date"]').val(fallbackDate);
-                            $('#timeslot_col_date').val(fallbackDate);
-                            $('.showselecteddate').html(currentDate.toLocaleDateString('en-GB'));
-                            console.log('Using fallback date:', fallbackDate);
-                        }
-
-                        $('.timeslots').html('');
-                        var start_time = parseTime(starttime),
-				        end_time = parseTime(endtime),
-			            interval = parseInt(duration);
-                        var service_id = $('input[name="service_id"]').val();
-
-                        var enquiry_item  = $('.enquiry_item').val(); //alert(enquiry_item);
-                        $.ajax({
-                            url:'{{URL::to('/getdisableddatetime')}}',
-                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                            type:'POST',
-                            data:{service_id:service_id,sel_date:date, enquiry_item:enquiry_item},
-                            dataType:'json',
-                            success:function(obj){
-                                $('.timeslots').html('');
-                                 if(obj.success){
-                                    var objdisable = obj.disabledtimeslotes;
-                                    var start_timer = start_time;
-                                    for(var i = start_time; i<end_time; i = i+interval){
-                                        var timeString = start_timer + interval;
-                                        // Prepend any date. Use your birthday.
-                                        // Fix: Handle 12-hour format properly
-                                        var start_hour = Math.floor(start_timer/60);
-                                        var start_min = start_timer % 60;
-                                        var end_hour = Math.floor(timeString/60);
-                                        var end_min = timeString % 60;
-                                        
-                                        // Convert to 12-hour format manually
-                                        var timeString12hr = formatTo12Hour(start_hour, start_min);
-                                        var timetoString12hr = formatTo12Hour(end_hour, end_min);
-
-                                        var today_date = new Date();
-                                        // Use Melbourne timezone for current date
-                                        const options = { timeZone: 'Australia/Melbourne'};
-                                        today_date = today_date.toLocaleDateString('en-AU', options);
-
-                                        // current time in Melbourne timezone
-                                        var now = new Date();
-                                        var nowTime = new Date('1/1/1900 ' + now.toLocaleTimeString('en-AU', {
-                                            timeZone: 'Australia/Melbourne',
-                                            hour: '2-digit',
-                                            minute: '2-digit',
-                                            hour12: true
-									    }));
-
-                                        var current_time=nowTime.toLocaleTimeString('en-AU');
-                                        if(objdisable.length > 0){
-                                            //if(jQuery.inArray(timeString12hr, objdisable) != -1  || jQuery.inArray(timetoString12hr, objdisable) != -1) { //console.log('ifff');
-                                            if(jQuery.inArray(timeString12hr, objdisable) != -1  ) {
-
-                                            } else if ((checked_date == today_date) && (current_time > timeString12hr || current_time > timetoString12hr)){ //console.log('elseee-ifff');
-                                            } else{
-                                                $('.timeslots').append('<div data-fromtime="'+timeString12hr+'" data-totime="'+timetoString12hr+'" style="cursor: pointer;" class="timeslot_col"><span>'+timeString12hr+'</span></div>');
-                                            }
-                                        } else{
-                                            if((checked_date == today_date) && (current_time > timeString12hr || current_time > timetoString12hr)){
-                                            } else {
-                                                $('.timeslots').append('<div data-fromtime="'+timeString12hr+'" data-totime="'+timetoString12hr+'" style="cursor: pointer;" class="timeslot_col"><span>'+timeString12hr+'</span></div>');
-                                            }
-                                            // $('.timeslots').append('<div data-fromtime="'+timeString12hr+'" data-totime="'+timetoString12hr+'" style="cursor: pointer;" class="timeslot_col"><span>'+timeString12hr+'</span><span>'+timetoString12hr+'</span></div>');
-                                        }
-						                start_timer = timeString;
-					                }
-                                }else{
-
-                                }
-                            }
-                        });
-                        //	var times_ara = calculate_time_slot( start_time, end_time, interval );
-                    });
-
-
-
-                    if(id != ""){
-                        var v = 'appointment_details';
-                        $('#myTab .nav-item #services-tab').addClass('disabled');
-                        $('#myTab .nav-item #appointment_details-tab').removeClass('disabled');
-                        $('#myTab a[href="#'+v+'"]').trigger('click');
-                    } else {
-                        var v = 'services';
-                        $('#myTab .nav-item #services-tab').removeClass('disabled');
-                        $('#myTab .nav-item #appointment_details-tab').addClass('disabled');
-                        $('#myTab a[href="#'+v+'"]').trigger('click');
-                    }
-                    $('input[name="service_id"]').val(id);
-				} else {
-                    $('input[name="service_id"]').val('');
-                    var v = 'services';
-                    alert('There is a problem in our system. please try again');
-                    $('#myTab .nav-item #services-tab').removeClass('disabled');
-                    $('#myTab .nav-item #appointment_details-tab').addClass('disabled');
-				}
-			},
-			error: function(xhr, status, error) {
-				console.log('AJAX Error:', error);
-				console.log('Response:', xhr.responseText);
-				alert('Failed to load calendar data. Please refresh the page and try again.');
-			}
-		})
-	});
-
-    $(document).delegate('.nextbtn', 'click', function(){
-		var v = $(this).attr('data-steps');
-		$(".custom-error").remove();
-		var flag = 1;
-
-		if(v == 'confirm'){ //datetime
-			var fullname = $('.fullname').val();
-			var email = $('.email').val();
-			//var title = $('.title').val();
-			var phone = $('.phone').val();
-			var description = $('.description').val();
-
-            var timeslot_col_date = $('#timeslot_col_date').val();
-            var timeslot_col_time = $('#timeslot_col_time').val();
-
-            var phoneRegex = /^[0-9]{10,}$/;
-            // Regular expression to allow only letters and spaces (no special characters)
-            var nameRegex = /^[a-zA-Z\s]+$/;
-
-			if( !$.trim(fullname) ){
-				flag = 0;
-				$('.fullname').after('<span class="custom-error" role="alert">Fullname is required</span>');
-			}
-            else if (!nameRegex.test(fullname)) {
-                flag = 0;
-                // Show error message if fullname contains special characters
-                $('.fullname').after('<span class="custom-error" role="alert">Full name must not contain special characters</span>');
-            }
-
-			if( !ValidateEmail(email) ){
-				flag = 0;
-				if(!$.trim(email)){
-					$('.email').after('<span class="custom-error" role="alert">Email is required.</span>');
-				}else{
-					$('.email').after('<span class="custom-error" role="alert">You have entered an invalid email address!</span>');
-				}
-			}
-
-            if( !$.trim(phone) ){
-				flag = 0;
-				$('.phone').after('<span class="custom-error" role="alert">Phone number is required</span>');
-			} else if (!phoneRegex.test(phone)) {
-                flag = 0;
-                // Show error message if phone number is not valid (less than 10 digits or contains non-digits)
-                $('.phone').after('<span class="custom-error" role="alert">Phone number must be at least 10 digits and only contain numbers</span>');
-            }
-
-            if( !$.trim(description) ){
-				flag = 0;
-				$('.description').after('<span class="custom-error" role="alert">Description is required</span>');
-			}
-            if( !$.trim(timeslot_col_date) || !$.trim(timeslot_col_time)  ){
-				flag = 0;
-				$('.timeslot_col_date_time').after('<span class="custom-error" role="alert">Date and Time is required</span>');
-			}
-
-
-		}/*else if(v == 'confirm'){
-
-		}*/
-        //alert('flag=='+flag+'---v=='+v);
-		if(flag == 1 && v == 'confirm'){
-            $('.confirm_row').show();
-            $('#myTab .nav-item .nav-link').addClass('disabled');
-		    $('#myTab .nav-item #'+v+'-tab').removeClass('disabled');
-			$('#myTab a[href="#'+v+'"]').trigger('click');
-
-            $('.full_name').text($('.fullname').val());
-            $('.email').text($('.email').val());
-            //$('.title').text($('.title').val());
-            $('.phone').text($('.phone').val());
-            $('.description').text($('.description').val());
-            $('.date').text($('input[name="date"]').val());
-            $('.time').text($('input[name="time"]').val());
-
-            // Only paid appointments for Ajay
-            $('.submitappointment_paid').show();
-            $('.submitappointment').hide();
-		} else {
-            $('.confirm_row').hide();
-        }
-
-		function ValidateEmail(inputText) {
-			var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-			if(inputText.match(mailformat)) {
-			    return true;
-			} else {
-			    // alert("You have entered an invalid email address!");
-			    return false;
-			}
-		}
+        
+        // Update floating navigation immediately when enquiry changes
+        console.log('Updating floating navigation after matter selection...');
+        updateFloatingNavigation();
+        
+        // Also update confirmation details
+        updateConfirmationDetails();
     });
-    // Apply coupon
-    $(document).delegate('#apply_coupon_btn','click', function(){
-        var code = $.trim($('#promo_code').val());
-        var serviceId = $('input[name="service_id"]').val();
-        if(!code){
-            $('#coupon_msg').text('Enter a coupon').css('color','red').show();
+    
+    // Time slot selection
+    $(document).delegate('.timeslot_col', 'click', function() {
+        if ($(this).hasClass('unavailable') || $(this).attr('disabled')) {
+            console.log('Timeslot unavailable or disabled');
             return;
         }
-        $('#coupon_msg').text('Checking...').css('color','#666').show();
-        $.ajax({
-            url:'{{URL::to('/promo-code/check')}}',
-            type:'POST',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            data:{promo_code:code, service_id:serviceId},
-            dataType:'json',
-            success:function(obj){
-                if(obj.success){
-                    $('#coupon_msg').text(obj.msg + ' Payable: aud'+obj.payable).css('color','green');
-                    $('#promo_code_paid').val(code);
-                    $('#payable_amount').val(obj.payable);
-                    if(parseFloat(obj.payable) <= 0){
-                        $('#pay_now_btn').text('Complete (Free)');
-                        $('.submitappointment_paid').removeAttr('data-toggle').removeAttr('data-target');
-                    } else {
-                        $('#pay_now_btn').text('Pay Now (aud'+obj.payable+')');
-                        $('.submitappointment_paid').attr('data-toggle','modal').attr('data-target','#exampleModal');
-                    }
-                } else {
-                    $('#coupon_msg').text(obj.msg).css('color','red');
-                    $('#promo_code_paid').val('');
-                    $('#payable_amount').val('');
-                }
-            },
-            error:function(jqXHR){
-                var msg = 'Server error';
-                try{ var er = JSON.parse(jqXHR.responseText); if(er && er.msg){ msg = er.msg; } }catch(e){}
-                $('#coupon_msg').text(msg).css('color','red');
-                $('#promo_code_paid').val('');
-                $('#payable_amount').val('');
-            }
-        });
-    });
-
-    $(document).delegate('.timeslot_col', 'click', function(){
-		$('.timeslot_col').removeClass('active');
-		$(this).addClass('active');
-        var service_id_val = $('#service_id').val();
-		var fromtime = $(this).attr('data-fromtime');
-
-        // Only paid appointments - use standard time slots
+        
+        console.log('Timeslot clicked:', $(this).text());
+        
+        $('.timeslot_col').removeClass('active');
+        $(this).addClass('active');
+        
+        var fromtime = $(this).attr('data-fromtime');
         var totime = $(this).attr('data-totime');
-		//alert('totime='+totime);
-		$('input[name="time"]').val(fromtime+'-'+totime);
-        $('#timeslot_col_time').val(fromtime+'-'+totime);
-        console.log('Set time to:', fromtime+'-'+totime);
-       /* $('.full_name').text($('.fullname').val());
-        $('.email').text($('.email').val());
-        $('.title').text($('.title').val());
-        $('.phone').text($('.phone').val());
-        $('.description').text($('.description').val());
-        $('.date').text($('input[name="date"]').val());
-        $('.time').text($('input[name="time"]').val());*/
-	});
-
-    function parseTime(s) {
-        var c = s.split(':');
-        return parseInt(c[0]) * 60 + parseInt(c[1]);
-    }
-
-    function parseTimeLatest(s) {
-        var c = s.split(':');
-        var c11 = c[1].split(' ');
-        if(c11[1] == 'PM'){
-            if(parseInt(c[0]) != 12 ){
-                return ( parseInt(c[0])+12 ) * 60 + parseInt(c[1]);
-            } else {
-                return parseInt(c[0]) * 60 + parseInt(c[1]);
-            }
-        } else {
-            return parseInt(c[0]) * 60 + parseInt(c[1]);
-        }
-        //return parseInt(c[0]) * 60 + parseInt(c[1]);
-    }
-
-    function convertHours(mins){
-        var hour = Math.floor(mins/60);
-        var mins = mins%60;
-        var converted = pad(hour, 2)+':'+pad(mins, 2);
-        return converted;
-    }
-
-    function pad (str, max) {
-        str = str.toString();
-        return str.length < max ? pad("0" + str, max) : str;
-    }
-
-    function formatTo12Hour(hour, min) {
-        var period = 'AM';
-        if (hour === 0) {
-            hour = 12; // 12 AM (midnight)
-        } else if (hour === 12) {
-            period = 'PM'; // 12 PM (noon)
-        } else if (hour > 12) {
-            hour = hour - 12;
-            period = 'PM';
-        }
-        return hour + ':' + pad(min, 2) + ' ' + period;
-    }
-
-    function calculate_time_slot(start_time, end_time, interval = "15"){
-        var i, formatted_time;
-        var time_slots = new Array();
-        for(var i=start_time; i<=end_time; i = i+interval){
-            formatted_time = convertHours(i);
-            const timeString = formatted_time;
-            time_slots.push(timeString);
-        }
-        return time_slots;
-    }
-
-    $(document).delegate('.submitappointment','click',function (e) {
-		var flag = 1;
-		$('.errors').html('');
-		var fullname = $('.fullname').val();
-		var email = $('.email').val();
-		//var title = $('.title').val();
-		var phone = $('.phone').val();
-		var date = $('input[name="date"]').val();
-		var time = $('input[name="time"]').val();
-		var service_id = $('input[name="service_id"]').val();
-
-		var description = $('.description').val();
-		if( !$.trim(date) ){
-			flag = 0;
-			$('.errors').append('<li><span class="custom-error" role="alert">Date is required</span></li>');
-		}if( !$.trim(time) ){
-			flag = 0;
-			$('.errors').append('<li><span class="custom-error" role="alert">Time is required</span></li>');
-		}if( !$.trim(service_id) ){
-			flag = 0;
-			$('.errors').append('<li><span class="custom-error" role="alert">Service is required</span></li>');
-		}
-		if( !$.trim(fullname) ){
-			flag = 0;
-			$('.errors').append('<li><span class="custom-error" role="alert">Name is required</span></li>');
-		}
-		if( !$.trim(email) ){
-			flag = 0;
-			$('.errors').append('<li><span class="custom-error" role="alert">Email is required</span></li>');
-		}
-		if( !$.trim(phone) ){
-			flag = 0;
-			$('.errors').append('<li><span class="custom-error" role="alert">Phone is required</span></li>');
-		}
-		if( !$.trim(description) ){
-			flag = 0;
-			$('.errors').append('<li><span class="custom-error" role="alert">Description is required</span></li>');
-		}
-		if(flag == 1){
-			$('#loading').show();
-			$.ajax({
-			    type:'POST',
-			    data: $('#appintment_form').serialize(),
-			    url:'{{URL::to('/book-an-appointment/store')}}',
-			    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-			    dataType:'json',
-			    success:function(obj){
-				    $('#loading').hide();
-				    if(obj.success){
-                        $('html, body').animate({scrollTop: $('#confirm_div').offset().top -100 }, 'slow');
-					    $('#confirm_div').html('<div class="tab_header"><h4></h4></div><div class="tab_body"><h4 style="text-align: center;padding: 20px;">'+obj.message+'</h4></div>');
-					    setTimeout(function(){ window.location.reload(); }, 5000);
-				    }else{
-					    alert('Please try again. There is a issue in our system');
-				    }
-			    },
-			    error:function(){
-			    	$('#loading').hide();
-			    	alert('Network error. Please try again.');
-			    }
-			});
-		}
-	});
-
-
-    function closePopup() { //alert('close');
-        $('#exampleModal').hide();
-    }
-
-    $(document).delegate('.submitappointment_paid','click',function (e) {
-		console.log('=== PAID APPOINTMENT CLICK DEBUG ===');
-		console.log('Submit button clicked');
-		
-		var flag = 1;
-		$('.errors').html('');
-		var fullname = $('.fullname').val();
-		var email = $('.email').val();
-		//var title = $('.title').val();
-		var phone = $('.phone').val();
-		var date = $('input[name="date"]').val();
-		var time = $('input[name="time"]').val();
-		var service_id = $('input[name="service_id"]').val();
-		var noe_id = $('input[name="noe_id"]').val();
-		var appointment_details = $('input[name="appointment_details"]').val();
-
-		var description = $('.description').val();
-		
-		console.log('Form field values:');
-		console.log('fullname:', fullname);
-		console.log('email:', email);
-		console.log('phone:', phone);
-		console.log('description:', description);
-		console.log('date:', date);
-		console.log('time:', time);
-		console.log('service_id:', service_id);
-		console.log('noe_id:', noe_id);
-		console.log('appointment_details:', appointment_details);
-		
-		if( !$.trim(date) ){
-			flag = 0;
-			console.log('Validation failed: Date is required');
-			$('.errors').append('<li><span class="custom-error" role="alert">Date is required</span></li>');
-		}if( !$.trim(time) ){
-			flag = 0;
-			console.log('Validation failed: Time is required');
-			$('.errors').append('<li><span class="custom-error" role="alert">Time is required</span></li>');
-		}if( !$.trim(service_id) ){
-			flag = 0;
-			console.log('Validation failed: Service is required');
-			$('.errors').append('<li><span class="custom-error" role="alert">Service is required</span></li>');
-		}
-		if( !$.trim(fullname) ){
-			flag = 0;
-			console.log('Validation failed: Name is required');
-			$('.errors').append('<li><span class="custom-error" role="alert">Name is required</span></li>');
-		}
-		if( !$.trim(email) ){
-			flag = 0;
-			console.log('Validation failed: Email is required');
-			$('.errors').append('<li><span class="custom-error" role="alert">Email is required</span></li>');
-		}
-		if( !$.trim(phone) ){
-			flag = 0;
-			console.log('Validation failed: Phone is required');
-			$('.errors').append('<li><span class="custom-error" role="alert">Phone is required</span></li>');
-		}
-		if( !$.trim(description) ){
-			flag = 0;
-			console.log('Validation failed: Description is required');
-			$('.errors').append('<li><span class="custom-error" role="alert">Description is required</span></li>');
-		}
-		if( !$.trim(noe_id) ){
-			flag = 0;
-			console.log('Validation failed: Nature of Enquiry is required');
-			$('.errors').append('<li><span class="custom-error" role="alert">Nature of Enquiry is required</span></li>');
-		}
-		if( !$.trim(appointment_details) ){
-			flag = 0;
-			console.log('Validation failed: Appointment Details is required');
-			$('.errors').append('<li><span class="custom-error" role="alert">Appointment Details is required</span></li>');
-		}
-
-		console.log('Final validation flag:', flag);
-		console.log('Errors found:', $('.errors').html());
-
-        if(flag == 0){
-            console.log('Validation failed, closing popup');
-            closePopup();
-        }
-
-		if(flag == 1){
-            // DEBUG: Log all form data before submission
-            console.log('=== PAID APPOINTMENT SUBMISSION DEBUG ===');
-            console.log('Flag value:', flag);
-            console.log('Form validation passed, proceeding with submission');
+        
+        console.log('Setting time:', fromtime + '-' + totime);
+        
+        $('input[name="time"]').val(fromtime + '-' + totime);
+        $('#timeslot_col_time').val(fromtime + '-' + totime);
+        $('#time_input').val(fromtime + '-' + totime);
+        
+        // Update selection summary
+        updateSelectionSummary();
+        
+        // Update floating navigation
+        updateFloatingNavigation();
+        
+        console.log('Timeslot selection complete');
+    });
+    
+    // Form submission
+    $('.submitappointment_paid').click(function(e) {
+        e.preventDefault();
+        
+        if (validateForm()) {
+            $('#loading').addClass('show');
             
-            // DEBUG: Check all required field values
-            var debugData = {
-                fullname: fullname,
-                email: email,
-                phone: phone,
-                description: description,
+            // Disable submit button and show loading state
+            var $submitBtn = $('.submitappointment_paid');
+            $submitBtn.prop('disabled', true);
+            var originalText = $submitBtn.find('.btn-text').text();
+            $submitBtn.find('.btn-text').text('Processing...');
+            
+            // Prepare form data
+            var formData = {
+                service_id: $('input[name="service_id"]').val(),
+                noe_id: $('select[name="noe_id"]').val(),
+                fullname: $('input[name="fullname"]').val(),
+                email: $('input[name="email"]').val(),
+                phone: $('input[name="phone"]').val(),
                 date: $('input[name="date"]').val(),
                 time: $('input[name="time"]').val(),
-                service_id: $('input[name="service_id"]').val(),
-                noe_id: $('input[name="noe_id"]').val(),
+                description: $('textarea[name="description"]').val(),
                 appointment_details: $('input[name="appointment_details"]').val(),
-                enquiry_item: $('.enquiry_item').val(),
-                timeslot_col_date: $('#timeslot_col_date').val(),
-                timeslot_col_time: $('#timeslot_col_time').val()
+                consultation_type: $('input[name="consultation_type"]:checked').val(),
+                promo_code: $('input[name="promo_code"]').val(),
+                discount_amount: $('input[name="discount_amount"]').val(),
+                discount_percentage: $('input[name="discount_percentage"]').val(),
+                cardName: $('input[name="fullname"]').val(), // Use fullname as cardName
+                stripeToken: 'experimental_' + Date.now() // Generate token for experimental bookings
             };
-            console.log('Field values before submission:', debugData);
             
-            // DEBUG: Check if any required fields are empty
-            var emptyFields = [];
-            Object.keys(debugData).forEach(function(key) {
-                if (!debugData[key] || debugData[key] === '') {
-                    emptyFields.push(key);
-                }
-            });
-            if (emptyFields.length > 0) {
-                console.warn('Empty fields detected:', emptyFields);
-            }
+            // Add CSRF token
+            formData._token = $('meta[name="csrf-token"]').attr('content');
             
-            // DEBUG: Check form serialization
-            var formData = $('#appintment_form').serialize();
-            console.log('Form serialized data:', formData);
+            console.log('Submitting form data:', formData);
             
-            var dataArr = $('#appintment_form').serializeArray();
-            console.log('Form serialized array:', dataArr);
-            
-            // Submit paid appointment directly (simplified for Ajay Bansal only)
-            $('#loading').show();
-            
-            // Build payload from the main form
-            dataArr.push({name:'promo_code', value: $.trim($('#promo_code').val() || '')});
-            dataArr.push({name:'stripeToken', value: 'manual_'+(new Date().getTime())});
-            dataArr.push({name:'cardName', value: $.trim(fullname)});
-            
-            console.log('Final data array being sent:', dataArr);
-            console.log('Final data string:', $.param(dataArr));
-            console.log('CSRF Token:', $('meta[name="csrf-token"]').attr('content'));
-            console.log('Request URL:', '{{URL::to('/book-an-appointment/storepaid')}}');
-            
+            // Submit to backend
             $.ajax({
-                type:'POST',
-                data: $.param(dataArr),
-                url:'{{URL::to('/book-an-appointment/storepaid')}}',
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                dataType:'json',
-                beforeSend: function() {
-                    console.log('AJAX request starting...');
-                },
-                success:function(obj){
-                    console.log('AJAX Success Response:', obj);
-                    $('#loading').hide();
-                    if(obj.success){
-                        console.log('Appointment saved successfully');
-                        $('html, body').animate({scrollTop: $('#confirm_div').offset().top -100 }, 'slow');
-                        $('#confirm_div').html('<div class="tab_header"><h4></h4></div><div class="tab_body"><h4 style="text-align: center;padding: 20px;">'+obj.message+'</h4></div>');
-                        setTimeout(function(){ window.location.reload(); }, 5000);
-                    }else{
-                        console.error('Backend returned success=false:', obj);
-                        alert('Please try again. There is a issue in our system: ' + (obj.message || 'Unknown error'));
+                url: '/book-an-appointment/storepaid',
+                method: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    $('#loading').removeClass('show');
+                    
+                    // Re-enable submit button
+                    $submitBtn.prop('disabled', false);
+                    $submitBtn.find('.btn-text').text(originalText);
+                    
+                    if (response.success) {
+                        // Success - show confirmation
+                        showSuccessMessage('Appointment booked successfully! You will receive a confirmation email shortly.');
+                        
+                        // Reset form after 3 seconds
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 3000);
+                    } else {
+                        // Backend validation error
+                        showErrorMessage(response.message || 'An error occurred while booking your appointment.');
                     }
                 },
-                error:function(xhr, status, error){
-                    console.error('AJAX Error Details:');
-                    console.error('Status:', status);
-                    console.error('Error:', error);
-                    console.error('Response Text:', xhr.responseText);
-                    console.error('Response Status:', xhr.status);
-                    console.error('Response Headers:', xhr.getAllResponseHeaders());
-                    $('#loading').hide();
-                    alert('Network error. Please try again. Error: ' + error + ' (Status: ' + xhr.status + ')');
+                error: function(xhr) {
+                    $('#loading').removeClass('show');
+                    
+                    // Re-enable submit button
+                    $submitBtn.prop('disabled', false);
+                    $submitBtn.find('.btn-text').text(originalText);
+                    
+                    var errorMessage = 'An error occurred while booking your appointment.';
+                    
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    } else if (xhr.status === 422) {
+                        errorMessage = 'Please check all required fields and try again.';
+                    } else if (xhr.status === 500) {
+                        errorMessage = 'Server error. Please try again later.';
+                    }
+                    
+                    showErrorMessage(errorMessage);
+                    console.error('Form submission error:', xhr);
                 }
             });
-            return; // Stop further processing
-        } else {
-            console.log('Form validation failed, flag =', flag);
-            console.log('Not submitting appointment');
         }
-	});
+    });
+    
+    function validateCurrentTab(tabId) {
+        switch(tabId) {
+            case 'consultation_type':
+                return $('.consultation_type:checked').length > 0;
+             case 'appointment_details':
+                 // Check multiple possible date/time field sources
+                 var hasDate = $('#timeslot_col_date').val() !== '' || 
+                              $('input[name="date"]').val() !== '' || 
+                              $('#date_input').val() !== '' ||
+                              (selectedDate && !isNaN(selectedDate.getTime()));
+                 var hasTime = $('#timeslot_col_time').val() !== '' || 
+                              $('input[name="time"]').val() !== '' || 
+                              $('#time_input').val() !== '' ||
+                              selectedTime !== null;
+                 
+                 console.log('Date validation - timeslot_col_date:', $('#timeslot_col_date').val());
+                 console.log('Date validation - input[name="date"]:', $('input[name="date"]').val());
+                 console.log('Date validation - selectedDate:', selectedDate);
+                 console.log('Time validation - timeslot_col_time:', $('#timeslot_col_time').val());
+                 console.log('Time validation - input[name="time"]:', $('input[name="time"]').val());
+                 console.log('Time validation - selectedTime:', selectedTime);
+                 console.log('Validation result - hasDate:', hasDate, 'hasTime:', hasTime);
+                 
+                 if (!hasDate || !hasTime) {
+                     $('#bookingError').show();
+                     return false;
+                 } else {
+                     $('#bookingError').hide();
+                     return true;
+                 }
+            case 'info':
+                return validateInfoTab();
+            case 'confirm':
+                return true; // Confirmation tab is always valid
+            default:
+                return true;
+        }
+    }
+    
+     function validateInfoTab() {
+         var valid = true;
+         var missingFields = [];
+         
+         console.log('Validating info tab...');
+         
+         // Clear previous errors
+         $('.experimental-form-control').removeClass('error');
+         $('.error-message').remove();
+         $('.validation-error-message').remove();
+         
+         // Check full name
+         if (!$('.fullname').val() || $('.fullname').val().trim() === '') {
+             console.log('Full name missing');
+             showError($('.fullname'), 'Full name is required');
+             missingFields.push('Full Name');
+             valid = false;
+         }
+         
+         // Check email
+         if (!$('.email').val() || $('.email').val().trim() === '' || !isValidEmail($('.email').val())) {
+             console.log('Email missing or invalid');
+             showError($('.email'), 'Valid email is required');
+             missingFields.push('Email Address');
+             valid = false;
+         }
+         
+         // Check phone
+         if (!$('.phone').val() || $('.phone').val().trim() === '') {
+             console.log('Phone missing');
+             showError($('.phone'), 'Phone number is required');
+             missingFields.push('Phone Number');
+             valid = false;
+         }
+         
+         // Check description
+         if (!$('.description').val() || $('.description').val().trim() === '') {
+             console.log('Description missing');
+             showError($('.description'), 'Description is required');
+             missingFields.push('Details of Enquiry');
+             valid = false;
+         }
+         
+         // Check legal matter selection
+         if (!$('.enquiry_item').val() || $('.enquiry_item').val() === '') {
+             console.log('Legal matter not selected');
+             showError($('.enquiry_item'), 'Please select a type of legal matter');
+             missingFields.push('Type of Legal Matter');
+             valid = false;
+         }
+         
+         // Check consultation type
+         if (!$('.consultation_type:checked').val()) {
+             console.log('Consultation type not selected');
+             missingFields.push('Consultation Type');
+             valid = false;
+         }
+         
+         // Check date and time
+         var hasDate = $('#timeslot_col_date').val() !== '';
+         var hasTime = $('#timeslot_col_time').val() !== '';
+         if (!hasDate || !hasTime) {
+             console.log('Date/time missing');
+             $('#bookingError').show();
+             missingFields.push('Date and Time');
+             valid = false;
+         } else {
+             $('#bookingError').hide();
+         }
+         
+         // Store missing fields for error display
+         if (!valid) {
+             window.missingFields = missingFields;
+         } else {
+             // Clear all errors if validation passes
+             clearAllErrors();
+         }
+         
+         console.log('Info tab validation result:', valid);
+         console.log('Missing fields:', missingFields);
+         return valid;
+     }
+    
+    function validateForm() {
+        return validateInfoTab();
+    }
+    
+    function showError(field, message) {
+        // Remove any existing error styling
+        field.removeClass('is-invalid error');
+        field.next('.invalid-feedback').remove();
+        
+        // Add error styling
+        field.addClass('error');
+        field.after('<div class="error-message invalid-feedback">' + message + '</div>');
+        
+        // Add visual highlight
+        field.css({
+            'border-color': '#dc3545',
+            'box-shadow': '0 0 0 0.2rem rgba(220, 53, 69, 0.25)'
+        });
+    }
+    
+    function clearAllErrors() {
+        $('.experimental-form-control').removeClass('error');
+        $('.error-message').remove();
+        $('.validation-error-message').remove();
+        $('.experimental-form-control').css({
+            'border-color': '',
+            'box-shadow': '',
+            'background-color': ''
+        });
+    }
+    
+    function isValidEmail(email) {
+        var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+     // Modern Calendar System
+     let currentWeekStart = new Date();
+     let selectedDate = null;
+     let selectedTime = null;
+     
+     // Helper function to parse DD/MM/YYYY format dates
+     function parseDateFromDDMMYYYY(dateStr) {
+         if (!dateStr) return null;
+         
+         // Split the date string by '/'
+         const parts = dateStr.split('/');
+         if (parts.length !== 3) {
+             console.error('Invalid date format:', dateStr);
+             return null;
+         }
+         
+         // DD/MM/YYYY format: parts[0] = day, parts[1] = month, parts[2] = year
+         const day = parseInt(parts[0], 10);
+         const month = parseInt(parts[1], 10) - 1; // JavaScript months are 0-based
+         const year = parseInt(parts[2], 10);
+         
+         // Create date object
+         const date = new Date(year, month, day);
+         
+         // Validate the date
+         if (isNaN(date.getTime())) {
+             console.error('Invalid date:', dateStr);
+             return null;
+         }
+         
+         return date;
+     }
+     
+     // Initialize the modern calendar
+     function initializeModernCalendar() {
+         console.log('Initializing modern calendar...');
+         
+         // Set current week start to Monday
+         const today = new Date();
+         const dayOfWeek = today.getDay();
+         const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+         currentWeekStart = new Date(today);
+         currentWeekStart.setDate(today.getDate() + daysToMonday);
+         
+         renderCalendar();
+         setupEventListeners();
+     }
+     
+     function renderCalendar() {
+         const weekDates = [];
+         const currentDate = new Date(currentWeekStart);
+         
+         // Generate 7 days starting from Monday
+         for (let i = 0; i < 7; i++) {
+             const date = new Date(currentDate);
+             date.setDate(currentDate.getDate() + i);
+             weekDates.push(new Date(date));
+         }
+         
+         // Render week navigation
+         const weekStart = weekDates[0];
+         const weekEnd = weekDates[6];
+         const weekRange = weekStart.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' }) + 
+                          ' - ' + weekEnd.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
+         
+         $('#currentWeek').html(`
+             <div class="week-range">${weekRange}</div>
+             <div class="week-dates">
+                 ${weekDates.map((date, index) => {
+                     const dayName = date.toLocaleDateString('en-AU', { weekday: 'short' }).toUpperCase();
+                     const dayNumber = date.getDate();
+                     const isToday = isSameDay(date, new Date());
+                     const isPast = date < new Date().setHours(0,0,0,0);
+                     const isSelected = selectedDate && isSameDay(date, selectedDate);
+                     
+                     return `
+                         <div class="week-date ${isPast ? 'disabled' : ''} ${isSelected ? 'selected' : ''}" 
+                              data-date="${formatDateForInput(date)}" 
+                              ${isPast ? 'disabled' : ''}>
+                             <div class="day-name">${dayName}</div>
+                             <div class="day-number">${dayNumber}</div>
+                         </div>
+                     `;
+                 }).join('')}
+             </div>
+         `);
+     }
+     
+     function setupEventListeners() {
+         // Week navigation
+         $('#prevWeek').off('click').on('click', function() {
+             currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+             renderCalendar();
+             setupEventListeners();
+         });
+         
+         $('#nextWeek').off('click').on('click', function() {
+             currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+             renderCalendar();
+             setupEventListeners();
+         });
+         
+         // Date selection
+         $(document).off('click', '.week-date:not(.disabled)').on('click', '.week-date:not(.disabled)', function() {
+             const dateStr = $(this).data('date');
+             selectedDate = parseDateFromDDMMYYYY(dateStr);
+             
+             // Check if date parsing was successful
+             if (!selectedDate) {
+                 console.error('Failed to parse date:', dateStr);
+                 alert('Error: Invalid date selected. Please try again.');
+                 return;
+             }
+             
+             // Update UI
+             $('.week-date').removeClass('selected');
+             $(this).addClass('selected');
+             
+             // Show time slots
+             showTimeSlots(selectedDate);
+             
+             // Clear previous time selection
+             selectedTime = null;
+             
+             // Update form inputs
+             updateFormInputs();
+             
+             // Update floating navigation
+             updateFloatingNavigation();
+             
+             console.log('Date selected:', selectedDate);
+         });
+         
+         // Time slot selection
+         $(document).off('click', '.time-slot:not(.unavailable)').on('click', '.time-slot:not(.unavailable)', function() {
+             selectedTime = $(this).data('time');
+             
+             // Update UI
+             $('.time-slot').removeClass('selected');
+             $(this).addClass('selected');
+             
+             // Update form inputs
+             updateFormInputs();
+             
+             // Update floating navigation
+             updateFloatingNavigation();
+             
+             console.log('Timeslot selection complete - selectedTime:', selectedTime);
+         });
+     }
+     
+     function showTimeSlots(date) {
+         const timeSlots = generateTimeSlots();
+         const dateStr = date.toLocaleDateString('en-AU', { 
+             weekday: 'long', 
+             year: 'numeric', 
+             month: 'long', 
+             day: 'numeric' 
+         });
+         
+         $('#selectedDateDisplay').text(dateStr);
+         $('#timeSlotsContainer').show();
+         
+         const timeSlotsHtml = timeSlots.map(slot => `
+             <div class="time-slot ${!slot.available ? 'unavailable' : ''}" 
+                  data-time="${slot.time}" 
+                  ${!slot.available ? 'disabled' : ''}>
+                 ${slot.time}
+             </div>
+         `).join('');
+         
+         $('#timeSlotsGrid').html(timeSlotsHtml);
+     }
+     
+     function generateTimeSlots() {
+         const slots = [
+             { time: '9:00 AM', available: true },
+             { time: '9:30 AM', available: true },
+             { time: '10:00 AM', available: true },
+             { time: '10:30 AM', available: true },
+             { time: '11:00 AM', available: true },
+             { time: '11:30 AM', available: true },
+             { time: '2:00 PM', available: true },
+             { time: '2:30 PM', available: true },
+             { time: '3:00 PM', available: true },
+             { time: '3:30 PM', available: true },
+             { time: '4:00 PM', available: true },
+             { time: '4:30 PM', available: true }
+         ];
+         
+         // Randomly make some slots unavailable for demo
+         return slots.map(slot => ({
+             ...slot,
+             available: Math.random() > 0.2 // 80% availability
+         }));
+     }
+     
+     function updateFormInputs() {
+         if (selectedDate && selectedTime && !isNaN(selectedDate.getTime())) {
+             const dateStr = formatDateForInput(selectedDate);
+             const timeStr = selectedTime;
+             
+             // Update all form inputs
+             $('#timeslot_col_date').val(dateStr);
+             $('#timeslot_col_time').val(timeStr);
+             $('input[name="date"]').val(dateStr);
+             $('input[name="time"]').val(timeStr);
+             $('#date_input').val(dateStr);
+             $('#time_input').val(timeStr);
+             
+             // Hide error message
+             $('#bookingError').hide();
+             
+             // Update selection summary
+             updateSelectionSummary();
+             
+             console.log('Form inputs updated - Date:', dateStr, 'Time:', timeStr);
+         } else if (selectedDate && !isNaN(selectedDate.getTime())) {
+             // Update date only if time not selected yet
+             const dateStr = formatDateForInput(selectedDate);
+             $('#timeslot_col_date').val(dateStr);
+             $('input[name="date"]').val(dateStr);
+             $('#date_input').val(dateStr);
+             
+             console.log('Date input updated - Date:', dateStr);
+         }
+     }
+     
+     function formatDateForInput(date) {
+         // Check if date is valid
+         if (!date || isNaN(date.getTime())) {
+             console.error('Invalid date passed to formatDateForInput:', date);
+             return 'Invalid Date';
+         }
+         
+         const day = String(date.getDate()).padStart(2, '0');
+         const month = String(date.getMonth() + 1).padStart(2, '0');
+         const year = date.getFullYear();
+         return `${day}/${month}/${year}`;
+     }
+     
+     function isSameDay(date1, date2) {
+         // Check if both dates are valid
+         if (!date1 || !date2 || isNaN(date1.getTime()) || isNaN(date2.getTime())) {
+             return false;
+         }
+         
+         return date1.getDate() === date2.getDate() &&
+                date1.getMonth() === date2.getMonth() &&
+                date1.getFullYear() === date2.getFullYear();
+     }
+     
+     // Initialize calendar when document is ready
+     initializeModernCalendar();
+    
+    // Update confirmation details
+    $('.infoFormFields').on('change input', function() {
+        updateConfirmationDetails();
+        // Update floating navigation when form fields change
+        updateFloatingNavigation();
+    });
+    
+    // Update confirmation when consultation type changes
+    $('.consultation_type').on('change', function() {
+        updateConfirmationDetails();
+    });
+    
+    // Initialize floating navigation
+    updateFloatingNavigation();
+    
+    // Update floating navigation when switching to info tab
+    $('.experimental-tab-link[data-tab="info"]').click(function() {
+        setTimeout(function() {
+            updateFloatingNavigation();
+        }, 100);
+    });
+    
+    // Update floating navigation when any form field on info page changes
+    $(document).on('input change', '.infoFormFields, .enquiry_item', function() {
+        if ($('#info').hasClass('active')) {
+            console.log('Form field changed, updating floating navigation...');
+            
+            // Clear error styling when field is filled
+            var $field = $(this);
+            if ($field.val() && $field.val().trim() !== '') {
+                $field.removeClass('error');
+                $field.next('.error-message').remove();
+                $field.css({
+                    'border-color': '',
+                    'box-shadow': '',
+                    'background-color': ''
+                });
+            }
+            
+            setTimeout(function() {
+                updateFloatingNavigation();
+            }, 50);
+        }
+    });
+    
+    // Immediate trigger for legal matter selection
+    $(document).on('change', '.enquiry_item', function() {
+        console.log('Legal matter dropdown changed, immediate update...');
+        if ($('#info').hasClass('active')) {
+            updateFloatingNavigation();
+        }
+    });
+    
+    // Coupon code functionality
+    $('#apply_coupon').click(function() {
+        var couponCode = $('#coupon_code').val().trim();
+        var $message = $('#coupon_message');
+        
+        if (!couponCode) {
+            showCouponMessage('Please enter a promo code', 'error');
+            return;
+        }
+        
+        // Validate promo codes: FREE100 (100% off) and HALF50 (50% off)
+        var validCoupons = {
+            'FREE100': { discount: 100, type: 'percentage', description: 'Free consultation' },
+            'HALF50': { discount: 50, type: 'percentage', description: '50% off consultation' }
+        };
+        
+        if (validCoupons[couponCode.toUpperCase()]) {
+            var coupon = validCoupons[couponCode.toUpperCase()];
+            var consultationFee = 150; // Base consultation fee
+            var discountAmount = (consultationFee * coupon.discount) / 100;
+            var finalAmount = Math.max(0, consultationFee - discountAmount);
+            
+            // Update payment summary
+            $('.discount-item').show();
+            $('.discount-amount').text('-$' + discountAmount.toFixed(2) + ' AUD');
+            $('.total-amount').html('<strong>$' + finalAmount.toFixed(2) + ' AUD</strong>');
+            $('.final-amount').text('$' + finalAmount.toFixed(2) + ' AUD');
+            
+            // Show success message with savings
+            var savingsText = coupon.discount === 100 ? 'Free consultation!' : 'You saved $' + discountAmount.toFixed(2);
+            showCouponMessage('Promo code applied successfully! ' + savingsText, 'success');
+            
+            // Store coupon info for form submission
+            $('input[name="coupon_code"]').val(couponCode);
+            $('input[name="promo_code"]').val(couponCode); // Also update promo_code field for backend
+            $('input[name="discount_amount"]').val(discountAmount);
+            $('input[name="discount_percentage"]').val(coupon.discount);
+            
+            // Disable coupon input after successful application
+            $('#coupon_code').prop('disabled', true);
+            $('#apply_coupon').prop('disabled', true).text('Applied');
+            
+            // Add reset button
+            if (!$('#reset_coupon').length) {
+                $('#apply_coupon').after('<button type="button" class="experimental-btn btn-reset-coupon" id="reset_coupon" style="background: #6c757d; margin-left: 10px;"><i class="fa fa-refresh mr-2"></i>Reset</button>');
+            }
+            
+        } else {
+            showCouponMessage('Invalid promo code. Valid codes: FREE100 or HALF50', 'error');
+        }
+    });
+    
+    function showCouponMessage(message, type) {
+        var $message = $('#coupon_message');
+        $message.removeClass('success error').addClass(type).text(message).show();
+        
+        setTimeout(function() {
+            $message.fadeOut();
+        }, 5000);
+    }
+    
+    function showSuccessMessage(message) {
+        // Create success message overlay
+        var $overlay = $('<div class="success-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center;">' +
+            '<div style="background: white; padding: 40px; border-radius: 10px; text-align: center; max-width: 500px; margin: 20px;">' +
+            '<div style="color: #28a745; font-size: 48px; margin-bottom: 20px;"><i class="fa fa-check-circle"></i></div>' +
+            '<h3 style="color: #28a745; margin-bottom: 20px;">Success!</h3>' +
+            '<p style="color: #333; margin-bottom: 30px; font-size: 16px;">' + message + '</p>' +
+            '<button onclick="$(this).closest(\'.success-overlay\').remove()" style="background: #28a745; color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 16px;">OK</button>' +
+            '</div></div>');
+        
+        $('body').append($overlay);
+    }
+    
+    function showErrorMessage(message) {
+        // Create error message overlay
+        var $overlay = $('<div class="error-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center;">' +
+            '<div style="background: white; padding: 40px; border-radius: 10px; text-align: center; max-width: 500px; margin: 20px;">' +
+            '<div style="color: #dc3545; font-size: 48px; margin-bottom: 20px;"><i class="fa fa-exclamation-triangle"></i></div>' +
+            '<h3 style="color: #dc3545; margin-bottom: 20px;">Error</h3>' +
+            '<p style="color: #333; margin-bottom: 30px; font-size: 16px;">' + message + '</p>' +
+            '<button onclick="$(this).closest(\'.error-overlay\').remove()" style="background: #dc3545; color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 16px;">OK</button>' +
+            '</div></div>');
+        
+        $('body').append($overlay);
+    }
+    
+    // Reset coupon functionality
+    $(document).on('click', '#reset_coupon', function() {
+        // Reset form fields
+        $('#coupon_code').val('').prop('disabled', false);
+        $('#apply_coupon').prop('disabled', false).text('Apply');
+        
+        // Reset payment summary
+        $('.discount-item').hide();
+        $('.discount-amount').text('-$0.00 AUD');
+        $('.total-amount').html('<strong>$150.00 AUD</strong>');
+        $('.final-amount').text('$150.00 AUD');
+        
+        // Clear hidden inputs
+        $('input[name="coupon_code"]').val('');
+        $('input[name="promo_code"]').val('');
+        $('input[name="discount_amount"]').val('');
+        $('input[name="discount_percentage"]').val('');
+        
+        // Remove reset button
+        $('#reset_coupon').remove();
+        
+        // Show reset message
+        showCouponMessage('Promo code reset. You can enter a new code.', 'success');
+    });
+    
+    function updateSelectionSummary() {
+        console.log('Updating selection summary...');
+        
+        // Update consultation type summary
+        var consultationType = $('.consultation_type:checked').val();
+        console.log('Consultation type:', consultationType);
+        if (consultationType) {
+            var typeText = '';
+            switch(consultationType) {
+                case 'in_person':
+                    typeText = 'In-Person Consultation';
+                    break;
+                case 'phone':
+                    typeText = 'Phone Consultation';
+                    break;
+                case 'video':
+                    typeText = 'Zoom / Google Meeting';
+                    break;
+                default:
+                    typeText = consultationType;
+            }
+            $('.consultation-type-summary').text(typeText);
+            console.log('Updated consultation type to:', typeText);
+        } else {
+            $('.consultation-type-summary').text('Not selected');
+        }
+        
+        // Update date and time summary
+        var selectedDate = $('input[name="date"]').val();
+        var selectedTime = $('input[name="time"]').val();
+        var timeslotDate = $('#timeslot_col_date').val();
+        var timeslotTime = $('#timeslot_col_time').val();
+        
+        console.log('Selected date (name="date"):', selectedDate);
+        console.log('Selected time (name="time"):', selectedTime);
+        console.log('Timeslot date (#timeslot_col_date):', timeslotDate);
+        console.log('Timeslot time (#timeslot_col_time):', timeslotTime);
+        
+        // Use the most reliable source for date and time
+        var finalDate = selectedDate || timeslotDate;
+        var finalTime = selectedTime || timeslotTime;
+        
+        if (finalDate && finalTime) {
+            var timeOnly = finalTime.split('-')[0];
+            $('.datetime-summary').text(finalDate + ' at ' + timeOnly);
+            console.log('Updated datetime to:', finalDate + ' at ' + timeOnly);
+        } else if (finalDate) {
+            $('.datetime-summary').text(finalDate + ' (time not selected)');
+            console.log('Updated date to:', finalDate + ' (time not selected)');
+        } else {
+            $('.datetime-summary').text('Not selected');
+            console.log('No date/time selected');
+        }
+    }
+    
+    function updateConfirmationDetails() {
+        var consultationType = $('.consultation_type:checked').val();
+        var typeText = '';
+        switch(consultationType) {
+            case 'in_person':
+                typeText = 'In-Person Consultation';
+                break;
+            case 'phone':
+                typeText = 'Phone Consultation';
+                break;
+            case 'video':
+                typeText = 'Zoom / Google Meeting';
+                break;
+            default:
+                typeText = consultationType || '';
+        }
+        
+        $('.consultation_type').text(typeText);
+        $('.full_name').text($('.fullname').val());
+        $('.email').text($('.email').val());
+        $('.phone').text($('.phone').val());
+        $('.description').text($('.description').val());
+        
+        // Use the most reliable source for date and time
+        var finalDate = $('input[name="date"]').val() || $('#timeslot_col_date').val();
+        var finalTime = $('input[name="time"]').val() || $('#timeslot_col_time').val();
+        
+        $('.date').text(finalDate);
+        $('.time').text(finalTime);
+        
+        console.log('Confirmation details updated - Date:', finalDate, 'Time:', finalTime);
+    }
 });
 </script>
 
