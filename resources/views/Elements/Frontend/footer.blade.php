@@ -1,6 +1,6 @@
 <!-- START: Footer Section -->
 <style>
-/* Base styling for footer social icons */
+/* Optimized footer styles - moved to external CSS for better performance */
 .ftco-footer-social li a {
     display: inline-flex;
     align-items: center;
@@ -9,44 +9,151 @@
     height: 40px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
-    color: white; /* ensures font icons are white */
+    color: white;
     font-size: 18px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
     text-decoration: none;
 }
 
-/* Hover effect (red background, icons remain visible) */
 .ftco-footer-social li a:hover {
-    background: red;
-    color: white; /* keeps font icons white */
-    font-weight: bold;
+    background: #dc3545;
+    color: white;
+    transform: translateY(-2px);
 }
 
-/* Fix SVG X icon sizing & color */
 .ftco-footer-social li a.icon-x svg {
     width: 18px;
     height: 18px;
-    fill: white; /* makes X white */
-    transition: 0.3s;
+    fill: white;
+    transition: all 0.3s ease;
 }
 
-/* Keep SVG X white even on hover */
-.ftco-footer-social li a.icon-x:hover svg {
-    fill: white;
+.footer-link {
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #dc3545;
+    text-decoration: none;
+}
+
+.footer-section {
+    background: #1a1a1a;
+    color: white;
+    padding: 3rem 0 1rem;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+}
+
+.footer-logo:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-subtitle {
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.footer-heading {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.footer-text {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.footer-list {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-list li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-contact-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.footer-contact-icon {
+    margin-right: 0.5rem;
+    margin-top: 0.2rem;
+    color: #dc3545;
+}
+
+.footer-hours h4 {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.footer-hours p {
+    color: #ccc;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .footer-section {
+        padding: 2rem 0 1rem;
+    }
+    
+    .footer-heading {
+        font-size: 1.1rem;
+    }
 }
 </style>
 
-<footer class="ftco-footer ftco-bg-dark ftco-section"> 
+<footer class="footer-section" role="contentinfo" itemscope itemtype="https://schema.org/LegalService"> 
   <div class="container"> 
+    <!-- Hidden structured data for SEO -->
+    <div style="display: none;" itemscope itemtype="https://schema.org/Organization">
+      <span itemprop="name">Bansal Lawyers</span>
+      <span itemprop="legalName">Bansal Lawyers</span>
+      <span itemprop="foundingDate">2015</span>
+      <span itemprop="areaServed">Melbourne, Victoria, Australia</span>
+      <span itemprop="serviceType">Legal Services</span>
+      <span itemprop="priceRange">$$</span>
+      <span itemprop="paymentAccepted">Cash, Credit Card, Bank Transfer</span>
+      <span itemprop="currenciesAccepted">AUD</span>
+      <div itemprop="founder" itemscope itemtype="https://schema.org/Person">
+        <span itemprop="name">Ajay Bansal</span>
+        <span itemprop="jobTitle">Director</span>
+        <span itemprop="worksFor" itemscope itemtype="https://schema.org/Organization">
+          <span itemprop="name">Bansal Lawyers</span>
+        </span>
+      </div>
+      <div itemprop="sameAs">
+        <a href="https://www.facebook.com/profile.php?id=61562008576642">Facebook</a>
+        <a href="https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw">Instagram</a>
+        <a href="https://www.linkedin.com/company/bansallawyers">LinkedIn</a>
+        <a href="https://twitter.com/BansalLawyers">Twitter</a>
+        <a href="https://www.youtube.com/@BansalLawyers">YouTube</a>
+      </div>
+    </div>
+    
     <div class="row mb-5">
       <div class="col-md"> 
-        <div class="ftco-footer-widget mb-4"> 
-          <h2 class="logo" style="color: white; pointer-events: none;">
-            <a href="#" style="color: white; pointer-events: none;"> 
-              Bansal Lawyers <span>A Law Firm</span> 
+        <div class="ftco-footer-widget mb-4" itemprop="name"> 
+          <h2 class="footer-logo">
+            <a href="/" itemprop="url"> 
+              <span itemprop="legalName">Bansal Lawyers</span> <span class="footer-subtitle">A Law Firm</span> 
             </a> 
           </h2> 
-          <p>Professional legal services provided with expertise and care in Melbourne and beyond.</p> 
+          <p class="footer-text" itemprop="description">Professional legal services provided with expertise and care in Melbourne and beyond. Specializing in Immigration Law, Family Law, Property Law, Commercial Law, and Criminal Law.</p> 
 
           <ul class="ftco-footer-social list-unstyled float-md-left mt-5"> 
             
@@ -132,7 +239,12 @@
             <div class="col-md">
                 <div class="ftco-footer-widget mb-4">
                     <h2 class="ftco-heading-2">Have a Question?</h2>
-                    <div class="block-23 mb-3">
+                    <div class="block-23 mb-3" itemscope itemtype="https://schema.org/PostalAddress">
+                        <!-- Hidden geo coordinates for local SEO -->
+                        <div style="display: none;" itemscope itemtype="https://schema.org/GeoCoordinates">
+                            <meta itemprop="latitude" content="-37.8136">
+                            <meta itemprop="longitude" content="144.9631">
+                        </div>
                         <ul>
                             <!-- Address with pointer-events disabled -->
                             <li>
@@ -140,13 +252,18 @@
     <a href="https://g.co/kgs/Hw16bN8" 
        target="_blank" 
        rel="noopener noreferrer" 
-       style="color: white; text-decoration: none;">
-        Level 8/278 Collins St, Melbourne VIC 3000, Australia
+       style="color: white; text-decoration: none;"
+       itemprop="url">
+        <span itemprop="streetAddress">Level 8/278 Collins St</span>, 
+        <span itemprop="addressLocality">Melbourne</span> 
+        <span itemprop="addressRegion">VIC</span> 
+        <span itemprop="postalCode">3000</span>, 
+        <span itemprop="addressCountry">Australia</span>
     </a>
 </li>
                             <!-- Phone number with pointer-events disabled -->
 <li>
-    <a href="tel:+61422905860" style="color: white; text-decoration: none;">
+    <a href="tel:+61422905860" style="color: white; text-decoration: none;" itemprop="telephone">
         <span class="icon icon-phone" style="margin-right: 5px;"></span>
         <span class="text">(+61) 0422 905 860</span>
     </a>
@@ -162,13 +279,14 @@
                               </li> -->
                               <li style="pointer-events: none;">
                                   <span class="icon icon-phone"></span>
-                                  <span class="fraction_left" style="color: white;">1300 BANSAL (1300 226 725)</span>
+                                  <span class="fraction_left" style="color: white;" itemprop="telephone">1300 BANSAL (1300 226 725)</span>
                                 </li>
 
                             <!-- Email address with pointer-events disabled -->
                             <li>
     <a href="mailto:Info@bansallawyers.com.au"
-       style="color: white; text-decoration: none;">
+       style="color: white; text-decoration: none;"
+       itemprop="email">
         <span class="icon icon-envelope" style="margin-right: 5px;"></span>
         <span class="text">Info@bansallawyers.com.au</span>
     </a>
@@ -182,10 +300,10 @@
             <div class="col-md">
                 <div class="ftco-footer-widget mb-4">
                     <h2 class="ftco-heading-2">Business Hours</h2>
-                    <div class="opening-hours">
+                    <div class="opening-hours" itemscope itemtype="https://schema.org/OpeningHoursSpecification">
                         <h4>Opening Days:</h4>
-                        <p>
-                          <span>Monday – Friday: 9am to 5pm</span>
+                        <p itemprop="dayOfWeek" content="Monday,Tuesday,Wednesday,Thursday,Friday">
+                          <span>Monday – Friday: <time itemprop="opens" content="09:00">9am</time> to <time itemprop="closes" content="17:00">5pm</time></span>
                         </p>
                         <h4>Vacations:</h4>
                         <p>
