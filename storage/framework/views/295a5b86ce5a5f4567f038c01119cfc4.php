@@ -127,6 +127,15 @@
                 </div>
             <?php endif; ?>
         </div>
+        
+        <?php if(method_exists($caselists, 'hasPages') && $caselists->hasPages()): ?>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <?php echo e($caselists->links()); ?>
+
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 </section>
 
@@ -348,6 +357,23 @@
     .experimental-stats-item {
         margin: 10px;
     }
+}
+
+/* Ensure equal card height and align button at bottom */
+.experimental-case-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.experimental-case-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+}
+
+.experimental-read-more {
+    margin-top: auto;
+    align-self: flex-start;
 }
 </style>
 

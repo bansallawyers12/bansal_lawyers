@@ -665,7 +665,7 @@ class HomeController extends Controller
     {
         $casequery 		= RecentCase::where('id', '!=', '')->where('status', '=', 1);
 		$caseData 	    = $casequery->count();	//for all data
-		$caselists		= $casequery->orderby('id','DESC')->get();
+		$caselists		= $casequery->orderby('id','DESC')->paginate(9);
         return view('case', compact(['caselists', 'caseData']));
 	}
 
@@ -701,6 +701,23 @@ class HomeController extends Controller
 			return Redirect::to('/case')->with('error', Config::get('constants.unauthorized'));
 		}
     }
+
+    public function casedetailExperiment(Request $request, $slug = null)
+    {
+        if(isset($slug) && !empty($slug)){
+            if(RecentCase::where('slug', '=', $slug)->exists()) {
+                $casedetailquery = RecentCase::where('slug', '=', $slug)->where('status', '=', 1);
+                $casedetailists = $casedetailquery->first();
+
+                return view('casedetail-experimental', compact(['casedetailists']));
+            } else {
+                return Redirect::to('/case')->with('error', 'Case'.Config::get('constants.not_exist'));
+            }
+        }
+        else{
+            return Redirect::to('/case')->with('error', Config::get('constants.unauthorized'));
+        }
+    }
   
     //Practice area main page
     public function familylaw(Request $request)
@@ -719,6 +736,21 @@ class HomeController extends Controller
         }
     }
 
+    // Experimental Family Law using new template
+    public function familylawExperiment(Request $request)
+    {
+        $type = 'family-law';
+        if (CmsPage::where('slug', '=', $type)->exists()) {
+            $pagequery = CmsPage::where('slug', '=', $type);
+            $pagedata = $pagequery->first();
+            if (isset($pagedata) && $pagedata->id != "") {
+                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
+                $relatedpagedata = $relatedpagequery->get();
+            }
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+        }
+    }
+
     public function migrationlaw(Request $request)
     {
         $type = 'migration-law';
@@ -732,6 +764,21 @@ class HomeController extends Controller
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
             return view('practice_area', compact('type','pagedata','relatedpagedata'));
+        }
+    }
+
+    // Experimental Migration Law page using alternate Blade view
+    public function migrationlawExperiment(Request $request)
+    {
+        $type = 'migration-law';
+        if (CmsPage::where('slug', '=', $type)->exists()) {
+            $pagequery = CmsPage::where('slug', '=', $type);
+            $pagedata = $pagequery->first();
+            if (isset($pagedata) && $pagedata->id != "") {
+                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
+                $relatedpagedata = $relatedpagequery->get();
+            }
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -752,6 +799,21 @@ class HomeController extends Controller
         }
     }
 
+    // Experimental Criminal Law
+    public function criminallawExperiment(Request $request)
+    {
+        $type = 'criminal-law';
+        if (CmsPage::where('slug', '=', $type)->exists()) {
+            $pagequery = CmsPage::where('slug', '=', $type);
+            $pagedata = $pagequery->first();
+            if (isset($pagedata) && $pagedata->id != "") {
+                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
+                $relatedpagedata = $relatedpagequery->get();
+            }
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+        }
+    }
+
     public function commerciallaw(Request $request)
     {
         $type = 'commercial-law';
@@ -769,6 +831,21 @@ class HomeController extends Controller
         }
 	}
 
+    // Experimental Commercial Law
+    public function commerciallawExperiment(Request $request)
+    {
+        $type = 'commercial-law';
+        if (CmsPage::where('slug', '=', $type)->exists()) {
+            $pagequery = CmsPage::where('slug', '=', $type);
+            $pagedata = $pagequery->first();
+            if (isset($pagedata) && $pagedata->id != "") {
+                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
+                $relatedpagedata = $relatedpagequery->get();
+            }
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+        }
+    }
+
     public function propertylaw(Request $request)
     {
         $type = 'property-law';
@@ -785,6 +862,21 @@ class HomeController extends Controller
             return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
 	}
+
+    // Experimental Property Law
+    public function propertylawExperiment(Request $request)
+    {
+        $type = 'property-law';
+        if (CmsPage::where('slug', '=', $type)->exists()) {
+            $pagequery = CmsPage::where('slug', '=', $type);
+            $pagedata = $pagequery->first();
+            if (isset($pagedata) && $pagedata->id != "") {
+                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
+                $relatedpagedata = $relatedpagequery->get();
+            }
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+        }
+    }
   
   
      //Practice area inner page

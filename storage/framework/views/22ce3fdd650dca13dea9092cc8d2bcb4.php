@@ -1,29 +1,29 @@
-@extends('layouts.frontend')
-@section('seoinfo')
+
+<?php $__env->startSection('seoinfo'); ?>
     <?php if( isset($casedetailists->meta_title) && $casedetailists->meta_title != "") { ?>
-        <title>{{@$casedetailists->meta_title}}</title>
+        <title><?php echo e(@$casedetailists->meta_title); ?></title>
     <?php }  else { ?>
-        <title>{{ @$casedetailists->title ?? 'Case Study' }}</title>
+        <title><?php echo e(@$casedetailists->title ?? 'Case Study'); ?></title>
     <?php } ?>
 
     <?php if( isset($casedetailists->meta_description) && $casedetailists->meta_description != "") { ?>
-        <meta name="description" content="{{@$casedetailists->meta_description}}" />
+        <meta name="description" content="<?php echo e(@$casedetailists->meta_description); ?>" />
     <?php }  else { ?>
-        <meta name="description" content="{{ Str::limit(strip_tags(@$casedetailists->description ?? ''), 150) }}" />
+        <meta name="description" content="<?php echo e(Str::limit(strip_tags(@$casedetailists->description ?? ''), 150)); ?>" />
     <?php } ?>
 
-    <link rel="canonical" href="<?php echo URL::to('/'); ?>/{{@$casedetailists->slug}}" />
+    <link rel="canonical" href="<?php echo URL::to('/'); ?>/<?php echo e(@$casedetailists->slug); ?>" />
 
     <!-- OG/Twitter -->
-    <meta property="og:url" content="<?php echo URL::to('/'); ?>/{{@$casedetailists->slug}}">
+    <meta property="og:url" content="<?php echo URL::to('/'); ?>/<?php echo e(@$casedetailists->slug); ?>">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="{{@$casedetailists->meta_title ?? @$casedetailists->title}}">
-    <meta property="og:description" content="{{@$casedetailists->meta_description ?? Str::limit(strip_tags(@$casedetailists->description ?? ''), 150)}}">
-    <meta property="og:image" content="{{ isset($casedetailists->image) && $casedetailists->image ? asset('images/blog/' . $casedetailists->image) : asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:title" content="<?php echo e(@$casedetailists->meta_title ?? @$casedetailists->title); ?>">
+    <meta property="og:description" content="<?php echo e(@$casedetailists->meta_description ?? Str::limit(strip_tags(@$casedetailists->description ?? ''), 150)); ?>">
+    <meta property="og:image" content="<?php echo e(isset($casedetailists->image) && $casedetailists->image ? asset('images/blog/' . $casedetailists->image) : asset('images/logo/Bansal_Lawyers.png')); ?>">
     <meta property="og:image:alt" content="Bansal Lawyers">
     <meta name="twitter:card" content="summary_large_image">
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
     <style>
         /* Blog-style layout for case detail */
         .ftco-section { padding: 5em 0 !important; }
@@ -246,20 +246,21 @@
             <div class="row">
                 <div class="blog-entry justify-content-end left-side">
                     <div class="et_pb_title_container">
-                        <h1 class="entry-title">{{ @$casedetailists->title }}</h1>
+                        <h1 class="entry-title"><?php echo e(@$casedetailists->title); ?></h1>
                         <p class="post-meta">
                             <span class="published"><?php echo date('M d,Y', strtotime($casedetailists->created_at));?></span>
                         </p>
                     </div>
-                    @if(isset($casedetailists->image) && $casedetailists->image)
+                    <?php if(isset($casedetailists->image) && $casedetailists->image): ?>
                         <div class="et_pb_title_featured_container">
                             <span class="et_pb_image_wrap">
-                                <img fetchpriority="high" decoding="async" src="{{ asset('images/blog/' . @$casedetailists->image) }}" alt="{{@$casedetailists->slug}}" class="wp-image-512">
+                                <img fetchpriority="high" decoding="async" src="<?php echo e(asset('images/blog/' . @$casedetailists->image)); ?>" alt="<?php echo e(@$casedetailists->slug); ?>" class="wp-image-512">
                             </span>
                         </div>
-                    @endif
+                    <?php endif; ?>
                     <div class="et_pb_text_inner">
-                        {!! $casedetailists->description !!}
+                        <?php echo $casedetailists->description; ?>
+
                         
                         <hr style="margin:30px 0; opacity:.2;">
                         <div class="case-related-internal">
@@ -278,28 +279,28 @@
                     <div class="widget-post">
                         <h3 class="widget-header">Related Pages</h3>
                         <a class="related-case-item" href="<?php echo URL::to('/'); ?>/juridicational-error-federal-circuit-court-application">
-                            <img src="{{ asset('images/Juridicational_Error_Federal_Circuit_Court_Application.png') }}" alt="Jurisdictional Error" width="64" height="64" loading="lazy">
+                            <img src="<?php echo e(asset('images/Juridicational_Error_Federal_Circuit_Court_Application.png')); ?>" alt="Jurisdictional Error" width="64" height="64" loading="lazy">
                             <div>
                                 <div class="title">Juridicational Error/ Federal Circuit Court Application</div>
                                 <div class="more">Read this more »</div>
                             </div>
                         </a>
                         <a class="related-case-item" href="<?php echo URL::to('/'); ?>/art-application">
-                            <img src="{{ asset('images/ART_Application_Administrative_Review_Tribunal _Application.png') }}" alt="ART Application" width="64" height="64" loading="lazy">
+                            <img src="<?php echo e(asset('images/ART_Application_Administrative_Review_Tribunal _Application.png')); ?>" alt="ART Application" width="64" height="64" loading="lazy">
                             <div>
                                 <div class="title">ART Application</div>
                                 <div class="more">Read this more »</div>
                             </div>
                         </a>
                         <a class="related-case-item" href="<?php echo URL::to('/'); ?>/visa-refusals-visa-cancellation">
-                            <img src="{{ asset('images/Visa_Refusals.png') }}" alt="Visa Refusals" width="64" height="64" loading="lazy">
+                            <img src="<?php echo e(asset('images/Visa_Refusals.png')); ?>" alt="Visa Refusals" width="64" height="64" loading="lazy">
                             <div>
                                 <div class="title">Visa Refusals/Visa Cancellation</div>
                                 <div class="more">Read this more »</div>
                             </div>
                         </a>
                         <a class="related-case-item" href="<?php echo URL::to('/'); ?>/federal-court-application">
-                            <img src="{{ asset('images/federal_court_application.png') }}" alt="Federal Court Application" width="64" height="64" loading="lazy">
+                            <img src="<?php echo e(asset('images/federal_court_application.png')); ?>" alt="Federal Court Application" width="64" height="64" loading="lazy">
                             <div>
                                 <div class="title">Federal Court Application</div>
                                 <div class="more">Read this more »</div>
@@ -307,13 +308,13 @@
                         </a>
                     </div>
 
-                    @include('components.contact-card', [
+                    <?php echo $__env->make('components.contact-card', [
                         'title' => 'Speak with a Lawyer',
                         'cta' => 'Get Legal Advice',
                         'variant' => 'compact',
                         'accent' => '#1B4D89',
                         'source' => 'case-detail'
-                    ])
+                    ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                 </div>
             </div>
         </div>
@@ -359,4 +360,5 @@
         });
     })();
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/casedetail.blade.php ENDPATH**/ ?>

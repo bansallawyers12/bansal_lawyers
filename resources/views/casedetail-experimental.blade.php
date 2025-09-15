@@ -13,6 +13,9 @@
     <?php } ?>
 
     <link rel="canonical" href="<?php echo URL::to('/'); ?>/{{@$casedetailists->slug}}" />
+    <?php if (request()->is('case-experiment/*')) { ?>
+        <meta name="robots" content="noindex, nofollow">
+    <?php } ?>
 
     <!-- OG/Twitter -->
     <meta property="og:url" content="<?php echo URL::to('/'); ?>/{{@$casedetailists->slug}}">
@@ -312,7 +315,7 @@
                         'cta' => 'Get Legal Advice',
                         'variant' => 'compact',
                         'accent' => '#1B4D89',
-                        'source' => 'case-detail'
+                        'source' => 'case-experiment'
                     ])
                 </div>
             </div>
@@ -360,3 +363,5 @@
     })();
     </script>
 @endsection
+
+

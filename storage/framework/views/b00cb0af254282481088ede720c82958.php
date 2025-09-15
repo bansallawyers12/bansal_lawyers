@@ -1,37 +1,35 @@
-@extends('layouts.frontend')
-
-@section('seoinfo')
-@if(isset($currentPage) && $currentPage > 1)
-    <title>Legal Insights & Updates - Page {{ $currentPage }} | Bansal Lawyers Blog Melbourne</title>
-    <meta name="description" content="Browse page {{ $currentPage }} of our legal insights and updates. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more from Bansal Lawyers Melbourne." />
-    <link rel="canonical" href="<?php echo URL::to('/'); ?>/blog?page={{ $currentPage }}" />
-@else
+<?php $__env->startSection('seoinfo'); ?>
+<?php if(isset($currentPage) && $currentPage > 1): ?>
+    <title>Legal Insights & Updates - Page <?php echo e($currentPage); ?> | Bansal Lawyers Blog Melbourne</title>
+    <meta name="description" content="Browse page <?php echo e($currentPage); ?> of our legal insights and updates. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more from Bansal Lawyers Melbourne." />
+    <link rel="canonical" href="<?php echo URL::to('/'); ?>/blog?page=<?php echo e($currentPage); ?>" />
+<?php else: ?>
     <title>Legal Insights & Updates | Bansal Lawyers Blog Melbourne</title>
     <meta name="description" content="Stay informed with Bansal Lawyers' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team." />
     <link rel="canonical" href="<?php echo URL::to('/'); ?>/blog" />
-@endif
+<?php endif; ?>
 
 <!-- Facebook Meta Tags -->
-<meta property="og:url" content="<?php echo URL::to('/'); ?>/blog{{ isset($currentPage) && $currentPage > 1 ? '?page=' . $currentPage : '' }}">
+<meta property="og:url" content="<?php echo URL::to('/'); ?>/blog<?php echo e(isset($currentPage) && $currentPage > 1 ? '?page=' . $currentPage : ''); ?>">
 <meta property="og:type" content="website">
-<meta property="og:title" content="{{ isset($currentPage) && $currentPage > 1 ? 'Legal Insights & Updates - Page ' . $currentPage . ' | Bansal Lawyers Blog Melbourne' : 'Legal Insights & Updates | Bansal Lawyers Blog Melbourne' }}">
-<meta property="og:description" content="{{ isset($currentPage) && $currentPage > 1 ? 'Browse page ' . $currentPage . ' of our legal insights and updates. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more from Bansal Lawyers Melbourne.' : 'Stay informed with Bansal Lawyers\' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.' }}">
-<meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+<meta property="og:title" content="<?php echo e(isset($currentPage) && $currentPage > 1 ? 'Legal Insights & Updates - Page ' . $currentPage . ' | Bansal Lawyers Blog Melbourne' : 'Legal Insights & Updates | Bansal Lawyers Blog Melbourne'); ?>">
+<meta property="og:description" content="<?php echo e(isset($currentPage) && $currentPage > 1 ? 'Browse page ' . $currentPage . ' of our legal insights and updates. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more from Bansal Lawyers Melbourne.' : 'Stay informed with Bansal Lawyers\' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.'); ?>">
+<meta property="og:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
 <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="bansallawyers.com.au">
-<meta property="twitter:url" content="<?php echo URL::to('/'); ?>/blog{{ isset($currentPage) && $currentPage > 1 ? '?page=' . $currentPage : '' }}">
-<meta name="twitter:title" content="{{ isset($currentPage) && $currentPage > 1 ? 'Legal Insights & Updates - Page ' . $currentPage . ' | Bansal Lawyers Blog Melbourne' : 'Legal Insights & Updates | Bansal Lawyers Blog Melbourne' }}">
-<meta name="twitter:description" content="{{ isset($currentPage) && $currentPage > 1 ? 'Browse page ' . $currentPage . ' of our legal insights and updates. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more from Bansal Lawyers Melbourne.' : 'Stay informed with Bansal Lawyers\' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.' }}">
-<meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+<meta property="twitter:url" content="<?php echo URL::to('/'); ?>/blog<?php echo e(isset($currentPage) && $currentPage > 1 ? '?page=' . $currentPage : ''); ?>">
+<meta name="twitter:title" content="<?php echo e(isset($currentPage) && $currentPage > 1 ? 'Legal Insights & Updates - Page ' . $currentPage . ' | Bansal Lawyers Blog Melbourne' : 'Legal Insights & Updates | Bansal Lawyers Blog Melbourne'); ?>">
+<meta name="twitter:description" content="<?php echo e(isset($currentPage) && $currentPage > 1 ? 'Browse page ' . $currentPage . ' of our legal insights and updates. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more from Bansal Lawyers Melbourne.' : 'Stay informed with Bansal Lawyers\' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.'); ?>">
+<meta property="twitter:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
 <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 <!-- Structured Data for Pagination - Temporarily disabled for testing -->
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
 /* Experimental Blog Styles */
 .experimental-blog-hero {
@@ -50,7 +48,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset('images/Blog.jpg') }}') center/cover;
+    background: url('<?php echo e(asset('images/Blog.jpg')); ?>') center/cover;
     opacity: 0.2;
     z-index: 1;
 }
@@ -317,11 +315,11 @@
 <div class="experimental-blog-hero">
     <div class="container">
         <h1>
-            @if(isset($category) && $category)
-                {{ $category->name }} - Legal Insights
-            @else
+            <?php if(isset($category) && $category): ?>
+                <?php echo e($category->name); ?> - Legal Insights
+            <?php else: ?>
                 Legal Insights & Updates
-            @endif
+            <?php endif; ?>
         </h1>
         <p>Stay informed with our expert articles on legal trends, industry news, and professional insights. Get the latest updates on Australian law and legal developments from our experienced Melbourne team.</p>
     </div>
@@ -331,11 +329,11 @@
 <div class="experimental-blog-stats">
     <div class="container">
         <div class="experimental-stats-item">
-            <span class="experimental-stats-number">{{ $blogData ?? 0 }}</span>
+            <span class="experimental-stats-number"><?php echo e($blogData ?? 0); ?></span>
             <span class="experimental-stats-label">Total Articles</span>
         </div>
         <div class="experimental-stats-item">
-            <span class="experimental-stats-number">{{ $blogCategories->count() ?? 0 }}</span>
+            <span class="experimental-stats-number"><?php echo e($blogCategories->count() ?? 0); ?></span>
             <span class="experimental-stats-label">Categories</span>
         </div>
         <div class="experimental-stats-item">
@@ -354,13 +352,14 @@
                 <div class="experimental-category-filter">
                     <h4>Filter by Category:</h4>
                     <div class="experimental-category-buttons">
-                        <a href="{{ route('blog.index') }}" class="experimental-category-btn {{ !request('category') && !isset($category) ? 'active' : '' }}">All Categories</a>
-                        @foreach($blogCategories as $cat)
-                            <a href="{{ route('blog.category', $cat->slug) }}" 
-                               class="experimental-category-btn {{ (isset($category) && $category->id == $cat->id) ? 'active' : '' }}">
-                                {{ $cat->name }}
+                        <a href="<?php echo e(route('blog.index')); ?>" class="experimental-category-btn <?php echo e(!request('category') && !isset($category) ? 'active' : ''); ?>">All Categories</a>
+                        <?php $__currentLoopData = $blogCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <a href="<?php echo e(route('blog.category', $cat->slug)); ?>" 
+                               class="experimental-category-btn <?php echo e((isset($category) && $category->id == $cat->id) ? 'active' : ''); ?>">
+                                <?php echo e($cat->name); ?>
+
                             </a>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
                 </div>
             </div>
@@ -368,74 +367,81 @@
         
         <!-- Blog Posts Grid -->
         <div class="row" id="blog-list">
-            @forelse($bloglists as $list)
+            <?php $__empty_1 = true; $__currentLoopData = $bloglists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                 <div class="col-md-4 col-lg-4 mb-4">
                     <div class="experimental-blog-card">
                         <div class="experimental-blog-image" 
-                             @if(isset($list->image) && $list->image != "")
-                                 style="background-image: url('{{ asset('images/blog/' . $list->image) }}');"
-                             @else
-                                 style="background-image: url('{{ asset('images/Blog.jpg') }}');"
-                             @endif>
+                             <?php if(isset($list->image) && $list->image != ""): ?>
+                                 style="background-image: url('<?php echo e(asset('images/blog/' . $list->image)); ?>');"
+                             <?php else: ?>
+                                 style="background-image: url('<?php echo e(asset('images/Blog.jpg')); ?>');"
+                             <?php endif; ?>>
                         </div>
                         <div class="experimental-blog-content">
-                            @if(isset($list->categorydetail) && $list->categorydetail)
-                                <a href="{{ route('blog.category', $list->categorydetail->slug) }}" 
+                            <?php if(isset($list->categorydetail) && $list->categorydetail): ?>
+                                <a href="<?php echo e(route('blog.category', $list->categorydetail->slug)); ?>" 
                                    class="experimental-blog-category">
-                                    {{ $list->categorydetail->name }}
+                                    <?php echo e($list->categorydetail->name); ?>
+
                                 </a>
-                            @endif
+                            <?php endif; ?>
                             
                             <h3 class="experimental-blog-title">
-                                <a href="{{ route('blog.detail', $list->slug) }}">
-                                    {{ $list->title }}
+                                <a href="<?php echo e(route('blog.detail', $list->slug)); ?>">
+                                    <?php echo e($list->title); ?>
+
                                 </a>
                             </h3>
                             
                             <div class="experimental-blog-meta">
                                 <i class="ion-ios-calendar mr-2"></i>
-                                {{ date('M d, Y', strtotime($list->created_at)) }}
+                                <?php echo e(date('M d, Y', strtotime($list->created_at))); ?>
+
                             </div>
                             
                             <div class="experimental-blog-excerpt">
-                                {{ $list->description ? \Illuminate\Support\Str::limit(strip_tags($list->description), 120, '...') : 'No description available.' }}
+                                <?php echo e($list->description ? \Illuminate\Support\Str::limit(strip_tags($list->description), 120, '...') : 'No description available.'); ?>
+
                             </div>
                             
-                            <a href="{{ route('blog.detail', $list->slug) }}" 
+                            <a href="<?php echo e(route('blog.detail', $list->slug)); ?>" 
                                class="experimental-read-more">
                                 Read More <i class="ion-ios-arrow-forward"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-            @empty
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                 <div class="col-md-12 text-center">
                     <div class="experimental-blog-card" style="padding: 60px 30px;">
                         <h3 style="color: #1B4D89; margin-bottom: 20px;">No Blog Posts Found</h3>
                         <p style="color: #666; font-size: 1.1rem;">
-                            @if(isset($category) && $category)
-                                No articles found in the "{{ $category->name }}" category.
-                            @else
+                            <?php if(isset($category) && $category): ?>
+                                No articles found in the "<?php echo e($category->name); ?>" category.
+                            <?php else: ?>
                                 No blog posts are available at the moment.
-                            @endif
+                            <?php endif; ?>
                         </p>
-                        <a href="{{ route('blog.index') }}" class="experimental-read-more">
+                        <a href="<?php echo e(route('blog.index')); ?>" class="experimental-read-more">
                             View All Posts <i class="ion-ios-arrow-forward"></i>
                         </a>
                     </div>
                 </div>
-            @endforelse
+            <?php endif; ?>
         </div>
         
         <!-- Pagination Section -->
-        @if($bloglists->hasPages())
+        <?php if($bloglists->hasPages()): ?>
             <div class="row">
                 <div class="col-md-12">
-                    {{ $bloglists->links() }}
+                    <?php echo e($bloglists->links()); ?>
+
                 </div>
             </div>
-        @endif
+        <?php endif; ?>
     </div>
 </section>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/blog-experimental.blade.php ENDPATH**/ ?>

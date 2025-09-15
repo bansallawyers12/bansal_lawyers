@@ -33,13 +33,19 @@ Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->nam
 Route::get('/testimonials', [App\Http\Controllers\HomeController::class, 'testimonial'])->name('testimonial');
 Route::get('/ourservices', [App\Http\Controllers\HomeController::class, 'ourservices'])->name('ourservices');
 Route::get('/ourservices/{slug}', [App\Http\Controllers\HomeController::class, 'servicesdetail'])->name('servicesdetail');
-Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog.index');
-Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategory'])->name('blog.category');
+// Make experimental blog the primary
+Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.index');
+Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.category');
+Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogDetailExperimental'])->name('blog.detail');
 
 // Experimental Blog Routes
 Route::get('/blog-experimental', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.experimental');
 Route::get('/blog-experimental/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.experimental.category');
 Route::get('/blog-experimental/{slug}', [App\Http\Controllers\HomeController::class, 'blogDetailExperimental'])->name('blog.experimental.detail');
+
+// Backup routes for original blog
+Route::get('/blog-original', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog.original');
+Route::get('/blog-original/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategory'])->name('blog.original.category');
 Route::get('/search_result', [App\Http\Controllers\HomeController::class, 'search_result'])->name('search_result');
 
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus']);
@@ -150,13 +156,32 @@ Route::get('/practice-areas-backup', [\App\Http\Controllers\HomeController::clas
 Route::get('/case', [\App\Http\Controllers\HomeController::class, 'case'])->name('case');
 Route::get('/case-experiment', [\App\Http\Controllers\HomeController::class, 'caseExperiment'])->name('case-experiment');
 Route::get('/case-new', [\App\Http\Controllers\HomeController::class, 'caseNew'])->name('case-new');
+// Experimental case detail (noindex)
+Route::get('/case-experiment/{slug}', [\App\Http\Controllers\HomeController::class, 'casedetailExperiment'])->name('case-detail-experiment');
 
 //Practice area main Page
-Route::get('/family-law', [\App\Http\Controllers\HomeController::class, 'familylaw'])->name('family-law');
-Route::get('/migration-law', [\App\Http\Controllers\HomeController::class, 'migrationlaw'])->name('migration-law');
-Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'criminallaw'])->name('criminal-law');
-Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallaw'])->name('commercial-law');
-Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylaw'])->name('property-law');
+// Swap: make experimental the primary and keep original as backup
+Route::get('/family-law', [\App\Http\Controllers\HomeController::class, 'familylawExperiment'])->name('family-law');
+Route::get('/family-law-backup', [\App\Http\Controllers\HomeController::class, 'familylaw'])->name('family-law-backup');
+// Swap: make experimental the primary and keep original as backup
+Route::get('/migration-law', [\App\Http\Controllers\HomeController::class, 'migrationlawExperiment'])->name('migration-law');
+Route::get('/migration-law-backup', [\App\Http\Controllers\HomeController::class, 'migrationlaw'])->name('migration-law-backup');
+// Swap: make experimental the primary and keep original as backup
+Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'criminallawExperiment'])->name('criminal-law');
+Route::get('/criminal-law-backup', [\App\Http\Controllers\HomeController::class, 'criminallaw'])->name('criminal-law-backup');
+// Swap: make experimental the primary and keep original as backup
+Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallawExperiment'])->name('commercial-law');
+Route::get('/commercial-law-backup', [\App\Http\Controllers\HomeController::class, 'commerciallaw'])->name('commercial-law-backup');
+// Swap: make experimental the primary and keep original as backup
+Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylawExperiment'])->name('property-law');
+Route::get('/property-law-backup', [\App\Http\Controllers\HomeController::class, 'propertylaw'])->name('property-law-backup');
+// Experimental route for Migration Law page
+Route::get('/migration-law-experiment', [\App\Http\Controllers\HomeController::class, 'migrationlawExperiment'])->name('migration-law-experiment');
+// Experimental routes for other practice areas
+Route::get('/family-law-experiment', [\App\Http\Controllers\HomeController::class, 'familylawExperiment'])->name('family-law-experiment');
+Route::get('/criminal-law-experiment', [\App\Http\Controllers\HomeController::class, 'criminallawExperiment'])->name('criminal-law-experiment');
+Route::get('/commercial-law-experiment', [\App\Http\Controllers\HomeController::class, 'commerciallawExperiment'])->name('commercial-law-experiment');
+Route::get('/property-law-experiment', [\App\Http\Controllers\HomeController::class, 'propertylawExperiment'])->name('property-law-experiment');
 
 
 /*********************Practice Area Inner Pages ***********************/
