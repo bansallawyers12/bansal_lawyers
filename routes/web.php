@@ -82,6 +82,8 @@ Route::prefix('admin')->group(function() {
 		Route::middleware('auth:admin')->group(function () {
 			Route::post('/logout', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
 			Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('admin.dashboard');
+            // Experimental, lightweight dashboard (safe to access alongside default)
+            Route::get('/dashboard/experimental', [App\Http\Controllers\Admin\AdminController::class, 'experimentalDashboard'])->name('admin.dashboard.experimental');
 			Route::get('/get_customer_detail', [App\Http\Controllers\Admin\AdminController::class, 'CustomerDetail'])->name('admin.get_customer_detail');
 			Route::get('/my_profile', [App\Http\Controllers\Admin\AdminController::class, 'myProfile'])->name('admin.my_profile');
 			Route::post('/my_profile', [App\Http\Controllers\Admin\AdminController::class, 'myProfile'])->name('admin.my_profile');

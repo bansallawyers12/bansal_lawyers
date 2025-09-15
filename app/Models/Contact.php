@@ -10,15 +10,15 @@ class Contact extends Authenticatable
     use Notifiable;
 	use Sortable; 
 	
-    /** 
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+	/** 
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
 	
 	 
 	protected $fillable = [
-        'id', 'srname', 'first_name', 'middle_name', 'last_name', 'company_name', 'contact_display_name', 'contact_email', 'contact_phone', 'work_phone', 'website', 'designation', 'department', 'skype_name', 'facebook_name', 'twitter_name', 'linkedin_name', 'instagram_name', 'youtube_name', 'country', 'address', 'city', 'zipcode', 'phone', 'created_at', 'updated_at'
+        'id', 'name', 'contact_email', 'contact_phone', 'department', 'subject', 'message', 'image', 'branch', 'fax', 'position', 'primary_contact', 'countrycode', 'user_id', 'created_at', 'updated_at'
     ]; 
   
 	public $sortable = ['id', 'created_at', 'updated_at'];
@@ -43,4 +43,12 @@ class Contact extends Authenticatable
     {
         return $this->hasMany('App\Models\Package','destination','id');
     } */
+
+	/**
+	 * Virtual accessor for email mapped to contact_email.
+	 */
+	public function getEmailAttribute()
+	{
+		return $this->attributes['contact_email'] ?? null;
+	}
 } 

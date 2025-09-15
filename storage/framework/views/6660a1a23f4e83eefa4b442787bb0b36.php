@@ -35,6 +35,9 @@
     <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">-->
 
     <link rel="stylesheet" href="<?php echo e(asset('css/dataTables_min_latest.css')); ?>">
+    
+    <!-- Font Awesome for modern sidebar icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 
 <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
@@ -79,6 +82,63 @@
 .mydropdown a:hover {background-color: #ddd;}
 
 .show {display: block;}
+
+/* Modern sidebar layout adjustments */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.main-wrapper {
+    margin-left: 280px !important;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content {
+    padding: 2rem;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+@media (max-width: 768px) {
+    .main-wrapper {
+        margin-left: 0 !important;
+    }
+    
+    .modern-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .modern-sidebar.open {
+        transform: translateX(0);
+    }
+}
+
+/* Override existing styles for better integration */
+.section {
+    margin-bottom: 2rem;
+}
+
+.card {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
 </style>
  
 </head>

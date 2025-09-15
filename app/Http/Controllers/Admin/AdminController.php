@@ -35,54 +35,23 @@ class AdminController extends Controller
     }
     /**
      * Show the application dashboard.
+     * Now uses the improved navigation dashboard design.
      *
      * @return \Illuminate\Http\Response
      */
     public function dashboard()
     {
-		/* Leads */
-		/*$not_contacted = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 0)->count();
-		$create_porposal = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 1)->count();
-		$followup = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 15)->count();
-		$undecided = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 11)->count();
-		$lost = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 12)->count();
-		$won = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 13)->count();
-		$ready_to_pay = Lead::where('assign_to', '=', Auth::user()->id)->where('status', '=', 14)->count();*/
+        // Use the improved experimental dashboard view
+        return view('Admin.dashboard_experimental');
+    }
 
-		/* Leads */
-		/* Client data */
-		$Contact = Contact::count();
-		//$Lead = Lead::where('user_id', '=', Auth::user()->id)->count();
-		//$Admindd = Admin::where('user_id', '=', Auth::user()->id)->count();
-
-
-
-        //Total Enquiries
-        //$countenquiries = \App\Models\Enquiry::whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
-        //$countenquiries = DB::table('enquiries')->whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
-        #dd($countenquiries);
-
-        //dd(Auth::user()->role);
-        //Get User role and module access
-
-        //For Total Leads section
-        //$countleads = \App\Models\Admin::where('is_archived',0)->where('role', '=', '7')->where('type','lead')->whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
-        //$countallleads = \App\Models\Admin::where('is_archived',0)->where('role', '=', '7')->where('type','lead')->count();
-        //$countleads = DB::table('admins')->where('is_archived', 0)->where('role',7)->where('type','lead')->whereMonth('created_at', \Carbon\Carbon::now()->month)->count();
-        //$countallleads = DB::table('admins')->where('is_archived', 0)->where('role',7)->where('type','lead')->count();
-
-
-        //Today Followup - Removed Note model functionality
-
-        //Total Clients
-        //$countclient = \App\Models\Admin::where('is_archived',0)->where('type','client')->where('role', '=', '7')->count();
-
-
-		/* Client data */
-        //return view('Admin.dashboard', compact(['not_contacted', 'create_porposal', 'followup', 'undecided', 'lost', 'won', 'ready_to_pay', 'Contact', 'Lead', 'Admindd']));
-        //return view('Admin.dashboard', compact(['countenquiries','module_access','countleads','countallleads','countfollowup','countclient']));
-        return view('Admin.dashboard', compact(['Contact']));
-
+    /**
+     * Navigation dashboard - simple hub for quick access to main functions.
+     * Focuses on providing easy navigation to key administrative areas.
+     */
+    public function experimentalDashboard()
+    {
+        return view('Admin.dashboard_experimental');
     }
 
 
