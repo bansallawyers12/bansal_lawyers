@@ -1,5 +1,5 @@
-
-<?php $__env->startSection('seoinfo'); ?>
+@extends('layouts.frontend')
+@section('seoinfo')
 	<title>Immigration, family and more lawyers consultation in Melbourne</title>
 	<meta name="description" content="If you are looking expert lawyers consultation in Melbourne? Get professional legal advice from experienced lawyers to guide you legal challenges with confidence." />
 
@@ -12,7 +12,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Legal Services in Australia | Family, Immigration, Property & More">
     <meta property="og:description" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!">
-    <meta property="og:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
+    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 
@@ -22,15 +22,15 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/practice-areas">
     <meta name="twitter:title" content="Legal Services in Australia | Family, Immigration, Property & More">
     <meta name="twitter:description" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!">
-    <meta property="twitter:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
+    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('content'); ?>
+@endsection
+@section('content')
 
 
 	<!--Content-->
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('<?php echo e(asset('images/PracticeArea.jpg')); ?>');margin-bottom: 40px;max-height:422px !important;" data-stellar-background-ratio="0.5">
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('images/PracticeArea.jpg') }}');margin-bottom: 40px;max-height:422px !important;" data-stellar-background-ratio="0.5">
         <div class="overlay"></div>
         <div class="container">
             <div class="row no-gutters slider-text align-items-end justify-content-center">
@@ -55,7 +55,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="<?php echo e(asset('images/family-law.png')); ?>" alt="Compassionate Legal Support for Family Law Cases" class="image-style-icon-92-x-92">
+                                            <img loading="lazy" src="{{ asset('images/family-law.png') }}" alt="Compassionate Legal Support for Family Law Cases" class="image-style-icon-92-x-92">
                                         </div>
                                     </div>
 
@@ -78,7 +78,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="<?php echo e(asset('images/immigration-law.png')); ?>" alt="Expert Immigration Lawyers Helping You Settle in Australia" class="image-style-icon-92-x-92">
+                                            <img loading="lazy" src="{{ asset('images/immigration-law.png') }}" alt="Expert Immigration Lawyers Helping You Settle in Australia" class="image-style-icon-92-x-92">
                                         </div>
                                     </div>
 
@@ -101,7 +101,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="<?php echo e(asset('images/criminal-law.png')); ?>" alt="icon for overview" class="image-style-icon-92-x-92">
+                                            <img loading="lazy" src="{{ asset('images/criminal-law.png') }}" alt="icon for overview" class="image-style-icon-92-x-92">
                                         </div>
                                     </div>
 
@@ -126,7 +126,7 @@
                                 <div class="card clearfix">
                                     <div class="card-header">
                                         <div class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="<?php echo e(asset('images/commercial-law.png')); ?>" alt="icon for overview" class="image-style-icon-92-x-92">
+                                            <img loading="lazy" src="{{ asset('images/commercial-law.png') }}" alt="icon for overview" class="image-style-icon-92-x-92">
                                         </div>
                                     </div>
 
@@ -150,7 +150,7 @@
                                     <div class="card-header">
                                         <div
                                             class="field field--name-field-icon field--type-entity-reference field--label-hidden field__item">
-                                            <img loading="lazy" src="<?php echo e(asset('images/property-law.png')); ?>"
+                                            <img loading="lazy" src="{{ asset('images/property-law.png') }}"
                                                 alt="icon for overview" class="image-style-icon-92-x-92">
                                         </div>
                                     </div>
@@ -339,6 +339,4 @@
         </style>
 </section>
 
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/practiceareas.blade.php ENDPATH**/ ?>
+@endsection

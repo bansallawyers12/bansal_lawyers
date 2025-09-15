@@ -29,23 +29,22 @@ Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
 /*********************Frontend Routes ***********************/
 //Home Page
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 Route::get('/testimonials', [App\Http\Controllers\HomeController::class, 'testimonial'])->name('testimonial');
 Route::get('/ourservices', [App\Http\Controllers\HomeController::class, 'ourservices'])->name('ourservices');
 Route::get('/ourservices/{slug}', [App\Http\Controllers\HomeController::class, 'servicesdetail'])->name('servicesdetail');
 Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog.index');
 Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategory'])->name('blog.category');
+
+// Experimental Blog Routes
+Route::get('/blog-experimental', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.experimental');
+Route::get('/blog-experimental/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.experimental.category');
+Route::get('/blog-experimental/{slug}', [App\Http\Controllers\HomeController::class, 'blogDetailExperimental'])->name('blog.experimental.detail');
 Route::get('/search_result', [App\Http\Controllers\HomeController::class, 'search_result'])->name('search_result');
 
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus']);
 Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'contact']);
 
-// Experimental Design Routes
-Route::get('/experimental', [App\Http\Controllers\HomeController::class, 'indexExperimental'])->name('home.experimental');
-Route::get('/experimental/contact', [App\Http\Controllers\HomeController::class, 'contactusExperimental'])->name('contact.experimental');
-Route::get('/experimental/book-an-appointment', [App\Http\Controllers\HomeController::class, 'bookappointmentExperimental'])->name('bookappointment.experimental');
-Route::get('/experimental/navigation', [App\Http\Controllers\HomeController::class, 'experimentalNavigation'])->name('experimental.navigation');
-Route::get('/experimental/about', [App\Http\Controllers\HomeController::class, 'aboutExperimental'])->name('about.experimental');
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
 
 Route::get('stripe/{appointmentId}', [App\Http\Controllers\HomeController::class, 'stripe']);
@@ -147,7 +146,10 @@ Route::prefix('admin')->group(function() {
 
 
 Route::get('/practice-areas', [\App\Http\Controllers\HomeController::class, 'practiceareas'])->name('practice-areas');
+Route::get('/practice-areas-backup', [\App\Http\Controllers\HomeController::class, 'practiceareasBackup'])->name('practice-areas-backup');
 Route::get('/case', [\App\Http\Controllers\HomeController::class, 'case'])->name('case');
+Route::get('/case-experiment', [\App\Http\Controllers\HomeController::class, 'caseExperiment'])->name('case-experiment');
+Route::get('/case-new', [\App\Http\Controllers\HomeController::class, 'caseNew'])->name('case-new');
 
 //Practice area main Page
 Route::get('/family-law', [\App\Http\Controllers\HomeController::class, 'familylaw'])->name('family-law');
@@ -156,13 +158,6 @@ Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'crimi
 Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallaw'])->name('commercial-law');
 Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylaw'])->name('property-law');
 
-// Experimental Practice Area Pages
-Route::get('/practice-areas-experimental', [\App\Http\Controllers\HomeController::class, 'practiceareas_experimental'])->name('practice-areas-experimental');
-Route::get('/family-law-experimental', [\App\Http\Controllers\HomeController::class, 'familylaw_experimental'])->name('family-law-experimental');
-Route::get('/migration-law-experimental', [\App\Http\Controllers\HomeController::class, 'migrationlaw_experimental'])->name('migration-law-experimental');
-Route::get('/criminal-law-experimental', [\App\Http\Controllers\HomeController::class, 'criminallaw_experimental'])->name('criminal-law-experimental');
-Route::get('/commercial-law-experimental', [\App\Http\Controllers\HomeController::class, 'commerciallaw_experimental'])->name('commercial-law-experimental');
-Route::get('/property-law-experimental', [\App\Http\Controllers\HomeController::class, 'propertylaw_experimental'])->name('property-law-experimental');
 
 /*********************Practice Area Inner Pages ***********************/
 Route::get('/divorce', [\App\Http\Controllers\HomeController::class, 'divorce'])->name('divorce');

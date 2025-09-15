@@ -1,5 +1,5 @@
-@extends('layouts.frontend')
-@section('seoinfo')
+
+<?php $__env->startSection('seoinfo'); ?>
 	<title>Recent Case Law Updates | Legal Precedents & Court Decisions | Bansal Lawyers Melbourne</title>
 	<meta name="description" content="Stay informed with the latest case law updates and legal precedents. Expert analysis of important court decisions in family law, immigration, property disputes, and more from Bansal Lawyers Melbourne." />
 
@@ -12,7 +12,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Recent Case Law Updates | Legal Precedents & Court Decisions | Bansal Lawyers Melbourne">
     <meta property="og:description" content="Stay informed with the latest case law updates and legal precedents. Expert analysis of important court decisions in family law, immigration, property disputes, and more from Bansal Lawyers Melbourne.">
-    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
     <meta property="og:image:alt" content="Bansal Lawyers Logo">
     <meta property="og:site_name" content="Bansal Lawyers">
     <meta property="og:locale" content="en_AU">
@@ -23,7 +23,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/case">
     <meta name="twitter:title" content="Recent Case Law Updates | Legal Precedents & Court Decisions | Bansal Lawyers Melbourne">
     <meta name="twitter:description" content="Stay informed with the latest case law updates and legal precedents. Expert analysis of important court decisions in family law, immigration, property disputes, and more from Bansal Lawyers Melbourne.">
-    <meta name="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta name="twitter:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
     <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Additional SEO Meta Tags -->
@@ -31,8 +31,8 @@
     <meta name="robots" content="index, follow">
     <meta name="revisit-after" content="7 days">
 
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 
 <!-- Modern Case Law Information Hero Section -->
 <div class="experimental-case-hero">
@@ -50,7 +50,7 @@
 <div class="experimental-case-stats">
     <div class="container">
         <div class="experimental-stats-item">
-            <span class="experimental-stats-number">{{@$caseData ?? count(@$caselists ?? [])}}</span>
+            <span class="experimental-stats-number"><?php echo e(@$caseData ?? count(@$caselists ?? [])); ?></span>
             <span class="experimental-stats-label">Case Law Updates</span>
         </div>
         <div class="experimental-stats-item">
@@ -73,46 +73,50 @@
     <div class="container">
         <!-- Case Law Information Grid -->
         <div class="row" id="case-law-list">
-            @forelse(@$caselists as $list)
+            <?php $__empty_1 = true; $__currentLoopData = @$caselists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                 <div class="col-md-4 col-lg-4 mb-4">
                     <div class="experimental-case-card">
                         <div class="experimental-case-image" 
-                             @if(isset($list->image) && $list->image != "")
-                                 style="background-image: url('{{ asset('images/blog/' . $list->image) }}');"
-                             @else
-                                 style="background-image: url('{{ asset('images/CaseStudies.jpg') }}');"
-                             @endif>
+                             <?php if(isset($list->image) && $list->image != ""): ?>
+                                 style="background-image: url('<?php echo e(asset('images/blog/' . $list->image)); ?>');"
+                             <?php else: ?>
+                                 style="background-image: url('<?php echo e(asset('images/CaseStudies.jpg')); ?>');"
+                             <?php endif; ?>>
                         </div>
                         <div class="experimental-case-content">
-                            @if(isset($list->category) && $list->category)
+                            <?php if(isset($list->category) && $list->category): ?>
                                 <span class="experimental-case-category">
-                                    {{ $list->category }}
+                                    <?php echo e($list->category); ?>
+
                                 </span>
-                            @endif
+                            <?php endif; ?>
                             
                             <h3 class="experimental-case-title">
-                                <a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}">
-                                    {{ $list->title }}
+                                <a href="<?php echo URL::to('/'); ?>/<?php echo e(@$list->slug); ?>">
+                                    <?php echo e($list->title); ?>
+
                                 </a>
                             </h3>
                             
                             <div class="experimental-case-meta">
                                 <i class="ion-ios-calendar mr-2"></i>
-                                {{ \Carbon\Carbon::parse(@$list->created_at)->format('M d, Y') }}
+                                <?php echo e(\Carbon\Carbon::parse(@$list->created_at)->format('M d, Y')); ?>
+
                             </div>
                             
                             <div class="experimental-case-excerpt">
-                                {{ $list->short_description ? \Illuminate\Support\Str::limit(strip_tags($list->short_description), 120, '...') : 'Legal analysis and case summary available.' }}
+                                <?php echo e($list->short_description ? \Illuminate\Support\Str::limit(strip_tags($list->short_description), 120, '...') : 'Legal analysis and case summary available.'); ?>
+
                             </div>
                             
-                            <a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" 
+                            <a href="<?php echo URL::to('/'); ?>/<?php echo e(@$list->slug); ?>" 
                                class="experimental-read-more">
                                 Read Analysis <i class="ion-ios-arrow-forward"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-            @empty
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                 <div class="col-md-12 text-center">
                     <div class="experimental-case-card" style="padding: 60px 30px;">
                         <h3 style="color: #1B4D89; margin-bottom: 20px;">No Case Law Updates Found</h3>
@@ -121,7 +125,7 @@
                         </p>
                     </div>
                 </div>
-            @endforelse
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -145,7 +149,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset('images/CaseStudies.jpg') }}') center/cover;
+    background: url('<?php echo e(asset('images/CaseStudies.jpg')); ?>') center/cover;
     opacity: 0.2;
     z-index: 1;
 }
@@ -347,4 +351,5 @@
 }
 </style>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/case.blade.php ENDPATH**/ ?>

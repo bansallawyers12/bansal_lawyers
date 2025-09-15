@@ -1,28 +1,37 @@
 @extends('layouts.frontend')
 @section('seoinfo')
-<title>Legal Insights & Updates | Bansal Lawyers Blog Melbourne</title>
-<meta name="description" content="Stay informed with Bansal Lawyers' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team." />
+@if(isset($currentPage) && $currentPage > 1)
+    <title>Legal Insights & Updates - Page {{ $currentPage }} | Bansal Lawyers Blog Melbourne</title>
+    <meta name="description" content="Browse page {{ $currentPage }} of our legal insights and updates. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more from Bansal Lawyers Melbourne." />
+    <link rel="canonical" href="<?php echo URL::to('/'); ?>/blog?page={{ $currentPage }}" />
+@else
+    <title>Legal Insights & Updates | Bansal Lawyers Blog Melbourne</title>
+    <meta name="description" content="Stay informed with Bansal Lawyers' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team." />
+    <link rel="canonical" href="<?php echo URL::to('/'); ?>/blog" />
+@endif
 
-<link rel="canonical" href="<?php echo URL::to('/'); ?>/blog" />
 <!-- Facebook Meta Tags -->
-<meta property="og:url" content="<?php echo URL::to('/'); ?>/blog">
+<meta property="og:url" content="<?php echo URL::to('/'); ?>/blog{{ isset($currentPage) && $currentPage > 1 ? '?page=' . $currentPage : '' }}">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Legal Insights & Updates | Bansal Lawyers Blog Melbourne">
-<meta property="og:description" content="Stay informed with Bansal Lawyers' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.">
+<meta property="og:title" content="{{ isset($currentPage) && $currentPage > 1 ? 'Legal Insights & Updates - Page ' . $currentPage . ' | Bansal Lawyers Blog Melbourne' : 'Legal Insights & Updates | Bansal Lawyers Blog Melbourne' }}">
+<meta property="og:description" content="{{ isset($currentPage) && $currentPage > 1 ? 'Browse page ' . $currentPage . ' of our legal insights and updates. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more from Bansal Lawyers Melbourne.' : 'Stay informed with Bansal Lawyers\' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.' }}">
 <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="bansallawyers.com.au">
-<meta property="twitter:url" content="<?php echo URL::to('/'); ?>/blog">
-<meta name="twitter:title" content="Legal Insights & Updates | Bansal Lawyers Blog Melbourne">
-<meta name="twitter:description" content="Stay informed with Bansal Lawyers' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.">
+<meta property="twitter:url" content="<?php echo URL::to('/'); ?>/blog{{ isset($currentPage) && $currentPage > 1 ? '?page=' . $currentPage : '' }}">
+<meta name="twitter:title" content="{{ isset($currentPage) && $currentPage > 1 ? 'Legal Insights & Updates - Page ' . $currentPage . ' | Bansal Lawyers Blog Melbourne' : 'Legal Insights & Updates | Bansal Lawyers Blog Melbourne' }}">
+<meta name="twitter:description" content="{{ isset($currentPage) && $currentPage > 1 ? 'Browse page ' . $currentPage . ' of our legal insights and updates. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more from Bansal Lawyers Melbourne.' : 'Stay informed with Bansal Lawyers\' blog. Access expert advice, legal trends, and guidance on family law, immigration, property disputes, and more. Benefit from the knowledge of our experienced Melbourne team.' }}">
 <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
+
+<!-- Structured Data for Pagination - Temporarily disabled for testing -->
 @endsection
 @section('content')
 <style>
+
 .blog-entry .text .heading {font-size: 24px !important;line-height: 1.2em !important; }
 .blog-entry .text .heading a { font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif !important;color: #1B4D89 !important; }
 .post-meta {font-family: Manrope, Helvetica, Arial, Lucida, sans-serif;font-size: 16px;color: #1B4D89 !important;}
@@ -155,7 +164,11 @@
                     <div class="blog-entry justify-content-end">
                     <a href="<?php echo URL::to('/'); ?>/{{ @$list->slug }}" 
    class="block-20" 
-   style="background-image: url('{{ asset('images/blog/' . @$list->image) }}');" 
+   @if(isset($list->image) && $list->image != "")
+       style="background-image: url('{{ asset('images/blog/' . $list->image) }}');"
+   @else
+       style="background-image: url('{{ asset('images/Blog.jpg') }}');"
+   @endif
    onclick="showFullBlog(1)">
    <span style="position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
        Read more about {{ @$list->title }}
@@ -197,6 +210,15 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Pagination Section -->
+        @if($bloglists->hasPages())
+            <div class="row">
+                <div class="col-md-12">
+                    {{ $bloglists->links() }}
+                </div>
+            </div>
+        @endif
     </div>
 </section>
 

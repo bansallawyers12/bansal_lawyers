@@ -251,11 +251,15 @@ class HomeController extends Controller
 			}
 		}
 		
-		// Optimized: Get count and data in single query where possible
-		$bloglists = $blogquery->orderby('id','DESC')->get();
-		$blogData = $bloglists->count();
+		// SEO-Optimized Pagination: 9 posts per page for optimal 3x3 grid
+		$bloglists = $blogquery->orderby('id','DESC')->paginate(9);
+		$blogData = $bloglists->total();
 		
-        return view('bloglatest', compact(['bloglists', 'blogData', 'blogCategories']));
+		// Get current page for SEO meta tags
+		$currentPage = $bloglists->currentPage();
+		$totalPages = $bloglists->lastPage();
+		
+        return view('bloglatest', compact(['bloglists', 'blogData', 'blogCategories', 'currentPage', 'totalPages']));
     }
     
     public function blogCategory(Request $request, $categorySlug = null)
@@ -273,10 +277,15 @@ class HomeController extends Controller
                                 ->where('status', 1)
                                 ->with(['categorydetail']);
                 
-                $bloglists = $blogquery->orderby('id','DESC')->get();
-                $blogData = $bloglists->count();
+                // SEO-Optimized Pagination: 9 posts per page
+                $bloglists = $blogquery->orderby('id','DESC')->paginate(9);
+                $blogData = $bloglists->total();
                 
-                return view('bloglatest', compact(['bloglists', 'blogData', 'blogCategories', 'category']));
+                // Get current page for SEO meta tags
+                $currentPage = $bloglists->currentPage();
+                $totalPages = $bloglists->lastPage();
+                
+                return view('bloglatest', compact(['bloglists', 'blogData', 'blogCategories', 'category', 'currentPage', 'totalPages']));
             } else {
                 return Redirect::to('/blog')->with('error', 'Category not found');
             }
@@ -341,40 +350,6 @@ class HomeController extends Controller
         return view('bookappointment1');
     }
 
-    // Experimental Design Methods
-    public function indexExperimental(Request $request)
-    {
-        // Optimized blog query - single query with pagination and category relationship
-        $bloglists = Blog::where('status', 1)
-            ->with(['categorydetail'])
-            ->orderByDesc('id')
-            ->paginate(3);
-        
-        // Get total count from pagination object to avoid separate query
-        $blogData = $bloglists->total();
-        
-        return view('index_experimental', compact(['bloglists', 'blogData']));
-    }
-
-    public function contactusExperimental(Request $request)
-    {
-        return view('contact_experimental');
-    }
-
-    public function bookappointmentExperimental()
-    {
-        return view('bookappointment_experimental');
-    }
-
-    public function experimentalNavigation()
-    {
-        return view('experimental_navigation');
-    }
-
-    public function aboutExperimental()
-    {
-        return view('about_experimental');
-    }
 
     public function about()
     {
@@ -680,6 +655,11 @@ class HomeController extends Controller
     { 
 		return view('practiceareas');
     }
+
+    public function practiceareasBackup(Request $request)
+    { 
+		return view('practiceareas_backup');
+    }
   
      public function case(Request $request)
     {
@@ -687,6 +667,22 @@ class HomeController extends Controller
 		$caseData 	    = $casequery->count();	//for all data
 		$caselists		= $casequery->orderby('id','DESC')->get();
         return view('case', compact(['caselists', 'caseData']));
+	}
+
+    public function caseExperiment(Request $request)
+    {
+        $casequery 		= RecentCase::where('id', '!=', '')->where('status', '=', 1);
+		$caseData 	    = $casequery->count();	//for all data
+		$caselists		= $casequery->orderby('id','DESC')->get();
+        return view('case-experiment', compact(['caselists', 'caseData']));
+	}
+
+    public function caseNew(Request $request)
+    {
+        $casequery 		= RecentCase::where('id', '!=', '')->where('status', '=', 1);
+		$caseData 	    = $casequery->count();	//for all data
+		$caselists		= $casequery->orderby('id','DESC')->get();
+        return view('case-new', compact(['caselists', 'caseData']));
 	}
 
     public function casedetail(Request $request, $slug = null)
@@ -1193,35 +1189,107 @@ class HomeController extends Controller
         }
     }
 
-    // Experimental Practice Area Methods
-    public function practiceareas_experimental(Request $request)
-    { 
-        return view('practiceareas_experimental');
-    }
-
-    public function familylaw_experimental(Request $request)
+    /**
+     * Experimental Blog Listing Page
+     */
+    public function blogExperimental(Request $request)
     {
-        return view('family_law_experimental');
+        // Optimized: Cache blog categories as they rarely change
+        $blogCategories = Cache::remember('blog_categories', 3600, function () {
+            return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
+        });
+        
+        $blogquery = Blog::where('status', '=', 1)->with(['categorydetail']);
+        
+        // Filter by category if provided - optimized query
+        if ($request->has('category') && !empty($request->category)) {
+            $categorySlug = $request->category;
+            $category = $blogCategories->where('slug', $categorySlug)->first();
+            if ($category) {
+                $blogquery->where('parent_category', $category->id);
+            }
+        }
+        
+        // SEO-Optimized Pagination: 9 posts per page for optimal 3x3 grid
+        $bloglists = $blogquery->orderby('id','DESC')->paginate(9);
+        $blogData = $bloglists->total();
+        
+        // Get current page for SEO meta tags
+        $currentPage = $bloglists->currentPage();
+        $totalPages = $bloglists->lastPage();
+        
+        return view('blog-experimental', compact(['bloglists', 'blogData', 'blogCategories', 'currentPage', 'totalPages']));
     }
-
-    public function migrationlaw_experimental(Request $request)
+    
+    /**
+     * Experimental Blog Category Page
+     */
+    public function blogCategoryExperimental(Request $request, $categorySlug = null)
     {
-        return view('migration_law_experimental');
+        if (isset($categorySlug) && !empty($categorySlug)) {
+            // Get category details
+            $category = BlogCategory::where('slug', $categorySlug)->where('status', 1)->first();
+            
+            if (!$category) {
+                return Redirect::to('/blog-experimental')->with('error', 'Category not found');
+            }
+            
+            // Get blogs for this category with pagination
+            $blogquery = Blog::where('status', '=', 1)
+                ->where('parent_category', $category->id)
+                ->with(['categorydetail']);
+            
+            // SEO-Optimized Pagination: 9 posts per page
+            $bloglists = $blogquery->orderby('id','DESC')->paginate(9);
+            $blogData = $bloglists->total();
+            
+            // Get all categories for filter
+            $blogCategories = Cache::remember('blog_categories', 3600, function () {
+                return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
+            });
+            
+            // Get current page for SEO meta tags
+            $currentPage = $bloglists->currentPage();
+            $totalPages = $bloglists->lastPage();
+            
+            return view('blog-experimental', compact(['bloglists', 'blogData', 'blogCategories', 'category', 'currentPage', 'totalPages']));
+        }
+        
+        return Redirect::to('/blog-experimental')->with('error', 'Invalid category');
     }
-
-    public function criminallaw_experimental(Request $request)
+    
+    /**
+     * Experimental Blog Detail Page
+     */
+    public function blogDetailExperimental(Request $request, $slug = null)
     {
-        return view('criminal_law_experimental');
-    }
-
-    public function commerciallaw_experimental(Request $request)
-    {
-        return view('commercial_law_experimental');
-    }
-
-    public function propertylaw_experimental(Request $request)
-    {
-        return view('property_law_experimental');
+        if(isset($slug) && !empty($slug)){
+            // Optimized: Single query instead of exists() check first
+            $blogdetailists = Blog::where('slug', '=', $slug)->where('status', '=', 1)->with(['categorydetail'])->first();
+            
+            if($blogdetailists) {
+                // Optimized: Cache latest blogs with exclusion key
+                $cacheKey = 'latest_blogs_exclude_' . $slug;
+                $latestbloglists = Cache::remember($cacheKey, 1800, function () use ($slug) {
+                    return Blog::where('status', 1)
+                        ->where('slug', '!=', $slug)
+                        ->latest()
+                        ->take(5)
+                        ->get();
+                });
+                
+                // Get all categories for sidebar
+                $blogCategories = Cache::remember('blog_categories', 3600, function () {
+                    return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
+                });
+                
+                return view('blog-detail-experimental', compact(['blogdetailists','latestbloglists', 'blogCategories']));
+            } else {
+                return Redirect::to('/blog-experimental')->with('error', 'Blog not found');
+            }
+        } else {
+            return Redirect::to('/blog-experimental')->with('error', 'Invalid blog URL');
+        }
     }
 
 }

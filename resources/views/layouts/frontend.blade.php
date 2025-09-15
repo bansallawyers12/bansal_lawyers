@@ -12,6 +12,93 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-KGBFD265');</script>
 <!-- End Google Tag Manager -->
 
+<!-- Enhanced Analytics & Tracking -->
+<script>
+// Blog engagement tracking
+function trackBlogEngagement() {
+    // Track scroll depth
+    let maxScroll = 0;
+    window.addEventListener('scroll', function() {
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        if (scrollPercent > maxScroll) {
+            maxScroll = scrollPercent;
+            if (maxScroll % 25 === 0) { // Track at 25%, 50%, 75%, 100%
+                gtag('event', 'scroll_depth', {
+                    'event_category': 'Blog Engagement',
+                    'event_label': maxScroll + '%',
+                    'value': maxScroll
+                });
+            }
+        }
+    });
+
+    // Track reading time
+    let startTime = Date.now();
+    let readingTime = 0;
+    let isReading = true;
+    
+    window.addEventListener('beforeunload', function() {
+        readingTime = Math.round((Date.now() - startTime) / 1000);
+        if (readingTime > 10) { // Only track if user spent more than 10 seconds
+            gtag('event', 'reading_time', {
+                'event_category': 'Blog Engagement',
+                'event_label': 'Time on Page',
+                'value': readingTime
+            });
+        }
+    });
+
+    // Track social shares
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('.experimental-share-btn, .share-btn')) {
+            const platform = e.target.classList.contains('facebook') ? 'Facebook' : 
+                           e.target.classList.contains('twitter') ? 'Twitter' : 
+                           e.target.classList.contains('linkedin') ? 'LinkedIn' : 'Unknown';
+            
+            gtag('event', 'social_share', {
+                'event_category': 'Social Media',
+                'event_label': platform,
+                'value': 1
+            });
+        }
+    });
+
+    // Track internal link clicks
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('a[href*="bansallawyers.com.au"]')) {
+            gtag('event', 'internal_link_click', {
+                'event_category': 'Navigation',
+                'event_label': e.target.href,
+                'value': 1
+            });
+        }
+    });
+}
+
+// Initialize tracking when DOM is ready
+document.addEventListener('DOMContentLoaded', trackBlogEngagement);
+
+// FAQ Toggle Function
+function toggleFAQ(index) {
+    const answer = document.getElementById('faq-answer-' + index);
+    const icon = document.getElementById('faq-icon-' + index);
+    
+    if (answer.style.maxHeight === '0px' || answer.style.maxHeight === '') {
+        // Open FAQ
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        answer.style.padding = '0 20px';
+        icon.textContent = '−';
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        // Close FAQ
+        answer.style.maxHeight = '0px';
+        answer.style.padding = '0 20px';
+        icon.textContent = '+';
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
 
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -817,6 +904,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
        transition: none !important; /* No transitions for instant switching */
      }
 
+     /* Fix navbar overlap issue */
+     body {
+       padding-top: 0;
+     }
+
+     .ftco-navbar-light.scrolled {
+       margin-top: 0 !important;
+     }
+
+     /* Add proper spacing for content when navbar is fixed */
+     .ftco-navbar-light.scrolled ~ * {
+       margin-top: 80px;
+     }
+
+     /* Specific fix for blog pages */
+     .ftco-navbar-light.scrolled + .experimental-breadcrumb,
+     .ftco-navbar-light.scrolled + .experimental-blog-detail-hero,
+     .ftco-navbar-light.scrolled + .hero-wrap,
+     .ftco-navbar-light.scrolled + .ftco-section {
+       margin-top: 80px;
+     }
+
      /* Ensure logo is always visible and properly sized */
      .ftco-navbar-light.scrolled .navbar-brand {
        display: block !important;
@@ -1137,7 +1246,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- JavaScript Files - Optimized Loading Order -->
     <!-- jQuery and jQuery Migrate already loaded above -->
     <script src="{{ asset('js/popper.min.js')}}"></script>
-    <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>
     <script src="{{ asset('js/jquery.waypoints.min.js')}}"></script>
     <script src="{{ asset('js/jquery.stellar.min.js')}}"></script>
