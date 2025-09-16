@@ -638,7 +638,7 @@ ul,li {
                         ],
                         [
                             'question' => 'How can I schedule a consultation with Bansal Lawyers?',
-                            'answer' => 'You can schedule a consultation by calling us at (03) 1234-5678, emailing us at info@bansallawyers.com.au, or using our online booking system. We offer flexible appointment times to accommodate your schedule.'
+                            'answer' => 'You can schedule a consultation by calling us at 1300 BANSAL (1300 226 725), emailing us at info@bansallawyers.com.au, or using our online booking system. We offer flexible appointment times to accommodate your schedule.'
                         ],
                         [
                             'question' => 'What areas of law does Bansal Lawyers specialize in?',
@@ -715,22 +715,6 @@ ul,li {
 
 
     <div class="right-side">
-        <!-- Contact CTA Sidebar -->
-        @php
-            $category = 'general';
-            if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail) {
-                $categoryName = strtolower($blogdetailists->categorydetail->name);
-                if(strpos($categoryName, 'family') !== false || strpos($categoryName, 'divorce') !== false || strpos($categoryName, 'custody') !== false) {
-                    $category = 'family-law';
-                } elseif(strpos($categoryName, 'immigration') !== false || strpos($categoryName, 'visa') !== false) {
-                    $category = 'immigration';
-                } elseif(strpos($categoryName, 'criminal') !== false || strpos($categoryName, 'assault') !== false) {
-                    $category = 'criminal';
-                }
-            }
-        @endphp
-        
-        <x-blog-cta type="sidebar" :category="$category" />
         
         <aside class="col-lg-11 col-md-11 col-sm-11 mx-auto aside">
             <div class="widget widget-post">

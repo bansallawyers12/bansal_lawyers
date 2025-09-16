@@ -51,8 +51,11 @@ return [
     'recaptcha' => [
         'key' => env('RECAPTCHA_SITE_KEY'),
         'secret' => env('RECAPTCHA_SITE_SECRET'),
+    ],
+
+    'google_analytics' => [
+        'id' => env('GOOGLE_ANALYTICS_ID'),
+        'gtm_id' => env('GOOGLE_TAG_MANAGER_ID'),
     ]
-
-
 
 ];

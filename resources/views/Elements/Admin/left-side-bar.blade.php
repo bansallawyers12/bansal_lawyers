@@ -251,6 +251,14 @@
                     <span>Case Studies</span>
                 </a>
             </li>
+            
+            <li class="menu-item">
+                <a href="{{ route('admin.contacts.index') }}" 
+                   class="menu-link {{ in_array(Route::currentRouteName(), ['admin.contacts.index', 'admin.contacts.show']) ? 'active' : '' }}">
+                    <i class="menu-icon fas fa-envelope"></i>
+                    <span>Contact Management</span>
+                </a>
+            </li>
         </div>
     </ul>
     

@@ -287,6 +287,171 @@
         font-size: 0.8rem !important;
     }
 }
+
+/* Home Contact Form Custom Styles */
+.home-contact-form-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.home-contact-form-container .contact-form .form-group {
+    margin-bottom: 15px !important;
+}
+
+.home-contact-form-container .contact-form .form-label {
+    color: white !important;
+    font-weight: 600 !important;
+    margin-bottom: 3px !important;
+    display: block !important;
+    font-size: 0.85rem !important;
+}
+
+.home-contact-form-container .contact-form .form-control {
+    border-radius: 8px !important;
+    border: 2px solid rgba(255,255,255,0.3) !important;
+    padding: 8px 12px !important;
+    font-size: 0.9rem !important;
+    background: rgba(255,255,255,0.9) !important;
+    color: #333 !important;
+    transition: all 0.3s ease !important;
+}
+
+.home-contact-form-container .contact-form .form-control:focus {
+    border-color: #fff !important;
+    background: rgba(255,255,255,1) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.home-contact-form-container .contact-form .form-control::placeholder {
+    color: #999 !important;
+    font-style: italic !important;
+}
+
+.home-contact-form-container .g-recaptcha {
+    display: flex !important;
+    justify-content: center !important;
+    transform: scale(0.8) !important;
+    margin: 10px 0 !important;
+}
+
+/* Custom reCAPTCHA styling for better integration */
+.home-contact-form-container .g-recaptcha > div {
+    background: rgba(255,255,255,0.1) !important;
+    border: 2px solid rgba(255,255,255,0.3) !important;
+    border-radius: 8px !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.home-contact-form-container .g-recaptcha > div:hover {
+    border-color: rgba(255,255,255,0.5) !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2) !important;
+}
+
+/* Style the reCAPTCHA iframe */
+.home-contact-form-container .g-recaptcha iframe {
+    border-radius: 6px !important;
+    background: transparent !important;
+}
+
+/* Style the reCAPTCHA checkbox area */
+.home-contact-form-container .g-recaptcha .recaptcha-checkbox-border {
+    border-radius: 6px !important;
+    background: rgba(255,255,255,0.9) !important;
+    border: 1px solid rgba(255,255,255,0.3) !important;
+}
+
+.home-contact-form-container .g-recaptcha .recaptcha-checkbox-checkmark {
+    background: #1B4D89 !important;
+}
+
+/* Style the reCAPTCHA text */
+.home-contact-form-container .g-recaptcha .recaptcha-checkbox-text {
+    color: #333 !important;
+    font-weight: 500 !important;
+}
+
+/* Alternative: Hide reCAPTCHA and show custom message */
+.home-contact-form-container .g-recaptcha-custom {
+    background: rgba(255,255,255,0.1) !important;
+    border: 2px solid rgba(255,255,255,0.3) !important;
+    border-radius: 8px !important;
+    padding: 15px !important;
+    text-align: center !important;
+    color: white !important;
+    font-size: 0.9rem !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    margin: 10px 0 !important;
+}
+
+.home-contact-form-container .g-recaptcha-custom i {
+    font-size: 1.2rem !important;
+    margin-right: 8px !important;
+    color: #1B4D89 !important;
+}
+
+.home-contact-form-container .btn-experimental-cta {
+    width: 100% !important;
+    text-align: center !important;
+    border: none !important;
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%) !important;
+    color: #1B4D89 !important;
+    padding: 10px 20px !important;
+    border-radius: 30px !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.home-contact-form-container .btn-experimental-cta:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3) !important;
+    color: #1B4D89 !important;
+}
+
+.home-contact-form-container .btn-experimental-cta:active {
+    transform: translateY(0) !important;
+}
+
+.home-contact-form-container .btn-experimental-cta:disabled {
+    opacity: 0.7 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    background: #6c757d !important;
+}
+
+.home-contact-form-container .invalid-feedback {
+    color: #ff6b6b !important;
+    font-size: 0.8rem !important;
+    margin-top: 5px !important;
+    display: block !important;
+}
+
+.home-contact-form-container .contact-form-messages .alert {
+    border-radius: 8px !important;
+    border: none !important;
+    padding: 8px 12px !important;
+    font-size: 0.85rem !important;
+    margin-bottom: 15px !important;
+}
+
+.home-contact-form-container .contact-form-messages .alert-success {
+    background: rgba(40, 167, 69, 0.9) !important;
+    color: white !important;
+}
+
+.home-contact-form-container .contact-form-messages .alert-danger {
+    background: rgba(220, 53, 69, 0.9) !important;
+    color: white !important;
+}
 </style>
 
 <!-- Experimental Hero Section -->
@@ -599,7 +764,7 @@
                         <div class="mt-4">
                             <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
                                 <i class="ion-ios-telephone" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
-                                <span style="font-size: 1.1rem; font-weight: 500;">+61 3 1234 5678</span>
+                                <span style="font-size: 1.1rem; font-weight: 500;">1300 BANSAL (1300 226 725)</span>
                             </div>
                             <div style="display: flex; align-items: center; justify-content: center;">
                                 <i class="ion-ios-email" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
@@ -637,57 +802,16 @@
                         <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0;">Send us a message and we'll get back to you with expert legal advice</p>
                     </div>
                     
-                    <form action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data" id="contactForm">
-                        <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
-                        
-                        <div class="form-group mb-2">
-                            <label for="name" style="color: white; font-weight: 600; margin-bottom: 3px; display: block; font-size: 0.85rem;">Full Name *</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter your full name" required 
-                                   style="border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); padding: 8px 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); color: #333; transition: all 0.3s ease;"
-                                   onfocus="this.style.borderColor='#fff'; this.style.background='rgba(255,255,255,1)';" 
-                                   onblur="this.style.borderColor='rgba(255,255,255,0.3)'; this.style.background='rgba(255,255,255,0.9)';">
-                        </div>
-                        
-                        <div class="form-group mb-2">
-                            <label for="email" style="color: white; font-weight: 600; margin-bottom: 3px; display: block; font-size: 0.85rem;">Email Address *</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email address" required 
-                                   style="border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); padding: 8px 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); color: #333; transition: all 0.3s ease;"
-                                   onfocus="this.style.borderColor='#fff'; this.style.background='rgba(255,255,255,1)';" 
-                                   onblur="this.style.borderColor='rgba(255,255,255,0.3)'; this.style.background='rgba(255,255,255,0.9)';">
-                        </div>
-                        
-                        <div class="form-group mb-2">
-                            <label for="subject" style="color: white; font-weight: 600; margin-bottom: 3px; display: block; font-size: 0.85rem;">Subject *</label>
-                            <input type="text" class="form-control" name="subject" id="subject" placeholder="What is this about?" required 
-                                   style="border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); padding: 8px 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); color: #333; transition: all 0.3s ease;"
-                                   onfocus="this.style.borderColor='#fff'; this.style.background='rgba(255,255,255,1)';" 
-                                   onblur="this.style.borderColor='rgba(255,255,255,0.3)'; this.style.background='rgba(255,255,255,0.9)';">
-                        </div>
-                        
-                        <div class="form-group mb-2">
-                            <label for="message" style="color: white; font-weight: 600; margin-bottom: 3px; display: block; font-size: 0.85rem;">Message *</label>
-                            <textarea name="message" id="message" cols="30" rows="3" class="form-control" placeholder="Tell us about your legal needs..." required 
-                                      style="border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); padding: 8px 12px; font-size: 0.9rem; background: rgba(255,255,255,0.9); color: #333; transition: all 0.3s ease; resize: vertical;"
-                                      onfocus="this.style.borderColor='#fff'; this.style.background='rgba(255,255,255,1)';" 
-                                      onblur="this.style.borderColor='rgba(255,255,255,0.3)'; this.style.background='rgba(255,255,255,0.9)';"></textarea>
-                        </div>
-                        
-                        <!-- Google reCAPTCHA v2 -->
-                        <div class="form-group mb-2">
-                            <div class="g-recaptcha" data-sitekey="<?php echo e(env('RECAPTCHA_SITE_KEY', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI')); ?>" 
-                                 style="display: flex; justify-content: center; transform: scale(0.8);"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <button type="submit" class="experimental-cta" 
-                                    style="width: 100%; text-align: center; border: none; background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); color: #1B4D89; padding: 10px 20px; border-radius: 30px; font-weight: 700; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease; position: relative; overflow: hidden;"
-                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.3)';"
-                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)';">
-                                <i class="ion-ios-paper-plane" style="margin-right: 6px;"></i>
-                                Send Message
-                            </button>
-                        </div>
-                    </form>
+                    <!-- Unified Contact Form Component -->
+                    <?php echo $__env->make('components.unified-contact-form', [
+                        'variant' => 'inline',
+                        'showTitle' => false,
+                        'formId' => 'home-contact-form',
+                        'source' => 'home-page',
+                        'buttonText' => 'Send Message',
+                        'buttonClass' => 'btn-experimental-cta',
+                        'containerClass' => 'home-contact-form-container'
+                    ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                 </div>
             </div>
         </div>
@@ -759,132 +883,9 @@ $(document).ready(function(){
 });
 </script>
 
+<!-- Additional styles for home contact form -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Form validation and submission handling
-    const contactForm = document.getElementById('contactForm');
-    const submitButton = contactForm.querySelector('button[type="submit"]');
-    
-    // Add loading state to submit button
-    contactForm.addEventListener('submit', function(e) {
-        // Check if reCAPTCHA is completed
-        const recaptchaResponse = grecaptcha.getResponse();
-        if (!recaptchaResponse) {
-            e.preventDefault();
-            alert('Please complete the reCAPTCHA verification.');
-            return false;
-        }
-        
-        // Show loading state
-        const originalText = submitButton.innerHTML;
-        submitButton.innerHTML = '<i class="ion-ios-refresh" style="margin-right: 10px; animation: spin 1s linear infinite;"></i>Sending...';
-        submitButton.disabled = true;
-        
-        // Re-enable button after 5 seconds as fallback
-        setTimeout(function() {
-            submitButton.innerHTML = originalText;
-            submitButton.disabled = false;
-        }, 5000);
-    });
-    
-    // Real-time form validation
-    const inputs = contactForm.querySelectorAll('input[required], textarea[required]');
-    inputs.forEach(function(input) {
-        input.addEventListener('blur', function() {
-            validateField(this);
-        });
-        
-        input.addEventListener('input', function() {
-            if (this.classList.contains('is-invalid')) {
-                validateField(this);
-            }
-        });
-    });
-    
-    function validateField(field) {
-        const value = field.value.trim();
-        const fieldName = field.name;
-        let isValid = true;
-        let errorMessage = '';
-        
-        // Remove existing validation classes
-        field.classList.remove('is-valid', 'is-invalid');
-        
-        // Check if field is empty
-        if (!value) {
-            isValid = false;
-            errorMessage = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required.`;
-        } else {
-            // Email validation
-            if (fieldName === 'email') {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(value)) {
-                    isValid = false;
-                    errorMessage = 'Please enter a valid email address.';
-                }
-            }
-            
-            // Name validation (minimum 2 characters)
-            if (fieldName === 'name' && value.length < 2) {
-                isValid = false;
-                errorMessage = 'Name must be at least 2 characters long.';
-            }
-            
-            // Subject validation (minimum 5 characters)
-            if (fieldName === 'subject' && value.length < 5) {
-                isValid = false;
-                errorMessage = 'Subject must be at least 5 characters long.';
-            }
-            
-            // Message validation (minimum 10 characters)
-            if (fieldName === 'message' && value.length < 10) {
-                isValid = false;
-                errorMessage = 'Message must be at least 10 characters long.';
-            }
-        }
-        
-        // Apply validation classes
-        if (isValid) {
-            field.classList.add('is-valid');
-            field.style.borderColor = '#28a745';
-        } else {
-            field.classList.add('is-invalid');
-            field.style.borderColor = '#dc3545';
-        }
-        
-        // Show/hide error message
-        let errorElement = field.parentNode.querySelector('.invalid-feedback');
-        if (!isValid) {
-            if (!errorElement) {
-                errorElement = document.createElement('div');
-                errorElement.className = 'invalid-feedback';
-                field.parentNode.appendChild(errorElement);
-            }
-            errorElement.textContent = errorMessage;
-            errorElement.style.display = 'block';
-            errorElement.style.color = '#dc3545';
-            errorElement.style.fontSize = '0.875rem';
-            errorElement.style.marginTop = '5px';
-        } else if (errorElement) {
-            errorElement.style.display = 'none';
-        }
-    }
-    
-    // Add smooth scroll effect for better UX
-    const formInputs = contactForm.querySelectorAll('input, textarea');
-    formInputs.forEach(function(input) {
-        input.addEventListener('focus', function() {
-            this.style.transform = 'scale(1.02)';
-            this.style.transition = 'transform 0.2s ease';
-        });
-        
-        input.addEventListener('blur', function() {
-            this.style.transform = 'scale(1)';
-        });
-    });
-});
-
-// Add CSS for loading animation
+// Add CSS for loading animation and form validation
 const style = document.createElement('style');
 style.textContent = `
     @keyframes spin {
@@ -892,25 +893,90 @@ style.textContent = `
         100% { transform: rotate(360deg); }
     }
     
-    .is-valid {
+    .home-contact-form-container .is-valid {
         border-color: #28a745 !important;
         background-color: rgba(40, 167, 69, 0.1) !important;
     }
     
-    .is-invalid {
+    .home-contact-form-container .is-invalid {
         border-color: #dc3545 !important;
         background-color: rgba(220, 53, 69, 0.1) !important;
     }
     
-    .invalid-feedback {
-        display: block;
-        width: 100%;
-        margin-top: 0.25rem;
-        font-size: 0.875rem;
-        color: #dc3545;
+    /* Enhanced reCAPTCHA styling */
+    .home-contact-form-container .g-recaptcha {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .home-contact-form-container .g-recaptcha::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        border-radius: 8px;
+        pointer-events: none;
+        z-index: 1;
+    }
+    
+    .home-contact-form-container .g-recaptcha > div {
+        position: relative;
+        z-index: 2;
     }
 `;
 document.head.appendChild(style);
+
+// Enhanced reCAPTCHA styling and interaction
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait for reCAPTCHA to load
+    const checkRecaptcha = setInterval(function() {
+        const recaptchaElement = document.querySelector('.home-contact-form-container .g-recaptcha > div');
+        if (recaptchaElement) {
+            clearInterval(checkRecaptcha);
+            
+            // Add custom styling classes
+            recaptchaElement.classList.add('recaptcha-styled');
+            
+            // Add hover effects
+            recaptchaElement.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+                this.style.transition = 'all 0.3s ease';
+            });
+            
+            recaptchaElement.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+            
+            // Add focus effects
+            const iframe = recaptchaElement.querySelector('iframe');
+            if (iframe) {
+                iframe.addEventListener('load', function() {
+                    // Add subtle animation when reCAPTCHA loads
+                    recaptchaElement.style.animation = 'fadeInUp 0.5s ease-out';
+                });
+            }
+        }
+    }, 100);
+    
+    // Add fadeInUp animation
+    const animationStyle = document.createElement('style');
+    animationStyle.textContent = `
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    `;
+    document.head.appendChild(animationStyle);
+});
 </script>
 <?php $__env->stopSection(); ?>
 

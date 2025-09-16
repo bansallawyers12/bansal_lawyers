@@ -140,6 +140,22 @@ class HomeController extends Controller
 		return view('contact');
     }
 
+    /**
+     * Contact form test page
+     */
+    public function contactFormTest(Request $request)
+    {
+        return view('contact-form-test');
+    }
+
+    /**
+     * Contact form demo page
+     */
+    public function contactFormDemo(Request $request)
+    {
+        return view('contact-form-demo');
+    }
+
 	public function refresh_captcha() {
 		// This method is no longer needed with Google reCAPTCHA
 		// Keeping for backward compatibility but returning empty response
@@ -151,11 +167,11 @@ class HomeController extends Controller
         $fromAddress = config('mail.from.address');
         //dd($fromAddress);
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            //'phone' => 'required',
-            'subject' => 'required',
-            'message' => 'required',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:2000',
             'g-recaptcha-response' => 'required'
         ]);
 
@@ -169,7 +185,7 @@ class HomeController extends Controller
 		$obj = new Contact;
         $obj->name = $request->name;
         $obj->contact_email = $request->email;
-        //$obj->contact_phone = $request->phone;
+        $obj->contact_phone = $request->phone;
         $obj->subject = $request->subject;
         $obj->message = $request->message;
         $saved = $obj->save();
@@ -177,7 +193,7 @@ class HomeController extends Controller
             $obj1 = new Enquiry;
             $obj1->first_name = $request->name;
             $obj1->email = $request->email;
-            //$obj1->phone = $request->phone;
+            $obj1->phone = $request->phone;
             $obj1->subject = $request->subject;
             $obj1->message = $request->message;
             $obj1->save();
@@ -191,7 +207,7 @@ class HomeController extends Controller
           'fullname' => 'Admin',
           'from' =>$request->name,
           'email'=> $request->email,
-          //'phone' => $request->phone,
+          'phone' => $request->phone,
           'description' => $request->message
         ];
 
@@ -214,6 +230,103 @@ class HomeController extends Controller
 
         return back()->with('success', 'Thanks for sharing your interest. our team will respond to you with in 24 hours.');
 	}
+
+    /**
+     * Unified contact form submission handler
+     */
+    public function contactSubmit(Request $request)
+    {
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'phone' => 'required|string|max:20',
+                'subject' => 'required|string|max:255',
+                'message' => 'required|string|max:2000',
+                'g-recaptcha-response' => 'required',
+                'form_source' => 'nullable|string',
+                'form_variant' => 'nullable|string'
+            ]);
+
+            // Validate reCAPTCHA
+            $recaptchaResponse = $this->validateRecaptcha($request);
+            if ($recaptchaResponse !== true) {
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'reCAPTCHA validation failed',
+                        'errors' => ['g-recaptcha-response' => ['Please complete the reCAPTCHA verification.']]
+                    ], 422);
+                }
+                return $recaptchaResponse;
+            }
+
+            // Save to Contact model
+            $contact = new Contact;
+            $contact->name = $request->name;
+            $contact->contact_email = $request->email;
+            $contact->contact_phone = $request->phone;
+            $contact->subject = $request->subject;
+            $contact->message = $request->message;
+            $contact->save();
+
+            // Save to Enquiry model
+            $enquiry = new Enquiry;
+            $enquiry->first_name = $request->name;
+            $enquiry->email = $request->email;
+            $enquiry->phone = $request->phone;
+            $enquiry->subject = $request->subject;
+            $enquiry->message = $request->message;
+            $enquiry->save();
+
+            // Send email notification
+            $fromAddress = config('mail.from.address');
+            $subject = 'New Contact Form Submission from ' . $request->name;
+            $details = [
+                'title' => $subject,
+                'body' => 'You have received a new contact form submission.',
+                'subject' => $subject,
+                'fullname' => 'Admin',
+                'from' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'description' => $request->message
+            ];
+
+            \Mail::to($fromAddress)->send(new \App\Mail\ContactUsMail($details));
+
+            // Return response based on request type
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.'
+                ]);
+            }
+
+            return back()->with('success', 'Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $e->errors()
+                ], 422);
+            }
+            throw $e;
+        } catch (\Exception $e) {
+            \Log::error('Contact form submission error: ' . $e->getMessage());
+            
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Sorry, there was an error sending your message. Please try again.'
+                ], 500);
+            }
+            
+            return back()->with('error', 'Sorry, there was an error sending your message. Please try again.');
+        }
+    }
 
 	public function testimonial(Request $request)
     {

@@ -350,27 +350,6 @@
             margin-bottom : 0px !important;
         }
 
-        .consultation .form-control {
-            height: 52px !important;
-            width: 85%;
-            margin: 20px 0px 20px 20px;
-            border-radius: 0 !important;
-        }
-
-        .contactus_div {
-            margin-left: 0px;
-            box-shadow: 0 0 10px 0 rgba(0, 0, 0, .15);
-            background-color: #1B4D89;
-            border: 0 solid #1B4D89;
-            border-radius: 3px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100%;
-            overflow: hidden;
-            position: relative;
-            transition: all .25s;
-            width: 100%;
-        }
 
         @media (max-width: 768px) {
             .left-side{
@@ -386,9 +365,6 @@
                 border-radius: 8px;
             }
 
-            /*.contactus_div {
-                width: 121%;
-            }*/
         }
 
         @media (min-width: 769px) {
@@ -413,11 +389,6 @@
         }
       
       
-       @media (min-width: 360px) and (max-width: 730px) {
-            .contactus_div {
-                width: 100%;
-            }
-        }
       
         
     </style>
@@ -829,53 +800,6 @@
                             </div>
                             <!-- End Related pages -->
 
-                            <!-- Start Contact Us Form -->
-                            <div class="field__items flex-container widget-post" >
-                                <!--<div class="widget-header mb-4">
-                                    <h5 class="title">Contact Us</h5>
-                                </div>-->
-
-                                <div class="elementor-widget-container">
-                                    <div class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid elementor-has-item-ratio">
-                                        <div class="row d-md-flex justify-content-end contactus_div">
-                                            @if ($message = Session::get('success'))
-                                                <div class="alert alert-success" style="margin: 10px 10px 10px 10px;">
-                                                    <p>{{ $message }}</p>
-                                                </div>
-                                            @endif
-
-                                            <div style="height: 94px;padding-top: 10px;font-weight: 400;">
-                                                <img src="{{ asset('images/bansal_2.jpg') }}" width="70" height="80" alt="Ajay Bansal - CEO of Bansal Lawyers">
-
-                                                <div style="color: #FFF;font-size: 16px;float: right;padding-top: 20px;width: 71%;">
-                                                    There's No Legal Puzzle,<br>
-                                                    We Can't Solve.
-                                                </div>
-                                            </div>c
-
-                                            <form action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data" class="consultation">
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="name" style="margin-top: 20px;" placeholder="Your Name" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="email" class="form-control" name="email" placeholder="Your Email" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="subject" placeholder="Subject" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Message" required></textarea>
-                                                </div>
-                                                <div class="form-group" style="text-align: center;">
-                                                    <input type="submit" value="GET LEGAL ADVICE" class="btn btn-primary submit_cls">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Contact Us Form -->
                         </div>
                     </div>
                 </div>

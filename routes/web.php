@@ -51,6 +51,11 @@ Route::get('/search_result', [App\Http\Controllers\HomeController::class, 'searc
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus']);
 Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'contact']);
 
+// Unified contact form routes
+Route::get('/contact-form-test', [App\Http\Controllers\HomeController::class, 'contactFormTest'])->name('contact.form.test');
+Route::get('/contact-form-demo', [App\Http\Controllers\HomeController::class, 'contactFormDemo'])->name('contact.form.demo');
+Route::post('/contact/submit', [App\Http\Controllers\HomeController::class, 'contactSubmit'])->name('contact.submit');
+
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
 
 Route::get('stripe/{appointmentId}', [App\Http\Controllers\HomeController::class, 'stripe']);
@@ -147,6 +152,16 @@ Route::prefix('admin')->group(function() {
 			Route::post('/recent_case/edit', [App\Http\Controllers\Admin\RecentCaseController::class, 'edit'])->name('admin.recent_case.edit');
 
         Route::post('/delete_slot_action', [App\Http\Controllers\Admin\AdminController::class, 'deleteSlotAction']);
+
+        // Contact Management
+        Route::get('/contacts', [App\Http\Controllers\Admin\ContactController::class, 'index'])->name('admin.contacts.index');
+        Route::get('/contacts/{id}', [App\Http\Controllers\Admin\ContactController::class, 'show'])->name('admin.contacts.show');
+        Route::post('/contacts/{id}/send-to-bansal-email', [App\Http\Controllers\Admin\ContactController::class, 'sendToBansalEmail'])->name('admin.contacts.send-to-bansal-email');
+        Route::post('/contacts/{id}/status', [App\Http\Controllers\Admin\ContactController::class, 'updateStatus'])->name('admin.contacts.update-status');
+        Route::delete('/contacts/{id}', [App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('admin.contacts.destroy');
+        Route::post('/contacts/bulk-delete', [App\Http\Controllers\Admin\ContactController::class, 'bulkDelete'])->name('admin.contacts.bulk-delete');
+        Route::post('/contacts/bulk-send-to-bansal-email', [App\Http\Controllers\Admin\ContactController::class, 'bulkSendToBansalEmail'])->name('admin.contacts.bulk-send-to-bansal-email');
+        Route::get('/contacts/export', [App\Http\Controllers\Admin\ContactController::class, 'export'])->name('admin.contacts.export');
 
 		});
 

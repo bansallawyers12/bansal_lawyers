@@ -150,13 +150,17 @@
                         </div>
                     </div>
 
-                    @include('components.contact-card', [
+                    @include('components.unified-contact-form', [
                         'title' => 'Speak with a Lawyer',
-                        'cta' => 'Get Legal Advice',
-                        'variant' => 'compact',
-                        'accent' => '#1B4D89',
-                        'source' => 'migration-law-experiment'
+                        'subtitle' => 'There\'s No Legal Puzzle, We Can\'t Solve.',
+                        'buttonText' => 'GET LEGAL ADVICE',
+                        'variant' => 'sidebar',
+                        'source' => 'property-law',
+                        'showPhoto' => true,
+                        'photoUrl' => asset('images/bansal_2.jpg'),
+                        'photoAlt' => 'Ajay Bansal - CEO of Bansal Lawyers'
                     ])
+
                 </aside>
             </div>
         </div>

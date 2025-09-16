@@ -28,6 +28,26 @@ class Helper
             // dd("Error: ". $e->getMessage());
         }
     }
+
+    /**
+     * Get Google Analytics configuration
+     */
+    public static function getAnalyticsConfig()
+    {
+        return [
+            'ga_id' => config('services.google_analytics.id'),
+            'gtm_id' => config('services.google_analytics.gtm_id'),
+            'is_enabled' => !empty(config('services.google_analytics.id'))
+        ];
+    }
+
+    /**
+     * Check if analytics is enabled
+     */
+    public static function isAnalyticsEnabled()
+    {
+        return !empty(config('services.google_analytics.id'));
+    }
     public static function changeDateFormate($date,$date_format){
         return \Carbon\Carbon::createFromFormat('Y-m-d', $date)->format($date_format);    
     }

@@ -370,125 +370,6 @@
     text-decoration: none;
 }
 
-/* Modern Form Section */
-.modern-form-section {
-    background: var(--white);
-    border-radius: 30px;
-    padding: 60px;
-    box-shadow: var(--shadow);
-    position: relative;
-    overflow: hidden;
-}
-
-.modern-form-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: var(--gradient-accent);
-}
-
-.modern-form-section h3 {
-    color: var(--text-dark);
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 3rem;
-    text-align: center;
-    position: relative;
-}
-
-.modern-form-section h3::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background: var(--gradient-accent);
-    border-radius: 2px;
-}
-
-.modern-form-group {
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.modern-form-group label {
-    color: var(--text-dark);
-    font-weight: 700;
-    margin-bottom: 10px;
-    display: block;
-    font-size: 1.1rem;
-}
-
-.modern-form-control {
-    width: 100%;
-    padding: 15px 20px;
-    border: 2px solid #e9ecef;
-    border-radius: 12px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background: #f8f9fa;
-    position: relative;
-}
-
-.modern-form-control:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
-    background: var(--white);
-    transform: translateY(-2px);
-}
-
-.modern-form-control::placeholder {
-    color: #adb5bd;
-    font-weight: 400;
-}
-
-.modern-textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-.modern-submit-btn {
-    background: var(--gradient-accent);
-    color: var(--white);
-    padding: 15px 40px;
-    border: none;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: block;
-    margin: 25px auto 0;
-    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.modern-submit-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-}
-
-.modern-submit-btn:hover::before {
-    left: 100%;
-}
-
-.modern-submit-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(255, 107, 53, 0.4);
-}
 
 /* Modern Map Section */
 .modern-map-section {
@@ -518,17 +399,252 @@
     display: block;
 }
 
-.modern-alert {
-    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-    color: #155724;
-    padding: 20px 25px;
-    border-radius: 15px;
-    margin-bottom: 30px;
-    border: 1px solid #c3e6cb;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(21, 87, 36, 0.1);
+
+
+
+/* Photo Background Contact Section */
+.photo-contact-section {
+    position: relative;
+    min-height: 80vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
+.photo-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('<?php echo e(asset("images/Contactus.jpg")); ?>') center/cover;
+    background-attachment: fixed;
+    z-index: 1;
+}
+
+.photo-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(27, 77, 137, 0.85) 0%, 
+        rgba(44, 90, 160, 0.75) 50%, 
+        rgba(255, 107, 53, 0.7) 100%);
+    z-index: 2;
+}
+
+.photo-overlay {
+    position: relative;
+    z-index: 3;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: 40px 0;
+}
+
+
+.form-overlay-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-overlay-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: var(--gradient-accent);
+    border-radius: 25px 25px 0 0;
+}
+
+.map-overlay-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    height: 600px;
+}
+
+.map-overlay-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: var(--gradient-accent);
+    border-radius: 25px 25px 0 0;
+    z-index: 1;
+}
+
+.map-container {
+    height: 100%;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+
+/* Contact Form Overlay Enhancements */
+.contact-form-overlay {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-form-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: var(--gradient-accent);
+    border-radius: 25px 25px 0 0;
+}
+
+.contact-form-overlay .contact-form-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.contact-form-overlay .contact-form-title {
+    color: var(--text-dark);
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.contact-form-overlay .contact-form-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--gradient-accent);
+    border-radius: 2px;
+}
+
+.contact-form-overlay .contact-form-subtitle {
+    color: var(--text-light);
+    font-size: 1rem;
+    margin-bottom: 0;
+    font-style: italic;
+}
+
+.contact-form-overlay .form-control {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(27, 77, 137, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.contact-form-overlay .form-control:focus {
+    background: rgba(255, 255, 255, 1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.2);
+    transform: translateY(-2px);
+}
+
+.contact-form-overlay .form-control::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+.contact-form-overlay .contact-form-submit {
+    background: var(--gradient-accent);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-form-overlay .contact-form-submit::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.contact-form-overlay .contact-form-submit:hover::before {
+    left: 100%;
+}
+
+.contact-form-overlay .contact-form-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+}
+
+.contact-form-overlay .recaptcha-container {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.contact-form-overlay .recaptcha-container > div {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.contact-form-overlay .recaptcha-container > div:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.contact-form-overlay .recaptcha-container iframe {
+    border-radius: 6px;
+    background: transparent;
+}
 
 /* Floating Contact Form */
 .floating-form-container {
@@ -659,80 +775,6 @@
     overflow-y: auto;
 }
 
-.floating-form-group {
-    margin-bottom: 20px;
-}
-
-.floating-form-group label {
-    color: var(--text-dark);
-    font-weight: 600;
-    margin-bottom: 8px;
-    display: block;
-    font-size: 0.9rem;
-}
-
-.floating-form-control {
-    width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    background: #f8f9fa;
-}
-
-.floating-form-control:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
-    background: var(--white);
-}
-
-.floating-form-control::placeholder {
-    color: #adb5bd;
-    font-size: 0.85rem;
-}
-
-.floating-textarea {
-    min-height: 80px;
-    resize: vertical;
-}
-
-.floating-submit-btn {
-    background: var(--gradient-accent);
-    color: var(--white);
-    padding: 12px 25px;
-    border: none;
-    border-radius: 25px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-}
-
-.floating-submit-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-}
-
-.floating-submit-btn:hover::before {
-    left: 100%;
-}
-
-.floating-submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
-}
-
 .floating-form-alert {
     background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
     color: #155724;
@@ -778,150 +820,60 @@
     animation: pulse 2s infinite;
 }
 
-/* Photo Background Contact Section */
-.photo-contact-section {
-    position: relative;
-    min-height: 80vh;
-    overflow: hidden;
+/* Floating form content styling */
+.floating-form-content {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
     margin: 0;
-    padding: 0;
 }
 
-.photo-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('<?php echo e(asset("images/Contactus.jpg")); ?>') center/cover;
-    background-attachment: fixed;
-    z-index: 1;
+.floating-form-content .form-group {
+    margin-bottom: 15px;
 }
 
-.photo-background::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, 
-        rgba(27, 77, 137, 0.85) 0%, 
-        rgba(44, 90, 160, 0.75) 50%, 
-        rgba(255, 107, 53, 0.7) 100%);
-    z-index: 2;
-}
-
-.photo-overlay {
-    position: relative;
-    z-index: 3;
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-    padding: 40px 0;
-}
-
-.form-overlay-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    position: relative;
-    overflow: hidden;
-}
-
-.form-overlay-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: var(--gradient-accent);
-    border-radius: 25px 25px 0 0;
-}
-
-.form-overlay-card h3 {
+.floating-form-content .form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
     color: var(--text-dark);
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    position: relative;
+    margin-bottom: 5px;
 }
 
-.form-overlay-card h3::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background: var(--gradient-accent);
-    border-radius: 2px;
+.floating-form-content .form-control {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
 }
 
-.map-overlay-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 0;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    position: relative;
-    overflow: hidden;
-    height: 600px;
-}
-
-.map-overlay-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: var(--gradient-accent);
-    border-radius: 25px 25px 0 0;
-    z-index: 1;
-}
-
-.map-container {
-    height: 100%;
-    border-radius: 25px;
-    overflow: hidden;
-}
-
-.map-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-}
-
-/* Enhanced form controls for overlay */
-.form-overlay-card .modern-form-control {
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid rgba(27, 77, 137, 0.1);
-    backdrop-filter: blur(10px);
-}
-
-.form-overlay-card .modern-form-control:focus {
-    background: rgba(255, 255, 255, 1);
+.floating-form-content .form-control:focus {
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.2);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
 }
 
-.form-overlay-card .modern-submit-btn {
+.floating-form-content .contact-form-submit {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    border-radius: 20px;
     background: var(--gradient-accent);
-    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+    border: none;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
-.form-overlay-card .modern-submit-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+.floating-form-content .contact-form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+}
+
+.floating-form-content .recaptcha-container {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+    transform: scale(0.9);
 }
 
 /* Responsive Design */
@@ -948,38 +900,6 @@
     .map-overlay-card {
         height: 450px;
     }
-}
-
-@media (max-width: 768px) {
-    .modern-hero h1 {
-        font-size: 2.5rem;
-    }
-    
-    .modern-hero .subtitle {
-        font-size: 1.1rem;
-    }
-    
-    .modern-cta-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .modern-contact-info,
-    .modern-form-section {
-        padding: 40px 25px;
-    }
-    
-    .modern-contact-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
-        max-width: 400px;
-    }
-    
-    .modern-contact-info h2,
-    .modern-form-section h3 {
-        font-size: 2rem;
-    }
-    
     
     .floating-form-container {
         bottom: 20px;
@@ -996,6 +916,36 @@
         height: 55px;
         font-size: 1.3rem;
     }
+}
+
+@media (max-width: 768px) {
+    .modern-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .modern-hero .subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .modern-cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .modern-contact-info {
+        padding: 40px 25px;
+    }
+    
+    .modern-contact-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        max-width: 400px;
+    }
+    
+    .modern-contact-info h2 {
+        font-size: 2rem;
+    }
+    
     
     /* Photo contact section mobile */
     .photo-contact-section {
@@ -1016,7 +966,7 @@
         margin-bottom: 15px;
     }
     
-    .form-overlay-card h3 {
+    .form-overlay-card .contact-form-title {
         font-size: 1.8rem;
         margin-bottom: 1.5rem;
     }
@@ -1036,22 +986,13 @@
     }
     
     
-    .floating-form-panel {
-        width: 320px;
-        right: -10px;
-    }
     
-    .floating-form-body {
-        padding: 20px;
-    }
-    
-    /* Photo contact section small mobile */
     .form-overlay-card {
         padding: 15px 10px;
         border-radius: 15px;
     }
     
-    .form-overlay-card h3 {
+    .form-overlay-card .contact-form-title {
         font-size: 1.6rem;
         margin-bottom: 1rem;
     }
@@ -1125,7 +1066,7 @@
             </div>
         </div>
 
-        <!-- Full Photo Background Contact Section -->
+        <!-- Contact Form and Map Section -->
         <div class="photo-contact-section" id="contact-form" data-aos="fade-up" data-aos-duration="1000">
             <div class="photo-background">
                 <!-- Photo will be set via CSS background -->
@@ -1136,48 +1077,20 @@
                         <!-- Contact Form Overlay -->
                         <div class="col-lg-6">
                             <div class="form-overlay-card" data-aos="fade-right" data-aos-duration="1000">
-                                <?php if($message = Session::get('success')): ?>
-                                    <div class="modern-alert">
-                                        <i class="fa fa-check-circle"></i> <?php echo e($message); ?>
-
-                                    </div>
-                                <?php endif; ?>
-                                
-                                <h3>Send us a Message</h3>
-                                <form action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data">
-                                    <?php echo csrf_field(); ?>
-                                    <div class="modern-form-group">
-                                        <label for="name">Your Full Name</label>
-                                        <input type="text" class="modern-form-control" name="name" placeholder="Enter your full name" required>
-                                    </div>
-                                    <div class="modern-form-group">
-                                        <label for="email">Email Address</label>
-                                        <input type="email" class="modern-form-control" name="email" placeholder="Enter your email address" required>
-                                    </div>
-                                    <div class="modern-form-group">
-                                        <label for="subject">Subject</label>
-                                        <input type="text" class="modern-form-control" name="subject" placeholder="What is this about?" required>
-                                    </div>
-                                    <div class="modern-form-group">
-                                        <label for="message">Your Message</label>
-                                        <textarea name="message" id="message" class="modern-form-control modern-textarea" placeholder="Tell us about your legal needs and how we can help you..." required></textarea>
-                                    </div>
-                                    
-                                    <!-- Google reCAPTCHA -->
-                                    <div class="modern-form-group">
-                                        <div class="g-recaptcha" data-sitekey="<?php echo e(config('services.recaptcha.key')); ?>"></div>
-                                        <?php if($errors->has('g-recaptcha-response')): ?>
-                                            <div class="text-danger mt-2">
-                                                <small><?php echo e($errors->first('g-recaptcha-response')); ?></small>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                    
-                                    <button type="submit" class="modern-submit-btn">
-                                        <i class="fa fa-paper-plane"></i>
-                                        Send Message
-                                    </button>
-                                </form>
+                                <?php echo $__env->make('components.unified-contact-form', [
+                                    'variant' => 'default',
+                                    'showTitle' => true,
+                                    'title' => 'Send us a Message',
+                                    'subtitle' => 'Get expert legal assistance from Melbourne\'s most trusted law firm',
+                                    'buttonText' => 'Send Message',
+                                    'buttonClass' => 'btn-primary',
+                                    'formId' => 'contact-page-form',
+                                    'containerClass' => 'contact-form-overlay',
+                                    'source' => 'contact-page',
+                                    'showPhoto' => true,
+                                    'photoUrl' => asset('images/bansal_2.jpg'),
+                                    'photoAlt' => 'Ajay Bansal - CEO of Bansal Lawyers'
+                                ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                             </div>
                         </div>
 
@@ -1220,41 +1133,16 @@
                 <span id="floatingFormMessage"></span>
             </div>
             
-            <form id="floatingContactForm" action="<?php echo URL::to('/'); ?>/contact_lawyer" method="POST" enctype="multipart/form-data">
-                <?php echo csrf_field(); ?>
-                <div class="floating-form-group">
-                    <label for="floating_name">Your Name</label>
-                    <input type="text" class="floating-form-control" name="name" id="floating_name" placeholder="Enter your name" required>
-                </div>
-                
-                <div class="floating-form-group">
-                    <label for="floating_email">Email</label>
-                    <input type="email" class="floating-form-control" name="email" id="floating_email" placeholder="Enter your email" required>
-                </div>
-                
-                <div class="floating-form-group">
-                    <label for="floating_subject">Subject</label>
-                    <input type="text" class="floating-form-control" name="subject" id="floating_subject" placeholder="What's this about?" required>
-                </div>
-                
-                <div class="floating-form-group">
-                    <label for="floating_message">Message</label>
-                    <textarea name="message" id="floating_message" class="floating-form-control floating-textarea" placeholder="Tell us how we can help..." required></textarea>
-                </div>
-                
-                <!-- Google reCAPTCHA -->
-                <div class="floating-form-group">
-                    <div class="g-recaptcha" data-sitekey="<?php echo e(config('services.recaptcha.key')); ?>"></div>
-                    <div class="text-danger mt-2" id="floatingRecaptchaError" style="display: none;">
-                        <small>Please complete the reCAPTCHA verification.</small>
-                    </div>
-                </div>
-                
-                <button type="submit" class="floating-submit-btn">
-                    <i class="fa fa-paper-plane"></i>
-                    Send Message
-                </button>
-            </form>
+            <?php echo $__env->make('components.unified-contact-form', [
+                'variant' => 'floating',
+                'showTitle' => false,
+                'buttonText' => 'Send Message',
+                'buttonClass' => 'btn-primary',
+                'formId' => 'floating-contact-form',
+                'containerClass' => 'floating-form-content',
+                'source' => 'contact-page-floating',
+                'showPhoto' => false
+            ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
         </div>
     </div>
 </div>
@@ -1269,8 +1157,6 @@ document.addEventListener('DOMContentLoaded', function() {
         offset: 100
     });
     
-    // Initialize floating form
-    initFloatingForm();
 });
 
 // Smooth scrolling for CTA buttons
@@ -1287,183 +1173,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Form enhancement
-document.querySelectorAll('.modern-form-control').forEach(input => {
-    input.addEventListener('focus', function() {
-        this.parentElement.classList.add('focused');
-    });
-    
-    input.addEventListener('blur', function() {
-        if (!this.value) {
-            this.parentElement.classList.remove('focused');
-        }
-    });
-});
 
-// Floating Form Functionality
-function initFloatingForm() {
-    const toggleBtn = document.getElementById('floatingFormToggle');
-    const formPanel = document.getElementById('floatingFormPanel');
-    const closeBtn = document.getElementById('closeFloatingForm');
-    const form = document.getElementById('floatingContactForm');
-    const alert = document.getElementById('floatingFormAlert');
-    const alertMessage = document.getElementById('floatingFormMessage');
-    const recaptchaError = document.getElementById('floatingRecaptchaError');
-    
-    let isFormOpen = false;
-    let pulseInterval;
-    
-    // Add pulse animation after 3 seconds
-    setTimeout(() => {
-        if (!isFormOpen) {
-            toggleBtn.classList.add('pulse');
-        }
-    }, 3000);
-    
-    // Toggle form
-    toggleBtn.addEventListener('click', function() {
-        isFormOpen = !isFormOpen;
-        
-        if (isFormOpen) {
-            formPanel.classList.add('active');
-            toggleBtn.classList.add('active');
-            toggleBtn.classList.remove('pulse');
-            clearInterval(pulseInterval);
-        } else {
-            formPanel.classList.remove('active');
-            toggleBtn.classList.remove('active');
-        }
-    });
-    
-    // Close form
-    closeBtn.addEventListener('click', function() {
-        isFormOpen = false;
-        formPanel.classList.remove('active');
-        toggleBtn.classList.remove('active');
-    });
-    
-    // Close form when clicking outside
-    document.addEventListener('click', function(e) {
-        if (isFormOpen && !formPanel.contains(e.target) && !toggleBtn.contains(e.target)) {
-            isFormOpen = false;
-            formPanel.classList.remove('active');
-            toggleBtn.classList.remove('active');
-        }
-    });
-    
-    // Form submission
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Hide previous alerts
-        alert.classList.remove('show');
-        recaptchaError.style.display = 'none';
-        
-        // Get form data
-        const formData = new FormData(form);
-        
-        // Validate reCAPTCHA
-        const recaptchaResponse = grecaptcha.getResponse();
-        if (!recaptchaResponse) {
-            recaptchaError.style.display = 'block';
-            return;
-        }
-        
-        // Show loading state
-        const submitBtn = form.querySelector('.floating-submit-btn');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sending...';
-        submitBtn.disabled = true;
-        
-        // Submit form via AJAX
-        fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Show success message
-                alertMessage.textContent = data.message || 'Thank you! Your message has been sent successfully.';
-                alert.classList.add('show');
-                
-                // Reset form
-                form.reset();
-                grecaptcha.reset();
-                
-                // Close form after 3 seconds
-                setTimeout(() => {
-                    isFormOpen = false;
-                    formPanel.classList.remove('active');
-                    toggleBtn.classList.remove('active');
-                    alert.classList.remove('show');
-                }, 3000);
-            } else {
-                // Show error message
-                alertMessage.textContent = data.message || 'Sorry, there was an error sending your message. Please try again.';
-                alert.classList.add('show');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alertMessage.textContent = 'Sorry, there was an error sending your message. Please try again.';
-            alert.classList.add('show');
-        })
-        .finally(() => {
-            // Reset button
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        });
-    });
-    
-    // Auto-close form after successful submission
-    form.addEventListener('submit', function() {
-        setTimeout(() => {
-            if (alert.classList.contains('show')) {
-                isFormOpen = false;
-                formPanel.classList.remove('active');
-                toggleBtn.classList.remove('active');
-            }
-        }, 3000);
-    });
-    
-    // Add focus effects to floating form inputs
-    document.querySelectorAll('.floating-form-control').forEach(input => {
-        input.addEventListener('focus', function() {
-            this.parentElement.classList.add('focused');
-        });
-        
-        input.addEventListener('blur', function() {
-            if (!this.value) {
-                this.parentElement.classList.remove('focused');
-            }
-        });
-    });
-    
-    // Scroll to main form when "Send Message Now" is clicked
-    document.querySelectorAll('a[href="#contact-form"]').forEach(link => {
-        link.addEventListener('click', function() {
-            // Close floating form if open
-            if (isFormOpen) {
-                isFormOpen = false;
-                formPanel.classList.remove('active');
-                toggleBtn.classList.remove('active');
-            }
-        });
-    });
-}
 
-// Add CSRF token to meta tag if not present
-if (!document.querySelector('meta[name="csrf-token"]')) {
-    const meta = document.createElement('meta');
-    meta.name = 'csrf-token';
-    meta.content = document.querySelector('input[name="_token"]').value;
-    document.head.appendChild(meta);
-}
 </script>
 
 <?php $__env->stopSection(); ?>

@@ -307,13 +307,16 @@
                         </a>
                     </div>
 
-                    @include('components.contact-card', [
+                    @include('components.unified-contact-form', [
+                        'variant' => 'sidebar',
                         'title' => 'Speak with a Lawyer',
-                        'cta' => 'Get Legal Advice',
-                        'variant' => 'compact',
-                        'accent' => '#1B4D89',
-                        'source' => 'case-detail'
+                        'subtitle' => "There's No Legal Puzzle, We Can't Solve",
+                        'buttonText' => 'GET LEGAL ADVICE',
+                        'formId' => 'case-detail-contact-form',
+                        'source' => 'case-detail',
+                        'showPhoto' => true
                     ])
+
                 </div>
             </div>
         </div>

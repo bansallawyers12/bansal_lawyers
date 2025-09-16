@@ -74,12 +74,12 @@ class ContentSecurityPolicy
             // More permissive CSP for frontend routes (contact, etc.)
             $policies = [
                 "default-src 'self'",
-                "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://connect.facebook.net",
+                "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://connect.facebook.net https://www.google-analytics.com",
                 "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
                 "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:",
-                "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com",
-                "connect-src 'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net",
-                "frame-src 'self' https://www.google.com https://www.facebook.com",
+                "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com https://www.google.com/recaptcha",
+                "connect-src 'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://www.google.com/recaptcha",
+                "frame-src 'self' https://www.google.com https://www.facebook.com https://www.google.com/recaptcha",
                 "object-src 'none'",
                 "base-uri 'self'",
                 "form-action 'self'",

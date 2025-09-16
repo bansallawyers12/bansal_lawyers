@@ -12,6 +12,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-KGBFD265');</script>
 <!-- End Google Tag Manager -->
 
+<!-- Google Analytics 4 -->
+@if(\App\Helpers\Helper::isAnalyticsEnabled())
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google_analytics.id') }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ config("services.google_analytics.id") }}', {
+    'send_page_view': true,
+    'anonymize_ip': true,
+    'cookie_flags': 'SameSite=None;Secure'
+  });
+</script>
+@endif
+
 <!-- Enhanced Analytics & Tracking -->
 <script>
 // Blog engagement tracking
@@ -20,31 +35,33 @@ function trackBlogEngagement() {
     let maxScroll = 0;
     window.addEventListener('scroll', function() {
         const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-        if (scrollPercent > maxScroll) {
+        if (maxScroll < scrollPercent) {
             maxScroll = scrollPercent;
             if (maxScroll % 25 === 0) { // Track at 25%, 50%, 75%, 100%
-                gtag('event', 'scroll_depth', {
-                    'event_category': 'Blog Engagement',
-                    'event_label': maxScroll + '%',
-                    'value': maxScroll
-                });
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'scroll_depth', {
+                        'event_category': 'Blog Engagement',
+                        'event_label': maxScroll + '%',
+                        'value': maxScroll
+                    });
+                }
             }
         }
     });
 
     // Track reading time
     let startTime = Date.now();
-    let readingTime = 0;
-    let isReading = true;
     
     window.addEventListener('beforeunload', function() {
-        readingTime = Math.round((Date.now() - startTime) / 1000);
+        const readingTime = Math.round((Date.now() - startTime) / 1000);
         if (readingTime > 10) { // Only track if user spent more than 10 seconds
-            gtag('event', 'reading_time', {
-                'event_category': 'Blog Engagement',
-                'event_label': 'Time on Page',
-                'value': readingTime
-            });
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'reading_time', {
+                    'event_category': 'Blog Engagement',
+                    'event_label': 'Time on Page',
+                    'value': readingTime
+                });
+            }
         }
     });
 
@@ -55,21 +72,49 @@ function trackBlogEngagement() {
                            e.target.classList.contains('twitter') ? 'Twitter' : 
                            e.target.classList.contains('linkedin') ? 'LinkedIn' : 'Unknown';
             
-            gtag('event', 'social_share', {
-                'event_category': 'Social Media',
-                'event_label': platform,
-                'value': 1
-            });
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'social_share', {
+                    'event_category': 'Social Media',
+                    'event_label': platform,
+                    'value': 1
+                });
+            }
         }
     });
 
     // Track internal link clicks
     document.addEventListener('click', function(e) {
         if (e.target.matches('a[href*="bansallawyers.com.au"]')) {
-            gtag('event', 'internal_link_click', {
-                'event_category': 'Navigation',
-                'event_label': e.target.href,
-                'value': 1
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'internal_link_click', {
+                    'event_category': 'Navigation',
+                    'event_label': e.target.href,
+                    'value': 1
+                });
+            }
+        }
+    });
+
+    // Track contact form interactions
+    document.addEventListener('submit', function(e) {
+        if (e.target.matches('form[action*="contact"], form[id*="contact"], form[class*="contact"]')) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'contact_form_submit', {
+                    'event_category': 'Lead Generation',
+                    'event_label': 'Contact Form',
+                    'value': 1
+                });
+            }
+        }
+    });
+
+    // Track contact form views
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForms = document.querySelectorAll('form[action*="contact"], form[id*="contact"], form[class*="contact"]');
+        if (contactForms.length > 0 && typeof gtag !== 'undefined') {
+            gtag('event', 'contact_form_view', {
+                'event_category': 'Lead Generation',
+                'event_label': 'Form Displayed'
             });
         }
     });
@@ -1281,6 +1326,10 @@ function toggleFAQ(index) {
             }
         }, 10000);
     </script>
+    
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
     <script src="{{ asset('js/main.min.js')}}"></script>
 </body>
 

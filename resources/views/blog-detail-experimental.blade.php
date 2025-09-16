@@ -628,7 +628,7 @@
                                     ],
                                     [
                                         'question' => 'How can I schedule a consultation with Bansal Lawyers?',
-                                        'answer' => 'You can schedule a consultation by calling us at (03) 1234-5678, emailing us at info@bansallawyers.com.au, or using our online booking system. We offer flexible appointment times to accommodate your schedule.'
+                                        'answer' => 'You can schedule a consultation by calling us at 1300 BANSAL (1300 226 725), emailing us at info@bansallawyers.com.au, or using our online booking system. We offer flexible appointment times to accommodate your schedule.'
                                     ],
                                     [
                                         'question' => 'What areas of law does Bansal Lawyers specialize in?',
@@ -737,7 +737,15 @@
                     }
                 @endphp
                 
-                <x-blog-cta type="sidebar" :category="$category" />
+                @include('components.unified-contact-form', [
+                    'variant' => 'sidebar',
+                    'title' => 'Need Legal Advice?',
+                    'subtitle' => 'Get expert legal guidance from our experienced Melbourne lawyers.',
+                    'buttonText' => 'Schedule Free Consultation',
+                    'formId' => 'blog-contact-form',
+                    'source' => 'blog-detail',
+                    'showPhoto' => true
+                ])
                 
                 <div class="experimental-sidebar">
                     <h4>Latest Articles</h4>
@@ -789,8 +797,6 @@
     </div>
 </section>
 
-<!-- Mobile Sticky CTA -->
-<x-blog-cta type="mobile-sticky" :category="$category" />
 
 <script>
 function toggleFAQ(index) {

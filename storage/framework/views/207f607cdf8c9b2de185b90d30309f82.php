@@ -631,7 +631,7 @@
                                     ],
                                     [
                                         'question' => 'How can I schedule a consultation with Bansal Lawyers?',
-                                        'answer' => 'You can schedule a consultation by calling us at (03) 1234-5678, emailing us at info@bansallawyers.com.au, or using our online booking system. We offer flexible appointment times to accommodate your schedule.'
+                                        'answer' => 'You can schedule a consultation by calling us at 1300 BANSAL (1300 226 725), emailing us at info@bansallawyers.com.au, or using our online booking system. We offer flexible appointment times to accommodate your schedule.'
                                     ],
                                     [
                                         'question' => 'What areas of law does Bansal Lawyers specialize in?',
@@ -745,26 +745,15 @@
                     }
                 ?>
                 
-                <?php if (isset($component)) { $__componentOriginal87ee660b454bc044eefdbea874a86f2a = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal87ee660b454bc044eefdbea874a86f2a = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.blog-cta','data' => ['type' => 'sidebar','category' => $category]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('blog-cta'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['type' => 'sidebar','category' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($category)]); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal87ee660b454bc044eefdbea874a86f2a)): ?>
-<?php $attributes = $__attributesOriginal87ee660b454bc044eefdbea874a86f2a; ?>
-<?php unset($__attributesOriginal87ee660b454bc044eefdbea874a86f2a); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal87ee660b454bc044eefdbea874a86f2a)): ?>
-<?php $component = $__componentOriginal87ee660b454bc044eefdbea874a86f2a; ?>
-<?php unset($__componentOriginal87ee660b454bc044eefdbea874a86f2a); ?>
-<?php endif; ?>
+                <?php echo $__env->make('components.unified-contact-form', [
+                    'variant' => 'sidebar',
+                    'title' => 'Need Legal Advice?',
+                    'subtitle' => 'Get expert legal guidance from our experienced Melbourne lawyers.',
+                    'buttonText' => 'Schedule Free Consultation',
+                    'formId' => 'blog-contact-form',
+                    'source' => 'blog-detail',
+                    'showPhoto' => true
+                ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                 
                 <div class="experimental-sidebar">
                     <h4>Latest Articles</h4>
@@ -818,27 +807,6 @@
     </div>
 </section>
 
-<!-- Mobile Sticky CTA -->
-<?php if (isset($component)) { $__componentOriginal87ee660b454bc044eefdbea874a86f2a = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal87ee660b454bc044eefdbea874a86f2a = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.blog-cta','data' => ['type' => 'mobile-sticky','category' => $category]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('blog-cta'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['type' => 'mobile-sticky','category' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($category)]); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal87ee660b454bc044eefdbea874a86f2a)): ?>
-<?php $attributes = $__attributesOriginal87ee660b454bc044eefdbea874a86f2a; ?>
-<?php unset($__attributesOriginal87ee660b454bc044eefdbea874a86f2a); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal87ee660b454bc044eefdbea874a86f2a)): ?>
-<?php $component = $__componentOriginal87ee660b454bc044eefdbea874a86f2a; ?>
-<?php unset($__componentOriginal87ee660b454bc044eefdbea874a86f2a); ?>
-<?php endif; ?>
 
 <script>
 function toggleFAQ(index) {

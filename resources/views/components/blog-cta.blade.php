@@ -20,7 +20,7 @@
             'title' => 'Facing Criminal Charges?',
             'subtitle' => 'Don\'t face them alone. Our experienced criminal defense lawyers are available 24/7.',
             'button_text' => 'Call Now for Immediate Help',
-            'button_link' => 'tel:+61312345678',
+            'button_link' => 'tel:1300226725',
             'icon' => 'ion-ios-call'
         ],
         'general' => [
@@ -67,7 +67,7 @@
         </form>
         
         <div class="cta-contact-info">
-            <p><i class="ion-ios-call"></i> Call: (03) 1234-5678</p>
+            <p><i class="ion-ios-call"></i> Call: 1300 BANSAL (1300 226 725)</p>
             <p><i class="ion-ios-mail"></i> Email: info@bansallawyers.com.au</p>
         </div>
     </div>
@@ -101,9 +101,9 @@
                         <i class="{{ $cta['icon'] }}"></i>
                         {{ $cta['button_text'] }}
                     </a>
-                    <a href="tel:+61312345678" class="cta-button-secondary">
+                    <a href="tel:1300226725" class="cta-button-secondary">
                         <i class="ion-ios-call"></i>
-                        Call Now: (03) 1234-5678
+                        Call Now: 1300 BANSAL (1300 226 725)
                     </a>
                 </div>
             </div>
@@ -129,7 +129,7 @@
                 <p>Get free consultation</p>
             </div>
             <div class="cta-mobile-actions">
-                <a href="tel:+61312345678" class="cta-mobile-call">
+                <a href="tel:1300226725" class="cta-mobile-call">
                     <i class="ion-ios-call"></i>
                 </a>
                 <a href="{{ $cta['button_link'] }}" class="cta-mobile-button">

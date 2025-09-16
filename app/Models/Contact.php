@@ -18,10 +18,16 @@ class Contact extends Authenticatable
 	
 	 
 	protected $fillable = [
-        'id', 'name', 'contact_email', 'contact_phone', 'department', 'subject', 'message', 'image', 'branch', 'fax', 'position', 'primary_contact', 'countrycode', 'user_id', 'created_at', 'updated_at'
+        'id', 'name', 'contact_email', 'contact_phone', 'department', 'subject', 'message', 'image', 'branch', 'fax', 'position', 'primary_contact', 'countrycode', 'user_id', 'status', 'forwarded_to', 'forwarded_at', 'created_at', 'updated_at'
     ]; 
   
 	public $sortable = ['id', 'created_at', 'updated_at'];
+	
+	protected $casts = [
+        'forwarded_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
  
 	 // Currency functionality removed - not needed for appointment system
 	 // public function currencydata() 
