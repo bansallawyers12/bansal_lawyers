@@ -208,6 +208,12 @@ function toggleFAQ(index) {
     <!-- Tailwind CSS - Consolidated styling -->
     <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css']); ?>
     
+    <!-- Legacy CSS needed for current navbar/icons (temporary restore) -->
+    <link rel="stylesheet" href="<?php echo e(asset('css/bootstrap_lawyers.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/open-iconic-bootstrap.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/font-awesome.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/flaticon.min.css')); ?>">
+
     <!-- Essential custom CSS only -->
     <link rel="stylesheet" href="<?php echo e(asset('css/animate.min.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/owl.carousel.min.css')); ?>">

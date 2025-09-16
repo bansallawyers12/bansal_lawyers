@@ -100,8 +100,13 @@
     <!-- Tailwind CSS - Consolidated styling -->
     @vite(['resources/css/app.css'])
     
+    <!-- Legacy CSS needed for current navbar/icons (temporary restore) -->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}">
+
     <!-- Essential custom CSS only -->
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/animate.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
