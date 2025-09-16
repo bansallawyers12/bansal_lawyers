@@ -142,6 +142,14 @@ Route::prefix('admin')->group(function() {
 			Route::get('/appointment-dates-disable/edit/{id}', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'edit'])->name('admin.feature.appointmentdisabledate.edit');
         Route::post('/appointment-dates-disable/edit', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'edit'])->name('admin.feature.appointmentdisabledate.edit');
 
+			// NEW: Booking Blocks module (sandbox)
+			Route::prefix('booking-blocks')->name('admin.feature.bookingblocks.')->group(function () {
+				Route::get('/', [App\Http\Controllers\Admin\BookingBlockController::class, 'index'])->name('index');
+				Route::get('/create', [App\Http\Controllers\Admin\BookingBlockController::class, 'create'])->name('create');
+				Route::post('/store', [App\Http\Controllers\Admin\BookingBlockController::class, 'store'])->name('store');
+				Route::match(['get','post'], '/edit/{id?}', [App\Http\Controllers\Admin\BookingBlockController::class, 'edit'])->name('edit');
+			});
+
         Route::post('/update_action', [\App\Http\Controllers\Admin\AdminController::class, 'updateAction']);
 
         // Recent Case

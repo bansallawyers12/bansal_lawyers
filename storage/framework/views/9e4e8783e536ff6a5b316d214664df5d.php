@@ -208,6 +208,10 @@
                            class="submenu-link <?php echo e(Route::currentRouteName() == 'admin.feature.appointmentdisabledate.index' ? 'active' : ''); ?>">
                             Block Time Slots
                         </a>
+                        <a href="<?php echo e(route('admin.feature.bookingblocks.index')); ?>" 
+                           class="submenu-link <?php echo e(request()->routeIs('admin.feature.bookingblocks.*') ? 'active' : ''); ?>">
+                            Block Time Slots (New)
+                        </a>
                     </li>
                 </ul>
             </li>

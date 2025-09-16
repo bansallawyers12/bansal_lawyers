@@ -907,12 +907,8 @@ class AdminController extends Controller
                     if($requestData['table'] == 'book_service_disable_slots'){
                         $disableslotsexist	= DB::table('book_service_disable_slots')->where('book_service_slot_per_person_id', $requestData['id'])->exists();
                         if($disableslotsexist){
-                            if($requestData['id'] == 1 || $requestData['id'] == 2){ //Ajay Slot
-                                $idsToDelete = [1,2];
-                                $response = DB::table('book_service_disable_slots')->whereIn('book_service_slot_per_person_id', $idsToDelete)->delete();
-                            } else { //other user slot
-                                $response = DB::table('book_service_disable_slots')->where('book_service_slot_per_person_id', @$requestData['id'])->delete();
-                            }
+                            // Only Ajay is supported; always operate on id=1
+                            $response = DB::table('book_service_disable_slots')->where('book_service_slot_per_person_id', 1)->delete();
                             if($response) {
                                 $status = 1;
                                 $message = 'Record has been deleted successfully.';

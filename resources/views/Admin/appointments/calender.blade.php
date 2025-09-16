@@ -3,7 +3,76 @@
 
 @section('content')
 <style>
+/* Appointments calendar modern, light styling */
 .fc-event-container .fc-h-event{cursor:pointer;}
+
+/* Card tweaks for lighter, modern look */
+.card{
+	border-radius:12px;
+	border:1px solid #e5e7eb;
+	box-shadow:0 8px 24px rgba(0,0,0,0.06);
+}
+.card-header{
+	background:#ffffff;
+	border-bottom:1px solid #eef2f7;
+}
+.card-header h4{
+	margin:0;
+	font-weight:600;
+}
+
+/* FullCalendar refinements */
+.fc .fc-toolbar{
+	gap:8px;
+}
+.fc .fc-button{
+	border-radius:8px;
+	border:1px solid #d1d5db;
+	background:#ffffff;
+	color:#111827;
+	padding:6px 10px;
+}
+.fc .fc-button:hover{
+	background:#f3f4f6;
+}
+.fc .fc-button.fc-state-active{
+	background:#2563eb;
+	border-color:#2563eb;
+	color:#fff;
+}
+.fc .fc-today{
+	background:#f8fbff !important;
+}
+.fc-event{
+	border:none;
+	border-radius:8px;
+	padding:2px 4px;
+	font-weight:600;
+	box-shadow:0 2px 8px rgba(0,0,0,0.06);
+}
+.fc-unthemed .fc-content, .fc-unthemed .fc-title{color:#fff;}
+.fc-unthemed .fc-time{opacity:.9;color:#eef2ff;}
+
+.fc-view, .fc-view > table{
+	border-radius:10px;
+	border:1px solid #eef2f7;
+	background:#fff;
+}
+
+/* Week view readability improvements */
+.fc-agendaWeek .fc-axis{
+	width:72px !important;
+	text-align:right;
+	color:#111827; /* darker for readability */
+	font-weight:700;
+	background:#ffffff;
+}
+.fc-ltr .fc-time-grid .fc-axis{padding-right:10px;}
+.fc-time-grid .fc-slats td{height:44px;}
+.fc-time-grid .fc-slats .fc-minor td{border-top-color:#e5e7eb;}
+.fc-time-grid .fc-slats .fc-major td{border-top-color:#cbd5e1;}
+.fc .fc-axis, .fc-day-header{background:#fff;border-bottom:1px solid #eef2f7;}
+.fc-day-header{font-weight:700;color:#1f2937;}
 </style>
 <!-- Main Content -->
 <div class="main-content">
@@ -246,6 +315,13 @@ var calendar = $("#myEvent").fullCalendar({
   editable: false,
   selectable: true,
   displayEventTime: true,
+  allDaySlot: false,
+  minTime: "10:00:00",
+  maxTime: "18:00:00",
+  scrollTime: "10:00:00",
+  slotDuration: "00:30:00",
+  slotEventOverlap: false,
+  eventOverlap: false,
   header: {
     left: "prev,next today",
     center: "title",

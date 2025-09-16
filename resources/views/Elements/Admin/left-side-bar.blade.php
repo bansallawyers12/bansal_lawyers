@@ -208,6 +208,10 @@
                            class="submenu-link {{ Route::currentRouteName() == 'admin.feature.appointmentdisabledate.index' ? 'active' : '' }}">
                             Block Time Slots
                         </a>
+                        <a href="{{ route('admin.feature.bookingblocks.index') }}" 
+                           class="submenu-link {{ request()->routeIs('admin.feature.bookingblocks.*') ? 'active' : '' }}">
+                            Block Time Slots (New)
+                        </a>
                     </li>
                 </ul>
             </li>

@@ -1,27 +1,27 @@
-@extends('layouts.admin')
-@section('title', 'Block Slot')
 
-@section('content')
+<?php $__env->startSection('title', 'Block Slot'); ?>
+
+<?php $__env->startSection('content'); ?>
 
 <!-- Main Content -->
 <div class="main-content">
         <section class="section">
                 <div class="section-body">
                         <div class="server-error">
-                                @include('../Elements/flash-message')
+                                <?php echo $__env->make('../Elements/flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                         </div>
                         <div class="custom-error-msg">
                         </div>
                         <div class="row">
                                  <!--<div class="col-3 col-md-3 col-lg-3">
-                                        {{--@include('../Elements/Admin/setting')--}}
+                                        
                         </div>-->
                                 <div class="col-12 col-md-12 col-lg-12">
                                         <div class="card">
                                                 <div class="card-header">
                                                         <h4>Block Slot</h4>
                                                         <!--<div class="card-header-action">
-                                                                <a href="{{--route('admin.feature.appointmentdisabledate.create')--}}" class="btn btn-primary">Create Not Available Appointment Dates</a>
+                                                                <a href="" class="btn btn-primary">Create Not Available Appointment Dates</a>
                                                         </div>-->
                                                 </div>
                                                 <div class="card-body">
@@ -34,45 +34,47 @@
                                                                                 <th></th>
                                                                         </tr>
                                                                 </thead>
-                                                                @if($totalData !== 0)
+                                                                <?php if($totalData !== 0): ?>
                                                                 <?php $i=0; ?>
                                                                 <tbody class="tdata">
-                                                                @foreach ($lists as $list)
-                                                                        <tr id="id_{{$list->id}}">
+                                                                <?php $__currentLoopData = $lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <tr id="id_<?php echo e($list->id); ?>">
                                         <td><?php
                                         echo 'Ajay'; ?></td>
 
                                                                                 <td>
-                                            @if(isset($list->disabledSlots) && !empty($list->disabledSlots) && count($list->disabledSlots) > 0)
-                                                @foreach($list->disabledSlots as $slotVal)
+                                            <?php if(isset($list->disabledSlots) && !empty($list->disabledSlots) && count($list->disabledSlots) > 0): ?>
+                                                <?php $__currentLoopData = $list->disabledSlots; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $slotVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <li>
-                                                    {{ date("d/m/Y",strtotime($slotVal->disabledates)) }}
+                                                    <?php echo e(date("d/m/Y",strtotime($slotVal->disabledates))); ?>
+
                                                     -
-                                                    @if(isset($slotVal->block_all) && $slotVal->block_all == 1)
+                                                    <?php if(isset($slotVal->block_all) && $slotVal->block_all == 1): ?>
                                                         Full Day Blocked
-                                                    @else
-                                                        {{ $slotVal->slots }}
-                                                    @endif
+                                                    <?php else: ?>
+                                                        <?php echo e($slotVal->slots); ?>
+
+                                                    <?php endif; ?>
                                                 </li>
-                                                @endforeach
-                                            @else
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php else: ?>
                                                 N/A
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
 
                                         <td>
                                                                                         <div class="dropdown d-inline">
                                                                                                 <button class="btn btn-primary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                                                                                                 <div class="dropdown-menu">
-                                                                                                        <a class="dropdown-item has-icon" href="{{route('admin.feature.appointmentdisabledate.edit', base64_encode(convert_uuencode($list->id)))}}"><i class="far fa-edit"></i> Edit</a>
-                                                    <a class="dropdown-item has-icon" href="javascript:;" onClick="deleteSlotAction({{$list->id}}, 'book_service_disable_slots')"><i class="fas fa-trash"></i> Delete</a>
+                                                                                                        <a class="dropdown-item has-icon" href="<?php echo e(route('admin.feature.appointmentdisabledate.edit', base64_encode(convert_uuencode($list->id)))); ?>"><i class="far fa-edit"></i> Edit</a>
+                                                    <a class="dropdown-item has-icon" href="javascript:;" onClick="deleteSlotAction(<?php echo e($list->id); ?>, 'book_service_disable_slots')"><i class="fas fa-trash"></i> Delete</a>
                                                 </div>
                                                                                         </div>
                                                                                 </td>
                                                                         </tr>
-                                                                @endforeach
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                 </tbody>
-                                                                @else
+                                                                <?php else: ?>
                                                                 <tbody>
                                                                         <tr>
                                                                                 <td style="text-align:center;" colspan="7">
@@ -80,7 +82,7 @@
                                                                                 </td>
                                                                         </tr>
                                                                 </tbody>
-                                                                @endif
+                                                                <?php endif; ?>
                                                         </table>
                                                 </div>
                                         </div>
@@ -90,9 +92,9 @@
         </section>
 </div>
 
-@endsection
-@section('scripts')
-<script {!! \App\Services\CspService::getNonceAttribute() !!}>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script <?php echo \App\Services\CspService::getNonceAttribute(); ?>>
 jQuery(document).ready(function($){
         $('.cb-element').change(function () {
         if ($('.cb-element:checked').length == $('.cb-element').length){
@@ -149,4 +151,6 @@ function deleteSlotAction( id, table ) {
     }
 }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/feature/appointmentdisabledate/index.blade.php ENDPATH**/ ?>

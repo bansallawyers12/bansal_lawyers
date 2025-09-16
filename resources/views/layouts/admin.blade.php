@@ -26,7 +26,6 @@
 	<link rel="stylesheet" href="{{ asset('css/bootstrap-formhelpers.min.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/intlTelInput.css')}}">
 
-	<link rel="stylesheet" href="{{ asset('css/style.css')}}">
 
 	<link rel="stylesheet" href="{{ asset('css/components.css')}}">
 	<!-- Custom style CSS -->
@@ -46,7 +45,7 @@
 <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
 <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
 
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 .dropbtn {
   background-color: transparent;
  border:0;
@@ -177,7 +176,7 @@ body {
 			  $dataformat = 'YYYY-MM-DD';
 			}
 			?>
-				<script>
+				<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 				    var site_url = '{{URL::to('/')}}';
 				     var dataformat = '{{$dataformat}}';
 				    </script>
@@ -206,7 +205,7 @@ body {
 	<!--<script src="{{ asset('js/index.js')}}"></script> -->
 	<!--<script src="{{--asset('js/apexcharts.min.js')--}}"></script>-->
 	<!--<script src="{{--asset('js/jquery.flagstrap.js')--}}"></script>-->
-	<script>
+	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 		// Date handling utilities for consistent ISO format usage
 		window.DateUtils = {
 			// Convert display date to ISO format for backend

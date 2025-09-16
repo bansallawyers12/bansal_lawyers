@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Add New Blog')
 
-@section('content')
+<?php $__env->startSection('title', 'Add New Blog'); ?>
+
+<?php $__env->startSection('content'); ?>
 
 <!-- Main Content -->
 <div class="main-content">
@@ -11,7 +11,7 @@
 				<div class="col-md-12">
 					<!-- Flash Message Start -->
 					<div class="server-error">
-						@include('../Elements/flash-message')
+						<?php echo $__env->make('../Elements/flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 					</div>
 					<!-- Flash Message End -->
 				</div>
@@ -22,34 +22,33 @@
 					  </div>
 					  <!-- /.card-header -->
 					  <!-- form start -->
-					  <form action="admin/blog/store" autocomplete="off" method="post" enctype="multipart/form-data">
-						@csrf
-					  
+					  <form action="admin/blog/store" autocomplete="off" method="post">
+
 						<div class="card-body">
 							<div class="form-group" style="text-align:right;">
-								<a style="margin-right:5px;" href="{{route('admin.blog.index')}}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+								<a style="margin-right:5px;" href="<?php echo e(route('admin.blog.index')); ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
 								<button type="button" class="btn btn-primary" onClick="customValidate("add-blog")"><i class="fa fa-save"></i> Save Blog</button>
 							</div>
 							<div class="form-group row">
 								<label for="title" class="col-sm-2 col-form-label">Title <span style="color:#ff0000;">*</span></label>
 								<div class="col-sm-10">
 								<input name="title" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Title">
-								@if ($errors->has('title'))
+								<?php if($errors->has('title')): ?>
 									<span class="custom-error" role="alert">
-										<strong>{{ $errors->first('title') }}</strong>
+										<strong><?php echo e($errors->first('title')); ?></strong>
 									</span>
-								@endif
+								<?php endif; ?>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label for="slug" class="col-sm-2 col-form-label">Slug <span style="color:#ff0000;">*</span></label>
 								<div class="col-sm-10">
 									<input name="slug" type="text" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Slug">
-									@if ($errors->has('slug'))
+									<?php if($errors->has('slug')): ?>
 										<span class="custom-error" role="alert">
-											<strong>{{ $errors->first('slug') }}</strong>
+											<strong><?php echo e($errors->first('slug')); ?></strong>
 										</span>
-									@endif
+									<?php endif; ?>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -57,20 +56,20 @@
 								<div class="col-sm-10">
 									<select class="form-control" name="parent_category">
 										<option value="">- Select Category -</option>
-										@if($categories)
-											@foreach($categories as $category)
+										<?php if($categories): ?>
+											<?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 												<?php $dash=''; ?>
-												<option value="{{$category->id}}">{{$category->name}}</option>
-												@if(count($category->subcategory))	@include('/Admin/blogcategory/subCategoryList-option',['subcategories' => $category->subcategory])
-												@endif
-											@endforeach
-										@endif
+												<option value="<?php echo e($category->id); ?>"><?php echo e($category->name); ?></option>
+												<?php if(count($category->subcategory)): ?>	<?php echo $__env->make('/Admin/blogcategory/subCategoryList-option',['subcategories' => $category->subcategory], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+												<?php endif; ?>
+											<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+										<?php endif; ?>
 									</select>
-									@if ($errors->has('parent_category'))
+									<?php if($errors->has('parent_category')): ?>
 										<span class="custom-error" role="alert">
-											<strong>{{ $errors->first('parent_category') }}</strong>
+											<strong><?php echo e($errors->first('parent_category')); ?></strong>
 										</span>
-									@endif
+									<?php endif; ?>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -81,11 +80,11 @@
 										<label class="custom-file-label" for="logo">Choose file</label>
 										<!--<span class="file_note" style="line-height: 30px;">Please Image Size should be 600/400 ( Video-max size - 8mb ).</span>-->
 									</div>
-									@if ($errors->has('image'))
+									<?php if($errors->has('image')): ?>
 										<span class="custom-error" role="alert">
-											<strong>{{ $errors->first('image') }}</strong>
+											<strong><?php echo e($errors->first('image')); ?></strong>
 										</span>
-									@endif
+									<?php endif; ?>
 								</div>
 							</div>
                           
@@ -93,11 +92,11 @@
                                 <label for="image_alt" class="col-sm-2 col-form-label">Image Alt Attr</label>
                                 <div class="col-sm-10">
                                 <input name="image_alt" type="text" value="$fetchedData->image_alt" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Image Alt Attr">
-                                @if ($errors->has('image_alt'))
+                                <?php if($errors->has('image_alt')): ?>
                                     <span class="custom-error" role="alert">
-                                        <strong>{{ $errors->first('image_alt') }}</strong>
+                                        <strong><?php echo e($errors->first('image_alt')); ?></strong>
                                     </span>
-                                @endif
+                                <?php endif; ?>
                                 </div>
                             </div>
                           
@@ -105,11 +104,11 @@
 								<label for="short_description" class="col-sm-2 col-form-label">Short Description </label>
 								<div class="col-sm-10">
 								<input name="short_description" type="text" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Short Description">
-								@if ($errors->has('short_description'))
+								<?php if($errors->has('short_description')): ?>
 									<span class="custom-error" role="alert">
-										<strong>{{ $errors->first('short_description') }}</strong>
+										<strong><?php echo e($errors->first('short_description')); ?></strong>
 									</span>
-								@endif
+								<?php endif; ?>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -125,23 +124,23 @@
                                 <label for="meta_title" class="col-sm-2 col-form-label">Meta Title </label>
                                 <div class="col-sm-10">
                                 <input name="meta_title" type="text" value="$fetchedData->meta_title" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Title">
-                                @if ($errors->has('meta_title'))
+                                <?php if($errors->has('meta_title')): ?>
                                     <span class="custom-error" role="alert">
-                                        <strong>{{ $errors->first('meta_title') }}</strong>
+                                        <strong><?php echo e($errors->first('meta_title')); ?></strong>
                                     </span>
-                                @endif
+                                <?php endif; ?>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="meta_description" class="col-sm-2 col-form-label">Meta Description </label>
                                 <div class="col-sm-10">
-                                    <textarea name="meta_description" data-valid="" value="" class="form-control" placeholder="Please Add Description Here">{{$fetchedData->meta_description}}</textarea>
-                                    @if ($errors->has('meta_description'))
+                                    <textarea name="meta_description" data-valid="" value="" class="form-control" placeholder="Please Add Description Here"><?php echo e($fetchedData->meta_description); ?></textarea>
+                                    <?php if($errors->has('meta_description')): ?>
                                         <span class="custom-error" role="alert">
-                                            <strong>{{ $errors->first('meta_description') }}</strong>
+                                            <strong><?php echo e($errors->first('meta_description')); ?></strong>
                                         </span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
@@ -149,11 +148,11 @@
                                 <label for="meta_keyword" class="col-sm-2 col-form-label">Meta Keyword</label>
                                 <div class="col-sm-10">
                                     <input name="meta_keyword" type="text" value="$fetchedData->meta_keyword" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Keyword">
-                                    @if ($errors->has('meta_keyword'))
+                                    <?php if($errors->has('meta_keyword')): ?>
                                         <span class="custom-error" role="alert">
-                                            <strong>{{ $errors->first('meta_keyword') }}</strong>
+                                            <strong><?php echo e($errors->first('meta_keyword')); ?></strong>
                                         </span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
@@ -162,11 +161,11 @@
                                 <label for="youtube_url" class="col-sm-2 col-form-label">Youtube Video Url</label>
                                 <div class="col-sm-10">
                                     <input name="youtube_url" type="text" value="$fetchedData->youtube_url" class="form-control" data-valid="" autocomplete="off" placeholder="Enter youtube video url">
-                                    @if ($errors->has('youtube_url'))
+                                    <?php if($errors->has('youtube_url')): ?>
                                         <span class="custom-error" role="alert">
-                                            <strong>{{ $errors->first('youtube_url') }}</strong>
+                                            <strong><?php echo e($errors->first('youtube_url')); ?></strong>
                                         </span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
@@ -179,11 +178,11 @@
 										<label class="custom-file-label" for="logo">Choose file</label>
 										<span class="file_note" style="line-height: 30px;">Please Upload PDF/Video</span>
 									</div>
-									@if ($errors->has('pdf_doc'))
+									<?php if($errors->has('pdf_doc')): ?>
 										<span class="custom-error" role="alert">
-											<strong>{{ $errors->first('pdf_doc') }}</strong>
+											<strong><?php echo e($errors->first('pdf_doc')); ?></strong>
 										</span>
-									@endif
+									<?php endif; ?>
 								</div>
 							</div>
 
@@ -205,10 +204,10 @@
 	</section>
 </div>
 
-@endsection
-@section('scripts')
-<script src="{{ asset('assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script src="<?php echo e(asset('assets/ckeditor/ckeditor.js')); ?>" type="text/javascript"></script>
+<script src="<?php echo e(asset('assets/ckfinder/ckfinder.js')); ?>" type="text/javascript"></script>
 <script>
   var loadFile = function(event) {
     var output = document.getElementById('output');
@@ -240,4 +239,6 @@
     var description = CKEDITOR.replace('description'); //sharedCKEditorToolbarConfig
     CKFinder.setupCKEditor(description);
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/blog/create.blade.php ENDPATH**/ ?>

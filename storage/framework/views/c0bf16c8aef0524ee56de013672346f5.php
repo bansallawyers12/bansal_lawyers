@@ -1,0 +1,249 @@
+
+<?php $__env->startSection('title', 'Edit Blog'); ?>
+
+
+<?php $__env->startSection('content'); ?>
+<!-- Main Content -->
+<div class="main-content">
+	<section class="section">
+		<div class="section-body">
+
+
+		<div class="col-md-12">
+					<div class="card card-primary">
+					  <div class="card-header">
+						<h3 class="card-title">Edit Blog</h3>
+					  </div>
+					  <!-- /.card-header -->
+					  <!-- form start -->
+					  <form action="admin/blog/edit" autocomplete="off" method="post">
+					   <input type="hidden" name="id" value="<?php echo e($fetchedData->id); ?>">
+						<div class="card-body">
+							<div class="form-group" style="text-align:right;">
+								<a style="margin-right:5px;" href="<?php echo e(route('admin.blog.index')); ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
+								<button type="button" class="btn btn-primary" onClick="customValidate("edit-blog")"><i class="fa fa-save"></i> Update Blog</button>
+							</div>
+							<div class="form-group row">
+								<label for="title" class="col-sm-2 col-form-label">Title <span style="color:#ff0000;">*</span></label>
+								<div class="col-sm-10">
+											<input name="title" type="text" value="<?php echo e($fetchedData->title); ?>" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Title">
+								<?php if($errors->has('title')): ?>
+									<span class="custom-error" role="alert">
+										<strong><?php echo e($errors->first('title')); ?></strong>
+									</span>
+								<?php endif; ?>
+								</div>
+						  </div>
+						  <div class="form-group row">
+								<label for="slug" class="col-sm-2 col-form-label">Slug <span style="color:#ff0000;">*</span></label>
+								<div class="col-sm-10">
+												<input name="slug" type="text" value="<?php echo e($fetchedData->slug); ?>" class="form-control" data-valid="required" autocomplete="off" placeholder="Enter Slug">
+									<?php if($errors->has('slug')): ?>
+										<span class="custom-error" role="alert">
+											<strong><?php echo e($errors->first('slug')); ?></strong>
+										</span>
+									<?php endif; ?>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="parent_category" class="col-sm-2 col-form-label">Category <span style="color:#ff0000;">*</span></label>
+								<div class="col-sm-10">
+									<select class="form-control" name="parent_category" data-valid="">
+										<option value="">- Select Parent Category -</option>
+										<?php if($categories): ?>
+											<?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+												<?php $dash=''; ?>
+												<option value="<?php echo e($category->id); ?>" <?php if($category->id == $fetchedData->parent_category) { echo 'selected'; } ?>><?php echo e($category->name); ?></option>
+												<?php if(count($category->subcategory)): ?>	<?php echo $__env->make('/Admin/blogcategory/subCategoryList-option',['subcategories' => $category->subcategory], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+												<?php endif; ?>
+											<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+										<?php endif; ?>
+									</select>
+									<?php if($errors->has('parent_category')): ?>
+										<span class="custom-error" role="alert">
+											<strong><?php echo e($errors->first('parent_category')); ?></strong>
+										</span>
+									<?php endif; ?>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="image" class="col-sm-2 col-form-label">Featured Image/Video </label>
+								<div class="col-sm-10">
+									<div class="custom-file">
+												<input type="hidden" id="old_image" name="old_image" value="<?php echo e($fetchedData->image); ?>" />
+										<input type="file" id="image" name="image" class="custom-file-input" autocomplete="off">
+										<label class="custom-file-label" for="image">Choose file</label>
+										<!--<span class="file_note" style="line-height: 30px;">Please Image Size should be 600/400 ( Video-max size - 8mb ).</span>-->
+									</div>
+									<div class="upload_img">
+										
+											<!--<img width="70" src="<?php echo e(asset('images/blog/' . $fetchedData->image)); ?>" class="<?php echo $fetchedData->title; ?>"/>-->
+										
+
+										<?php
+                                        if(isset($fetchedData->image) && $fetchedData->image != ""){
+                                            $extension = pathinfo($fetchedData->image, PATHINFO_EXTENSION); //echo $extension;
+                                            if( strtolower($extension) == 'mp4' ){
+                                               //$src = '{{ asset('images/blog/' . $fetchedData->image) }}?autoplay=1&mute=1';
+                                                ?>
+                                                <iframe width="200" height="100" src="<?php echo e(asset('images/blog/' . $fetchedData->image)); ?>?autoplay=1&mute=1"></iframe>
+                                            <?php
+                                            } else if(strtolower($extension) == 'pdf') {
+                                                //$pdfUrl = '{{ asset('images/blog/' . $fetchedData->image) }}';
+                                                ?>
+                                                <a href="<?php echo e(asset('images/blog/' . $fetchedData->image)); ?>" target="_blank" data-toggle="tooltip" data-placement="top" title="Click Here To View"><img src="<?php echo e(asset('images/avatars/pdf_icon.png')); ?>" alt="" style="width:80px;height:80px;border-radius: 50%;"></a>
+                                                <?php
+                                            } else { ?>
+                                                <img width="70" src="<?php echo e(asset('images/blog/' . $fetchedData->image)); ?>" class="<?php echo $fetchedData->title; ?>"/>
+                                            <?php
+                                            }
+                                        } ?>
+									</div>
+								</div>
+							</div>
+                          
+                             <div class="form-group row">
+                                <label for="image_alt" class="col-sm-2 col-form-label">Image Alt Attr</label>
+                                <div class="col-sm-10">
+                                <input name="image_alt" type="text" value="<?php echo e($fetchedData->image_alt); ?>" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Image Alt Attr">
+                                <?php if($errors->has('image_alt')): ?>
+                                    <span class="custom-error" role="alert">
+                                        <strong><?php echo e($errors->first('image_alt')); ?></strong>
+                                    </span>
+                                <?php endif; ?>
+                                </div>
+                            </div>
+                          
+							<div class="form-group row">
+								<label for="short_description" class="col-sm-2 col-form-label">Short Description </label>
+								<div class="col-sm-10">
+												<input name="short_description" type="text" value="<?php echo e($fetchedData->short_description); ?>" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Short Description">
+								<?php if($errors->has('short_description')): ?>
+									<span class="custom-error" role="alert">
+										<strong><?php echo e($errors->first('short_description')); ?></strong>
+									</span>
+								<?php endif; ?>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="description" class="col-sm-2 col-form-label">Description</label>
+								<div class="col-sm-10">
+									<!--<textarea name="description" data-valid="" value="" class="textarea" placeholder="Please Add Description Here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"><?php echo e($fetchedData->description); ?></textarea>-->
+											    <textarea class="form-control"  id="description" placeholder="Please Add Description Here" rows="5" name="description"><?php echo e($fetchedData->description); ?></textarea>
+
+								</div>
+						  </div>
+
+						    <div class="form-group row">
+                                <label for="meta_title" class="col-sm-2 col-form-label">Meta Title </label>
+                                <div class="col-sm-10">
+                                <input name="meta_title" type="text" value="<?php echo e($fetchedData->meta_title); ?>" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Title">
+                                <?php if($errors->has('meta_title')): ?>
+                                    <span class="custom-error" role="alert">
+                                        <strong><?php echo e($errors->first('meta_title')); ?></strong>
+                                    </span>
+                                <?php endif; ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="meta_description" class="col-sm-2 col-form-label">Meta Description </label>
+                                <div class="col-sm-10">
+                                    <textarea name="meta_description" data-valid="" value="" class="form-control" placeholder="Please Add Description Here"><?php echo e($fetchedData->meta_description); ?></textarea>
+                                    <?php if($errors->has('meta_description')): ?>
+                                        <span class="custom-error" role="alert">
+                                            <strong><?php echo e($errors->first('meta_description')); ?></strong>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="meta_keyword" class="col-sm-2 col-form-label">Meta Keyword</label>
+                                <div class="col-sm-10">
+                                <input name="meta_keyword" type="text" value="<?php echo e($fetchedData->meta_keyword); ?>" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Keyword">
+                                <?php if($errors->has('meta_keyword')): ?>
+                                    <span class="custom-error" role="alert">
+                                        <strong><?php echo e($errors->first('meta_keyword')); ?></strong>
+                                    </span>
+                                <?php endif; ?>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="youtube_url" class="col-sm-2 col-form-label">Youtube Video Url</label>
+                                <div class="col-sm-10">
+                                <input name="youtube_url" type="text" value="<?php echo e($fetchedData->youtube_url); ?>" class="form-control" data-valid="" autocomplete="off" placeholder="Enter youtube video url">
+                                <?php if($errors->has('youtube_url')): ?>
+                                    <span class="custom-error" role="alert">
+                                        <strong><?php echo e($errors->first('youtube_url')); ?></strong>
+                                    </span>
+                                <?php endif; ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+								<label for="pdf_doc" class="col-sm-2 col-form-label">PDF/Video </label>
+								<div class="col-sm-10">
+									<div class="custom-file">
+												<input type="hidden" id="old_pdf" name="old_pdf" value="<?php echo e($fetchedData->pdf_doc); ?>" />
+										<input type="file" id="pdf_doc" name="pdf_doc" class="custom-file-input" autocomplete="off">
+										<label class="custom-file-label" for="pdf_doc">Choose file</label>
+										<span class="file_note" style="line-height: 30px;">Please Upload PDF/Video</span>
+									</div>
+									<div class="upload_img">
+										<?php if($fetchedData->pdf_doc != ''): ?>
+
+											<a target="_blank" href="<?php echo e(asset('images/blog/' . $fetchedData->pdf_doc)); ?>" >Click Here To Open PDF/Video</a>
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
+
+
+						  <div class="form-group row">
+								<label for="status" class="col-sm-2 col-form-label">Is Active</label>
+								<div class="col-sm-10">
+									<input value="1" type="checkbox" name="status" <?php echo e(($fetchedData->status == 1 ? 'checked' : '')); ?> data-bootstrap-switch>
+								</div>
+							</div>
+						  <div class="form-group float-right">
+							<button type="button" class="btn btn-primary" onClick="customValidate("edit-blog")"><i class="fa fa-save"></i> Update Blog</button>
+						  </div>
+						</div>
+					  </form>
+					</div>
+				</div>
+		</div>
+	</section>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script src="<?php echo e(asset('assets/ckeditor/ckeditor.js')); ?>" type="text/javascript"></script>
+<script src="<?php echo e(asset('assets/ckfinder/ckfinder.js')); ?>" type="text/javascript"></script>
+<script>
+/*var sharedCKEditorToolbarConfig = {
+    toolbar: [
+            { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
+            { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+            { name: 'insert', items: [  'Table', 'HorizontalRule',   'SpecialChar', 'PageBreak' ] },
+            '/',
+            { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+            { name: 'colors', items: [ 'TextColor', 'BGColor', 'EmojiPanel' ] },
+            { name: 'document', items: [ 'ExportPdf', 'Preview', 'Print', '-', 'Templates' ] },
+            { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+            { name: 'editing', items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' , 'Source' ] },
+        ] ,
+    extraPlugins: 'textwatcher,textmatch,autocomplete,emoji'
+};
+CKEDITOR.replace('description',sharedCKEditorToolbarConfig);*/
+
+var description = CKEDITOR.replace('description'); //sharedCKEditorToolbarConfig
+CKFinder.setupCKEditor(description);
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/blog/edit.blade.php ENDPATH**/ ?>

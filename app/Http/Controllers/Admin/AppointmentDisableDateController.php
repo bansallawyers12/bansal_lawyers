@@ -29,9 +29,7 @@ class AppointmentDisableDateController extends Controller
 	public function index(Request $request)
 	{
 		//check authorization end
-        $query = BookServiceSlotPerPerson::where('id','!=' ,'');
-        // Group the results by person_id
-        $query->groupBy('person_id');
+        $query = BookServiceSlotPerPerson::where('person_id', 1);
         $totalData = $query->count();	//for all data
         $lists = $query->sortable(['id' => 'asc'])->paginate(config('constants.limit')); //dd($lists);
         
