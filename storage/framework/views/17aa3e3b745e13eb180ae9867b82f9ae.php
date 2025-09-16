@@ -207,7 +207,6 @@ function toggleFAQ(index) {
 
     <!-- Tailwind CSS - Consolidated styling -->
     <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css']); ?>
-    
     <!-- Legacy CSS needed for current navbar/icons (temporary restore) -->
     <link rel="stylesheet" href="<?php echo e(asset('css/bootstrap_lawyers.min.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/open-iconic-bootstrap.min.css')); ?>">
@@ -1249,6 +1248,7 @@ function toggleFAQ(index) {
 </script>
 
     <?php echo $__env->yieldContent('head'); ?>
+    
   
 </head>
 

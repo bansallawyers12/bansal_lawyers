@@ -207,7 +207,6 @@ function toggleFAQ(index) {
 
     <!-- Tailwind CSS - Consolidated styling -->
     @vite(['resources/css/app.css'])
-    
     <!-- Legacy CSS needed for current navbar/icons (temporary restore) -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
@@ -1249,6 +1248,7 @@ function toggleFAQ(index) {
 </script>
 
     @yield('head')
+    
   
 </head>
 
