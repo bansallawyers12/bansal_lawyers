@@ -97,44 +97,20 @@
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css')}}">
+    <!-- Tailwind CSS - Consolidated styling -->
+    @vite(['resources/css/app.css'])
+    
+    <!-- Essential custom CSS only -->
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/animate.min.css')}}">
-
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css')}}">
-
     <link rel="stylesheet" href="{{ asset('css/aos.min.css')}}">
-
-    <link rel="stylesheet" href="{{ asset('css/ionicons.min.css')}}">
-
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/icomoon.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
-
-
-     <!-- BASE CSS -->
-     <link href="{{ asset('css/Frontend/bootstrap.min.css')}}" rel="stylesheet">
-     <link href="{{ asset('css/Frontend/owl.carousel.min.css')}}" rel="stylesheet">
-     <link href="{{ asset('css/Frontend/animate.min.css')}}" rel="stylesheet">
-     <link href="{{ asset('css/Frontend/magnific-popup.min.css')}}" rel="stylesheet">
-     <link href="{{ asset('css/Frontend/font-awesome.min.css')}}" rel="stylesheet">
-     <link href="{{ asset('css/Frontend/ETmodules.min.css')}}" rel="stylesheet">
-     <link href="{{ asset('css/Frontend/bootstrap-datepicker.min.css')}}" rel="stylesheet">
-     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">-->
-     <link href="{{ asset('css/Frontend/custom-icon.min.css')}}" rel="stylesheet">
-     <link href="{{ asset('css/Frontend/classy-nav.min.css')}}" rel="stylesheet">
-     <link href="{{ asset('css/Frontend/style.min.css')}}" rel="stylesheet">
-     <link href="{{ asset('css/Frontend/custom.min.css')}}" rel="stylesheet">
-     <link href="{{ asset('css/Frontend/responsive.min.css')}}" rel="stylesheet">
-
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css')}}">
-    <!-- Bootstrap JS and jQuery -->
+    <!-- Essential JavaScript only -->
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
     <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
-    <script src="{{ asset('js/bootstrap_lawyers.bundle.min.js')}}"></script>
 
     <style>
       .bg-dark {
@@ -176,8 +152,6 @@
     <!-- jQuery and jQuery Migrate already loaded above -->
     
     <!-- Core Dependencies -->
-    <script src="{{ asset('js/popper.min.js')}}"></script>
-    <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{ asset('js/moment.min.js')}}"></script>
     
     <!-- jQuery Plugins -->
@@ -189,17 +163,13 @@
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}"></script>
     <script src="{{ asset('js/scrollax.min.js')}}"></script>
     
-    <!-- Date Picker -->
-    <script src="{{ asset('js/Frontend/bootstrap-datepicker.min.js')}}"></script>
-    
-    <!-- Other Libraries -->
+    <!-- Essential Libraries Only -->
     <script src="{{ asset('js/aos.min.js')}}"></script>
     <script src="{{ asset('js/Frontend/easing.min.js')}}"></script>
     <script src="{{ asset('js/Frontend/hoverIntent.min.js')}}"></script>
     <script src="{{ asset('js/Frontend/superfish.min.js')}}"></script>
     <script src="{{ asset('js/Frontend/wow.min.js')}}"></script>
     <script src="{{ asset('js/Frontend/sticky.min.js')}}"></script>
-    <script src="{{ asset('js/Frontend/font_awesome5.min.js')}}"></script>
     
     <!-- Google Maps - Removed for appointment page -->
     <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&callback=initMap"></script> -->

@@ -189,15 +189,13 @@ class AppointmentBookController extends Controller {
             // Skip payment table insertion for now - table doesn't exist
             // TODO: Create tbl_paid_appointment_payment table migration
 
-            // Simplified payment processing
+            // Set appointment status based on payment requirement
             if((float)$amount <= 0){
                 $payment_result = ["status"=>"succeeded","id"=>"promo_free_".time()];
                 $appontment_status = 10; // Pending Appointment With Payment Success
             } else {
-                // For now, skip Stripe integration and mark as pending
-                // TODO: Implement proper Stripe payment processing
-                $payment_result = ["status"=>"succeeded","id"=>"manual_".time()];
-                $appontment_status = 10; // Pending Appointment With Payment Success
+                // Mark as pending payment - will be updated after Stripe payment
+                $appontment_status = 5; // Pending Payment
             }
             // Payment processing completed - proceed with appointment creation
         $user = \App\Models\Admin::where(function ($query) use($requestData){
@@ -386,8 +384,15 @@ class AppointmentBookController extends Controller {
             $smsMessage="An appointment has been booked for $fullname on ".$requestData['date'].' at '.$requestData['time'];
             Helper::sendSms($receiver_number,$smsMessage);*/
 
+            // Return success with Stripe payment URL
+            $payment_url = url('/stripe/' . $obj->id);
             $message = 'Your appointment booked successfully on '.$requestData['date'].' '.$requestData['time'];
-            return response()->json(array('success'=>true,'message'=>$message));
+            return response()->json(array(
+                'success' => true,
+                'message' => $message,
+                'payment_url' => $payment_url,
+                'appointment_id' => $obj->id
+            ));
 
         } else {
             return response()->json(array('success'=>false,'message'=>'Failed to save appointment'));

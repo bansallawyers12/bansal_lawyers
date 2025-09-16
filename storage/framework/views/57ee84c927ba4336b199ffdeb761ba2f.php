@@ -84,22 +84,22 @@
             <p class="text-muted">Secure payment powered by Stripe</p>
         </div>
 
-        @if (Session::has('success'))
+        <?php if(Session::has('success')): ?>
             <div class="alert alert-success text-center">
-                <p>{{ Session::get('success') }}</p>
+                <p><?php echo e(Session::get('success')); ?></p>
             </div>
-        @endif
+        <?php endif; ?>
 
-        @if (Session::has('error'))
+        <?php if(Session::has('error')): ?>
             <div class="alert alert-danger text-center">
-                <p>{{ Session::get('error') }}</p>
+                <p><?php echo e(Session::get('error')); ?></p>
             </div>
-        @endif
+        <?php endif; ?>
 
-        <form id="payment-form" role="form" action="{{ route('stripe.post1') }}" method="post">
-            @csrf
-            <input type="hidden" name="appointment_id" value="{{ $appointmentId }}">
-            <input type="hidden" name="customerEmail" value="{{ $adminInfo->email }}">
+        <form id="payment-form" role="form" action="<?php echo e(route('stripe.post1')); ?>" method="post">
+            <?php echo csrf_field(); ?>
+            <input type="hidden" name="appointment_id" value="<?php echo e($appointmentId); ?>">
+            <input type="hidden" name="customerEmail" value="<?php echo e($adminInfo->email); ?>">
             
             <div class="form-group">
                 <label for="cardholder-name">Name on Card</label>
@@ -124,7 +124,7 @@
 
 <script>
 // Set your publishable key
-const stripe = Stripe('{{ env('STRIPE_KEY') }}');
+const stripe = Stripe('<?php echo e(env('STRIPE_KEY')); ?>');
 
 // Create an instance of Elements
 const elements = stripe.elements();
@@ -208,3 +208,4 @@ form.addEventListener('submit', async (event) => {
 </script>
 </body>
 </html>
+<?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/stripe.blade.php ENDPATH**/ ?>

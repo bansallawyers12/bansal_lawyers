@@ -1495,19 +1495,40 @@
     
     .date-navigation {
         flex-direction: column;
-        gap: 20px;
-        padding: 15px;
+        gap: 15px;
+        padding: 10px 5px;
+        margin: 0 -5px;
     }
     
     .current-week {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 5px 0;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .week-dates {
+        display: flex;
+        gap: 4px;
+        min-width: max-content;
+        padding: 0 5px;
     }
     
     .week-date {
-        min-width: 70px;
-        padding: 12px 15px;
+        min-width: 60px;
+        padding: 10px 8px;
+        flex-shrink: 0;
+        font-size: 0.8rem;
+    }
+    
+    .day-name {
+        font-size: 0.7rem;
+    }
+    
+    .day-number {
+        font-size: 1rem;
     }
     
     .time-slots-grid {
@@ -1680,6 +1701,8 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    max-width: 400px;
+    width: auto;
 }
 
 .floating-nav.show {
@@ -1728,17 +1751,40 @@
 
 @media (max-width: 768px) {
     .floating-nav {
-        bottom: 20px;
-        left: 20px;
-        right: 20px;
+        bottom: 0;
+        left: 0;
+        right: 0;
         transform: none;
-        flex-direction: column;
+        flex-direction: row;
+        gap: 0;
+        z-index: 1001;
+        border-radius: 0;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
     }
     
     .floating-btn {
-        width: 100%;
-        padding: 12px 20px;
-        font-size: 0.9rem;
+        flex: 1;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        min-width: auto;
+        border-radius: 0;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .floating-btn.btn-back {
+        background: #6c757d;
+        order: 1;
+        flex: 0 0 80px;
+        font-size: 0.75rem;
+    }
+    
+    .floating-btn:not(.btn-back) {
+        background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+        order: 2;
+        flex: 1;
     }
 }
 
@@ -1868,11 +1914,11 @@
     }
     
     .consultation-header {
-        padding: 20px;
+        padding: 15px;
     }
     
     .consultation-header h3 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         flex-direction: column;
         gap: 8px;
     }
@@ -1883,64 +1929,98 @@
     }
     
     .price-amount {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+    }
+    
+    /* Mobile consultation type selection improvements */
+    .experimental-service-item {
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 12px;
     }
     
     .service-header {
         flex-direction: column;
         text-align: center;
-        gap: 15px;
+        gap: 10px;
+        margin-bottom: 10px;
     }
     
-    .service-title-section {
-        order: 2;
+    .service-icon {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+    }
+    
+    .experimental-service-title {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+    
+    .service-badge {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+        margin-bottom: 8px;
     }
     
     .experimental-service-price {
         order: 3;
         text-align: center;
+        font-size: 1.1rem;
+    }
+    
+    .experimental-service-description {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        margin-bottom: 8px;
     }
     
     .service-benefits {
         justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .benefit-item {
+        font-size: 0.75rem;
+        padding: 4px 8px;
     }
     
     .consultation-cta {
-        padding: 20px;
-        margin-top: 30px;
+        padding: 15px;
+        margin-top: 20px;
     }
     
     .urgency-notice {
-        font-size: 0.85rem;
-        padding: 10px 16px;
-        margin-bottom: 20px;
-    }
-    
-    .consultation-cta-btn {
-        padding: 15px 30px;
-        font-size: 1.1rem;
+        font-size: 0.8rem;
+        padding: 8px 12px;
         margin-bottom: 15px;
     }
     
+    .consultation-cta-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+    
     .cta-guarantee {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         flex-direction: column;
         gap: 5px;
     }
     
     .final-cta-section {
-        padding: 25px;
-        margin-top: 30px;
+        padding: 20px;
+        margin-top: 25px;
     }
     
     .final-motivation h4 {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         flex-direction: column;
         gap: 8px;
     }
     
     .final-motivation p {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
     
     .final-cta-buttons {
@@ -2054,6 +2134,137 @@
     
     .payment-item {
         font-size: 0.9rem;
+    }
+    
+    /* Additional mobile improvements */
+    .experimental-form-tabs {
+        margin-bottom: 20px;
+    }
+    
+    .experimental-tab-nav {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    .experimental-tab-link {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        border-radius: 20px;
+    }
+    
+    .experimental-tab-link i {
+        font-size: 0.9rem;
+    }
+    
+    .experimental-form-control {
+        font-size: 0.9rem;
+        padding: 10px 12px;
+    }
+    
+    .experimental-textarea {
+        min-height: 80px;
+    }
+    
+    .experimental-confirmation-table {
+        font-size: 0.8rem;
+    }
+    
+    .experimental-confirmation-table th,
+    .experimental-confirmation-table td {
+        padding: 10px 8px;
+    }
+    
+    .final-cta-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .experimental-btn {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+    
+    /* Mobile touch improvements */
+    .experimental-service-item {
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .experimental-service-item label {
+        width: 100%;
+        padding: 10px;
+        margin: 0;
+    }
+    
+    .time-slot {
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+    }
+    
+    .week-date {
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Ensure floating nav is always visible on mobile */
+    .floating-nav {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    /* Improve form spacing on mobile */
+    .experimental-form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    
+    .experimental-form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+        font-weight: 600;
+        display: block;
+        color: #1B4D89;
+        text-align: left;
+    }
+    
+    .experimental-form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        background: white;
+        transition: all 0.3s ease;
+    }
+    
+    .experimental-form-control:focus {
+        border-color: #1B4D89;
+        box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
+        outline: none;
+    }
+    
+    .experimental-textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+    
+    /* Form container improvements */
+    .experimental-tab-content {
+        padding: 20px 15px;
+    }
+    
+    .experimental-tab-content h3 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #1B4D89;
     }
 }
 </style>
@@ -2277,20 +2488,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="consultation-cta">
-                        <div class="urgency-notice">
-                            <i class="fa fa-clock-o"></i>
-                            <span>Limited spots available this week - Book now to secure your preferred time</span>
-                        </div>
-                        <button type="button" class="experimental-btn next-tab consultation-cta-btn" data-next="appointment_details">
-                            <i class="fa fa-arrow-right"></i>
-                            Continue to Schedule
-                        </button>
-                        <p class="cta-guarantee">
-                            <i class="fa fa-shield"></i>
-                            <span>100% satisfaction guarantee • Free rescheduling • No hidden fees</span>
-                        </p>
-                    </div>
                 </div>
 
                 <div class="experimental-tab-content" id="appointment_details">
@@ -2357,6 +2554,12 @@
                         <div class="booking-error" id="bookingError" style="display: none;">
                             <i class="fa fa-exclamation-triangle"></i>
                             <span>Please select both a date and time for your consultation</span>
+                        </div>
+                        
+                        <!-- Urgency notice at bottom -->
+                        <div class="urgency-notice" style="margin-top: 30px;">
+                            <i class="fa fa-clock-o"></i>
+                            <span>Limited spots available this week - Book now to secure your preferred time</span>
                         </div>
                     </div>
                     
@@ -2611,8 +2814,10 @@ $(function() {
      });
      
      // Handle the "Review & Confirm" button specifically
-     $('.next-tab[data-next="confirm"]').click(function(e) {
+     $('.next-tab[data-next="confirm"]').off('click').on('click', function(e) {
          e.preventDefault();
+         e.stopPropagation();
+         
          var currentTab = $('.experimental-tab-content.active').attr('id');
          console.log('Review & Confirm button clicked, current tab:', currentTab);
          
@@ -2678,6 +2883,12 @@ $(function() {
             $('#' + tabId).addClass('active');
             $('[data-tab="' + tabId + '"]').removeClass('disabled').addClass('active');
             
+            // Special handling for appointment_details tab
+            if (tabId === 'appointment_details') {
+                console.log('Restoring calendar state...');
+                restoreCalendarState();
+            }
+            
             // Update floating navigation
             updateFloatingNavigation();
             
@@ -2708,24 +2919,24 @@ $(function() {
          
          console.log('Updating floating navigation for tab:', currentTab);
          
-         // Show floating nav if not on first tab
+         // Show floating nav based on tab
          if (currentTab !== 'consultation_type') {
              $floatingNav.addClass('show');
              $backBtn.show();
              console.log('Showing back button');
          } else {
-             $floatingNav.removeClass('show');
+             $floatingNav.addClass('show'); // Always show on mobile
              $backBtn.hide();
-             console.log('Hiding back button');
+             console.log('Hiding back button - on first tab');
          }
          
          // Show next button based on tab
          if (currentTab === 'info') {
-             // Information page - always show next button
+             // Information page - show next button for form completion
              $nextBtn.show();
              $nextBtn.find('.btn-text').text('Review & Confirm');
              $nextBtn.html('<span class="btn-text">Review & Confirm</span><i class="fa fa-arrow-right"></i>');
-             console.log('Showing next button for info page (permanent)');
+             console.log('Showing next button for info page');
          } else if (currentTab === 'confirm') {
              // Confirmation page - always show pay & submit button
              $nextBtn.show();
@@ -2739,6 +2950,7 @@ $(function() {
              if (isValid) {
                  $nextBtn.show();
                  $nextBtn.find('.btn-text').text('Next');
+                 $nextBtn.html('<span class="btn-text">Next</span><i class="fa fa-arrow-right"></i>');
                  console.log('Showing next button for', currentTab);
              } else {
                  $nextBtn.hide();
@@ -2906,14 +3118,16 @@ $(function() {
         console.log('Timeslot selection complete');
     });
     
-    // Form submission
-    $('.submitappointment_paid').click(function(e) {
+    // Form submission with Stripe integration
+    $('.submitappointment_paid').off('click').on('click', function(e) {
         e.preventDefault();
+        e.stopPropagation();
         
         if (validateForm()) {
+            // Show loading state
             $('#loading').addClass('show');
             
-            // Disable submit button and show loading state
+            // Disable submit button
             var $submitBtn = $('.submitappointment_paid');
             $submitBtn.prop('disabled', true);
             var originalText = $submitBtn.find('.btn-text').text();
@@ -2934,8 +3148,8 @@ $(function() {
                 promo_code: $('input[name="promo_code"]').val(),
                 discount_amount: $('input[name="discount_amount"]').val(),
                 discount_percentage: $('input[name="discount_percentage"]').val(),
-                cardName: $('input[name="fullname"]').val(), // Use fullname as cardName
-                stripeToken: 'experimental_' + Date.now() // Generate token for experimental bookings
+                cardName: $('input[name="fullname"]').val(),
+                stripeToken: 'experimental_' + Date.now()
             };
             
             // Add CSRF token
@@ -2957,13 +3171,18 @@ $(function() {
                     $submitBtn.find('.btn-text').text(originalText);
                     
                     if (response.success) {
-                        // Success - show confirmation
-                        showSuccessMessage('Appointment booked successfully! You will receive a confirmation email shortly.');
-                        
-                        // Reset form after 3 seconds
-                        setTimeout(function() {
-                            window.location.reload();
-                        }, 3000);
+                        // Success - redirect to Stripe payment
+                        if (response.payment_url) {
+                            console.log('Redirecting to Stripe payment:', response.payment_url);
+                            console.log('Appointment ID:', response.appointment_id);
+                            window.location.href = response.payment_url;
+                        } else {
+                            // Fallback - show success message
+                            showSuccessMessage(response.message || 'Appointment booked successfully! You will receive a confirmation email shortly.');
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 3000);
+                        }
                     } else {
                         // Backend validation error
                         showErrorMessage(response.message || 'An error occurred while booking your appointment.');
@@ -3197,6 +3416,48 @@ $(function() {
          
          renderCalendar();
          setupEventListeners();
+         
+         // Auto-select current date and show time slots
+         autoSelectCurrentDate();
+     }
+     
+     // Auto-select current date and show available times
+     function autoSelectCurrentDate() {
+         const today = new Date();
+         const todayStr = formatDateForInput(today);
+         
+         console.log('Auto-selecting current date:', todayStr);
+         
+         // Set selected date
+         selectedDate = new Date(today);
+         
+         // Update UI to show selected date
+         $('.week-date').removeClass('selected');
+         $('.week-date[data-date="' + todayStr + '"]').addClass('selected');
+         
+         // Show time slots for today
+         showTimeSlots(selectedDate);
+         
+         // Also auto-select the first available time slot (to hide warning)
+         try {
+             const $firstAvailable = $('#timeSlotsGrid .time-slot:not(.unavailable)').first();
+             if ($firstAvailable && $firstAvailable.length > 0) {
+                 selectedTime = $firstAvailable.data('time');
+                 // Reflect selection in UI without triggering click handlers
+                 $('#timeSlotsGrid .time-slot').removeClass('selected');
+                 $firstAvailable.addClass('selected');
+             }
+         } catch (e) {
+             console.warn('Could not auto-select first available time slot:', e);
+         }
+         
+         // Update form inputs (date and possibly time)
+         updateFormInputs();
+         
+         // Update floating navigation state
+         updateFloatingNavigation();
+         
+         console.log('Current date auto-selected and time slots shown');
      }
      
      function renderCalendar() {
@@ -3299,6 +3560,14 @@ $(function() {
              updateFloatingNavigation();
              
              console.log('Timeslot selection complete - selectedTime:', selectedTime);
+             
+             // Auto-navigate to next step after time selection
+             setTimeout(function() {
+                 if (selectedDate && selectedTime) {
+                     console.log('Auto-navigating to info page...');
+                     switchTab('info');
+                 }
+             }, 1000); // 1 second delay to show selection feedback
          });
      }
      
@@ -3377,6 +3646,55 @@ $(function() {
              
              console.log('Date input updated - Date:', dateStr);
          }
+     }
+     
+     // Function to restore calendar state when navigating back
+     function restoreCalendarState() {
+         console.log('Restoring calendar state - selectedDate:', selectedDate, 'selectedTime:', selectedTime);
+         
+         // If there is no prior selection (first visit), auto-select today and first slot
+         if (!selectedDate || isNaN(selectedDate.getTime())) {
+             autoSelectCurrentDate();
+             return;
+         }
+         
+         // If we have a selected date, adjust the week view to show it
+         if (selectedDate && !isNaN(selectedDate.getTime())) {
+             // Calculate the Monday of the week containing the selected date
+             const selectedDateCopy = new Date(selectedDate);
+             const dayOfWeek = selectedDateCopy.getDay();
+             const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+             currentWeekStart = new Date(selectedDateCopy);
+             currentWeekStart.setDate(selectedDateCopy.getDate() + daysToMonday);
+             
+             console.log('Adjusted week view to show selected date');
+         }
+         
+         // Re-render the calendar to show current selections
+         renderCalendar();
+         setupEventListeners();
+         
+         // If we have a selected date, show time slots
+         if (selectedDate && !isNaN(selectedDate.getTime())) {
+             console.log('Restoring time slots for selected date');
+             showTimeSlots(selectedDate);
+             
+             // If we also have a selected time, restore that selection
+             if (selectedTime) {
+                 console.log('Restoring selected time:', selectedTime);
+                 // The time slot selection will be handled by the event listener
+                 setTimeout(function() {
+                     $('.time-slot').each(function() {
+                         if ($(this).data('time') === selectedTime) {
+                             $(this).addClass('selected');
+                         }
+                     });
+                 }, 100);
+             }
+         }
+         
+         // Update form inputs
+         updateFormInputs();
      }
      
      function formatDateForInput(date) {

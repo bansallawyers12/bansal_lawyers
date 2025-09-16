@@ -205,32 +205,21 @@ function toggleFAQ(index) {
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" media="print" onload="this.media='all'">
 
-    <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css')}}">
+    <!-- Tailwind CSS - Consolidated styling -->
+    @vite(['resources/css/app.css'])
+    
+    <!-- Essential custom CSS only -->
     <link rel="stylesheet" href="{{ asset('css/animate.min.css')}}">
-
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css')}}">
-
     <link rel="stylesheet" href="{{ asset('css/aos.min.css')}}">
-
-    <link rel="stylesheet" href="{{ asset('css/ionicons.min.css')}}">
-
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/icomoon.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
 
 
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css')}}" media="print" onload="this.media='all'">
-
-
-    <!-- Bootstrap JS and jQuery - Consolidated -->
+    <!-- Essential JavaScript only -->
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
     <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
-    <script src="{{ asset('js/bootstrap_lawyers.bundle.min.js')}}"></script>
   
     <!-- Meta Pixel Code -->
     <script>

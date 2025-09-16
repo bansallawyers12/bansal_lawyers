@@ -666,76 +666,94 @@ class HomeController extends Controller
 
    public function stripePost(Request $request)
     {
-        $requestData = $request->all(); //dd($requestData);
-        $appointment_id = $requestData['appointment_id'];
-        $email = $requestData['customerEmail'];
-        $cardName = $requestData['cardName'];
-        $stripeToken = $requestData['stripeToken'];
-        $currency = "aud";
-        $payment_type = "stripe";
-        $order_date = date("Y-m-d H:i:s");
-        $amount = 150;
+        try {
+            $requestData = $request->all();
+            $appointment_id = $requestData['appointment_id'];
+            $email = $requestData['customerEmail'];
+            $cardName = $requestData['cardName'];
+            $stripeToken = $requestData['stripeToken']; // This is now a PaymentMethod ID
+            $currency = "aud";
+            $payment_type = "stripe";
+            $order_date = date("Y-m-d H:i:s");
+            $amount = 150;
 
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        $customer = Stripe\Customer::create(array("email" => $email,"name" => $cardName,"source" => $stripeToken));
-
-        $payment_result = Stripe\Charge::create ([
-            "amount" => $amount * 100,
-            "currency" => $currency,
-            "customer" => $customer->id,
-            "description" => "Paid To bansallawyers.com.au For Paid Service By $cardName"
-        ]);
-        //dd($payment_result);
-        //update Order status
-        if ( ! empty($payment_result) && $payment_result["status"] == "succeeded")
-        { //success
-            //Order insertion
-            $stripe_payment_intent_id = $payment_result['id'];
-            $payment_status = "Paid";
-            $order_status = "Completed";
-            $appontment_status = 10; //Pending Appointment With Payment Success
-            $ins = DB::table('tbl_paid_appointment_payment')->insert([
-                'order_hash' => $stripeToken,
-                'payer_email' => $email,
-                'amount' => $amount,
-                'currency' => $currency,
-                'payment_type' => $payment_type,
-                'order_date' => $order_date,
+            // Create or retrieve customer
+            $customer = Stripe\Customer::create([
+                'email' => $email,
                 'name' => $cardName,
-                'stripe_payment_intent_id'=>$stripe_payment_intent_id,
-                'payment_status'=>$payment_status,
-                'order_status'=>$order_status
             ]);
-            if($ins ){
-                DB::table('appointments')->where('id',$appointment_id)->update( array('status'=>$appontment_status,'order_hash'=>$stripeToken));
-            }
-            return back()->with('success', 'Payment successful!');
-        } else { //failed
-            $stripe_payment_intent_id = $payment_result['id'];
-            $payment_status = "Unpaid";
-            $order_status = "Payement Failure";
-            $appontment_status = 11; //Pending Appointment With Payment Fail
-            $ins = DB::table('tbl_paid_appointment_payment')->insert([
-                'order_hash' => $stripeToken,
-                'payer_email' => $email,
-                'amount' => $amount,
+
+            // Create Payment Intent
+            $payment_intent = Stripe\PaymentIntent::create([
+                'amount' => $amount * 100, // Amount in cents
                 'currency' => $currency,
-                'payment_type' => $payment_type,
-                'order_date' => $order_date,
-                'name' => $cardName,
-                'stripe_payment_intent_id'=>$stripe_payment_intent_id,
-                'payment_status'=>$payment_status,
-                'order_status'=>$order_status
+                'customer' => $customer->id,
+                'payment_method' => $stripeToken,
+                'confirmation_method' => 'manual',
+                'confirm' => true,
+                'description' => "Appointment Payment - Bansal Lawyers - $cardName",
+                'return_url' => url('/book-an-appointment'),
             ]);
-            if($ins ){
-                DB::table('appointments')->where('id',$appointment_id)->update( array('status'=>$appontment_status,'order_hash'=>$stripeToken));
+
+            // Check if payment was successful
+            if ($payment_intent->status === 'succeeded') {
+                // Payment successful
+                $stripe_payment_intent_id = $payment_intent->id;
+                $payment_status = "Paid";
+                $order_status = "Completed";
+                $appontment_status = 10; // Pending Appointment With Payment Success
+                
+                // Insert payment record
+                $ins = DB::table('tbl_paid_appointment_payment')->insert([
+                    'order_hash' => $stripeToken,
+                    'payer_email' => $email,
+                    'amount' => $amount,
+                    'currency' => $currency,
+                    'payment_type' => $payment_type,
+                    'order_date' => $order_date,
+                    'name' => $cardName,
+                    'stripe_payment_intent_id' => $stripe_payment_intent_id,
+                    'payment_status' => $payment_status,
+                    'order_status' => $order_status
+                ]);
+                
+                if ($ins) {
+                    DB::table('appointments')->where('id', $appointment_id)->update([
+                        'status' => $appontment_status,
+                        'order_hash' => $stripeToken
+                    ]);
+                }
+                
+                // Redirect back to the normal booking page with success message
+                return redirect('/book-an-appointment')->with('success', 'Payment successful! Your appointment has been confirmed.');
+            } else {
+                // Payment failed
+                return back()->with('error', 'Payment failed. Please try again.');
             }
-            //return json_encode(array('success'=>false));
-            return back()->with('error', 'Payment failed!');
+        } catch (Stripe\Exception\CardException $e) {
+            // Card was declined
+            return back()->with('error', 'Your card was declined: ' . $e->getMessage());
+        } catch (Stripe\Exception\RateLimitException $e) {
+            // Too many requests made to the API too quickly
+            return back()->with('error', 'Too many requests. Please try again later.');
+        } catch (Stripe\Exception\InvalidRequestException $e) {
+            // Invalid parameters were supplied to Stripe's API
+            return back()->with('error', 'Invalid request. Please try again.');
+        } catch (Stripe\Exception\AuthenticationException $e) {
+            // Authentication with Stripe's API failed
+            return back()->with('error', 'Authentication failed. Please contact support.');
+        } catch (Stripe\Exception\ApiConnectionException $e) {
+            // Network communication with Stripe failed
+            return back()->with('error', 'Network error. Please try again.');
+        } catch (Stripe\Exception\ApiErrorException $e) {
+            // Generic Stripe error
+            return back()->with('error', 'Payment error: ' . $e->getMessage());
+        } catch (Exception $e) {
+            // Something else happened
+            return back()->with('error', 'An unexpected error occurred. Please try again.');
         }
-        // handled above with with(...)
     }
 
     public function search_result(Request $request)

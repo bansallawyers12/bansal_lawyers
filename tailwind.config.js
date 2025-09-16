@@ -12,7 +12,11 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Poppins', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                'lawyer-blue': '#1B4D89',
+                'lawyer-orange': '#F96D00',
             },
         },
     },

@@ -1,11 +1,17 @@
 {
+  "public/js/main.js": {
+    "file": "main.js",
+    "name": "main",
+    "src": "public/js/main.js",
+    "isEntry": true
+  },
   "resources/css/app.css": {
-    "file": "assets/app-CBXz8Yx0.css",
+    "file": "app.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-DWoQZfAj.js",
+    "file": "app2.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
