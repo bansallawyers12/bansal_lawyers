@@ -22,12 +22,13 @@
 					  </div>
 					  <!-- /.card-header -->
 					  <!-- form start -->
-					  <form action="admin/recent_case/store" autocomplete="off" method="post">
+					  <form action="admin/recent_case/store" autocomplete="off" method="post" enctype="multipart/form-data">
+						<?php echo csrf_field(); ?>
 
 						<div class="card-body">
 							<div class="form-group" style="text-align:right;">
 								<a style="margin-right:5px;" href="<?php echo e(route('admin.recent_case.index')); ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</a>
-								<button type="button" class="btn btn-primary" onClick="customValidate("add-case")"><i class="fa fa-save"></i> Save Case</button>
+								<button type="button" class="btn btn-primary" onClick="customValidate('add-case')"><i class="fa fa-save"></i> Save Case</button>
 							</div>
 							<div class="form-group row">
 								<label for="title" class="col-sm-2 col-form-label">Title <span style="color:#ff0000;">*</span></label>
@@ -57,7 +58,7 @@
 								<div class="col-sm-10">
 									<div class="custom-file">
 										<input type="file" id="image" name="image" class="custom-file-input" autocomplete="off" data-valid="">
-										<label class="custom-file-label" for="logo">Choose file</label>
+										<label class="custom-file-label" for="image">Choose file</label>
 										<!--<span class="file_note" style="line-height: 30px;">Please Image Size should be 600/400 ( Video-max size - 8mb ).</span>-->
 									</div>
 									<?php if($errors->has('image')): ?>
@@ -72,7 +73,7 @@
                             <div class="form-group row">
                                 <label for="image_alt" class="col-sm-2 col-form-label">Image Alt Attr</label>
                                 <div class="col-sm-10">
-                                <input name="image_alt" type="text" value="$fetchedData->image_alt" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Image Alt Attr">
+                                <input name="image_alt" type="text" value="<?php echo e(old('image_alt')); ?>" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Image Alt Attr">
                                 <?php if($errors->has('image_alt')): ?>
                                     <span class="custom-error" role="alert">
                                         <strong><?php echo e($errors->first('image_alt')); ?></strong>
@@ -103,7 +104,7 @@
 							<div class="form-group row">
                                 <label for="meta_title" class="col-sm-2 col-form-label">Meta Title </label>
                                 <div class="col-sm-10">
-                                <input name="meta_title" type="text" value="$fetchedData->meta_title" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Title">
+                                <input name="meta_title" type="text" value="<?php echo e(old('meta_title')); ?>" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Title">
                                 <?php if($errors->has('meta_title')): ?>
                                     <span class="custom-error" role="alert">
                                         <strong><?php echo e($errors->first('meta_title')); ?></strong>
@@ -115,7 +116,7 @@
                             <div class="form-group row">
                                 <label for="meta_description" class="col-sm-2 col-form-label">Meta Description </label>
                                 <div class="col-sm-10">
-                                    <textarea name="meta_description" data-valid="" value="" class="form-control" placeholder="Enter Meta Description"><?php echo e($fetchedData->meta_description); ?></textarea>
+                                    <textarea name="meta_description" data-valid="" class="form-control" placeholder="Enter Meta Description"><?php echo e(old('meta_description')); ?></textarea>
                                     <?php if($errors->has('meta_description')): ?>
                                         <span class="custom-error" role="alert">
                                             <strong><?php echo e($errors->first('meta_description')); ?></strong>
@@ -127,7 +128,7 @@
                             <div class="form-group row">
                                 <label for="meta_keyword" class="col-sm-2 col-form-label">Meta Keyword</label>
                                 <div class="col-sm-10">
-                                    <input name="meta_keyword" type="text" value="$fetchedData->meta_keyword" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Keyword">
+                                    <input name="meta_keyword" type="text" value="<?php echo e(old('meta_keyword')); ?>" class="form-control" data-valid="" autocomplete="off" placeholder="Enter Meta Keyword">
                                     <?php if($errors->has('meta_keyword')): ?>
                                         <span class="custom-error" role="alert">
                                             <strong><?php echo e($errors->first('meta_keyword')); ?></strong>
@@ -140,7 +141,7 @@
                             <div class="form-group row">
                                 <label for="youtube_url" class="col-sm-2 col-form-label">Youtube Video Url</label>
                                 <div class="col-sm-10">
-                                    <input name="youtube_url" type="text" value="$fetchedData->youtube_url" class="form-control" data-valid="" autocomplete="off" placeholder="Enter youtube video url">
+                                    <input name="youtube_url" type="text" value="<?php echo e(old('youtube_url')); ?>" class="form-control" data-valid="" autocomplete="off" placeholder="Enter youtube video url">
                                     <?php if($errors->has('youtube_url')): ?>
                                         <span class="custom-error" role="alert">
                                             <strong><?php echo e($errors->first('youtube_url')); ?></strong>
@@ -155,7 +156,7 @@
 								<div class="col-sm-10">
 									<div class="custom-file">
 										<input type="file" id="pdf_doc" name="pdf_doc" class="custom-file-input" autocomplete="off" data-valid="">
-										<label class="custom-file-label" for="logo">Choose file</label>
+										<label class="custom-file-label" for="pdf_doc">Choose file</label>
 										<span class="file_note" style="line-height: 30px;">Please Upload PDF/Video</span>
 									</div>
 									<?php if($errors->has('pdf_doc')): ?>
@@ -173,7 +174,7 @@
 								</div>
 							</div>
 							<div class="form-group float-right">
-								<button type="button" class="btn btn-primary" onClick="customValidate("add-case")"><i class="fa fa-save"></i> Save Case</button>
+								<button type="button" class="btn btn-primary" onClick="customValidate('add-case')"><i class="fa fa-save"></i> Save Case</button>
 							</div>
 						</div>
 					  </form>
