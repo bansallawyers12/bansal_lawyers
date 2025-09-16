@@ -1,25 +1,25 @@
-@extends('layouts.frontend')
 
-@section('seoinfo')
-    @if(isset($blogdetailists->meta_title) && $blogdetailists->meta_title != "")
-        <title>{{ $blogdetailists->meta_title }} - Experimental</title>
-    @else
-        <title>{{ $blogdetailists->title }} - Bansal Lawyers Blog</title>
-    @endif
 
-    @if(isset($blogdetailists->meta_description) && $blogdetailists->meta_description != "")
-        <meta name="description" content="{{ $blogdetailists->meta_description }}" />
-    @else
-        <meta name="description" content="{{ \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}" />
-    @endif
+<?php $__env->startSection('seoinfo'); ?>
+    <?php if(isset($blogdetailists->meta_title) && $blogdetailists->meta_title != ""): ?>
+        <title><?php echo e($blogdetailists->meta_title); ?> - Experimental</title>
+    <?php else: ?>
+        <title><?php echo e($blogdetailists->title); ?> - Bansal Lawyers Blog</title>
+    <?php endif; ?>
 
-    @if(isset($blogdetailists->meta_keyword) && $blogdetailists->meta_keyword != "")
-        <meta name="keyword" content="{{ $blogdetailists->meta_keyword }}" />
-    @else
-        <meta name="keyword" content="Bansal Lawyers, Legal Blog, {{ $blogdetailists->title }}" />
-    @endif
+    <?php if(isset($blogdetailists->meta_description) && $blogdetailists->meta_description != ""): ?>
+        <meta name="description" content="<?php echo e($blogdetailists->meta_description); ?>" />
+    <?php else: ?>
+        <meta name="description" content="<?php echo e(\Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160)); ?>" />
+    <?php endif; ?>
 
-    <link rel="canonical" href="{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}" />
+    <?php if(isset($blogdetailists->meta_keyword) && $blogdetailists->meta_keyword != ""): ?>
+        <meta name="keyword" content="<?php echo e($blogdetailists->meta_keyword); ?>" />
+    <?php else: ?>
+        <meta name="keyword" content="Bansal Lawyers, Legal Blog, <?php echo e($blogdetailists->title); ?>" />
+    <?php endif; ?>
+
+    <link rel="canonical" href="<?php echo e(URL::to('/')); ?>/blog/<?php echo e($blogdetailists->slug); ?>" />
     
     <!-- Robots Meta Tags -->
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -27,85 +27,86 @@
     <meta name="bingbot" content="index, follow">
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}">
+    <meta property="og:url" content="<?php echo e(URL::to('/')); ?>/blog/<?php echo e($blogdetailists->slug); ?>">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="{{ $blogdetailists->meta_title ?: $blogdetailists->title }}">
-    <meta property="og:description" content="{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
-    <meta property="og:image" content="{{ isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') }}">
-    <meta property="og:image:alt" content="{{ $blogdetailists->title }}">
-    <meta property="article:published_time" content="{{ $blogdetailists->created_at }}">
-    <meta property="article:modified_time" content="{{ $blogdetailists->updated_at }}">
-    @if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail)
-    <meta property="article:section" content="{{$blogdetailists->categorydetail->name}}">
-    @endif
+    <meta property="og:title" content="<?php echo e($blogdetailists->meta_title ?: $blogdetailists->title); ?>">
+    <meta property="og:description" content="<?php echo e($blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160)); ?>">
+    <meta property="og:image" content="<?php echo e(isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png')); ?>">
+    <meta property="og:image:alt" content="<?php echo e($blogdetailists->title); ?>">
+    <meta property="article:published_time" content="<?php echo e($blogdetailists->created_at); ?>">
+    <meta property="article:modified_time" content="<?php echo e($blogdetailists->updated_at); ?>">
+    <?php if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail): ?>
+    <meta property="article:section" content="<?php echo e($blogdetailists->categorydetail->name); ?>">
+    <?php endif; ?>
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
-    <meta property="twitter:url" content="{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}">
-    <meta name="twitter:title" content="{{ $blogdetailists->meta_title ?: $blogdetailists->title }}">
-    <meta name="twitter:description" content="{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
-    <meta property="twitter:image" content="{{ isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') }}">
-    <meta property="twitter:image:alt" content="{{ $blogdetailists->title }}">
+    <meta property="twitter:url" content="<?php echo e(URL::to('/')); ?>/blog/<?php echo e($blogdetailists->slug); ?>">
+    <meta name="twitter:title" content="<?php echo e($blogdetailists->meta_title ?: $blogdetailists->title); ?>">
+    <meta name="twitter:description" content="<?php echo e($blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160)); ?>">
+    <meta property="twitter:image" content="<?php echo e(isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png')); ?>">
+    <meta property="twitter:image:alt" content="<?php echo e($blogdetailists->title); ?>">
 
     <!-- Article Schema Markup -->
     <script type="application/ld+json">
     {
-      "@@context": "https://schema.org",
-      "@@type": "Article",
-      "headline": "{{ $blogdetailists->title }}",
-      "description": "{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}",
-      "image": "{{ isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') }}",
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "<?php echo e($blogdetailists->title); ?>",
+      "description": "<?php echo e($blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160)); ?>",
+      "image": "<?php echo e(isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png')); ?>",
       "author": {
-        "@@type": "Organization",
+        "@type": "Organization",
         "name": "Bansal Lawyers",
-        "url": "{{ URL::to('/') }}"
+        "url": "<?php echo e(URL::to('/')); ?>"
       },
       "publisher": {
-        "@@type": "Organization",
+        "@type": "Organization",
         "name": "Bansal Lawyers",
         "logo": {
-          "@@type": "ImageObject",
-          "url": "{{ asset('images/logo/Bansal_Lawyers.png') }}"
+          "@type": "ImageObject",
+          "url": "<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>"
         }
       },
-      "datePublished": "{{ $blogdetailists->created_at }}",
-      "dateModified": "{{ $blogdetailists->updated_at }}",
+      "datePublished": "<?php echo e($blogdetailists->created_at); ?>",
+      "dateModified": "<?php echo e($blogdetailists->updated_at); ?>",
       "mainEntityOfPage": {
-        "@@type": "WebPage",
-        "@@id": "{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}"
+        "@type": "WebPage",
+        "@id": "<?php echo e(URL::to('/')); ?>/blog/<?php echo e($blogdetailists->slug); ?>"
       },
-      "url": "{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}",
-      @if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail)
-      "articleSection": {!! json_encode($blogdetailists->categorydetail->name) !!},
-      @endif
-      "keywords": {!! json_encode($blogdetailists->meta_keyword ?: 'Bansal Lawyers, Legal Blog, ' . $blogdetailists->title) !!}
+      "url": "<?php echo e(URL::to('/')); ?>/blog/<?php echo e($blogdetailists->slug); ?>",
+      <?php if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail): ?>
+      "articleSection": <?php echo json_encode($blogdetailists->categorydetail->name); ?>,
+      <?php endif; ?>
+      "keywords": <?php echo json_encode($blogdetailists->meta_keyword ?: 'Bansal Lawyers, Legal Blog, ' . $blogdetailists->title); ?>
+
     }
     </script>
 
     <!-- Breadcrumb Schema -->
     <script type="application/ld+json">
     {
-      "@@context": "https://schema.org",
-      "@@type": "BreadcrumbList",
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
       "itemListElement": [
         {
-          "@@type": "ListItem",
+          "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "{{ URL::to('/') }}"
+          "item": "<?php echo e(URL::to('/')); ?>"
         },
         {
-          "@@type": "ListItem",
+          "@type": "ListItem",
           "position": 2,
           "name": "Blog",
-          "item": "{{ URL::to('/blog-experimental') }}"
+          "item": "<?php echo e(URL::to('/blog')); ?>"
         },
         {
-          "@@type": "ListItem",
+          "@type": "ListItem",
           "position": 3,
-          "name": "{{ $blogdetailists->title }}",
-          "item": "{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}"
+          "name": "<?php echo e($blogdetailists->title); ?>",
+          "item": "<?php echo e(URL::to('/')); ?>/blog/<?php echo e($blogdetailists->slug); ?>"
         }
       ]
     }
@@ -114,22 +115,22 @@
     <!-- FAQ Schema (if applicable) -->
     <script type="application/ld+json">
     {
-      "@@context": "https://schema.org",
-      "@@type": "FAQPage",
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
       "mainEntity": [
         {
-          "@@type": "Question",
+          "@type": "Question",
           "name": "What legal services does Bansal Lawyers provide?",
           "acceptedAnswer": {
-            "@@type": "Answer",
+            "@type": "Answer",
             "text": "Bansal Lawyers provides comprehensive legal services including Immigration Law, Family Law, Property Law, Commercial Law, Criminal Law, and Business Law. We serve individuals, families, and businesses across Australia with expert legal guidance and representation."
           }
         },
         {
-          "@@type": "Question",
+          "@type": "Question",
           "name": "Why choose Bansal Lawyers for legal services?",
           "acceptedAnswer": {
-            "@@type": "Answer",
+            "@type": "Answer",
             "text": "Bansal Lawyers offers experienced legal professionals, personalized attention, competitive pricing, and a track record of successful outcomes. Our team is committed to providing the best legal solutions tailored to your specific needs."
           }
         }
@@ -140,13 +141,13 @@
     <!-- Local Business Schema -->
     <script type="application/ld+json">
     {
-      "@@context": "https://schema.org",
-      "@@type": "LegalService",
+      "@context": "https://schema.org",
+      "@type": "LegalService",
       "name": "Bansal Lawyers",
-      "image": "{{ asset('images/logo/Bansal_Lawyers.png') }}",
+      "image": "<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>",
       "description": "Expert legal services in Melbourne for Immigration Law, Family Law, Property disputes, and more. Trusted legal advice in Australia.",
       "address": {
-        "@@type": "PostalAddress",
+        "@type": "PostalAddress",
         "streetAddress": "Level 8/278 Collins St",
         "addressLocality": "Melbourne",
         "addressRegion": "VIC",
@@ -154,47 +155,47 @@
         "addressCountry": "AU"
       },
       "geo": {
-        "@@type": "GeoCoordinates",
+        "@type": "GeoCoordinates",
         "latitude": "-37.8136",
         "longitude": "144.9631"
       },
       "telephone": "+61 0422905860",
       "email": "Info@bansallawyers.com.au",
-      "url": "{{ URL::to('/') }}",
+      "url": "<?php echo e(URL::to('/')); ?>",
       "openingHours": "Mo-Fr 09:00-17:00",
       "priceRange": "$$$",
       "areaServed": {
-        "@@type": "City",
+        "@type": "City",
         "name": "Melbourne"
       },
       "serviceArea": {
-        "@@type": "Country",
+        "@type": "Country",
         "name": "Australia"
       },
       "hasOfferCatalog": {
-        "@@type": "OfferCatalog",
+        "@type": "OfferCatalog",
         "name": "Legal Services",
         "itemListElement": [
           {
-            "@@type": "Offer",
+            "@type": "Offer",
             "itemOffered": {
-              "@@type": "Service",
+              "@type": "Service",
               "name": "Immigration Law",
               "description": "Expert legal services for visas, appeals, and migration advice."
             }
           },
           {
-            "@@type": "Offer",
+            "@type": "Offer",
             "itemOffered": {
-              "@@type": "Service",
+              "@type": "Service",
               "name": "Family Law",
               "description": "Legal support for family-related matters including divorce and custody."
             }
           },
           {
-            "@@type": "Offer",
+            "@type": "Offer",
             "itemOffered": {
-              "@@type": "Service",
+              "@type": "Service",
               "name": "Property Law",
               "description": "Legal services for property transactions and disputes."
             }
@@ -204,9 +205,9 @@
     }
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
 /* Experimental Blog Detail Styles */
 
@@ -226,7 +227,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset('images/bg_1.jpg') }}') center/cover;
+    background: url('<?php echo e(asset('images/bg_1.jpg')); ?>') center/cover;
     opacity: 0.15;
     z-index: 1;
 }
@@ -514,37 +515,39 @@
     <div class="container">
         <a href="/">Home</a>
         <span class="separator">></span>
-        <a href="{{ route('blog.experimental') }}">Blog</a>
+        <a href="<?php echo e(route('blog.index')); ?>">Blog</a>
         <span class="separator">></span>
-        <span>{{ $blogdetailists->title }}</span>
+        <span><?php echo e($blogdetailists->title); ?></span>
     </div>
 </div>
 
 <!-- Blog Detail Hero -->
 <div class="experimental-blog-detail-hero">
     <div class="container">
-        <h1>{{ $blogdetailists->title }}</h1>
+        <h1><?php echo e($blogdetailists->title); ?></h1>
         <div class="experimental-blog-detail-meta">
             <span>
                 <i class="ion-ios-calendar mr-2"></i>
-                {{ date('M d, Y', strtotime($blogdetailists->created_at)) }}
+                <?php echo e(date('M d, Y', strtotime($blogdetailists->created_at))); ?>
+
             </span>
-            @if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail)
+            <?php if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail): ?>
                 <span>
                     <i class="ion-ios-folder mr-2"></i>
-                    <a href="{{ route('blog.experimental.category', $blogdetailists->categorydetail->slug) }}" 
+                    <a href="<?php echo e(route('blog.category', $blogdetailists->categorydetail->slug)); ?>" 
                        style="color: white; text-decoration: none;">
-                        {{ $blogdetailists->categorydetail->name }}
+                        <?php echo e($blogdetailists->categorydetail->name); ?>
+
                     </a>
                 </span>
-            @endif
+            <?php endif; ?>
             <span>
                 <i class="ion-ios-time mr-2"></i>
-                {{ ceil(str_word_count(strip_tags($blogdetailists->description)) / 200) }} min read
+                <?php echo e(ceil(str_word_count(strip_tags($blogdetailists->description)) / 200)); ?> min read
             </span>
             <span>
                 <i class="ion-ios-document mr-2"></i>
-                {{ str_word_count(strip_tags($blogdetailists->description)) }} words
+                <?php echo e(str_word_count(strip_tags($blogdetailists->description))); ?> words
             </span>
         </div>
     </div>
@@ -557,34 +560,35 @@
             <!-- Main Content -->
             <div class="col-lg-8">
                 <div class="experimental-blog-detail-content">
-                    @if(isset($blogdetailists->image) && $blogdetailists->image != "")
+                    <?php if(isset($blogdetailists->image) && $blogdetailists->image != ""): ?>
                         <picture>
-                            <source media="(min-width: 768px)" srcset="{{ asset('images/blog/' . $blogdetailists->image) }}">
-                            <source media="(max-width: 767px)" srcset="{{ asset('images/blog/' . $blogdetailists->image) }}">
-                            <img src="{{ asset('images/blog/' . $blogdetailists->image) }}" 
-                                 alt="{{ $blogdetailists->title }} - Legal Blog Post by Bansal Lawyers" 
+                            <source media="(min-width: 768px)" srcset="<?php echo e(asset('images/blog/' . $blogdetailists->image)); ?>">
+                            <source media="(max-width: 767px)" srcset="<?php echo e(asset('images/blog/' . $blogdetailists->image)); ?>">
+                            <img src="<?php echo e(asset('images/blog/' . $blogdetailists->image)); ?>" 
+                                 alt="<?php echo e($blogdetailists->title); ?> - Legal Blog Post by Bansal Lawyers" 
                                  class="experimental-blog-detail-image"
                                  width="800" 
                                  height="400"
                                  loading="eager"
                                  fetchpriority="high">
                         </picture>
-                    @else
+                    <?php else: ?>
                         <picture>
-                            <source media="(min-width: 768px)" srcset="{{ asset('images/Blog.jpg') }}">
-                            <source media="(max-width: 767px)" srcset="{{ asset('images/Blog.jpg') }}">
-                            <img src="{{ asset('images/Blog.jpg') }}" 
-                                 alt="{{ $blogdetailists->title }} - Legal Blog Post by Bansal Lawyers" 
+                            <source media="(min-width: 768px)" srcset="<?php echo e(asset('images/Blog.jpg')); ?>">
+                            <source media="(max-width: 767px)" srcset="<?php echo e(asset('images/Blog.jpg')); ?>">
+                            <img src="<?php echo e(asset('images/Blog.jpg')); ?>" 
+                                 alt="<?php echo e($blogdetailists->title); ?> - Legal Blog Post by Bansal Lawyers" 
                                  class="experimental-blog-detail-image"
                                  width="800" 
                                  height="400"
                                  loading="eager"
                                  fetchpriority="high">
                         </picture>
-                    @endif
+                    <?php endif; ?>
                     
                     <div class="experimental-blog-detail-text">
-                        {!! $blogdetailists->description !!}
+                        <?php echo $blogdetailists->description; ?>
+
                         
                         <!-- Author Information -->
                         <div class="experimental-author-info" style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #1B4D89;">
@@ -601,14 +605,15 @@
                         </div>
 
                         <!-- Last Updated Information -->
-                        @if($blogdetailists->updated_at != $blogdetailists->created_at)
+                        <?php if($blogdetailists->updated_at != $blogdetailists->created_at): ?>
                         <div class="experimental-updated-info" style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 8px; border-left: 4px solid #17a2b8;">
                             <p style="margin: 0; color: #0c5460; font-size: 0.9rem;">
                                 <i class="ion-ios-refresh mr-2"></i>
-                                Last updated: {{ date('M d, Y', strtotime($blogdetailists->updated_at)) }}
+                                Last updated: <?php echo e(date('M d, Y', strtotime($blogdetailists->updated_at))); ?>
+
                             </p>
                         </div>
-                        @endif
+                        <?php endif; ?>
                         
                         <!-- FAQ Section -->
                         <div class="experimental-faq-section" style="margin-top: 40px; padding: 30px; background: #f8f9fa; border-radius: 15px; border-left: 4px solid #1B4D89;">
@@ -616,7 +621,7 @@
                                 <i class="ion-ios-help-circle mr-2"></i>Frequently Asked Questions
                             </h3>
                             
-                            @php
+                            <?php
                                 $faqs = [
                                     [
                                         'question' => 'What legal services does Bansal Lawyers provide?',
@@ -635,22 +640,24 @@
                                         'answer' => 'We specialize in Immigration Law (visas, appeals, migration advice), Family Law (divorce, custody, property settlements), Property Law (transactions, disputes), Commercial Law (business formation, contracts), and Criminal Law (defense representation).'
                                     ]
                                 ];
-                            @endphp
+                            ?>
                             
                             <div class="faq-container">
-                                @foreach($faqs as $index => $faq)
+                                <?php $__currentLoopData = $faqs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $faq): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="faq-item" style="margin-bottom: 20px; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                                    <div class="faq-question" style="padding: 20px; cursor: pointer; background: #1B4D89; color: white; font-weight: 600; font-size: 1rem; transition: background-color 0.3s ease;" onclick="toggleFAQ({{ $index }})">
-                                        <span style="float: right; transition: transform 0.3s ease;" id="faq-icon-{{ $index }}">+</span>
-                                        {{ $faq['question'] }}
+                                    <div class="faq-question" style="padding: 20px; cursor: pointer; background: #1B4D89; color: white; font-weight: 600; font-size: 1rem; transition: background-color 0.3s ease;" onclick="toggleFAQ(<?php echo e($index); ?>)">
+                                        <span style="float: right; transition: transform 0.3s ease;" id="faq-icon-<?php echo e($index); ?>">+</span>
+                                        <?php echo e($faq['question']); ?>
+
                                     </div>
-                                    <div class="faq-answer" id="faq-answer-{{ $index }}" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; background: white;">
+                                    <div class="faq-answer" id="faq-answer-<?php echo e($index); ?>" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; background: white;">
                                         <div style="padding: 20px 0; color: #666; line-height: 1.6;">
-                                            {{ $faq['answer'] }}
+                                            <?php echo e($faq['answer']); ?>
+
                                         </div>
                                     </div>
                                 </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                         
@@ -659,15 +666,15 @@
                     
                     <!-- Share Buttons -->
                     <div class="experimental-share-buttons">
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" 
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo e(urlencode(request()->url())); ?>" 
                            target="_blank" class="experimental-share-btn facebook">
                             <i class="ion-social-facebook"></i> Share on Facebook
                         </a>
-                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($blogdetailists->title) }}" 
+                        <a href="https://twitter.com/intent/tweet?url=<?php echo e(urlencode(request()->url())); ?>&text=<?php echo e(urlencode($blogdetailists->title)); ?>" 
                            target="_blank" class="experimental-share-btn twitter">
                             <i class="ion-social-twitter"></i> Tweet
                         </a>
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->url()) }}" 
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo e(urlencode(request()->url())); ?>" 
                            target="_blank" class="experimental-share-btn linkedin">
                             <i class="ion-social-linkedin"></i> Share on LinkedIn
                         </a>
@@ -680,42 +687,45 @@
                         <i class="ion-ios-paper mr-2"></i>You Might Also Like
                     </h3>
                     <div class="row">
-                        @foreach($latestbloglists->take(3) as $related)
-                            @if($related->id != $blogdetailists->id)
+                        <?php $__currentLoopData = $latestbloglists->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $related): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php if($related->id != $blogdetailists->id): ?>
                             <div class="col-md-4 mb-3">
                                 <div class="experimental-related-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 100%;">
                                     <div class="experimental-related-image" style="height: 150px; overflow: hidden;">
-                                        @if(isset($related->image) && $related->image != "")
-                                            <img src="{{ asset('images/blog/' . $related->image) }}" 
-                                                 alt="{{ $related->title }} - Legal Blog Post by Bansal Lawyers"
+                                        <?php if(isset($related->image) && $related->image != ""): ?>
+                                            <img src="<?php echo e(asset('images/blog/' . $related->image)); ?>" 
+                                                 alt="<?php echo e($related->title); ?> - Legal Blog Post by Bansal Lawyers"
                                                  style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
                                                  loading="lazy">
-                                        @else
-                                            <img src="{{ asset('images/Blog.jpg') }}" 
-                                                 alt="{{ $related->title }} - Legal Blog Post by Bansal Lawyers"
+                                        <?php else: ?>
+                                            <img src="<?php echo e(asset('images/Blog.jpg')); ?>" 
+                                                 alt="<?php echo e($related->title); ?> - Legal Blog Post by Bansal Lawyers"
                                                  style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
                                                  loading="lazy">
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
                                     <div class="experimental-related-content" style="padding: 20px;">
                                         <h5 style="margin: 0 0 10px 0; font-size: 1rem; line-height: 1.3; color: #1B4D89; font-weight: 600;">
-                                            <a href="{{ route('blog.experimental.detail', $related->slug) }}" 
+                                            <a href="<?php echo e(route('blog.detail', $related->slug)); ?>" 
                                                style="color: #1B4D89; text-decoration: none; transition: color 0.3s ease;">
-                                                {{ $related->title }}
+                                                <?php echo e($related->title); ?>
+
                                             </a>
                                         </h5>
                                         <p style="margin: 0; font-size: 0.85rem; color: #666; line-height: 1.4;">
-                                            {{ \Illuminate\Support\Str::limit(strip_tags($related->description), 80) }}
+                                            <?php echo e(\Illuminate\Support\Str::limit(strip_tags($related->description), 80)); ?>
+
                                         </p>
                                         <div style="margin-top: 10px; font-size: 0.8rem; color: #888;">
                                             <i class="ion-ios-calendar mr-1"></i>
-                                            {{ date('M d, Y', strtotime($related->created_at)) }}
+                                            <?php echo e(date('M d, Y', strtotime($related->created_at))); ?>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            @endif
-                        @endforeach
+                            <?php endif; ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
                 </div>
             </div>
@@ -723,7 +733,7 @@
             <!-- Sidebar -->
             <div class="col-lg-4">
                 <!-- Contact CTA Sidebar -->
-                @php
+                <?php
                     $category = 'general';
                     if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail) {
                         $categoryName = strtolower($blogdetailists->categorydetail->name);
@@ -735,9 +745,9 @@
                             $category = 'criminal';
                         }
                     }
-                @endphp
+                ?>
                 
-                @include('components.unified-contact-form', [
+                <?php echo $__env->make('components.unified-contact-form', [
                     'variant' => 'sidebar',
                     'title' => 'Need Legal Advice?',
                     'subtitle' => 'Get expert legal guidance from our experienced Melbourne lawyers.',
@@ -745,53 +755,55 @@
                     'formId' => 'blog-contact-form',
                     'source' => 'blog-detail',
                     'showPhoto' => true
-                ])
+                ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                 
                 <div class="experimental-sidebar">
                     <h4>Latest Articles</h4>
-                    @foreach($latestbloglists as $list)
+                    <?php $__currentLoopData = $latestbloglists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="experimental-latest-post">
-                            @if(isset($list->image) && $list->image != "")
-                                <img src="{{ asset('images/blog/' . $list->image) }}" 
-                                     alt="{{ $list->title }} - Legal Blog Post by Bansal Lawyers"
+                            <?php if(isset($list->image) && $list->image != ""): ?>
+                                <img src="<?php echo e(asset('images/blog/' . $list->image)); ?>" 
+                                     alt="<?php echo e($list->title); ?> - Legal Blog Post by Bansal Lawyers"
                                      width="80" 
                                      height="60"
                                      loading="lazy">
-                            @else
-                                <img src="{{ asset('images/Blog.jpg') }}" 
-                                     alt="{{ $list->title }} - Legal Blog Post by Bansal Lawyers"
+                            <?php else: ?>
+                                <img src="<?php echo e(asset('images/Blog.jpg')); ?>" 
+                                     alt="<?php echo e($list->title); ?> - Legal Blog Post by Bansal Lawyers"
                                      width="80" 
                                      height="60"
                                      loading="lazy">
-                            @endif
+                            <?php endif; ?>
                             <div class="experimental-latest-post-content">
                                 <h5>
-                                    <a href="{{ route('blog.experimental.detail', $list->slug) }}">
-                                        {{ $list->title }}
+                                    <a href="<?php echo e(route('blog.detail', $list->slug)); ?>">
+                                        <?php echo e($list->title); ?>
+
                                     </a>
                                 </h5>
-                                <p>{{ date('M d, Y', strtotime($list->created_at)) }}</p>
+                                <p><?php echo e(date('M d, Y', strtotime($list->created_at))); ?></p>
                             </div>
                         </div>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
                 
                 <!-- Category Sidebar -->
-                @if(isset($blogCategories) && $blogCategories->count() > 0)
+                <?php if(isset($blogCategories) && $blogCategories->count() > 0): ?>
                     <div class="experimental-sidebar">
                         <h4>Categories</h4>
                         <div style="display: flex; flex-direction: column; gap: 10px;">
-                            @foreach($blogCategories as $cat)
-                                <a href="{{ route('blog.experimental.category', $cat->slug) }}" 
+                            <?php $__currentLoopData = $blogCategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <a href="<?php echo e(route('blog.category', $cat->slug)); ?>" 
                                    style="color: #1B4D89; text-decoration: none; padding: 8px 12px; border-radius: 8px; background: #f8f9fa; transition: all 0.3s ease;"
                                    onmouseover="this.style.background='#1B4D89'; this.style.color='white'"
                                    onmouseout="this.style.background='#f8f9fa'; this.style.color='#1B4D89'">
-                                    {{ $cat->name }}
+                                    <?php echo e($cat->name); ?>
+
                                 </a>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -817,4 +829,6 @@ function toggleFAQ(index) {
 }
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/blogdetail.blade.php ENDPATH**/ ?>
