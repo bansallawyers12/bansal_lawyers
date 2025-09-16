@@ -129,13 +129,13 @@
     <!-- End Google Tag Manager (noscript) -->
   
     <!--Header-->
-    @include('../Elements/Frontend/header')
+    @include('Elements.Frontend.header')
 
     <!--Content-->
     @yield('content')
 
     <!--Footer-->
-    @include('../Elements/Frontend/footer')
+    @include('Elements.Frontend.footer')
 
     <!-- END: Footer Section -->
 

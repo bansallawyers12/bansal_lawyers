@@ -54,7 +54,7 @@
 											@foreach($categories as $category)
 												<?php $dash=''; ?>
 												<option value="{{$category->id}}" <?php if($category->id == $fetchedData->parent_category) { echo 'selected'; } ?>>{{$category->name}}</option>
-												@if(count($category->subcategory))	@include('/Admin/blogcategory/subCategoryList-option',['subcategories' => $category->subcategory])
+												@if(count($category->subcategory))	@include('Admin.blogcategory.subCategoryList-option',['subcategories' => $category->subcategory])
 												@endif
 											@endforeach
 										@endif

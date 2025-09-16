@@ -11,7 +11,7 @@
 				<div class="col-md-12">
 					<!-- Flash Message Start -->
 					<div class="server-error">
-						@include('../Elements/flash-message')
+						@include('Elements.flash-message')
 					</div>
 					<!-- Flash Message End -->
 				</div>
@@ -61,7 +61,7 @@
 											@foreach($categories as $category)
 												<?php $dash=''; ?>
 												<option value="{{$category->id}}">{{$category->name}}</option>
-												@if(count($category->subcategory))	@include('/Admin/blogcategory/subCategoryList-option',['subcategories' => $category->subcategory])
+												@if(count($category->subcategory))	@include('Admin.blogcategory.subCategoryList-option',['subcategories' => $category->subcategory])
 												@endif
 											@endforeach
 										@endif

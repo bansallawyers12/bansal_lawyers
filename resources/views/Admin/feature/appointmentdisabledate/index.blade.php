@@ -8,13 +8,13 @@
         <section class="section">
                 <div class="section-body">
                         <div class="server-error">
-                                @include('../Elements/flash-message')
+                                @include('Elements.flash-message')
                         </div>
                         <div class="custom-error-msg">
                         </div>
                         <div class="row">
                                  <!--<div class="col-3 col-md-3 col-lg-3">
-                                        {{--@include('../Elements/Admin/setting')--}}
+                                        {{--@include('Elements.Admin.setting')--}}
                         </div>-->
                                 <div class="col-12 col-md-12 col-lg-12">
                                         <div class="card">

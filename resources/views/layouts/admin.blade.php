@@ -148,13 +148,13 @@ body {
 		<div class="main-wrapper main-wrapper-1">
 			<div class="navbar-bg"></div>
 			<!--Header-->
-			@include('../Elements/Admin/header')
+			@include('Elements.Admin.header')
 			<!--Left Side Bar-->
-			@include('../Elements/Admin/left-side-bar')
+			@include('Elements.Admin.left-side-bar')
 
 			@yield('content')
 
-			@include('../Elements/Admin/footer')
+			@include('Elements.Admin.footer')
 		</div>
 	</div>
 

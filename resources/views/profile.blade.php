@@ -26,7 +26,7 @@
 		<li class="breadcrumb-item active">
 			Home / <b>Dashboard</b>
 		</li>
-		@include('../Elements/Admin/breadcrumb')
+		@include('Elements.Admin.breadcrumb')
 	</ol>-->
 	<!-- Breadcrumb end-->
 	
@@ -37,7 +37,7 @@
 				<div class="col-md-12">
 					<!-- Flash Message Start -->
 					<div class="server-error">
-						@include('../Elements/flash-message')
+						@include('Elements.flash-message')
 					</div>
 					<!-- Flash Message End -->
 				</div>

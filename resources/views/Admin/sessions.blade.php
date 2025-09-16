@@ -26,7 +26,7 @@
 				<div class="col-md-12">
 					<!-- Flash Message Start -->
 					<div class="server-error">
-						@include('../Elements/flash-message')
+						@include('Elements.flash-message')
 					</div>
 					<!-- Flash Message End -->
 				</div>

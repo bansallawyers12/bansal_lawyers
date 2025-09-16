@@ -53,7 +53,7 @@ if( isset($disableSlotArr) && !empty($disableSlotArr) && count($disableSlotArr) 
                     </div>
                 </div>
                 <!--<div class="col-3 col-md-3 col-lg-3">
-                                        {{--@include('../Elements/Admin/setting')--}}
+                                        {{--@include('Elements.Admin.setting')--}}
                         </div>-->
 
                 <div class="col-12 col-md-12 col-lg-12">

@@ -11,12 +11,12 @@
 			</div>
 			<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 no-padding">
 				<!-- Emergency Note Start-->
-					@include('../Elements/emergency')
+					@include('Elements.emergency')
 				<!-- Emergency Note End-->
 				
 				<!-- Flash Message Start -->
 				<div class="server-error">
-					@include('../Elements/flash-message')	
+					@include('Elements.flash-message')	
 				</div>
 				<!-- Flash Message End -->
 			
@@ -24,7 +24,7 @@
 					<div class="col-lg-12 col-sm-12 col-md-12 no-padding">
 						<div class="tab" role="tabpanel">				
 							<!-- Content Start for the Menu Bar Dashboard -->
-								@include('../Elements/Frontend/navigation')
+								@include('Elements.Frontend.navigation')
 							<!-- Content End for the Menu Bar Dashboard -->	
 						</div>
 					</div>

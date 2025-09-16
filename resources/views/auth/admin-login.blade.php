@@ -14,7 +14,7 @@
 						</div>
 						<div class="card-body">
 							<div class="server-error"> 
-								@include('../Elements/flash-message')
+								@include('Elements.flash-message')
 							</div>
 							
 							<form action="{{URL::to('admin/login')}}" method="post" name="admin_login">

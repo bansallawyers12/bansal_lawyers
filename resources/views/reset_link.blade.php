@@ -5,7 +5,7 @@
 	<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
 		<!-- Flash Message Start -->
 			<div class="server-error">
-				@include('../Elements/flash-message')
+				@include('Elements.flash-message')
 			</div>
 		<!-- Flash Message End -->
 	

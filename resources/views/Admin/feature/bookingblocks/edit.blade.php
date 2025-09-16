@@ -5,7 +5,7 @@
 <div class="main-content">
 	<section class="section">
 		<div class="section-body">
-			<div class="server-error">@include('../Elements/flash-message')</div>
+			<div class="server-error">@include('Elements.flash-message')</div>
 			<div class="card">
 				<div class="card-header">
 					<h4>Update Block Slot (New)</h4>
