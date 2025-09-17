@@ -367,6 +367,21 @@
                 </div>
             </div>
 
+            <!-- Legal Services Links -->
+            <div class="col-md">
+                <div class="footer-widget">
+                    <h2 class="footer-heading">Legal Services</h2>
+                    <ul class="footer-list">
+                        <li><a href="/divorce" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Divorce Services</a></li>
+                        <li><a href="/child-custody" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Child Custody</a></li>
+                        <li><a href="/property-settlement" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Property Settlement</a></li>
+                        <li><a href="/business-law" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Business Law</a></li>
+                        <li><a href="/leasing-or-selling-a-business" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Business Leasing</a></li>
+                        <li><a href="/contracts-or-business-agreements" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Business Contracts</a></li>
+                    </ul>
+                </div>
+            </div>
+
             <!-- Contact Information -->
             <div class="col-md">
                 <div class="footer-widget">

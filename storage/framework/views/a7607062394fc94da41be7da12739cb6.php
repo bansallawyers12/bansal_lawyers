@@ -1,46 +1,45 @@
-@extends('layouts.frontend')
-@section('seoinfo')
+<?php $__env->startSection('seoinfo'); ?>
     <?php if( isset($pagedata->meta_title) && $pagedata->meta_title != "") { ?>
-        <title>{{@$pagedata->meta_title}}</title>
+        <title><?php echo e(@$pagedata->meta_title); ?></title>
     <?php }  else { ?>
         <title>Commercial Lawyers Melbourne | Business Contracts & Legal Solutions Australia | Bansal Lawyers</title>
     <?php } ?>
 
     <?php if( isset($pagedata->meta_description) && $pagedata->meta_description != "") { ?>
-        <meta name="description" content="{{@$pagedata->meta_description}}" />
+        <meta name="description" content="<?php echo e(@$pagedata->meta_description); ?>" />
     <?php }  else { ?>
         <meta name="description" content="Need expert commercial law advice? Bansal Lawyers in Melbourne specializes in business contracts, disputes, and legal solutions. Get professional legal guidance for your business today!" />
     <?php } ?>
 
     <?php if( isset($pagedata->meta_keyward) && $pagedata->meta_keyward != "") { ?>
-        <meta name="keyword" content="{{@$pagedata->meta_keyward}}" />
+        <meta name="keyword" content="<?php echo e(@$pagedata->meta_keyward); ?>" />
     <?php }  else { ?>
         <meta name="keyword" content="Need expert commercial law advice? Bansal Lawyers in Melbourne specializes in business contracts, disputes, and legal solutions. Get professional legal guidance for your business today!" />
     <?php } ?>
 
 
-    <link rel="canonical" href="<?php echo URL::to('/'); ?>/{{@$pagedata->slug}}" />
+    <link rel="canonical" href="<?php echo URL::to('/'); ?>/<?php echo e(@$pagedata->slug); ?>" />
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="<?php echo URL::to('/'); ?>/{{@$pagedata->slug}}">
+    <meta property="og:url" content="<?php echo URL::to('/'); ?>/<?php echo e(@$pagedata->slug); ?>">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="{{@$pagedata->meta_title}}">
-    <meta property="og:description" content="{{@$pagedata->meta_description}}">
-    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:title" content="<?php echo e(@$pagedata->meta_title); ?>">
+    <meta property="og:description" content="<?php echo e(@$pagedata->meta_description); ?>">
+    <meta property="og:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
     <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
-    <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/{{@$pagedata->slug}}">
-    <meta name="twitter:title" content="{{@$pagedata->meta_title}}">
-    <meta name="twitter:description" content="{{@$pagedata->meta_description}}">
-    <meta name="twitter:title" content="{{@$pagedata->meta_title}}">
-    <meta name="twitter:description" content="{{@$pagedata->meta_description}}">
-    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/<?php echo e(@$pagedata->slug); ?>">
+    <meta name="twitter:title" content="<?php echo e(@$pagedata->meta_title); ?>">
+    <meta name="twitter:description" content="<?php echo e(@$pagedata->meta_description); ?>">
+    <meta name="twitter:title" content="<?php echo e(@$pagedata->meta_title); ?>">
+    <meta name="twitter:description" content="<?php echo e(@$pagedata->meta_description); ?>">
+    <meta property="twitter:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
     <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
     <style>
         /* Modern Hero Section */
         .pai-hero {
@@ -1315,7 +1314,7 @@
                 <!-- Sidebar -->
                 <aside class="pai-right">
                     <!-- Contact Form Sidebar -->
-                    @include('components.unified-contact-form', [
+                    <?php echo $__env->make('components.unified-contact-form', [
                         'variant' => 'sidebar',
                         'title' => 'Speak with a Lawyer',
                         'subtitle' => 'There\'s No Legal Puzzle, We Can\'t Solve.',
@@ -1323,7 +1322,7 @@
                         'formId' => 'practice-area-contact-form',
                         'source' => 'practice-area-inner',
                         'showPhoto' => true
-                    ])
+                    ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
                     <!-- Related Services -->
                     <div class="pai-card pai-related" style="margin-top: 30px;">
@@ -1542,6 +1541,8 @@
     })();
     </script>
 
-    @endsection
+    <?php $__env->stopSection(); ?>
 
 
+
+<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/practice_area_inner.blade.php ENDPATH**/ ?>

@@ -153,6 +153,58 @@
                         </div>
                     </div>
 
+                    <!-- Related Services Section -->
+                    <div class="pae-card pae-related" style="margin-top: 20px;">
+                        <div class="pae-card-body">
+                            <h3>Related Services</h3>
+                            <?php if( isset($type) && $type == "family-law" ) { ?>
+                                <a class="pae-related-item" href="/divorce">
+                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">D</div>
+                                    <div>
+                                        <div class="title">Divorce Services</div>
+                                        <div class="more">Learn more »</div>
+                                    </div>
+                                </a>
+                                <a class="pae-related-item" href="/child-custody">
+                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">C</div>
+                                    <div>
+                                        <div class="title">Child Custody</div>
+                                        <div class="more">Learn more »</div>
+                                    </div>
+                                </a>
+                                <a class="pae-related-item" href="/property-settlement">
+                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">P</div>
+                                    <div>
+                                        <div class="title">Property Settlement</div>
+                                        <div class="more">Learn more »</div>
+                                    </div>
+                                </a>
+                            <?php } elseif( isset($type) && $type == "commercial-law" ) { ?>
+                                <a class="pae-related-item" href="/business-law">
+                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">B</div>
+                                    <div>
+                                        <div class="title">Business Law</div>
+                                        <div class="more">Learn more »</div>
+                                    </div>
+                                </a>
+                                <a class="pae-related-item" href="/leasing-or-selling-a-business">
+                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">L</div>
+                                    <div>
+                                        <div class="title">Leasing or Selling Business</div>
+                                        <div class="more">Learn more »</div>
+                                    </div>
+                                </a>
+                                <a class="pae-related-item" href="/contracts-or-business-agreements">
+                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">C</div>
+                                    <div>
+                                        <div class="title">Business Contracts</div>
+                                        <div class="more">Learn more »</div>
+                                    </div>
+                                </a>
+                            <?php } ?>
+                        </div>
+                    </div>
+
                     <?php echo $__env->make('components.unified-contact-form', [
                         'title' => 'Speak with a Lawyer',
                         'subtitle' => 'There\'s No Legal Puzzle, We Can\'t Solve.',

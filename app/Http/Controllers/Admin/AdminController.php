@@ -1050,6 +1050,144 @@ class AdminController extends Controller
         	return redirect('/admin/gen-settings')->with('success', 'Record updated successfully');
     }
 
-
+    /**
+     * Admin Users Management
+     * Simple admin user management system
+     */
+    
+    /**
+     * Display a listing of admin users
+     */
+    public function adminUsers(Request $request)
+    {
+        $query = Admin::query();
+        
+        // Search functionality
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('company_name', 'like', "%{$search}%");
+            });
+        }
+        
+        // Filter by status
+        if ($request->has('status') && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
+        
+        // Filter by archived status
+        if ($request->has('archived') && $request->archived !== '') {
+            $query->where('is_archived', $request->archived);
+        }
+        
+        $totalData = $query->count();
+        $lists = $query->sortable(['created_at' => 'desc'])->paginate(config('constants.limit', 15));
+        
+        return view('Admin.admin_users.index', compact('lists', 'totalData'));
+    }
+    
+    /**
+     * Show the form for creating a new admin user
+     */
+    public function createAdminUser()
+    {
+        return view('Admin.admin_users.create');
+    }
+    
+    /**
+     * Store a newly created admin user
+     */
+    public function storeAdminUser(Request $request)
+    {
+        $this->validate($request, [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'email' => 'required|email|unique:admins,email',
+            'password' => 'required|string|min:6|confirmed',
+            'phone' => 'nullable|string|max:20',
+            'company_name' => 'nullable|string|max:255',
+            'status' => 'required|in:0,1'
+        ]);
+        
+        try {
+            $admin = Admin::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'company_name' => $request->company_name,
+                'status' => $request->status,
+                'is_archived' => 0,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            
+            return redirect()->route('admin.admin_users.index')
+                ->with('success', 'Admin user created successfully.');
+                
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Error creating admin user: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * Show the form for editing an admin user
+     */
+    public function editAdminUser($id)
+    {
+        $admin = Admin::findOrFail($id);
+        return view('Admin.admin_users.edit', compact('admin'));
+    }
+    
+    /**
+     * Update the specified admin user
+     */
+    public function updateAdminUser(Request $request, $id)
+    {
+        $admin = Admin::findOrFail($id);
+        
+        $this->validate($request, [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'email' => 'required|email|unique:admins,email,' . $id,
+            'phone' => 'nullable|string|max:20',
+            'company_name' => 'nullable|string|max:255',
+            'status' => 'required|in:0,1',
+            'password' => 'nullable|string|min:6|confirmed'
+        ]);
+        
+        try {
+            $updateData = [
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'company_name' => $request->company_name,
+                'status' => $request->status,
+                'updated_at' => now()
+            ];
+            
+            // Only update password if provided
+            if (!empty($request->password)) {
+                $updateData['password'] = Hash::make($request->password);
+            }
+            
+            $admin->update($updateData);
+            
+            return redirect()->route('admin.admin_users.index')
+                ->with('success', 'Admin user updated successfully.');
+                
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Error updating admin user: ' . $e->getMessage());
+        }
+    }
 
 }

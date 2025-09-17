@@ -34,4 +34,4 @@
         </ul>
 	</div>
 </nav>
-<?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views////Elements/Admin/header.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Elements/Admin/header.blade.php ENDPATH**/ ?>

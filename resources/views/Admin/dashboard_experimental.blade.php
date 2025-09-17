@@ -171,6 +171,7 @@
     .nav-icon.blogs { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
     .nav-icon.cms { background: linear-gradient(135deg, #3b82f6, #2563eb); }
     .nav-icon.cases { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .nav-icon.users { background: linear-gradient(135deg, #06b6d4, #0891b2); }
     .nav-icon.logout { background: linear-gradient(135deg, #ef4444, #dc2626); }
 
     .nav-title {
@@ -405,6 +406,31 @@
             <a href="{{ route('admin.recent_case.index') }}" class="primary-action">
                 <i class="fas fa-arrow-right"></i>
                 Manage Cases
+            </a>
+					</div>
+
+        <!-- Admin Users Management Card -->
+        <div class="nav-card">
+            <div class="nav-icon users">
+                <i class="fas fa-users-cog"></i>
+            </div>
+            <h3 class="nav-title">Admin Users</h3>
+            <p class="nav-description">Manage admin accounts and user permissions</p>
+            
+            <div class="nav-links">
+                <a href="{{ route('admin.admin_users.index') }}" class="nav-link">
+                    <i class="nav-link-icon fas fa-list"></i>
+                    <span>All Admin Users</span>
+                </a>
+                <a href="{{ route('admin.admin_users.create') }}" class="nav-link">
+                    <i class="nav-link-icon fas fa-user-plus"></i>
+                    <span>Add New Admin</span>
+                </a>
+						</div>
+            
+            <a href="{{ route('admin.admin_users.index') }}" class="primary-action">
+                <i class="fas fa-arrow-right"></i>
+                Manage Users
             </a>
 					</div>
 

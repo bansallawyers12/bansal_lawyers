@@ -774,27 +774,256 @@
                             <!-- Start Related pages -->
                             <div class="field__items flex-container widget-post" >
                                 <div class="widget-header mb-4">
-                                    <h5 class="title">Related pages</h5>
+                                    <h5 class="title">Related Services</h5>
                                 </div>
                                 <div class="elementor-widget-container">
                                     <div class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid elementor-has-item-ratio">
-                                        @foreach (@$relatedpagedata as $list)
-                                            <article class="elementor-post elementor-grid-item post-13164 post type-post status-publish format-standard has-post-thumbnail hentry category-school-abuse tag-nsw">
-                                                <div class="elementor-post__card">
-                                                    <a class="elementor-post__thumbnail__link" href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" tabindex="-1">
-                                                        <div class="elementor-post__thumbnail">
-                                                            <img decoding="async" width="150" height="150" src="{{ asset('images/' . @$list->image) }}" alt="{{@$list->image_alt}}">
-                                                        </div>
-                                                    </a>
-                                                    <div class="elementor-post__text">
-                                                        <h3 class="elementor-post__title">
-                                                            <a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}">{{@$list->title}}</a>
-                                                        </h3>
-                                                        <a class="elementor-post__read-more" href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" aria-label="Read more about {{@$list->title}}" tabindex="-1"> Read This More » </a>
+                                        
+                                        <!-- Family Law Services -->
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/divorce" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">💔</div>
                                                     </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/divorce">Divorce Services</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/divorce" aria-label="Read more about Divorce Services" tabindex="-1">Learn More »</a>
                                                 </div>
-                                            </article>
-                                        @endforeach
+                                            </div>
+                                        </article>
+
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/child-custody" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">👶</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/child-custody">Child Custody</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/child-custody" aria-label="Read more about Child Custody" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/property-settlement" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">🏠</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/property-settlement">Property Settlement</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/property-settlement" aria-label="Read more about Property Settlement" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <!-- Migration Law Services -->
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/art-application" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">📋</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/art-application">ART Application</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/art-application" aria-label="Read more about ART Application" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/visa-refusals-visa-cancellation" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">❌</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/visa-refusals-visa-cancellation">Visa Refusals</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/visa-refusals-visa-cancellation" aria-label="Read more about Visa Refusals" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/federal-court-application" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">⚖️</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/federal-court-application">Federal Court</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/federal-court-application" aria-label="Read more about Federal Court" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <!-- Criminal Law Services -->
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/assualt-charges" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">👊</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/assualt-charges">Assault Charges</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/assualt-charges" aria-label="Read more about Assault Charges" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/drink-driving-offences" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">🚗</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/drink-driving-offences">Drink Driving</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/drink-driving-offences" aria-label="Read more about Drink Driving" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/trafic-offences" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">🚦</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/trafic-offences">Traffic Offences</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/trafic-offences" aria-label="Read more about Traffic Offences" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <!-- Commercial Law Services -->
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/business-law" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">🏢</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/business-law">Business Law</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/business-law" aria-label="Read more about Business Law" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/contracts-or-business-agreements" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">📋</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/contracts-or-business-agreements">Business Contracts</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/contracts-or-business-agreements" aria-label="Read more about Business Contracts" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/leasing-or-selling-a-business" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">🔄</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/leasing-or-selling-a-business">Business Leasing</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/leasing-or-selling-a-business" aria-label="Read more about Business Leasing" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <!-- Property Law Services -->
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/conveyancing" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">📄</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/conveyancing">Conveyancing</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/conveyancing" aria-label="Read more about Conveyancing" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/building-and-construction-disputes" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">🏗️</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/building-and-construction-disputes">Construction Disputes</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/building-and-construction-disputes" aria-label="Read more about Construction Disputes" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <article class="elementor-post elementor-grid-item">
+                                            <div class="elementor-post__card">
+                                                <a class="elementor-post__thumbnail__link" href="/caveats-disputs-and-removal" tabindex="-1">
+                                                    <div class="elementor-post__thumbnail">
+                                                        <div style="width: 150px; height: 150px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">⚠️</div>
+                                                    </div>
+                                                </a>
+                                                <div class="elementor-post__text">
+                                                    <h3 class="elementor-post__title">
+                                                        <a href="/caveats-disputs-and-removal">Caveats</a>
+                                                    </h3>
+                                                    <a class="elementor-post__read-more" href="/caveats-disputs-and-removal" aria-label="Read more about Caveats" tabindex="-1">Learn More »</a>
+                                                </div>
+                                            </div>
+                                        </article>
+
                                     </div>
                                 </div>
                             </div>

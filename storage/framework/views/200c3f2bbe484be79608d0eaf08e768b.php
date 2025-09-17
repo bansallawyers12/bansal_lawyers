@@ -5,13 +5,13 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="csrf-token" content="{{ csrf_token() }}">
+	<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 	<meta name="description" content="Bansal Lawyers Admin Portal - Secure Login">
 	<meta name="author" content="Bansal Lawyers">
-	<title>Bansal Lawyers | @yield('title')</title>
+	<title>Bansal Lawyers | <?php echo $__env->yieldContent('title'); ?></title>
 	
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
+	<link rel="shortcut icon" href="<?php echo e(asset('images/logo_img/bansal_lawyers_fevicon.png')); ?>" type="image/png">
 	
 	<!-- Google Fonts -->
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,10 +21,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	
 	<!-- BASE CSS -->
-	<link href="{{ asset('css/app.min.css')}}" rel="stylesheet">
-	<link href="{{ asset('css/bootstrap-social.css')}}" rel="stylesheet">
-	<link href="{{ asset('css/components.css')}}" rel="stylesheet">
-	<link href="{{ asset('css/custom.css')}}" rel="stylesheet">
+	<link href="<?php echo e(asset('css/app.min.css')); ?>" rel="stylesheet">
+	<link href="<?php echo e(asset('css/bootstrap-social.css')); ?>" rel="stylesheet">
+	<link href="<?php echo e(asset('css/components.css')); ?>" rel="stylesheet">
+	<link href="<?php echo e(asset('css/custom.css')); ?>" rel="stylesheet">
 
 	<script async src="https://www.google.com/recaptcha/api.js"></script>
 </head>
@@ -463,16 +463,16 @@ body::before {
 <body>
 	<div class="loader"></div>
 	<div id="app">
-		@yield('content')
+		<?php echo $__env->yieldContent('content'); ?>
 	</div>
 	
 	<!-- COMMON SCRIPTS -->
 	<script type="text/javascript">
 		var site_url = "<?php echo URL::to('/'); ?>";
 	</script>
-	<script src="{{ asset('js/app.min.js')}}"></script>
-	<script src="{{ asset('js/scripts.js')}}"></script>
-	<script src="{{ asset('js/custom.js')}}"></script>
+	<script src="<?php echo e(asset('js/app.min.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/scripts.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/custom.js')); ?>"></script>
 	
 	<!-- Modern Login Scripts -->
 	<script>
@@ -514,3 +514,4 @@ body::before {
 	</script>
 </body>
 </html>
+<?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/layouts/admin-login.blade.php ENDPATH**/ ?>

@@ -29,4 +29,4 @@
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">☓</button>	
 	Please check the form below for errors
 </div>
-<?php endif; ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views////Elements/flash-message.blade.php ENDPATH**/ ?>
+<?php endif; ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Elements/flash-message.blade.php ENDPATH**/ ?>

@@ -7,4 +7,4 @@
 	</div>
 	<a id="button" title="button"></a>
 </footer>
-<?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views////Elements/Admin/footer.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Elements/Admin/footer.blade.php ENDPATH**/ ?>

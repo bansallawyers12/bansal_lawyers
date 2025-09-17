@@ -30,7 +30,7 @@ Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
 //Home Page
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
-Route::get('/testimonials', [App\Http\Controllers\HomeController::class, 'testimonial'])->name('testimonial');
+// Route::get('/testimonials', [App\Http\Controllers\HomeController::class, 'testimonial'])->name('testimonial'); // ARCHIVED - unused page
 Route::get('/ourservices', [App\Http\Controllers\HomeController::class, 'ourservices'])->name('ourservices');
 Route::get('/ourservices/{slug}', [App\Http\Controllers\HomeController::class, 'servicesdetail'])->name('servicesdetail');
 // Make experimental blog the primary
@@ -46,14 +46,14 @@ Route::get('/blog-experimental/{slug}', [App\Http\Controllers\HomeController::cl
 // Backup routes for original blog
 Route::get('/blog-original', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog.original');
 Route::get('/blog-original/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategory'])->name('blog.original.category');
-Route::get('/search_result', [App\Http\Controllers\HomeController::class, 'search_result'])->name('search_result');
+// Route::get('/search_result', [App\Http\Controllers\HomeController::class, 'search_result'])->name('search_result'); // ARCHIVED - searchresults.blade.php moved to archive
 
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus']);
 Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'contact']);
 
 // Unified contact form routes
-Route::get('/contact-form-test', [App\Http\Controllers\HomeController::class, 'contactFormTest'])->name('contact.form.test');
-Route::get('/contact-form-demo', [App\Http\Controllers\HomeController::class, 'contactFormDemo'])->name('contact.form.demo');
+// Route::get('/contact-form-test', [App\Http\Controllers\HomeController::class, 'contactFormTest'])->name('contact.form.test'); // ARCHIVED - test version
+// Route::get('/contact-form-demo', [App\Http\Controllers\HomeController::class, 'contactFormDemo'])->name('contact.form.demo'); // ARCHIVED - demo version
 Route::post('/contact/submit', [App\Http\Controllers\HomeController::class, 'contactSubmit'])->name('contact.submit');
 
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
@@ -72,7 +72,6 @@ Route::post('/getdisableddatetime', [App\Http\Controllers\HomeController::class,
 Route::get('/refresh-captcha', [App\Http\Controllers\HomeController::class, 'refresh_captcha']);
 Route::get('page/{slug}', [App\Http\Controllers\HomeController::class, 'Page'])->name('page.slug');
 Route::get('sicaptcha', [App\Http\Controllers\HomeController::class, 'sicaptcha'])->name('sicaptcha');
-Route::get('/profile', [App\Http\Controllers\HomeController::class, 'myprofile'])->name('profile');
 
 /*********************Admin Panel Routes ***********************/
 Route::prefix('admin')->group(function() {
@@ -100,7 +99,7 @@ Route::prefix('admin')->group(function() {
         Route::post('/declined_action', [App\Http\Controllers\Admin\AdminController::class, 'declinedAction']);
         Route::post('/approved_action', [App\Http\Controllers\Admin\AdminController::class, 'approvedAction']);
         Route::post('/process_action', [App\Http\Controllers\Admin\AdminController::class, 'processAction']);
-        Route::post('/archive_action', [App\Http\Controllers\Admin\AdminController::class, 'archiveAction']);
+        Route::post('/archive_action', [App\Http\Controllers\Admin\AdminController::class, 'archiveAction'])->name('admin.archive_action');
         Route::post('/move_action', [App\Http\Controllers\Admin\AdminController::class, 'moveAction']);
 
         //Blog
@@ -150,7 +149,7 @@ Route::prefix('admin')->group(function() {
 				Route::match(['get','post'], '/edit/{id?}', [App\Http\Controllers\Admin\BookingBlockController::class, 'edit'])->name('edit');
 			});
 
-        Route::post('/update_action', [\App\Http\Controllers\Admin\AdminController::class, 'updateAction']);
+        Route::post('/update_action', [\App\Http\Controllers\Admin\AdminController::class, 'updateAction'])->name('admin.update_action');
 
         // Recent Case
 			Route::get('/recent_case', [App\Http\Controllers\Admin\RecentCaseController::class, 'index'])->name('admin.recent_case.index');
@@ -171,35 +170,42 @@ Route::prefix('admin')->group(function() {
         Route::post('/contacts/bulk-send-to-bansal-email', [App\Http\Controllers\Admin\ContactController::class, 'bulkSendToBansalEmail'])->name('admin.contacts.bulk-send-to-bansal-email');
         Route::get('/contacts/export', [App\Http\Controllers\Admin\ContactController::class, 'export'])->name('admin.contacts.export');
 
+        // Admin Users Management
+        Route::get('/admin-users', [App\Http\Controllers\Admin\AdminController::class, 'adminUsers'])->name('admin.admin_users.index');
+        Route::get('/admin-users/create', [App\Http\Controllers\Admin\AdminController::class, 'createAdminUser'])->name('admin.admin_users.create');
+        Route::post('/admin-users/store', [App\Http\Controllers\Admin\AdminController::class, 'storeAdminUser'])->name('admin.admin_users.store');
+        Route::get('/admin-users/edit/{id}', [App\Http\Controllers\Admin\AdminController::class, 'editAdminUser'])->name('admin.admin_users.edit');
+        Route::post('/admin-users/update/{id}', [App\Http\Controllers\Admin\AdminController::class, 'updateAdminUser'])->name('admin.admin_users.update');
+
 		});
 
 });
 
 
 Route::get('/practice-areas', [\App\Http\Controllers\HomeController::class, 'practiceareas'])->name('practice-areas');
-Route::get('/practice-areas-backup', [\App\Http\Controllers\HomeController::class, 'practiceareasBackup'])->name('practice-areas-backup');
+// Route::get('/practice-areas-backup', [\App\Http\Controllers\HomeController::class, 'practiceareasBackup'])->name('practice-areas-backup'); // ARCHIVED - backup version
 Route::get('/case', [\App\Http\Controllers\HomeController::class, 'case'])->name('case');
-Route::get('/case-experiment', [\App\Http\Controllers\HomeController::class, 'caseExperiment'])->name('case-experiment');
-Route::get('/case-new', [\App\Http\Controllers\HomeController::class, 'caseNew'])->name('case-new');
+// Route::get('/case-experiment', [\App\Http\Controllers\HomeController::class, 'caseExperiment'])->name('case-experiment'); // ARCHIVED - experimental version
+// Route::get('/case-new', [\App\Http\Controllers\HomeController::class, 'caseNew'])->name('case-new'); // ARCHIVED - unused duplicate
 // Experimental case detail (noindex)
-Route::get('/case-experiment/{slug}', [\App\Http\Controllers\HomeController::class, 'casedetailExperiment'])->name('case-detail-experiment');
+// Route::get('/case-experiment/{slug}', [\App\Http\Controllers\HomeController::class, 'casedetailExperiment'])->name('case-detail-experiment'); // ARCHIVED - experimental version
 
 //Practice area main Page
 // Swap: make experimental the primary and keep original as backup
 Route::get('/family-law', [\App\Http\Controllers\HomeController::class, 'familylawExperiment'])->name('family-law');
-Route::get('/family-law-backup', [\App\Http\Controllers\HomeController::class, 'familylaw'])->name('family-law-backup');
+// Route::get('/family-law-backup', [\App\Http\Controllers\HomeController::class, 'familylaw'])->name('family-law-backup'); // ARCHIVED - backup version
 // Swap: make experimental the primary and keep original as backup
 Route::get('/migration-law', [\App\Http\Controllers\HomeController::class, 'migrationlawExperiment'])->name('migration-law');
 Route::get('/migration-law-backup', [\App\Http\Controllers\HomeController::class, 'migrationlaw'])->name('migration-law-backup');
 // Swap: make experimental the primary and keep original as backup
 Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'criminallawExperiment'])->name('criminal-law');
-Route::get('/criminal-law-backup', [\App\Http\Controllers\HomeController::class, 'criminallaw'])->name('criminal-law-backup');
+// Route::get('/criminal-law-backup', [\App\Http\Controllers\HomeController::class, 'criminallaw'])->name('criminal-law-backup'); // ARCHIVED - backup version
 // Swap: make experimental the primary and keep original as backup
 Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallawExperiment'])->name('commercial-law');
-Route::get('/commercial-law-backup', [\App\Http\Controllers\HomeController::class, 'commerciallaw'])->name('commercial-law-backup');
+// Route::get('/commercial-law-backup', [\App\Http\Controllers\HomeController::class, 'commerciallaw'])->name('commercial-law-backup'); // ARCHIVED - backup version
 // Swap: make experimental the primary and keep original as backup
 Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylawExperiment'])->name('property-law');
-Route::get('/property-law-backup', [\App\Http\Controllers\HomeController::class, 'propertylaw'])->name('property-law-backup');
+// Route::get('/property-law-backup', [\App\Http\Controllers\HomeController::class, 'propertylaw'])->name('property-law-backup'); // ARCHIVED - backup version
 // Experimental route for Migration Law page
 Route::get('/migration-law-experiment', [\App\Http\Controllers\HomeController::class, 'migrationlawExperiment'])->name('migration-law-experiment');
 // Experimental routes for other practice areas

@@ -148,13 +148,13 @@ body {
 		<div class="main-wrapper main-wrapper-1">
 			<div class="navbar-bg"></div>
 			<!--Header-->
-			<?php echo $__env->make('../Elements/Admin/header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+			<?php echo $__env->make('Elements.Admin.header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			<!--Left Side Bar-->
-			<?php echo $__env->make('../Elements/Admin/left-side-bar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+			<?php echo $__env->make('Elements.Admin.left-side-bar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
 			<?php echo $__env->yieldContent('content'); ?>
 
-			<?php echo $__env->make('../Elements/Admin/footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+			<?php echo $__env->make('Elements.Admin.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 		</div>
 	</div>
 

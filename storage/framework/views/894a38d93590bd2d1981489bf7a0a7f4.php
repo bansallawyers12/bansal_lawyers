@@ -309,4 +309,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-<?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views////Elements/Admin/left-side-bar.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Elements/Admin/left-side-bar.blade.php ENDPATH**/ ?>

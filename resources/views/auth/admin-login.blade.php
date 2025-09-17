@@ -3,69 +3,138 @@
 @section('title', 'Admin Login')
 
 @section('content')
-	
-	<section class="section">
-		<div class="container mt-5">
-			<div class="row">
-				<div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-					<div class="card card-primary">
-						<div class="card-header">
-							<h4>Login</h4>
-						</div>
-						<div class="card-body">
-							<div class="server-error"> 
-								@include('Elements.flash-message')
-							</div>
-							
-							<form action="{{URL::to('admin/login')}}" method="post" name="admin_login">
-							<input type="hidden" name="_token" value="{{ csrf_token() }}">
-								<div class="form-group">
-									<label for="email">Email</label>
-									<input id="email" placeholder="Email" type="email" class="form-control" name="email" tabindex="1" value="{{ (Cookie::get('email') !='' && !old('email')) ? Cookie::get('email') : old('email')  }}" required autofocus>
-									@if ($errors->has('email'))
-									<div style="color: #dc3545;">
-									 {{ $errors->first('email') }}
-									</div>
-									@endif
-								</div>
-								<div class="form-group">
-									<div class="d-block">
-										<label for="password" class="control-label">Password</label>
-										<div class="float-right">
-											<!-- <a href="#" class="text-small">Forgot Password?</a> -->
-										</div>
-									</div>
-									<input id="password" type="password" class="form-control" name="password" tabindex="2" placeholder="Password" value="{{ (Cookie::get('password') !='' && !old('password')) ? Cookie::get('password') : old('password')  }}" required>
-									<div class="invalid-feedback">
-									  please fill in your password
-									</div>
-								</div>
-								
-								<!-- Google Recaptcha -->
-                                <div class="g-recaptcha mt-4" data-sitekey={{ config('services.recaptcha.key') }}></div>
-
-                                @if ($errors->has('g-recaptcha-response'))
-									<div style="color: #dc3545;">Captcha field is required.</div>
-								@endif
-								
-								<div class="form-group">
-									<div class="custom-control custom-checkbox">
-										<input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me" @if(Cookie::get('email') != '' && Cookie::get('password') != '') checked  @endif>
-										<label class="custom-control-label" for="remember-me">Remember Me</label>
-									</div>
-								</div>
-								<div class="form-group">
-									<button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">Login</button>
-								</div>
-							</form>
-						</div>
+<div class="login-container">
+	<div class="modern-login-card">
+		<!-- Header Section -->
+		<div class="modern-card-header">
+			<div class="logo-section">
+				<img src="{{ asset('images/logo/Bansal_Lawyers.png') }}" alt="Bansal Lawyers" />
+			</div>
+			<h1 class="modern-card-title">Admin Portal</h1>
+			<p class="modern-card-subtitle">Secure access to your dashboard</p>
+		</div>
+		
+		<!-- Form Section -->
+		<div class="modern-card-body">
+			<!-- Flash Messages -->
+			<div class="modern-flash-messages">
+				@if(session('success'))
+					<div class="modern-alert success">
+						<i class="fas fa-check-circle"></i>
+						{{ session('success') }}
 					</div>
-					<div class="mt-5 text-muted text-center">
-						Don't have an account? <a href="{{URL::to('/register')}}">Create One</a>
+				@endif
+				
+				@if(session('error'))
+					<div class="modern-alert error">
+						<i class="fas fa-exclamation-circle"></i>
+						{{ session('error') }}
+					</div>
+				@endif
+				
+				@if(session('warning'))
+					<div class="modern-alert warning">
+						<i class="fas fa-exclamation-triangle"></i>
+						{{ session('warning') }}
+					</div>
+				@endif
+			</div>
+			
+			<!-- Login Form -->
+			<form action="{{ route('admin.login') }}" method="post" name="admin_login">
+				@csrf
+				
+				<!-- Email Field -->
+				<div class="modern-form-group">
+					<label for="email" class="modern-form-label">
+						<i class="fas fa-envelope"></i> Email Address
+					</label>
+					<input 
+						id="email" 
+						type="email" 
+						class="modern-form-input @error('email') error @enderror" 
+						name="email" 
+						placeholder="Enter your email address"
+						value="{{ (Cookie::get('email') != '' && !old('email')) ? Cookie::get('email') : old('email') }}" 
+						required 
+						autofocus
+						tabindex="1"
+					>
+					@error('email')
+						<div class="modern-error-message">
+							<i class="fas fa-exclamation-circle"></i>
+							{{ $message }}
+						</div>
+					@enderror
+				</div>
+				
+				<!-- Password Field -->
+				<div class="modern-form-group">
+					<label for="password" class="modern-form-label">
+						<i class="fas fa-lock"></i> Password
+					</label>
+					<input 
+						id="password" 
+						type="password" 
+						class="modern-form-input @error('password') error @enderror" 
+						name="password" 
+						placeholder="Enter your password"
+						value="{{ (Cookie::get('password') != '' && !old('password')) ? Cookie::get('password') : old('password') }}" 
+						required
+						tabindex="2"
+					>
+					@error('password')
+						<div class="modern-error-message">
+							<i class="fas fa-exclamation-circle"></i>
+							{{ $message }}
+						</div>
+					@enderror
+				</div>
+				
+				<!-- reCAPTCHA -->
+				<div class="modern-recaptcha">
+					<div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key') }}"></div>
+				</div>
+				
+				@error('g-recaptcha-response')
+					<div class="modern-error-message" style="justify-content: center; margin-top: 12px;">
+						<i class="fas fa-exclamation-circle"></i>
+						Captcha verification is required.
+					</div>
+				@enderror
+				
+				<!-- Remember Me Checkbox -->
+				<div class="modern-checkbox-group">
+					<div class="modern-checkbox">
+						<input 
+							type="checkbox" 
+							name="remember" 
+							id="remember-me" 
+							tabindex="3"
+							@if(Cookie::get('email') != '' && Cookie::get('password') != '') checked @endif
+						>
+						<label for="remember-me" class="modern-checkbox-label">
+							<span class="modern-checkbox-custom"></span>
+							Remember me for 30 days
+						</label>
 					</div>
 				</div>
-			</div>
+				
+				<!-- Submit Button -->
+				<button type="submit" class="modern-submit-btn" tabindex="4">
+					<i class="fas fa-sign-in-alt"></i>
+					Sign In to Dashboard
+				</button>
+			</form>
 		</div>
-	</section>
+	</div>
 	
+	<!-- Footer Link -->
+	<div class="modern-footer-link">
+		<p class="modern-footer-text">
+			<i class="fas fa-shield-alt"></i>
+			Secure Admin Access Only
+		</p>
+	</div>
+</div>
 @endsection
