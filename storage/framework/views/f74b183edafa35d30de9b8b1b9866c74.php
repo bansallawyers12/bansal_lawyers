@@ -1,9 +1,9 @@
-@extends('layouts.admin')
-@section('title', 'Blog Posts')
 
-@section('content')
+<?php $__env->startSection('title', 'CMS Pages'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
-/* Modern Blog Posts Design System */
+/* Modern CMS Pages Design System */
 :root {
     --primary-color: #1B4D89;
     --secondary-color: #2c5aa0;
@@ -227,7 +227,7 @@
     margin-bottom: 1rem;
 }
 
-.modern-stat-icon.posts {
+.modern-stat-icon.pages {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
@@ -297,7 +297,7 @@
     border-bottom: none;
 }
 
-.modern-blog-image {
+.modern-page-image {
     width: 60px;
     height: 60px;
     border-radius: var(--border-radius-sm);
@@ -306,18 +306,18 @@
     transition: var(--transition);
 }
 
-.modern-blog-image:hover {
+.modern-page-image:hover {
     transform: scale(1.05);
     box-shadow: var(--shadow);
 }
 
-.modern-blog-title {
+.modern-page-title {
     font-weight: 600;
     color: var(--text-dark);
     line-height: 1.4;
 }
 
-.modern-blog-slug {
+.modern-page-slug {
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     background: var(--bg-light);
     padding: 0.25rem 0.5rem;
@@ -326,14 +326,15 @@
     color: var(--text-light);
 }
 
-.modern-blog-category {
+.modern-page-id {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: var(--white);
-    padding: 0.25rem 0.75rem;
-    border-radius: var(--border-radius-sm);
+    border-radius: 50%;
     font-size: 0.75rem;
     font-weight: 600;
 }
@@ -413,28 +414,105 @@ input:checked + .modern-status-slider:before {
     margin-bottom: 2rem;
 }
 
-.modern-media-icon {
+.modern-pagination {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* Modern Pagination Styling */
+.modern-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.modern-pagination .pagination {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+}
+
+.modern-pagination .page-item {
+    display: inline-block;
+}
+
+.modern-pagination .page-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 60px;
-    height: 60px;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--border-color);
+    color: var(--text-dark);
     border-radius: var(--border-radius-sm);
-    font-size: 1.5rem;
-    color: var(--white);
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: var(--transition);
+    text-decoration: none;
+    background: var(--white);
     box-shadow: var(--shadow-sm);
 }
 
-.modern-media-icon.video {
-    background: linear-gradient(135deg, var(--danger-color), #dc2626);
+.modern-pagination .page-link:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(27, 77, 137, 0.3);
+    text-decoration: none;
 }
 
-.modern-media-icon.pdf {
-    background: linear-gradient(135deg, var(--warning-color), #d97706);
+.modern-pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-color: var(--primary-color);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(27, 77, 137, 0.3);
 }
 
-.modern-media-icon.image {
-    background: linear-gradient(135deg, var(--success-color), #059669);
+.modern-pagination .page-item.disabled .page-link {
+    background: var(--bg-light);
+    border-color: var(--border-color);
+    color: var(--text-light);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.modern-pagination .page-item.disabled .page-link:hover {
+    background: var(--bg-light);
+    border-color: var(--border-color);
+    color: var(--text-light);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Previous/Next button styling */
+.modern-pagination .page-link[rel="prev"],
+.modern-pagination .page-link[rel="next"] {
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+}
+
+/* Ellipsis styling */
+.modern-pagination .page-item .page-link[aria-disabled="true"] {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    cursor: default;
+    box-shadow: none;
+}
+
+.modern-pagination .page-item .page-link[aria-disabled="true"]:hover {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    transform: none;
+    box-shadow: none;
 }
 
 @media (max-width: 768px) {
@@ -480,6 +558,22 @@ input:checked + .modern-status-slider:before {
     .modern-search-form {
         max-width: none;
     }
+    
+    .modern-pagination .pagination {
+        gap: 0.25rem;
+    }
+    
+    .modern-pagination .page-link {
+        min-width: 2rem;
+        height: 2rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .modern-pagination .page-link[rel="prev"],
+    .modern-pagination .page-link[rel="next"] {
+        padding: 0.25rem 0.75rem;
+    }
 }
 
 /* Animation for loading states */
@@ -498,160 +592,143 @@ input:checked + .modern-status-slider:before {
 	<section class="section">
 		<div class="section-body">
 			<div class="server-error">
-				@include('Elements.flash-message')
+				<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			</div>
 			<div class="custom-error-msg">
 			</div>
 			
 			<div class="container-fluid">
-				<div class="row">
+			<div class="row">
 					<div class="col-12">
 						<div class="modern-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-blog"></i>
-									Blog Posts Management
+									<i class="fas fa-file-code"></i>
+									CMS Pages Management
 								</h4>
 								<div class="modern-header-actions">
-									<a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
+									<a href="<?php echo e(route('admin.cms_pages.create')); ?>" class="modern-btn modern-btn-primary">
 										<i class="fas fa-plus"></i>
-										Create New Post
+										Create New Page
 									</a>
-									<form action="{{route('admin.blog.index')}}" method="get" class="modern-search-form">
-										<input type="text" name="search_term" class="modern-search-input" value="{{ request('search_term') }}" placeholder="Search posts...">
+									<form action="<?php echo e(route('admin.cms_pages.index')); ?>" method="get" class="modern-search-form">
+										<input type="text" name="search_term" class="modern-search-input" value="<?php echo e(request('search_term')); ?>" placeholder="Search pages...">
 										<button type="submit" class="modern-search-btn">
 											<i class="fas fa-search"></i>
 										</button>
 									</form>
-								</div>
-							</div>
+						</div>
+                    </div> 
 							
 							<div class="modern-card-body">
 								<!-- Statistics Cards -->
 								<div class="modern-stats-grid">
 									<div class="modern-stat-card">
-										<div class="modern-stat-icon posts">
-											<i class="fas fa-blog"></i>
-										</div>
-										<div class="modern-stat-value">{{ count($lists) }}</div>
-										<div class="modern-stat-label">Total Posts</div>
-									</div>
+										<div class="modern-stat-icon pages">
+											<i class="fas fa-file-code"></i>
+                </div>
+										<div class="modern-stat-value"><?php echo e(count($lists)); ?></div>
+										<div class="modern-stat-label">Total Pages</div>
+                                </div> 
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon published">
 											<i class="fas fa-check-circle"></i>
-										</div>
-										<div class="modern-stat-value">{{ $lists->where('status', 1)->count() }}</div>
-										<div class="modern-stat-label">Published Posts</div>
-									</div>
+                            </div>
+										<div class="modern-stat-value"><?php echo e($lists->where('status', 1)->count()); ?></div>
+										<div class="modern-stat-label">Published Pages</div>
+                                            </div>
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon draft">
 											<i class="fas fa-pause-circle"></i>
-										</div>
-										<div class="modern-stat-value">{{ $lists->where('status', 0)->count() }}</div>
-										<div class="modern-stat-label">Draft Posts</div>
-									</div>
-								</div>
+                                        </div>
+										<div class="modern-stat-value"><?php echo e($lists->where('status', 0)->count()); ?></div>
+										<div class="modern-stat-label">Draft Pages</div>
+                                </div>
+                            </div>
 
 								<!-- Table -->
-								@if(count($lists) > 0)
+								<?php if(count($lists) > 0): ?>
 								<div class="modern-table-container">
 									<table class="modern-table">
-										<thead>
-											<tr>
+							  <thead>
+								<tr>
+												<th>ID</th>
 												<th>Featured Image</th>
-												<th>Title</th>
-												<th>Slug</th>
-												<th>Category</th>
-												<th>Status</th>
+												<th>Page Title</th>
+								  <th>Slug</th>
+                                  <th>Status</th>
 												<th>Actions</th>
-											</tr>
-										</thead>
+								</tr> 
+							  </thead>
 										<tbody>
-											@foreach ($lists as $list)
-											<tr id="id_{{$list->id}}">
+								<?php $__currentLoopData = $lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>	
+								<tr id="id_<?php echo e($list->id); ?>"> 
 												<td>
-													@php
-														$hasImage = isset($list->image) && $list->image != "";
-														if($hasImage) {
-															$extension = pathinfo($list->image, PATHINFO_EXTENSION);
-														}
-													@endphp
-													
-													@if($hasImage)
-														@if(strtolower($extension) == 'mp4')
-															<div class="modern-media-icon video">
-																<i class="fas fa-video"></i>
-															</div>
-														@elseif(strtolower($extension) == 'pdf')
-															<div class="modern-media-icon pdf">
-																<i class="fas fa-file-pdf"></i>
-															</div>
-														@else
-															<img src="{{ asset('images/blog/' . $list->image) }}" alt="{{ $list->title }}" class="modern-blog-image">
-														@endif
-													@else
-														<div class="modern-media-icon image">
-															<i class="fas fa-image"></i>
-														</div>
-													@endif
+													<span class="modern-page-id"><?php echo e(++$i); ?></span>
 												</td>
 												<td>
-													<div class="modern-blog-title">
-														{{ $list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->title, '50', '...') }}
+									<?php if(isset($list->image) && $list->image != "" && file_exists(public_path('img/cmspage/' . $list->image))): ?>
+														<img src="<?php echo e(asset('images/cmspage/' . $list->image)); ?>" alt="<?php echo e($list->title); ?>" class="modern-page-image">
+									<?php else: ?>
+														<img src="<?php echo e(asset('images/avatars/no_image.jpeg')); ?>" alt="No Image" class="modern-page-image">
+									<?php endif; ?>
+								  </td>
+												<td>
+													<div class="modern-page-title">
+														<?php echo e($list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->title, '50', '...')); ?>
+
 													</div>
 												</td>
 												<td>
-													<code class="modern-blog-slug">{{ $list->slug }}</code>
-												</td>
-												<td>
-													@if($list->categorydetail)
-														<span class="modern-blog-category">
-															<i class="fas fa-folder"></i>
-															{{ $list->categorydetail->name }}
-														</span>
-													@else
-														<span class="text-muted">No Category</span>
-													@endif
+													<code class="modern-page-slug"><?php echo e($list->slug); ?></code>
 												</td>
 												<td>
 													<label class="modern-status-toggle">
-														<input data-id="{{$list->id}}" data-status="{{$list->status}}" data-col="status" data-table="blogs" class="change-status" value="1" type="checkbox" name="status" {{ ($list->status == 1 ? 'checked' : '')}} data-bootstrap-switch>
+														<input data-id="<?php echo e($list->id); ?>" data-status="<?php echo e($list->status); ?>" data-col="status" data-table="cms_pages" class="change-status" value="1" type="checkbox" name="status" <?php echo e(($list->status == 1 ? 'checked' : '')); ?> data-bootstrap-switch>
 														<span class="modern-status-slider"></span>
 													</label>
 												</td>
 												<td>
 													<div class="modern-actions">
-														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{URL::to('/admin/blog/edit/'.base64_encode(convert_uuencode($list->id)))}}">
+														<a class="modern-btn modern-btn-success modern-btn-sm" href="<?php echo e(URL::to('/admin/cms_pages/edit/'.base64_encode(convert_uuencode($list->id)))); ?>">
 															<i class="fas fa-edit"></i>
 															Edit
 														</a>
-														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction({{$list->id}}, 'blogs')">
+														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction(<?php echo e($list->id); ?>, 'cms_pages')">
 															<i class="fas fa-trash"></i>
 															Delete
 														</a>
 													</div>
-												</td>
-											</tr>
-											@endforeach
+								  </td>
+								</tr>	
+							  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>	
 										</tbody>
 									</table>
 								</div>
-								@else
+								
+								<!-- Pagination -->
+								<?php if($lists->hasPages()): ?>
+								<div class="modern-pagination">
+							<?php echo $lists->appends(\Request::except('page'))->render(); ?>
+
+								</div>
+								<?php endif; ?>
+								<?php else: ?>
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
-										<i class="fas fa-blog"></i>
+										<i class="fas fa-file-code"></i>
 									</div>
-									<h3 class="modern-empty-title">No Blog Posts Found</h3>
-									<p class="modern-empty-description">Get started by creating your first blog post</p>
-									<a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
+									<h3 class="modern-empty-title">No CMS Pages Found</h3>
+									<p class="modern-empty-description">Get started by creating your first CMS page</p>
+									<a href="<?php echo e(route('admin.cms_pages.create')); ?>" class="modern-btn modern-btn-primary">
 										<i class="fas fa-plus"></i>
-										Create First Post
+										Create First Page
 									</a>
 								</div>
-								@endif
-							</div>
-						</div>
-					</div>
+								<?php endif; ?>
+							 </div>
+						  </div>
+					</div>	
 				</div>
 			</div>
 		</div>
@@ -688,4 +765,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/cms_page/index.blade.php ENDPATH**/ ?>

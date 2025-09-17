@@ -1,9 +1,9 @@
-@extends('layouts.admin')
-@section('title', 'Blog Posts')
 
-@section('content')
+<?php $__env->startSection('title', 'Recent Case Studies'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
-/* Modern Blog Posts Design System */
+/* Modern Recent Cases Design System */
 :root {
     --primary-color: #1B4D89;
     --secondary-color: #2c5aa0;
@@ -11,6 +11,8 @@
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
+    --case-color: #8b5cf6;
+    --case-secondary: #7c3aed;
     --text-dark: #1e293b;
     --text-light: #64748b;
     --bg-light: #f8fafc;
@@ -45,7 +47,7 @@
 }
 
 .modern-card-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: linear-gradient(135deg, var(--case-color) 0%, var(--case-secondary) 100%);
     padding: 1.5rem 2rem;
     border-bottom: none;
     position: relative;
@@ -227,8 +229,8 @@
     margin-bottom: 1rem;
 }
 
-.modern-stat-icon.posts {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+.modern-stat-icon.cases {
+    background: linear-gradient(135deg, var(--case-color), var(--case-secondary));
 }
 
 .modern-stat-icon.published {
@@ -297,7 +299,7 @@
     border-bottom: none;
 }
 
-.modern-blog-image {
+.modern-case-image {
     width: 60px;
     height: 60px;
     border-radius: var(--border-radius-sm);
@@ -306,36 +308,24 @@
     transition: var(--transition);
 }
 
-.modern-blog-image:hover {
+.modern-case-image:hover {
     transform: scale(1.05);
     box-shadow: var(--shadow);
 }
 
-.modern-blog-title {
+.modern-case-title {
     font-weight: 600;
     color: var(--text-dark);
     line-height: 1.4;
 }
 
-.modern-blog-slug {
+.modern-case-slug {
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     background: var(--bg-light);
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
     font-size: 0.75rem;
     color: var(--text-light);
-}
-
-.modern-blog-category {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: var(--white);
-    padding: 0.25rem 0.75rem;
-    border-radius: var(--border-radius-sm);
-    font-size: 0.75rem;
-    font-weight: 600;
 }
 
 .modern-status-toggle {
@@ -498,163 +488,153 @@ input:checked + .modern-status-slider:before {
 	<section class="section">
 		<div class="section-body">
 			<div class="server-error">
-				@include('Elements.flash-message')
+				<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			</div>
 			<div class="custom-error-msg">
 			</div>
 			
 			<div class="container-fluid">
-				<div class="row">
+			<div class="row">
 					<div class="col-12">
 						<div class="modern-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-blog"></i>
-									Blog Posts Management
+									<i class="fas fa-briefcase"></i>
+									Recent Case Studies Management
 								</h4>
 								<div class="modern-header-actions">
-									<a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
+									<a href="<?php echo e(route('admin.recent_case.create')); ?>" class="modern-btn modern-btn-primary">
 										<i class="fas fa-plus"></i>
-										Create New Post
+										Add New Case Study
 									</a>
-									<form action="{{route('admin.blog.index')}}" method="get" class="modern-search-form">
-										<input type="text" name="search_term" class="modern-search-input" value="{{ request('search_term') }}" placeholder="Search posts...">
+									<form action="<?php echo e(route('admin.recent_case.index')); ?>" method="get" class="modern-search-form">
+										<input type="text" name="search_term" class="modern-search-input" value="<?php echo e(request('search_term')); ?>" placeholder="Search cases...">
 										<button type="submit" class="modern-search-btn">
 											<i class="fas fa-search"></i>
 										</button>
 									</form>
-								</div>
-							</div>
-							
+                    </div>
+                </div>
+
 							<div class="modern-card-body">
 								<!-- Statistics Cards -->
 								<div class="modern-stats-grid">
 									<div class="modern-stat-card">
-										<div class="modern-stat-icon posts">
-											<i class="fas fa-blog"></i>
-										</div>
-										<div class="modern-stat-value">{{ count($lists) }}</div>
-										<div class="modern-stat-label">Total Posts</div>
-									</div>
+										<div class="modern-stat-icon cases">
+											<i class="fas fa-briefcase"></i>
+                                </div>
+										<div class="modern-stat-value"><?php echo e(count($lists)); ?></div>
+										<div class="modern-stat-label">Total Case Studies</div>
+                            </div>
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon published">
 											<i class="fas fa-check-circle"></i>
-										</div>
-										<div class="modern-stat-value">{{ $lists->where('status', 1)->count() }}</div>
-										<div class="modern-stat-label">Published Posts</div>
-									</div>
+                                            </div>
+										<div class="modern-stat-value"><?php echo e($lists->where('status', 1)->count()); ?></div>
+										<div class="modern-stat-label">Published Cases</div>
+                                        </div>
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon draft">
 											<i class="fas fa-pause-circle"></i>
-										</div>
-										<div class="modern-stat-value">{{ $lists->where('status', 0)->count() }}</div>
-										<div class="modern-stat-label">Draft Posts</div>
-									</div>
-								</div>
+                                </div>
+										<div class="modern-stat-value"><?php echo e($lists->where('status', 0)->count()); ?></div>
+										<div class="modern-stat-label">Draft Cases</div>
+                            </div>
+                        </div>
 
 								<!-- Table -->
-								@if(count($lists) > 0)
+								<?php if(count($lists) > 0): ?>
 								<div class="modern-table-container">
 									<table class="modern-table">
-										<thead>
-											<tr>
+                                                <thead>
+                                                    <tr>
 												<th>Featured Image</th>
-												<th>Title</th>
-												<th>Slug</th>
-												<th>Category</th>
-												<th>Status</th>
+												<th>Case Title</th>
+                                                        <th>Slug</th>
+                                                        <th>Status</th>
 												<th>Actions</th>
-											</tr>
-										</thead>
+                                                    </tr>
+                                                </thead>
 										<tbody>
-											@foreach ($lists as $list)
-											<tr id="id_{{$list->id}}">
+                                                    <?php $__currentLoopData = $lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <tr id="id_<?php echo e($list->id); ?>">
 												<td>
-													@php
+													<?php
 														$hasImage = isset($list->image) && $list->image != "";
 														if($hasImage) {
 															$extension = pathinfo($list->image, PATHINFO_EXTENSION);
 														}
-													@endphp
+													?>
 													
-													@if($hasImage)
-														@if(strtolower($extension) == 'mp4')
+													<?php if($hasImage): ?>
+														<?php if(strtolower($extension) == 'mp4'): ?>
 															<div class="modern-media-icon video">
 																<i class="fas fa-video"></i>
 															</div>
-														@elseif(strtolower($extension) == 'pdf')
+														<?php elseif(strtolower($extension) == 'pdf'): ?>
 															<div class="modern-media-icon pdf">
 																<i class="fas fa-file-pdf"></i>
 															</div>
-														@else
-															<img src="{{ asset('images/blog/' . $list->image) }}" alt="{{ $list->title }}" class="modern-blog-image">
-														@endif
-													@else
+														<?php else: ?>
+															<img src="<?php echo e(asset('images/blog/' . $list->image)); ?>" alt="<?php echo e($list->title); ?>" class="modern-case-image">
+														<?php endif; ?>
+													<?php else: ?>
 														<div class="modern-media-icon image">
 															<i class="fas fa-image"></i>
 														</div>
-													@endif
+													<?php endif; ?>
 												</td>
 												<td>
-													<div class="modern-blog-title">
-														{{ $list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->title, '50', '...') }}
+													<div class="modern-case-title">
+														<?php echo e($list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->title, '50', '...')); ?>
+
 													</div>
 												</td>
 												<td>
-													<code class="modern-blog-slug">{{ $list->slug }}</code>
-												</td>
-												<td>
-													@if($list->categorydetail)
-														<span class="modern-blog-category">
-															<i class="fas fa-folder"></i>
-															{{ $list->categorydetail->name }}
-														</span>
-													@else
-														<span class="text-muted">No Category</span>
-													@endif
+													<code class="modern-case-slug"><?php echo e($list->slug); ?></code>
 												</td>
 												<td>
 													<label class="modern-status-toggle">
-														<input data-id="{{$list->id}}" data-status="{{$list->status}}" data-col="status" data-table="blogs" class="change-status" value="1" type="checkbox" name="status" {{ ($list->status == 1 ? 'checked' : '')}} data-bootstrap-switch>
+														<input data-id="<?php echo e($list->id); ?>" data-status="<?php echo e(!empty($list->status) ? $list->status : 0); ?>" data-col="status" data-table="recent_cases" class="change-status" value="1" type="checkbox" name="status" <?php echo e(($list->status == 1 ? 'checked' : '')); ?> data-bootstrap-switch>
 														<span class="modern-status-slider"></span>
 													</label>
 												</td>
 												<td>
 													<div class="modern-actions">
-														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{URL::to('/admin/blog/edit/'.base64_encode(convert_uuencode($list->id)))}}">
+														<a class="modern-btn modern-btn-success modern-btn-sm" href="<?php echo e(URL::to('/admin/recent_case/edit/'.base64_encode(convert_uuencode($list->id)))); ?>">
 															<i class="fas fa-edit"></i>
 															Edit
 														</a>
-														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction({{$list->id}}, 'blogs')">
+														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction(<?php echo e($list->id); ?>, 'recent_cases')">
 															<i class="fas fa-trash"></i>
 															Delete
 														</a>
 													</div>
-												</td>
-											</tr>
-											@endforeach
-										</tbody>
-									</table>
-								</div>
-								@else
+                                                        </td>
+								                    </tr>
+							                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+								<?php else: ?>
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
-										<i class="fas fa-blog"></i>
-									</div>
-									<h3 class="modern-empty-title">No Blog Posts Found</h3>
-									<p class="modern-empty-description">Get started by creating your first blog post</p>
-									<a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
+										<i class="fas fa-briefcase"></i>
+                                    </div>
+									<h3 class="modern-empty-title">No Case Studies Found</h3>
+									<p class="modern-empty-description">Get started by creating your first case study</p>
+									<a href="<?php echo e(route('admin.recent_case.create')); ?>" class="modern-btn modern-btn-primary">
 										<i class="fas fa-plus"></i>
-										Create First Post
+										Create First Case Study
 									</a>
-								</div>
-								@endif
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+						        </div>
+								<?php endif; ?>
+					        </div>
+				        </div>
+			        </div>
+		        </div>
+            </div>
+        </div>
 	</section>
 </div>
 
@@ -688,4 +668,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/recent_case/index.blade.php ENDPATH**/ ?>

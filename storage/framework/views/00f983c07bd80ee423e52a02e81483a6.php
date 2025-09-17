@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Edit Booking Block')
 
-@section('content')
+<?php $__env->startSection('title', 'Edit Booking Block'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
 /* Modern Booking Block Edit Design System */
 :root {
@@ -515,7 +515,7 @@
 <div class="main-content modern-page-container">
     <section class="section">
         <div class="section-body">
-            <div class="server-error">@include('Elements.flash-message')</div>
+            <div class="server-error"><?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?></div>
             
             <div class="container-fluid">
                 <div class="row justify-content-center">
@@ -529,9 +529,10 @@
                                 <div class="modern-header-actions">
                                     <div class="modern-info-badge">
                                         <i class="fas fa-info-circle"></i>
-                                        Configuration ID: {{ $fetchedData->id }}
+                                        Configuration ID: <?php echo e($fetchedData->id); ?>
+
                                     </div>
-                                    <a href="{{route('admin.feature.bookingblocks.index')}}" class="modern-btn modern-btn-back">
+                                    <a href="<?php echo e(route('admin.feature.bookingblocks.index')); ?>" class="modern-btn modern-btn-back">
                                         <i class="fas fa-arrow-left"></i>
                                         Back to Blocks
                                     </a>
@@ -551,22 +552,22 @@
                                 </div>
 
                                 <!-- Statistics Summary -->
-                                @php 
+                                <?php 
                                     $existingCount = isset($disableSlotArr) ? count($disableSlotArr) : 0;
-                                @endphp
+                                ?>
                                 <div class="modern-stats-summary">
                                     <div class="modern-stats-icon">
                                         <i class="fas fa-chart-bar"></i>
                                     </div>
                                     <div class="modern-stats-info">
                                         <h4>Current Block Configuration</h4>
-                                        <p>{{ $existingCount }} existing block{{ $existingCount !== 1 ? 's' : '' }} configured</p>
+                                        <p><?php echo e($existingCount); ?> existing block<?php echo e($existingCount !== 1 ? 's' : ''); ?> configured</p>
                                     </div>
                                 </div>
 
-                                <form method="post" action="{{ route('admin.feature.bookingblocks.edit') }}" id="booking-edit-form">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $fetchedData->id }}">
+                                <form method="post" action="<?php echo e(route('admin.feature.bookingblocks.edit')); ?>" id="booking-edit-form">
+                                    <?php echo csrf_field(); ?>
+                                    <input type="hidden" name="id" value="<?php echo e($fetchedData->id); ?>">
 
                                     <!-- Blocks Container -->
                                     <div class="modern-form-section">
@@ -576,9 +577,9 @@
                                         </h3>
                                         
                                         <div class="modern-block-container" id="disable_dates_wrapper">
-                                            @if(isset($disableSlotArr) && $existingCount > 0)
-                                                @foreach($disableSlotArr as $i => $slot)
-                                                    @php
+                                            <?php if(isset($disableSlotArr) && $existingCount > 0): ?>
+                                                <?php $__currentLoopData = $disableSlotArr; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $slot): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <?php
                                                         $displayDate = $slot->disabledates ? date('d/m/Y', strtotime($slot->disabledates)) : '';
                                                         $start=''; $end='';
                                                         if(!empty($slot->slots)){
@@ -586,18 +587,18 @@
                                                             $start = $parts[0] ?? '';
                                                             $end = $parts[1] ?? '';
                                                         }
-                                                    @endphp
+                                                    ?>
                                                     <div class="modern-block-item disable_item">
                                                         <div class="modern-block-header">
                                                             <div class="modern-block-title">
-                                                                <span class="modern-block-number">{{ $i + 1 }}</span>
+                                                                <span class="modern-block-number"><?php echo e($i + 1); ?></span>
                                                                 Block Configuration
                                                             </div>
                                                             <div class="modern-time-toggle">
                                                                 <span class="modern-toggle-label">Full Day:</span>
-                                                                <select name="full_day[{{$i}}]" class="modern-form-select full-day" style="width: auto; padding: 0.25rem 0.5rem; font-size: 0.75rem;">
-                                                                    <option value="0" @if($slot->block_all!=1) selected @endif>No</option>
-                                                                    <option value="1" @if($slot->block_all==1) selected @endif>Yes</option>
+                                                                <select name="full_day[<?php echo e($i); ?>]" class="modern-form-select full-day" style="width: auto; padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                                                                    <option value="0" <?php if($slot->block_all!=1): ?> selected <?php endif; ?>>No</option>
+                                                                    <option value="1" <?php if($slot->block_all==1): ?> selected <?php endif; ?>>Yes</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -605,7 +606,7 @@
                                                         <div class="modern-form-row">
                                                             <div class="modern-form-group">
                                                                 <label class="modern-form-label">Date</label>
-                                                                <input type="text" class="modern-form-input" name="date[{{$i}}]" value="{{ $displayDate }}" placeholder="DD/MM/YYYY">
+                                                                <input type="text" class="modern-form-input" name="date[<?php echo e($i); ?>]" value="<?php echo e($displayDate); ?>" placeholder="DD/MM/YYYY">
                                                                 <div class="modern-help-text">
                                                                     <i class="fas fa-calendar-alt"></i>
                                                                     Enter date in DD/MM/YYYY format
@@ -613,7 +614,7 @@
                                                             </div>
                                                             <div class="modern-form-group time-range">
                                                                 <label class="modern-form-label">Start Time</label>
-                                                                <input type="time" class="modern-form-input" name="start_time[{{$i}}]" value="{{ $start }}" @if($slot->block_all==1) disabled @endif>
+                                                                <input type="time" class="modern-form-input" name="start_time[<?php echo e($i); ?>]" value="<?php echo e($start); ?>" <?php if($slot->block_all==1): ?> disabled <?php endif; ?>>
                                                                 <div class="modern-help-text">
                                                                     <i class="fas fa-clock"></i>
                                                                     Block start time
@@ -621,7 +622,7 @@
                                                             </div>
                                                             <div class="modern-form-group time-range">
                                                                 <label class="modern-form-label">End Time</label>
-                                                                <input type="time" class="modern-form-input" name="end_time[{{$i}}]" value="{{ $end }}" @if($slot->block_all==1) disabled @endif>
+                                                                <input type="time" class="modern-form-input" name="end_time[<?php echo e($i); ?>]" value="<?php echo e($end); ?>" <?php if($slot->block_all==1): ?> disabled <?php endif; ?>>
                                                                 <div class="modern-help-text">
                                                                     <i class="fas fa-clock"></i>
                                                                     Block end time
@@ -629,8 +630,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                @endforeach
-                                            @else
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php else: ?>
                                                 <div class="modern-block-item disable_item">
                                                     <div class="modern-block-header">
                                                         <div class="modern-block-title">
@@ -673,7 +674,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @endif
+                                            <?php endif; ?>
                                         </div>
                                     </div>
 
@@ -704,7 +705,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    let idx = {{ isset($disableSlotArr) ? count($disableSlotArr) : 1 }};
+    let idx = <?php echo e(isset($disableSlotArr) ? count($disableSlotArr) : 1); ?>;
     
     // Add more blocks functionality
     document.getElementById('add_more').addEventListener('click', function() {
@@ -796,4 +797,5 @@ document.addEventListener('DOMContentLoaded', function() {
     updateBlockNumbers();
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/feature/bookingblocks/edit.blade.php ENDPATH**/ ?>

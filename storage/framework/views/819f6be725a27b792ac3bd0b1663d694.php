@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Contact Management')
 
-@section('content')
+<?php $__env->startSection('title', 'Contact Management'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
 /* Modern Contact Management Design System */
 :root {
@@ -782,7 +782,7 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>Total Contacts</h5>
-												<h3>{{ $stats['total'] }}</h3>
+												<h3><?php echo e($stats['total']); ?></h3>
 											</div>
 											<div class="modern-stat-icon total">
 												<i class="fas fa-envelope"></i>
@@ -793,7 +793,7 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>Today</h5>
-												<h3>{{ $stats['today'] }}</h3>
+												<h3><?php echo e($stats['today']); ?></h3>
 											</div>
 											<div class="modern-stat-icon today">
 												<i class="fas fa-calendar-day"></i>
@@ -804,7 +804,7 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>This Week</h5>
-												<h3>{{ $stats['this_week'] }}</h3>
+												<h3><?php echo e($stats['this_week']); ?></h3>
 											</div>
 											<div class="modern-stat-icon week">
 												<i class="fas fa-calendar-week"></i>
@@ -815,7 +815,7 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>This Month</h5>
-												<h3>{{ $stats['this_month'] }}</h3>
+												<h3><?php echo e($stats['this_month']); ?></h3>
 											</div>
 											<div class="modern-stat-icon month">
 												<i class="fas fa-calendar-alt"></i>
@@ -831,31 +831,31 @@
 										Filter & Search
 									</div>
 									<div class="modern-filter-body">
-										<form method="GET" action="{{ route('admin.contacts.index') }}" id="filterForm">
+										<form method="GET" action="<?php echo e(route('admin.contacts.index')); ?>" id="filterForm">
 											<div class="modern-filter-grid">
 												<div class="modern-form-group">
 													<label for="search" class="modern-form-label">Search</label>
 													<input type="text" class="modern-form-input" id="search" name="search" 
-														   value="{{ request('search') }}" placeholder="Name, email, subject...">
+														   value="<?php echo e(request('search')); ?>" placeholder="Name, email, subject...">
 												</div>
 												<div class="modern-form-group">
 													<label for="date_from" class="modern-form-label">From Date</label>
 													<input type="date" class="modern-form-input" id="date_from" name="date_from" 
-														   value="{{ request('date_from') }}">
+														   value="<?php echo e(request('date_from')); ?>">
 												</div>
 												<div class="modern-form-group">
 													<label for="date_to" class="modern-form-label">To Date</label>
 													<input type="date" class="modern-form-input" id="date_to" name="date_to" 
-														   value="{{ request('date_to') }}">
+														   value="<?php echo e(request('date_to')); ?>">
 												</div>
 												<div class="modern-form-group">
 													<label for="status" class="modern-form-label">Status</label>
 													<select class="modern-select" id="status" name="status">
 														<option value="">All Status</option>
-														<option value="unread" {{ request('status') == 'unread' ? 'selected' : '' }}>Unread</option>
-														<option value="read" {{ request('status') == 'read' ? 'selected' : '' }}>Read</option>
-														<option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>Resolved</option>
-														<option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archived</option>
+														<option value="unread" <?php echo e(request('status') == 'unread' ? 'selected' : ''); ?>>Unread</option>
+														<option value="read" <?php echo e(request('status') == 'read' ? 'selected' : ''); ?>>Read</option>
+														<option value="resolved" <?php echo e(request('status') == 'resolved' ? 'selected' : ''); ?>>Resolved</option>
+														<option value="archived" <?php echo e(request('status') == 'archived' ? 'selected' : ''); ?>>Archived</option>
 													</select>
 												</div>
 												<div class="modern-form-group">
@@ -864,7 +864,7 @@
 															<i class="fas fa-search"></i>
 															Filter
 														</button>
-														<a href="{{ route('admin.contacts.index') }}" class="modern-btn modern-btn-secondary">
+														<a href="<?php echo e(route('admin.contacts.index')); ?>" class="modern-btn modern-btn-secondary">
 															<i class="fas fa-times"></i>
 															Clear
 														</a>
@@ -876,7 +876,7 @@
 								</div>
 
 								<!-- Table -->
-								@if(count($contacts) > 0)
+								<?php if(count($contacts) > 0): ?>
 								<div class="modern-table-container">
 									<table class="modern-table">
 										<thead>
@@ -893,93 +893,96 @@
 											</tr>
 										</thead>
 										<tbody>
-											@forelse($contacts as $contact)
-											<tr class="{{ $contact->status == 'unread' ? 'unread' : '' }}" id="contact-{{ $contact->id }}">
+											<?php $__empty_1 = true; $__currentLoopData = $contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+											<tr class="<?php echo e($contact->status == 'unread' ? 'unread' : ''); ?>" id="contact-<?php echo e($contact->id); ?>">
 												<td>
-													<input type="checkbox" class="modern-checkbox contact-checkbox" value="{{ $contact->id }}">
+													<input type="checkbox" class="modern-checkbox contact-checkbox" value="<?php echo e($contact->id); ?>">
 												</td>
 												<td>
-													<div class="font-weight-bold">{{ $contact->name }}</div>
+													<div class="font-weight-bold"><?php echo e($contact->name); ?></div>
 												</td>
 												<td>
-													<a href="mailto:{{ $contact->contact_email }}" class="text-decoration-none">
-														{{ $contact->contact_email }}
+													<a href="mailto:<?php echo e($contact->contact_email); ?>" class="text-decoration-none">
+														<?php echo e($contact->contact_email); ?>
+
 													</a>
 												</td>
 												<td>
 													<div class="font-weight-500">
-														{{ \Illuminate\Support\Str::limit($contact->subject, 50) }}
+														<?php echo e(\Illuminate\Support\Str::limit($contact->subject, 50)); ?>
+
 													</div>
 												</td>
 												<td>
-													@if($contact->status === 'forwarded')
+													<?php if($contact->status === 'forwarded'): ?>
 														<span class="modern-status-badge forwarded">
 															<i class="fas fa-paper-plane"></i>
 															Forwarded
 														</span>
-														@if($contact->forwarded_at)
-															<br><small class="text-muted">{{ $contact->forwarded_at->format('d/m/Y H:i') }}</small>
-														@endif
-													@else
-														<span class="modern-status-badge {{ $contact->status ?? 'unread' }}">
-															@if(($contact->status ?? 'unread') == 'unread')
+														<?php if($contact->forwarded_at): ?>
+															<br><small class="text-muted"><?php echo e($contact->forwarded_at->format('d/m/Y H:i')); ?></small>
+														<?php endif; ?>
+													<?php else: ?>
+														<span class="modern-status-badge <?php echo e($contact->status ?? 'unread'); ?>">
+															<?php if(($contact->status ?? 'unread') == 'unread'): ?>
 																<i class="fas fa-exclamation-circle"></i>
-															@elseif($contact->status == 'read')
+															<?php elseif($contact->status == 'read'): ?>
 																<i class="fas fa-eye"></i>
-															@elseif($contact->status == 'resolved')
+															<?php elseif($contact->status == 'resolved'): ?>
 																<i class="fas fa-check-circle"></i>
-															@elseif($contact->status == 'archived')
+															<?php elseif($contact->status == 'archived'): ?>
 																<i class="fas fa-archive"></i>
-															@endif
-															{{ ucfirst($contact->status ?? 'unread') }}
+															<?php endif; ?>
+															<?php echo e(ucfirst($contact->status ?? 'unread')); ?>
+
 														</span>
-													@endif
+													<?php endif; ?>
 												</td>
 												<td>
-													<div class="font-weight-500">{{ $contact->created_at->format('d/m/Y H:i') }}</div>
-													<small class="text-muted">{{ $contact->created_at->diffForHumans() }}</small>
+													<div class="font-weight-500"><?php echo e($contact->created_at->format('d/m/Y H:i')); ?></div>
+													<small class="text-muted"><?php echo e($contact->created_at->diffForHumans()); ?></small>
 												</td>
 												<td>
 													<div class="modern-actions">
-														<a href="{{ route('admin.contacts.show', $contact->id) }}" 
+														<a href="<?php echo e(route('admin.contacts.show', $contact->id)); ?>" 
 														   class="modern-btn modern-btn-info modern-btn-sm" title="View Details">
 															<i class="fas fa-eye"></i>
 														</a>
-														@if($contact->status === 'forwarded')
+														<?php if($contact->status === 'forwarded'): ?>
 															<button type="button" class="modern-btn modern-btn-secondary modern-btn-sm" disabled title="Already Forwarded">
 																<i class="fas fa-check"></i>
 															</button>
-														@else
+														<?php else: ?>
 															<button type="button" class="modern-btn modern-btn-primary modern-btn-sm" 
-																	onclick="sendToBansalEmail({{ $contact->id }})" title="Send to Bansal Email">
+																	onclick="sendToBansalEmail(<?php echo e($contact->id); ?>)" title="Send to Bansal Email">
 																<i class="fas fa-paper-plane"></i>
 															</button>
-														@endif
+														<?php endif; ?>
 														<div class="modern-dropdown">
 															<button type="button" class="modern-btn modern-btn-warning modern-btn-sm modern-dropdown-toggle" 
-																	onclick="toggleDropdown({{ $contact->id }})" title="Change Status">
+																	onclick="toggleDropdown(<?php echo e($contact->id); ?>)" title="Change Status">
 																<i class="fas fa-edit"></i>
 															</button>
-															<div class="modern-dropdown-menu" id="dropdown-{{ $contact->id }}">
-																<a class="modern-dropdown-item" href="#" onclick="updateStatus({{ $contact->id }}, 'read')">
+															<div class="modern-dropdown-menu" id="dropdown-<?php echo e($contact->id); ?>">
+																<a class="modern-dropdown-item" href="#" onclick="updateStatus(<?php echo e($contact->id); ?>, 'read')">
 																	<i class="fas fa-eye"></i> Mark as Read
 																</a>
-																<a class="modern-dropdown-item" href="#" onclick="updateStatus({{ $contact->id }}, 'resolved')">
+																<a class="modern-dropdown-item" href="#" onclick="updateStatus(<?php echo e($contact->id); ?>, 'resolved')">
 																	<i class="fas fa-check-circle"></i> Mark as Resolved
 																</a>
-																<a class="modern-dropdown-item" href="#" onclick="updateStatus({{ $contact->id }}, 'archived')">
+																<a class="modern-dropdown-item" href="#" onclick="updateStatus(<?php echo e($contact->id); ?>, 'archived')">
 																	<i class="fas fa-archive"></i> Archive
 																</a>
 															</div>
 														</div>
 														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" 
-																onclick="deleteContact({{ $contact->id }})" title="Delete">
+																onclick="deleteContact(<?php echo e($contact->id); ?>)" title="Delete">
 															<i class="fas fa-trash"></i>
 														</button>
 													</div>
 												</td>
 											</tr>
-											@empty
+											<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
 											<tr>
 												<td colspan="7" class="text-center py-4">
 													<div class="modern-empty-state">
@@ -991,18 +994,19 @@
 													</div>
 												</td>
 											</tr>
-											@endforelse
+											<?php endif; ?>
 										</tbody>
 									</table>
 								</div>
 								
 								<!-- Pagination -->
-								@if($contacts->hasPages())
+								<?php if($contacts->hasPages()): ?>
 								<div class="modern-pagination">
-									{{ $contacts->links() }}
+									<?php echo e($contacts->links()); ?>
+
 								</div>
-								@endif
-								@endif
+								<?php endif; ?>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
@@ -1263,4 +1267,5 @@ function bulkSendToBansalEmail() {
     }
 }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/admin/contacts/index.blade.php ENDPATH**/ ?>

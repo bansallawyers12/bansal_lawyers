@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Booking Blocks')
 
-@section('content')
+<?php $__env->startSection('title', 'Booking Blocks'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
 /* Modern Booking Blocks Design System */
 :root {
@@ -518,7 +518,7 @@
 	<section class="section">
 		<div class="section-body">
 			<div class="server-error">
-				@include('Elements.flash-message')
+				<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			</div>
 			<div class="custom-error-msg">
 			</div>
@@ -533,7 +533,7 @@
 									Booking Blocks Management
 								</h4>
 								<div class="modern-header-actions">
-									<a href="{{ route('admin.feature.bookingblocks.create') }}" class="modern-btn modern-btn-primary">
+									<a href="<?php echo e(route('admin.feature.bookingblocks.create')); ?>" class="modern-btn modern-btn-primary">
 										<i class="fas fa-plus"></i>
 										Create Booking Block
 									</a>
@@ -547,7 +547,7 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>Total Configurations</h5>
-												<h3>{{ $totalData }}</h3>
+												<h3><?php echo e($totalData); ?></h3>
 											</div>
 											<div class="modern-stat-icon total">
 												<i class="fas fa-cog"></i>
@@ -558,7 +558,7 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>Active Blocks</h5>
-												<h3>{{ $lists->sum(function($item) { return count($item->disabledSlots); }) }}</h3>
+												<h3><?php echo e($lists->sum(function($item) { return count($item->disabledSlots); })); ?></h3>
 											</div>
 											<div class="modern-stat-icon blocked">
 												<i class="fas fa-calendar-times"></i>
@@ -568,7 +568,7 @@
 								</div>
 
 								<!-- Table -->
-								@if($totalData !== 0)
+								<?php if($totalData !== 0): ?>
 								<div class="modern-table-container">
 									<table class="modern-table">
 										<thead>
@@ -579,8 +579,8 @@
 											</tr>
 										</thead>
 										<tbody>
-											@foreach ($lists as $list)
-											<tr id="id_{{$list->id}}">
+											<?php $__currentLoopData = $lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+											<tr id="id_<?php echo e($list->id); ?>">
 												<td>
 													<span class="modern-person-badge">
 														<i class="fas fa-user"></i>
@@ -588,76 +588,79 @@
 													</span>
 												</td>
 												<td>
-													@if(isset($list->disabledSlots) && !empty($list->disabledSlots) && count($list->disabledSlots) > 0)
+													<?php if(isset($list->disabledSlots) && !empty($list->disabledSlots) && count($list->disabledSlots) > 0): ?>
 														<ul class="modern-block-list">
-															@foreach($list->disabledSlots as $slotVal)
+															<?php $__currentLoopData = $list->disabledSlots; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $slotVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 															<li class="modern-block-item">
 																<div class="modern-block-icon">
-																	@if(isset($slotVal->block_all) && $slotVal->block_all == 1)
+																	<?php if(isset($slotVal->block_all) && $slotVal->block_all == 1): ?>
 																		<i class="fas fa-ban"></i>
-																	@else
+																	<?php else: ?>
 																		<i class="fas fa-clock"></i>
-																	@endif
+																	<?php endif; ?>
 																</div>
 																<div class="modern-block-info">
 																	<div class="modern-block-date">
-																		{{ date("d/m/Y", strtotime($slotVal->disabledates)) }}
+																		<?php echo e(date("d/m/Y", strtotime($slotVal->disabledates))); ?>
+
 																	</div>
 																	<div class="modern-block-time">
-																		@if(isset($slotVal->block_all) && $slotVal->block_all == 1)
+																		<?php if(isset($slotVal->block_all) && $slotVal->block_all == 1): ?>
 																			Full Day Blocked
-																		@else
-																			{{ $slotVal->slots }}
-																		@endif
+																		<?php else: ?>
+																			<?php echo e($slotVal->slots); ?>
+
+																		<?php endif; ?>
 																	</div>
 																</div>
 															</li>
-															@endforeach
+															<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 														</ul>
-													@else
+													<?php else: ?>
 														<div class="text-muted">
 															<i class="fas fa-info-circle"></i>
 															No blocked dates configured
 														</div>
-													@endif
+													<?php endif; ?>
 												</td>
 												<td>
 													<div class="modern-actions">
-														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{ route('admin.feature.bookingblocks.edit', $list->id) }}">
+														<a class="modern-btn modern-btn-success modern-btn-sm" href="<?php echo e(route('admin.feature.bookingblocks.edit', $list->id)); ?>">
 															<i class="fas fa-edit"></i>
 															Edit
 														</a>
-														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" onClick="deleteSlotAction({{$list->id}}, 'book_service_disable_slots')">
+														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" onClick="deleteSlotAction(<?php echo e($list->id); ?>, 'book_service_disable_slots')">
 															<i class="fas fa-trash"></i>
 															Delete
 														</button>
 													</div>
 												</td>
 											</tr>
-											@endforeach
+											<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 										</tbody>
 									</table>
 								</div>
 								
 								<!-- Pagination -->
-								@if($lists->hasPages())
+								<?php if($lists->hasPages()): ?>
 								<div class="modern-pagination">
-									{{ $lists->links() }}
+									<?php echo e($lists->links()); ?>
+
 								</div>
-								@endif
-								@else
+								<?php endif; ?>
+								<?php else: ?>
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
 										<i class="fas fa-calendar-times"></i>
 									</div>
 									<h3 class="modern-empty-title">No Booking Blocks Found</h3>
 									<p class="modern-empty-description">Create your first booking block to manage slot availability</p>
-									<a href="{{ route('admin.feature.bookingblocks.create') }}" class="modern-btn modern-btn-primary">
+									<a href="<?php echo e(route('admin.feature.bookingblocks.create')); ?>" class="modern-btn modern-btn-primary">
 										<i class="fas fa-plus"></i>
 										Create First Block
 									</a>
 								</div>
-								@endif
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
@@ -723,4 +726,5 @@ function deleteSlotAction( id, table ) {
     }
 }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/feature/bookingblocks/index.blade.php ENDPATH**/ ?>

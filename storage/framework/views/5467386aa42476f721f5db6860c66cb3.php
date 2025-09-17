@@ -1,9 +1,9 @@
-@extends('layouts.admin')
-@section('title', 'Blog Posts')
 
-@section('content')
+<?php $__env->startSection('title', 'Blog Categories'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
-/* Modern Blog Posts Design System */
+/* Modern Blog Categories Design System */
 :root {
     --primary-color: #1B4D89;
     --secondary-color: #2c5aa0;
@@ -83,12 +83,7 @@
 .modern-header-actions {
     position: relative;
     z-index: 2;
-    margin-top: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
+    margin-top: 1rem;
 }
 
 .modern-btn {
@@ -147,49 +142,6 @@
     font-size: 0.8rem;
 }
 
-.modern-search-form {
-    display: flex;
-    gap: 0.5rem;
-    align-items: stretch;
-    max-width: 300px;
-}
-
-.modern-search-input {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: var(--border-radius-sm);
-    background: rgba(255, 255, 255, 0.15);
-    color: var(--white);
-    font-size: 0.875rem;
-    backdrop-filter: blur(10px);
-}
-
-.modern-search-input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.modern-search-input:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
-.modern-search-btn {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: var(--white);
-    padding: 0.75rem 1rem;
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.modern-search-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
 .modern-card-body {
     padding: 2rem;
 }
@@ -227,15 +179,15 @@
     margin-bottom: 1rem;
 }
 
-.modern-stat-icon.posts {
+.modern-stat-icon.categories {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
-.modern-stat-icon.published {
+.modern-stat-icon.active {
     background: linear-gradient(135deg, var(--success-color), #059669);
 }
 
-.modern-stat-icon.draft {
+.modern-stat-icon.inactive {
     background: linear-gradient(135deg, var(--warning-color), #d97706);
 }
 
@@ -297,27 +249,12 @@
     border-bottom: none;
 }
 
-.modern-blog-image {
-    width: 60px;
-    height: 60px;
-    border-radius: var(--border-radius-sm);
-    object-fit: cover;
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition);
-}
-
-.modern-blog-image:hover {
-    transform: scale(1.05);
-    box-shadow: var(--shadow);
-}
-
-.modern-blog-title {
+.modern-category-name {
     font-weight: 600;
     color: var(--text-dark);
-    line-height: 1.4;
 }
 
-.modern-blog-slug {
+.modern-category-slug {
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     background: var(--bg-light);
     padding: 0.25rem 0.5rem;
@@ -326,16 +263,12 @@
     color: var(--text-light);
 }
 
-.modern-blog-category {
+.modern-parent-category {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: var(--white);
-    padding: 0.25rem 0.75rem;
-    border-radius: var(--border-radius-sm);
-    font-size: 0.75rem;
-    font-weight: 600;
+    color: var(--text-light);
+    font-size: 0.8rem;
 }
 
 .modern-status-toggle {
@@ -413,30 +346,6 @@ input:checked + .modern-status-slider:before {
     margin-bottom: 2rem;
 }
 
-.modern-media-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    border-radius: var(--border-radius-sm);
-    font-size: 1.5rem;
-    color: var(--white);
-    box-shadow: var(--shadow-sm);
-}
-
-.modern-media-icon.video {
-    background: linear-gradient(135deg, var(--danger-color), #dc2626);
-}
-
-.modern-media-icon.pdf {
-    background: linear-gradient(135deg, var(--warning-color), #d97706);
-}
-
-.modern-media-icon.image {
-    background: linear-gradient(135deg, var(--success-color), #059669);
-}
-
 @media (max-width: 768px) {
     .modern-page-container {
         padding: 1rem 0;
@@ -471,15 +380,6 @@ input:checked + .modern-status-slider:before {
     .modern-btn {
         justify-content: center;
     }
-    
-    .modern-header-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .modern-search-form {
-        max-width: none;
-    }
 }
 
 /* Animation for loading states */
@@ -498,7 +398,7 @@ input:checked + .modern-status-slider:before {
 	<section class="section">
 		<div class="section-body">
 			<div class="server-error">
-				@include('Elements.flash-message')
+				<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			</div>
 			<div class="custom-error-msg">
 			</div>
@@ -509,20 +409,14 @@ input:checked + .modern-status-slider:before {
 						<div class="modern-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-blog"></i>
-									Blog Posts Management
+									<i class="fas fa-folder-open"></i>
+									Blog Categories Management
 								</h4>
 								<div class="modern-header-actions">
-									<a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
+									<a href="<?php echo e(route('admin.blogcategory.create')); ?>" class="modern-btn modern-btn-primary">
 										<i class="fas fa-plus"></i>
-										Create New Post
+										Create New Category
 									</a>
-									<form action="{{route('admin.blog.index')}}" method="get" class="modern-search-form">
-										<input type="text" name="search_term" class="modern-search-input" value="{{ request('search_term') }}" placeholder="Search posts...">
-										<button type="submit" class="modern-search-btn">
-											<i class="fas fa-search"></i>
-										</button>
-									</form>
 								</div>
 							</div>
 							
@@ -530,125 +424,105 @@ input:checked + .modern-status-slider:before {
 								<!-- Statistics Cards -->
 								<div class="modern-stats-grid">
 									<div class="modern-stat-card">
-										<div class="modern-stat-icon posts">
-											<i class="fas fa-blog"></i>
+										<div class="modern-stat-icon categories">
+											<i class="fas fa-folder"></i>
 										</div>
-										<div class="modern-stat-value">{{ count($lists) }}</div>
-										<div class="modern-stat-label">Total Posts</div>
+										<div class="modern-stat-value"><?php echo e(count($lists)); ?></div>
+										<div class="modern-stat-label">Total Categories</div>
 									</div>
 									<div class="modern-stat-card">
-										<div class="modern-stat-icon published">
+										<div class="modern-stat-icon active">
 											<i class="fas fa-check-circle"></i>
 										</div>
-										<div class="modern-stat-value">{{ $lists->where('status', 1)->count() }}</div>
-										<div class="modern-stat-label">Published Posts</div>
+										<div class="modern-stat-value"><?php echo e($lists->where('status', 1)->count()); ?></div>
+										<div class="modern-stat-label">Active Categories</div>
 									</div>
 									<div class="modern-stat-card">
-										<div class="modern-stat-icon draft">
+										<div class="modern-stat-icon inactive">
 											<i class="fas fa-pause-circle"></i>
 										</div>
-										<div class="modern-stat-value">{{ $lists->where('status', 0)->count() }}</div>
-										<div class="modern-stat-label">Draft Posts</div>
+										<div class="modern-stat-value"><?php echo e($lists->where('status', 0)->count()); ?></div>
+										<div class="modern-stat-label">Inactive Categories</div>
 									</div>
 								</div>
 
 								<!-- Table -->
-								@if(count($lists) > 0)
+								<?php if(count($lists) > 0): ?>
 								<div class="modern-table-container">
 									<table class="modern-table">
 										<thead>
 											<tr>
-												<th>Featured Image</th>
-												<th>Title</th>
+												<th>ID</th>
+												<th>Category Name</th>
 												<th>Slug</th>
-												<th>Category</th>
+												<th>Parent Category</th>
 												<th>Status</th>
 												<th>Actions</th>
 											</tr>
 										</thead>
 										<tbody>
-											@foreach ($lists as $list)
-											<tr id="id_{{$list->id}}">
+											<?php $__currentLoopData = $lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>	
+											<tr id="id_<?php echo e($list->id); ?>">
 												<td>
-													@php
-														$hasImage = isset($list->image) && $list->image != "";
-														if($hasImage) {
-															$extension = pathinfo($list->image, PATHINFO_EXTENSION);
-														}
-													@endphp
-													
-													@if($hasImage)
-														@if(strtolower($extension) == 'mp4')
-															<div class="modern-media-icon video">
-																<i class="fas fa-video"></i>
-															</div>
-														@elseif(strtolower($extension) == 'pdf')
-															<div class="modern-media-icon pdf">
-																<i class="fas fa-file-pdf"></i>
-															</div>
-														@else
-															<img src="{{ asset('images/blog/' . $list->image) }}" alt="{{ $list->title }}" class="modern-blog-image">
-														@endif
-													@else
-														<div class="modern-media-icon image">
-															<i class="fas fa-image"></i>
-														</div>
-													@endif
+													<span class="modern-category-slug">#<?php echo e($list->id); ?></span>
 												</td>
 												<td>
-													<div class="modern-blog-title">
-														{{ $list->title == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->title, '50', '...') }}
+													<div class="modern-category-name">
+														<?php echo e($list->name == "" ? config('constants.empty') : \Illuminate\Support\Str::limit($list->name, '50', '...')); ?>
+
 													</div>
 												</td>
 												<td>
-													<code class="modern-blog-slug">{{ $list->slug }}</code>
+													<code class="modern-category-slug"><?php echo e($list->slug); ?></code>
 												</td>
 												<td>
-													@if($list->categorydetail)
-														<span class="modern-blog-category">
-															<i class="fas fa-folder"></i>
-															{{ $list->categorydetail->name }}
-														</span>
-													@else
-														<span class="text-muted">No Category</span>
-													@endif
+													<div class="modern-parent-category">
+														<?php if($list->parent): ?>
+															<i class="fas fa-folder text-muted"></i>
+															<?php echo e($list->parent->name); ?>
+
+														<?php else: ?>
+															<i class="fas fa-minus text-muted"></i>
+															<span class="text-muted">Root Category</span>
+														<?php endif; ?>
+													</div>
 												</td>
 												<td>
 													<label class="modern-status-toggle">
-														<input data-id="{{$list->id}}" data-status="{{$list->status}}" data-col="status" data-table="blogs" class="change-status" value="1" type="checkbox" name="status" {{ ($list->status == 1 ? 'checked' : '')}} data-bootstrap-switch>
+														<input data-id="<?php echo e($list->id); ?>" data-status="<?php echo e($list->status); ?>" data-col="status" data-table="blog_categories" class="change-status" value="1" type="checkbox" name="status" <?php echo e(($list->status == 1 ? 'checked' : '')); ?> data-bootstrap-switch>
 														<span class="modern-status-slider"></span>
 													</label>
 												</td>
 												<td>
 													<div class="modern-actions">
-														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{URL::to('/admin/blog/edit/'.base64_encode(convert_uuencode($list->id)))}}">
+														<a class="modern-btn modern-btn-success modern-btn-sm" href="<?php echo e(URL::to('/admin/blogcategories/edit/'.base64_encode(convert_uuencode($list->id)))); ?>">
 															<i class="fas fa-edit"></i>
 															Edit
 														</a>
-														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction({{$list->id}}, 'blogs')">
+														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction(<?php echo e($list->id); ?>, 'blog_categories')">
 															<i class="fas fa-trash"></i>
 															Delete
 														</a>
 													</div>
 												</td>
-											</tr>
-											@endforeach
+											</tr>	
+											<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 										</tbody>
 									</table>
 								</div>
-								@else
+								<?php else: ?>
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
-										<i class="fas fa-blog"></i>
+										<i class="fas fa-folder-open"></i>
 									</div>
-									<h3 class="modern-empty-title">No Blog Posts Found</h3>
-									<p class="modern-empty-description">Get started by creating your first blog post</p>
-									<a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
+									<h3 class="modern-empty-title">No Categories Found</h3>
+									<p class="modern-empty-description">Get started by creating your first blog category</p>
+									<a href="<?php echo e(route('admin.blogcategory.create')); ?>" class="modern-btn modern-btn-primary">
 										<i class="fas fa-plus"></i>
-										Create First Post
+										Create First Category
 									</a>
 								</div>
-								@endif
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
@@ -688,4 +562,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/blogcategory/index.blade.php ENDPATH**/ ?>

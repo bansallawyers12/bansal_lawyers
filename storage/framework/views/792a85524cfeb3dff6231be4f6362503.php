@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Appointments')
 
-@section('content')
+<?php $__env->startSection('title', 'Appointments'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
 /* Modern Appointments Design System */
 :root {
@@ -649,7 +649,7 @@
 	<section class="section">
 		<div class="section-body">
 			<div class="server-error">
-				@include('Elements.flash-message')
+				<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			</div>
 			<div class="custom-error-msg">
 			</div>
@@ -664,8 +664,8 @@
 									Appointments Management
 								</h4>
 								<div class="modern-header-actions">
-									<form action="{{ route('appointments.index') }}" method="get" class="modern-search-form">
-										<input type="text" class="modern-search-input" placeholder="Search by client reference or description" name="q" value="{{ request('q') }}">
+									<form action="<?php echo e(route('appointments.index')); ?>" method="get" class="modern-search-form">
+										<input type="text" class="modern-search-input" placeholder="Search by client reference or description" name="q" value="<?php echo e(request('q')); ?>">
 										<button type="submit" class="modern-search-btn">
 											<i class="fas fa-search"></i>
 										</button>
@@ -680,7 +680,7 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>Total Appointments</h5>
-												<h3>{{ count($appointments) }}</h3>
+												<h3><?php echo e(count($appointments)); ?></h3>
 											</div>
 											<div class="modern-stat-icon total">
 												<i class="fas fa-calendar-check"></i>
@@ -691,7 +691,7 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>Pending</h5>
-												<h3>{{ $appointments->where('status', 0)->count() }}</h3>
+												<h3><?php echo e($appointments->where('status', 0)->count()); ?></h3>
 											</div>
 											<div class="modern-stat-icon pending">
 												<i class="fas fa-clock"></i>
@@ -702,7 +702,7 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>Approved</h5>
-												<h3>{{ $appointments->where('status', 1)->count() }}</h3>
+												<h3><?php echo e($appointments->where('status', 1)->count()); ?></h3>
 											</div>
 											<div class="modern-stat-icon approved">
 												<i class="fas fa-check-circle"></i>
@@ -713,7 +713,7 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>Completed</h5>
-												<h3>{{ $appointments->where('status', 2)->count() }}</h3>
+												<h3><?php echo e($appointments->where('status', 2)->count()); ?></h3>
 											</div>
 											<div class="modern-stat-icon completed">
 												<i class="fas fa-check-double"></i>
@@ -723,7 +723,7 @@
 								</div>
 
 								<!-- Table -->
-								@if(count($appointments) > 0)
+								<?php if(count($appointments) > 0): ?>
 								<div class="modern-table-container">
 									<table class="modern-table">
 										<thead>
@@ -739,109 +739,113 @@
 											</tr>
 										</thead>
 										<tbody>
-											@foreach ($appointments as $appointment)
+											<?php $__currentLoopData = $appointments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $appointment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 											<tr>
 												<td>
-													<span class="modern-appointment-id">{{ ++$i }}</span>
+													<span class="modern-appointment-id"><?php echo e(++$i); ?></span>
 												</td>
 												<td>
 													<div class="modern-client-info">
-														{{ $appointment->clients->first_name }} {{ $appointment->clients->last_name }}
+														<?php echo e($appointment->clients->first_name); ?> <?php echo e($appointment->clients->last_name); ?>
+
 													</div>
 													<div class="modern-client-id">
-														{{ $appointment->clients->client_id }}
+														<?php echo e($appointment->clients->client_id); ?>
+
 													</div>
 												</td>
 												<td>
 													<div class="modern-datetime">
-														{{ date('d/m/Y', strtotime($appointment->date)) }}<br>
-														<small class="text-muted">{{ $appointment->time }}</small>
+														<?php echo e(date('d/m/Y', strtotime($appointment->date))); ?><br>
+														<small class="text-muted"><?php echo e($appointment->time); ?></small>
 													</div>
 												</td>
 												<td>
-													@if($appointment->natureOfEnquiry)
-														<span class="font-weight-500">{{ $appointment->natureOfEnquiry->title }}</span>
-													@else
+													<?php if($appointment->natureOfEnquiry): ?>
+														<span class="font-weight-500"><?php echo e($appointment->natureOfEnquiry->title); ?></span>
+													<?php else: ?>
 														<span class="text-muted">N/A</span>
-													@endif
+													<?php endif; ?>
 												</td>
 												<td>
 													<div class="modern-description">
-														{{ \Illuminate\Support\Str::limit($appointment->description, 50, '...') }}
+														<?php echo e(\Illuminate\Support\Str::limit($appointment->description, 50, '...')); ?>
+
 													</div>
 												</td>
 												<td>
-													@if($appointment->user)
+													<?php if($appointment->user): ?>
 														<div class="font-weight-500">
-															{{ $appointment->user->first_name }} {{ $appointment->user->last_name }}
+															<?php echo e($appointment->user->first_name); ?> <?php echo e($appointment->user->last_name); ?>
+
 														</div>
-													@else
+													<?php else: ?>
 														<span class="text-muted">N/A</span>
-													@endif
+													<?php endif; ?>
 												</td>
 												<td>
-													@if($appointment->status == 0)
+													<?php if($appointment->status == 0): ?>
 														<span class="modern-status-badge pending">
 															<i class="fas fa-clock"></i> Pending
 														</span>
-													@elseif($appointment->status == 1)
+													<?php elseif($appointment->status == 1): ?>
 														<span class="modern-status-badge approved">
 															<i class="fas fa-check-circle"></i> Approved
 														</span>
-													@elseif($appointment->status == 2)
+													<?php elseif($appointment->status == 2): ?>
 														<span class="modern-status-badge completed">
 															<i class="fas fa-check-double"></i> Completed
 														</span>
-													@elseif($appointment->status == 3)
+													<?php elseif($appointment->status == 3): ?>
 														<span class="modern-status-badge rejected">
 															<i class="fas fa-times-circle"></i> Rejected
 														</span>
-													@elseif($appointment->status == 4)
+													<?php elseif($appointment->status == 4): ?>
 														<span class="modern-status-badge inprogress">
 															<i class="fas fa-spinner"></i> N/P
 														</span>
-													@elseif($appointment->status == 5)
+													<?php elseif($appointment->status == 5): ?>
 														<span class="modern-status-badge inprogress">
 															<i class="fas fa-play-circle"></i> In Progress
 														</span>
-													@elseif($appointment->status == 6)
+													<?php elseif($appointment->status == 6): ?>
 														<span class="modern-status-badge cancelled">
 															<i class="fas fa-user-times"></i> Did Not Come
 														</span>
-													@elseif($appointment->status == 7)
+													<?php elseif($appointment->status == 7): ?>
 														<span class="modern-status-badge cancelled">
 															<i class="fas fa-ban"></i> Cancelled
 														</span>
-													@elseif($appointment->status == 8)
+													<?php elseif($appointment->status == 8): ?>
 														<span class="modern-status-badge cancelled">
 															<i class="fas fa-exclamation-triangle"></i> Missed
 														</span>
-													@elseif($appointment->status == 9)
+													<?php elseif($appointment->status == 9): ?>
 														<span class="modern-status-badge pending">
 															<i class="fas fa-credit-card"></i> Payment Pending
 														</span>
-													@elseif($appointment->status == 10)
+													<?php elseif($appointment->status == 10): ?>
 														<span class="modern-status-badge approved">
 															<i class="fas fa-check-circle"></i> Payment Success
 														</span>
-													@elseif($appointment->status == 11)
+													<?php elseif($appointment->status == 11): ?>
 														<span class="modern-status-badge rejected">
 															<i class="fas fa-times-circle"></i> Payment Failed
 														</span>
-													@endif
+													<?php endif; ?>
 												</td>
 												<td>
 													<div class="modern-actions">
-														<form action="{{ route('appointments.destroy',$appointment->id) }}" method="POST">
-															<a class="modern-btn modern-btn-info modern-btn-sm" href="{{ route('appointments.show',$appointment->id) }}">
+														<form action="<?php echo e(route('appointments.destroy',$appointment->id)); ?>" method="POST">
+															<a class="modern-btn modern-btn-info modern-btn-sm" href="<?php echo e(route('appointments.show',$appointment->id)); ?>">
 																<i class="fas fa-eye"></i> Show
 															</a>
-															<a class="modern-btn modern-btn-primary modern-btn-sm" href="{{route('appointments.edit',$appointment->id)}}">
+															<a class="modern-btn modern-btn-primary modern-btn-sm" href="<?php echo e(route('appointments.edit',$appointment->id)); ?>">
 																<i class="fas fa-edit"></i> Edit
 															</a>
 															
-															@csrf
-															@method('DELETE')
+															<?php echo csrf_field(); ?>
+															<?php echo method_field('DELETE'); ?>
 															<button type="submit" class="modern-btn modern-btn-danger modern-btn-sm" onclick="return confirm('Are you sure you want to delete this appointment?')">
 																<i class="fas fa-trash"></i> Delete
 															</button>
@@ -849,18 +853,19 @@
 													</div>
 												</td>
 											</tr>
-											@endforeach
+											<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 										</tbody>
 									</table>
 								</div>
 								
 								<!-- Pagination -->
-								@if($appointments->hasPages())
+								<?php if($appointments->hasPages()): ?>
 								<div class="modern-pagination">
-									{!! $appointments->appends($_GET)->links() !!}
+									<?php echo $appointments->appends($_GET)->links(); ?>
+
 								</div>
-								@endif
-								@else
+								<?php endif; ?>
+								<?php else: ?>
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
 										<i class="fas fa-calendar-check"></i>
@@ -868,7 +873,7 @@
 									<h3 class="modern-empty-title">No Appointments Found</h3>
 									<p class="modern-empty-description">No appointments match your current search criteria</p>
 								</div>
-								@endif
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
@@ -1079,4 +1084,5 @@ jQuery(document).ready(function($){
     });
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/appointments/index.blade.php ENDPATH**/ ?>

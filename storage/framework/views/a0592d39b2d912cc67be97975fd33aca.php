@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Edit Appointment')
 
-@section('content')
+<?php $__env->startSection('title', 'Edit Appointment'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
 /* Modern Appointment Edit Form Design */
 :root {
@@ -281,7 +281,7 @@
 	<section class="section">
 		<div class="section-body">
 			<div class="server-error">
-				@include('Elements.flash-message')
+				<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			</div>
 			<div class="custom-error-msg">
 			</div>
@@ -296,26 +296,27 @@
 									Edit Appointment
 								</h3>
 								<div class="modern-form-actions">
-									<a href="{{route('appointments.index')}}" class="modern-btn modern-btn-secondary">
+									<a href="<?php echo e(route('appointments.index')); ?>" class="modern-btn modern-btn-secondary">
 										<i class="fas fa-arrow-left"></i>
 										Back to Appointments
 									</a>
 								</div>
 							</div>
 							
-							<form action="{{ route('appointments.update',$appointment->id) }}" method="POST" id="edit-appointment-form">
-								@csrf
-								@method('PUT')
-								<input type="hidden" name="id" value="{{ $appointment->id }}">
-								<input type="hidden" name="route" value="{{ url()->previous() }}">
-								<input type="hidden" name="client_id" value="{{ $appointment->client_id }}">
-								<input type="hidden" name="user_id" value="{{ $appointment->user_id }}">
-								<input type="hidden" name="noe_id_hidden" value="{{ $appointment->noe_id }}">
+							<form action="<?php echo e(route('appointments.update',$appointment->id)); ?>" method="POST" id="edit-appointment-form">
+								<?php echo csrf_field(); ?>
+								<?php echo method_field('PUT'); ?>
+								<input type="hidden" name="id" value="<?php echo e($appointment->id); ?>">
+								<input type="hidden" name="route" value="<?php echo e(url()->previous()); ?>">
+								<input type="hidden" name="client_id" value="<?php echo e($appointment->client_id); ?>">
+								<input type="hidden" name="user_id" value="<?php echo e($appointment->user_id); ?>">
+								<input type="hidden" name="noe_id_hidden" value="<?php echo e($appointment->noe_id); ?>">
 								
 								<div class="modern-form-body">
 									<div class="modern-info-badge">
 										<i class="fas fa-info-circle"></i>
-										Editing Appointment ID: #{{ $appointment->id }}
+										Editing Appointment ID: #<?php echo e($appointment->id); ?>
+
 									</div>
 
 									<!-- Client Information Section -->
@@ -327,7 +328,7 @@
 									<div class="modern-form-grid">
 										<div class="modern-form-group">
 											<label for="client_name" class="modern-form-label">Client Name</label>
-											<input name="client_name" type="text" class="modern-form-input" value="{{ $appointment->clients->first_name }} {{ $appointment->clients->last_name }}" readonly>
+											<input name="client_name" type="text" class="modern-form-input" value="<?php echo e($appointment->clients->first_name); ?> <?php echo e($appointment->clients->last_name); ?>" readonly>
 											<div class="modern-help-text">
 												Client information (read-only)
 											</div>
@@ -335,7 +336,7 @@
 
 										<div class="modern-form-group">
 											<label for="added_by" class="modern-form-label">Added By</label>
-											<input name="added_by" type="text" class="modern-form-input" value="@if($appointment->user){{ $appointment->user->first_name }} {{ $appointment->user->last_name }}@else N/A @endif" readonly>
+											<input name="added_by" type="text" class="modern-form-input" value="<?php if($appointment->user): ?><?php echo e($appointment->user->first_name); ?> <?php echo e($appointment->user->last_name); ?><?php else: ?> N/A <?php endif; ?>" readonly>
 											<div class="modern-help-text">
 												User who created this appointment (read-only)
 											</div>
@@ -354,7 +355,7 @@
 												Date
 												<span class="required">*</span>
 											</label>
-											@php
+											<?php
 												$dateValue = '';
 												if(isset($appointment->date) && $appointment->date != "") {
 													if (strpos($appointment->date, '-') !== false && strlen($appointment->date) == 10) {
@@ -364,13 +365,14 @@
 														$dateValue = date('d/m/Y', strtotime($appointment->date));
 													}
 												}
-											@endphp
-											<input name="date" type="text" class="modern-form-input date" data-valid="required" autocomplete="off" placeholder="Select date" value="{{ old('date', $dateValue) }}">
-											@if ($errors->has('date'))
+											?>
+											<input name="date" type="text" class="modern-form-input date" data-valid="required" autocomplete="off" placeholder="Select date" value="<?php echo e(old('date', $dateValue)); ?>">
+											<?php if($errors->has('date')): ?>
 												<span class="modern-error">
-													{{ $errors->first('date') }}
+													<?php echo e($errors->first('date')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Select the appointment date
 											</div>
@@ -381,12 +383,13 @@
 												Time
 												<span class="required">*</span>
 											</label>
-											<input name="time" type="time" class="modern-form-input" id="followup_time" data-valid="required" autocomplete="off" placeholder="Select time" value="{{ old('time', $appointment->time) }}">
-											@if ($errors->has('time'))
+											<input name="time" type="time" class="modern-form-input" id="followup_time" data-valid="required" autocomplete="off" placeholder="Select time" value="<?php echo e(old('time', $appointment->time)); ?>">
+											<?php if($errors->has('time')): ?>
 												<span class="modern-error">
-													{{ $errors->first('time') }}
+													<?php echo e($errors->first('time')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Select the appointment time (15-minute intervals)
 											</div>
@@ -399,17 +402,19 @@
 											</label>
 											<select class="modern-select" name="noe_id" data-valid="required">
 												<option value="">Select Nature of Enquiry</option>
-												@foreach(\App\Models\NatureOfEnquiry::all() as $noe)
-													<option value="{{ $noe->id }}" {{ old('noe_id', $appointment->noe_id) == $noe->id ? 'selected' : '' }}>
-														{{ $noe->title }}
+												<?php $__currentLoopData = \App\Models\NatureOfEnquiry::all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $noe): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+													<option value="<?php echo e($noe->id); ?>" <?php echo e(old('noe_id', $appointment->noe_id) == $noe->id ? 'selected' : ''); ?>>
+														<?php echo e($noe->title); ?>
+
 													</option>
-												@endforeach
+												<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 											</select>
-											@if ($errors->has('noe_id'))
+											<?php if($errors->has('noe_id')): ?>
 												<span class="modern-error">
-													{{ $errors->first('noe_id') }}
+													<?php echo e($errors->first('noe_id')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Select the nature of enquiry for this appointment
 											</div>
@@ -417,7 +422,7 @@
 
 										<div class="modern-form-group">
 											<label for="service_display" class="modern-form-label">Service</label>
-											<input name="service_display" type="text" class="modern-form-input" value="@if($appointment->service){{ $appointment->service->title }}@else N/A @endif" readonly>
+											<input name="service_display" type="text" class="modern-form-input" value="<?php if($appointment->service): ?><?php echo e($appointment->service->title); ?><?php else: ?> N/A <?php endif; ?>" readonly>
 											<div class="modern-help-text">
 												Service information (read-only)
 											</div>
@@ -429,24 +434,25 @@
 												<span class="required">*</span>
 											</label>
 											<select class="modern-select" name="status" data-valid="required">
-												<option value="0" {{ old('status', $appointment->status) == '0' ? 'selected' : '' }}>Pending</option>
-												<option value="1" {{ old('status', $appointment->status) == '1' ? 'selected' : '' }}>Approved</option>
-												<option value="2" {{ old('status', $appointment->status) == '2' ? 'selected' : '' }}>Completed</option>
-												<option value="3" {{ old('status', $appointment->status) == '3' ? 'selected' : '' }}>Rejected</option>
-												<option value="4" {{ old('status', $appointment->status) == '4' ? 'selected' : '' }}>N/P</option>
-												<option value="5" {{ old('status', $appointment->status) == '5' ? 'selected' : '' }}>In Progress</option>
-												<option value="6" {{ old('status', $appointment->status) == '6' ? 'selected' : '' }}>Did Not Come</option>
-												<option value="7" {{ old('status', $appointment->status) == '7' ? 'selected' : '' }}>Cancelled</option>
-												<option value="8" {{ old('status', $appointment->status) == '8' ? 'selected' : '' }}>Missed</option>
-												<option value="9" {{ old('status', $appointment->status) == '9' ? 'selected' : '' }}>Pending With Payment Pending</option>
-												<option value="10" {{ old('status', $appointment->status) == '10' ? 'selected' : '' }}>Pending With Payment Success</option>
-												<option value="11" {{ old('status', $appointment->status) == '11' ? 'selected' : '' }}>Pending With Payment Failed</option>
+												<option value="0" <?php echo e(old('status', $appointment->status) == '0' ? 'selected' : ''); ?>>Pending</option>
+												<option value="1" <?php echo e(old('status', $appointment->status) == '1' ? 'selected' : ''); ?>>Approved</option>
+												<option value="2" <?php echo e(old('status', $appointment->status) == '2' ? 'selected' : ''); ?>>Completed</option>
+												<option value="3" <?php echo e(old('status', $appointment->status) == '3' ? 'selected' : ''); ?>>Rejected</option>
+												<option value="4" <?php echo e(old('status', $appointment->status) == '4' ? 'selected' : ''); ?>>N/P</option>
+												<option value="5" <?php echo e(old('status', $appointment->status) == '5' ? 'selected' : ''); ?>>In Progress</option>
+												<option value="6" <?php echo e(old('status', $appointment->status) == '6' ? 'selected' : ''); ?>>Did Not Come</option>
+												<option value="7" <?php echo e(old('status', $appointment->status) == '7' ? 'selected' : ''); ?>>Cancelled</option>
+												<option value="8" <?php echo e(old('status', $appointment->status) == '8' ? 'selected' : ''); ?>>Missed</option>
+												<option value="9" <?php echo e(old('status', $appointment->status) == '9' ? 'selected' : ''); ?>>Pending With Payment Pending</option>
+												<option value="10" <?php echo e(old('status', $appointment->status) == '10' ? 'selected' : ''); ?>>Pending With Payment Success</option>
+												<option value="11" <?php echo e(old('status', $appointment->status) == '11' ? 'selected' : ''); ?>>Pending With Payment Failed</option>
 											</select>
-											@if ($errors->has('status'))
+											<?php if($errors->has('status')): ?>
 												<span class="modern-error">
-													{{ $errors->first('status') }}
+													<?php echo e($errors->first('status')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Update the appointment status
 											</div>
@@ -459,15 +465,16 @@
 											</label>
 											<select class="modern-select" name="appointment_details" data-valid="required">
 												<option value="">Select Appointment Type</option>
-												<option value="In-person" {{ old('appointment_details', $appointment->appointment_details) == 'In-person' ? 'selected' : '' }}>In-person</option>
-												<option value="Phone" {{ old('appointment_details', $appointment->appointment_details) == 'Phone' ? 'selected' : '' }}>Phone</option>
-												<option value="Zoom / Google Meeting" {{ old('appointment_details', $appointment->appointment_details) == 'Zoom / Google Meeting' ? 'selected' : '' }}>Zoom / Google Meeting</option>
+												<option value="In-person" <?php echo e(old('appointment_details', $appointment->appointment_details) == 'In-person' ? 'selected' : ''); ?>>In-person</option>
+												<option value="Phone" <?php echo e(old('appointment_details', $appointment->appointment_details) == 'Phone' ? 'selected' : ''); ?>>Phone</option>
+												<option value="Zoom / Google Meeting" <?php echo e(old('appointment_details', $appointment->appointment_details) == 'Zoom / Google Meeting' ? 'selected' : ''); ?>>Zoom / Google Meeting</option>
 											</select>
-											@if ($errors->has('appointment_details'))
+											<?php if($errors->has('appointment_details')): ?>
 												<span class="modern-error">
-													{{ $errors->first('appointment_details') }}
+													<?php echo e($errors->first('appointment_details')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Select how the appointment will be conducted
 											</div>
@@ -478,12 +485,13 @@
 												Description
 												<span class="required">*</span>
 											</label>
-											<input name="description" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter appointment description" value="{{ old('description', $appointment->description) }}">
-											@if ($errors->has('description'))
+											<input name="description" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter appointment description" value="<?php echo e(old('description', $appointment->description)); ?>">
+											<?php if($errors->has('description')): ?>
 												<span class="modern-error">
-													{{ $errors->first('description') }}
+													<?php echo e($errors->first('description')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Brief description of the appointment purpose
 											</div>
@@ -492,7 +500,7 @@
 								</div>
 
 								<div class="modern-form-footer">
-									<a href="{{route('appointments.index')}}" class="modern-btn modern-btn-secondary">
+									<a href="<?php echo e(route('appointments.index')); ?>" class="modern-btn modern-btn-secondary">
 										<i class="fas fa-times"></i>
 										Cancel
 									</a>
@@ -527,9 +535,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -558,4 +566,5 @@ document.addEventListener('DOMContentLoaded', function() {
         this.value = String(hours).padStart(2, '0') + ':' + String(roundedMinutes).padStart(2, '0');
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/appointments/edit.blade.php ENDPATH**/ ?>

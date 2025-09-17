@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Create Booking Block')
 
-@section('content')
+<?php $__env->startSection('title', 'Create Booking Block'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
 /* Modern Booking Block Create Design System */
 :root {
@@ -484,7 +484,7 @@
     <section class="section">
         <div class="section-body">
             <div class="server-error">
-                @include('Elements.flash-message')
+                <?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
             </div>
             
             <div class="container-fluid">
@@ -497,7 +497,7 @@
                                     Create Booking Block
                                 </h4>
                                 <div class="modern-header-actions">
-                                    <a href="{{ route('admin.feature.bookingblocks.index') }}" class="modern-btn modern-btn-back">
+                                    <a href="<?php echo e(route('admin.feature.bookingblocks.index')); ?>" class="modern-btn modern-btn-back">
                                         <i class="fas fa-arrow-left"></i>
                                         Back to Blocks
                                     </a>
@@ -516,8 +516,8 @@
                                     </div>
                                 </div>
 
-                                <form method="post" action="{{ route('admin.feature.bookingblocks.store') }}" id="booking-form">
-                                    @csrf
+                                <form method="post" action="<?php echo e(route('admin.feature.bookingblocks.store')); ?>" id="booking-form">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="person_id" value="1">
 
                                     <!-- Blocks Container -->
@@ -677,4 +677,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/feature/bookingblocks/create.blade.php ENDPATH**/ ?>

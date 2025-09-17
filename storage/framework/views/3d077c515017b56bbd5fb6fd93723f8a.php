@@ -1,17 +1,15 @@
-@extends('layouts.admin')
-@section('title', 'Edit Case Study')
 
-@section('content')
+<?php $__env->startSection('title', 'Create Blog Post'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
-/* Modern Recent Case Edit Form Design */
+/* Modern Blog Create Form Design */
 :root {
     --primary-color: #1B4D89;
     --secondary-color: #2c5aa0;
     --accent-color: #FF6B35;
     --success-color: #10b981;
     --danger-color: #ef4444;
-    --case-color: #8b5cf6;
-    --case-secondary: #7c3aed;
     --text-dark: #1e293b;
     --text-light: #64748b;
     --bg-light: #f8fafc;
@@ -42,7 +40,7 @@
 }
 
 .modern-form-header {
-    background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     padding: 2rem;
     position: relative;
     overflow: hidden;
@@ -168,12 +166,30 @@
 
 .modern-form-input:focus {
     outline: none;
-    border-color: var(--success-color);
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
 }
 
 .modern-form-input::placeholder {
     color: var(--text-light);
+}
+
+.modern-select {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.875rem;
+    transition: var(--transition);
+    background: var(--white);
+    color: var(--text-dark);
+    cursor: pointer;
+}
+
+.modern-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
 }
 
 .modern-textarea {
@@ -191,8 +207,8 @@
 
 .modern-textarea:focus {
     outline: none;
-    border-color: var(--success-color);
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
 }
 
 .modern-file-upload {
@@ -224,9 +240,9 @@
 }
 
 .modern-file-label:hover {
-    border-color: var(--success-color);
-    background: rgba(16, 185, 129, 0.05);
-    color: var(--success-color);
+    border-color: var(--primary-color);
+    background: rgba(27, 77, 137, 0.05);
+    color: var(--primary-color);
 }
 
 .modern-file-icon {
@@ -333,55 +349,8 @@ input:checked + .modern-checkbox-slider:before {
 }
 
 .modern-editor-container:focus-within {
-    border-color: var(--success-color);
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-}
-
-.modern-info-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: linear-gradient(135deg, var(--case-color), var(--case-secondary));
-    color: var(--white);
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius-sm);
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-}
-
-.modern-media-preview {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: var(--bg-light);
-    border-radius: var(--border-radius-sm);
-    border: 1px solid var(--border-color);
-}
-
-.modern-media-preview img {
-    max-width: 150px;
-    max-height: 150px;
-    border-radius: var(--border-radius-sm);
-    box-shadow: var(--shadow-sm);
-}
-
-.modern-media-preview iframe {
-    border-radius: var(--border-radius-sm);
-    box-shadow: var(--shadow-sm);
-}
-
-.modern-media-preview a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--case-color);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.modern-media-preview a:hover {
-    color: var(--case-secondary);
-    text-decoration: underline;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
 }
 
 @media (max-width: 768px) {
@@ -418,7 +387,7 @@ input:checked + .modern-checkbox-slider:before {
 	<section class="section">
 		<div class="section-body">
 			<div class="server-error">
-				@include('Elements.flash-message')
+				<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			</div>
 			<div class="custom-error-msg">
 			</div>
@@ -429,47 +398,42 @@ input:checked + .modern-checkbox-slider:before {
 						<div class="modern-form-card">
 							<div class="modern-form-header">
 								<h3 class="modern-form-title">
-									<i class="fas fa-edit"></i>
-									Edit Case Study
+									<i class="fas fa-plus-circle"></i>
+									Create New Blog Post
 								</h3>
 								<div class="modern-form-actions">
-									<a href="{{route('admin.recent_case.index')}}" class="modern-btn modern-btn-secondary">
+									<a href="<?php echo e(route('admin.blog.index')); ?>" class="modern-btn modern-btn-secondary">
 										<i class="fas fa-arrow-left"></i>
-										Back to Case Studies
+										Back to Posts
 									</a>
 								</div>
 							</div>
 							
-							<form action="admin/recent_case/edit" autocomplete="off" method="post" enctype="multipart/form-data" id="edit-case-form">
-								@csrf
-								<input type="hidden" name="id" value="{{ $fetchedData->id }}">
+							<form action="admin/blog/store" autocomplete="off" method="post" enctype="multipart/form-data" id="create-blog-form">
+								<?php echo csrf_field(); ?>
 								
 								<div class="modern-form-body">
-									<div class="modern-info-badge">
-										<i class="fas fa-info-circle"></i>
-										Editing Case Study ID: #{{ $fetchedData->id }}
-									</div>
-
 									<!-- Basic Information Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-briefcase"></i>
-										Case Information
+										<i class="fas fa-edit"></i>
+										Basic Information
 									</div>
 									
 									<div class="modern-form-grid">
 										<div class="modern-form-group">
 											<label for="title" class="modern-form-label">
-												Case Title
+												Post Title
 												<span class="required">*</span>
 											</label>
-											<input name="title" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter case study title" value="{{ old('title', $fetchedData->title) }}">
-											@if ($errors->has('title'))
+											<input name="title" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter blog post title" value="<?php echo e(old('title')); ?>">
+											<?php if($errors->has('title')): ?>
 												<span class="modern-error">
-													{{ $errors->first('title') }}
+													<?php echo e($errors->first('title')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
-												Update the title of your case study
+												Create an engaging title for your blog post
 											</div>
 										</div>
 
@@ -478,68 +442,59 @@ input:checked + .modern-checkbox-slider:before {
 												URL Slug
 												<span class="required">*</span>
 											</label>
-											<input name="slug" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter URL slug" value="{{ old('slug', $fetchedData->slug) }}">
-											@if ($errors->has('slug'))
+											<input name="slug" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter URL slug" value="<?php echo e(old('slug')); ?>">
+											<?php if($errors->has('slug')): ?>
 												<span class="modern-error">
-													{{ $errors->first('slug') }}
+													<?php echo e($errors->first('slug')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
-												URL-friendly version of the title
+												URL-friendly version of the title (auto-generated)
 											</div>
 										</div>
 
 										<div class="modern-form-group">
-											<label for="image" class="modern-form-label">Featured Image/Video</label>
-											<div class="modern-file-upload">
-												<input type="hidden" name="old_image" value="{{ $fetchedData->image }}">
-												<input type="file" id="image" name="image" class="modern-file-input" accept="image/*,video/*">
-												<label for="image" class="modern-file-label">
-													<i class="fas fa-cloud-upload-alt modern-file-icon"></i>
-													<span>Choose new featured image or video</span>
+											<label for="parent_category" class="modern-form-label">
+												Category
+												<span class="required">*</span>
+											</label>
+											<select class="modern-select" name="parent_category" data-valid="required">
+												<option value="">- Select Category -</option>
+												<?php if($categories): ?>
+													<?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+														<option value="<?php echo e($category->id); ?>" <?php echo e(old('parent_category') == $category->id ? 'selected' : ''); ?>>
+															<?php echo e($category->name); ?>
+
+														</option>
+														<?php if(count($category->subcategory)): ?>
+															<?php echo $__env->make('Admin.blogcategory.subCategoryList-option',['subcategories' => $category->subcategory], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+														<?php endif; ?>
+													<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+												<?php endif; ?>
+											</select>
+											<?php if($errors->has('parent_category')): ?>
+												<span class="modern-error">
+													<?php echo e($errors->first('parent_category')); ?>
+
+												</span>
+											<?php endif; ?>
+											<div class="modern-help-text">
+												Select the category for this blog post
+											</div>
+										</div>
+
+										<div class="modern-form-group">
+											<label for="status" class="modern-form-label">Post Status</label>
+											<div class="modern-checkbox-container">
+												<label class="modern-checkbox">
+													<input value="1" type="checkbox" name="status" <?php echo e(old('status', '1') ? 'checked' : ''); ?> data-bootstrap-switch>
+													<span class="modern-checkbox-slider"></span>
 												</label>
+												<span class="modern-checkbox-label">Published (visible on website)</span>
 											</div>
-											@if ($errors->has('image'))
-												<span class="modern-error">
-													{{ $errors->first('image') }}
-												</span>
-											@endif
-											
-											@if(isset($fetchedData->image) && $fetchedData->image != "")
-												<div class="modern-media-preview">
-													<strong>Current Media:</strong><br>
-													@php
-														$extension = pathinfo($fetchedData->image, PATHINFO_EXTENSION);
-													@endphp
-													
-													@if(strtolower($extension) == 'mp4')
-														<iframe width="200" height="100" src="{{ asset('images/blog/' . $fetchedData->image) }}?autoplay=1&mute=1"></iframe>
-													@elseif(strtolower($extension) == 'pdf')
-														<a href="{{ asset('images/blog/' . $fetchedData->image) }}" target="_blank">
-															<i class="fas fa-file-pdf"></i>
-															View PDF Document
-														</a>
-													@else
-														<img src="{{ asset('images/blog/' . $fetchedData->image) }}" alt="{{ $fetchedData->title }}">
-													@endif
-												</div>
-											@endif
-											
 											<div class="modern-help-text">
-												Upload a new featured image or video (leave empty to keep current)
-											</div>
-										</div>
-
-										<div class="modern-form-group">
-											<label for="image_alt" class="modern-form-label">Image Alt Text</label>
-											<input name="image_alt" type="text" class="modern-form-input" autocomplete="off" placeholder="Describe the image for accessibility" value="{{ old('image_alt', $fetchedData->image_alt) }}">
-											@if ($errors->has('image_alt'))
-												<span class="modern-error">
-													{{ $errors->first('image_alt') }}
-												</span>
-											@endif
-											<div class="modern-help-text">
-												Alt text for accessibility and SEO
+												Published posts will be visible to website visitors
 											</div>
 										</div>
 									</div>
@@ -547,88 +502,114 @@ input:checked + .modern-checkbox-slider:before {
 									<!-- Content Section -->
 									<div class="modern-section-title">
 										<i class="fas fa-align-left"></i>
-										Case Content
+										Content
 									</div>
 
 									<div class="modern-form-group full-width">
 										<label for="short_description" class="modern-form-label">Short Description</label>
-										<input name="short_description" type="text" class="modern-form-input" autocomplete="off" placeholder="Enter a brief description or summary" value="{{ old('short_description', $fetchedData->short_description) }}">
-										@if ($errors->has('short_description'))
+										<input name="short_description" type="text" class="modern-form-input" autocomplete="off" placeholder="Enter a brief description or excerpt" value="<?php echo e(old('short_description')); ?>">
+										<?php if($errors->has('short_description')): ?>
 											<span class="modern-error">
-												{{ $errors->first('short_description') }}
+												<?php echo e($errors->first('short_description')); ?>
+
 											</span>
-										@endif
+										<?php endif; ?>
 										<div class="modern-help-text">
-											A brief summary that appears in case study listings
+											A brief summary that appears in blog listings and previews
 										</div>
 									</div>
 
 									<div class="modern-form-group full-width">
 										<label for="description" class="modern-form-label">
-											Case Description
+											Content
 											<span class="required">*</span>
 										</label>
 										<div class="modern-editor-container">
-											<textarea class="modern-textarea" id="description" placeholder="Write your case study content here..." rows="10" name="description" data-valid="required">{{ old('description', $fetchedData->description) }}</textarea>
+											<textarea class="modern-textarea" id="description" placeholder="Write your blog post content here..." rows="10" name="description" data-valid="required"><?php echo e(old('description')); ?></textarea>
 										</div>
-										@if ($errors->has('description'))
+										<?php if($errors->has('description')): ?>
 											<span class="modern-error">
-												{{ $errors->first('description') }}
+												<?php echo e($errors->first('description')); ?>
+
 											</span>
-										@endif
+										<?php endif; ?>
 										<div class="modern-help-text">
-											Detailed description of the case study (rich text editor)
+											The main content of your blog post (rich text editor)
 										</div>
 									</div>
 
 									<!-- Media Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-video"></i>
-										Additional Media
+										<i class="fas fa-image"></i>
+										Media & Files
 									</div>
 
 									<div class="modern-form-grid">
 										<div class="modern-form-group">
-											<label for="youtube_url" class="modern-form-label">YouTube Video URL</label>
-											<input name="youtube_url" type="url" class="modern-form-input" autocomplete="off" placeholder="https://www.youtube.com/watch?v=..." value="{{ old('youtube_url', $fetchedData->youtube_url) }}">
-											@if ($errors->has('youtube_url'))
+											<label for="image" class="modern-form-label">Featured Image/Video</label>
+											<div class="modern-file-upload">
+												<input type="file" id="image" name="image" class="modern-file-input" accept="image/*,video/*">
+												<label for="image" class="modern-file-label">
+													<i class="fas fa-cloud-upload-alt modern-file-icon"></i>
+													<span>Choose featured image or video</span>
+												</label>
+											</div>
+											<?php if($errors->has('image')): ?>
 												<span class="modern-error">
-													{{ $errors->first('youtube_url') }}
+													<?php echo e($errors->first('image')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
-												Embed a YouTube video in your case study
+												Upload a featured image or video for your blog post
+											</div>
+										</div>
+
+										<div class="modern-form-group">
+											<label for="image_alt" class="modern-form-label">Image Alt Text</label>
+											<input name="image_alt" type="text" class="modern-form-input" autocomplete="off" placeholder="Describe the image for accessibility" value="<?php echo e(old('image_alt')); ?>">
+											<?php if($errors->has('image_alt')): ?>
+												<span class="modern-error">
+													<?php echo e($errors->first('image_alt')); ?>
+
+												</span>
+											<?php endif; ?>
+											<div class="modern-help-text">
+												Alt text for accessibility and SEO
+											</div>
+										</div>
+
+										<div class="modern-form-group">
+											<label for="youtube_url" class="modern-form-label">YouTube Video URL</label>
+											<input name="youtube_url" type="url" class="modern-form-input" autocomplete="off" placeholder="https://www.youtube.com/watch?v=..." value="<?php echo e(old('youtube_url')); ?>">
+											<?php if($errors->has('youtube_url')): ?>
+												<span class="modern-error">
+													<?php echo e($errors->first('youtube_url')); ?>
+
+												</span>
+											<?php endif; ?>
+											<div class="modern-help-text">
+												Embed a YouTube video in your blog post
 											</div>
 										</div>
 
 										<div class="modern-form-group">
 											<label for="pdf_doc" class="modern-form-label">PDF/Video File</label>
 											<div class="modern-file-upload">
-												<input type="hidden" name="old_pdf" value="{{ $fetchedData->pdf_doc }}">
 												<input type="file" id="pdf_doc" name="pdf_doc" class="modern-file-input" accept=".pdf,video/*">
 												<label for="pdf_doc" class="modern-file-label">
 													<i class="fas fa-file-upload modern-file-icon"></i>
-													<span>Choose new PDF or video file</span>
+													<span>Choose PDF or video file</span>
 												</label>
 											</div>
-											@if ($errors->has('pdf_doc'))
+											<?php if($errors->has('pdf_doc')): ?>
 												<span class="modern-error">
-													{{ $errors->first('pdf_doc') }}
+													<?php echo e($errors->first('pdf_doc')); ?>
+
 												</span>
-											@endif
-											
-											@if($fetchedData->pdf_doc != '')
-												<div class="modern-media-preview">
-													<strong>Current File:</strong><br>
-													<a href="{{ asset('images/blog/' . $fetchedData->pdf_doc) }}" target="_blank">
-														<i class="fas fa-external-link-alt"></i>
-														Open PDF/Video File
-													</a>
-												</div>
-											@endif
-											
+											<?php endif; ?>
 											<div class="modern-help-text">
-												Upload additional PDF or video files (leave empty to keep current)
+												Upload additional PDF or video files
 											</div>
 										</div>
 									</div>
@@ -642,12 +623,13 @@ input:checked + .modern-checkbox-slider:before {
 									<div class="modern-form-grid">
 										<div class="modern-form-group">
 											<label for="meta_title" class="modern-form-label">Meta Title</label>
-											<input name="meta_title" type="text" class="modern-form-input" autocomplete="off" placeholder="SEO title for search engines" value="{{ old('meta_title', $fetchedData->meta_title) }}">
-											@if ($errors->has('meta_title'))
+											<input name="meta_title" type="text" class="modern-form-input" autocomplete="off" placeholder="SEO title for search engines" value="<?php echo e(old('meta_title')); ?>">
+											<?php if($errors->has('meta_title')): ?>
 												<span class="modern-error">
-													{{ $errors->first('meta_title') }}
+													<?php echo e($errors->first('meta_title')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Title that appears in search engine results
 											</div>
@@ -655,12 +637,13 @@ input:checked + .modern-checkbox-slider:before {
 
 										<div class="modern-form-group">
 											<label for="meta_keyword" class="modern-form-label">Meta Keywords</label>
-											<input name="meta_keyword" type="text" class="modern-form-input" autocomplete="off" placeholder="keyword1, keyword2, keyword3" value="{{ old('meta_keyword', $fetchedData->meta_keyword) }}">
-											@if ($errors->has('meta_keyword'))
+											<input name="meta_keyword" type="text" class="modern-form-input" autocomplete="off" placeholder="keyword1, keyword2, keyword3" value="<?php echo e(old('meta_keyword')); ?>">
+											<?php if($errors->has('meta_keyword')): ?>
 												<span class="modern-error">
-													{{ $errors->first('meta_keyword') }}
+													<?php echo e($errors->first('meta_keyword')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Comma-separated keywords for SEO
 											</div>
@@ -668,47 +651,28 @@ input:checked + .modern-checkbox-slider:before {
 
 										<div class="modern-form-group full-width">
 											<label for="meta_description" class="modern-form-label">Meta Description</label>
-											<textarea name="meta_description" class="modern-textarea" placeholder="Brief description for search engines (150-160 characters)" rows="3">{{ old('meta_description', $fetchedData->meta_description) }}</textarea>
-											@if ($errors->has('meta_description'))
+											<textarea name="meta_description" class="modern-textarea" placeholder="Brief description for search engines (150-160 characters)" rows="3"><?php echo e(old('meta_description')); ?></textarea>
+											<?php if($errors->has('meta_description')): ?>
 												<span class="modern-error">
-													{{ $errors->first('meta_description') }}
+													<?php echo e($errors->first('meta_description')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Description that appears in search engine results
 											</div>
 										</div>
 									</div>
-
-									<!-- Status Section -->
-									<div class="modern-section-title">
-										<i class="fas fa-toggle-on"></i>
-										Publication Status
-									</div>
-
-									<div class="modern-form-group">
-										<label for="status" class="modern-form-label">Case Study Status</label>
-										<div class="modern-checkbox-container">
-											<label class="modern-checkbox">
-												<input value="1" type="checkbox" name="status" {{ old('status', $fetchedData->status) == 1 ? 'checked' : '' }} data-bootstrap-switch>
-												<span class="modern-checkbox-slider"></span>
-											</label>
-											<span class="modern-checkbox-label">Published (visible on website)</span>
-										</div>
-										<div class="modern-help-text">
-											Published case studies will be visible to website visitors
-										</div>
-									</div>
 								</div>
 
 								<div class="modern-form-footer">
-									<a href="{{route('admin.recent_case.index')}}" class="modern-btn modern-btn-secondary">
+									<a href="<?php echo e(route('admin.blog.index')); ?>" class="modern-btn modern-btn-secondary">
 										<i class="fas fa-times"></i>
 										Cancel
 									</a>
-									<button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('edit-case')">
+									<button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('add-blog')">
 										<i class="fas fa-save"></i>
-										Update Case Study
+										Create Blog Post
 									</button>
 								</div>
 							</form>
@@ -722,7 +686,7 @@ input:checked + .modern-checkbox-slider:before {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-generate slug from title (but allow user to override)
+    // Auto-generate slug from title
     const titleInput = document.querySelector('input[name="title"]');
     const slugInput = document.querySelector('input[name="slug"]');
     
@@ -759,7 +723,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Enhanced form validation
-    const form = document.getElementById('edit-case-form');
+    const form = document.getElementById('create-blog-form');
     const submitBtn = document.querySelector('.modern-btn-primary');
     
     if (form && submitBtn) {
@@ -773,14 +737,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
-<script src="{{ asset('assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
+<?php $__env->startSection('scripts'); ?>
+<script src="<?php echo e(asset('assets/ckeditor/ckeditor.js')); ?>" type="text/javascript"></script>
+<script src="<?php echo e(asset('assets/ckfinder/ckfinder.js')); ?>" type="text/javascript"></script>
 <script>
     // Initialize CKEditor
     var description = CKEDITOR.replace('description');
     CKFinder.setupCKEditor(description);
+    
+    // File upload preview functionality
+    var loadFile = function(event) {
+        var output = document.getElementById('output');
+        if (output) {
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function() {
+                URL.revokeObjectURL(output.src);
+                $('.if_image').hide();
+            }
+        }
+    };
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/blog/create.blade.php ENDPATH**/ ?>

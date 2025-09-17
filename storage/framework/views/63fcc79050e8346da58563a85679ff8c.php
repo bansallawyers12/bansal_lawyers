@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Edit Case Study')
 
-@section('content')
+<?php $__env->startSection('title', 'Edit Case Study'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
 /* Modern Recent Case Edit Form Design */
 :root {
@@ -418,7 +418,7 @@ input:checked + .modern-checkbox-slider:before {
 	<section class="section">
 		<div class="section-body">
 			<div class="server-error">
-				@include('Elements.flash-message')
+				<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			</div>
 			<div class="custom-error-msg">
 			</div>
@@ -433,7 +433,7 @@ input:checked + .modern-checkbox-slider:before {
 									Edit Case Study
 								</h3>
 								<div class="modern-form-actions">
-									<a href="{{route('admin.recent_case.index')}}" class="modern-btn modern-btn-secondary">
+									<a href="<?php echo e(route('admin.recent_case.index')); ?>" class="modern-btn modern-btn-secondary">
 										<i class="fas fa-arrow-left"></i>
 										Back to Case Studies
 									</a>
@@ -441,13 +441,14 @@ input:checked + .modern-checkbox-slider:before {
 							</div>
 							
 							<form action="admin/recent_case/edit" autocomplete="off" method="post" enctype="multipart/form-data" id="edit-case-form">
-								@csrf
-								<input type="hidden" name="id" value="{{ $fetchedData->id }}">
+								<?php echo csrf_field(); ?>
+								<input type="hidden" name="id" value="<?php echo e($fetchedData->id); ?>">
 								
 								<div class="modern-form-body">
 									<div class="modern-info-badge">
 										<i class="fas fa-info-circle"></i>
-										Editing Case Study ID: #{{ $fetchedData->id }}
+										Editing Case Study ID: #<?php echo e($fetchedData->id); ?>
+
 									</div>
 
 									<!-- Basic Information Section -->
@@ -462,12 +463,13 @@ input:checked + .modern-checkbox-slider:before {
 												Case Title
 												<span class="required">*</span>
 											</label>
-											<input name="title" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter case study title" value="{{ old('title', $fetchedData->title) }}">
-											@if ($errors->has('title'))
+											<input name="title" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter case study title" value="<?php echo e(old('title', $fetchedData->title)); ?>">
+											<?php if($errors->has('title')): ?>
 												<span class="modern-error">
-													{{ $errors->first('title') }}
+													<?php echo e($errors->first('title')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Update the title of your case study
 											</div>
@@ -478,12 +480,13 @@ input:checked + .modern-checkbox-slider:before {
 												URL Slug
 												<span class="required">*</span>
 											</label>
-											<input name="slug" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter URL slug" value="{{ old('slug', $fetchedData->slug) }}">
-											@if ($errors->has('slug'))
+											<input name="slug" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter URL slug" value="<?php echo e(old('slug', $fetchedData->slug)); ?>">
+											<?php if($errors->has('slug')): ?>
 												<span class="modern-error">
-													{{ $errors->first('slug') }}
+													<?php echo e($errors->first('slug')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												URL-friendly version of the title
 											</div>
@@ -492,38 +495,39 @@ input:checked + .modern-checkbox-slider:before {
 										<div class="modern-form-group">
 											<label for="image" class="modern-form-label">Featured Image/Video</label>
 											<div class="modern-file-upload">
-												<input type="hidden" name="old_image" value="{{ $fetchedData->image }}">
+												<input type="hidden" name="old_image" value="<?php echo e($fetchedData->image); ?>">
 												<input type="file" id="image" name="image" class="modern-file-input" accept="image/*,video/*">
 												<label for="image" class="modern-file-label">
 													<i class="fas fa-cloud-upload-alt modern-file-icon"></i>
 													<span>Choose new featured image or video</span>
 												</label>
 											</div>
-											@if ($errors->has('image'))
+											<?php if($errors->has('image')): ?>
 												<span class="modern-error">
-													{{ $errors->first('image') }}
+													<?php echo e($errors->first('image')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											
-											@if(isset($fetchedData->image) && $fetchedData->image != "")
+											<?php if(isset($fetchedData->image) && $fetchedData->image != ""): ?>
 												<div class="modern-media-preview">
 													<strong>Current Media:</strong><br>
-													@php
+													<?php
 														$extension = pathinfo($fetchedData->image, PATHINFO_EXTENSION);
-													@endphp
+													?>
 													
-													@if(strtolower($extension) == 'mp4')
-														<iframe width="200" height="100" src="{{ asset('images/blog/' . $fetchedData->image) }}?autoplay=1&mute=1"></iframe>
-													@elseif(strtolower($extension) == 'pdf')
-														<a href="{{ asset('images/blog/' . $fetchedData->image) }}" target="_blank">
+													<?php if(strtolower($extension) == 'mp4'): ?>
+														<iframe width="200" height="100" src="<?php echo e(asset('images/blog/' . $fetchedData->image)); ?>?autoplay=1&mute=1"></iframe>
+													<?php elseif(strtolower($extension) == 'pdf'): ?>
+														<a href="<?php echo e(asset('images/blog/' . $fetchedData->image)); ?>" target="_blank">
 															<i class="fas fa-file-pdf"></i>
 															View PDF Document
 														</a>
-													@else
-														<img src="{{ asset('images/blog/' . $fetchedData->image) }}" alt="{{ $fetchedData->title }}">
-													@endif
+													<?php else: ?>
+														<img src="<?php echo e(asset('images/blog/' . $fetchedData->image)); ?>" alt="<?php echo e($fetchedData->title); ?>">
+													<?php endif; ?>
 												</div>
-											@endif
+											<?php endif; ?>
 											
 											<div class="modern-help-text">
 												Upload a new featured image or video (leave empty to keep current)
@@ -532,12 +536,13 @@ input:checked + .modern-checkbox-slider:before {
 
 										<div class="modern-form-group">
 											<label for="image_alt" class="modern-form-label">Image Alt Text</label>
-											<input name="image_alt" type="text" class="modern-form-input" autocomplete="off" placeholder="Describe the image for accessibility" value="{{ old('image_alt', $fetchedData->image_alt) }}">
-											@if ($errors->has('image_alt'))
+											<input name="image_alt" type="text" class="modern-form-input" autocomplete="off" placeholder="Describe the image for accessibility" value="<?php echo e(old('image_alt', $fetchedData->image_alt)); ?>">
+											<?php if($errors->has('image_alt')): ?>
 												<span class="modern-error">
-													{{ $errors->first('image_alt') }}
+													<?php echo e($errors->first('image_alt')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Alt text for accessibility and SEO
 											</div>
@@ -552,12 +557,13 @@ input:checked + .modern-checkbox-slider:before {
 
 									<div class="modern-form-group full-width">
 										<label for="short_description" class="modern-form-label">Short Description</label>
-										<input name="short_description" type="text" class="modern-form-input" autocomplete="off" placeholder="Enter a brief description or summary" value="{{ old('short_description', $fetchedData->short_description) }}">
-										@if ($errors->has('short_description'))
+										<input name="short_description" type="text" class="modern-form-input" autocomplete="off" placeholder="Enter a brief description or summary" value="<?php echo e(old('short_description', $fetchedData->short_description)); ?>">
+										<?php if($errors->has('short_description')): ?>
 											<span class="modern-error">
-												{{ $errors->first('short_description') }}
+												<?php echo e($errors->first('short_description')); ?>
+
 											</span>
-										@endif
+										<?php endif; ?>
 										<div class="modern-help-text">
 											A brief summary that appears in case study listings
 										</div>
@@ -569,13 +575,14 @@ input:checked + .modern-checkbox-slider:before {
 											<span class="required">*</span>
 										</label>
 										<div class="modern-editor-container">
-											<textarea class="modern-textarea" id="description" placeholder="Write your case study content here..." rows="10" name="description" data-valid="required">{{ old('description', $fetchedData->description) }}</textarea>
+											<textarea class="modern-textarea" id="description" placeholder="Write your case study content here..." rows="10" name="description" data-valid="required"><?php echo e(old('description', $fetchedData->description)); ?></textarea>
 										</div>
-										@if ($errors->has('description'))
+										<?php if($errors->has('description')): ?>
 											<span class="modern-error">
-												{{ $errors->first('description') }}
+												<?php echo e($errors->first('description')); ?>
+
 											</span>
-										@endif
+										<?php endif; ?>
 										<div class="modern-help-text">
 											Detailed description of the case study (rich text editor)
 										</div>
@@ -590,12 +597,13 @@ input:checked + .modern-checkbox-slider:before {
 									<div class="modern-form-grid">
 										<div class="modern-form-group">
 											<label for="youtube_url" class="modern-form-label">YouTube Video URL</label>
-											<input name="youtube_url" type="url" class="modern-form-input" autocomplete="off" placeholder="https://www.youtube.com/watch?v=..." value="{{ old('youtube_url', $fetchedData->youtube_url) }}">
-											@if ($errors->has('youtube_url'))
+											<input name="youtube_url" type="url" class="modern-form-input" autocomplete="off" placeholder="https://www.youtube.com/watch?v=..." value="<?php echo e(old('youtube_url', $fetchedData->youtube_url)); ?>">
+											<?php if($errors->has('youtube_url')): ?>
 												<span class="modern-error">
-													{{ $errors->first('youtube_url') }}
+													<?php echo e($errors->first('youtube_url')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Embed a YouTube video in your case study
 											</div>
@@ -604,28 +612,29 @@ input:checked + .modern-checkbox-slider:before {
 										<div class="modern-form-group">
 											<label for="pdf_doc" class="modern-form-label">PDF/Video File</label>
 											<div class="modern-file-upload">
-												<input type="hidden" name="old_pdf" value="{{ $fetchedData->pdf_doc }}">
+												<input type="hidden" name="old_pdf" value="<?php echo e($fetchedData->pdf_doc); ?>">
 												<input type="file" id="pdf_doc" name="pdf_doc" class="modern-file-input" accept=".pdf,video/*">
 												<label for="pdf_doc" class="modern-file-label">
 													<i class="fas fa-file-upload modern-file-icon"></i>
 													<span>Choose new PDF or video file</span>
 												</label>
 											</div>
-											@if ($errors->has('pdf_doc'))
+											<?php if($errors->has('pdf_doc')): ?>
 												<span class="modern-error">
-													{{ $errors->first('pdf_doc') }}
+													<?php echo e($errors->first('pdf_doc')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											
-											@if($fetchedData->pdf_doc != '')
+											<?php if($fetchedData->pdf_doc != ''): ?>
 												<div class="modern-media-preview">
 													<strong>Current File:</strong><br>
-													<a href="{{ asset('images/blog/' . $fetchedData->pdf_doc) }}" target="_blank">
+													<a href="<?php echo e(asset('images/blog/' . $fetchedData->pdf_doc)); ?>" target="_blank">
 														<i class="fas fa-external-link-alt"></i>
 														Open PDF/Video File
 													</a>
 												</div>
-											@endif
+											<?php endif; ?>
 											
 											<div class="modern-help-text">
 												Upload additional PDF or video files (leave empty to keep current)
@@ -642,12 +651,13 @@ input:checked + .modern-checkbox-slider:before {
 									<div class="modern-form-grid">
 										<div class="modern-form-group">
 											<label for="meta_title" class="modern-form-label">Meta Title</label>
-											<input name="meta_title" type="text" class="modern-form-input" autocomplete="off" placeholder="SEO title for search engines" value="{{ old('meta_title', $fetchedData->meta_title) }}">
-											@if ($errors->has('meta_title'))
+											<input name="meta_title" type="text" class="modern-form-input" autocomplete="off" placeholder="SEO title for search engines" value="<?php echo e(old('meta_title', $fetchedData->meta_title)); ?>">
+											<?php if($errors->has('meta_title')): ?>
 												<span class="modern-error">
-													{{ $errors->first('meta_title') }}
+													<?php echo e($errors->first('meta_title')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Title that appears in search engine results
 											</div>
@@ -655,12 +665,13 @@ input:checked + .modern-checkbox-slider:before {
 
 										<div class="modern-form-group">
 											<label for="meta_keyword" class="modern-form-label">Meta Keywords</label>
-											<input name="meta_keyword" type="text" class="modern-form-input" autocomplete="off" placeholder="keyword1, keyword2, keyword3" value="{{ old('meta_keyword', $fetchedData->meta_keyword) }}">
-											@if ($errors->has('meta_keyword'))
+											<input name="meta_keyword" type="text" class="modern-form-input" autocomplete="off" placeholder="keyword1, keyword2, keyword3" value="<?php echo e(old('meta_keyword', $fetchedData->meta_keyword)); ?>">
+											<?php if($errors->has('meta_keyword')): ?>
 												<span class="modern-error">
-													{{ $errors->first('meta_keyword') }}
+													<?php echo e($errors->first('meta_keyword')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Comma-separated keywords for SEO
 											</div>
@@ -668,12 +679,13 @@ input:checked + .modern-checkbox-slider:before {
 
 										<div class="modern-form-group full-width">
 											<label for="meta_description" class="modern-form-label">Meta Description</label>
-											<textarea name="meta_description" class="modern-textarea" placeholder="Brief description for search engines (150-160 characters)" rows="3">{{ old('meta_description', $fetchedData->meta_description) }}</textarea>
-											@if ($errors->has('meta_description'))
+											<textarea name="meta_description" class="modern-textarea" placeholder="Brief description for search engines (150-160 characters)" rows="3"><?php echo e(old('meta_description', $fetchedData->meta_description)); ?></textarea>
+											<?php if($errors->has('meta_description')): ?>
 												<span class="modern-error">
-													{{ $errors->first('meta_description') }}
+													<?php echo e($errors->first('meta_description')); ?>
+
 												</span>
-											@endif
+											<?php endif; ?>
 											<div class="modern-help-text">
 												Description that appears in search engine results
 											</div>
@@ -690,7 +702,7 @@ input:checked + .modern-checkbox-slider:before {
 										<label for="status" class="modern-form-label">Case Study Status</label>
 										<div class="modern-checkbox-container">
 											<label class="modern-checkbox">
-												<input value="1" type="checkbox" name="status" {{ old('status', $fetchedData->status) == 1 ? 'checked' : '' }} data-bootstrap-switch>
+												<input value="1" type="checkbox" name="status" <?php echo e(old('status', $fetchedData->status) == 1 ? 'checked' : ''); ?> data-bootstrap-switch>
 												<span class="modern-checkbox-slider"></span>
 											</label>
 											<span class="modern-checkbox-label">Published (visible on website)</span>
@@ -702,7 +714,7 @@ input:checked + .modern-checkbox-slider:before {
 								</div>
 
 								<div class="modern-form-footer">
-									<a href="{{route('admin.recent_case.index')}}" class="modern-btn modern-btn-secondary">
+									<a href="<?php echo e(route('admin.recent_case.index')); ?>" class="modern-btn modern-btn-secondary">
 										<i class="fas fa-times"></i>
 										Cancel
 									</a>
@@ -773,14 +785,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
-<script src="{{ asset('assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
+<?php $__env->startSection('scripts'); ?>
+<script src="<?php echo e(asset('assets/ckeditor/ckeditor.js')); ?>" type="text/javascript"></script>
+<script src="<?php echo e(asset('assets/ckfinder/ckfinder.js')); ?>" type="text/javascript"></script>
 <script>
     // Initialize CKEditor
     var description = CKEDITOR.replace('description');
     CKFinder.setupCKEditor(description);
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/recent_case/edit.blade.php ENDPATH**/ ?>

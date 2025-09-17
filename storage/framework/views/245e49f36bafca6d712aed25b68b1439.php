@@ -1,9 +1,9 @@
-@extends('layouts.admin')
-@section('title', 'Booking Blocks')
 
-@section('content')
+<?php $__env->startSection('title', 'Appointment Date Blocks'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
-/* Modern Booking Blocks Design System */
+/* Modern Appointment Date Blocks Design System */
 :root {
     --primary-color: #1B4D89;
     --secondary-color: #2c5aa0;
@@ -12,8 +12,8 @@
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
     --info-color: #06b6d4;
-    --booking-color: #f59e0b;
-    --booking-secondary: #d97706;
+    --block-color: #ef4444;
+    --block-secondary: #dc2626;
     --text-dark: #1e293b;
     --text-light: #64748b;
     --bg-light: #f8fafc;
@@ -48,7 +48,7 @@
 }
 
 .modern-card-header {
-    background: linear-gradient(135deg, var(--booking-color) 0%, var(--booking-secondary) 100%);
+    background: linear-gradient(135deg, var(--block-color) 0%, var(--block-secondary) 100%);
     padding: 1.5rem 2rem;
     border-bottom: none;
     position: relative;
@@ -183,11 +183,11 @@
 }
 
 .modern-stat-card.total::before {
-    background: linear-gradient(135deg, var(--booking-color), var(--booking-secondary));
+    background: linear-gradient(135deg, var(--block-color), var(--block-secondary));
 }
 
 .modern-stat-card.blocked::before {
-    background: linear-gradient(135deg, var(--danger-color), #dc2626);
+    background: linear-gradient(135deg, var(--warning-color), #d97706);
 }
 
 .modern-stat-card:hover {
@@ -230,11 +230,11 @@
 }
 
 .modern-stat-icon.total {
-    background: linear-gradient(135deg, var(--booking-color), var(--booking-secondary));
+    background: linear-gradient(135deg, var(--block-color), var(--block-secondary));
 }
 
 .modern-stat-icon.blocked {
-    background: linear-gradient(135deg, var(--danger-color), #dc2626);
+    background: linear-gradient(135deg, var(--warning-color), #d97706);
 }
 
 .modern-table-container {
@@ -314,7 +314,7 @@
 
 .modern-block-item:hover {
     background: #f1f5f9;
-    border-color: var(--booking-color);
+    border-color: var(--block-color);
 }
 
 .modern-block-item:last-child {
@@ -324,7 +324,7 @@
 .modern-block-icon {
     width: 2rem;
     height: 2rem;
-    background: linear-gradient(135deg, var(--booking-color), var(--booking-secondary));
+    background: linear-gradient(135deg, var(--block-color), var(--block-secondary));
     color: var(--white);
     border-radius: 50%;
     display: flex;
@@ -353,6 +353,58 @@
 .modern-actions {
     display: flex;
     gap: 0.5rem;
+}
+
+.modern-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.modern-dropdown-toggle {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.modern-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    min-width: 150px;
+    display: none;
+}
+
+.modern-dropdown-menu.show {
+    display: block;
+}
+
+.modern-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: var(--transition);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modern-dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.modern-dropdown-item:hover {
+    background: var(--bg-light);
+    color: var(--text-dark);
+    text-decoration: none;
 }
 
 .modern-empty-state {
@@ -419,19 +471,19 @@
 }
 
 .modern-pagination .page-link:hover {
-    background: var(--booking-color);
-    border-color: var(--booking-color);
+    background: var(--block-color);
+    border-color: var(--block-color);
     color: var(--white);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
     text-decoration: none;
 }
 
 .modern-pagination .page-item.active .page-link {
-    background: linear-gradient(135deg, var(--booking-color), var(--booking-secondary));
-    border-color: var(--booking-color);
+    background: linear-gradient(135deg, var(--block-color), var(--block-secondary));
+    border-color: var(--block-color);
     color: var(--white);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .modern-pagination .page-item.disabled .page-link {
@@ -518,7 +570,7 @@
 	<section class="section">
 		<div class="section-body">
 			<div class="server-error">
-				@include('Elements.flash-message')
+				<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			</div>
 			<div class="custom-error-msg">
 			</div>
@@ -529,13 +581,13 @@
 						<div class="modern-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-calendar-times"></i>
-									Booking Blocks Management
+									<i class="fas fa-ban"></i>
+									Appointment Date Blocks
 								</h4>
 								<div class="modern-header-actions">
-									<a href="{{ route('admin.feature.bookingblocks.create') }}" class="modern-btn modern-btn-primary">
+									<a href="<?php echo e(route('admin.feature.appointmentdisabledate.create')); ?>" class="modern-btn modern-btn-primary">
 										<i class="fas fa-plus"></i>
-										Create Booking Block
+										Create Date Block
 									</a>
 								</div>
 							</div>
@@ -547,7 +599,7 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>Total Configurations</h5>
-												<h3>{{ $totalData }}</h3>
+												<h3><?php echo e($totalData); ?></h3>
 											</div>
 											<div class="modern-stat-icon total">
 												<i class="fas fa-cog"></i>
@@ -558,17 +610,17 @@
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
 												<h5>Active Blocks</h5>
-												<h3>{{ $lists->sum(function($item) { return count($item->disabledSlots); }) }}</h3>
+												<h3><?php echo e($lists->sum(function($item) { return count($item->disabledSlots); })); ?></h3>
 											</div>
 											<div class="modern-stat-icon blocked">
-												<i class="fas fa-calendar-times"></i>
+												<i class="fas fa-ban"></i>
 											</div>
 										</div>
 									</div>
 								</div>
 
 								<!-- Table -->
-								@if($totalData !== 0)
+								<?php if($totalData !== 0): ?>
 								<div class="modern-table-container">
 									<table class="modern-table">
 										<thead>
@@ -579,8 +631,8 @@
 											</tr>
 										</thead>
 										<tbody>
-											@foreach ($lists as $list)
-											<tr id="id_{{$list->id}}">
+											<?php $__currentLoopData = $lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+											<tr id="id_<?php echo e($list->id); ?>">
 												<td>
 													<span class="modern-person-badge">
 														<i class="fas fa-user"></i>
@@ -588,76 +640,79 @@
 													</span>
 												</td>
 												<td>
-													@if(isset($list->disabledSlots) && !empty($list->disabledSlots) && count($list->disabledSlots) > 0)
+													<?php if(isset($list->disabledSlots) && !empty($list->disabledSlots) && count($list->disabledSlots) > 0): ?>
 														<ul class="modern-block-list">
-															@foreach($list->disabledSlots as $slotVal)
+															<?php $__currentLoopData = $list->disabledSlots; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $slotVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 															<li class="modern-block-item">
 																<div class="modern-block-icon">
-																	@if(isset($slotVal->block_all) && $slotVal->block_all == 1)
+																	<?php if(isset($slotVal->block_all) && $slotVal->block_all == 1): ?>
 																		<i class="fas fa-ban"></i>
-																	@else
+																	<?php else: ?>
 																		<i class="fas fa-clock"></i>
-																	@endif
+																	<?php endif; ?>
 																</div>
 																<div class="modern-block-info">
 																	<div class="modern-block-date">
-																		{{ date("d/m/Y", strtotime($slotVal->disabledates)) }}
+																		<?php echo e(date("d/m/Y", strtotime($slotVal->disabledates))); ?>
+
 																	</div>
 																	<div class="modern-block-time">
-																		@if(isset($slotVal->block_all) && $slotVal->block_all == 1)
+																		<?php if(isset($slotVal->block_all) && $slotVal->block_all == 1): ?>
 																			Full Day Blocked
-																		@else
-																			{{ $slotVal->slots }}
-																		@endif
+																		<?php else: ?>
+																			<?php echo e($slotVal->slots); ?>
+
+																		<?php endif; ?>
 																	</div>
 																</div>
 															</li>
-															@endforeach
+															<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 														</ul>
-													@else
+													<?php else: ?>
 														<div class="text-muted">
 															<i class="fas fa-info-circle"></i>
 															No blocked dates configured
 														</div>
-													@endif
+													<?php endif; ?>
 												</td>
 												<td>
 													<div class="modern-actions">
-														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{ route('admin.feature.bookingblocks.edit', $list->id) }}">
+														<a class="modern-btn modern-btn-success modern-btn-sm" href="<?php echo e(route('admin.feature.appointmentdisabledate.edit', base64_encode(convert_uuencode($list->id)))); ?>">
 															<i class="fas fa-edit"></i>
 															Edit
 														</a>
-														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" onClick="deleteSlotAction({{$list->id}}, 'book_service_disable_slots')">
+														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" onClick="deleteSlotAction(<?php echo e($list->id); ?>, 'book_service_disable_slots')">
 															<i class="fas fa-trash"></i>
 															Delete
 														</button>
 													</div>
 												</td>
 											</tr>
-											@endforeach
+											<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 										</tbody>
 									</table>
 								</div>
 								
 								<!-- Pagination -->
-								@if($lists->hasPages())
+								<?php if($lists->hasPages()): ?>
 								<div class="modern-pagination">
-									{{ $lists->links() }}
+									<?php echo e($lists->links()); ?>
+
 								</div>
-								@endif
-								@else
+								<?php endif; ?>
+								<?php else: ?>
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
-										<i class="fas fa-calendar-times"></i>
+										<i class="fas fa-ban"></i>
 									</div>
-									<h3 class="modern-empty-title">No Booking Blocks Found</h3>
-									<p class="modern-empty-description">Create your first booking block to manage slot availability</p>
-									<a href="{{ route('admin.feature.bookingblocks.create') }}" class="modern-btn modern-btn-primary">
+									<h3 class="modern-empty-title">No Date Blocks Found</h3>
+									<p class="modern-empty-description">Create your first appointment date block to manage availability</p>
+									<a href="<?php echo e(route('admin.feature.appointmentdisabledate.create')); ?>" class="modern-btn modern-btn-primary">
 										<i class="fas fa-plus"></i>
 										Create First Block
 									</a>
 								</div>
-								@endif
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
@@ -668,7 +723,7 @@
 </div>
 
 <script>
-// Enhanced booking blocks functionality
+// Enhanced appointment date blocks functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Add loading states to action buttons
     const actionButtons = document.querySelectorAll('.modern-btn');
@@ -686,6 +741,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Original functionality preserved
+jQuery(document).ready(function($){
+    $('.cb-element').change(function () {
+        if ($('.cb-element:checked').length == $('.cb-element').length){
+            $('#checkbox-all').prop('checked',true);
+        } else {
+            $('#checkbox-all').prop('checked',false);
+        }
+    });
+});
+
 function deleteSlotAction( id, table ) {
     var conf = confirm('Are you sure, you want to delete the slot.');
     if(conf){
@@ -694,8 +759,8 @@ function deleteSlotAction( id, table ) {
             return false;
         } else {
             $('.popuploader').show();
-            $(".server-error").html('');
-            $(".custom-error-msg").html('');
+            $(".server-error").html(''); //remove server error.
+            $(".custom-error-msg").html(''); //remove custom error.
             $.ajax({
                 type:'post',
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -706,15 +771,24 @@ function deleteSlotAction( id, table ) {
                     var obj = $.parseJSON(resp);
                     if(obj.status == 1) {
                         $("#id_"+id).remove();
+                        $("#quid_"+id).remove();
+                        //show success msg
                         var html = successMessage(obj.message);
                         $(".custom-error-msg").html(html);
+
+                        //show count
+                        var old_count = $(".count").text();
+                        var new_count = old_count - 1;
+                        $(".count").text(new_count);
                     } else {
+                        //show error msg
                         var html = errorMessage(obj.message);
                         $(".custom-error-msg").html(html);
                     }
                 },
                 error:function(resp) {
                     $('.popuploader').hide();
+                    //show error msg
                     var html = errorMessage('Something went wrong. Please try again.');
                     $(".custom-error-msg").html(html);
                 }
@@ -723,4 +797,5 @@ function deleteSlotAction( id, table ) {
     }
 }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/feature/appointmentdisabledate/index.blade.php ENDPATH**/ ?>

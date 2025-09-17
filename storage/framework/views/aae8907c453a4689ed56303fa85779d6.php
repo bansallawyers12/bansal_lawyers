@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Create Blog Category')
 
-@section('content')
+<?php $__env->startSection('title', 'Edit Blog Category'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
 /* Modern Blog Category Form Design */
 :root {
@@ -40,7 +40,7 @@
 }
 
 .modern-form-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
     padding: 2rem;
     position: relative;
     overflow: hidden;
@@ -156,8 +156,8 @@
 
 .modern-form-input:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
 .modern-form-input::placeholder {
@@ -178,8 +178,8 @@
 
 .modern-select:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
 .modern-checkbox-container {
@@ -262,6 +262,19 @@ input:checked + .modern-checkbox-slider:before {
     margin-top: 0.5rem;
 }
 
+.modern-info-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
 @media (max-width: 768px) {
     .modern-form-container {
         padding: 1rem;
@@ -291,7 +304,7 @@ input:checked + .modern-checkbox-slider:before {
 	<section class="section">
 		<div class="section-body">
 			<div class="server-error">
-				@include('Elements.flash-message')
+				<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			</div>
 			<div class="custom-error-msg">
 			</div>
@@ -302,33 +315,42 @@ input:checked + .modern-checkbox-slider:before {
 						<div class="modern-form-card">
 							<div class="modern-form-header">
 								<h3 class="modern-form-title">
-									<i class="fas fa-plus-circle"></i>
-									Create Blog Category
+									<i class="fas fa-edit"></i>
+									Edit Blog Category
 								</h3>
 								<div class="modern-form-actions">
-									<a href="{{route('admin.blogcategory.index')}}" class="modern-btn modern-btn-secondary">
+									<a href="<?php echo e(route('admin.blogcategory.index')); ?>" class="modern-btn modern-btn-secondary">
 										<i class="fas fa-arrow-left"></i>
 										Back to Categories
 									</a>
 								</div>
 							</div>
 							
-							<form action="admin/blogcategories/store" autocomplete="off" method="post" id="create-category-form">
-								@csrf
+							<form action="admin/blogcategories/edit" autocomplete="off" method="post" id="edit-category-form">
+								<?php echo csrf_field(); ?>
+								<input type="hidden" name="id" value="<?php echo e($fetchedData->id); ?>">
+								
 								<div class="modern-form-body">
+									<div class="modern-info-badge">
+										<i class="fas fa-info-circle"></i>
+										Editing Category ID: #<?php echo e($fetchedData->id); ?>
+
+									</div>
+
 									<div class="modern-form-group">
 										<label for="name" class="modern-form-label">
 											Category Name
 											<span class="required">*</span>
 										</label>
-										<input name="name" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter category name (e.g., Technology, Business)" value="{{ old('name') }}">
-										@if ($errors->has('name'))
+										<input name="name" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter category name" value="<?php echo e(old('name', $fetchedData->name)); ?>">
+										<?php if($errors->has('name')): ?>
 											<span class="modern-error">
-												{{ $errors->first('name') }}
+												<?php echo e($errors->first('name')); ?>
+
 											</span> 
-										@endif
+										<?php endif; ?>
 										<div class="modern-help-text">
-											Choose a descriptive name for your blog category
+											Update the descriptive name for your blog category
 										</div>
 									</div>
 
@@ -337,12 +359,13 @@ input:checked + .modern-checkbox-slider:before {
 											URL Slug
 											<span class="required">*</span>
 										</label>
-										<input name="slug" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter URL slug (e.g., technology, business)" value="{{ old('slug') }}">
-										@if ($errors->has('slug'))
+										<input name="slug" type="text" class="modern-form-input" data-valid="required" autocomplete="off" placeholder="Enter URL slug" value="<?php echo e(old('slug', $fetchedData->slug)); ?>">
+										<?php if($errors->has('slug')): ?>
 											<span class="modern-error">
-												{{ $errors->first('slug') }}
+												<?php echo e($errors->first('slug')); ?>
+
 											</span> 
-										@endif
+										<?php endif; ?>
 										<div class="modern-help-text">
 											URL-friendly version of the name (lowercase, no spaces, use hyphens)
 										</div>
@@ -352,16 +375,19 @@ input:checked + .modern-checkbox-slider:before {
 										<label for="parent_id" class="modern-form-label">Parent Category</label>
 										<select class="modern-select" name="parent_id">
 											<option value="">- Select Parent Category (Optional) -</option>
-											@if($categories)
-												@foreach($categories as $category)
-													<option value="{{$category->id}}" {{ old('parent_id') == $category->id ? 'selected' : '' }}>
-														{{$category->name}}
-													</option>
-												@endforeach
-											@endif
+											<?php if($categories): ?>
+												<?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+													<?php if($category->id != $fetchedData->id): ?>
+														<option value="<?php echo e($category->id); ?>" <?php echo e(old('parent_id', $fetchedData->parent_id) == $category->id ? 'selected' : ''); ?>>
+															<?php echo e($category->name); ?>
+
+														</option>
+													<?php endif; ?>
+												<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+											<?php endif; ?>
 										</select>
 										<div class="modern-help-text">
-											Leave empty for a root category, or select a parent to create a subcategory
+											Leave empty for a root category, or select a parent to make this a subcategory
 										</div>
 									</div>
 
@@ -369,7 +395,7 @@ input:checked + .modern-checkbox-slider:before {
 										<label for="status" class="modern-form-label">Category Status</label>
 										<div class="modern-checkbox-container">
 											<label class="modern-checkbox">
-												<input value="1" type="checkbox" name="status" {{ old('status', '1') ? 'checked' : '' }} data-bootstrap-switch>
+												<input value="1" type="checkbox" name="status" <?php echo e(old('status', $fetchedData->status) == 1 ? 'checked' : ''); ?> data-bootstrap-switch>
 												<span class="modern-checkbox-slider"></span>
 											</label>
 											<span class="modern-checkbox-label">Active (visible on website)</span>
@@ -381,13 +407,13 @@ input:checked + .modern-checkbox-slider:before {
 								</div>
 
 								<div class="modern-form-footer">
-									<a href="{{route('admin.blogcategory.index')}}" class="modern-btn modern-btn-secondary">
+									<a href="<?php echo e(route('admin.blogcategory.index')); ?>" class="modern-btn modern-btn-secondary">
 										<i class="fas fa-times"></i>
 										Cancel
 									</a>
-									<button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('add-blogcategory')">
+									<button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('edit-blogcategory')">
 										<i class="fas fa-save"></i>
-										Create Category
+										Update Category
 									</button>
 								</div>
 							</form>
@@ -401,7 +427,7 @@ input:checked + .modern-checkbox-slider:before {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-generate slug from name
+    // Auto-generate slug from name (but allow user to override)
     const nameInput = document.querySelector('input[name="name"]');
     const slugInput = document.querySelector('input[name="slug"]');
     
@@ -424,7 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Enhanced form validation
-    const form = document.getElementById('create-category-form');
+    const form = document.getElementById('edit-category-form');
     const submitBtn = document.querySelector('.modern-btn-primary');
     
     if (form && submitBtn) {
@@ -438,4 +464,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/blogcategory/edit.blade.php ENDPATH**/ ?>

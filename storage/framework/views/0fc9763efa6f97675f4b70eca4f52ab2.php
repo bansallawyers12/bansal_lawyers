@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('title', 'Appointments'); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -72,6 +73,313 @@
 .fc-time-grid .fc-slats .fc-major td{border-top-color:#cbd5e1;}
 .fc .fc-axis, .fc-day-header{background:#fff;border-bottom:1px solid #eef2f7;}
 .fc-day-header{font-weight:700;color:#1f2937;}
+
+/* Enhanced Modal Styling - Fixed positioning */
+#event-details-modal {
+    z-index: 1050 !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+#event-details-modal .modal-dialog {
+    position: relative;
+    margin: 1rem auto;
+    max-width: 700px;
+    width: 90%;
+    max-height: calc(100vh - 2rem);
+    display: flex;
+    flex-direction: column;
+}
+#event-details-modal .modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    position: relative;
+    background: #fff;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+}
+#event-details-modal .modal-header {
+    background: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%);
+    color: white;
+    border-radius: 12px 12px 0 0;
+    border-bottom: none;
+    padding: 1.5rem;
+}
+#event-details-modal .modal-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin: 0;
+}
+#event-details-modal .close {
+    color: white;
+    opacity: 0.8;
+    text-shadow: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+}
+#event-details-modal .close:hover {
+    opacity: 1;
+    color: white;
+}
+#event-details-modal .modal-body {
+    padding: 2rem;
+    background: #ffffff;
+    color: #333;
+    font-size: 14px;
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+}
+#event-details-modal .modal-body .clienturl {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    border-left: 4px solid #1B4D89;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+#event-details-modal .modal-body .clienturl .row {
+    align-items: center;
+}
+#event-details-modal .modal-body .clienturl strong {
+    font-size: 18px;
+    color: #1B4D89;
+    font-weight: 700;
+}
+#event-details-modal .modal-body dl {
+    margin-bottom: 1rem;
+}
+#event-details-modal .modal-body dt {
+    font-weight: 700;
+    color: #6c757d;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e9ecef;
+    position: relative;
+}
+#event-details-modal .modal-body dt:first-child {
+    margin-top: 0;
+}
+#event-details-modal .modal-body dt::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: #1B4D89;
+}
+#event-details-modal .modal-body dd {
+    font-weight: 600;
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 0;
+    padding: 0.75rem 1rem;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+#event-details-modal .form-control-sm {
+    font-size: 13px;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 2px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+#event-details-modal .form-control-sm:focus {
+    border-color: #1B4D89;
+    box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
+}
+/* Enhanced Edit Form Styling */
+#event-details-modal .if_edit_followup {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    border: 1px solid #e9ecef;
+}
+#event-details-modal .if_edit_followup .form-group {
+    margin-bottom: 1.5rem;
+}
+#event-details-modal .if_edit_followup label {
+    font-weight: 600;
+    color: #495057;
+    font-size: 14px;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+#event-details-modal .if_edit_followup .form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+#event-details-modal .if_edit_followup .form-control:focus {
+    border-color: #1B4D89;
+    box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
+}
+#event-details-modal .if_edit_followup textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+/* Modern Button Styling */
+#event-details-modal .btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+#event-details-modal .btn-primary {
+    background: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(27, 77, 137, 0.3);
+}
+#event-details-modal .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(27, 77, 137, 0.4);
+    color: white;
+    text-decoration: none;
+}
+#event-details-modal .btn-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
+}
+#event-details-modal .btn-info:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+    color: white;
+    text-decoration: none;
+}
+#event-details-modal .editfollowupdate {
+    color: #1B4D89;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 1rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+#event-details-modal .editfollowupdate:hover {
+    background: #1B4D89;
+    color: white;
+    text-decoration: none;
+}
+#event-details-modal .editfollowupdate i {
+    margin-right: 0.25rem;
+}
+/* Ensure modal is hidden by default */
+#event-details-modal {
+    display: none !important;
+}
+/* Force modal display when show class is added */
+#event-details-modal.show {
+    display: block !important;
+}
+/* Modal backdrop styling */
+.modal-backdrop {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    z-index: 1040 !important;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-backdrop.show {
+    opacity: 0.5;
+}
+/* Ensure body doesn't scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+/* Status Dropdown Styling */
+#event-details-modal #updateappointmentstatus {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="%236B7280" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 8l4 4 4-4"/></svg>');
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+}
+#event-details-modal #updateappointmentstatus:focus {
+    border-color: #1B4D89;
+    box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
+}
+#event-details-modal #updateappointmentstatus:hover {
+    border-color: #1B4D89;
+}
+/* Responsive improvements */
+@media (max-width: 768px) {
+    #event-details-modal {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+    #event-details-modal .modal-dialog {
+        margin: 0.5rem;
+        width: calc(100% - 1rem);
+        max-width: none;
+        max-height: calc(100vh - 1rem);
+    }
+    #event-details-modal .modal-body {
+        padding: 1.5rem;
+        max-height: calc(100vh - 150px);
+    }
+    #event-details-modal .modal-body .clienturl {
+        padding: 1rem;
+    }
+    #event-details-modal .modal-body .clienturl .row {
+        flex-direction: column;
+        text-align: center;
+    }
+    #event-details-modal .modal-body .clienturl .col-md-6:last-child {
+        margin-top: 1rem;
+    }
+    #event-details-modal .modal-body dd {
+        font-size: 16px;
+        padding: 0.5rem 0.75rem;
+    }
+    #event-details-modal .if_edit_followup {
+        padding: 1.5rem;
+    }
+    #event-details-modal .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        justify-content: center;
+    }
+}
 </style>
 <!-- Main Content -->
 <div class="main-content">
@@ -260,6 +568,11 @@ foreach($appointments as $appointment){
 <script src="<?php echo e(asset('js/bootstrap-datepicker.js')); ?>"></script>
 <script>
 jQuery(document).ready(function($){
+    // Ensure modal is hidden on page load
+    $('#event-details-modal').removeClass('show').css('display', 'none');
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+    
     $('.followup_date').datepicker({
         format: 'dd/mm/yyyy',
         autoclose: true
@@ -268,6 +581,14 @@ jQuery(document).ready(function($){
     $(document).delegate('.editfollowupdate', 'click', function(){
         $('.if_edit_followup').show();
         $('.editfollowupdate').hide();
+        
+        // Scroll to the edit form
+        setTimeout(function() {
+            var editForm = $('.if_edit_followup');
+            if (editForm.length) {
+                editForm[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }, 100);
     });
     $(document).delegate('.cancelfollowupdate', 'click', function(){
         $('.if_edit_followup').hide();
@@ -279,6 +600,41 @@ jQuery(document).ready(function($){
 		var aid = $('#appid').val();
 		window.location.href = '<?php echo e(URL::to('/admin/updateappointmentstatus')); ?>/'+v+'/'+aid;
     });
+
+    // Enhanced modal close functionality
+    $(document).on('click', '[data-dismiss="modal"], .close', function() {
+        closeModal();
+    });
+    
+    $(document).on('click', '.modal-backdrop', function() {
+        closeModal();
+    });
+    
+    $(document).on('keyup', function(e) {
+        if (e.keyCode === 27) { // ESC key
+            closeModal();
+        }
+    });
+    
+    function closeModal() {
+        var modal = $('#event-details-modal');
+        try {
+            if (typeof $.fn.modal !== 'undefined') {
+                modal.modal('hide');
+            } else {
+                // Manual close
+                modal.removeClass('show').css('display', 'none');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            }
+        } catch (error) {
+            console.error('Error closing modal:', error);
+            // Force close
+            modal.removeClass('show').css('display', 'none');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+        }
+    }
 
 });
 
@@ -331,61 +687,112 @@ var calendar = $("#myEvent").fullCalendar({
   timezone: 'Australia/Melbourne',
   // Remove timezone conversion to prevent date/time shifting
   eventClick: function(info) {
-		console.log(info);
+            // Only proceed if this is a valid event click with data
+            if (!info || !info.id) {
+                return false;
+            }
+            
             var details = $('#event-details-modal');
             var id = info.id;
 
-            if (!!scheds[id]) {
-                //details.find('#title').text(scheds[id].title);
-              	details.find('#service').text(scheds[id].service);
-            	details.find('#nature_of_enquiry').text(scheds[id].nature_of_enquiry);
-               	details.find('#timeslot_full').text(scheds[id].timeslot_full);
+            if (!!scheds[id] && scheds[id].name && scheds[id].service) {
+                // Clear any previous selections
+                var csel1='', csel2='', csel3='', csel4='', csel5='', csel6='', csel7='', csel8='', csel9='', csel10='', csel11='';
+                
+                details.find('#service').text(scheds[id].service || 'N/A');
+            	details.find('#nature_of_enquiry').text(scheds[id].nature_of_enquiry || 'N/A');
+               	details.find('#timeslot_full').text(scheds[id].timeslot_full || 'N/A');
 				details.find('#appointment_id').val(id);
 
-                details.find('#followup_date').val(scheds[id].appointdate);
-                details.find('#followup_time').val(scheds[id].appointtime);
-
-                //details.find('#description').text(scheds[id].description);
-                //details.find('#edit_description').val(scheds[id].description);
-
-                //details.find('#description').text(decodeHTMLEntities(scheds[id].description));
-            	//details.find('#edit_description').val(decodeHTMLEntities(scheds[id].description));
+                details.find('#followup_date').val(scheds[id].appointdate || '');
+                details.find('#followup_time').val(scheds[id].appointtime || '');
 
                 details.find('#start').html(scheds[id].start+' <a href="javascript:;" class="editfollowupdate"><i class="fa fa-edit"></i> Edit</a>');
-                if (scheds[id].url) {
-					//window.open(scheds[id].url, "_blank");
-					//return false;
-				}
-				var csel = '';
+                
+                // Ensure edit form is hidden initially
+                details.find('.if_edit_followup').hide();
+                details.find('.editfollowupdate').show();
+                
+                // Set selected status
                 if(scheds[id].status == '1'){
-                    var csel1 = 'selected';
+                    csel1 = 'selected';
                 } else if(scheds[id].status == '2'){
-                    var csel2 = 'selected';
+                    csel2 = 'selected';
                 } else if(scheds[id].status == '3'){
-                    var csel3 = 'selected';
+                    csel3 = 'selected';
                 } else if(scheds[id].status == '4'){
-                    var csel4 = 'selected';
+                    csel4 = 'selected';
                 } else if(scheds[id].status == '5'){
-                    var csel5 = 'selected';
+                    csel5 = 'selected';
                 } else if(scheds[id].status == '6'){
-                    var csel6 = 'selected';
+                    csel6 = 'selected';
                 } else if(scheds[id].status == '7'){
-                    var csel7 = 'selected';
+                    csel7 = 'selected';
                 } else if(scheds[id].status == '8'){
-                    var csel8 = 'selected';
+                    csel8 = 'selected';
                 } else if(scheds[id].status == '9'){
-                    var csel9 = 'selected';
+                    csel9 = 'selected';
                 } else if(scheds[id].status == '10'){
-                    var csel10 = 'selected';
+                    csel10 = 'selected';
                 } else if(scheds[id].status == '11'){
-                    var csel11 = 'selected';
+                    csel11 = 'selected';
                 }
-            	//details.find('.clienturl').html('<div class="row"><div class="col-md-6"><a class="btn btn-outline-primary btn-sm" href="'+scheds[id].url+'">'+atob(scheds[id].name)+' '+scheds[id].stitle+'</a> </div><div class="col-md-6" style="text-align: right;"><select class="" id="updateappointmentstatus"><option value="0">In Progress</option><option value="1" '+csel+'>Completed</option></select><input type="hidden" id="appid" value="'+id+'"></div>');
-           		 details.find('.clienturl').html('<div class="row"><div class="col-md-6">'+atob(scheds[id].name)+' '+scheds[id].stitle+'</div><div class="col-md-6" style="text-align: right;"><select class="" id="updateappointmentstatus"><option value="0">Pending</option><option value="1" '+csel1+'>Approve</option><option value="2" '+csel2+'>Completed</option><option value="3" '+csel3+'>Rejected</option><option value="4" '+csel4+'>N/P</option><option value="5" '+csel5+'>Inrogress</option><option value="6" '+csel6+'>Did Not Come</option><option value="7" '+csel7+'>Cancelled</option><option value="8" '+csel8+'>Missed</option><option value="9" '+csel9+'>Pending With payment Pending</option><option value="10" '+csel10+'>Pending With payment Success</option><option value="11" '+csel11+'>Pending With payment Failed</option></select><input type="hidden" id="appid" value="'+id+'"></div>');
-            	details.modal('show');
-            	//window.location.href = scheds[id].url;
+                
+                // Build client info and status dropdown
+                var clientName = atob(scheds[id].name);
+                
+           		details.find('.clienturl').html('<div class="row"><div class="col-md-6"><strong>'+clientName+' '+scheds[id].stitle+'</strong></div><div class="col-md-6" style="text-align: right;"><select class="form-control form-control-sm" id="updateappointmentstatus"><option value="0">Pending</option><option value="1" '+csel1+'>Approve</option><option value="2" '+csel2+'>Completed</option><option value="3" '+csel3+'>Rejected</option><option value="4" '+csel4+'>N/P</option><option value="5" '+csel5+'>Inrogress</option><option value="6" '+csel6+'>Did Not Come</option><option value="7" '+csel7+'>Cancelled</option><option value="8" '+csel8+'>Missed</option><option value="9" '+csel9+'>Pending With payment Pending</option><option value="10" '+csel10+'>Pending With payment Success</option><option value="11" '+csel11+'>Pending With payment Failed</option></select><input type="hidden" id="appid" value="'+id+'"></div></div>');
+                
+                // Enhanced modal display with multiple fallbacks
+                try {
+                    // First ensure modal is properly positioned
+                    details.css({
+                        'position': 'fixed',
+                        'z-index': '1050',
+                        'top': '0',
+                        'left': '0',
+                        'width': '100%',
+                        'height': '100%'
+                    });
+                    
+                    // Try Bootstrap modal
+                    if (typeof $.fn.modal !== 'undefined') {
+                        details.modal({
+                            backdrop: 'static',
+                            keyboard: true,
+                            show: true
+                        });
+                    } else {
+                        // Manual modal display
+                        details.addClass('show').css('display', 'block');
+                        $('body').addClass('modal-open');
+                        
+                        // Add backdrop if it doesn't exist
+                        if ($('.modal-backdrop').length === 0) {
+                            $('body').append('<div class="modal-backdrop fade show"></div>');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error showing modal:', error);
+                    // Force manual display
+                    details.addClass('show').css({
+                        'display': 'block',
+                        'position': 'fixed',
+                        'z-index': '1050',
+                        'top': '0',
+                        'left': '0',
+                        'width': '100%',
+                        'height': '100%'
+                    });
+                    $('body').addClass('modal-open');
+                    if ($('.modal-backdrop').length === 0) {
+                        $('body').append('<div class="modal-backdrop fade show"></div>');
+                    }
+                }
+                
             } else {
-                alert("Event is undefined");
+                // No valid event data found, do nothing
+                return false;
             }
         }
 
@@ -398,14 +805,16 @@ var calendar = $("#myEvent").fullCalendar({
     padding-left: 5px; /* Optional padding */
 }
 </style>
-<div class="modal fade" tabindex="-1" data-bs-backdrop="static" id="event-details-modal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-0">
-                <div class="modal-header rounded-0">
-                    <h5 class="modal-title">Schedule Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+<div class="modal fade" tabindex="-1" id="event-details-modal" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Appointment Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-times"></i></span>
+                    </button>
                 </div>
-                <div class="modal-body rounded-0">
+                <div class="modal-body">
 
                     <div class="container-fluid">
                         <div class="clienturl"></div>

@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Create Appointment Configuration')
 
-@section('content')
+<?php $__env->startSection('title', 'Create Appointment Configuration'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
 /* Modern Appointment Configuration Create Design System */
 :root {
@@ -461,7 +461,7 @@
     <section class="section">
         <div class="section-body">
             <div class="server-error">
-                @include('Elements.flash-message')
+                <?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
             </div>
             <div class="custom-error-msg">
             </div>
@@ -476,7 +476,7 @@
                                     Create Appointment Configuration
                                 </h4>
                                 <div class="modern-header-actions">
-                                    <a href="{{route('admin.feature.appointmentdisabledate.index')}}" class="modern-btn modern-btn-back">
+                                    <a href="<?php echo e(route('admin.feature.appointmentdisabledate.index')); ?>" class="modern-btn modern-btn-back">
                                         <i class="fas fa-arrow-left"></i>
                                         Back to Configurations
                                     </a>
@@ -495,8 +495,8 @@
                                     </p>
                                 </div>
 
-                                <form action="{{route('admin.feature.appointmentdisabledate.store')}}" method="post" id="config-form">
-                                    @csrf
+                                <form action="<?php echo e(route('admin.feature.appointmentdisabledate.store')); ?>" method="post" id="config-form">
+                                    <?php echo csrf_field(); ?>
                                     
                                     <!-- Person Selection -->
                                     <div class="modern-form-section">
@@ -712,4 +712,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/feature/appointmentdisabledate/create.blade.php ENDPATH**/ ?>
