@@ -1031,7 +1031,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1049,7 +1049,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1067,7 +1067,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1085,7 +1085,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1103,7 +1103,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
   
@@ -1123,7 +1123,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1142,7 +1142,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1161,7 +1161,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1179,7 +1179,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
   
@@ -1199,7 +1199,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1218,7 +1218,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1236,7 +1236,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1254,7 +1254,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
   
@@ -1274,7 +1274,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1293,7 +1293,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1311,7 +1311,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1329,7 +1329,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
   
@@ -1348,7 +1348,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1366,7 +1366,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1384,7 +1384,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
             }
-            return view('practice_area_inner', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
         }
     }
 
@@ -1447,7 +1447,7 @@ class HomeController extends Controller
         $currentPage = $bloglists->currentPage();
         $totalPages = $bloglists->lastPage();
         
-        return view('blog-experimental', compact(['bloglists', 'blogData', 'blogCategories', 'currentPage', 'totalPages']));
+        return view('blog', compact(['bloglists', 'blogData', 'blogCategories', 'currentPage', 'totalPages']));
     }
     
     /**
@@ -1460,7 +1460,7 @@ class HomeController extends Controller
             $category = BlogCategory::where('slug', $categorySlug)->where('status', 1)->first();
             
             if (!$category) {
-                return Redirect::to('/blog-experimental')->with('error', 'Category not found');
+                return Redirect::to('/blog')->with('error', 'Category not found');
             }
             
             // Get blogs for this category with pagination
@@ -1481,10 +1481,10 @@ class HomeController extends Controller
             $currentPage = $bloglists->currentPage();
             $totalPages = $bloglists->lastPage();
             
-            return view('blog-experimental', compact(['bloglists', 'blogData', 'blogCategories', 'category', 'currentPage', 'totalPages']));
+            return view('blog', compact(['bloglists', 'blogData', 'blogCategories', 'category', 'currentPage', 'totalPages']));
         }
         
-        return Redirect::to('/blog-experimental')->with('error', 'Invalid category');
+        return Redirect::to('/blog')->with('error', 'Invalid category');
     }
     
     /**
@@ -1512,12 +1512,12 @@ class HomeController extends Controller
                     return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
                 });
                 
-                return view('blog-detail-experimental', compact(['blogdetailists','latestbloglists', 'blogCategories']));
+                return view('blogdetail', compact(['blogdetailists','latestbloglists', 'blogCategories']));
             } else {
-                return Redirect::to('/blog-experimental')->with('error', 'Blog not found');
+                return Redirect::to('/blog')->with('error', 'Blog not found');
             }
         } else {
-            return Redirect::to('/blog-experimental')->with('error', 'Invalid blog URL');
+            return Redirect::to('/blog')->with('error', 'Invalid blog URL');
         }
     }
 

@@ -51,7 +51,7 @@
 }
 </style>
 
-<nav style="background-color: #1B4D89; padding: 15px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: relative;">
+<nav style="background-color: #1B4D89; padding: 15px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;">
     <div style="max-width: 1200px; margin: 0 auto; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
         <!-- Logo -->
         <a href="<?php echo e(url('/')); ?>" style="text-decoration: none;">

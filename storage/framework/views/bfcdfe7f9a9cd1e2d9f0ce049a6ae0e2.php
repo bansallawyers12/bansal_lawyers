@@ -1,6 +1,4 @@
-@extends('layouts.frontend_appointment')
-
-@section('seoinfo')
+<?php $__env->startSection('seoinfo'); ?>
     <title>Book Appointment with Top Law Firm in Melbourne</title>
     <meta name="description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more." />
 
@@ -11,7 +9,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Book an Appointment | Schedule a Consultation with Top Law Firm Bansal Lawyers Melbourne">
     <meta property="og:description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more.">
-    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Twitter Meta Tags -->
@@ -20,7 +18,7 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/book-an-appointment">
     <meta name="twitter:title" content="Book an Appointment | Schedule a Consultation with Top Law Firm Bansal Lawyers Melbourne">
     <meta name="twitter:description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more.">
-    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="twitter:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 <!-- Hotjar Tracking Code for https://www.bansallawyers.com.au/migration-law -->
@@ -34,9 +32,9 @@
         a.appendChild(r);
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <style>
 
@@ -56,7 +54,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset('images/coart_1.jpg') }}') center/cover;
+    background: url('<?php echo e(asset('images/coart_1.jpg')); ?>') center/cover;
     opacity: 0.1;
     z-index: 1;
 }
@@ -2589,9 +2587,9 @@
                         <label for="noe_id">Type of Legal Matter</label>
                         <select class="experimental-form-control enquiry_item" name="noe_id" required>
                             <option value="">Select the type of legal matter</option>
-                            @foreach(\App\Models\NatureOfEnquiry::where('status',1)->get() as $enquiry)
-                                <option value="{{$enquiry->id}}">{{$enquiry->title}}</option>
-                            @endforeach
+                            <?php $__currentLoopData = \App\Models\NatureOfEnquiry::where('status',1)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $enquiry): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($enquiry->id); ?>"><?php echo e($enquiry->title); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
                     
@@ -2734,9 +2732,9 @@
     </div>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
@@ -3994,4 +3992,6 @@ $(function() {
 });
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.frontend_appointment', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/bookappointment.blade.php ENDPATH**/ ?>

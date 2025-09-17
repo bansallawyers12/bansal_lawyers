@@ -19,7 +19,7 @@
         <meta name="keyword" content="Bansal Lawyers, Legal Blog, {{ $blogdetailists->title }}" />
     @endif
 
-    <link rel="canonical" href="{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}" />
+    <link rel="canonical" href="{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}" />
     
     <!-- Robots Meta Tags -->
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -27,7 +27,7 @@
     <meta name="bingbot" content="index, follow">
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}">
+    <meta property="og:url" content="{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}">
     <meta property="og:type" content="article">
     <meta property="og:title" content="{{ $blogdetailists->meta_title ?: $blogdetailists->title }}">
     <meta property="og:description" content="{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
@@ -42,7 +42,7 @@
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
-    <meta property="twitter:url" content="{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}">
+    <meta property="twitter:url" content="{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}">
     <meta name="twitter:title" content="{{ $blogdetailists->meta_title ?: $blogdetailists->title }}">
     <meta name="twitter:description" content="{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
     <meta property="twitter:image" content="{{ isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') }}">
@@ -73,9 +73,9 @@
       "dateModified": "{{ $blogdetailists->updated_at }}",
       "mainEntityOfPage": {
         "@@type": "WebPage",
-        "@@id": "{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}"
+        "@@id": "{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}"
       },
-      "url": "{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}",
+      "url": "{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}",
       @if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail)
       "articleSection": {!! json_encode($blogdetailists->categorydetail->name) !!},
       @endif
@@ -99,13 +99,13 @@
           "@@type": "ListItem",
           "position": 2,
           "name": "Blog",
-          "item": "{{ URL::to('/blog-experimental') }}"
+          "item": "{{ URL::to('/blog') }}"
         },
         {
           "@@type": "ListItem",
           "position": 3,
           "name": "{{ $blogdetailists->title }}",
-          "item": "{{ URL::to('/') }}/blog-experimental/{{ $blogdetailists->slug }}"
+          "item": "{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}"
         }
       ]
     }
@@ -514,7 +514,7 @@
     <div class="container">
         <a href="/">Home</a>
         <span class="separator">></span>
-        <a href="{{ route('blog.experimental') }}">Blog</a>
+        <a href="{{ route('blog.index') }}">Blog</a>
         <span class="separator">></span>
         <span>{{ $blogdetailists->title }}</span>
     </div>
@@ -532,7 +532,7 @@
             @if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail)
                 <span>
                     <i class="ion-ios-folder mr-2"></i>
-                    <a href="{{ route('blog.experimental.category', $blogdetailists->categorydetail->slug) }}" 
+                    <a href="{{ route('blog.category', $blogdetailists->categorydetail->slug) }}" 
                        style="color: white; text-decoration: none;">
                         {{ $blogdetailists->categorydetail->name }}
                     </a>
@@ -699,7 +699,7 @@
                                     </div>
                                     <div class="experimental-related-content" style="padding: 20px;">
                                         <h5 style="margin: 0 0 10px 0; font-size: 1rem; line-height: 1.3; color: #1B4D89; font-weight: 600;">
-                                            <a href="{{ route('blog.experimental.detail', $related->slug) }}" 
+                                            <a href="{{ route('blog.detail', $related->slug) }}" 
                                                style="color: #1B4D89; text-decoration: none; transition: color 0.3s ease;">
                                                 {{ $related->title }}
                                             </a>
@@ -766,7 +766,7 @@
                             @endif
                             <div class="experimental-latest-post-content">
                                 <h5>
-                                    <a href="{{ route('blog.experimental.detail', $list->slug) }}">
+                                    <a href="{{ route('blog.detail', $list->slug) }}">
                                         {{ $list->title }}
                                     </a>
                                 </h5>
@@ -782,7 +782,7 @@
                         <h4>Categories</h4>
                         <div style="display: flex; flex-direction: column; gap: 10px;">
                             @foreach($blogCategories as $cat)
-                                <a href="{{ route('blog.experimental.category', $cat->slug) }}" 
+                                <a href="{{ route('blog.category', $cat->slug) }}" 
                                    style="color: #1B4D89; text-decoration: none; padding: 8px 12px; border-radius: 8px; background: #f8f9fa; transition: all 0.3s ease;"
                                    onmouseover="this.style.background='#1B4D89'; this.style.color='white'"
                                    onmouseout="this.style.background='#f8f9fa'; this.style.color='#1B4D89'">

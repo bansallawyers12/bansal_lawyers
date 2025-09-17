@@ -38,10 +38,6 @@ Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperiment
 Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.category');
 Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogDetailExperimental'])->name('blog.detail');
 
-// Experimental Blog Routes
-Route::get('/blog-experimental', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.experimental');
-Route::get('/blog-experimental/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.experimental.category');
-Route::get('/blog-experimental/{slug}', [App\Http\Controllers\HomeController::class, 'blogDetailExperimental'])->name('blog.experimental.detail');
 
 // Backup routes for original blog
 Route::get('/blog-original', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog.original');
@@ -57,6 +53,11 @@ Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'con
 Route::post('/contact/submit', [App\Http\Controllers\HomeController::class, 'contactSubmit'])->name('contact.submit');
 
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
+
+// Test Footer Page
+Route::get('/test-footer', function () {
+    return view('test-footer');
+})->name('test-footer');
 
 Route::get('stripe/{appointmentId}', [App\Http\Controllers\HomeController::class, 'stripe']);
 Route::post('stripe', [App\Http\Controllers\HomeController::class, 'stripePost'])->name('stripe.post1');

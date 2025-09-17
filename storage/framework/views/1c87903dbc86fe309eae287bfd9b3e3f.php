@@ -1,93 +1,115 @@
 <!-- START: Footer Section -->
 <style>
-/* Professional dark footer - SEO optimized and lightweight */
+/* Modern Footer Design - Professional and Dynamic */
 :root {
-    --footer-bg-primary: #2c5282;
-    --footer-bg-secondary: #4a5568;
-    --footer-text-primary: #ffffff;
-    --footer-text-secondary: #e2e8f0;
-    --footer-text-muted: #a0aec0;
-    --footer-accent: #ff6b35;
-    --footer-border: rgba(255, 255, 255, 0.1);
+    --primary-color: #1B4D89;
+    --secondary-color: #2c5aa0;
+    --accent-color: #FF6B35;
+    --text-light: #ffffff;
+    --text-muted: #e2e8f0;
+    --text-dark: #2c3e50;
+    --bg-light: #f8f9fa;
+    --gradient-primary: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%);
+    --gradient-accent: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
+    --shadow: 0 10px 30px rgba(0,0,0,0.1);
+    --shadow-hover: 0 20px 40px rgba(0,0,0,0.15);
 }
-.footer-section {
-    background: linear-gradient(135deg, var(--footer-bg-primary) 0%, var(--footer-bg-secondary) 100%);
-    color: var(--footer-text-primary);
-    padding: 3rem 0 1.5rem;
+
+/* NEW MODERN FOOTER STYLES */
+.modern-footer {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    color: var(--text-light);
     position: relative;
     overflow: hidden;
 }
 
-.footer-section .container {
+.modern-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(27, 77, 137, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
+    z-index: 1;
+}
+
+.footer-content {
     position: relative;
     z-index: 2;
+    padding: 4rem 0 2rem;
+}
+
+.footer-brand {
+    margin-bottom: 2rem;
 }
 
 .footer-logo {
     font-size: 2.5rem;
     font-weight: 800;
-    color: var(--footer-text-primary);
+    color: var(--text-light);
     text-decoration: none;
     margin-bottom: 10px;
-    line-height: 1.2;
     display: block;
-    letter-spacing: -0.5px;
+    transition: all 0.3s ease;
 }
 
 .footer-logo:hover {
-    color: var(--footer-text-primary);
+    color: var(--accent-color);
     text-decoration: none;
+    transform: translateY(-2px);
 }
 
-.footer-subtitle {
-    color: var(--footer-text-primary);
+.footer-tagline {
+    color: var(--accent-color);
     font-size: 1.1rem;
     font-weight: 600;
-    margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    opacity: 0.9;
+    margin-bottom: 20px;
 }
 
-.footer-heading {
-    color: var(--footer-text-primary);
-    font-size: 1.4rem;
+.footer-description {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section-title {
+    color: var(--text-light);
+    font-size: 1.3rem;
     font-weight: 700;
-    margin-bottom: 25px;
+    margin-bottom: 1.5rem;
     position: relative;
+    display: inline-block;
 }
 
-.footer-heading::after {
+.footer-section-title::after {
     content: '';
     position: absolute;
     bottom: -8px;
     left: 0;
-    width: 40px;
+    width: 50px;
     height: 3px;
-    background: var(--footer-accent);
+    background: var(--gradient-accent);
     border-radius: 2px;
 }
 
-.footer-text {
-    color: var(--footer-text-secondary);
-    line-height: 1.6;
-    font-size: 1rem;
-    margin-bottom: 25px;
-    opacity: 0.9;
-}
-
-.footer-list {
+.footer-links {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.footer-list li {
-    margin-bottom: 8px;
+.footer-links li {
+    margin-bottom: 12px;
 }
 
-.footer-list a {
-    color: var(--footer-text-secondary);
+.footer-links a {
+    color: var(--text-muted);
     text-decoration: none;
     font-size: 1rem;
     display: flex;
@@ -95,347 +117,347 @@
     gap: 10px;
     transition: all 0.3s ease;
     padding: 8px 0;
-    font-weight: 400;
-    opacity: 0.9;
+    position: relative;
 }
 
-.footer-list a:hover {
-    color: var(--footer-accent);
-    transform: translateX(5px);
+.footer-links a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+    transform: translateX(10px);
     text-decoration: none;
-    opacity: 1;
+}
+
+.footer-links a:hover::before {
+    width: 20px;
+}
+
+.footer-links a span {
+    margin-right: 10px;
+    font-size: 0.9rem;
 }
 
 .footer-contact-item {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 15px;
-    color: var(--footer-text-secondary);
+    margin-bottom: 20px;
+    color: var(--text-muted);
 }
 
 .footer-contact-icon {
-    margin-right: 12px;
-    margin-top: 2px;
-    color: var(--footer-accent);
-    font-size: 1.1rem;
+    margin-right: 15px;
+    margin-top: 5px;
+    color: var(--accent-color);
+    font-size: 1.2rem;
     flex-shrink: 0;
+    width: 20px;
+    text-align: center;
 }
 
 .footer-contact-item a {
-    color: var(--footer-text-secondary);
+    color: var(--text-muted);
     text-decoration: none;
     transition: color 0.3s ease;
     line-height: 1.5;
-    font-size: 1rem;
-    font-weight: 400;
-    opacity: 0.9;
 }
 
 .footer-contact-item a:hover {
-    color: var(--footer-accent);
+    color: var(--accent-color);
     text-decoration: none;
-    opacity: 1;
-}
-
-.footer-contact-item span {
-    line-height: 1.5;
-    font-size: 1rem;
-    font-weight: 400;
-    opacity: 0.9;
-}
-
-.footer-hours h4 {
-    color: var(--footer-text-primary);
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.footer-hours p {
-    color: var(--footer-text-secondary);
-    margin-bottom: 8px;
-    font-size: 1rem;
-    line-height: 1.5;
-    font-weight: 400;
-    opacity: 0.9;
-}
-
-.footer-widget {
-    margin-bottom: 1.5rem;
 }
 
 .footer-social {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    display: flex;
+    gap: 15px;
+    margin-top: 2rem;
 }
 
-.footer-social li {
-    display: inline-block;
-    margin-right: 8px;
-}
-
-.footer-social li a {
-    display: inline-flex;
+.footer-social a {
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
-    color: var(--footer-text-primary);
-    font-size: 1.2rem;
+    color: var(--text-light);
+    font-size: 1.3rem;
     transition: all 0.3s ease;
     text-decoration: none;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
 }
 
-.footer-social li a:hover {
-    background: var(--footer-accent);
+.footer-social a i {
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.footer-social a:hover i {
+    transform: scale(1.1);
+}
+
+.footer-social a:hover {
+    background: var(--gradient-accent);
     color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
     text-decoration: none;
 }
 
-.footer-social li a.icon-x svg {
-    width: 16px;
-    height: 16px;
-    fill: currentColor;
-    transition: all 0.2s ease;
+/* Platform-specific hover colors */
+.footer-social a[aria-label="Facebook"]:hover {
+    background: linear-gradient(135deg, #1877F2 0%, #42A5F5 100%);
+    box-shadow: 0 10px 30px rgba(24, 119, 242, 0.4);
+}
+
+.footer-social a[aria-label="Instagram"]:hover {
+    background: linear-gradient(135deg, #E4405F 0%, #F77737 50%, #FCAF45 100%);
+    box-shadow: 0 10px 30px rgba(228, 64, 95, 0.4);
+}
+
+.footer-social a[aria-label="LinkedIn"]:hover {
+    background: linear-gradient(135deg, #0077B5 0%, #00A0DC 100%);
+    box-shadow: 0 10px 30px rgba(0, 119, 181, 0.4);
+}
+
+.footer-social a[aria-label="Twitter"]:hover {
+    background: linear-gradient(135deg, #1DA1F2 0%, #0D8BD9 100%);
+    box-shadow: 0 10px 30px rgba(29, 161, 242, 0.4);
+}
+
+.footer-social a[aria-label="YouTube"]:hover {
+    background: linear-gradient(135deg, #FF0000 0%, #FF4444 100%);
+    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4);
+}
+
+.footer-hours {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-hours h4 {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.footer-hours p {
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    font-size: 1rem;
 }
 
 .footer-bottom {
-    border-top: 1px solid var(--footer-border);
-    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem 0;
     text-align: center;
-    margin-top: 40px;
+    margin-top: 3rem;
+    position: relative;
+}
+
+.footer-bottom::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: var(--gradient-accent);
 }
 
 .footer-bottom p {
     margin: 0;
-    color: var(--footer-text-muted);
-    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
     opacity: 0.8;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
-    .footer-section {
-        padding: 2.5rem 0 1.5rem;
-    }
-    
-    .footer-heading {
-        font-size: 1.3rem;
+    .footer-content {
+        padding: 3rem 0 2rem;
     }
     
     .footer-logo {
         font-size: 2rem;
     }
     
+    .footer-section-title {
+        font-size: 1.2rem;
+    }
+    
     .footer-social {
         justify-content: center;
-        margin-top: 2rem;
     }
 }
 
 @media (max-width: 480px) {
-    .footer-section {
-        padding: 2rem 0 1rem;
-    }
-    
     .footer-logo {
         font-size: 1.8rem;
     }
     
-    .footer-subtitle {
-        font-size: 1rem;
-    }
-    
-    .footer-social li a {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
-    
-    .footer-heading {
-        font-size: 1.2rem;
+    .footer-social a {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
     }
 }
+
+/* Animation Classes */
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
 </style>
 
-<footer class="footer-section" role="contentinfo" itemscope itemtype="https://schema.org/LegalService"> 
-  <div class="container"> 
-    <!-- Hidden structured data for SEO -->
-    <div style="display: none;" itemscope itemtype="https://schema.org/Organization">
-      <span itemprop="name">Bansal Lawyers</span>
-      <span itemprop="legalName">Bansal Lawyers</span>
-      <span itemprop="foundingDate">2015</span>
-      <span itemprop="areaServed">Melbourne, Victoria, Australia</span>
-      <span itemprop="serviceType">Legal Services</span>
-      <span itemprop="priceRange">$$</span>
-      <span itemprop="paymentAccepted">Cash, Credit Card, Bank Transfer</span>
-      <span itemprop="currenciesAccepted">AUD</span>
-      <div itemprop="founder" itemscope itemtype="https://schema.org/Person">
-        <span itemprop="name">Ajay Bansal</span>
-        <span itemprop="jobTitle">Director</span>
-        <span itemprop="worksFor" itemscope itemtype="https://schema.org/Organization">
-          <span itemprop="name">Bansal Lawyers</span>
-        </span>
-      </div>
-      <div itemprop="sameAs">
-        <a href="https://www.facebook.com/profile.php?id=61562008576642">Facebook</a>
-        <a href="https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw">Instagram</a>
-        <a href="https://www.linkedin.com/company/bansallawyers">LinkedIn</a>
-        <a href="https://twitter.com/BansalLawyers">Twitter</a>
-        <a href="https://www.youtube.com/@BansalLawyers">YouTube</a>
-      </div>
-    </div>
-    
-    <div class="row mb-4">
-      <div class="col-md"> 
-        <div class="footer-widget" itemprop="name"> 
-          <h2 class="footer-logo">
-            <a href="/" itemprop="url"> 
-              <span itemprop="legalName">Bansal Lawyers</span> <span class="footer-subtitle">A Law Firm</span> 
-            </a> 
-          </h2> 
-          <p class="footer-text" itemprop="description">Professional legal services provided with expertise and care in Melbourne and beyond. Specializing in Immigration Law, Family Law, Property Law, Commercial Law, and Criminal Law.</p> 
-
-          <ul class="footer-social list-unstyled"> 
-            
-            <!-- Facebook -->
-            <li class="ftco-animate"> 
-              <a href="https://www.facebook.com/profile.php?id=61562008576642" 
-                 aria-label="Facebook" target="_blank" rel="noopener noreferrer" class="icon-fb"> 
-                <span class="icon-facebook"></span>
-              </a> 
-            </li> 
-
-            <!-- Instagram -->
-            <li class="ftco-animate"> 
-              <a href="https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw" 
-                 aria-label="Instagram" target="_blank" rel="noopener noreferrer" class="icon-ig"> 
-                <span class="icon-instagram"></span>
-              </a> 
-            </li> 
-
-            <!-- LinkedIn -->
-            <li class="ftco-animate"> 
-              <a href="https://www.linkedin.com/company/bansallawyers" 
-                 aria-label="LinkedIn" target="_blank" rel="noopener noreferrer" class="icon-ln"> 
-                <span class="icon-linkedin"></span>
-              </a> 
-            </li> 
-
-            <!-- X (Twitter) -->
-<li class="ftco-animate">
-  <a href="https://twitter.com/BansalLawyers" 
-     target="_blank" 
-     rel="noopener noreferrer" 
-     aria-label="Follow Bansal Lawyers on X (formerly Twitter)" 
-     class="icon-x">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 
-               8.502 11.24H17.28l-5.356-7.002-6.13 
-               7.002H2.486l7.73-8.834L2 2.25h6.92
-               l4.818 6.413 4.506-6.413z"/>
-    </svg>
-  </a>
-</li>
-<script> document.addEventListener("DOMContentLoaded", function() { const twitterLink = document.querySelector(".twitter-link"); if (twitterLink) { twitterLink.setAttribute("href", "https://x.com/BansalLawyers"); twitterLink.setAttribute("target", "_blank"); twitterLink.setAttribute("rel", "noopener noreferrer"); } }); </script> 
- </li> 
- <li class="ftco-animate"> 
-   <a href="https://www.youtube.com/@BansalLawyers" aria-label="YouTube"> 
-     <span class="icon-youtube-play"></span>
-   </a> 
- </li> 
-</ul> 
-  </div> 
- </div>
-            <!-- Practice Areas Links -->
-            <div class="col-md">
-                <div class="footer-widget">
-                    <h2 class="footer-heading">Practice Areas</h2>
-                    <ul class="footer-list">
-                        <li><a href="/family-law" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Family Law</a></li>
-                        <li><a href="/migration-law" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Migration Law</a></li>
-                        <li><a href="/criminal-law" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Criminal Law</a></li>
-                        <li><a href="/commercial-law" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Commercial Law</a></li>
-                        <li><a href="/property-law" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Property Law</a></li>
-                    </ul>
-                </div>
+<!-- NEW MODERN FOOTER -->
+<footer class="modern-footer" role="contentinfo" itemscope itemtype="https://schema.org/LegalService">
+    <div class="container">
+        <!-- Hidden structured data for SEO -->
+        <div style="display: none;" itemscope itemtype="https://schema.org/Organization">
+            <span itemprop="name">Bansal Lawyers</span>
+            <span itemprop="legalName">Bansal Lawyers</span>
+            <span itemprop="foundingDate">2015</span>
+            <span itemprop="areaServed">Melbourne, Victoria, Australia</span>
+            <span itemprop="serviceType">Legal Services</span>
+            <span itemprop="priceRange">$$</span>
+            <span itemprop="paymentAccepted">Cash, Credit Card, Bank Transfer</span>
+            <span itemprop="currenciesAccepted">AUD</span>
+            <div itemprop="founder" itemscope itemtype="https://schema.org/Person">
+                <span itemprop="name">Ajay Bansal</span>
+                <span itemprop="jobTitle">Director</span>
+                <span itemprop="worksFor" itemscope itemtype="https://schema.org/Organization">
+                    <span itemprop="name">Bansal Lawyers</span>
+                </span>
             </div>
-
-            <!-- Legal Services Links -->
-            <div class="col-md">
-                <div class="footer-widget">
-                    <h2 class="footer-heading">Legal Services</h2>
-                    <ul class="footer-list">
-                        <li><a href="/divorce" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Divorce Services</a></li>
-                        <li><a href="/child-custody" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Child Custody</a></li>
-                        <li><a href="/property-settlement" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Property Settlement</a></li>
-                        <li><a href="/business-law" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Business Law</a></li>
-                        <li><a href="/leasing-or-selling-a-business" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Business Leasing</a></li>
-                        <li><a href="/contracts-or-business-agreements" class="py-1 d-block"><span class="ion-ios-arrow-forward mr-3"></span>Business Contracts</a></li>
-                    </ul>
-                </div>
+            <div itemprop="sameAs">
+                <a href="https://www.facebook.com/profile.php?id=61562008576642">Facebook</a>
+                <a href="https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw">Instagram</a>
+                <a href="https://www.linkedin.com/company/bansallawyers">LinkedIn</a>
+                <a href="https://twitter.com/BansalLawyers">Twitter</a>
+                <a href="https://www.youtube.com/@BansalLawyers">YouTube</a>
             </div>
+        </div>
 
-            <!-- Contact Information -->
-            <div class="col-md">
-                <div class="footer-widget">
-                    <h2 class="footer-heading">Have a Question?</h2>
-                    <div class="block-23" itemscope itemtype="https://schema.org/PostalAddress">
-                        <!-- Hidden geo coordinates for local SEO -->
-                        <div style="display: none;" itemscope itemtype="https://schema.org/GeoCoordinates">
-                            <meta itemprop="latitude" content="-37.8136">
-                            <meta itemprop="longitude" content="144.9631">
+        <div class="footer-content">
+            <div class="row">
+                <!-- Brand Section -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="footer-brand fade-in-up">
+                        <a href="/" class="footer-logo" itemprop="url">
+                            <span itemprop="legalName">Bansal Lawyers</span>
+                        </a>
+                        <div class="footer-tagline">A Law Firm</div>
+                        <p class="footer-description" itemprop="description">
+                            Professional legal services provided with expertise and care in Melbourne and beyond. 
+                            Specializing in Immigration Law, Family Law, Property Law, Commercial Law, and Criminal Law.
+                        </p>
+                        
+                        <!-- Social Media Links -->
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/profile.php?id=61562008576642" 
+                               aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a href="https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw" 
+                               aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/company/bansallawyers" 
+                               aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                            <a href="https://twitter.com/BansalLawyers" 
+                               aria-label="Twitter" target="_blank" rel="noopener noreferrer">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@BansalLawyers" 
+                               aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                                <i class="fa fa-youtube"></i>
+                            </a>
                         </div>
-                        <ul>
-                            <li class="footer-contact-item">
-                                <span class="icon icon-map-marker footer-contact-icon"></span>
-                                <a href="https://g.co/kgs/Hw16bN8" 
-                                   target="_blank" 
-                                   rel="noopener noreferrer" 
-                                   itemprop="url">
-                                    <span itemprop="streetAddress">Level 8/278 Collins St</span>, 
-                                    <span itemprop="addressLocality">Melbourne</span> 
-                                    <span itemprop="addressRegion">VIC</span> 
-                                    <span itemprop="postalCode">3000</span>, 
-                                    <span itemprop="addressCountry">Australia</span>
-                                </a>
-                            </li>
-                            <li class="footer-contact-item">
-                                <span class="icon icon-phone footer-contact-icon"></span>
-                                <a href="tel:+61422905860" itemprop="telephone">
-                                    (+61) 0422 905 860
-                                </a>
-                            </li>
-                            <li class="footer-contact-item">
-                                <span class="icon icon-phone footer-contact-icon"></span>
-                                <span itemprop="telephone">1300 BANSAL (1300 226 725)</span>
-                            </li>
-                            <li class="footer-contact-item">
-                                <span class="icon icon-envelope footer-contact-icon"></span>
-                                <a href="mailto:Info@bansallawyers.com.au" itemprop="email">
-                                    Info@bansallawyers.com.au
-                                </a>
-                            </li>
+                    </div>
+                </div>
+
+                <!-- Practice Areas -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="fade-in-up stagger-1">
+                        <h3 class="footer-section-title">Practice Areas</h3>
+                        <ul class="footer-links">
+                            <li><a href="/family-law">→ Family Law</a></li>
+                            <li><a href="/migration-law">→ Migration Law</a></li>
+                            <li><a href="/criminal-law">→ Criminal Law</a></li>
+                            <li><a href="/commercial-law">→ Commercial Law</a></li>
+                            <li><a href="/property-law">→ Property Law</a></li>
                         </ul>
                     </div>
                 </div>
-            </div>
 
-            <!-- Business Hours -->
-            <div class="col-md">
-                <div class="footer-widget">
-                    <h2 class="footer-heading">Business Hours</h2>
-                    <div class="footer-hours" itemscope itemtype="https://schema.org/OpeningHoursSpecification">
-                        <h4>Opening Hours:</h4>
-                        <p itemprop="dayOfWeek" content="Monday,Tuesday,Wednesday,Thursday,Friday">
-                          <span>Monday – Friday: <time itemprop="opens" content="10:00">10:00 AM</time> to <time itemprop="closes" content="17:30">5:30 PM</time></span>
-                        </p>
+                <!-- Contact Information -->
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="fade-in-up stagger-3">
+                        <h3 class="footer-section-title">Contact Information</h3>
+                        <div class="footer-contact-item">
+                            <span class="footer-contact-icon">📍</span>
+                            <a href="https://g.co/kgs/Hw16bN8" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               itemprop="url">
+                                Level 8/278 Collins St, Melbourne VIC 3000, Australia
+                            </a>
+                        </div>
+                        <div class="footer-contact-item">
+                            <span class="footer-contact-icon">📞</span>
+                            <a href="tel:+61422905860" itemprop="telephone">
+                                (+61) 0422 905 860
+                            </a>
+                        </div>
+                        <div class="footer-contact-item">
+                            <span class="footer-contact-icon">📞</span>
+                            <span itemprop="telephone">1300 BANSAL (1300 226 725)</span>
+                        </div>
+                        <div class="footer-contact-item">
+                            <span class="footer-contact-icon">✉️</span>
+                            <a href="mailto:Info@bansallawyers.com.au" itemprop="email">
+                                Info@bansallawyers.com.au
+                            </a>
+                        </div>
+
+                        <!-- Business Hours -->
+                        <div class="footer-hours">
+                            <h4>Business Hours</h4>
+                            <p><strong>Monday – Friday:</strong> 10:00 AM to 5:30 PM</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -444,10 +466,48 @@
         <!-- Copyright Notice -->
         <div class="footer-bottom">
             <p>
-                &copy;
-                <script>document.write(new Date().getFullYear());</script> All rights reserved | Bansal Lawyers
+                &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | Bansal Lawyers
             </p>
         </div>
     </div>
 </footer>
-<?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Elements/Frontend/footer.blade.php ENDPATH**/ ?>
+
+<!-- Footer Animation Script -->
+<script>
+// Intersection Observer for fade-in animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Observe all fade-in elements
+document.querySelectorAll('.fade-in-up').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+</script><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Elements/Frontend/footer.blade.php ENDPATH**/ ?>
