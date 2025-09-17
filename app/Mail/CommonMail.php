@@ -24,11 +24,12 @@ class CommonMail extends Mailable
 	* @return void
 	*/
 	public function __construct($content, $subject, $sender, $senderfrom, $array) {
-		$this->content = $content;
+		// Basic content validation and sanitization
+		$this->content = !empty($content) ? $content : '<p>No content available.</p>';
 		$this->subject = $subject;
 		$this->sender = $sender;
 		$this->senderfrom = $senderfrom;
-		 $this->array = $array;
+		$this->array = $array;
 	}
 	/**
 	* Build the message.

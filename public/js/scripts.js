@@ -83,9 +83,11 @@ $(function () {
       .toggleClass("show");
     return false;
   });
-
   $(document).on("click", function (e) {
-    $(".nav-collapse .navbar-nav").removeClass("show");
+    // Only remove show class from custom nav-collapse, not Bootstrap navbar
+    if (!$(e.target).closest('.navbar').length) {
+      $(".nav-collapse:not(.navbar-collapse) .navbar-nav").removeClass("show");
+    }
   });
 
   var toggle_sidebar_mini = function (mini) {

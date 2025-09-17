@@ -25,7 +25,7 @@
         <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
           <tr>
             <td align="center" style="padding:40px 0 30px 0;background:#70bbd9;">
-              <img src="{{ asset('images/logo/Bansal_Lawyers.png') }}" alt="" width="300" style="height:auto;display:block;" />
+              <img src="{{ asset('images/logo/Bansal_Lawyers.png') }}" alt="Bansal Lawyers Logo" width="300" style="height:auto;display:block;" />
             </td>
           </tr>
           <tr>
@@ -34,9 +34,9 @@
                 <tr>
                   <td style="padding:0 0 36px 0;color:#153643;">
                     <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">Appointment</h1>
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Dear {{ $details['fullname'] }} ,</p>
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">{{$details['title']}} .</p>
-                    <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><a href="#" style="color:#ee4c50;text-decoration:underline;">Appointment Details:</a></p>
+                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Dear {{ $details['fullname'] ?? 'Valued Client' }} ,</p>
+                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">{{ $details['title'] ?? 'Appointment Confirmation' }} .</p>
+                    <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;color:#ee4c50;font-weight:bold;">Appointment Details:</p>
                   </td>
                 </tr>
                 <tr>
@@ -44,17 +44,17 @@
                     <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                         <tr>
                           <td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-                            <p style="margin:0 0 20px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Nature Of Enquiry : {{ $details['NatureOfEnquiry'] }}</p>
-                            <p style="margin:0 0 16px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Name : {{ $details['fullname'] }}</p>
-                            <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Phone : {{ $details['phone'] }}</p>
-                            <p style="margin:0 0 8px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Appointment Type: {{ $details['appointment_details'] }}</p>
+                            <p style="margin:0 0 20px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Nature Of Enquiry : {{ $details['NatureOfEnquiry'] ?? 'Not specified' }}</p>
+                            <p style="margin:0 0 16px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Name : {{ $details['fullname'] ?? 'Not provided' }}</p>
+                            <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Phone : {{ $details['phone'] ?? 'Not provided' }}</p>
+                            <p style="margin:0 0 8px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Appointment Type: {{ $details['appointment_details'] ?? 'Not specified' }}</p>
                           </td>
                           <td style="width:20px;padding:0;font-size:0;line-height:0;">&nbsp;</td>
                           <td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-                            <p style="margin:0 0 20px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Service : {{ $details['service'] }}</p>
-                            <p style="margin:0 0 16px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Email : {{ $details['email'] }}</p>
-                            <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Date : {{ $details['date'] }}</p>
-                            <p style="margin:0 0 8px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Time : {{ $details['time'] }}</p>
+                            <p style="margin:0 0 20px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Service : {{ $details['service'] ?? 'Not specified' }}</p>
+                            <p style="margin:0 0 16px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Email : {{ $details['email'] ?? 'Not provided' }}</p>
+                            <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Date : {{ $details['date'] ?? 'To be confirmed' }}</p>
+                            <p style="margin:0 0 8px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Time : {{ $details['time'] ?? 'To be confirmed' }}</p>
                           </td>
                         </tr>
                     </table>
@@ -75,7 +75,7 @@
                     <table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
                       <tr>
                         <td style="padding:0 0 0 10px;width:38px;">
-                          <a href="https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw" style="color:#ffffff;"><img src="https://assets.codepen.io/210284/tw_1.png" alt="Twitter" width="38" style="height:auto;display:block;border:0;" /></a>
+                          <a href="https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw" style="color:#ffffff;"><img src="https://assets.codepen.io/210284/ig_1.png" alt="Instagram" width="38" style="height:auto;display:block;border:0;" /></a>
                         </td>
                         <td style="padding:0 0 0 10px;width:38px;">
                           <a href="https://www.facebook.com/profile.php?id=61562008576642" style="color:#ffffff;"><img src="https://assets.codepen.io/210284/fb_1.png" alt="Facebook" width="38" style="height:auto;display:block;border:0;" /></a>

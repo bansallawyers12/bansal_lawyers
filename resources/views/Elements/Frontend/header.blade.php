@@ -1,42 +1,109 @@
-<nav class="navbar px-md-0 navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-        <a class="navbar-brand" href="<?php echo URL::to('/'); ?>" style="/*background: #fff; padding: 3px 5px; border-radius: 5px; */ margin-left: -10px;">
-            <img id="image_logo" src="{{ asset('images/logo/Bansal_Lawyers.png')}}" alt="Bansal Lawyers – Best Law Firm in Australia" style="height: 50px; max-width: 100%; object-fit: contain; width: auto;">
+<!-- Step 4: Responsive Navigation with Mobile Menu -->
+<style>
+@media (max-width: 768px) {
+    .desktop-menu {
+        display: none !important;
+    }
+    .mobile-toggle {
+        display: block !important;
+    }
+    .mobile-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #1B4D89;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+    .mobile-menu.show {
+        display: block;
+    }
+    .mobile-menu a {
+        display: block;
+        padding: 15px 20px;
+        color: white;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        font-weight: 500;
+    }
+    .mobile-menu a:hover {
+        background-color: rgba(255,255,255,0.1);
+        color: #ffd700;
+    }
+    .mobile-menu .cta-mobile {
+        background-color: #007bff;
+        text-align: center;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-toggle {
+        display: none !important;
+    }
+    .mobile-menu {
+        display: none !important;
+    }
+}
+</style>
+
+<nav style="background-color: #1B4D89; padding: 15px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: relative;">
+    <div style="max-width: 1200px; margin: 0 auto; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+        <!-- Logo -->
+        <a href="{{ url('/') }}" style="text-decoration: none;">
+            <img src="{{ asset('images/logo/Bansal_Lawyers.png') }}" alt="Bansal Lawyers" style="height: 55px;">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-            aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="oi oi-menu"></span> Menu
+        
+        <!-- Mobile Toggle Button -->
+        <button class="mobile-toggle" onclick="toggleMobileMenu()" style="display: none; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">
+            ☰
         </button>
-
-        <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href="<?php echo URL::to('/'); ?>" class="nav-link" style="color: white;"
-                        onmouseover="this.style.color='red'; this.style.fontWeight='bold'"
-                        onmouseout="this.style.color='white'; this.style.fontWeight='normal'">Home</a></li>
-                <li class="nav-item"><a href="<?php echo URL::to('/'); ?>/about" class="nav-link" style="color: white;"
-                        onmouseover="this.style.color='red'; this.style.fontWeight='bold'"
-                        onmouseout="this.style.color='white'; this.style.fontWeight='normal'">About</a></li>
-
-                <li class="nav-item"><a href="<?php echo URL::to('/'); ?>/practice-areas" class="nav-link" style="color: white;"
-                        onmouseover="this.style.color='red'; this.style.fontWeight='bold'"
-                        onmouseout="this.style.color='white'; this.style.fontWeight='normal'">Practice Areas</a>
-                </li>
-                <li class="nav-item"><a href="<?php echo URL::to('/'); ?>/case" class="nav-link" style="color: white;"
-                        onmouseover="this.style.color='red'; this.style.fontWeight='bold'"
-                        onmouseout="this.style.color='white'; this.style.fontWeight='normal'">Recent Court cases</a></li>
-                <li class="nav-item"><a href="<?php echo URL::to('/'); ?>/blog" class="nav-link" style="color: white;"
-                        onmouseover="this.style.color='red'; this.style.fontWeight='bold'"
-                        onmouseout="this.style.color='white'; this.style.fontWeight='normal'">Blog</a></li>
-                <li class="nav-item"><a href="<?php echo URL::to('/'); ?>/contact" class="nav-link" style="color: white;"
-                        onmouseover="this.style.color='red'; this.style.fontWeight='bold'"
-                        onmouseout="this.style.color='white'; this.style.fontWeight='normal'">Contact</a></li>
-
-                <li class="nav-item cta"><a href="<?php echo URL::to('/'); ?>/book-an-appointment" class="nav-link"
-                        style="color: white; font-weight: normal;"
-                        onmouseover="this.style.fontWeight='normal'; this.style.color='white'"
-                        onmouseout="this.style.fontWeight='normal'; this.style.color='white'">Schedule Your Consultation</a>
-                </li>
-            </ul>
+        
+        <!-- Desktop Menu Items -->
+        <div class="desktop-menu" style="display: flex; gap: 25px; align-items: center;">
+            <a href="{{ url('/') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Home</a>
+            <a href="{{ url('/about') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">About</a>
+            <a href="{{ url('/practice-areas') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Practice Areas</a>
+            <a href="{{ url('/case') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Recent Cases</a>
+            <a href="{{ url('/blog') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Blog</a>
+            <a href="{{ url('/contact') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Contact</a>
+            <a href="{{ url('/book-an-appointment') }}" style="background-color: #007bff; color: white; text-decoration: none; padding: 12px 20px; border-radius: 25px; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#0056b3'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='#007bff'; this.style.transform='translateY(0)'">Schedule Consultation</a>
         </div>
     </div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="{{ url('/') }}">Home</a>
+        <a href="{{ url('/about') }}">About</a>
+        <a href="{{ url('/practice-areas') }}">Practice Areas</a>
+        <a href="{{ url('/case') }}">Recent Cases</a>
+        <a href="{{ url('/blog') }}">Blog</a>
+        <a href="{{ url('/contact') }}">Contact</a>
+        <a href="{{ url('/book-an-appointment') }}" class="cta-mobile">Schedule Consultation</a>
+    </div>
 </nav>
+
+<script>
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenu.classList.contains('show')) {
+        mobileMenu.classList.remove('show');
+    } else {
+        mobileMenu.classList.add('show');
+    }
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(event) {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    
+    if (!mobileMenu.contains(event.target) && !mobileToggle.contains(event.target)) {
+        mobileMenu.classList.remove('show');
+    }
+});
+</script>
