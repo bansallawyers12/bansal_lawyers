@@ -13,13 +13,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        '\App\Console\Commands\CronJob',
-        '\App\Console\Commands\BirthDate',
-       // '\App\Console\Commands\CompleteTaskRemoval',
-        '\App\Console\Commands\InPersonCompleteTaskRemoval',
-       // '\App\Console\Commands\RandomClientSelectionReward',
-       // '\App\Console\Commands\VisaExpireReminderEmail',
-      '\App\Console\Commands\WpAppointmentToCrm',
+        '\App\\Console\\Commands\\CronJob',
+        '\App\\Console\\Commands\\BirthDate',
+        '\App\\Console\\Commands\\InPersonCompleteTaskRemoval',
+        '\App\\Console\\Commands\\WpAppointmentToCrm',
     ];
 
     /**
@@ -32,18 +29,13 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-		$schedule->command('CronJob:cronjob')->daily();
-		$schedule->command('BirthDate:birthdate')->daily();
-        //$schedule->command('CompleteTaskRemoval:daily')->daily();
+        $schedule->command('CronJob:cronjob')->daily();
+        $schedule->command('BirthDate:birthdate')->daily();
         
         //InPerson Complete Task Removal daily 1 time
         $schedule->command('InPersonCompleteTaskRemoval:daily')->daily();
-        //Random client selection in each month at 1st day
-        //$schedule->command('RandomClientSelectionReward:monthly')->monthly();
-        //visa expire Reminder email before 15 days daily at 1 time
-        //$schedule->command('VisaExpireReminderEmail:daily')->daily();
-      
-       $schedule->command('WpAppointmentToCrm:daily')->everyFiveMinutes();
+        
+        $schedule->command('WpAppointmentToCrm:daily')->everyFiveMinutes();
     }
 
     /**

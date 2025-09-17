@@ -10,30 +10,30 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="keyword" content="Bansal Lawyers">
-	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<title>Bansal Lawyers | @yield('title')</title>
-	<!--<link rel="icon" type="image/png" href="{{ asset('images/favicon.png')}}">-->
-	<link rel="stylesheet" href="{{ asset('css/app.min.css')}}">
-	 <link rel="stylesheet" href="{{ asset('css/fullcalendar.min.css')}}">
-	<link rel="stylesheet" href="{{ asset('css/summernote-bs4.css')}}">
-	<link rel="stylesheet" href="{{ asset('css/daterangepicker.css')}}">
-	<link rel="stylesheet" href="{{ asset('css/bootstrap-timepicker.min.css')}}">
-	<link rel="stylesheet" href="{{ asset('css/select2.min.css')}}">
+	<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+	<title>Bansal Lawyers | <?php echo $__env->yieldContent('title'); ?></title>
+	<!--<link rel="icon" type="image/png" href="<?php echo e(asset('images/favicon.png')); ?>">-->
+	<link rel="stylesheet" href="<?php echo e(asset('css/app.min.css')); ?>">
+	 <link rel="stylesheet" href="<?php echo e(asset('css/fullcalendar.min.css')); ?>">
+	<link rel="stylesheet" href="<?php echo e(asset('css/summernote-bs4.css')); ?>">
+	<link rel="stylesheet" href="<?php echo e(asset('css/daterangepicker.css')); ?>">
+	<link rel="stylesheet" href="<?php echo e(asset('css/bootstrap-timepicker.min.css')); ?>">
+	<link rel="stylesheet" href="<?php echo e(asset('css/select2.min.css')); ?>">
 	<!-- Template CSS -->
-	<!--<link rel="stylesheet" href="{{--asset('css/niceCountryInput.css')--}}">-->
-	<!--<link rel="stylesheet" href="{{--asset('css/flagstrap.css')--}}">-->
+	<!--<link rel="stylesheet" href="">-->
+	<!--<link rel="stylesheet" href="">-->
 
-	<link rel="stylesheet" href="{{ asset('css/bootstrap-formhelpers.min.css')}}">
-	<link rel="stylesheet" href="{{ asset('css/intlTelInput.css')}}">
+	<link rel="stylesheet" href="<?php echo e(asset('css/bootstrap-formhelpers.min.css')); ?>">
+	<link rel="stylesheet" href="<?php echo e(asset('css/intlTelInput.css')); ?>">
 
 
-	<link rel="stylesheet" href="{{ asset('css/components.css')}}">
+	<link rel="stylesheet" href="<?php echo e(asset('css/components.css')); ?>">
 	<!-- Custom style CSS -->
-	<link rel="stylesheet" href="{{ asset('css/custom.css')}}">
+	<link rel="stylesheet" href="<?php echo e(asset('css/custom.css')); ?>">
 
     <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">-->
 
-    <link rel="stylesheet" href="{{ asset('css/dataTables_min_latest.css')}}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/dataTables_min_latest.css')); ?>">
     
     <!-- Font Awesome for modern sidebar icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -42,10 +42,10 @@
 <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
 <!-- Updated to jQuery 3.7.1 -->
-<script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
-<script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
+<script src="<?php echo e(asset('js/jquery-3.7.1.min.js')); ?>"></script>
+<script src="<?php echo e(asset('js/jquery-migrate-3.4.1.min.js')); ?>"></script>
 
-<style {!! \App\Services\CspService::getNonceAttribute() !!}>
+<style <?php echo \App\Services\CspService::getNonceAttribute(); ?>>
 .dropbtn {
   background-color: transparent;
  border:0;
@@ -148,13 +148,13 @@ body {
 		<div class="main-wrapper main-wrapper-1">
 			<div class="navbar-bg"></div>
 			<!--Header-->
-			@include('Elements.Admin.header')
+			<?php echo $__env->make('Elements.Admin.header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			<!--Left Side Bar-->
-			@include('Elements.Admin.left-side-bar')
+			<?php echo $__env->make('Elements.Admin.left-side-bar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
-			@yield('content')
+			<?php echo $__env->yieldContent('content'); ?>
 
-			@include('Elements.Admin.footer')
+			<?php echo $__env->make('Elements.Admin.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 		</div>
 	</div>
 
@@ -176,27 +176,27 @@ body {
 			  $dataformat = 'YYYY-MM-DD';
 			}
 			?>
-				<script {!! \App\Services\CspService::getNonceAttribute() !!}>
-				    var site_url = '{{URL::to('/')}}';
-				     var dataformat = '{{$dataformat}}';
+				<script <?php echo \App\Services\CspService::getNonceAttribute(); ?>>
+				    var site_url = '<?php echo e(URL::to('/')); ?>';
+				     var dataformat = '<?php echo e($dataformat); ?>';
 				    </script>
-	<!--<script src="{{--asset('js/niceCountryInput.js')--}}"></script> -->
+	<!--<script src=""></script> -->
 	
 	<!-- Core Dependencies (load first) -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-	<script src="{{ asset('js/moment.min.js')}}"></script>
-	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+	<script src="<?php echo e(asset('js/moment.min.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/bootstrap.bundle.min.js')); ?>"></script>
 	
 	<!-- Feature-specific Scripts (load after core) -->
-	<script src="{{ asset('js/fullcalendar.min.js')}}"></script>
-	<script src="{{ asset('js/datatables.min.js')}}"></script>
-	<script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script>
-	<script src="{{ asset('js/summernote-bs4.js')}}"></script>
-	<script src="{{ asset('js/daterangepicker.js')}}"></script>
-	<script src="{{ asset('js/bootstrap-timepicker.min.js')}}"></script>
-	<script src="{{ asset('js/select2.full.min.js')}}"></script>
-	<script src="{{ asset('js/bootstrap-formhelpers.min.js')}}"></script>
-	<script src="{{ asset('js/intlTelInput.js')}}"></script>
+	<script src="<?php echo e(asset('js/fullcalendar.min.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/datatables.min.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/dataTables.bootstrap4.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/summernote-bs4.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/daterangepicker.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/bootstrap-timepicker.min.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/select2.full.min.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/bootstrap-formhelpers.min.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/intlTelInput.js')); ?>"></script>
 	
 	<!-- Icons Library required by scripts.js -->
 	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
@@ -205,15 +205,15 @@ body {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha512-xM8CzZrD1k7N8b1Z2mX2m1e2wM0m2m3n4p0dYkq3S0J6zQ7vQ+vGk7G0o9xjz33Jp1xYy1T1sPq0jQ6H1Hk3tQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	
 	<!-- Custom Scripts (load last to ensure DOM is ready) -->
-	<script src="{{ asset('js/custom-form-validation.js')}}"></script>
-	<script src="{{ asset('js/scripts.js')}}"></script>
-	<script src="{{ asset('js/custom.js')}}"></script>
+	<script src="<?php echo e(asset('js/custom-form-validation.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/scripts.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/custom.js')); ?>"></script>
 	
 	<!-- Page Specific JS File -->
-	<!--<script src="{{ asset('js/index.js')}}"></script> -->
-	<!--<script src="{{--asset('js/apexcharts.min.js')--}}"></script>-->
-	<!--<script src="{{--asset('js/jquery.flagstrap.js')--}}"></script>-->
-	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
+	<!--<script src="<?php echo e(asset('js/index.js')); ?>"></script> -->
+	<!--<script src=""></script>-->
+	<!--<script src=""></script>-->
+	<script <?php echo \App\Services\CspService::getNonceAttribute(); ?>>
 		// Date handling utilities for consistent ISO format usage
 		window.DateUtils = {
 			// Convert display date to ISO format for backend
@@ -655,7 +655,8 @@ $(document).ready(function(){
 	</script>
 
 
-@yield('scripts')
-	<!--<script src="{{--asset('js/custom-chart.js')--}}"></script>-->
+<?php echo $__env->yieldContent('scripts'); ?>
+	<!--<script src=""></script>-->
 </body>
 </html>
+<?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/layouts/admin.blade.php ENDPATH**/ ?>
