@@ -171,62 +171,42 @@ class AdminController extends Controller
      */
 	public function change_password(Request $request)
 	{
-		//check authorization start
-			/* $check = $this->checkAuthorizationAction('Admin', $request->route()->getActionMethod(), Auth::user()->role);
-			if($check)
-			{
-				return redirect('/admin/dashboard')->with('error',config('constants.unauthorized'));
-			} */
-		//check authorization end
-
 		if ($request->isMethod('post'))
 		{
-			$this->validate($request, [
-										'old_password' => 'required|min:6',
-										'password' => 'required|confirmed|min:6',
-										'password_confirmation' => 'required|min:6'
-									  ]);
+			$request->validate([
+				'old_password' => 'required|min:6',
+				'password' => 'required|confirmed|min:6',
+				'password_confirmation' => 'required|min:6',
+				'admin_id' => 'required|integer'
+			]);
 
-
-			$requestData 	= 	$request->all();
 			$admin_id = Auth::id();
+			$admin = Admin::findOrFail($request->admin_id);
 
-			$fetchedData = Admin::where('id', '=', $admin_id)->first();
-			if(!empty($fetchedData))
-				{
-					if($admin_id == trim($requestData['admin_id']))
-						{
-							 if (!(Hash::check($request->get('old_password'), Auth::user()->password)))
-								{
-									return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
-								}
-							else
-								{
-									$admin = Admin::find($requestData['admin_id']);
-									$admin->password = Hash::make($requestData['password']);
-									if($admin->save())
-										{
-											Auth::guard('admin')->logout();
-											$request->session()->flush();
+			// Verify the admin can only change their own password
+			if ($admin_id != $admin->id) {
+				return redirect()->back()->with('error', 'You can only change your own password.');
+			}
 
-											return redirect('/admin')->with('success', 'Your Password has been changed successfully.');
-										}
-									else
-										{
-											return redirect()->back()->with('error', config('constants.server_error'));
-										}
-								}
-						}
-					else
-						{
-							return redirect()->back()->with('error', 'You can change the password only your account.');
-						}
-				}
-			else
-				{
-					return redirect()->back()->with('error', 'User is not exist, so you can not change the password.');
-				}
+			// Verify current password
+			if (!Hash::check($request->old_password, $admin->password)) {
+				return redirect()->back()->with('error', 'Your current password does not match. Please try again.');
+			}
+
+			// Update password
+			$admin->password = Hash::make($request->password);
+			
+			if ($admin->save()) {
+				Auth::guard('admin')->logout();
+				$request->session()->invalidate();
+				$request->session()->regenerateToken();
+
+				return redirect()->route('admin.login')->with('success', 'Your password has been changed successfully. Please log in again.');
+			}
+
+			return redirect()->back()->with('error', 'Failed to update password. Please try again.');
 		}
+
 		return view('Admin.change_password');
 	}
 

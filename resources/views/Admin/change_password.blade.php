@@ -39,12 +39,13 @@
 						<div class="card-header">
 							<h3 class="card-title" style="display:block;">Change Password</h3>
 						</div>
-						<form action="admin/change_password" method="post">
-							{{ Form::hidden('admin_id', @Auth::user()->id) }}
+						<form action="{{ route('admin.change_password') }}" method="post">
+							@csrf
+							<input type="hidden" name="admin_id" value="{{ Auth::user()->id }}">
 							<div class="card-body">
 								<div class="form-group">
 									<label for="old_password">Old Password <span style="color:#ff0000;">*</span></label>
-									<input name="old_password" type="password" class="form-control" data-valid="required">
+										<input name="old_password" type="password" class="form-control" data-valid="required" required>
 								
 									@if ($errors->has('old_password'))
 										<span class="custom-error" role="alert">
@@ -54,7 +55,7 @@
 								</div>
 								<div class="form-group">
 									<label for="password">New Password <span style="color:#ff0000;">*</span></label>
-									<input name="password" type="password" class="form-control" data-valid="required">
+										<input name="password" type="password" class="form-control" data-valid="required" required minlength="6">
 								
 									@if ($errors->has('password'))
 										<span class="custom-error" role="alert">
@@ -64,7 +65,7 @@
 								</div>
 								<div class="form-group">
 									<label for="password_confirmation">Confirm Password <span style="color:#ff0000;">*</span></label>
-									<input name="password_confirmation" type="password" class="form-control" data-valid="required">
+										<input name="password_confirmation" type="password" class="form-control" data-valid="required" required minlength="6">
 								
 									@if ($errors->has('password_confirmation'))
 										<span class="custom-error" role="alert">
@@ -73,14 +74,14 @@
 									@endif
 								</div>
 								<div class="form-group">
-									<button type="button" class="btn btn-primary px-4" onClick="customValidate("change-password")"><i class="fa fa-refresh"></i> Change</button>
+										<button type="submit" class="btn btn-primary px-4"><i class="fa fa-refresh"></i> Change Password</button>
 								</div>
-							</div>    
-						</form>	
-					</div>
+									</div>    
+							</form>
+						</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</main>
+	</section>
+</div>
 @endsection
