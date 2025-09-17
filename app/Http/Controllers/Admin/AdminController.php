@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Admin;
 use App\Models\WebsiteSetting;
@@ -339,21 +340,48 @@ class AdminController extends Controller
 							if($requestData['current_status'] == self::STATUS_DISABLED)
 							{
 								$updated_status = self::STATUS_ENABLED;
-								$message = 'Record has been enabled successfully.';
+								// Provide context-specific messages
+								if($requestData['table'] == 'blogs') {
+									$message = 'Blog post has been published successfully.';
+								} elseif($requestData['table'] == 'cms_pages') {
+									$message = 'CMS page has been published successfully.';
+								} else {
+									$message = 'Record has been enabled successfully.';
+								}
 							}
 							else
 							{
 								$updated_status = self::STATUS_DISABLED;
-								$message = 'Record has been disabled successfully.';
+								// Provide context-specific messages
+								if($requestData['table'] == 'blogs') {
+									$message = 'Blog post has been unpublished (set to draft).';
+								} elseif($requestData['table'] == 'cms_pages') {
+									$message = 'CMS page has been unpublished (set to draft).';
+								} else {
+									$message = 'Record has been disabled successfully.';
+								}
 							}
-							$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update([$requestData['col'] => $updated_status]);
-							if($response)
-							{
-								$status = 1;
-							}
-							else
-							{
-								$message = config('constants.server_error');
+							try {
+								$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update([$requestData['col'] => $updated_status]);
+								
+								// Check if the update was successful
+								// Laravel's update() returns the number of affected rows, not boolean
+								if($response >= 0) // 0 or more rows affected means success
+								{
+									$status = 1;
+								}
+								else
+								{
+									$message = 'Failed to update record in database.';
+								}
+							} catch (\Exception $e) {
+								$message = 'Database error: ' . $e->getMessage();
+								\Log::error('Exception during blog status update:', [
+									'error' => $e->getMessage(),
+									'table' => $requestData['table'],
+									'id' => $requestData['id'],
+									'column' => $requestData['col']
+								]);
 							}
 						}
 						else
@@ -833,16 +861,45 @@ class AdminController extends Controller
 
 
 							}else{
-								$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
+								try {
+									$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
 
-								if($response)
-								{
-									$status = 1;
-									$message = 'Record has been deleted successfully.';
-								}
-								else
-								{
-									$message = config('constants.server_error');
+									// Laravel's delete() returns the number of deleted rows
+									if($response >= 0)
+									{
+										$status = 1;
+										// Provide context-specific messages
+										if($requestData['table'] == 'blogs') {
+											$message = 'Blog post has been deleted successfully.';
+										} elseif($requestData['table'] == 'cms_pages') {
+											$message = 'CMS page has been deleted successfully.';
+										} else {
+											$message = 'Record has been deleted successfully.';
+										}
+									}
+									else
+									{
+										if($requestData['table'] == 'blogs') {
+											$message = 'Failed to delete blog post.';
+										} elseif($requestData['table'] == 'cms_pages') {
+											$message = 'Failed to delete CMS page.';
+										} else {
+											$message = 'Failed to delete record.';
+										}
+									}
+								} catch (\Exception $e) {
+									if($requestData['table'] == 'blogs') {
+										$message = 'Error deleting blog post: ' . $e->getMessage();
+									} elseif($requestData['table'] == 'cms_pages') {
+										$message = 'Error deleting CMS page: ' . $e->getMessage();
+									} else {
+										$message = 'Database error: ' . $e->getMessage();
+									}
+									Log::error('Exception during delete action:', [
+										'error' => $e->getMessage(),
+										'table' => $requestData['table'],
+										'id' => $requestData['id']
+									]);
 								}
 							}
 						}

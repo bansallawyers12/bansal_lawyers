@@ -433,9 +433,7 @@ input:checked + .modern-checkbox-slider:before {
 <div class="main-content modern-form-container">
 	<section class="section">
 		<div class="section-body">
-			<div class="server-error">
-				@include('Elements.flash-message')
-			</div>
+			@include('Elements.flash-message')
 			<div class="custom-error-msg">
 			</div>
 			
@@ -456,7 +454,7 @@ input:checked + .modern-checkbox-slider:before {
 								</div>
 							</div>
 							
-							<form action="admin/blog/edit" autocomplete="off" method="post" enctype="multipart/form-data" id="edit-blog-form">
+							<form action="{{ route('admin.blog.edit') }}" autocomplete="off" method="post" enctype="multipart/form-data" id="edit-blog-form" name="edit-blog">
 								@csrf
 								<input type="hidden" name="id" value="{{ $fetchedData->id }}">
 								
@@ -744,7 +742,7 @@ input:checked + .modern-checkbox-slider:before {
 										<i class="fas fa-times"></i>
 										Cancel
 									</a>
-									<button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('edit-blog')">
+									<button type="button" class="modern-btn modern-btn-primary" onClick="validateAndUpdateBlog()">
 										<i class="fas fa-save"></i>
 										Update Blog Post
 									</button>
@@ -810,6 +808,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Custom validation function that handles CKEditor
+function validateAndUpdateBlog() {
+    // First, sync CKEditor content to textarea
+    if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances.description) {
+        var content = CKEDITOR.instances.description.getData();
+        document.getElementById('description').value = content;
+        
+        // Remove error styling if content exists
+        if (content.trim() !== '') {
+            const textarea = document.getElementById('description');
+            const editorContainer = textarea.closest('.modern-editor-container');
+            const errorMsg = textarea.parentNode.querySelector('.modern-error');
+            
+            if (editorContainer) {
+                editorContainer.classList.remove('error');
+            }
+            if (errorMsg) {
+                errorMsg.style.opacity = '0.5';
+            }
+        }
+    }
+    
+    // Now call the standard validation
+    customValidate('edit-blog');
+}
 </script>
 @endsection
 
@@ -820,5 +844,46 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize CKEditor
     var description = CKEDITOR.replace('description');
     CKFinder.setupCKEditor(description);
+    
+    // Handle CKEditor validation integration
+    description.on('change', function() {
+        // Update the textarea value when CKEditor content changes
+        var content = description.getData();
+        document.getElementById('description').value = content;
+        
+        // Remove error styling if content exists
+        if (content.trim() !== '') {
+            const textarea = document.getElementById('description');
+            const editorContainer = textarea.closest('.modern-editor-container');
+            const errorMsg = textarea.parentNode.querySelector('.modern-error');
+            
+            if (editorContainer) {
+                editorContainer.classList.remove('error');
+            }
+            if (errorMsg) {
+                errorMsg.style.opacity = '0.5';
+            }
+        }
+    });
+    
+    // Handle CKEditor blur event (when user clicks away)
+    description.on('blur', function() {
+        var content = description.getData();
+        document.getElementById('description').value = content;
+        
+        // Remove error styling if content exists
+        if (content.trim() !== '') {
+            const textarea = document.getElementById('description');
+            const editorContainer = textarea.closest('.modern-editor-container');
+            const errorMsg = textarea.parentNode.querySelector('.modern-error');
+            
+            if (editorContainer) {
+                editorContainer.classList.remove('error');
+            }
+            if (errorMsg) {
+                errorMsg.style.opacity = '0.5';
+            }
+        }
+    });
 </script>
 @endsection

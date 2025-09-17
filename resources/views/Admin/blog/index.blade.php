@@ -497,9 +497,7 @@ input:checked + .modern-status-slider:before {
 <div class="main-content modern-page-container">
 	<section class="section">
 		<div class="section-body">
-			<div class="server-error">
 				@include('Elements.flash-message')
-			</div>
 			<div class="custom-error-msg">
 			</div>
 			
@@ -659,7 +657,7 @@ input:checked + .modern-status-slider:before {
 </div>
 
 <script>
-// Enhanced status toggle functionality
+// Enhanced status toggle functionality with flash messages
 document.addEventListener('DOMContentLoaded', function() {
     // Add smooth transitions to status toggles
     const statusToggles = document.querySelectorAll('.modern-status-toggle input');
@@ -686,6 +684,342 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // Override the legacy updateStatus function to prevent JSON parsing errors
+    window.updateStatus = function(id, current_status, table, col) {
+        // Find the toggle element
+        var toggleElement = $(".change-status[data-id='" + id + "']")[0];
+        // Call our modern function instead
+        updateBlogStatus(id, current_status, table, col, toggleElement);
+    };
+    
+    // Override the legacy deleteAction function for modern flash messages
+    window.deleteAction = function(id, table) {
+        modernDeleteBlog(id, table);
+    };
+    
+    // Enhanced status update with modern flash messages
+    $('.change-status').off('change').on('change', function (event, state) {
+        var id = $.trim($(this).attr('data-id'));
+        var current_status = $.trim($(this).attr('data-status'));
+        var table = $.trim($(this).attr('data-table'));
+        var col = $.trim($(this).attr('data-col'));
+        
+        if(id != "" && current_status != "" && table != ""){
+            updateBlogStatus(id, current_status, table, col, this);
+        }
+    });
+    
+    // Ensure flash message container exists
+    if ($('.modern-flash-container').length === 0) {
+        $('body').append('<div class="modern-flash-container"></div>');
+    }
 });
+
+// Modern delete function with flash messages and confirmation
+function modernDeleteBlog(id, table) {
+    // Show modern confirmation dialog
+    if (confirm('⚠️ Are you sure you want to delete this blog post?\n\nThis action cannot be undone and will permanently remove:\n• The blog post content\n• Associated images and files\n• All related data\n\nClick OK to confirm deletion.')) {
+        
+        // Show loading state on the delete button
+        const deleteBtn = $(`.modern-btn-danger[onclick*="deleteAction(${id}"]`);
+        deleteBtn.addClass('loading');
+        const icon = deleteBtn.find('i');
+        if (icon.length) {
+            icon.removeClass('fa-trash').addClass('fa-spinner fa-spin');
+        }
+        
+        $.ajax({
+            type: 'POST',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: '{{ route("admin.delete_action") }}',
+            dataType: 'json',
+            data: {
+                'id': id,
+                'table': table
+            },
+            success: function(resp) {
+                if(resp && resp.status == 1) {
+                    // Show success flash message
+                    showModernFlashMessage('success', resp.message || 'Blog post has been deleted successfully');
+                    
+                    // Remove the row with smooth animation
+                    const row = $('#id_' + id);
+                    row.fadeOut(500, function() {
+                        $(this).remove();
+                        
+                        // Update statistics
+                        updateStatsCounters();
+                        
+                        // Check if table is empty and show empty state
+                        const remainingRows = $('.modern-table tbody tr:visible').length;
+                        if (remainingRows === 0) {
+                            $('.modern-table-container').fadeOut(300, function() {
+                                $(this).replaceWith(`
+                                    <div class="modern-empty-state">
+                                        <div class="modern-empty-icon">
+                                            <i class="fas fa-blog"></i>
+                                        </div>
+                                        <h3 class="modern-empty-title">No Blog Posts Found</h3>
+                                        <p class="modern-empty-description">All blog posts have been deleted. Create a new one to get started.</p>
+                                        <a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
+                                            <i class="fas fa-plus"></i>
+                                            Create First Post
+                                        </a>
+                                    </div>
+                                `);
+                            });
+                        }
+                    });
+                    
+                } else {
+                    // Show error flash message
+                    showModernFlashMessage('error', resp && resp.message ? resp.message : 'Failed to delete blog post');
+                    
+                    // Restore button state
+                    deleteBtn.removeClass('loading');
+                    if (icon.length) {
+                        icon.removeClass('fa-spinner fa-spin').addClass('fa-trash');
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Delete AJAX Error:', {xhr: xhr, status: status, error: error});
+                
+                // Show error message
+                let errorMessage = 'An error occurred while deleting the blog post. Please try again.';
+                if (xhr.responseText) {
+                    try {
+                        const errorResp = JSON.parse(xhr.responseText);
+                        if (errorResp.message) {
+                            errorMessage = errorResp.message;
+                        }
+                    } catch (e) {
+                        console.log('Non-JSON error response:', xhr.responseText);
+                    }
+                }
+                
+                showModernFlashMessage('error', errorMessage);
+                
+                // Restore button state
+                deleteBtn.removeClass('loading');
+                if (icon.length) {
+                    icon.removeClass('fa-spinner fa-spin').addClass('fa-trash');
+                }
+            }
+        });
+    }
+}
+
+// Modern status update function with flash messages
+function updateBlogStatus(id, current_status, table, col, toggleElement) {
+    // Show loading state
+    const slider = $(toggleElement).next('.modern-status-slider');
+    slider.css('opacity', '0.6');
+    
+    // AJAX request for blog status update
+    
+    $.ajax({
+        type: 'POST',
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: '{{ route("admin.update_action") }}',
+        dataType: 'json',
+        data: {
+            'id': id, 
+            'current_status': current_status, 
+            'table': table, 
+            'colname': col
+        },
+        success: function(resp) {
+            // With dataType: 'json', jQuery automatically parses the response
+            if(resp && resp.status == 1) {
+                // Show modern success flash message
+                showModernFlashMessage('success', resp.message || 'Status updated successfully');
+                
+                // Update status
+                if(current_status == 1){
+                    var updated_status = 0;
+                } else {
+                    var updated_status = 1;
+                }
+                
+                $(".change-status[data-id="+id+"]").attr('data-status', updated_status);
+                
+                // Update statistics
+                updateStatsCounters();
+                
+            } else {
+                // Show modern error flash message
+                showModernFlashMessage('error', resp && resp.message ? resp.message : 'An error occurred while updating status');
+                
+                // Revert toggle state
+                if(current_status == 1){
+                    $(".change-status[data-id="+id+"]").prop('checked', true);
+                } else {
+                    $(".change-status[data-id="+id+"]").prop('checked', false);
+                }
+            }
+            
+            // Remove loading state
+            slider.css('opacity', '1');
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', {xhr: xhr, status: status, error: error});
+            
+            // Show error message with more details if available
+            let errorMessage = 'An error occurred while updating status. Please try again.';
+            if (xhr.responseText) {
+                try {
+                    const errorResp = JSON.parse(xhr.responseText);
+                    if (errorResp.message) {
+                        errorMessage = errorResp.message;
+                    }
+                } catch (e) {
+                    // If response is not JSON, use default message
+                    console.log('Non-JSON error response:', xhr.responseText);
+                }
+            }
+            
+            showModernFlashMessage('error', errorMessage);
+            
+            // Revert toggle state
+            if(current_status == 1){
+                $(".change-status[data-id="+id+"]").prop('checked', true);
+            } else {
+                $(".change-status[data-id="+id+"]").prop('checked', false);
+            }
+            
+            // Remove loading state
+            slider.css('opacity', '1');
+        }
+    });
+}
+
+// Function to show modern flash messages using the existing flash message system
+function showModernFlashMessage(type, message) {
+    // Remove existing flash messages
+    $('.modern-flash-container .modern-flash-alert').remove();
+    
+    // Create the flash message HTML using the same structure as flash-message.blade.php
+    const iconMap = {
+        'success': 'fas fa-check',
+        'error': 'fas fa-exclamation',
+        'warning': 'fas fa-exclamation-triangle',
+        'info': 'fas fa-info'
+    };
+    
+    const titleMap = {
+        'success': 'Success!',
+        'error': 'Error!',
+        'warning': 'Warning!',
+        'info': 'Information'
+    };
+    
+    const autoDismissTime = type === 'error' ? '7000' : '5000';
+    
+    const flashHtml = `
+        <div class="modern-flash-alert ${type}" role="alert" data-auto-dismiss="${autoDismissTime}">
+            <div class="modern-flash-icon">
+                <i class="${iconMap[type]}"></i>
+            </div>
+            <div class="modern-flash-content">
+                <div class="modern-flash-title">${titleMap[type]}</div>
+                <div class="modern-flash-message">${message}</div>
+            </div>
+            <button type="button" class="modern-flash-close" onclick="dismissAlert(this)">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modern-flash-progress"></div>
+        </div>
+    `;
+    
+    // Find or create flash container (same structure as flash-message.blade.php)
+    let container = $('.modern-flash-container');
+    if (container.length === 0) {
+        // Create container with same structure as flash-message.blade.php
+        container = $('<div class="modern-flash-container"></div>');
+        $('body').append(container);
+    }
+    
+    // Add the new message
+    container.append(flashHtml);
+    
+    // Auto-dismiss functionality (same as flash-message.blade.php)
+    setTimeout(() => {
+        const alert = container.find('.modern-flash-alert[data-auto-dismiss="' + autoDismissTime + '"]').last();
+        if (alert.length) {
+            dismissAlert(alert.find('.modern-flash-close')[0]);
+        }
+    }, parseInt(autoDismissTime));
+    
+    // Add success sound for success messages (same as flash-message.blade.php)
+    if (type === 'success') {
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.2);
+        } catch (e) {
+            // Silently fail if audio context is not available
+        }
+    }
+}
+
+// Function to update statistics counters
+function updateStatsCounters() {
+    // Count published and draft posts
+    let publishedCount = 0;
+    let draftCount = 0;
+    
+    $('.change-status').each(function() {
+        if ($(this).attr('data-status') == '1') {
+            publishedCount++;
+        } else {
+            draftCount++;
+        }
+    });
+    
+    // Update counters with animation
+    $('.modern-stat-card .modern-stat-value').each(function() {
+        const $this = $(this);
+        const label = $this.next('.modern-stat-label').text();
+        
+        if (label.includes('Published')) {
+            $this.text(publishedCount);
+        } else if (label.includes('Draft')) {
+            $this.text(draftCount);
+        }
+        
+        // Add pulse animation
+        $this.addClass('loading');
+        setTimeout(() => {
+            $this.removeClass('loading');
+        }, 500);
+    });
+}
+
+// Global function to dismiss alerts (used by flash message close button)
+// This function is also defined in flash-message.blade.php, but we ensure it's available here too
+function dismissAlert(closeBtn) {
+    const alert = closeBtn.closest('.modern-flash-alert');
+    if (alert) {
+        alert.classList.add('fade-out');
+        setTimeout(() => {
+            alert.remove();
+        }, 300);
+    }
+}
 </script>
 @endsection

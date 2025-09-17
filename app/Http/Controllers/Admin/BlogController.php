@@ -119,8 +119,9 @@ class BlogController extends Controller {
 		{
 			$this->validate($request, [
 					'title' => 'required|max:255',
-					'slug' => 'required|max:255',
-					'description' => 'required'
+					'slug' => 'required|max:255|unique:blogs,slug',
+					'description' => 'required',
+					'parent_category' => 'required|exists:blog_categories,id'
 			]);
 			$requestData 		= 	$request->all();
 

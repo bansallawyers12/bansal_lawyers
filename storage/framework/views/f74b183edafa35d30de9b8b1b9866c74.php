@@ -591,9 +591,7 @@ input:checked + .modern-status-slider:before {
 <div class="main-content modern-page-container">
 	<section class="section">
 		<div class="section-body">
-			<div class="server-error">
-				<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
-			</div>
+			<?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 			<div class="custom-error-msg">
 			</div>
 			
@@ -763,7 +761,301 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // Override legacy functions for modern flash messages
+    window.updateStatus = function(id, current_status, table, col) {
+        var toggleElement = $(".change-status[data-id='" + id + "']")[0];
+        updateCMSStatus(id, current_status, table, col, toggleElement);
+    };
+    
+    window.deleteAction = function(id, table) {
+        modernDeleteCMS(id, table);
+    };
+    
+    // Enhanced status update with modern flash messages
+    $('.change-status').off('change').on('change', function (event, state) {
+        var id = $.trim($(this).attr('data-id'));
+        var current_status = $.trim($(this).attr('data-status'));
+        var table = $.trim($(this).attr('data-table'));
+        var col = $.trim($(this).attr('data-col'));
+        
+        if(id != "" && current_status != "" && table != ""){
+            updateCMSStatus(id, current_status, table, col, this);
+        }
+    });
+    
+    // Ensure flash message container exists
+    if ($('.modern-flash-container').length === 0) {
+        $('body').append('<div class="modern-flash-container"></div>');
+    }
 });
+
+// Modern delete function for CMS pages with flash messages and confirmation
+function modernDeleteCMS(id, table) {
+    if (confirm('⚠️ Are you sure you want to delete this CMS page?\n\nThis action cannot be undone and will permanently remove:\n• The page content\n• Associated images and files\n• All related data\n\nClick OK to confirm deletion.')) {
+        
+        const deleteBtn = $(`.modern-btn-danger[onclick*="deleteAction(${id}"]`);
+        deleteBtn.addClass('loading');
+        const icon = deleteBtn.find('i');
+        if (icon.length) {
+            icon.removeClass('fa-trash').addClass('fa-spinner fa-spin');
+        }
+        
+        $.ajax({
+            type: 'POST',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: '<?php echo e(route("admin.delete_action")); ?>',
+            dataType: 'json',
+            data: {
+                'id': id,
+                'table': table
+            },
+            success: function(resp) {
+                if(resp && resp.status == 1) {
+                    showModernFlashMessage('success', resp.message || 'CMS page has been deleted successfully');
+                    
+                    const row = $('#id_' + id);
+                    row.fadeOut(500, function() {
+                        $(this).remove();
+                        updateCMSStatsCounters();
+                        
+                        const remainingRows = $('.modern-table tbody tr:visible').length;
+                        if (remainingRows === 0) {
+                            $('.modern-table-container').fadeOut(300, function() {
+                                $(this).replaceWith(`
+                                    <div class="modern-empty-state">
+                                        <div class="modern-empty-icon">
+                                            <i class="fas fa-file-code"></i>
+                                        </div>
+                                        <h3 class="modern-empty-title">No CMS Pages Found</h3>
+                                        <p class="modern-empty-description">All pages have been deleted. Create a new one to get started.</p>
+                                        <a href="<?php echo e(route('admin.cms_pages.create')); ?>" class="modern-btn modern-btn-primary">
+                                            <i class="fas fa-plus"></i>
+                                            Create First Page
+                                        </a>
+                                    </div>
+                                `);
+                            });
+                        }
+                    });
+                    
+                } else {
+                    showModernFlashMessage('error', resp && resp.message ? resp.message : 'Failed to delete CMS page');
+                    deleteBtn.removeClass('loading');
+                    if (icon.length) {
+                        icon.removeClass('fa-spinner fa-spin').addClass('fa-trash');
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Delete AJAX Error:', {xhr: xhr, status: status, error: error});
+                
+                let errorMessage = 'An error occurred while deleting the CMS page. Please try again.';
+                if (xhr.responseText) {
+                    try {
+                        const errorResp = JSON.parse(xhr.responseText);
+                        if (errorResp.message) {
+                            errorMessage = errorResp.message;
+                        }
+                    } catch (e) {
+                        console.log('Non-JSON error response:', xhr.responseText);
+                    }
+                }
+                
+                showModernFlashMessage('error', errorMessage);
+                deleteBtn.removeClass('loading');
+                if (icon.length) {
+                    icon.removeClass('fa-spinner fa-spin').addClass('fa-trash');
+                }
+            }
+        });
+    }
+}
+
+// Modern status update function for CMS pages with flash messages
+function updateCMSStatus(id, current_status, table, col, toggleElement) {
+    const slider = $(toggleElement).next('.modern-status-slider');
+    slider.css('opacity', '0.6');
+    
+    $.ajax({
+        type: 'POST',
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: '<?php echo e(route("admin.update_action")); ?>',
+        dataType: 'json',
+        data: {
+            'id': id, 
+            'current_status': current_status, 
+            'table': table, 
+            'colname': col
+        },
+        success: function(resp) {
+            if(resp && resp.status == 1) {
+                showModernFlashMessage('success', resp.message || 'CMS page status updated successfully');
+                
+                if(current_status == 1){
+                    var updated_status = 0;
+                } else {
+                    var updated_status = 1;
+                }
+                
+                $(".change-status[data-id="+id+"]").attr('data-status', updated_status);
+                updateCMSStatsCounters();
+                
+            } else {
+                showModernFlashMessage('error', resp && resp.message ? resp.message : 'An error occurred while updating status');
+                
+                if(current_status == 1){
+                    $(".change-status[data-id="+id+"]").prop('checked', true);
+                } else {
+                    $(".change-status[data-id="+id+"]").prop('checked', false);
+                }
+            }
+            
+            slider.css('opacity', '1');
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', {xhr: xhr, status: status, error: error});
+            
+            let errorMessage = 'An error occurred while updating CMS page status. Please try again.';
+            if (xhr.responseText) {
+                try {
+                    const errorResp = JSON.parse(xhr.responseText);
+                    if (errorResp.message) {
+                        errorMessage = errorResp.message;
+                    }
+                } catch (e) {
+                    console.log('Non-JSON error response:', xhr.responseText);
+                }
+            }
+            
+            showModernFlashMessage('error', errorMessage);
+            
+            if(current_status == 1){
+                $(".change-status[data-id="+id+"]").prop('checked', true);
+            } else {
+                $(".change-status[data-id="+id+"]").prop('checked', false);
+            }
+            
+            slider.css('opacity', '1');
+        }
+    });
+}
+
+// Function to show modern flash messages (same as blog index)
+function showModernFlashMessage(type, message) {
+    $('.modern-flash-container .modern-flash-alert').remove();
+    
+    const iconMap = {
+        'success': 'fas fa-check',
+        'error': 'fas fa-exclamation',
+        'warning': 'fas fa-exclamation-triangle',
+        'info': 'fas fa-info'
+    };
+    
+    const titleMap = {
+        'success': 'Success!',
+        'error': 'Error!',
+        'warning': 'Warning!',
+        'info': 'Information'
+    };
+    
+    const autoDismissTime = type === 'error' ? '7000' : '5000';
+    
+    const flashHtml = `
+        <div class="modern-flash-alert ${type}" role="alert" data-auto-dismiss="${autoDismissTime}">
+            <div class="modern-flash-icon">
+                <i class="${iconMap[type]}"></i>
+            </div>
+            <div class="modern-flash-content">
+                <div class="modern-flash-title">${titleMap[type]}</div>
+                <div class="modern-flash-message">${message}</div>
+            </div>
+            <button type="button" class="modern-flash-close" onclick="dismissAlert(this)">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modern-flash-progress"></div>
+        </div>
+    `;
+    
+    let container = $('.modern-flash-container');
+    if (container.length === 0) {
+        container = $('<div class="modern-flash-container"></div>');
+        $('body').append(container);
+    }
+    
+    container.append(flashHtml);
+    
+    setTimeout(() => {
+        const alert = container.find('.modern-flash-alert[data-auto-dismiss="' + autoDismissTime + '"]').last();
+        if (alert.length) {
+            dismissAlert(alert.find('.modern-flash-close')[0]);
+        }
+    }, parseInt(autoDismissTime));
+    
+    if (type === 'success') {
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.2);
+        } catch (e) {
+            // Silently fail if audio context is not available
+        }
+    }
+}
+
+// Function to update CMS statistics counters
+function updateCMSStatsCounters() {
+    let publishedCount = 0;
+    let draftCount = 0;
+    
+    $('.change-status').each(function() {
+        if ($(this).attr('data-status') == '1') {
+            publishedCount++;
+        } else {
+            draftCount++;
+        }
+    });
+    
+    $('.modern-stat-card .modern-stat-value').each(function() {
+        const $this = $(this);
+        const label = $this.next('.modern-stat-label').text();
+        
+        if (label.includes('Published')) {
+            $this.text(publishedCount);
+        } else if (label.includes('Draft')) {
+            $this.text(draftCount);
+        }
+        
+        $this.addClass('loading');
+        setTimeout(() => {
+            $this.removeClass('loading');
+        }, 500);
+    });
+}
+
+// Global function to dismiss alerts
+function dismissAlert(closeBtn) {
+    const alert = closeBtn.closest('.modern-flash-alert');
+    if (alert) {
+        alert.classList.add('fade-out');
+        setTimeout(() => {
+            alert.remove();
+        }, 300);
+    }
+}
 </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/cms_page/index.blade.php ENDPATH**/ ?>

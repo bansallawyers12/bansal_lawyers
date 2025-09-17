@@ -96,7 +96,7 @@ Route::prefix('admin')->group(function() {
 			Route::post('/change_password', [App\Http\Controllers\Admin\AdminController::class, 'change_password'])->name('admin.change_password');
 			Route::get('/sessions', [App\Http\Controllers\Admin\AdminController::class, 'sessions'])->name('admin.sessions');
 			Route::post('/sessions', [App\Http\Controllers\Admin\AdminController::class, 'sessions'])->name('admin.sessions');
-        Route::post('/delete_action', [App\Http\Controllers\Admin\AdminController::class, 'deleteAction']);
+        Route::post('/delete_action', [App\Http\Controllers\Admin\AdminController::class, 'deleteAction'])->name('admin.delete_action');
         Route::post('/declined_action', [App\Http\Controllers\Admin\AdminController::class, 'declinedAction']);
         Route::post('/approved_action', [App\Http\Controllers\Admin\AdminController::class, 'approvedAction']);
         Route::post('/process_action', [App\Http\Controllers\Admin\AdminController::class, 'processAction']);

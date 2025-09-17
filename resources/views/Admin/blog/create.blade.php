@@ -312,6 +312,47 @@ input:checked + .modern-checkbox-slider:before {
     font-size: 0.75rem;
     margin-top: 0.5rem;
     display: block;
+    font-weight: 500;
+}
+
+.modern-form-input.error,
+.modern-select.error,
+.modern-textarea.error,
+.modern-editor-container.error {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.modern-editor-container.error .cke_chrome {
+    border-color: var(--danger-color) !important;
+}
+
+.validation-summary {
+    background: linear-gradient(135deg, var(--error-bg) 0%, rgba(254, 226, 226, 0.8) 100%);
+    border: 1px solid var(--error-border);
+    border-radius: var(--border-radius-sm);
+    padding: 1rem;
+    margin-bottom: 2rem;
+    color: var(--error-color);
+}
+
+.validation-summary h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.validation-summary ul {
+    margin: 0;
+    padding-left: 1.5rem;
+    font-size: 0.8rem;
+}
+
+.validation-summary li {
+    margin-bottom: 0.25rem;
 }
 
 .modern-form-footer {
@@ -386,9 +427,7 @@ input:checked + .modern-checkbox-slider:before {
 <div class="main-content modern-form-container">
 	<section class="section">
 		<div class="section-body">
-			<div class="server-error">
-				@include('Elements.flash-message')
-			</div>
+			@include('Elements.flash-message')
 			<div class="custom-error-msg">
 			</div>
 			
@@ -409,10 +448,24 @@ input:checked + .modern-checkbox-slider:before {
 								</div>
 							</div>
 							
-							<form action="admin/blog/store" autocomplete="off" method="post" enctype="multipart/form-data" id="create-blog-form">
+							<form action="{{ route('admin.blog.store') }}" autocomplete="off" method="post" enctype="multipart/form-data" id="create-blog-form" name="add-blog">
 								@csrf
 								
 								<div class="modern-form-body">
+									@if ($errors->any())
+									<div class="validation-summary">
+										<h4>
+											<i class="fas fa-exclamation-triangle"></i>
+											Please fix the following errors:
+										</h4>
+										<ul>
+											@foreach ($errors->all() as $error)
+												<li>{{ $error }}</li>
+											@endforeach
+										</ul>
+									</div>
+									@endif
+									
 									<!-- Basic Information Section -->
 									<div class="modern-section-title">
 										<i class="fas fa-edit"></i>
@@ -657,7 +710,7 @@ input:checked + .modern-checkbox-slider:before {
 										<i class="fas fa-times"></i>
 										Cancel
 									</a>
-									<button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('add-blog')">
+									<button type="button" class="modern-btn modern-btn-primary" onClick="validateAndSubmitBlog()">
 										<i class="fas fa-save"></i>
 										Create Blog Post
 									</button>
@@ -722,7 +775,68 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // Add error styling to fields with validation errors
+    const errorFields = document.querySelectorAll('.modern-error');
+    errorFields.forEach(error => {
+        const field = error.previousElementSibling;
+        if (field && (field.classList.contains('modern-form-input') || 
+                     field.classList.contains('modern-select') || 
+                     field.classList.contains('modern-textarea'))) {
+            field.classList.add('error');
+        }
+        // Handle CKEditor container
+        else if (field && field.classList.contains('modern-editor-container')) {
+            field.classList.add('error');
+        }
+    });
+    
+    // Remove error styling when user starts typing
+    const allInputs = document.querySelectorAll('.modern-form-input, .modern-select, .modern-textarea');
+    allInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            this.classList.remove('error');
+            const errorMsg = this.parentNode.querySelector('.modern-error');
+            if (errorMsg) {
+                errorMsg.style.opacity = '0.5';
+            }
+        });
+        
+        input.addEventListener('change', function() {
+            this.classList.remove('error');
+            const errorMsg = this.parentNode.querySelector('.modern-error');
+            if (errorMsg) {
+                errorMsg.style.opacity = '0.5';
+            }
+        });
+    });
 });
+
+// Custom validation function that handles CKEditor
+function validateAndSubmitBlog() {
+    // First, sync CKEditor content to textarea
+    if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances.description) {
+        var content = CKEDITOR.instances.description.getData();
+        document.getElementById('description').value = content;
+        
+        // Remove error styling if content exists
+        if (content.trim() !== '') {
+            const textarea = document.getElementById('description');
+            const editorContainer = textarea.closest('.modern-editor-container');
+            const errorMsg = textarea.parentNode.querySelector('.modern-error');
+            
+            if (editorContainer) {
+                editorContainer.classList.remove('error');
+            }
+            if (errorMsg) {
+                errorMsg.style.opacity = '0.5';
+            }
+        }
+    }
+    
+    // Now call the standard validation
+    customValidate('add-blog');
+}
 </script>
 @endsection
 
@@ -733,6 +847,47 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize CKEditor
     var description = CKEDITOR.replace('description');
     CKFinder.setupCKEditor(description);
+    
+    // Handle CKEditor validation integration
+    description.on('change', function() {
+        // Update the textarea value when CKEditor content changes
+        var content = description.getData();
+        document.getElementById('description').value = content;
+        
+        // Remove error styling if content exists
+        if (content.trim() !== '') {
+            const textarea = document.getElementById('description');
+            const editorContainer = textarea.closest('.modern-editor-container');
+            const errorMsg = textarea.parentNode.querySelector('.modern-error');
+            
+            if (editorContainer) {
+                editorContainer.classList.remove('error');
+            }
+            if (errorMsg) {
+                errorMsg.style.opacity = '0.5';
+            }
+        }
+    });
+    
+    // Handle CKEditor blur event (when user clicks away)
+    description.on('blur', function() {
+        var content = description.getData();
+        document.getElementById('description').value = content;
+        
+        // Remove error styling if content exists
+        if (content.trim() !== '') {
+            const textarea = document.getElementById('description');
+            const editorContainer = textarea.closest('.modern-editor-container');
+            const errorMsg = textarea.parentNode.querySelector('.modern-error');
+            
+            if (editorContainer) {
+                editorContainer.classList.remove('error');
+            }
+            if (errorMsg) {
+                errorMsg.style.opacity = '0.5';
+            }
+        }
+    });
     
     // File upload preview functionality
     var loadFile = function(event) {

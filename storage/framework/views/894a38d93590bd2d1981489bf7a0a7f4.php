@@ -218,13 +218,13 @@
             
             <li class="menu-item">
                 <a href="#" 
-                   class="menu-link"
+                   class="menu-link <?php echo e(in_array(Route::currentRouteName(), ['admin.blogcategory.index', 'admin.blog.index', 'admin.blog.edit', 'admin.blog.create']) ? 'active' : ''); ?>"
                    onclick="toggleSubmenu('blogs')">
                     <i class="menu-icon fas fa-blog"></i>
                     <span>Blogs Section</span>
                     <i class="fas fa-chevron-down ml-auto" id="blogs-chevron"></i>
                 </a>
-                <ul class="submenu" id="blogs-submenu" style="display: none">
+                <ul class="submenu" id="blogs-submenu" style="display: <?php echo e(in_array(Route::currentRouteName(), ['admin.blogcategory.index', 'admin.blog.index', 'admin.blog.edit', 'admin.blog.create']) ? 'block' : 'none'); ?>">
                     <li class="submenu-item">
                         <a href="<?php echo e(route('admin.blogcategory.index')); ?>" 
                            class="submenu-link <?php echo e(Route::currentRouteName() == 'admin.blogcategory.index' ? 'active' : ''); ?>">
@@ -233,7 +233,7 @@
                     </li>
                     <li class="submenu-item">
                         <a href="<?php echo e(route('admin.blog.index')); ?>" 
-                           class="submenu-link <?php echo e(Route::currentRouteName() == 'admin.blog.index' ? 'active' : ''); ?>">
+                           class="submenu-link <?php echo e(in_array(Route::currentRouteName(), ['admin.blog.index', 'admin.blog.edit', 'admin.blog.create']) ? 'active' : ''); ?>">
                             Blog Posts
                         </a>
                     </li>
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('appointments-chevron').style.transform = 'rotate(180deg)';
     }
     
-    if (['admin.blogcategory.index', 'admin.blog.index'].includes(currentRoute)) {
+    if (['admin.blogcategory.index', 'admin.blog.index', 'admin.blog.edit', 'admin.blog.create'].includes(currentRoute)) {
         document.getElementById('blogs-submenu').style.display = 'block';
         document.getElementById('blogs-chevron').style.transform = 'rotate(180deg)';
     }
