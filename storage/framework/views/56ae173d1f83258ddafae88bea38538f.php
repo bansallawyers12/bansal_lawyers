@@ -1,7 +1,7 @@
-@extends('layouts.admin')
-@section('title', 'Admin Users')
 
-@section('content')
+<?php $__env->startSection('title', 'Admin Users'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
 /* Modern Admin Users Design System */
 :root {
@@ -441,7 +441,7 @@
     <section class="section">
         <div class="section-body">
             <div class="server-error">
-                @include('Elements.flash-message')
+                <?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
             </div>
             <div class="custom-error-msg"></div>
             
@@ -458,20 +458,20 @@
                             <div class="stats-button-row">
                                 <div class="stats-container">
                                     <div class="modern-stats-card">
-                                        <span class="modern-stats-number">{{ $totalData }}</span>
+                                        <span class="modern-stats-number"><?php echo e($totalData); ?></span>
                                         <div class="modern-stats-label">Total Users</div>
                                     </div>
                                     <div class="modern-stats-card">
-                                        <span class="modern-stats-number">{{ $lists->where('status', 1)->count() }}</span>
+                                        <span class="modern-stats-number"><?php echo e($lists->where('status', 1)->count()); ?></span>
                                         <div class="modern-stats-label">Active</div>
                                     </div>
                                     <div class="modern-stats-card">
-                                        <span class="modern-stats-number">{{ $lists->where('is_archived', 1)->count() }}</span>
+                                        <span class="modern-stats-number"><?php echo e($lists->where('is_archived', 1)->count()); ?></span>
                                         <div class="modern-stats-label">Archived</div>
                                     </div>
                                 </div>
                                 <div class="button-container">
-                                    <a href="{{ route('admin.admin_users.create') }}" class="modern-btn modern-btn-primary">
+                                    <a href="<?php echo e(route('admin.admin_users.create')); ?>" class="modern-btn modern-btn-primary">
                                         <i class="fas fa-plus"></i> Add New Admin
                                     </a>
                                 </div>
@@ -479,30 +479,30 @@
                         </div>
                         
                         <!-- Search and Filter Form -->
-                        <form method="GET" action="{{ route('admin.admin_users.index') }}" class="modern-search-form">
+                        <form method="GET" action="<?php echo e(route('admin.admin_users.index')); ?>" class="modern-search-form">
                             <div class="filter-row">
                                 <div class="filter-item">
-                                    <input type="text" name="search" class="form-control" placeholder="Search by name, email, company..." value="{{ request('search') }}">
+                                    <input type="text" name="search" class="form-control" placeholder="Search by name, email, company..." value="<?php echo e(request('search')); ?>">
                                 </div>
                                 <div class="filter-item">
                                     <select name="status" class="form-control">
                                         <option value="">All Status</option>
-                                        <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Active</option>
-                                        <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Inactive</option>
+                                        <option value="1" <?php echo e(request('status') == '1' ? 'selected' : ''); ?>>Active</option>
+                                        <option value="0" <?php echo e(request('status') == '0' ? 'selected' : ''); ?>>Inactive</option>
                                     </select>
                                 </div>
                                 <div class="filter-item">
                                     <select name="archived" class="form-control">
                                         <option value="">All</option>
-                                        <option value="0" {{ request('archived') == '0' ? 'selected' : '' }}>Active</option>
-                                        <option value="1" {{ request('archived') == '1' ? 'selected' : '' }}>Archived</option>
+                                        <option value="0" <?php echo e(request('archived') == '0' ? 'selected' : ''); ?>>Active</option>
+                                        <option value="1" <?php echo e(request('archived') == '1' ? 'selected' : ''); ?>>Archived</option>
                                     </select>
                                 </div>
                                 <div class="filter-buttons">
                                     <button type="submit" class="modern-btn modern-btn-primary">
                                         <i class="fas fa-search"></i> Filter
                                     </button>
-                                    <a href="{{ route('admin.admin_users.index') }}" class="modern-btn modern-btn-secondary">
+                                    <a href="<?php echo e(route('admin.admin_users.index')); ?>" class="modern-btn modern-btn-secondary">
                                         <i class="fas fa-refresh"></i> Clear
                                     </a>
                                 </div>
@@ -514,7 +514,7 @@
                 <!-- Table Card -->
                 <div class="modern-card">
                     <div class="modern-table-container">
-                        @if($totalData !== 0)
+                        <?php if($totalData !== 0): ?>
                             <table class="modern-table">
                                 <thead>
                                     <tr>
@@ -529,20 +529,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($lists as $list)
-                                        <tr id="id_{{$list->id}}">
+                                    <?php $__currentLoopData = $lists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <tr id="id_<?php echo e($list->id); ?>">
                                             <td>
-                                                <span class="fw-bold text-primary">#{{ $list->id }}</span>
+                                                <span class="fw-bold text-primary">#<?php echo e($list->id); ?></span>
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="user-avatar me-3">
                                                         <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-weight: 600;">
-                                                            {{ strtoupper(substr($list->first_name, 0, 1) . substr($list->last_name, 0, 1)) }}
+                                                            <?php echo e(strtoupper(substr($list->first_name, 0, 1) . substr($list->last_name, 0, 1))); ?>
+
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <div class="fw-bold">{{ $list->first_name }} {{ $list->last_name }}</div>
+                                                        <div class="fw-bold"><?php echo e($list->first_name); ?> <?php echo e($list->last_name); ?></div>
                                                         <small class="text-muted">Admin User</small>
                                                     </div>
                                                 </div>
@@ -550,143 +551,144 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <i class="fas fa-envelope text-muted me-2"></i>
-                                                    <span>{{ $list->email }}</span>
+                                                    <span><?php echo e($list->email); ?></span>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <i class="fas fa-building text-muted me-2"></i>
-                                                    <span>{{ $list->company_name ?? 'N/A' }}</span>
+                                                    <span><?php echo e($list->company_name ?? 'N/A'); ?></span>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <i class="fas fa-phone text-muted me-2"></i>
-                                                    <span>{{ $list->phone ?? 'N/A' }}</span>
+                                                    <span><?php echo e($list->phone ?? 'N/A'); ?></span>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column gap-1">
-                                                    @if($list->status == 1)
+                                                    <?php if($list->status == 1): ?>
                                                         <span class="modern-badge modern-badge-success">
                                                             <i class="fas fa-check-circle"></i> Active
                                                         </span>
-                                                    @else
+                                                    <?php else: ?>
                                                         <span class="modern-badge modern-badge-danger">
                                                             <i class="fas fa-times-circle"></i> Inactive
                                                         </span>
-                                                    @endif
-                                                    @if($list->is_archived == 1)
+                                                    <?php endif; ?>
+                                                    <?php if($list->is_archived == 1): ?>
                                                         <span class="modern-badge modern-badge-warning">
                                                             <i class="fas fa-archive"></i> Archived
                                                         </span>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <i class="fas fa-calendar text-muted me-2"></i>
                                                     <div>
-                                                        <div>{{ $list->created_at->format('M d, Y') }}</div>
-                                                        <small class="text-muted">{{ $list->created_at->diffForHumans() }}</small>
+                                                        <div><?php echo e($list->created_at->format('M d, Y')); ?></div>
+                                                        <small class="text-muted"><?php echo e($list->created_at->diffForHumans()); ?></small>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="modern-action-buttons">
-                                                    <a href="{{ route('admin.admin_users.edit', $list->id) }}" 
+                                                    <a href="<?php echo e(route('admin.admin_users.edit', $list->id)); ?>" 
                                                        class="modern-action-btn modern-action-btn-edit" 
                                                        title="Edit User">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     
-                                                    @if($list->status == 1)
+                                                    <?php if($list->status == 1): ?>
                                                         <button type="button" 
                                                                 class="modern-action-btn modern-action-btn-disable" 
-                                                                onclick="updateAction({{ $list->id }}, 1, 'admins', 'status')" 
+                                                                onclick="updateAction(<?php echo e($list->id); ?>, 1, 'admins', 'status')" 
                                                                 title="Disable User">
                                                             <i class="fas fa-ban"></i>
                                                         </button>
-                                                    @else
+                                                    <?php else: ?>
                                                         <button type="button" 
                                                                 class="modern-action-btn modern-action-btn-enable" 
-                                                                onclick="updateAction({{ $list->id }}, 0, 'admins', 'status')" 
+                                                                onclick="updateAction(<?php echo e($list->id); ?>, 0, 'admins', 'status')" 
                                                                 title="Enable User">
                                                             <i class="fas fa-check"></i>
                                                         </button>
-                                                    @endif
+                                                    <?php endif; ?>
                                                     
-                                                    @if($list->is_archived == 0)
+                                                    <?php if($list->is_archived == 0): ?>
                                                         <button type="button" 
                                                                 class="modern-action-btn modern-action-btn-archive" 
-                                                                onclick="archiveAction({{ $list->id }}, 'admins')" 
+                                                                onclick="archiveAction(<?php echo e($list->id); ?>, 'admins')" 
                                                                 title="Archive User">
                                                             <i class="fas fa-archive"></i>
                                                         </button>
-                                                    @else
+                                                    <?php else: ?>
                                                         <button type="button" 
                                                                 class="modern-action-btn modern-action-btn-restore" 
-                                                                onclick="archiveAction({{ $list->id }}, 'admins')" 
+                                                                onclick="archiveAction(<?php echo e($list->id); ?>, 'admins')" 
                                                                 title="Restore User">
                                                             <i class="fas fa-undo"></i>
                                                         </button>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </div>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
                             </table>
-                        @else
+                        <?php else: ?>
                             <div class="modern-no-data">
                                 <i class="fas fa-users-slash"></i>
                                 <h4>No Admin Users Found</h4>
                                 <p>No admin users match your current search criteria.</p>
-                                <a href="{{ route('admin.admin_users.create') }}" class="modern-btn modern-btn-primary mt-3">
+                                <a href="<?php echo e(route('admin.admin_users.create')); ?>" class="modern-btn modern-btn-primary mt-3">
                                     <i class="fas fa-plus"></i> Add First Admin User
                                 </a>
                             </div>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
                 
                 <!-- Pagination -->
-                @if($totalData > 0)
+                <?php if($totalData > 0): ?>
                     <div class="modern-pagination">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="text-muted mb-0">
                                     <i class="fas fa-info-circle me-2"></i>
-                                    Showing {{ $lists->firstItem() }} to {{ $lists->lastItem() }} of {{ $totalData }} results
+                                    Showing <?php echo e($lists->firstItem()); ?> to <?php echo e($lists->lastItem()); ?> of <?php echo e($totalData); ?> results
                                 </p>
                             </div>
                             <div>
-                                {{ $lists->appends(request()->query())->links() }}
+                                <?php echo e($lists->appends(request()->query())->links()); ?>
+
                             </div>
                         </div>
                     </div>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
     </section>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script>
 // Reuse existing updateAction and archiveAction functions from your system
 function updateAction(id, currentStatus, table, column) {
     if (confirm('Are you sure you want to change the status?')) {
         $.ajax({
-            url: '{{ route("admin.update_action") }}',
+            url: '<?php echo e(route("admin.update_action")); ?>',
             type: 'POST',
             data: {
                 id: id,
                 current_status: currentStatus,
                 table: table,
                 colname: column,
-                _token: '{{ csrf_token() }}'
+                _token: '<?php echo e(csrf_token()); ?>'
             },
             success: function(response) {
                 if (response.status == 1) {
@@ -705,12 +707,12 @@ function updateAction(id, currentStatus, table, column) {
 function archiveAction(id, table) {
     if (confirm('Are you sure you want to change the archive status?')) {
         $.ajax({
-            url: '{{ route("admin.archive_action") }}',
+            url: '<?php echo e(route("admin.archive_action")); ?>',
             type: 'POST',
             data: {
                 id: id,
                 table: table,
-                _token: '{{ csrf_token() }}'
+                _token: '<?php echo e(csrf_token()); ?>'
             },
             success: function(response) {
                 if (response.status == 1) {
@@ -726,4 +728,6 @@ function archiveAction(id, table) {
     }
 }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/admin_users/index.blade.php ENDPATH**/ ?>

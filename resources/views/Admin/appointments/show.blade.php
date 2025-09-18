@@ -592,6 +592,7 @@
 									</div>
 								</div>
 							</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -673,24 +674,47 @@
 <script>
 // Enhanced appointment details functionality
 function copyAppointmentDetails() {
-    const appointmentDetails = `
-Appointment Details:
-Client: {{ $appointment->clients->first_name }} {{ $appointment->clients->last_name }}
-Client ID: {{ $appointment->clients->client_id }}
-Date: {{ date('d/m/Y', strtotime($appointment->date)) }}
-Time: {{ $appointment->time }}
-@if($appointment->natureOfEnquiry)
-Nature of Enquiry: {{ $appointment->natureOfEnquiry->title }}
-@endif
-@if($appointment->service)
-Service: {{ $appointment->service->title }}
-@endif
-Appointment Type: {{ $appointment->appointment_details ?? 'Not specified' }}
-Status: @if($appointment->status == 0)Pending@elseif($appointment->status == 1)Approved@elseif($appointment->status == 2)Completed@elseif($appointment->status == 3)Rejected@elseif($appointment->status == 4)N/P@elseif($appointment->status == 5)In Progress@elseif($appointment->status == 6)Did Not Come@elseif($appointment->status == 7)Cancelled@elseif($appointment->status == 8)Missed@elseif($appointment->status == 9)Payment Pending@elseif($appointment->status == 10)Payment Success@elseif($appointment->status == 11)Payment Failed@endif
-
-Description:
-{{ $appointment->description }}
-    `.trim();
+    let appointmentDetails = 'Appointment Details:\n';
+    appointmentDetails += 'Client: {{ $appointment->clients->first_name }} {{ $appointment->clients->last_name }}\n';
+    appointmentDetails += 'Client ID: {{ $appointment->clients->client_id }}\n';
+    appointmentDetails += 'Date: {{ date('d/m/Y', strtotime($appointment->date)) }}\n';
+    appointmentDetails += 'Time: {{ $appointment->time }}\n';
+    @if($appointment->natureOfEnquiry)
+    appointmentDetails += 'Nature of Enquiry: {{ $appointment->natureOfEnquiry->title }}\n';
+    @endif
+    @if($appointment->service)
+    appointmentDetails += 'Service: {{ $appointment->service->title }}\n';
+    @endif
+    appointmentDetails += 'Appointment Type: {{ $appointment->appointment_details ?? 'Not specified' }}\n';
+    appointmentDetails += 'Status: ';
+    @if($appointment->status == 0)
+    appointmentDetails += 'Pending';
+    @elseif($appointment->status == 1)
+    appointmentDetails += 'Approved';
+    @elseif($appointment->status == 2)
+    appointmentDetails += 'Completed';
+    @elseif($appointment->status == 3)
+    appointmentDetails += 'Rejected';
+    @elseif($appointment->status == 4)
+    appointmentDetails += 'N/P';
+    @elseif($appointment->status == 5)
+    appointmentDetails += 'In Progress';
+    @elseif($appointment->status == 6)
+    appointmentDetails += 'Did Not Come';
+    @elseif($appointment->status == 7)
+    appointmentDetails += 'Cancelled';
+    @elseif($appointment->status == 8)
+    appointmentDetails += 'Missed';
+    @elseif($appointment->status == 9)
+    appointmentDetails += 'Payment Pending';
+    @elseif($appointment->status == 10)
+    appointmentDetails += 'Payment Success';
+    @elseif($appointment->status == 11)
+    appointmentDetails += 'Payment Failed';
+    @endif
+    appointmentDetails += '\n';
+    appointmentDetails += '\nDescription:\n';
+    appointmentDetails += '{{ $appointment->description }}';
     
     navigator.clipboard.writeText(appointmentDetails).then(function() {
         // Show temporary success message

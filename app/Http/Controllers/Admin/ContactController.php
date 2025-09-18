@@ -55,7 +55,7 @@ class ContactController extends Controller
             'this_month' => Contact::whereMonth('created_at', now()->month)->count(),
         ];
         
-        return view('admin.contacts.index', compact('contacts', 'stats'));
+        return view('Admin.contacts.index', compact('contacts', 'stats'));
     }
     
     /**
@@ -71,7 +71,7 @@ class ContactController extends Controller
             $contact->save();
         }
         
-        return view('admin.contacts.show', compact('contact'));
+        return view('Admin.contacts.show', compact('contact'));
     }
     
     /**

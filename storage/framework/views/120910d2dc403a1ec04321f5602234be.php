@@ -1,9 +1,9 @@
-@extends('layouts.admin')
-@section('title', 'Edit Admin User')
 
-@section('content')
+<?php $__env->startSection('title', 'Create Admin User'); ?>
+
+<?php $__env->startSection('content'); ?>
 <style>
-/* Modern Edit Admin User Design System */
+/* Modern Create Admin User Design System */
 :root {
     --primary-color: #1B4D89;
     --secondary-color: #2c5aa0;
@@ -11,7 +11,6 @@
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
-    --info-color: #3b82f6;
     --text-dark: #1e293b;
     --text-light: #64748b;
     --bg-light: #f8fafc;
@@ -223,99 +222,6 @@
     font-weight: 600;
 }
 
-.modern-info-card {
-    background: linear-gradient(135deg, var(--info-color) 0%, #1e40af 100%);
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
-    color: var(--white);
-    margin-bottom: 1.5rem;
-    position: relative;
-    overflow: hidden;
-}
-
-.modern-info-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="info-grain" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23info-grain)"/></svg>');
-    opacity: 0.3;
-}
-
-.modern-info-card-content {
-    position: relative;
-    z-index: 2;
-}
-
-.modern-info-card h6 {
-    color: var(--white);
-    font-weight: 700;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.modern-info-card p {
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 0.5rem;
-}
-
-.modern-info-card .badge {
-    background: rgba(255, 255, 255, 0.2);
-    color: var(--white);
-    padding: 0.25rem 0.75rem;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.modern-form-help {
-    font-size: 0.75rem;
-    color: var(--text-light);
-    margin-top: 0.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.modern-user-avatar {
-    position: relative;
-    z-index: 2;
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.modern-avatar-circle {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--white);
-    border: 3px solid rgba(255, 255, 255, 0.3);
-}
-
-.modern-user-info h5 {
-    color: var(--white);
-    margin: 0;
-    font-weight: 700;
-}
-
-.modern-user-info p {
-    color: rgba(255, 255, 255, 0.8);
-    margin: 0;
-    font-size: 0.875rem;
-}
-
 @media (max-width: 768px) {
     .modern-header-actions {
         flex-direction: column;
@@ -337,7 +243,7 @@
     <section class="section">
         <div class="section-body">
             <div class="server-error">
-                @include('Elements.flash-message')
+                <?php echo $__env->make('Elements.flash-message', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
             </div>
             <div class="custom-error-msg"></div>
             
@@ -346,65 +252,33 @@
                 <div class="modern-card">
                     <div class="modern-card-header">
                         <h1 class="modern-card-title">
-                            <i class="fas fa-user-edit"></i>
-                            Edit Admin User
+                            <i class="fas fa-user-plus"></i>
+                            Create New Admin User
                         </h1>
-                        
-                        <!-- User Avatar and Info -->
-                        <div class="modern-user-avatar">
-                            <div class="modern-avatar-circle">
-                                {{ strtoupper(substr($admin->first_name, 0, 1) . substr($admin->last_name, 0, 1)) }}
-                            </div>
-                            <div class="modern-user-info">
-                                <h5>{{ $admin->first_name }} {{ $admin->last_name }}</h5>
-                                <p>{{ $admin->email }}</p>
-                            </div>
-                        </div>
                         
                         <!-- Breadcrumb -->
                         <div class="modern-breadcrumb">
-                            <a href="{{ route('admin.admin_users.index') }}" class="modern-breadcrumb-item">
+                            <a href="<?php echo e(route('admin.admin_users.index')); ?>" class="modern-breadcrumb-item">
                                 <i class="fas fa-users-cog me-1"></i> Admin Users
                             </a>
                             <span class="mx-2">/</span>
-                            <span class="modern-breadcrumb-item active">Edit User #{{ $admin->id }}</span>
+                            <span class="modern-breadcrumb-item active">Create New User</span>
                         </div>
                         
                         <div class="modern-header-actions">
                             <div></div>
-                            <a href="{{ route('admin.admin_users.index') }}" class="modern-btn modern-btn-secondary">
+                            <a href="<?php echo e(route('admin.admin_users.index')); ?>" class="modern-btn modern-btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Back to List
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Admin Information Card -->
-                <div class="modern-info-card">
-                    <div class="modern-info-card-content">
-                        <h6><i class="fas fa-info-circle"></i> Admin Information</h6>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <p><strong>User ID:</strong> #{{ $admin->id }}</p>
-                            </div>
-                            <div class="col-md-4">
-                                <p><strong>Created:</strong> {{ $admin->created_at->format('M d, Y H:i') }}</p>
-                            </div>
-                            <div class="col-md-4">
-                                <p><strong>Last Updated:</strong> {{ $admin->updated_at->format('M d, Y H:i') }}</p>
-                            </div>
-                        </div>
-                        @if($admin->is_archived == 1)
-                            <p><strong>Archive Status:</strong> <span class="badge">Archived</span></p>
-                        @endif
-                    </div>
-                </div>
-
                 <!-- Form Card -->
                 <div class="modern-card">
                     <div class="modern-form-container">
-                        <form action="{{ route('admin.admin_users.update', $admin->id) }}" method="post" name="edit_admin_user">
-                            @csrf
+                        <form action="<?php echo e(route('admin.admin_users.store')); ?>" method="post" name="create_admin_user">
+                            <?php echo csrf_field(); ?>
                             
                             <!-- Personal Information Section -->
                             <div class="mb-4">
@@ -419,16 +293,31 @@
                                                 <span class="required">*</span>
                                             </label>
                                             <input name="first_name" type="text" 
-                                                   class="modern-form-control @error('first_name') is-invalid @enderror" 
-                                                   value="{{ old('first_name', $admin->first_name) }}" 
+                                                   class="modern-form-control <?php $__errorArgs = ['first_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
+                                                   value="<?php echo e(old('first_name')); ?>" 
                                                    data-valid="required" 
                                                    placeholder="Enter first name">
-                                            @error('first_name')
+                                            <?php $__errorArgs = ['first_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <div class="modern-invalid-feedback">
                                                     <i class="fas fa-exclamation-circle"></i>
-                                                    {{ $message }}
+                                                    <?php echo e($message); ?>
+
                                                 </div>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                     
@@ -438,15 +327,30 @@
                                                 <i class="fas fa-user me-1"></i>Last Name
                                             </label>
                                             <input name="last_name" type="text" 
-                                                   class="modern-form-control @error('last_name') is-invalid @enderror" 
-                                                   value="{{ old('last_name', $admin->last_name) }}" 
+                                                   class="modern-form-control <?php $__errorArgs = ['last_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
+                                                   value="<?php echo e(old('last_name')); ?>" 
                                                    placeholder="Enter last name">
-                                            @error('last_name')
+                                            <?php $__errorArgs = ['last_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <div class="modern-invalid-feedback">
                                                     <i class="fas fa-exclamation-circle"></i>
-                                                    {{ $message }}
+                                                    <?php echo e($message); ?>
+
                                                 </div>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -465,16 +369,31 @@
                                                 <span class="required">*</span>
                                             </label>
                                             <input name="email" type="email" 
-                                                   class="modern-form-control @error('email') is-invalid @enderror" 
-                                                   value="{{ old('email', $admin->email) }}" 
+                                                   class="modern-form-control <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
+                                                   value="<?php echo e(old('email')); ?>" 
                                                    data-valid="required email" 
                                                    placeholder="Enter email address">
-                                            @error('email')
+                                            <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <div class="modern-invalid-feedback">
                                                     <i class="fas fa-exclamation-circle"></i>
-                                                    {{ $message }}
+                                                    <?php echo e($message); ?>
+
                                                 </div>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                     
@@ -484,15 +403,30 @@
                                                 <i class="fas fa-phone me-1"></i>Phone Number
                                             </label>
                                             <input name="phone" type="text" 
-                                                   class="modern-form-control @error('phone') is-invalid @enderror" 
-                                                   value="{{ old('phone', $admin->phone) }}" 
+                                                   class="modern-form-control <?php $__errorArgs = ['phone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
+                                                   value="<?php echo e(old('phone')); ?>" 
                                                    placeholder="Enter phone number">
-                                            @error('phone')
+                                            <?php $__errorArgs = ['phone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <div class="modern-invalid-feedback">
                                                     <i class="fas fa-exclamation-circle"></i>
-                                                    {{ $message }}
+                                                    <?php echo e($message); ?>
+
                                                 </div>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -510,15 +444,30 @@
                                                 <i class="fas fa-building me-1"></i>Company Name
                                             </label>
                                             <input name="company_name" type="text" 
-                                                   class="modern-form-control @error('company_name') is-invalid @enderror" 
-                                                   value="{{ old('company_name', $admin->company_name) }}" 
+                                                   class="modern-form-control <?php $__errorArgs = ['company_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
+                                                   value="<?php echo e(old('company_name')); ?>" 
                                                    placeholder="Enter company name">
-                                            @error('company_name')
+                                            <?php $__errorArgs = ['company_name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <div class="modern-invalid-feedback">
                                                     <i class="fas fa-exclamation-circle"></i>
-                                                    {{ $message }}
+                                                    <?php echo e($message); ?>
+
                                                 </div>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                     
@@ -529,22 +478,37 @@
                                                 <span class="required">*</span>
                                             </label>
                                             <select name="status" 
-                                                    class="modern-form-control @error('status') is-invalid @enderror" 
+                                                    class="modern-form-control <?php $__errorArgs = ['status'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
                                                     data-valid="required">
                                                 <option value="">Select Status</option>
-                                                <option value="1" {{ old('status', $admin->status) == '1' ? 'selected' : '' }}>
-                                                    Active
+                                                <option value="1" <?php echo e(old('status') == '1' ? 'selected' : ''); ?>>
+                                                    <i class="fas fa-check-circle"></i> Active
                                                 </option>
-                                                <option value="0" {{ old('status', $admin->status) == '0' ? 'selected' : '' }}>
-                                                    Inactive
+                                                <option value="0" <?php echo e(old('status') == '0' ? 'selected' : ''); ?>>
+                                                    <i class="fas fa-times-circle"></i> Inactive
                                                 </option>
                                             </select>
-                                            @error('status')
+                                            <?php $__errorArgs = ['status'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <div class="modern-invalid-feedback">
                                                     <i class="fas fa-exclamation-circle"></i>
-                                                    {{ $message }}
+                                                    <?php echo e($message); ?>
+
                                                 </div>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -559,38 +523,68 @@
                                     <div class="col-md-6">
                                         <div class="modern-form-group">
                                             <label class="modern-form-label">
-                                                <i class="fas fa-lock me-1"></i>New Password
+                                                <i class="fas fa-lock me-1"></i>Password
+                                                <span class="required">*</span>
                                             </label>
                                             <input name="password" type="password" 
-                                                   class="modern-form-control @error('password') is-invalid @enderror" 
-                                                   placeholder="Enter new password">
-                                            <div class="modern-form-help">
-                                                <i class="fas fa-info-circle"></i>
-                                                Leave blank to keep current password
-                                            </div>
-                                            @error('password')
+                                                   class="modern-form-control <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
+                                                   data-valid="required" 
+                                                   placeholder="Enter password (minimum 6 characters)">
+                                            <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <div class="modern-invalid-feedback">
                                                     <i class="fas fa-exclamation-circle"></i>
-                                                    {{ $message }}
+                                                    <?php echo e($message); ?>
+
                                                 </div>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-6">
                                         <div class="modern-form-group">
                                             <label class="modern-form-label">
-                                                <i class="fas fa-lock me-1"></i>Confirm New Password
+                                                <i class="fas fa-lock me-1"></i>Confirm Password
+                                                <span class="required">*</span>
                                             </label>
                                             <input name="password_confirmation" type="password" 
-                                                   class="modern-form-control @error('password_confirmation') is-invalid @enderror" 
-                                                   placeholder="Confirm new password">
-                                            @error('password_confirmation')
+                                                   class="modern-form-control <?php $__errorArgs = ['password_confirmation'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
+                                                   data-valid="required" 
+                                                   placeholder="Confirm password">
+                                            <?php $__errorArgs = ['password_confirmation'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <div class="modern-invalid-feedback">
                                                     <i class="fas fa-exclamation-circle"></i>
-                                                    {{ $message }}
+                                                    <?php echo e($message); ?>
+
                                                 </div>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -598,11 +592,11 @@
                             
                             <!-- Form Actions -->
                             <div class="modern-form-actions">
-                                <a href="{{ route('admin.admin_users.index') }}" class="modern-btn modern-btn-secondary">
+                                <a href="<?php echo e(route('admin.admin_users.index')); ?>" class="modern-btn modern-btn-secondary">
                                     <i class="fas fa-times"></i> Cancel
                                 </a>
-                                <button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('edit_admin_user')">
-                                    <i class="fas fa-save"></i> Update Admin User
+                                <button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('create_admin_user')">
+                                    <i class="fas fa-save"></i> Create Admin User
                                 </button>
                             </div>
                         </form>
@@ -613,9 +607,9 @@
     </section>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script>
 // Form validation using your existing customValidate function
 function customValidate(formName) {
@@ -643,11 +637,10 @@ function customValidate(formName) {
         }
     }
     
-    // Password confirmation validation (only if password is provided)
+    // Password confirmation validation
     var password = form.querySelector('input[name="password"]').value;
     var passwordConfirmation = form.querySelector('input[name="password_confirmation"]').value;
-    
-    if (password && password !== passwordConfirmation) {
+    if (password !== passwordConfirmation) {
         form.querySelector('input[name="password_confirmation"]').classList.add('is-invalid');
         isValid = false;
     }
@@ -659,4 +652,6 @@ function customValidate(formName) {
     }
 }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/Admin/admin_users/create.blade.php ENDPATH**/ ?>

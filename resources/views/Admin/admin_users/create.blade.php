@@ -2,49 +2,304 @@
 @section('title', 'Create Admin User')
 
 @section('content')
+<style>
+/* Modern Create Admin User Design System */
+:root {
+    --primary-color: #1B4D89;
+    --secondary-color: #2c5aa0;
+    --accent-color: #FF6B35;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --bg-light: #f8fafc;
+    --white: #ffffff;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --border-radius: 12px;
+    --border-radius-sm: 8px;
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-page-container {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.modern-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: var(--transition);
+    margin-bottom: 2rem;
+}
+
+.modern-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.modern-card-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    padding: 1.5rem 2rem;
+    border-bottom: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-card-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+}
+
+.modern-card-title {
+    color: var(--white);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.modern-card-title i {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.modern-header-actions {
+    position: relative;
+    z-index: 2;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.modern-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.modern-btn-primary {
+    background: var(--accent-color);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.modern-btn-primary:hover {
+    background: #e55a2b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+    color: var(--white);
+}
+
+.modern-btn-secondary {
+    background: var(--white);
+    color: var(--text-dark);
+    border: 2px solid var(--border-color);
+}
+
+.modern-btn-secondary:hover {
+    background: var(--bg-light);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.modern-form-container {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.modern-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.modern-form-label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.modern-form-label .required {
+    color: var(--danger-color);
+    margin-left: 0.25rem;
+}
+
+.modern-form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.875rem;
+    transition: var(--transition);
+    background: var(--white);
+}
+
+.modern-form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
+}
+
+.modern-form-control.is-invalid {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.modern-invalid-feedback {
+    color: var(--danger-color);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.modern-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.modern-breadcrumb {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius-sm);
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.modern-breadcrumb-item {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+
+.modern-breadcrumb-item:hover {
+    color: var(--white);
+    text-decoration: none;
+}
+
+.modern-breadcrumb-item.active {
+    color: var(--white);
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .modern-header-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .modern-form-actions {
+        flex-direction: column;
+    }
+    
+    .modern-form-container {
+        padding: 1.5rem;
+    }
+}
+</style>
 
 <!-- Main Content -->
-<div class="main-content">
-	<section class="section">
-		<div class="section-body">
-			<div class="server-error">
-				@include('Elements.flash-message')
-			</div>
-			<div class="custom-error-msg"></div>
-			<div class="row">
-                <div class="col-12 col-md-12 col-lg-12">
-					<div class="card">
-						<div class="card-header">
-							<h4>Create New Admin User</h4>
-							<div class="card-header-action">
-								<a href="{{ route('admin.admin_users.index') }}" class="btn btn-secondary">
-									<i class="fa fa-arrow-left"></i> Back to List
-								</a>
-							</div>
-						</div>
-                    </div> 
-                </div>
-				<div class="col-12 col-md-12 col-lg-12">
-					<div class="card"> 
-						<div class="card-header">
-                            <div class="col-md-6">   
-                                <div class="card-title">
-                                    <h4>Admin User Information</h4>
-                                </div> 
-                            </div>
+<div class="main-content modern-page-container">
+    <section class="section">
+        <div class="section-body">
+            <div class="server-error">
+                @include('Elements.flash-message')
+            </div>
+            <div class="custom-error-msg"></div>
+            
+            <div class="container-fluid">
+                <!-- Header Card -->
+                <div class="modern-card">
+                    <div class="modern-card-header">
+                        <h1 class="modern-card-title">
+                            <i class="fas fa-user-plus"></i>
+                            Create New Admin User
+                        </h1>
+                        
+                        <!-- Breadcrumb -->
+                        <div class="modern-breadcrumb">
+                            <a href="{{ route('admin.admin_users.index') }}" class="modern-breadcrumb-item">
+                                <i class="fas fa-users-cog me-1"></i> Admin Users
+                            </a>
+                            <span class="mx-2">/</span>
+                            <span class="modern-breadcrumb-item active">Create New User</span>
                         </div>
-                        <div class="card-body">
-                            <form action="{{ route('admin.admin_users.store') }}" method="post" name="create_admin_user">
-                                @csrf
-                                
+                        
+                        <div class="modern-header-actions">
+                            <div></div>
+                            <a href="{{ route('admin.admin_users.index') }}" class="modern-btn modern-btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Card -->
+                <div class="modern-card">
+                    <div class="modern-form-container">
+                        <form action="{{ route('admin.admin_users.store') }}" method="post" name="create_admin_user">
+                            @csrf
+                            
+                            <!-- Personal Information Section -->
+                            <div class="mb-4">
+                                <h3 class="text-primary mb-3">
+                                    <i class="fas fa-user me-2"></i>Personal Information
+                                </h3>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="first_name">First Name <span style="color:#ff0000;">*</span></label>
-                                            <input name="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" 
-                                                   value="{{ old('first_name') }}" data-valid="required" placeholder="Enter first name">
+                                        <div class="modern-form-group">
+                                            <label class="modern-form-label">
+                                                <i class="fas fa-user me-1"></i>First Name
+                                                <span class="required">*</span>
+                                            </label>
+                                            <input name="first_name" type="text" 
+                                                   class="modern-form-control @error('first_name') is-invalid @enderror" 
+                                                   value="{{ old('first_name') }}" 
+                                                   data-valid="required" 
+                                                   placeholder="Enter first name">
                                             @error('first_name')
-                                                <div class="invalid-feedback">
+                                                <div class="modern-invalid-feedback">
+                                                    <i class="fas fa-exclamation-circle"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -52,27 +307,45 @@
                                     </div>
                                     
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="last_name">Last Name</label>
-                                            <input name="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" 
-                                                   value="{{ old('last_name') }}" placeholder="Enter last name">
+                                        <div class="modern-form-group">
+                                            <label class="modern-form-label">
+                                                <i class="fas fa-user me-1"></i>Last Name
+                                            </label>
+                                            <input name="last_name" type="text" 
+                                                   class="modern-form-control @error('last_name') is-invalid @enderror" 
+                                                   value="{{ old('last_name') }}" 
+                                                   placeholder="Enter last name">
                                             @error('last_name')
-                                                <div class="invalid-feedback">
+                                                <div class="modern-invalid-feedback">
+                                                    <i class="fas fa-exclamation-circle"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
-                                
+                            </div>
+                            
+                            <!-- Contact Information Section -->
+                            <div class="mb-4">
+                                <h3 class="text-primary mb-3">
+                                    <i class="fas fa-address-book me-2"></i>Contact Information
+                                </h3>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="email">Email Address <span style="color:#ff0000;">*</span></label>
-                                            <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" 
-                                                   value="{{ old('email') }}" data-valid="required email" placeholder="Enter email address">
+                                        <div class="modern-form-group">
+                                            <label class="modern-form-label">
+                                                <i class="fas fa-envelope me-1"></i>Email Address
+                                                <span class="required">*</span>
+                                            </label>
+                                            <input name="email" type="email" 
+                                                   class="modern-form-control @error('email') is-invalid @enderror" 
+                                                   value="{{ old('email') }}" 
+                                                   data-valid="required email" 
+                                                   placeholder="Enter email address">
                                             @error('email')
-                                                <div class="invalid-feedback">
+                                                <div class="modern-invalid-feedback">
+                                                    <i class="fas fa-exclamation-circle"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -80,27 +353,43 @@
                                     </div>
                                     
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="phone">Phone Number</label>
-                                            <input name="phone" type="text" class="form-control @error('phone') is-invalid @enderror" 
-                                                   value="{{ old('phone') }}" placeholder="Enter phone number">
+                                        <div class="modern-form-group">
+                                            <label class="modern-form-label">
+                                                <i class="fas fa-phone me-1"></i>Phone Number
+                                            </label>
+                                            <input name="phone" type="text" 
+                                                   class="modern-form-control @error('phone') is-invalid @enderror" 
+                                                   value="{{ old('phone') }}" 
+                                                   placeholder="Enter phone number">
                                             @error('phone')
-                                                <div class="invalid-feedback">
+                                                <div class="modern-invalid-feedback">
+                                                    <i class="fas fa-exclamation-circle"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
-                                
+                            </div>
+                            
+                            <!-- Company & Status Section -->
+                            <div class="mb-4">
+                                <h3 class="text-primary mb-3">
+                                    <i class="fas fa-building me-2"></i>Company & Status
+                                </h3>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="company_name">Company Name</label>
-                                            <input name="company_name" type="text" class="form-control @error('company_name') is-invalid @enderror" 
-                                                   value="{{ old('company_name') }}" placeholder="Enter company name">
+                                        <div class="modern-form-group">
+                                            <label class="modern-form-label">
+                                                <i class="fas fa-building me-1"></i>Company Name
+                                            </label>
+                                            <input name="company_name" type="text" 
+                                                   class="modern-form-control @error('company_name') is-invalid @enderror" 
+                                                   value="{{ old('company_name') }}" 
+                                                   placeholder="Enter company name">
                                             @error('company_name')
-                                                <div class="invalid-feedback">
+                                                <div class="modern-invalid-feedback">
+                                                    <i class="fas fa-exclamation-circle"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -108,30 +397,52 @@
                                     </div>
                                     
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="status">Status <span style="color:#ff0000;">*</span></label>
-                                            <select name="status" class="form-control @error('status') is-invalid @enderror" data-valid="required">
+                                        <div class="modern-form-group">
+                                            <label class="modern-form-label">
+                                                <i class="fas fa-toggle-on me-1"></i>Status
+                                                <span class="required">*</span>
+                                            </label>
+                                            <select name="status" 
+                                                    class="modern-form-control @error('status') is-invalid @enderror" 
+                                                    data-valid="required">
                                                 <option value="">Select Status</option>
-                                                <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Active</option>
-                                                <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive</option>
+                                                <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>
+                                                    <i class="fas fa-check-circle"></i> Active
+                                                </option>
+                                                <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>
+                                                    <i class="fas fa-times-circle"></i> Inactive
+                                                </option>
                                             </select>
                                             @error('status')
-                                                <div class="invalid-feedback">
+                                                <div class="modern-invalid-feedback">
+                                                    <i class="fas fa-exclamation-circle"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
-                                
+                            </div>
+                            
+                            <!-- Security Section -->
+                            <div class="mb-4">
+                                <h3 class="text-primary mb-3">
+                                    <i class="fas fa-shield-alt me-2"></i>Security Settings
+                                </h3>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="password">Password <span style="color:#ff0000;">*</span></label>
-                                            <input name="password" type="password" class="form-control @error('password') is-invalid @enderror" 
-                                                   data-valid="required" placeholder="Enter password (minimum 6 characters)">
+                                        <div class="modern-form-group">
+                                            <label class="modern-form-label">
+                                                <i class="fas fa-lock me-1"></i>Password
+                                                <span class="required">*</span>
+                                            </label>
+                                            <input name="password" type="password" 
+                                                   class="modern-form-control @error('password') is-invalid @enderror" 
+                                                   data-valid="required" 
+                                                   placeholder="Enter password (minimum 6 characters)">
                                             @error('password')
-                                                <div class="invalid-feedback">
+                                                <div class="modern-invalid-feedback">
+                                                    <i class="fas fa-exclamation-circle"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -139,29 +450,36 @@
                                     </div>
                                     
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="password_confirmation">Confirm Password <span style="color:#ff0000;">*</span></label>
-                                            <input name="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" 
-                                                   data-valid="required" placeholder="Confirm password">
+                                        <div class="modern-form-group">
+                                            <label class="modern-form-label">
+                                                <i class="fas fa-lock me-1"></i>Confirm Password
+                                                <span class="required">*</span>
+                                            </label>
+                                            <input name="password_confirmation" type="password" 
+                                                   class="modern-form-control @error('password_confirmation') is-invalid @enderror" 
+                                                   data-valid="required" 
+                                                   placeholder="Confirm password">
                                             @error('password_confirmation')
-                                                <div class="invalid-feedback">
+                                                <div class="modern-invalid-feedback">
+                                                    <i class="fas fa-exclamation-circle"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="form-group text-right">
-                                    <a href="{{ route('admin.admin_users.index') }}" class="btn btn-secondary mr-2">
-                                        <i class="fa fa-times"></i> Cancel
-                                    </a>
-                                    <button type="button" class="btn btn-primary" onClick="customValidate('create_admin_user')">
-                                        <i class="fa fa-save"></i> Create Admin User
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            
+                            <!-- Form Actions -->
+                            <div class="modern-form-actions">
+                                <a href="{{ route('admin.admin_users.index') }}" class="modern-btn modern-btn-secondary">
+                                    <i class="fas fa-times"></i> Cancel
+                                </a>
+                                <button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('create_admin_user')">
+                                    <i class="fas fa-save"></i> Create Admin User
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
