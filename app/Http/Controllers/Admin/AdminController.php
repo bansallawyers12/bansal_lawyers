@@ -1048,13 +1048,10 @@ class AdminController extends Controller
         }
 	}
 
-
-
-
-
-
-
-
+	public function gensettings(Request $request){
+	   $setting = Setting::where('office_id', Auth::user()->office_id)->first();
+		return view('Admin.gensettings.index', compact('setting'));
+	}
 
 
 	// Removed: appointmentsEducation, appointmentsJrp, appointmentsTourist - only Ajay appointments now
@@ -1064,10 +1061,7 @@ class AdminController extends Controller
 		return view('Admin.appointments.calender', compact('type'));
 	}
 
-	public function gensettings(Request $request){
-	   $setting = Setting::where('office_id', Auth::user()->office_id)->first();
-		return view('Admin.gensettings.index', compact('setting'));
-	}
+	
 
     public function gensettingsupdate(Request $request){
         if(Setting::where('office_id', Auth::user()->office_id)->exists()){
