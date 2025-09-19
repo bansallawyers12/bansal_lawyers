@@ -19,7 +19,7 @@
         <meta name="keyword" content="Bansal Lawyers, Legal Blog, {{ $blogdetailists->title }}" />
     @endif
 
-    <link rel="canonical" href="{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}" />
+    <link rel="canonical" href="{{ URL::to('/') }}/{{ $blogdetailists->slug }}" />
     
     <!-- Robots Meta Tags -->
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -27,7 +27,7 @@
     <meta name="bingbot" content="index, follow">
 
     <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}">
+    <meta property="og:url" content="{{ URL::to('/') }}/{{ $blogdetailists->slug }}">
     <meta property="og:type" content="article">
     <meta property="og:title" content="{{ $blogdetailists->meta_title ?: $blogdetailists->title }}">
     <meta property="og:description" content="{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
@@ -42,7 +42,7 @@
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
-    <meta property="twitter:url" content="{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}">
+    <meta property="twitter:url" content="{{ URL::to('/') }}/{{ $blogdetailists->slug }}">
     <meta name="twitter:title" content="{{ $blogdetailists->meta_title ?: $blogdetailists->title }}">
     <meta name="twitter:description" content="{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
     <meta property="twitter:image" content="{{ isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') }}">
@@ -73,9 +73,9 @@
       "dateModified": "{{ $blogdetailists->updated_at }}",
       "mainEntityOfPage": {
         "@@type": "WebPage",
-        "@@id": "{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}"
+        "@@id": "{{ URL::to('/') }}/{{ $blogdetailists->slug }}"
       },
-      "url": "{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}",
+      "url": "{{ URL::to('/') }}/{{ $blogdetailists->slug }}",
       @if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail)
       "articleSection": {!! json_encode($blogdetailists->categorydetail->name) !!},
       @endif
@@ -105,7 +105,7 @@
           "@@type": "ListItem",
           "position": 3,
           "name": "{{ $blogdetailists->title }}",
-          "item": "{{ URL::to('/') }}/blog/{{ $blogdetailists->slug }}"
+          "item": "{{ URL::to('/') }}/{{ $blogdetailists->slug }}"
         }
       ]
     }

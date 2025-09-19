@@ -1488,37 +1488,50 @@ class HomeController extends Controller
     }
     
     /**
-     * Experimental Blog Detail Page
+     * Unified Slug Handler - Handles both Blog Detail and CMS Pages
+     * Priority: Blog posts first, then CMS pages
+     */
+    public function unifiedSlugHandler(Request $request, $slug = null)
+    {
+        if(!isset($slug) || empty($slug)){
+            return Redirect::to('/')->with('error', 'Page not found');
+        }
+
+        // First, check if it's a blog post
+        $blogdetailists = Blog::where('slug', '=', $slug)->where('status', '=', 1)->with(['categorydetail'])->first();
+        if($blogdetailists) {
+            // Optimized: Cache latest blogs with exclusion key
+            $cacheKey = 'latest_blogs_exclude_' . $slug;
+            $latestbloglists = Cache::remember($cacheKey, 1800, function () use ($slug) {
+                return Blog::where('status', 1)
+                    ->where('slug', '!=', $slug)
+                    ->latest()
+                    ->take(5)
+                    ->get();
+            });
+            
+            // Get all categories for sidebar
+            $blogCategories = Cache::remember('blog_categories', 3600, function () {
+                return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
+            });
+            
+            return view('blogdetail', compact(['blogdetailists','latestbloglists', 'blogCategories']));
+        }
+
+        // If not a blog post, fall back to existing Page logic
+        return $this->Page($request, $slug);
+    }
+
+    /**
+     * Blog Detail Page (Legacy - for old /blog/{slug} URLs with redirect)
      */
     public function blogDetailExperimental(Request $request, $slug = null)
     {
+        // Redirect old blog URLs to new format
         if(isset($slug) && !empty($slug)){
-            // Optimized: Single query instead of exists() check first
-            $blogdetailists = Blog::where('slug', '=', $slug)->where('status', '=', 1)->with(['categorydetail'])->first();
-            
-            if($blogdetailists) {
-                // Optimized: Cache latest blogs with exclusion key
-                $cacheKey = 'latest_blogs_exclude_' . $slug;
-                $latestbloglists = Cache::remember($cacheKey, 1800, function () use ($slug) {
-                    return Blog::where('status', 1)
-                        ->where('slug', '!=', $slug)
-                        ->latest()
-                        ->take(5)
-                        ->get();
-                });
-                
-                // Get all categories for sidebar
-                $blogCategories = Cache::remember('blog_categories', 3600, function () {
-                    return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
-                });
-                
-                return view('blogdetail', compact(['blogdetailists','latestbloglists', 'blogCategories']));
-            } else {
-                return Redirect::to('/blog')->with('error', 'Blog not found');
-            }
-        } else {
-            return Redirect::to('/blog')->with('error', 'Invalid blog URL');
+            return Redirect::to('/' . $slug, 301);
         }
+        return Redirect::to('/blog')->with('error', 'Blog not found');
     }
 
 }

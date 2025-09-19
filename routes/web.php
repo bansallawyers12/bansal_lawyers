@@ -36,7 +36,8 @@ Route::get('/ourservices/{slug}', [App\Http\Controllers\HomeController::class, '
 // Make experimental blog the primary
 Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.index');
 Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.category');
-Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogDetailExperimental'])->name('blog.detail');
+// Legacy blog detail route - redirects to new format
+Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogDetailExperimental'])->name('blog.detail.legacy');
 
 
 // Backup routes for original blog
@@ -246,9 +247,10 @@ Route::get('/conveyancing', [\App\Http\Controllers\HomeController::class, 'conve
 Route::get('/building-and-construction-disputes', [\App\Http\Controllers\HomeController::class, 'buildingandconstructiondisputes'])->name('building-and-construction-disputes');
 Route::get('/caveats-disputs-and-removal', [\App\Http\Controllers\HomeController::class, 'caveatsdisputsandremoval'])->name('caveats-disputs-and-removal');
 
-/*********************Catch-all Route ***********************/
-Route::get('/{slug}', [\App\Http\Controllers\HomeController::class, 'Page'])
-	->where('slug', '^(?!admin|api|login|register|home|invoice|profile|clear-cache|js|css|images|img|assets|fonts|storage).*$')
-	->name('page.slug');
+/*********************New Unified Blog and CMS Route ***********************/
+// This handles both blog posts (priority) and CMS pages
+Route::get('/{slug}', [\App\Http\Controllers\HomeController::class, 'unifiedSlugHandler'])
+	->where('slug', '^(?!admin|api|login|register|home|invoice|profile|clear-cache|js|css|images|img|assets|fonts|storage|blog).*$')
+	->name('blog.detail');
 
 // require __DIR__.'/auth.php'; // File doesn't exist
