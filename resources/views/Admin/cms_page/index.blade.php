@@ -665,7 +665,7 @@ input:checked + .modern-status-slider:before {
 													<span class="modern-page-id">{{ ++$i }}</span>
 												</td>
 												<td>
-									@if(isset($list->image) && $list->image != "" && file_exists(public_path('img/cmspage/' . $list->image)))
+									@if(isset($list->image) && $list->image != "" && file_exists(public_path('images/cmspage/' . $list->image)))
 														<img src="{{ asset('images/cmspage/' . $list->image) }}" alt="{{ $list->title }}" class="modern-page-image">
 									@else
 														<img src="{{ asset('images/avatars/no_image.jpeg') }}" alt="No Image" class="modern-page-image">
