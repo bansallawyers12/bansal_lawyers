@@ -1,14 +1,14 @@
-@extends('layouts.frontend')
 
-@section('head')
+
+<?php $__env->startSection('head'); ?>
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <!-- Google Fonts for better typography -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('seoinfo')
+<?php $__env->startSection('seoinfo'); ?>
 <title>About Bansal Lawyers - Leading Legal Firm in Melbourne | Expert Legal Services</title>
 <meta name="description" content="Learn about Bansal Lawyers, Melbourne's trusted legal firm led by Director Ajay Bansal. Expert services in Immigration, Family, Property, and Commercial Law with over 15 years of experience." />
 <meta name="keywords" content="About Bansal Lawyers, Melbourne law firm, Ajay Bansal, legal services Australia, Immigration lawyer Melbourne, Family lawyer, Property lawyer, Commercial lawyer" />
@@ -24,7 +24,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="About Bansal Lawyers - Leading Legal Firm in Melbourne">
 <meta property="og:description" content="Learn about Bansal Lawyers, Melbourne's trusted legal firm led by Director Ajay Bansal. Expert services in Immigration, Family, Property, and Commercial Law.">
-<meta property="og:image" content="{{ asset('images/ajay-bansal2.jpg') }}">
+<meta property="og:image" content="<?php echo e(asset('images/ajay-bansal2.jpg')); ?>">
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
@@ -32,16 +32,16 @@
 <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/about">
 <meta name="twitter:title" content="About Bansal Lawyers - Leading Legal Firm in Melbourne">
 <meta name="twitter:description" content="Learn about Bansal Lawyers, Melbourne's trusted legal firm led by Director Ajay Bansal. Expert services in Immigration, Family, Property, and Commercial Law.">
-<meta property="twitter:image" content="{{ asset('images/ajay-bansal2.jpg') }}">
+<meta property="twitter:image" content="<?php echo e(asset('images/ajay-bansal2.jpg')); ?>">
 
 <!-- Additional SEO Meta Tags -->
 <meta name="geo.region" content="AU-VIC">
 <meta name="geo.placename" content="Melbourne">
 <meta name="geo.position" content="-37.8136;144.9631">
 <meta name="ICBM" content="-37.8136, 144.9631">
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <!-- Hidden structured data for SEO -->
 <div style="display: none;" itemscope itemtype="https://schema.org/Organization">
@@ -135,7 +135,7 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset("images/Aboutus.jpg") }}') center/cover;
+    background: url('<?php echo e(asset("images/Aboutus.jpg")); ?>') center/cover;
     opacity: 0.15;
     z-index: 1;
 }
@@ -708,7 +708,7 @@ h1, h2, h3, h4, h5, h6 {
         
         <div class="director-grid" data-aos="fade-up" data-aos-duration="1000">
             <div class="director-image" data-aos="fade-right" data-aos-duration="1000">
-                <img src="{{ asset('images/ajay-bansal2.jpg') }}" alt="Ajay Bansal - Director of Bansal Lawyers">
+                <img src="<?php echo e(asset('images/ajay-bansal2.jpg')); ?>" alt="Ajay Bansal - Director of Bansal Lawyers">
             </div>
             <div class="director-info" data-aos="fade-left" data-aos-duration="1000">
                 <h3 class="director-name">Ajay Bansal</h3>
@@ -813,7 +813,7 @@ h1, h2, h3, h4, h5, h6 {
                 </ul>
             </div>
             <div class="story-image" data-aos="fade-left" data-aos-duration="1000">
-                <img src="{{ asset('images/Aboutus.jpg') }}" alt="Bansal Lawyers Office">
+                <img src="<?php echo e(asset('images/Aboutus.jpg')); ?>" alt="Bansal Lawyers Office">
             </div>
         </div>
     </div>
@@ -911,4 +911,5 @@ document.querySelectorAll('.practice-card, .value-card').forEach(card => {
 });
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/about.blade.php ENDPATH**/ ?>
