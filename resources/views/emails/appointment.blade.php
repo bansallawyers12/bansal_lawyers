@@ -1,95 +1,80 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="x-apple-disable-message-reformatting">
-  <title></title>
-  <!--[if mso]>
-  <noscript>
-    <xml>
-      <o:OfficeDocumentSettings>
-        <o:PixelsPerInch>96</o:PixelsPerInch>
-      </o:OfficeDocumentSettings>
-    </xml>
-  </noscript>
-  <![endif]-->
-  <style>
-    table, td, div, h1, p {font-family: Arial, sans-serif;}
-  </style>
-</head>
-<body style="margin:0;padding:0;">
-  <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
-    <tr>
-      <td align="center" style="padding:0;">
-        <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
-          <tr>
-            <td align="center" style="padding:40px 0 30px 0;background:#70bbd9;">
-              <img src="{{ asset('images/logo/Bansal_Lawyers.png') }}" alt="Bansal Lawyers Logo" width="300" style="height:auto;display:block;" />
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:36px 30px 42px 30px;">
-              <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
-                <tr>
-                  <td style="padding:0 0 36px 0;color:#153643;">
-                    <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">Appointment</h1>
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Dear {{ $details['fullname'] ?? 'Valued Client' }} ,</p>
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">{{ $details['title'] ?? 'Appointment Confirmation' }} .</p>
-                    <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;color:#ee4c50;font-weight:bold;">Appointment Details:</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding:0;">
-                    <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
-                        <tr>
-                          <td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-                            <p style="margin:0 0 20px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Nature Of Enquiry : {{ $details['NatureOfEnquiry'] ?? 'Not specified' }}</p>
-                            <p style="margin:0 0 16px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Name : {{ $details['fullname'] ?? 'Not provided' }}</p>
-                            <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Phone : {{ $details['phone'] ?? 'Not provided' }}</p>
-                            <p style="margin:0 0 8px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Appointment Type: {{ $details['appointment_details'] ?? 'Not specified' }}</p>
-                          </td>
-                          <td style="width:20px;padding:0;font-size:0;line-height:0;">&nbsp;</td>
-                          <td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-                            <p style="margin:0 0 20px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Service : {{ $details['service'] ?? 'Not specified' }}</p>
-                            <p style="margin:0 0 16px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Email : {{ $details['email'] ?? 'Not provided' }}</p>
-                            <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Date : {{ $details['date'] ?? 'To be confirmed' }}</p>
-                            <p style="margin:0 0 8px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Time : {{ $details['time'] ?? 'To be confirmed' }}</p>
-                          </td>
-                        </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:30px;background:#ee4c50;">
-              <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
-                <tr>
-                  <td style="padding:0;width:50%;" align="left">
-                    <p style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:#ffffff;"> <a href="{{URL::to('/')}}" style="color:#ffffff;text-decoration:underline;">Bansal Lawyers @ {{date('Y')}}</a>
-                    </p>
-                  </td>
-                  <td style="padding:0;width:50%;" align="right">
-                    <table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
-                      <tr>
-                        <td style="padding:0 0 0 10px;width:38px;">
-                          <a href="https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw" style="color:#ffffff;"><img src="https://assets.codepen.io/210284/ig_1.png" alt="Instagram" width="38" style="height:auto;display:block;border:0;" /></a>
-                        </td>
-                        <td style="padding:0 0 0 10px;width:38px;">
-                          <a href="https://www.facebook.com/profile.php?id=61562008576642" style="color:#ffffff;"><img src="https://assets.codepen.io/210284/fb_1.png" alt="Facebook" width="38" style="height:auto;display:block;border:0;" /></a>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>
+@extends('emails.layouts.master')
+
+@section('content')
+    <h1>Appointment Confirmation</h1>
+    
+    <p>Dear {{ $details['fullname'] ?? 'Valued Client' }},</p>
+    
+    <p>Thank you for choosing Bansal Lawyers for your legal needs. We are pleased to confirm your appointment with us.</p>
+    
+    <div class="highlight-box">
+        <p><strong>Important:</strong> Please arrive 10 minutes before your scheduled appointment time. If you need to reschedule or cancel, please contact us at least 24 hours in advance.</p>
+    </div>
+    
+    <div class="appointment-details">
+        <h2>Appointment Details</h2>
+        
+        <div class="detail-row">
+            <span class="detail-label">Client Name:</span>
+            <span class="detail-value">{{ $details['fullname'] ?? 'Not provided' }}</span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Email:</span>
+            <span class="detail-value">{{ $details['email'] ?? 'Not provided' }}</span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Phone:</span>
+            <span class="detail-value">{{ $details['phone'] ?? 'Not provided' }}</span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Appointment Date:</span>
+            <span class="detail-value">{{ $details['date'] ?? 'To be confirmed' }}</span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Appointment Time:</span>
+            <span class="detail-value">{{ $details['time'] ?? 'To be confirmed' }}</span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Service Type:</span>
+            <span class="detail-value">{{ $details['service'] ?? 'Not specified' }}</span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Nature of Enquiry:</span>
+            <span class="detail-value">{{ $details['NatureOfEnquiry'] ?? 'Not specified' }}</span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Appointment Type:</span>
+            <span class="detail-value">{{ $details['appointment_details'] ?? 'Not specified' }}</span>
+        </div>
+    </div>
+    
+    <h2>What to Bring</h2>
+    <p>To make the most of your consultation, please bring:</p>
+    <ul>
+        <li>Valid photo identification</li>
+        <li>Any relevant documents related to your case</li>
+        <li>List of questions you'd like to discuss</li>
+        <li>Any correspondence or legal documents you've received</li>
+    </ul>
+    
+    <h2>Location & Directions</h2>
+    <p>Our office is conveniently located in Melbourne. Detailed directions and parking information will be sent separately.</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{{ URL::to('/contact') }}" class="button">View Office Location</a>
+    </div>
+    
+    <p>If you have any questions or need to make changes to your appointment, please don't hesitate to contact us.</p>
+    
+    <p>We look forward to meeting with you and providing you with the professional legal assistance you need.</p>
+    
+    <p>Best regards,<br>
+    <strong>The Bansal Lawyers Team</strong></p>
+@endsection

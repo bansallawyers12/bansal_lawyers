@@ -32,10 +32,23 @@ class AppointmentsController extends Controller
 
     public function index(Request $request)
     {  //dd($request->all());
+        // SECURITY FIX: Validate and sanitize search input
+        $searchQuery = $request->q;
+        
+        // Validate search input
+        if ($searchQuery) {
+            $searchQuery = trim($searchQuery);
+            // Remove potentially dangerous characters
+            $searchQuery = preg_replace('/[<>"\']/', '', $searchQuery);
+            // Limit length to prevent DoS
+            $searchQuery = substr($searchQuery, 0, 100);
+        }
+        
         $appointments = Appointment::query()
-        ->when($request->q,function($query) use($request){
-            $query->where('description','like',"%{$request->q}%")
-            ->orWhere('client_unique_id','like',"%{$request->q}%");
+        ->when($searchQuery, function($query) use($searchQuery) {
+            // SECURITY FIX: Use parameterized queries instead of string interpolation
+            $query->where('description', 'like', "%{$searchQuery}%")
+                  ->orWhere('client_unique_id', 'like', "%{$searchQuery}%");
         })
         ->with(['user','clients','service','natureOfEnquiry'])
         ->orderBy('created_at', 'desc')->latest('created_at')->paginate(20); //dd($appointments);
@@ -113,7 +126,10 @@ class AppointmentsController extends Controller
             //'noe_id' => 'required'
         ]);
 
-        $requestData = $request->all();
+        // SECURITY FIX: Extract only allowed fields instead of using $request->all()
+        $allowedFields = ['id', 'date', 'time', 'description', 'status', 'appointment_details'];
+        $requestData = $request->only($allowedFields);
+        
         $obj = \App\Models\Appointment::find($requestData['id']);
         $obj->user_id = @Auth::user()->id;
         if( isset($request->date) && $request->date != "") {

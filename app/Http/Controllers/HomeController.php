@@ -17,6 +17,7 @@ use App\Models\Testimonial;
 use App\Models\WhyChooseus;
 use App\Models\HomeContent;
 use App\Models\CmsPage;
+use App\Models\AppointmentPayment;
 // use App\Mail\CommonMail; // unused
 
 use Illuminate\Support\Facades\Session;
@@ -703,26 +704,43 @@ class HomeController extends Controller
                 $order_status = "Completed";
                 $appontment_status = 10; // Pending Appointment With Payment Success
                 
-                // Insert payment record
-                $ins = DB::table('tbl_paid_appointment_payment')->insert([
-                    'order_hash' => $stripeToken,
-                    'payer_email' => $email,
-                    'amount' => $amount,
-                    'currency' => $currency,
-                    'payment_type' => $payment_type,
-                    'order_date' => $order_date,
-                    'name' => $cardName,
-                    'stripe_payment_intent_id' => $stripe_payment_intent_id,
-                    'payment_status' => $payment_status,
-                    'order_status' => $order_status
-                ]);
+                // Find existing payment record by order_hash
+                $paymentRecord = AppointmentPayment::where('order_hash', $stripeToken)->first();
                 
-                if ($ins) {
-                    DB::table('appointments')->where('id', $appointment_id)->update([
-                        'status' => $appontment_status,
-                        'order_hash' => $stripeToken
+                if ($paymentRecord) {
+                    // Update existing payment record
+                    $paymentRecord->update([
+                        'stripe_payment_intent_id' => $stripe_payment_intent_id,
+                        'payment_status' => $payment_status,
+                        'order_status' => $order_status,
+                        'stripe_payment_status' => $payment_intent->status,
+                        'stripe_payment_response' => $payment_intent->toArray()
                     ]);
+                    \Log::info('Updated existing payment record ID: ' . $paymentRecord->id);
+                } else {
+                    // Create new payment record if not found
+                    $paymentRecord = AppointmentPayment::create([
+                        'order_hash' => $stripeToken,
+                        'payer_email' => $email,
+                        'amount' => $amount,
+                        'currency' => $currency,
+                        'payment_type' => $payment_type,
+                        'order_date' => $order_date,
+                        'name' => $cardName,
+                        'stripe_payment_intent_id' => $stripe_payment_intent_id,
+                        'payment_status' => $payment_status,
+                        'order_status' => $order_status,
+                        'stripe_payment_status' => $payment_intent->status,
+                        'stripe_payment_response' => $payment_intent->toArray()
+                    ]);
+                    \Log::info('Created new payment record ID: ' . $paymentRecord->id);
                 }
+                
+                // Update appointment status
+                DB::table('appointments')->where('id', $appointment_id)->update([
+                    'status' => $appontment_status,
+                    'order_hash' => $stripeToken
+                ]);
                 
                 // Redirect back to the normal booking page with success message
                 return redirect('/book-an-appointment')->with('success', 'Payment successful! Your appointment has been confirmed.');
