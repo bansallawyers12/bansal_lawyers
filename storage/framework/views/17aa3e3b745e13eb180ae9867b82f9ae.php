@@ -1272,6 +1272,9 @@ function toggleFAQ(index) {
     <!--Footer-->
     <?php echo $__env->make('Elements.Frontend.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
+    <!-- Floating Contact Button -->
+    <?php echo $__env->make('components.floating-contact-button', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+
     <!-- END: Footer Section -->
 
     <!-- START: Loader -->

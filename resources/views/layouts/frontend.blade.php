@@ -1272,6 +1272,9 @@ function toggleFAQ(index) {
     <!--Footer-->
     @include('Elements.Frontend.footer')
 
+    <!-- Floating Contact Button -->
+    @include('components.floating-contact-button')
+
     <!-- END: Footer Section -->
 
     <!-- START: Loader -->

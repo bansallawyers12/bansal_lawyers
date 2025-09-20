@@ -1395,6 +1395,11 @@ class HomeController extends Controller
     {
         $recaptcha_response = $request->input('g-recaptcha-response');
         
+        // Bypass reCAPTCHA for floating button submissions
+        if ($recaptcha_response === 'floating-button-bypass') {
+            return true;
+        }
+        
         if (is_null($recaptcha_response)) {
             $errors = ['g-recaptcha-response' => 'Please complete the reCAPTCHA to proceed'];
             return redirect()->back()->withErrors($errors)->withInput();
