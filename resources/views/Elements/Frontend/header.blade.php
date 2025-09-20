@@ -39,6 +39,13 @@
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
+    /* Mobile logo adjustments */
+    .logo-container {
+        padding: 6px 10px !important;
+    }
+    .logo-container img {
+        height: 45px !important;
+    }
 }
 
 @media (min-width: 769px) {
@@ -55,7 +62,12 @@
     <div style="max-width: 1200px; margin: 0 auto; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
         <!-- Logo -->
         <a href="{{ url('/') }}" style="text-decoration: none;">
-            <img src="{{ asset('images/logo/Bansal_Lawyers.png') }}" alt="Bansal Lawyers" style="height: 55px;">
+            <div class="logo-container" style="background-color: white; padding: 8px 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: inline-block;">
+                <img src="{{ asset('images/logo/Bansal_Lawyers_origional.png') }}" alt="Bansal Lawyers" style="height: 55px; display: block; max-width: 100%;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" onload="console.log('Logo loaded successfully');">
+                <div style="display: none; color: #1B4D89; font-weight: bold; font-size: 18px; text-align: center; line-height: 55px;">
+                    BANSAL<br><span style="font-size: 14px;">LAWYERS</span>
+                </div>
+            </div>
         </a>
         
         <!-- Mobile Toggle Button -->

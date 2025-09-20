@@ -1036,15 +1036,15 @@ function toggleFAQ(index) {
 
             if (windowWidth < 768) {
                 // Mobile Image
-                //imageElement.attr("src", "{{ asset('images/coart_1-mobile.jpg') }}");
-                imageElement.attr("src", "{{ asset('images/coart_1.jpg') }}");
+                //imageElement.attr("src", "{{ asset('images/homepage-mobile.jpg') }}");
+                imageElement.attr("src", "{{ asset('images/homepage.jpg') }}");
             } else if (windowWidth >= 768 && windowWidth < 1024) {
                 // Tablet Image
-                //imageElement.attr("src", "{{ asset('images/coart_1-tablet.jpg') }}");
-                imageElement.attr("src", "{{ asset('images/coart_1.jpg') }}");
+                //imageElement.attr("src", "{{ asset('images/homepage-tablet.jpg') }}");
+                imageElement.attr("src", "{{ asset('images/homepage.jpg') }}");
             } else {
                 // Desktop Image
-                imageElement.attr("src", "{{ asset('images/coart_1.jpg') }}");
+                imageElement.attr("src", "{{ asset('images/homepage.jpg') }}");
             }
         }
 

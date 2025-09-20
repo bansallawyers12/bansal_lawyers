@@ -56,7 +56,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset('images/coart_1.jpg') }}') center/cover;
+    background: url('{{ asset('images/homepage.jpg') }}') center/cover;
     opacity: 0.1;
     z-index: 1;
 }

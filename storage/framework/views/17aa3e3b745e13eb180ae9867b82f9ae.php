@@ -1036,15 +1036,15 @@ function toggleFAQ(index) {
 
             if (windowWidth < 768) {
                 // Mobile Image
-                //imageElement.attr("src", "<?php echo e(asset('images/coart_1-mobile.jpg')); ?>");
-                imageElement.attr("src", "<?php echo e(asset('images/coart_1.jpg')); ?>");
+                //imageElement.attr("src", "<?php echo e(asset('images/homepage-mobile.jpg')); ?>");
+                imageElement.attr("src", "<?php echo e(asset('images/homepage.jpg')); ?>");
             } else if (windowWidth >= 768 && windowWidth < 1024) {
                 // Tablet Image
-                //imageElement.attr("src", "<?php echo e(asset('images/coart_1-tablet.jpg')); ?>");
-                imageElement.attr("src", "<?php echo e(asset('images/coart_1.jpg')); ?>");
+                //imageElement.attr("src", "<?php echo e(asset('images/homepage-tablet.jpg')); ?>");
+                imageElement.attr("src", "<?php echo e(asset('images/homepage.jpg')); ?>");
             } else {
                 // Desktop Image
-                imageElement.attr("src", "<?php echo e(asset('images/coart_1.jpg')); ?>");
+                imageElement.attr("src", "<?php echo e(asset('images/homepage.jpg')); ?>");
             }
         }
 
@@ -1271,6 +1271,9 @@ function toggleFAQ(index) {
 
     <!--Footer-->
     <?php echo $__env->make('Elements.Frontend.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+
+    <!-- Floating Contact Button -->
+    <?php echo $__env->make('components.floating-contact-button', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <!-- END: Footer Section -->
 
