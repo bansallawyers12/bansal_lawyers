@@ -326,15 +326,6 @@ class HomeController extends Controller
         }
     }
 
-	// ARCHIVED - unused testimonials page
-	// public function testimonial(Request $request)
-    // {
-	// 	$testimonialquery 		= Testimonial::where('id', '!=', '')->where('status', '=', 1);
-	// 	$testimonialData 	= $testimonialquery->count();	//for all data
-	// 	$testimoniallists		=  $testimonialquery->orderby('id','DESC')->get();
-
-	//    return view('testimonial', compact(['testimoniallists', 'testimonialData']));
-    // }
 
 	public function ourservices(Request $request)
     {
