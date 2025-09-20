@@ -1,7 +1,4 @@
-@extends('layouts.frontend')
-
-
-@section('seoinfo')
+<?php $__env->startSection('seoinfo'); ?>
 
 <title>Best Immigration Lawyer in Melbourne Australia | Bansal Lawyers - Experimental</title>
 <meta name="description" content="Looking for top-rated lawyers in Australia? Bansal Lawyers offers expert legal services in immigration, family, criminal, and business law. Get legal help today!" >
@@ -13,7 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Best Immigration Lawyer in Melbourne Australia | Bansal Lawyers">
 <meta property="og:description" content="Looking for top-rated lawyers in Australia? Bansal Lawyers offers expert legal services in immigration, family, criminal, and business law. Get legal help today!">
-<meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+<meta property="og:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
 <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
 <!-- Twitter Meta Tags -->
@@ -22,13 +19,13 @@
 <meta property="twitter:url" content="<?php echo URL::to('/'); ?>">
 <meta name="twitter:title" content="Best Immigration Lawyer in Melbourne Australia | Bansal Lawyers">
 <meta name="twitter:description" content="Looking for top-rated lawyers in Australia? Bansal Lawyers offers expert legal services in immigration, family, criminal, and business law. Get legal help today!">
-<meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+<meta property="twitter:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
 <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <style>
 .badge {
@@ -64,7 +61,7 @@
     position: relative;
     height: 100vh;
     min-height: 600px;
-    background: url('{{ asset('images/homepage.jpg') }}') center center/auto 100% no-repeat;
+    background: url('<?php echo e(asset('images/homepage.jpg')); ?>') center center/auto 100% no-repeat;
     background-color: #f8f9fa;
     display: flex;
     align-items: center;
@@ -827,11 +824,11 @@
             </div>
         </div>
         <div class="row">
-            @foreach (@$bloglists as $list)
+            <?php $__currentLoopData = @$bloglists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="col-md-4 mb-4">
                 <div class="experimental-card">
-                    <div style="height: 200px; background-image: url('{{ !empty(@$list->image) ? asset('images/blog/' . @$list->image) : asset('images/Blog.jpg') }}'); background-size: cover; background-position: center; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({{ asset('images/Blog.jpg') }})'">
-                        <span class="sr-only">{{ @$list->title }}</span>
+                    <div style="height: 200px; background-image: url('<?php echo e(!empty(@$list->image) ? asset('images/blog/' . @$list->image) : asset('images/Blog.jpg')); ?>'); background-size: cover; background-position: center; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url(<?php echo e(asset('images/Blog.jpg')); ?>)'">
+                        <span class="sr-only"><?php echo e(@$list->title); ?></span>
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <div style="background: #1B4D89; color: white; padding: 8px 12px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
@@ -841,21 +838,21 @@
                             <div style="color: #1B4D89; font-weight: 600;"><?php echo date('Y', strtotime($list->created_at));?></div>
                         </div>
                     </div>
-                    @if(isset($list->categorydetail) && $list->categorydetail)
+                    <?php if(isset($list->categorydetail) && $list->categorydetail): ?>
                         <div class="mb-3">
-                            <a href="{{ route('blog.category', $list->categorydetail->slug) }}" class="badge badge-primary">{{ $list->categorydetail->name }}</a>
+                            <a href="<?php echo e(route('blog.category', $list->categorydetail->slug)); ?>" class="badge badge-primary"><?php echo e($list->categorydetail->name); ?></a>
                         </div>
-                    @endif
+                    <?php endif; ?>
                     <h4 style="color: #1B4D89; font-weight: 600; margin-bottom: 15px; line-height: 1.4;">
-                        <a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" style="color: inherit; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#2c5aa0'" onmouseout="this.style.color='#1B4D89'">{{@$list->title}}</a>
+                        <a href="<?php echo URL::to('/'); ?>/<?php echo e(@$list->slug); ?>" style="color: inherit; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#2c5aa0'" onmouseout="this.style.color='#1B4D89'"><?php echo e(@$list->title); ?></a>
                     </h4>
-                    <p style="color: #666; margin-bottom: 20px; line-height: 1.5; font-size: 0.95rem;">{{@$list->title}}</p>
-                    <a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;">
+                    <p style="color: #666; margin-bottom: 20px; line-height: 1.5; font-size: 0.95rem;"><?php echo e(@$list->title); ?></p>
+                    <a href="<?php echo URL::to('/'); ?>/<?php echo e(@$list->slug); ?>" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;">
                         Read More <i class="ion-ios-arrow-forward" style="font-size: 0.8rem;"></i>
                     </a>
                 </div>
             </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
     </div>
 </section>
@@ -869,7 +866,7 @@
         <div class="row align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="text-center">
-                    <img src="{{ asset('images/bg_2.jpg') }}" alt="Contact Bansal Lawyers" class="img-fluid rounded" style="box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-radius: 20px !important; max-width: 100%; height: auto;">
+                    <img src="<?php echo e(asset('images/bg_2.jpg')); ?>" alt="Contact Bansal Lawyers" class="img-fluid rounded" style="box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-radius: 20px !important; max-width: 100%; height: auto;">
                     <div class="mt-4">
                         <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem;">Get in Touch Today</h3>
                         <p style="font-size: 1.1rem; opacity: 0.9; line-height: 1.6;">
@@ -890,24 +887,25 @@
             </div>
             <div class="col-lg-6">
                 <div style="background: rgba(255,255,255,0.15); border-radius: 15px; padding: 25px; backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
-                    @if ($message = Session::get('success'))
+                    <?php if($message = Session::get('success')): ?>
                         <div class="alert alert-success" style="margin-bottom: 15px; border-radius: 8px; border: none; background: rgba(40, 167, 69, 0.9); color: white; padding: 8px 12px; font-size: 0.85rem;">
                             <i class="ion-ios-checkmark-circle" style="margin-right: 6px;"></i>
-                            <strong>Success!</strong> {{ $message }}
+                            <strong>Success!</strong> <?php echo e($message); ?>
+
                         </div>
-                    @endif
+                    <?php endif; ?>
                     
-                    @if ($errors->any())
+                    <?php if($errors->any()): ?>
                         <div class="alert alert-danger" style="margin-bottom: 15px; border-radius: 8px; border: none; background: rgba(220, 53, 69, 0.9); color: white; padding: 8px 12px; font-size: 0.85rem;">
                             <i class="ion-ios-warning" style="margin-right: 6px;"></i>
                             <strong>Please correct the following errors:</strong>
                             <ul style="margin: 6px 0 0 0; padding-left: 12px; font-size: 0.8rem;">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
+                                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li><?php echo e($error); ?></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </ul>
                         </div>
-                    @endif
+                    <?php endif; ?>
                     
                     <div class="text-center mb-2">
                         <span style="color: rgba(255,255,255,0.9); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Get Legal Help</span>
@@ -916,7 +914,7 @@
                     </div>
                     
                     <!-- Unified Contact Form Component -->
-                    @include('components.unified-contact-form', [
+                    <?php echo $__env->make('components.unified-contact-form', [
                         'variant' => 'inline',
                         'showTitle' => false,
                         'formId' => 'home-contact-form',
@@ -924,16 +922,16 @@
                         'buttonText' => 'Send Message',
                         'buttonClass' => 'btn-experimental-cta',
                         'containerClass' => 'home-contact-form-container'
-                    ])
+                    ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <!-- Google reCAPTCHA v2 Script -->
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
@@ -1091,4 +1089,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(animationStyle);
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/index.blade.php ENDPATH**/ ?>

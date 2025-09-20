@@ -13,19 +13,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 
 <!-- Google Analytics 4 -->
-@if(\App\Helpers\Helper::isAnalyticsEnabled())
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google_analytics.id') }}"></script>
+<?php if(\App\Helpers\Helper::isAnalyticsEnabled()): ?>
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo e(config('services.google_analytics.id')); ?>"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', '{{ config("services.google_analytics.id") }}', {
+  gtag('config', '<?php echo e(config("services.google_analytics.id")); ?>', {
     'send_page_view': true,
     'anonymize_ip': true,
     'cookie_flags': 'SameSite=None;Secure'
   });
 </script>
-@endif
+<?php endif; ?>
 
 <!-- Enhanced Analytics & Tracking -->
 <script>
@@ -146,14 +146,14 @@ function toggleFAQ(index) {
 
 
     <meta charset="utf-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<meta name="google-site-verification" content="v3RcCNNqLVXDQoEWlV1SzP3SHNvhWws-YuzpLxWuk8A" />
-    @yield('seoinfo')
+    <?php echo $__env->yieldContent('seoinfo'); ?>
   
     <!-- Schema Markup -->
-        @php
+        <?php
             $schemaLegalService = [
                 '@context' => 'https://schema.org',
                 '@type' => 'LegalService',
@@ -196,35 +196,35 @@ function toggleFAQ(index) {
                     ],
                 ],
             ];
-        @endphp
-        <script type="application/ld+json">{!! json_encode($schemaLegalService, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
+        ?>
+        <script type="application/ld+json"><?php echo json_encode($schemaLegalService, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE); ?></script>
   	<!-- End Schema Markup -->
   
      <!-- Favicons-->
-	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
+	<link rel="shortcut icon" href="<?php echo e(asset('images/logo_img/bansal_lawyers_fevicon.png')); ?>" type="image/png">
   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" media="print" onload="this.media='all'">
 
     <!-- Tailwind CSS - Consolidated styling -->
-    @vite(['resources/css/app.css'])
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css']); ?>
     <!-- Legacy CSS needed for current navbar/icons (temporary restore) -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/bootstrap_lawyers.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/open-iconic-bootstrap.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/font-awesome.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/flaticon.min.css')); ?>">
 
     <!-- Essential custom CSS only -->
-    <link rel="stylesheet" href="{{ asset('css/animate.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/aos.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/animate.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/owl.carousel.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/owl.theme.default.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/magnific-popup.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/aos.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/style_lawyer.min.css')); ?>">
 
 
     <!-- Essential JavaScript only -->
-    <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
-    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
+    <script src="<?php echo e(asset('js/jquery-3.7.1.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/jquery-migrate-3.4.1.min.js')); ?>"></script>
   
     <!-- Meta Pixel Code -->
     <script>
@@ -1036,15 +1036,15 @@ function toggleFAQ(index) {
 
             if (windowWidth < 768) {
                 // Mobile Image
-                //imageElement.attr("src", "{{ asset('images/homepage-mobile.jpg') }}");
-                imageElement.attr("src", "{{ asset('images/homepage.jpg') }}");
+                //imageElement.attr("src", "<?php echo e(asset('images/homepage-mobile.jpg')); ?>");
+                imageElement.attr("src", "<?php echo e(asset('images/homepage.jpg')); ?>");
             } else if (windowWidth >= 768 && windowWidth < 1024) {
                 // Tablet Image
-                //imageElement.attr("src", "{{ asset('images/homepage-tablet.jpg') }}");
-                imageElement.attr("src", "{{ asset('images/homepage.jpg') }}");
+                //imageElement.attr("src", "<?php echo e(asset('images/homepage-tablet.jpg')); ?>");
+                imageElement.attr("src", "<?php echo e(asset('images/homepage.jpg')); ?>");
             } else {
                 // Desktop Image
-                imageElement.attr("src", "{{ asset('images/homepage.jpg') }}");
+                imageElement.attr("src", "<?php echo e(asset('images/homepage.jpg')); ?>");
             }
         }
 
@@ -1117,8 +1117,8 @@ function toggleFAQ(index) {
         var navbar = null;
         
         // Cache logo paths for maximum performance
-        var defaultLogoPath = "{{ asset('images/logo/Bansal_Lawyers.png') }}";
-        var scrolledLogoPath = "{{ asset('images/logo/Bansal_Lawyers_scroll.png') }}";
+        var defaultLogoPath = "<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>";
+        var scrolledLogoPath = "<?php echo e(asset('images/logo/Bansal_Lawyers_scroll.png')); ?>";
         
         // Initialize logo elements with error handling
         function initLogoElements() {
@@ -1170,7 +1170,7 @@ function toggleFAQ(index) {
         // Add error handling for logo loading
         $('#image_logo').on('error', function() {
             // Fallback to default logo if scrolled logo fails to load
-            $(this).attr('src', "{{ asset('images/logo/Bansal_Lawyers.png') }}?timestamp=" + new Date().getTime());
+            $(this).attr('src', "<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>?timestamp=" + new Date().getTime());
         });
 
         // Aggressive preloading for instant logo switching
@@ -1179,8 +1179,8 @@ function toggleFAQ(index) {
             var scrolledLogo = new Image();
             
             // Force immediate loading
-            defaultLogo.src = "{{ asset('images/logo/Bansal_Lawyers.png') }}?v=" + Date.now();
-            scrolledLogo.src = "{{ asset('images/logo/Bansal_Lawyers_scroll.png') }}?v=" + Date.now();
+            defaultLogo.src = "<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>?v=" + Date.now();
+            scrolledLogo.src = "<?php echo e(asset('images/logo/Bansal_Lawyers_scroll.png')); ?>?v=" + Date.now();
         }
 
         // Start preloading immediately when script loads
@@ -1219,7 +1219,7 @@ function toggleFAQ(index) {
                     };
                     img.onerror = function() {
                         // Image doesn't exist, use fallback
-                        $this.css('background-image', 'url({{ asset("images/Blog.jpg") }})');
+                        $this.css('background-image', 'url(<?php echo e(asset("images/Blog.jpg")); ?>)');
                     };
                     // Extract URL from background-image CSS
                     var urlMatch = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
@@ -1247,7 +1247,7 @@ function toggleFAQ(index) {
     }
 </script>
 
-    @yield('head')
+    <?php echo $__env->yieldContent('head'); ?>
     
   
 </head>
@@ -1264,16 +1264,16 @@ function toggleFAQ(index) {
     </noscript>
   
     <!--Header-->
-    @include('Elements.Frontend.header')
+    <?php echo $__env->make('Elements.Frontend.header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <!--Content-->
-    @yield('content')
+    <?php echo $__env->yieldContent('content'); ?>
 
     <!--Footer-->
-    @include('Elements.Frontend.footer')
+    <?php echo $__env->make('Elements.Frontend.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <!-- Floating Contact Button -->
-    @include('components.floating-contact-button')
+    <?php echo $__env->make('components.floating-contact-button', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <!-- END: Footer Section -->
 
@@ -1288,16 +1288,16 @@ function toggleFAQ(index) {
 
     <!-- JavaScript Files - Optimized Loading Order -->
     <!-- jQuery and jQuery Migrate already loaded above -->
-    <script src="{{ asset('js/popper.min.js')}}"></script>
-    <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.waypoints.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.stellar.min.js')}}"></script>
-    <script src="{{ asset('js/owl.carousel.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{ asset('js/aos.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.animateNumber.min.js')}}"></script>
-    <script src="{{ asset('js/scrollax.min.js')}}"></script>
+    <script src="<?php echo e(asset('js/popper.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/bootstrap.bundle.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/jquery.easing.1.3.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/jquery.waypoints.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/jquery.stellar.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/owl.carousel.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/jquery.magnific-popup.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/aos.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/jquery.animateNumber.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/scrollax.min.js')); ?>"></script>
     
     <!-- Google Maps will be loaded with proper error handling below -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap"></script>
@@ -1308,7 +1308,7 @@ function toggleFAQ(index) {
             if (!document.getElementById('map') && !document.getElementById('google-map')) return;
             // Load google-map.min.js only after Google Maps is ready
             var script = document.createElement('script');
-            script.src = "{{ asset('js/google-map.min.js')}}";
+            script.src = "<?php echo e(asset('js/google-map.min.js')); ?>";
             document.head.appendChild(script);
         }
         
@@ -1328,7 +1328,8 @@ function toggleFAQ(index) {
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
-    <script src="{{ asset('js/main.min.js')}}"></script>
+    <script src="<?php echo e(asset('js/main.min.js')); ?>"></script>
 </body>
 
 </html>
+<?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/layouts/frontend.blade.php ENDPATH**/ ?>

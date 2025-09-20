@@ -1,14 +1,12 @@
-@extends('layouts.frontend')
-
-@section('head')
+<?php $__env->startSection('head'); ?>
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('seoinfo')
+<?php $__env->startSection('seoinfo'); ?>
 	<title>Legal Help in Melbourne | Best Law Firm – Bansal Lawyers - Modern</title>
     <meta name="description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!" />
 
@@ -18,7 +16,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Get Expert Legal Assistance from Best law firms in Melbourne Australia | Bansal Lawyers">
     <meta property="og:description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!">
-    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <!-- Twitter Meta Tags -->
@@ -27,12 +25,12 @@
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/contact">
     <meta name="twitter:title" content="Get Expert Legal Assistance from Best law firms in Melbourne Australia | Bansal Lawyers">
     <meta name="twitter:description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!">
-    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="twitter:image" content="<?php echo e(asset('images/logo/Bansal_Lawyers.png')); ?>">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <style>
 /* Modern Contact Page Styles - Out of the Box Design */
@@ -69,7 +67,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset("images/Contactus.jpg") }}') center/cover;
+    background: url('<?php echo e(asset("images/Contactus.jpg")); ?>') center/cover;
     opacity: 0.2;
     z-index: 1;
 }
@@ -419,7 +417,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset("images/Contactus.jpg") }}') center/cover;
+    background: url('<?php echo e(asset("images/Contactus.jpg")); ?>') center/cover;
     background-attachment: fixed;
     z-index: 1;
 }
@@ -1088,7 +1086,7 @@
                         <!-- Contact Form Overlay -->
                         <div class="col-lg-6">
                             <div class="form-overlay-card" data-aos="fade-right" data-aos-duration="1000">
-                                @include('components.unified-contact-form', [
+                                <?php echo $__env->make('components.unified-contact-form', [
                                     'variant' => 'default',
                                     'showTitle' => true,
                                     'title' => 'Send us a Message',
@@ -1101,7 +1099,7 @@
                                     'showPhoto' => true,
                                     'photoUrl' => asset('images/bansal_2.jpg'),
                                     'photoAlt' => 'Ajay Bansal - CEO of Bansal Lawyers'
-                                ])
+                                ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                             </div>
                         </div>
 
@@ -1144,7 +1142,7 @@
                 <span id="floatingFormMessage"></span>
             </div>
             
-            @include('components.unified-contact-form', [
+            <?php echo $__env->make('components.unified-contact-form', [
                 'variant' => 'floating',
                 'showTitle' => false,
                 'buttonText' => 'Send Message',
@@ -1153,7 +1151,7 @@
                 'containerClass' => 'floating-form-content',
                 'source' => 'contact-page-floating',
                 'showPhoto' => false
-            ])
+            ], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
         </div>
     </div>
 </div>
@@ -1254,4 +1252,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\bansal_lawyers\resources\views/contact.blade.php ENDPATH**/ ?>
