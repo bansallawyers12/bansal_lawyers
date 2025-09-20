@@ -250,7 +250,7 @@ Route::get('/caveats-disputs-and-removal', [\App\Http\Controllers\HomeController
 /*********************New Unified Blog and CMS Route ***********************/
 // This handles both blog posts (priority) and CMS pages
 Route::get('/{slug}', [\App\Http\Controllers\HomeController::class, 'unifiedSlugHandler'])
-	->where('slug', '^(?!admin|api|login|register|home|invoice|profile|clear-cache|js|css|images|img|assets|fonts|storage|blog).*$')
+	->where('slug', '^(?!admin\/|api\/|login$|register$|home$|invoice$|profile$|clear-cache$|js\/|css\/|images\/|img\/|assets\/|fonts\/|storage\/|blog$).*$')
 	->name('blog.detail');
 
 // require __DIR__.'/auth.php'; // File doesn't exist
