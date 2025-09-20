@@ -228,18 +228,19 @@
 }
 
 .experimental-testimonial {
-    background: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%);
-    color: white;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #333;
     padding: 60px 0;
 }
 
 .experimental-testimonial-card {
-    background: rgba(255,255,255,0.1);
+    background: #ffffff;
     border-radius: 15px;
     padding: 30px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
     margin: 15px 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .experimental-testimonial-card p {
@@ -247,6 +248,7 @@
     line-height: 1.6;
     margin-bottom: 30px;
     font-style: italic;
+    color: #555;
 }
 
 .experimental-testimonial-card .author {
@@ -258,13 +260,24 @@
 .experimental-testimonial-card .author-avatar {
     width: 50px;
     height: 50px;
-    background: rgba(255,255,255,0.2);
+    background: linear-gradient(135deg, #1B4D89, #2c5aa0);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
     font-size: 1.2rem;
+    color: white;
+}
+
+.experimental-testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.experimental-testimonial-card .author h5 {
+    color: #1B4D89;
+    font-weight: 600;
 }
 
 /* Tablet Responsive Styles */
@@ -702,9 +715,9 @@
     <div class="container">
         <div class="row justify-content-center mb-5">
             <div class="col-md-8 text-center">
-                <span style="color: rgba(255,255,255,0.9); font-weight: 600; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">Client Success Stories</span>
-                <h2 style="font-size: 2.5rem; font-weight: 700; margin: 1rem 0;">What Our Clients Say</h2>
-                <p style="font-size: 1.1rem; opacity: 0.9;">Hear from some of our valued clients about their experiences working with us. Your success is our priority.</p>
+                <span style="color: #1B4D89; font-weight: 600; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">Client Success Stories</span>
+                <h2 style="font-size: 2.5rem; font-weight: 700; margin: 1rem 0; color: #333;">What Our Clients Say</h2>
+                <p style="font-size: 1.1rem; color: #666;">Hear from some of our valued clients about their experiences working with us. Your success is our priority.</p>
             </div>
         </div>
         <div class="row">

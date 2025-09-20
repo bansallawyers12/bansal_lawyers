@@ -46,28 +46,6 @@
     </div>
 </div>
 
-<!-- Case Law Information Statistics -->
-<div class="experimental-case-stats">
-    <div class="container">
-        <div class="experimental-stats-item">
-            <span class="experimental-stats-number"><?php echo e(@$caseData ?? count(@$caselists ?? [])); ?></span>
-            <span class="experimental-stats-label">Case Law Updates</span>
-        </div>
-        <div class="experimental-stats-item">
-            <span class="experimental-stats-number">15+</span>
-            <span class="experimental-stats-label">Years Experience</span>
-        </div>
-        <div class="experimental-stats-item">
-            <span class="experimental-stats-number">100%</span>
-            <span class="experimental-stats-label">Expert Analysis</span>
-        </div>
-        <div class="experimental-stats-item">
-            <span class="experimental-stats-number">Latest</span>
-            <span class="experimental-stats-label">Legal Precedents</span>
-        </div>
-    </div>
-</div>
-
 <!-- Main Case Law Information Section -->
 <section class="ftco-section bg-light">
     <div class="container">

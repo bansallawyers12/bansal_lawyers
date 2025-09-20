@@ -1057,7 +1057,7 @@
                         <i class="fa fa-map-marker"></i>
                     </div>
                     <h4>Visit Our Office</h4>
-                    <p>Level 8/278 Collins St,<br>Melbourne VIC 3000,<br>Australia</p>
+                    <p><a href="https://g.co/kgs/Hw16bN8" target="_blank" rel="noopener noreferrer">Level 8/278 Collins St,<br>Melbourne VIC 3000,<br>Australia</a></p>
                 </div>
                 <div class="modern-contact-item" data-aos="fade-up" data-aos-delay="200">
                     <div class="icon">
