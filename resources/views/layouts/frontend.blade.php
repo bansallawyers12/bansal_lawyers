@@ -394,124 +394,91 @@ function toggleFAQ(index) {
     }
     /*carousel Css center tile heightlight Code End*/
     
-    /* Testimonials Section CSS */
-    .testimony-section {
+    /* Testimonials Section CSS - For active homepage testimonials */
+    .experimental-testimonial {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        color: #333;
         padding: 60px 0;
-        background-color: #f8f9fa;
     }
-    
-    .testimony-section .heading-section {
-        margin-bottom: 50px;
-    }
-    
-    .testimony-section .subheading {
-        color: #1B4D89;
-        font-size: 16px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    .testimony-section h2 {
-        color: #333;
-        font-size: 36px;
-        font-weight: 700;
-        margin-bottom: 20px;
-    }
-    
-    .testimony-section p {
-        color: #666;
-        font-size: 16px;
-        line-height: 1.6;
-    }
-    
-    /* Testimonial Cards */
-    .testimony-wrap {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        margin: 10px;
+
+    .experimental-testimonial-card {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        border: 1px solid #e9ecef;
+        margin: 15px 0;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
     }
-    
-    .testimony-wrap:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    }
-    
-    .testimony-wrap .text {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .testimony-wrap .text p {
-        color: #333;
-        font-size: 15px;
+
+    .experimental-testimonial-card p {
+        font-size: 1.1rem;
         line-height: 1.6;
-        margin-bottom: 20px;
-        flex: 1;
+        margin-bottom: 30px;
+        font-style: italic;
+        color: #555;
     }
-    
-    .testimony-wrap .d-flex {
-        margin-top: auto;
+
+    .experimental-testimonial-card .author {
+        display: flex;
+        align-items: center;
+        gap: 15px;
     }
-    
-    .user-circle {
+
+    .experimental-testimonial-card .author-avatar {
         width: 50px;
         height: 50px;
+        background: linear-gradient(135deg, #1B4D89, #2c5aa0);
         border-radius: 50%;
-        background: #1B4D89;
-        color: white;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: bold;
-        font-size: 18px;
+        font-size: 1.2rem;
+        color: white;
     }
-    
-    .testimony-wrap .name {
-        color: #333;
+
+    .experimental-testimonial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .experimental-testimonial-card .author h5 {
+        color: #1B4D89;
         font-weight: 600;
-        font-size: 16px;
-        margin: 0;
     }
-    
-    /* Owl Carousel Customization */
+
+    /* Owl Carousel Customization for Testimonials */
     .carousel-testimony .owl-stage-outer {
         overflow: hidden;
         padding: 20px 0;
     }
-    
+
     .carousel-testimony .owl-stage {
         display: flex;
         align-items: stretch;
     }
-    
+
     .carousel-testimony .owl-item {
         display: flex;
         align-items: stretch;
         float: left;
     }
-    
+
     .carousel-testimony .item {
         width: 100%;
         height: 100%;
     }
-    
-    /* Ensure proper carousel behavior */
+
     .carousel-testimony {
         position: relative;
     }
-    
+
     .carousel-testimony .owl-dots {
         text-align: center;
         margin-top: 30px;
     }
-    
+
     .carousel-testimony .owl-dot {
         display: inline-block;
         margin: 0 5px;
@@ -522,7 +489,7 @@ function toggleFAQ(index) {
         cursor: pointer;
         transition: background 0.3s ease;
     }
-    
+
     .carousel-testimony .owl-dot.active {
         background: #1B4D89;
     }
@@ -631,166 +598,6 @@ function toggleFAQ(index) {
       }
       
       
-     /* Desktop View (1024px and above) - Testimonials */
-     @media (min-width: 1024px) {
-          .testimony-section {
-            padding: 80px 0;
-          }
-          
-          .testimony-section h2 {
-            font-size: 42px;
-          }
-          
-          .testimony-wrap {
-            margin: 15px;
-          }
-          
-          .carousel-testimony .owl-stage-outer {
-            padding: 30px 0;
-          }
-          
-          /* Show 3 testimonials per row on desktop */
-          .carousel-testimony .owl-item {
-            width: 33.333% !important;
-          }
-          
-          .carousel-testimony .owl-stage-outer {
-            overflow: hidden;
-          }
-     }
-     
-     /* Tablet View (768px to 1023px) - Testimonials */
-     @media (min-width: 768px) and (max-width: 1023px) {
-          .testimony-section {
-            padding: 60px 0;
-          }
-          
-          .testimony-section h2 {
-            font-size: 32px;
-          }
-          
-          .testimony-wrap {
-            margin: 10px;
-          }
-          
-          .carousel-testimony .owl-stage-outer {
-            padding: 20px 0;
-          }
-          
-          /* Show 2 testimonials per row on tablet */
-          .carousel-testimony .owl-item {
-            width: 50% !important;
-          }
-          
-          .carousel-testimony .owl-stage-outer {
-            overflow: hidden;
-          }
-          
-          .testimony-wrap .text p {
-            font-size: 14px;
-          }
-     }
-     
-     /* Mobile View (767px and below) - Testimonials */
-     @media (max-width: 767px) {
-          .testimony-section {
-            padding: 40px 0;
-          }
-          
-          .testimony-section h2 {
-            font-size: 28px;
-          }
-          
-          .testimony-section p {
-            font-size: 14px;
-          }
-          
-          .testimony-wrap {
-            margin: 5px;
-            padding: 20px 15px !important;
-          }
-          
-          .testimony-wrap .text p {
-            font-size: 14px;
-            line-height: 1.5;
-          }
-          
-          .carousel-testimony .owl-stage-outer {
-            padding: 10px 0;
-            overflow: hidden;
-          }
-          
-          /* Show 1 testimonial per row on mobile */
-          .carousel-testimony .owl-item {
-            width: 100% !important;
-          }
-          
-          .carousel-testimony .owl-stage-outer {
-            overflow: hidden;
-          }
-          
-          .user-circle {
-            width: 40px;
-            height: 40px;
-            font-size: 16px;
-          }
-          
-          .testimony-wrap .name {
-            font-size: 14px;
-          }
-          
-          /* Prevent horizontal overflow */
-          .testimony-section .container {
-            max-width: 100% !important;
-            padding-left: 15px !important;
-            padding-right: 15px !important;
-          }
-          
-          .testimony-section .row {
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-          }
-          
-          .testimony-section .col-md-12 {
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-          }
-     }
-     
-     /* Small Mobile View (480px and below) - Testimonials */
-     @media (max-width: 480px) {
-          .testimony-section {
-            padding: 30px 0;
-          }
-          
-          .testimony-section h2 {
-            font-size: 24px;
-          }
-          
-          .testimony-section .subheading {
-            font-size: 14px;
-          }
-          
-          .testimony-wrap {
-            margin: 5px;
-            padding: 15px 10px !important;
-          }
-          
-          .testimony-wrap .text p {
-            font-size: 13px;
-            line-height: 1.4;
-          }
-          
-          .user-circle {
-            width: 35px;
-            height: 35px;
-            font-size: 14px;
-          }
-          
-          .testimony-wrap .name {
-            font-size: 13px;
-          }
-     }
      
      /* General responsive fixes for hero section */
      @media (max-width: 768px) {
@@ -1071,7 +878,7 @@ function toggleFAQ(index) {
           }
         });
         
-        // Initialize Testimonials Carousel with error handling
+        // Initialize Testimonials Carousel for homepage
         function initTestimonialsCarousel() {
             if ($('.carousel-testimony').length && typeof $.fn.owlCarousel !== 'undefined') {
                 $('.carousel-testimony').owlCarousel({
@@ -1108,7 +915,7 @@ function toggleFAQ(index) {
             }
         }
         
-        // Initialize carousel
+        // Initialize testimonials carousel
         initTestimonialsCarousel();
 
         // Fix logo visibility on scroll - Ultra-fast instant switching (High Priority)

@@ -551,7 +551,7 @@ input:checked + .modern-checkbox-slider:before {
 												</span>
 											@endif
 											
-											@if(!empty($fetchedData->image) && file_exists(public_path('img/cmspage/' . $fetchedData->image)))
+											@if(!empty($fetchedData->image) && file_exists(public_path('images/cmspage/' . $fetchedData->image)))
 												<div class="modern-media-preview">
 													<strong>Current Image:</strong><br>
 													<img src="{{ asset('images/cmspage/' . $fetchedData->image) }}" alt="{{ $fetchedData->title ?? '' }}" class="img-avatar">

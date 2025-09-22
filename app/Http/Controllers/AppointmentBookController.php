@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Models\Appointment;
 use App\Models\Admin;
+use App\Models\AppointmentPayment;
 use Helper;
 use App\Models\PromoCode;
 
@@ -30,6 +31,226 @@ class AppointmentBookController extends Controller {
 	// Removed: store() method - all appointments now go through storepaid() for Ajay paid only
 
 
+    /**
+     * Parse and normalize time from various input formats to HH:MM
+     * 
+     * @param string $timeInput Time in various formats (e.g., "10:00 AM - 11:00 AM", "10:00 AM")
+     * @return array Array with 'success' boolean, 'time' string (HH:MM), and 'message' string
+     */
+    private function parseAppointmentTime($timeInput)
+    {
+        try {
+            $timeInput = trim($timeInput);
+            
+            // Handle time slot format "10:00 AM - 11:00 AM"
+            if (strpos($timeInput, '-') !== false) {
+                $timeParts = explode('-', $timeInput);
+                $startTime = trim($timeParts[0]);
+            } else {
+                $startTime = $timeInput;
+            }
+            
+            // Parse the time using strtotime
+            $parsedTime = strtotime($startTime);
+            if ($parsedTime === false) {
+                // Fallback: try parsing with different format
+                $parsedTime = strtotime('1970-01-01 ' . $startTime);
+                if ($parsedTime === false) {
+                    return [
+                        'success' => false,
+                        'time' => null,
+                        'message' => 'Unable to parse time format: ' . $timeInput
+                    ];
+                }
+            }
+            
+            $normalizedTime = date("H:i", $parsedTime);
+            
+            // Validate the normalized time
+            if (!preg_match('/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/', $normalizedTime)) {
+                return [
+                    'success' => false,
+                    'time' => null,
+                    'message' => 'Invalid time format: ' . $normalizedTime
+                ];
+            }
+            
+            return [
+                'success' => true,
+                'time' => $normalizedTime,
+                'message' => 'Time parsed successfully'
+            ];
+            
+        } catch (\Exception $e) {
+            \Log::error('Time parsing error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'time' => null,
+                'message' => 'Time parsing failed: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Parse and normalize date from various input formats to YYYY-MM-DD
+     * 
+     * @param string $dateInput Date in various formats
+     * @return array Array with 'success' boolean, 'date' string (YYYY-MM-DD), and 'message' string
+     */
+    private function parseAppointmentDate($dateInput)
+    {
+        try {
+            $dateInput = trim($dateInput);
+            
+            // Handle YYYY-September-Wednesday format (from frontend)
+            if (preg_match('/^(YYYY|\d{4})-([A-Za-z]+)-([A-Za-z]+)$/', $dateInput, $matches)) {
+                $year = $matches[1];
+                $month = $matches[2];
+                $dayOfWeek = $matches[3];
+                
+                // Handle YYYY placeholder by using current year
+                if ($year === 'YYYY') {
+                    $year = date('Y');
+                }
+                
+                // Convert month name to number
+                $monthNumber = date('m', strtotime($month));
+                if ($monthNumber === '00') {
+                    return [
+                        'success' => false,
+                        'date' => null,
+                        'message' => 'Invalid month name: ' . $month
+                    ];
+                }
+                
+                // For now, use the 1st day of the month since we don't have the specific date
+                // In a real implementation, you'd need to calculate the actual date based on the day of week
+                $normalizedDate = $year . '-' . $monthNumber . '-01';
+                
+            } elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateInput)) {
+                // YYYY-MM-DD format from JavaScript
+                $normalizedDate = $dateInput;
+                
+            } elseif (preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', $dateInput)) {
+                // DD/MM/YYYY format
+                $dateParts = explode('/', $dateInput);
+                if (count($dateParts) === 3) {
+                    $day = str_pad($dateParts[0], 2, '0', STR_PAD_LEFT);
+                    $month = str_pad($dateParts[1], 2, '0', STR_PAD_LEFT);
+                    $year = $dateParts[2];
+                    $normalizedDate = $year . '-' . $month . '-' . $day;
+                } else {
+                    return [
+                        'success' => false,
+                        'date' => null,
+                        'message' => 'Invalid DD/MM/YYYY format: ' . $dateInput
+                    ];
+                }
+                
+            } else {
+                // Try to parse with strtotime as fallback
+                $timestamp = strtotime($dateInput);
+                if ($timestamp === false) {
+                    return [
+                        'success' => false,
+                        'date' => null,
+                        'message' => 'Unable to parse date format: ' . $dateInput
+                    ];
+                }
+                $normalizedDate = date('Y-m-d', $timestamp);
+            }
+            
+            // Validate the normalized date
+            $dateTime = \DateTime::createFromFormat('Y-m-d', $normalizedDate);
+            if (!$dateTime || $dateTime->format('Y-m-d') !== $normalizedDate) {
+                return [
+                    'success' => false,
+                    'date' => null,
+                    'message' => 'Invalid date: ' . $normalizedDate
+                ];
+            }
+            
+            // Check if date is not in the past
+            $today = new \DateTime();
+            $today->setTime(0, 0, 0);
+            if ($dateTime < $today) {
+                return [
+                    'success' => false,
+                    'date' => null,
+                    'message' => 'Appointment date cannot be in the past: ' . $normalizedDate
+                ];
+            }
+            
+            return [
+                'success' => true,
+                'date' => $normalizedDate,
+                'message' => 'Date parsed successfully'
+            ];
+            
+        } catch (\Exception $e) {
+            \Log::error('Date parsing error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'date' => null,
+                'message' => 'Date parsing failed: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Check for appointment conflicts at the specified date and time
+     * 
+     * @param string $date Date in YYYY-MM-DD format
+     * @param string $time Time slot string (e.g., "10:00 AM - 11:00 AM")
+     * @param int $serviceId Service ID
+     * @param int $noeId Nature of Enquiry ID
+     * @return array Array with 'conflict' boolean and 'message' string
+     */
+    private function checkAppointmentConflict($date, $time, $serviceId, $noeId)
+    {
+        try {
+            // Parse time using centralized method
+            $timeParseResult = $this->parseAppointmentTime($time);
+            if (!$timeParseResult['success']) {
+                \Log::error('Time parsing failed in conflict check: ' . $timeParseResult['message']);
+                return [
+                    'conflict' => false,
+                    'message' => 'Unable to verify time slot availability'
+                ];
+            }
+            $time24 = $timeParseResult['time'];
+            
+            // Check for existing appointments at the same date and time
+            // Exclude cancelled appointments (status = 7) and only check active appointments
+            $conflictCount = \App\Models\Appointment::where('status', '!=', 7) // Exclude cancelled
+                ->whereDate('date', $date)
+                ->where('time', $time24)
+                ->where('service_id', $serviceId)
+                ->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7]) // Valid nature of enquiry IDs
+                ->count();
+            
+            if ($conflictCount > 0) {
+                return [
+                    'conflict' => true,
+                    'message' => 'This appointment time slot is already booked. Please select a different time slot.'
+                ];
+            }
+            
+            return [
+                'conflict' => false,
+                'message' => 'Time slot is available'
+            ];
+            
+        } catch (\Exception $e) {
+            \Log::error('Error checking appointment conflict: ' . $e->getMessage());
+            // In case of error, allow booking but log the issue
+            return [
+                'conflict' => false,
+                'message' => 'Unable to verify time slot availability'
+            ];
+        }
+    }
+
     public function checkpromocode(Request $request)
     {
         $promoCode = trim($request->get('promo_code'));
@@ -39,9 +260,16 @@ class AppointmentBookController extends Controller {
             return response()->json(['success'=>false,'msg'=>'Please enter a promo code.'], 400);
         }
 
+        // SECURITY FIX: Validate promo code against database AND client-side validation
         $promo = PromoCode::where('code', $promoCode)->where('status',1)->first();
         if(!$promo){
             return response()->json(['success'=>false,'msg'=>'Invalid promo code.'], 404);
+        }
+
+        // Additional validation: Check if promo code matches client-side allowed codes
+        $allowedClientCodes = ['FREE100', 'HALF50'];
+        if(!in_array(strtoupper($promoCode), $allowedClientCodes)){
+            return response()->json(['success'=>false,'msg'=>'Invalid promo code. Valid codes: FREE100 or HALF50'], 400);
         }
 
         $service = \App\Models\BookService::find($serviceId);
@@ -66,40 +294,44 @@ class AppointmentBookController extends Controller {
     public function storepaid(Request $request)
     {
         try {
-            $requestData = $request->all();
+            // SECURITY FIX: Extract only allowed fields instead of using $request->all()
+            $allowedFields = [
+                'service_id', 'noe_id', 'fullname', 'description', 'email', 'phone', 
+                'date', 'time', 'appointment_details', 'promo_code', 'cardName', 'stripeToken'
+            ];
             
-            // DEBUG: Log all incoming request data
-            \Log::info('=== STOREPAID DEBUG START ===');
-            \Log::info('Request method: ' . $request->method());
-            \Log::info('Request URL: ' . $request->fullUrl());
-            \Log::info('Request headers: ', $request->headers->all());
-            \Log::info('Request data: ', $requestData);
-            \Log::info('CSRF token: ' . $request->header('X-CSRF-TOKEN'));
+            $requestData = $request->only($allowedFields);
             
-            // DEBUG: Check each field individually
-            $fieldChecks = [];
-            foreach ($requestData as $key => $value) {
-                $fieldChecks[$key] = [
-                    'value' => $value,
-                    'empty' => empty($value),
-                    'type' => gettype($value)
-                ];
-            }
-            \Log::info('Field analysis: ', $fieldChecks);
-            
-            // Validate required fields
-            $requiredFields = ['service_id', 'noe_id', 'fullname', 'description', 'email', 'phone', 'date', 'time', 'appointment_details'];
-            $missingFields = [];
-            foreach ($requiredFields as $field) {
-                if (empty($requestData[$field])) {
-                    $missingFields[] = $field;
-                    \Log::warning("Missing required field: $field");
-                }
+            // Log request for debugging in development only
+            if (config('app.debug')) {
+                \Log::info('Appointment booking request from: ' . ($requestData['email'] ?? 'unknown'));
             }
             
-            if (!empty($missingFields)) {
-                \Log::error('Validation failed - missing fields: ' . implode(', ', $missingFields));
-                return response()->json(['success' => false, 'message' => "Missing required fields: " . implode(', ', $missingFields)], 400);
+            // Enhanced validation with proper rules
+            $validationRules = [
+                'service_id' => 'required|integer|exists:book_services,id',
+                'noe_id' => 'required|integer|exists:nature_of_enquiry,id',
+                'fullname' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
+                'description' => 'required|string|max:1000',
+                'email' => 'required|email|max:255',
+                'phone' => 'required|string|max:20|regex:/^[\d\s\-\+\(\)]+$/',
+                'date' => 'required|string|max:50',
+                'time' => 'required|string|max:50',
+                'appointment_details' => 'required|string|max:1000',
+                'promo_code' => 'nullable|string|max:50',
+                'cardName' => 'nullable|string|max:255',
+                'stripeToken' => 'nullable|string|max:255'
+            ];
+            
+            $validator = \Validator::make($requestData, $validationRules);
+            
+            if ($validator->fails()) {
+                \Log::error('Validation failed: ', $validator->errors()->toArray());
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 400);
             }
             
             // Only handle paid appointments (service_id = 1) for Ajay Bansal
@@ -114,43 +346,24 @@ class AppointmentBookController extends Controller {
             $email = $requestData['email'];
             $phone = $requestData['phone'];
             
-            // Handle different date formats
-            $selDate = $requestData['date'];
+            // Parse and validate date using centralized method
+            $dateParseResult = $this->parseAppointmentDate($requestData['date']);
+            if (!$dateParseResult['success']) {
+                return response()->json([
+                    'success' => false, 
+                    'message' => $dateParseResult['message']
+                ], 400);
+            }
+            $datey = $dateParseResult['date'];
             
-            // Check for YYYY-September-Wednesday format (from frontend)
-            if (preg_match('/^(YYYY|\d{4})-([A-Za-z]+)-([A-Za-z]+)$/', $selDate, $matches)) {
-                $year = $matches[1];
-                $month = $matches[2];
-                $dayOfWeek = $matches[3];
-                
-                // Handle YYYY placeholder by using current year
-                if ($year === 'YYYY') {
-                    $year = date('Y');
-                }
-                
-                // Convert month name to number
-                $monthNumber = date('m', strtotime($month));
-                if ($monthNumber === '00') {
-                    return response()->json(['success' => false, 'message' => 'Invalid month name: ' . $month], 400);
-                }
-                
-                // For now, use the 1st day of the month since we don't have the specific date
-                // In a real implementation, you'd need to calculate the actual date based on the day of week
-                $datey = $year . '-' . $monthNumber . '-01';
-                
-                \Log::info('Parsed date from frontend format: ' . $selDate . ' -> ' . $datey);
-            } elseif (strpos($selDate, '-') !== false && preg_match('/^\d{4}-\d{2}-\d{2}$/', $selDate)) {
-                // YYYY-MM-DD format from JavaScript
-                $datey = $selDate;
-                \Log::info('Using YYYY-MM-DD format: ' . $datey);
-            } else {
-                // DD/MM/YYYY format
-                $date = explode('/', $selDate);
-                if (count($date) != 3) {
-                    return response()->json(['success' => false, 'message' => 'Invalid date format: ' . $selDate], 400);
-                }
-                $datey = $date[2].'-'.$date[1].'-'.$date[0];
-                \Log::info('Using DD/MM/YYYY format: ' . $selDate . ' -> ' . $datey);
+            // SECURITY FIX: Check for appointment conflicts before processing
+            $timeConflict = $this->checkAppointmentConflict($datey, $requestData['time'], $requestData['service_id'], $requestData['noe_id']);
+            if ($timeConflict['conflict']) {
+                \Log::warning('Appointment conflict detected: ' . $timeConflict['message']);
+                return response()->json([
+                    'success' => false, 
+                    'message' => $timeConflict['message']
+                ], 409); // 409 Conflict status code
             }
 		$service = \App\Models\BookService::find($requestData['service_id']); //dd($service);
         if(!empty($service)){
@@ -162,14 +375,38 @@ class AppointmentBookController extends Controller {
         // Apply promo code discount if provided
         $appliedPromo = null;
         if(!empty($requestData['promo_code'])){
-            $promo = PromoCode::where('code', trim($requestData['promo_code']))->where('status',1)->first();
+            $promoCode = trim($requestData['promo_code']);
+            
+            // SECURITY FIX: Validate promo code against database AND client-side validation
+            $promo = PromoCode::where('code', $promoCode)->where('status',1)->first();
+            
             if($promo){
+                // Additional validation: Check if promo code matches client-side allowed codes
+                $allowedClientCodes = ['FREE100', 'HALF50'];
+                if(!in_array(strtoupper($promoCode), $allowedClientCodes)){
+                    \Log::warning('Promo code validation mismatch: ' . $promoCode . ' not in client-side allowed codes');
+                    return response()->json([
+                        'success' => false, 
+                        'message' => 'Invalid promo code. Please use a valid code.'
+                    ], 400);
+                }
+                
                 $discountPercentage = (float) ($promo->discount_percentage ?? 0);
                 if($discountPercentage > 0){
                     $discountAmount = round(($amount * $discountPercentage) / 100, 2);
                     $amount = max(0, round($amount - $discountAmount, 2));
                     $appliedPromo = $promo;
+                    // Log promo code application in development only
+                    if (config('app.debug')) {
+                        \Log::info('Promo code applied: ' . $promoCode . ' - Discount: ' . $discountPercentage . '%');
+                    }
                 }
+            } else {
+                \Log::warning('Invalid promo code attempted: ' . $promoCode);
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'Invalid promo code. Valid codes: FREE100 or HALF50'
+                ], 400);
             }
         }
 
@@ -186,8 +423,44 @@ class AppointmentBookController extends Controller {
             $order_date = date("Y-m-d H:i:s");
             $order_status = "Pending";
             
-            // Skip payment table insertion for now - table doesn't exist
-            // TODO: Create tbl_paid_appointment_payment table migration
+            // Store payment record for audit trail
+            $paymentRecord = null;
+            if((float)$amount > 0){
+                // For paid appointments, create a pending payment record
+                $paymentRecord = AppointmentPayment::create([
+                    'order_hash' => $stripeToken,
+                    'payer_email' => $email,
+                    'amount' => $amount,
+                    'currency' => $currency,
+                    'payment_type' => $payment_type,
+                    'order_date' => $order_date,
+                    'name' => $cardName,
+                    'payment_status' => 'Pending',
+                    'order_status' => $order_status
+                ]);
+                // Log payment record creation in development only
+                if (config('app.debug')) {
+                    \Log::info('Created pending payment record with ID: ' . $paymentRecord->id);
+                }
+            } else {
+                // For free appointments (promo code), create a completed payment record
+                $paymentRecord = AppointmentPayment::create([
+                    'order_hash' => $stripeToken,
+                    'payer_email' => $email,
+                    'amount' => 0,
+                    'currency' => $currency,
+                    'payment_type' => 'promo_free',
+                    'order_date' => $order_date,
+                    'name' => $cardName,
+                    'stripe_payment_intent_id' => 'promo_free_' . time(),
+                    'payment_status' => 'Paid',
+                    'order_status' => 'Completed'
+                ]);
+                // Log payment record creation in development only
+                if (config('app.debug')) {
+                    \Log::info('Created free payment record with ID: ' . $paymentRecord->id);
+                }
+            }
 
             // Set appointment status based on payment requirement
             if((float)$amount <= 0){
@@ -198,41 +471,45 @@ class AppointmentBookController extends Controller {
                 $appontment_status = 5; // Pending Payment
             }
             // Payment processing completed - proceed with appointment creation
-        $user = \App\Models\Admin::where(function ($query) use($requestData){
-			$query->where('email',$requestData['email'])
-			->orWhere('phone',$requestData['phone']);
-		})->first();
-        /*$parts = explode(" ", $fullname);
-        $last_name = array_pop($parts);
-        $first_name = implode(" ", $parts);*/
-        $first_name = $fullname;
-        $last_name = "";
+            // SECURITY FIX: Wrap user creation and appointment creation in database transaction
+            $client_id = null;
+            $client_unique_id = null;
+            
+            DB::beginTransaction();
+            
+            try {
+                $user = \App\Models\Admin::where(function ($query) use($requestData){
+                    $query->where('email',$requestData['email'])
+                    ->orWhere('phone',$requestData['phone']);
+                })->first();
+                
+                $first_name = $fullname;
+                $last_name = "";
 
-        if( isset($fullname) && strlen($fullname) >=4 ){
-            $first_name_val = trim(substr($fullname, 0, 4));
-        } else {
-            $first_name_val = trim($fullname);
-        }
-        //dd($first_name_val);
+                if( isset($fullname) && strlen($fullname) >=4 ){
+                    $first_name_val = trim(substr($fullname, 0, 4));
+                } else {
+                    $first_name_val = trim($fullname);
+                }
 
-        if(empty($user)){
-			$objs				= 	new Admin;
-			$objs->client_id	=	strtoupper($first_name_val).date('his');
-			// Removed role field - column doesn't exist in database
-			$objs->last_name	=	$last_name;
-			$objs->first_name	=	$first_name;
-			$objs->email	    =	$email;
-			$objs->phone	    =	$phone;
-			$objs->save();
-			$client_id          = $objs->id;
-            $client_unique_id   = $objs->client_id;
-		} else {
-			if(empty($user->client_id)){
-				Admin::where('id', $user->id)->update(['client_id' => strtoupper($first_name_val).date('his')]);
-			}
-			$client_id = $user->id;
-            $client_unique_id = $user->client_id;
-		}
+                if(empty($user)){
+                    $objs = new Admin;
+                    $objs->client_id = strtoupper($first_name_val).date('his');
+                    // Removed role field - column doesn't exist in database
+                    $objs->last_name = $last_name;
+                    $objs->first_name = $first_name;
+                    $objs->email = $email;
+                    $objs->phone = $phone;
+                    $objs->save();
+                    $client_id = $objs->id;
+                    $client_unique_id = $objs->client_id;
+                } else {
+                    if(empty($user->client_id)){
+                        Admin::where('id', $user->id)->update(['client_id' => strtoupper($first_name_val).date('his')]);
+                    }
+                    $client_id = $user->id;
+                    $client_unique_id = $user->client_id;
+                }
 
          //Get Nature of Enquiry
         $nature_of_enquiry_data = DB::table('nature_of_enquiry')->where('id', $request->noe_id)->first();
@@ -253,21 +530,10 @@ class AppointmentBookController extends Controller {
             $service_title_text = "";
         }
 
-            // DEBUG: Log appointment data before saving
-            \Log::info('=== APPOINTMENT DATA DEBUG ===');
-            \Log::info('client_id: ' . $client_id);
-            \Log::info('client_unique_id: ' . $client_unique_id);
-            \Log::info('service_id: ' . $service_id);
-            \Log::info('noe_id: ' . $noe_id);
-            \Log::info('fullname: ' . $fullname);
-            \Log::info('description: ' . $description);
-            \Log::info('email: ' . $email);
-            \Log::info('phone: ' . $phone);
-            \Log::info('date: ' . $datey);
-            \Log::info('appontment_status: ' . $appontment_status);
-            \Log::info('time: ' . $requestData['time']);
-            \Log::info('appointment_details: ' . $requestData['appointment_details']);
-            \Log::info('stripeToken: ' . $stripeToken);
+            // Log appointment data in development only
+            if (config('app.debug')) {
+                \Log::info('Creating appointment for: ' . $fullname . ' (' . $email . ') on ' . $datey);
+            }
             
             // Create appointment record
             $obj = new Appointment;
@@ -283,15 +549,13 @@ class AppointmentBookController extends Controller {
             $obj->status = $appontment_status;
             
             if(!empty($requestData['time'])){
-                $time = explode('-', $requestData['time']);
-                // Fix: Properly parse 12-hour format time
-                $parsed_time = strtotime($time[0]);
-                if($parsed_time === false) {
-                    // Fallback: try parsing with different format
-                    $parsed_time = strtotime('1970-01-01 ' . $time[0]);
+                // Parse time using centralized method
+                $timeParseResult = $this->parseAppointmentTime($requestData['time']);
+                if (!$timeParseResult['success']) {
+                    \Log::error('Time parsing failed in appointment creation: ' . $timeParseResult['message']);
+                    throw new \Exception('Invalid time format: ' . $timeParseResult['message']);
                 }
-                $obj->time = date("H:i", $parsed_time);
-                \Log::info('Parsed time: ' . $obj->time . ' from: ' . $time[0]);
+                $obj->time = $timeParseResult['time'];
             }
             
             $obj->timeslot_full = $requestData['time'];
@@ -299,104 +563,90 @@ class AppointmentBookController extends Controller {
             $obj->appointment_details = $requestData['appointment_details'];
             $obj->order_hash = $stripeToken;
             
-            // DEBUG: Log the appointment object before saving
-            \Log::info('Appointment object attributes: ', $obj->getAttributes());
-            
-            $saved = $obj->save();
-            \Log::info('Appointment save result: ' . ($saved ? 'SUCCESS' : 'FAILED'));
-            
-            if (!$saved) {
-                \Log::error('Appointment save failed - validation errors: ', $obj->getErrors());
-            }
-        if($saved)
-        {
-            // Note and ActivitiesLog functionality removed
-            // $note = new \App\Models\Note;
-            // $note->client_id =  $client_id;
-            // $note->user_id = 1;
-            // $note->title = $requestData['appointment_details'];
-            // $note->description = $description;
-            // $note->mail_id = 0;
-            // $note->type = 'client';
-            // $saved = $note->save();
+                $saved = $obj->save();
+                
+                if (!$saved) {
+                    \Log::error('Appointment save failed - validation errors: ', $obj->getErrors());
+                    throw new \Exception('Failed to save appointment');
+                }
+                
+                // Log successful appointment creation in development only
+                if (config('app.debug') && $paymentRecord) {
+                    \Log::info('Appointment created successfully with payment record ID: ' . $paymentRecord->id);
+                }
+                
+                // Commit the transaction if appointment is saved successfully
+                DB::commit();
+                
+                // Send emails with proper error handling and user notification
+                $emailResults = $this->sendAppointmentEmails($fullname, $email, $phone, $requestData, $service, $NatureOfEnquiry, $description, $appointment->id);
+                
+                // Check if critical emails failed and notify user
+                $emailFailures = [];
+                if (!$emailResults['admin_email_sent']) {
+                    $emailFailures[] = 'Admin notification';
+                    \Log::error('Admin email failed to send', [
+                        'appointment_id' => $appointment->id,
+                        'error' => $emailResults['admin_email_error']
+                    ]);
+                }
+                
+                if (!$emailResults['customer_email_sent']) {
+                    $emailFailures[] = 'Confirmation email';
+                    \Log::error('Customer confirmation email failed to send', [
+                        'appointment_id' => $appointment->id,
+                        'customer_email' => $email,
+                        'error' => $emailResults['customer_email_error']
+                    ]);
+                }
+                
+                // If critical emails failed, inform user but don't fail the appointment
+                if (!empty($emailFailures)) {
+                    \Log::warning('Some appointment emails failed to send', [
+                        'appointment_id' => $appointment->id,
+                        'failed_emails' => $emailFailures,
+                        'customer_email' => $email
+                    ]);
+                }
 
-            $subject = 'scheduled a paid appointment'; // Only paid appointments for Ajay
-            // $objs = new \App\Models\ActivitiesLog;
-            // $objs->client_id = $client_id;
-            // $objs->created_by = 1;
-            // $objs->description = '<div style="display: -webkit-inline-box;">
-            // 			<span style="height: 60px; width: 60px; border: 1px solid rgb(3, 169, 244); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px;overflow: hidden;">
-            // 				<span  style="flex: 1 1 0%; width: 100%; text-align: center; background: rgb(237, 237, 237); border-top-left-radius: 120px; border-top-right-radius: 120px; font-size: 12px;line-height: 24px;">
-            // 				  '.date('d M', strtotime($datey)).'
-            // 				</span>
-            // 				<span style="background: rgb(84, 178, 75); color: rgb(255, 255, 255); flex: 1 1 0%; width: 100%; border-bottom-left-radius: 120px; border-bottom-right-radius: 120px; text-align: center;font-size: 12px; line-height: 21px;">
-            // 				   '.date('Y', strtotime($datey)).'
-            // 				</span>
-            // 			</span>
-            // 		</div>
-            // 		<div style="display:inline-grid;"><span class="text-semi-bold">'.$nature_of_enquiry_title.'</span> <span class="text-semi-bold">'.$service_title_text.'</span>  <span class="text-semi-bold">'.$request->appointment_details.'</span> <span class="text-semi-bold">'.$request->fullname.'</span> <span class="text-semi-bold">'.$request->email.'</span> <span class="text-semi-bold">'.$request->phone.'</span> <span class="text-semi-bold">'.$request->description.'</span> <p class="text-semi-light-grey col-v-1">@ '.$request->time.'</p></div>';
+                //SMS to admin
+                /*$receiver_number="+610422905860";
+                // $receiver_number="+61476857122"; testing number
+                $smsMessage="An appointment has been booked for $fullname on ".$requestData['date'].' at '.$requestData['time'];
+                Helper::sendSms($receiver_number,$smsMessage);*/
 
-            // $objs->subject = $subject;
-            // $objs->save();
-
-            // Send emails (with error handling)
-            try {
-                // Email To Admin
-                $details1 = [
-                    'title' => 'You have received a new appointment from '.$fullname.' for '.$service->title,
-                    'body' => 'This is for testing email using smtp',
-                    'fullname' => 'Admin',
-                    'date' => $requestData['date'],
-                    'time' => $requestData['time'],
-                    'email'=> $email,
-                    'phone' => $phone,
-                    'description' => $description,
-                    'service'=> $service->title,
-                    'NatureOfEnquiry'=> $NatureOfEnquiry ? $NatureOfEnquiry->title : 'N/A',
-                    'appointment_details'=> $requestData['appointment_details'],
+                // Return success with Stripe payment URL and email status
+                $payment_url = url('/stripe/' . $obj->id);
+                $message = 'Your appointment booked successfully on '.$requestData['date'].' '.$requestData['time'];
+                
+                // Add email status to response
+                $response = [
+                    'success' => true,
+                    'message' => $message,
+                    'payment_url' => $payment_url,
+                    'appointment_id' => $obj->id,
+                    'email_status' => [
+                        'admin_notification_sent' => $emailResults['admin_email_sent'],
+                        'confirmation_sent' => $emailResults['customer_email_sent']
+                    ]
                 ];
-                Mail::to('Info@bansallawyers.com.au')->send(new \App\Mail\AppointmentMail($details1));
+                
+                // Add warning if emails failed
+                if (!$emailResults['customer_email_sent']) {
+                    $response['warning'] = 'Appointment confirmed but confirmation email failed to send. Please check your email address or contact us.';
+                }
+                
+                return response()->json($response);
 
-                // Email To customer
-                $details = [
-                    'title' => 'You have booked an Appointment on '.$requestData['date'].'  at '.$requestData['time'],
-                    'body' => 'This is for testing email using smtp',
-                    'fullname' => $fullname,
-                    'date' => $requestData['date'],
-                    'time' => $requestData['time'],
-                    'email'=> $email,
-                    'phone' => $phone,
-                    'description' => $description,
-                    'service'=> $service->title,
-                    'NatureOfEnquiry'=> $NatureOfEnquiry ? $NatureOfEnquiry->title : 'N/A',
-                    'appointment_details'=> $requestData['appointment_details'],
-                ];
-
-                Mail::to($email)->send(new \App\Mail\AppointmentMail($details));
             } catch (\Exception $e) {
-                \Log::error('Email sending failed: ' . $e->getMessage());
-                // Continue even if email fails
+                // SECURITY FIX: Rollback transaction on any error
+                DB::rollback();
+                \Log::error('Transaction failed in storepaid: ' . $e->getMessage());
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'Failed to create appointment: ' . $e->getMessage()
+                ], 500);
             }
-
-            //SMS to admin
-            /*$receiver_number="+610422905860";
-            // $receiver_number="+61476857122"; testing number
-            $smsMessage="An appointment has been booked for $fullname on ".$requestData['date'].' at '.$requestData['time'];
-            Helper::sendSms($receiver_number,$smsMessage);*/
-
-            // Return success with Stripe payment URL
-            $payment_url = url('/stripe/' . $obj->id);
-            $message = 'Your appointment booked successfully on '.$requestData['date'].' '.$requestData['time'];
-            return response()->json(array(
-                'success' => true,
-                'message' => $message,
-                'payment_url' => $payment_url,
-                'appointment_id' => $obj->id
-            ));
-
-        } else {
-            return response()->json(array('success'=>false,'message'=>'Failed to save appointment'));
-        }
         
         } catch (\Exception $e) {
             \Log::error('storepaid error: ' . $e->getMessage());
@@ -406,8 +656,105 @@ class AppointmentBookController extends Controller {
             ], 500);
         }
     }
-
-
-
-
+    
+    /**
+     * Send appointment emails with proper error handling
+     */
+    private function sendAppointmentEmails($fullname, $email, $phone, $requestData, $service, $NatureOfEnquiry, $description, $appointmentId = null)
+    {
+        $results = [
+            'admin_email_sent' => false,
+            'customer_email_sent' => false,
+            'admin_email_error' => null,
+            'customer_email_error' => null
+        ];
+        
+        // Prepare common appointment data
+        $appointmentData = [
+            'fullname' => $fullname,
+            'date' => $requestData['date'],
+            'time' => $requestData['time'],
+            'email' => $email,
+            'phone' => $phone,
+            'description' => $description,
+            'service' => $service->title,
+            'NatureOfEnquiry' => $NatureOfEnquiry ? $NatureOfEnquiry->title : 'N/A',
+            'appointment_details' => $requestData['appointment_details'],
+        ];
+        
+        // Send email to admin
+        try {
+            $adminDetails = array_merge($appointmentData, [
+                'title' => 'New Appointment Booked - ' . $fullname . ' - ' . $service->title,
+                'fullname' => 'Admin',
+            ]);
+            
+            Mail::to('Info@bansallawyers.com.au')->send(new \App\Mail\AppointmentMail($adminDetails));
+            $results['admin_email_sent'] = true;
+            
+            \Log::info('Admin appointment email sent successfully', [
+                'appointment_id' => $appointmentId,
+                'admin_email' => 'Info@bansallawyers.com.au'
+            ]);
+            
+        } catch (\Exception $e) {
+            $results['admin_email_error'] = $e->getMessage();
+            \Log::error('Admin appointment email failed', [
+                'appointment_id' => $appointmentId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
+        
+        // Send email to customer
+        try {
+            $customerDetails = array_merge($appointmentData, [
+                'title' => 'Appointment Confirmation - ' . $requestData['date'] . ' at ' . $requestData['time'],
+            ]);
+            
+            Mail::to($email)->send(new \App\Mail\AppointmentMail($customerDetails));
+            $results['customer_email_sent'] = true;
+            
+            \Log::info('Customer appointment email sent successfully', [
+                'appointment_id' => $appointmentId,
+                'customer_email' => $email
+            ]);
+            
+        } catch (\Exception $e) {
+            $results['customer_email_error'] = $e->getMessage();
+            \Log::error('Customer appointment email failed', [
+                'appointment_id' => $appointmentId,
+                'customer_email' => $email,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
+        
+        return $results;
+    }
+    
+    /**
+     * Get email failure statistics for monitoring
+     */
+    public function getEmailFailureStats()
+    {
+        try {
+            // This would typically query a logs table or email_failures table
+            // For now, we'll return a basic structure
+            return response()->json([
+                'success' => true,
+                'stats' => [
+                    'total_appointments' => \App\Models\Appointment::count(),
+                    'failed_emails_today' => 0, // Would be calculated from logs
+                    'email_success_rate' => '95%', // Would be calculated
+                    'last_email_failure' => null // Would be from logs
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve email statistics: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

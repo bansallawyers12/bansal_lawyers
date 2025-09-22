@@ -17,6 +17,8 @@ class Kernel extends ConsoleKernel
         '\App\\Console\\Commands\\BirthDate',
         '\App\\Console\\Commands\\InPersonCompleteTaskRemoval',
         '\App\\Console\\Commands\\WpAppointmentToCrm',
+        '\App\\Console\\Commands\\SendAppointmentReminders',
+        '\App\\Console\\Commands\\SendImmediateReminders',
     ];
 
     /**
@@ -36,6 +38,11 @@ class Kernel extends ConsoleKernel
         $schedule->command('InPersonCompleteTaskRemoval:daily')->daily();
         
         $schedule->command('WpAppointmentToCrm:daily')->everyFiveMinutes();
+        
+        // Appointment reminder system
+        $schedule->command('appointments:send-reminders --hours=24')->dailyAt('09:00');
+        $schedule->command('appointments:send-reminders --hours=48')->dailyAt('09:00');
+        $schedule->command('appointments:send-immediate-reminders --hours=2')->hourly();
     }
 
     /**

@@ -19,17 +19,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */ 
     protected $except = [
-        //
+        // Only exclude API routes and webhook endpoints that legitimately need CSRF bypass
 		'api/*',
-		'admin/update_visit_purpose',
-		'admin/update_visit_comment',
-		'admin/attend_session',
-		'admin/complete_session',
-		'admin/update_task_comment',
-		'admin/update_task_description',
-		'admin/update_task_status',
-		'admin/update_task_priority',
-		'admin/updateduedate',
-		'admin/application/checklistupload',
+		// Note: All admin endpoints now require CSRF protection for security
     ];
 }

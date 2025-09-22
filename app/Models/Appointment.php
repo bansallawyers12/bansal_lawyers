@@ -18,7 +18,7 @@ class Appointment extends Model
 	
 	
 	protected $fillable = [
-        'id','user_id','client_id','timezone','email','noe_id','assinee','full_name','date','time','title','description','invites','status','related_to','created_at', 'updated_at'
+        'id','user_id','client_id','client_unique_id','timezone','email','noe_id','service_id','assignee','full_name','date','time','timeslot_full','title','description','invites','status','appointment_details','order_hash','related_to','created_at', 'updated_at'
     ];
    
 	public $sortable = ['id', 'created_at', 'updated_at'];

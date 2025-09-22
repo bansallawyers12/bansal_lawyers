@@ -30,7 +30,6 @@ Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
 //Home Page
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
-// Route::get('/testimonials', [App\Http\Controllers\HomeController::class, 'testimonial'])->name('testimonial'); // ARCHIVED - unused page
 Route::get('/ourservices', [App\Http\Controllers\HomeController::class, 'ourservices'])->name('ourservices');
 Route::get('/ourservices/{slug}', [App\Http\Controllers\HomeController::class, 'servicesdetail'])->name('servicesdetail');
 // Make experimental blog the primary
