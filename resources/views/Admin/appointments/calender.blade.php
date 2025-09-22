@@ -414,13 +414,12 @@ body.modal-open {
 <?php
 $sched_res = [];
 
-// Only paid appointments (service_id = 1) for Ajay
-$appointments = \App\Models\Appointment::where(function ($query) {
-    $query->where(function ($q) {
-        $q->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
-          ->where('service_id', 1);
-    });
-})->get();
+// Only paid appointments (service_id = 1) for Ajay with active nature of enquiry
+$appointments = \App\Models\Appointment::where('service_id', 1)
+    ->whereHas('natureOfEnquiry', function($query) {
+        $query->where('status', 1);
+    })
+    ->get();
 //dd($appointments);
 
 //$appointments = \App\Models\Appointment::where('invites','=', Auth::user()->id)->get();

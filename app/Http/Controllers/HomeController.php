@@ -595,19 +595,23 @@ class HomeController extends Controller
             // Ajay Bansal's configuration (person_id = 1, service_type = 1)
             $book_service_slot_per_person_tbl_unique_id = 1;
             
-            // Check for existing appointments on this date
+            // Check for existing appointments on this date with active nature of enquiry
             $service = \App\Models\Appointment::select('id', 'date', 'time')
                 ->where('status', '!=', 7)
                 ->whereDate('date', $datey)
                 ->where('service_id', 1)
-                ->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
+                ->whereHas('natureOfEnquiry', function($query) {
+                    $query->where('status', 1);
+                })
                 ->exists();
 
             $servicelist = \App\Models\Appointment::select('id', 'date', 'time')
                 ->where('status', '!=', 7)
                 ->whereDate('date', $datey)
                 ->where('service_id', 1)
-                ->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
+                ->whereHas('natureOfEnquiry', function($query) {
+                    $query->where('status', 1);
+                })
                 ->get();
 
             $disabledtimeslotes = array();

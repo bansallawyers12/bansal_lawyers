@@ -122,17 +122,16 @@ class AppointmentsController extends Controller
             $obj->date = $date[2].'-'.$date[1].'-'.$date[0];
         }
 
-        // Only paid appointments (service_id = 1) for Ajay
+        // Only paid appointments (service_id = 1) for Ajay with active nature of enquiry
         $appointExist = \App\Models\Appointment::where('id','!=',$requestData['id'])
         ->where('status', '!=', 7)
         ->whereDate('date', $datey)
         ->where('time', $request->time)
-        ->where(function ($query) {
-            $query->where(function ($q) {
-                $q->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7])
-                ->where('service_id', 1);
-            });
-        })->count();
+        ->where('service_id', 1)
+        ->whereHas('natureOfEnquiry', function($query) {
+            $query->where('status', 1);
+        })
+        ->count();
         //dd($appointExist);
         if( $appointExist > 0 ){
             //return redirect()->route('appointments.index')->with('error','This appointment time slot is already booked.Please select other time slot.' );
