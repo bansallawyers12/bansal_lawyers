@@ -460,7 +460,7 @@ class HomeController extends Controller
     }
 
     public function getdatetime(Request $request)
-    {
+    { 
         try {
             $enquiry_item = $request->enquiry_item;
             $req_service_id = $request->id;
@@ -528,6 +528,7 @@ class HomeController extends Controller
 
                 // Add the current date to the array to prevent past date selection
                 $disabledatesarray[] = date('d/m/Y');
+                
                 
                 return response()->json([
                     'success' => true, 
