@@ -3424,28 +3424,32 @@ $(function() {
          console.log('Initializing modern calendar...');
          
          // Set current week start to Monday
-         const today = new Date();
-         const dayOfWeek = today.getDay();
-         const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
-         currentWeekStart = new Date(today);
-         currentWeekStart.setDate(today.getDate() + daysToMonday);
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+        const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+        currentWeekStart = new Date(today);
+        currentWeekStart.setDate(today.getDate() + daysToMonday);
+        currentWeekStart.setHours(0, 0, 0, 0);
          
          // Fetch weekend configuration before rendering calendar
          fetchWeekendConfiguration().then(() => {
              renderCalendar();
              setupEventListeners();
              
-             // Auto-select current date and show time slots
+            // Auto-select the next available date and show time slots
              autoSelectCurrentDate();
          });
      }
      
      // Auto-select current date and show available times
      function autoSelectCurrentDate() {
-         let dateToSelect = new Date();
-         
-         // If today is a weekend or past date, find next available weekday
-         while (dateToSelect < new Date().setHours(0,0,0,0) || disabledWeekdays.includes(dateToSelect.getDay())) {
+        const todayMidnight = new Date();
+        todayMidnight.setHours(0, 0, 0, 0);
+        let dateToSelect = new Date(todayMidnight);
+        dateToSelect.setDate(dateToSelect.getDate() + 1);
+        
+        // If the next day is a weekend or otherwise disabled, find the next available weekday
+        while (dateToSelect <= todayMidnight || disabledWeekdays.includes(dateToSelect.getDay())) {
              dateToSelect.setDate(dateToSelect.getDate() + 1);
          }
          
@@ -3507,8 +3511,11 @@ $(function() {
                  ${weekDates.map((date, index) => {
                      const dayName = date.toLocaleDateString('en-AU', { weekday: 'short' }).toUpperCase();
                      const dayNumber = date.getDate();
-                     const isToday = isSameDay(date, new Date());
-                     const isPast = date < new Date().setHours(0,0,0,0);
+                    const isToday = isSameDay(date, new Date());
+                    const todayMidnight = new Date();
+                    todayMidnight.setHours(0,0,0,0);
+                    const dateMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                    const isPast = dateMidnight <= todayMidnight;
                      const isWeekend = disabledWeekdays.includes(date.getDay()); // Check if day is disabled weekend
                      const isSelected = selectedDate && isSameDay(date, selectedDate);
                      const isDisabled = isPast || isWeekend;
@@ -3679,7 +3686,7 @@ $(function() {
      function restoreCalendarState() {
          console.log('Restoring calendar state - selectedDate:', selectedDate, 'selectedTime:', selectedTime);
          
-         // If there is no prior selection (first visit), auto-select today and first slot
+        // If there is no prior selection (first visit), auto-select the next available date and first slot
          if (!selectedDate || isNaN(selectedDate.getTime())) {
              autoSelectCurrentDate();
              return;

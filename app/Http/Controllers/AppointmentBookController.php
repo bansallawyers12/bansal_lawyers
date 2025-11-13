@@ -173,11 +173,11 @@ class AppointmentBookController extends Controller {
             // Check if date is not in the past
             $today = new \DateTime();
             $today->setTime(0, 0, 0);
-            if ($dateTime < $today) {
+            if ($dateTime <= $today) {
                 return [
                     'success' => false,
                     'date' => null,
-                    'message' => 'Appointment date cannot be in the past: ' . $normalizedDate
+                    'message' => 'Appointment date must be after today: ' . $normalizedDate
                 ];
             }
             
