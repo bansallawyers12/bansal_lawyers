@@ -578,65 +578,81 @@ class AppointmentBookController extends Controller {
                 // Commit the transaction if appointment is saved successfully
                 DB::commit();
                 
-                // Send emails with proper error handling and user notification
-                $emailResults = $this->sendAppointmentEmails($fullname, $email, $phone, $requestData, $service, $NatureOfEnquiry, $description, $appointment->id);
-                
-                // Check if critical emails failed and notify user
-                $emailFailures = [];
-                if (!$emailResults['admin_email_sent']) {
-                    $emailFailures[] = 'Admin notification';
-                    \Log::error('Admin email failed to send', [
-                        'appointment_id' => $appointment->id,
-                        'error' => $emailResults['admin_email_error']
-                    ]);
-                }
-                
-                if (!$emailResults['customer_email_sent']) {
-                    $emailFailures[] = 'Confirmation email';
-                    \Log::error('Customer confirmation email failed to send', [
-                        'appointment_id' => $appointment->id,
-                        'customer_email' => $email,
-                        'error' => $emailResults['customer_email_error']
-                    ]);
-                }
-                
-                // If critical emails failed, inform user but don't fail the appointment
-                if (!empty($emailFailures)) {
-                    \Log::warning('Some appointment emails failed to send', [
-                        'appointment_id' => $appointment->id,
-                        'failed_emails' => $emailFailures,
-                        'customer_email' => $email
-                    ]);
-                }
+                // Only send emails for free appointments (amount <= 0)
+                // For paid appointments, emails will be sent after successful Stripe payment
+                $emailResults = null;
+                if((float)$amount <= 0) {
+                    // Send emails with proper error handling and user notification for free appointments
+                    $emailResults = $this->sendAppointmentEmails($fullname, $email, $phone, $requestData, $service, $NatureOfEnquiry, $description, $obj->id);
+                    
+                    // Check if critical emails failed and notify user
+                    $emailFailures = [];
+                    if (!$emailResults['admin_email_sent']) {
+                        $emailFailures[] = 'Admin notification';
+                        \Log::error('Admin email failed to send', [
+                            'appointment_id' => $obj->id,
+                            'error' => $emailResults['admin_email_error']
+                        ]);
+                    }
+                    
+                    if (!$emailResults['customer_email_sent']) {
+                        $emailFailures[] = 'Confirmation email';
+                        \Log::error('Customer confirmation email failed to send', [
+                            'appointment_id' => $obj->id,
+                            'customer_email' => $email,
+                            'error' => $emailResults['customer_email_error']
+                        ]);
+                    }
+                    
+                    // If critical emails failed, inform user but don't fail the appointment
+                    if (!empty($emailFailures)) {
+                        \Log::warning('Some appointment emails failed to send', [
+                            'appointment_id' => $obj->id,
+                            'failed_emails' => $emailFailures,
+                            'customer_email' => $email
+                        ]);
+                    }
 
-                //SMS to admin
-                /*$receiver_number="+610422905860";
-                // $receiver_number="+61476857122"; testing number
-                $smsMessage="An appointment has been booked for $fullname on ".$requestData['date'].' at '.$requestData['time'];
-                Helper::sendSms($receiver_number,$smsMessage);*/
+                    //SMS to admin
+                    /*$receiver_number="+610422905860";
+                    // $receiver_number="+61476857122"; testing number
+                    $smsMessage="An appointment has been booked for $fullname on ".$requestData['date'].' at '.$requestData['time'];
+                    Helper::sendSms($receiver_number,$smsMessage);*/
 
-                // Return success with Stripe payment URL and email status
-                $payment_url = url('/stripe/' . $obj->id);
-                $message = 'Your appointment booked successfully on '.$requestData['date'].' '.$requestData['time'];
-                
-                // Add email status to response
-                $response = [
-                    'success' => true,
-                    'message' => $message,
-                    'payment_url' => $payment_url,
-                    'appointment_id' => $obj->id,
-                    'email_status' => [
-                        'admin_notification_sent' => $emailResults['admin_email_sent'],
-                        'confirmation_sent' => $emailResults['customer_email_sent']
-                    ]
-                ];
-                
-                // Add warning if emails failed
-                if (!$emailResults['customer_email_sent']) {
-                    $response['warning'] = 'Appointment confirmed but confirmation email failed to send. Please check your email address or contact us.';
+                    // Return success message for free appointments
+                    $message = 'Your appointment booked successfully on '.$requestData['date'].' '.$requestData['time'];
+                    
+                    $response = [
+                        'success' => true,
+                        'message' => $message,
+                        'appointment_id' => $obj->id,
+                        'email_status' => [
+                            'admin_notification_sent' => $emailResults['admin_email_sent'],
+                            'confirmation_sent' => $emailResults['customer_email_sent']
+                        ]
+                    ];
+                    
+                    // Add warning if emails failed
+                    if (!$emailResults['customer_email_sent']) {
+                        $response['warning'] = 'Appointment confirmed but confirmation email failed to send. Please check your email address or contact us.';
+                    }
+                    
+                    return response()->json($response);
+                } else {
+                    // For paid appointments, return payment URL (emails will be sent after payment)
+                    $payment_url = url('/stripe/' . $obj->id);
+                    $message = 'Please complete payment to confirm your appointment on '.$requestData['date'].' '.$requestData['time'];
+                    
+                    $response = [
+                        'success' => true,
+                        'message' => $message,
+                        'payment_url' => $payment_url,
+                        'appointment_id' => $obj->id,
+                        'requires_payment' => true
+                    ];
+                    
+                    return response()->json($response);
                 }
-                
-                return response()->json($response);
 
             } catch (\Exception $e) {
                 // SECURITY FIX: Rollback transaction on any error
@@ -660,7 +676,7 @@ class AppointmentBookController extends Controller {
     /**
      * Send appointment emails with proper error handling
      */
-    private function sendAppointmentEmails($fullname, $email, $phone, $requestData, $service, $NatureOfEnquiry, $description, $appointmentId = null)
+    public function sendAppointmentEmails($fullname, $email, $phone, $requestData, $service, $NatureOfEnquiry, $description, $appointmentId = null)
     {
         $results = [
             'admin_email_sent' => false,

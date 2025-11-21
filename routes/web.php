@@ -61,6 +61,7 @@ Route::get('/test-footer', function () {
 
 Route::get('stripe/{appointmentId}', [App\Http\Controllers\HomeController::class, 'stripe']);
 Route::post('stripe', [App\Http\Controllers\HomeController::class, 'stripePost'])->name('stripe.post1');
+Route::get('payment-thankyou/{appointmentId?}', [App\Http\Controllers\HomeController::class, 'paymentThankYou'])->name('payment.thankyou');
 
 Route::get('/book-an-appointment', [App\Http\Controllers\HomeController::class, 'bookappointment'])->name('bookappointment');
 Route::get('/book-an-appointment1', [App\Http\Controllers\HomeController::class, 'bookappointment1'])->name('bookappointment1');

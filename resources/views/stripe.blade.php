@@ -81,7 +81,11 @@
         <div class="payment-header">
             <h1>Appointment Payment</h1>
             <div class="payment-amount">$150.00 AUD</div>
-            <p class="text-muted">Secure payment powered by Stripe</p>
+            <div class="alert alert-warning text-center" style="margin-top: 20px; background-color: #fff3cd; border-color: #ffc107; color: #856404;">
+                <strong>Your payment is Pending.</strong><br>
+                Please pay your payment by filling below stripe payment form.
+            </div>
+            <p class="text-muted" style="margin-top: 15px;">Secure payment powered by Stripe</p>
         </div>
 
         @if (Session::has('success'))

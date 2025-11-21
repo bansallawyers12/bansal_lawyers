@@ -700,8 +700,19 @@ class HomeController extends Controller
                 $order_status = "Completed";
                 $appontment_status = 10; // Pending Appointment With Payment Success
                 
-                // Find existing payment record by order_hash
-                $paymentRecord = AppointmentPayment::where('order_hash', $stripeToken)->first();
+                // Get appointment to find the correct order_hash
+                $appointment = \App\Models\Appointment::find($appointment_id);
+                $appointmentOrderHash = $appointment ? $appointment->order_hash : null;
+                
+                // Find existing payment record by appointment's order_hash
+                $paymentRecord = null;
+                if ($appointmentOrderHash) {
+                    $paymentRecord = AppointmentPayment::where('order_hash', $appointmentOrderHash)->first();
+                }
+                
+                // If not found by order_hash, try to find by appointment_id if there's a relationship
+                // Otherwise create/update using the payment intent ID as order_hash
+                $finalOrderHash = $appointmentOrderHash ?: ($stripe_payment_intent_id . '_' . $appointment_id);
                 
                 if ($paymentRecord) {
                     // Update existing payment record
@@ -716,7 +727,7 @@ class HomeController extends Controller
                 } else {
                     // Create new payment record if not found
                     $paymentRecord = AppointmentPayment::create([
-                        'order_hash' => $stripeToken,
+                        'order_hash' => $finalOrderHash,
                         'payer_email' => $email,
                         'amount' => $amount,
                         'currency' => $currency,
@@ -732,14 +743,58 @@ class HomeController extends Controller
                     \Log::info('Created new payment record ID: ' . $paymentRecord->id);
                 }
                 
-                // Update appointment status
-                DB::table('appointments')->where('id', $appointment_id)->update([
-                    'status' => $appontment_status,
-                    'order_hash' => $stripeToken
-                ]);
+                // Update appointment status and order_hash if needed
+                $updateData = ['status' => $appontment_status];
+                if (!$appointmentOrderHash) {
+                    $updateData['order_hash'] = $finalOrderHash;
+                }
+                DB::table('appointments')->where('id', $appointment_id)->update($updateData);
                 
-                // Redirect back to the normal booking page with success message
-                return redirect('/book-an-appointment')->with('success', 'Payment successful! Your appointment has been confirmed.');
+                // Send confirmation emails after successful payment
+                if ($appointment) {
+                    // Get service and NatureOfEnquiry data
+                    $service = \App\Models\BookService::find($appointment->service_id);
+                    $NatureOfEnquiry = \App\Models\NatureOfEnquiry::find($appointment->noe_id);
+                    
+                    // Prepare request data for email function
+                    $requestData = [
+                        'date' => $appointment->date,
+                        'time' => $appointment->timeslot_full ?? $appointment->time,
+                        'appointment_details' => $appointment->appointment_details ?? ''
+                    ];
+                    
+                    // Send confirmation emails after successful payment
+                    $appointmentController = new \App\Http\Controllers\AppointmentBookController();
+                    $emailResults = $appointmentController->sendAppointmentEmails(
+                        $appointment->full_name,
+                        $appointment->email,
+                        $appointment->phone,
+                        $requestData,
+                        $service,
+                        $NatureOfEnquiry,
+                        $appointment->description ?? '',
+                        $appointment->id
+                    );
+                    
+                    // Log email results
+                    if (!$emailResults['admin_email_sent']) {
+                        \Log::error('Admin email failed to send after payment', [
+                            'appointment_id' => $appointment->id,
+                            'error' => $emailResults['admin_email_error']
+                        ]);
+                    }
+                    
+                    if (!$emailResults['customer_email_sent']) {
+                        \Log::error('Customer confirmation email failed to send after payment', [
+                            'appointment_id' => $appointment->id,
+                            'customer_email' => $appointment->email,
+                            'error' => $emailResults['customer_email_error']
+                        ]);
+                    }
+                }
+                
+                // Redirect to Thank You page with appointment data
+                return redirect()->route('payment.thankyou', ['appointmentId' => $appointment_id]);
             } else {
                 // Payment failed
                 return back()->with('error', 'Payment failed. Please try again.');
@@ -766,6 +821,16 @@ class HomeController extends Controller
             // Something else happened
             return back()->with('error', 'An unexpected error occurred. Please try again.');
         }
+    }
+
+    public function paymentThankYou($appointmentId = null)
+    {
+        $appointment = null;
+        if ($appointmentId) {
+            $appointment = \App\Models\Appointment::find($appointmentId);
+        }
+        
+        return view('payment-thankyou', compact('appointment'));
     }
 
     public function search_result(Request $request)
