@@ -5,7 +5,7 @@
 
     <meta name="keyword" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!" />
 
-    <link rel="canonical" href="<?php echo URL::to('/'); ?>/practice-areas" />
+    <link rel="canonical" href="https://www.bansallawyers.com.au/practice-areas" />
 
 	<!-- Facebook Meta Tags -->
     <meta property="og:url" content="<?php echo URL::to('/'); ?>/practice-areas">

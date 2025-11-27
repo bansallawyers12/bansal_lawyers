@@ -1505,8 +1505,18 @@ class HomeController extends Controller
     /**
      * Experimental Blog Listing Page
      */
-    public function blogExperimental(Request $request)
+    public function blogExperimental(Request $request, $page = null)
     {
+        // Redirect old query parameter format to new URL format
+        if ($request->has('page') && !$page) {
+            $pageNum = $request->input('page');
+            if ($pageNum > 1) {
+                return Redirect::to('/blog/page-' . $pageNum, 301);
+            } else {
+                return Redirect::to('/blog', 301);
+            }
+        }
+        
         // Optimized: Cache blog categories as they rarely change
         $blogCategories = Cache::remember('blog_categories', 3600, function () {
             return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
@@ -1523,8 +1533,16 @@ class HomeController extends Controller
             }
         }
         
+        // Get page number from URL parameter or query string
+        $currentPageNumber = $page ?? $request->input('page', 1);
+        
         // SEO-Optimized Pagination: 9 posts per page for optimal 3x3 grid
-        $bloglists = $blogquery->orderby('id','DESC')->paginate(9);
+        $bloglists = $blogquery->orderby('id','DESC')->paginate(9, ['*'], 'page', $currentPageNumber);
+        
+        // Set custom path for pagination URLs to use /blog/page-{page} format
+        $bloglists->setPath('/blog');
+        $bloglists->appends($request->except('page'));
+        
         $blogData = $bloglists->total();
         
         // Get current page for SEO meta tags
@@ -1537,9 +1555,19 @@ class HomeController extends Controller
     /**
      * Experimental Blog Category Page
      */
-    public function blogCategoryExperimental(Request $request, $categorySlug = null)
+    public function blogCategoryExperimental(Request $request, $categorySlug = null, $page = null)
     {
         if (isset($categorySlug) && !empty($categorySlug)) {
+            // Redirect old query parameter format to new URL format
+            if ($request->has('page') && !$page) {
+                $pageNum = $request->input('page');
+                if ($pageNum > 1) {
+                    return Redirect::to('/blog/category/' . $categorySlug . '/page-' . $pageNum, 301);
+                } else {
+                    return Redirect::to('/blog/category/' . $categorySlug, 301);
+                }
+            }
+            
             // Get category details
             $category = BlogCategory::where('slug', $categorySlug)->where('status', 1)->first();
             
@@ -1552,8 +1580,16 @@ class HomeController extends Controller
                 ->where('parent_category', $category->id)
                 ->with(['categorydetail']);
             
+            // Get page number from URL parameter or query string
+            $currentPageNumber = $page ?? $request->input('page', 1);
+            
             // SEO-Optimized Pagination: 9 posts per page
-            $bloglists = $blogquery->orderby('id','DESC')->paginate(9);
+            $bloglists = $blogquery->orderby('id','DESC')->paginate(9, ['*'], 'page', $currentPageNumber);
+            
+            // Set custom path for pagination URLs to use /blog/category/{slug}/page-{page} format
+            $bloglists->setPath('/blog/category/' . $categorySlug);
+            $bloglists->appends($request->except('page'));
+            
             $blogData = $bloglists->total();
             
             // Get all categories for filter

@@ -16,7 +16,7 @@
         <meta name="keyword" content="{{@$pagedata->meta_keyward}}" />
     <?php } ?>
 
-    <link rel="canonical" href="<?php echo URL::to('/'); ?>/{{@$pagedata->slug}}" />
+    <link rel="canonical" href="https://www.bansallawyers.com.au/{{@$pagedata->slug}}" />
     <?php if (request()->is('*-experiment')) { ?>
         <!-- Prevent indexing of experimental route only -->
         <meta name="robots" content="noindex, nofollow">

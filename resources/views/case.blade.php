@@ -5,7 +5,7 @@
 
     <meta name="keyword" content="case law updates, legal precedents, court decisions, legal analysis, Australian law, family law, immigration law, property disputes, criminal law, commercial law, Melbourne lawyers, Victoria legal services, High Court decisions, Federal Court cases, Supreme Court judgments, legal commentary, law firm Melbourne, Bansal Lawyers, Australian legal system, recent judgments, legal developments, court rulings" />
 
-    <link rel="canonical" href="<?php echo URL::to('/'); ?>/case" />
+    <link rel="canonical" href="https://www.bansallawyers.com.au/case" />
 
 	<!-- Facebook Meta Tags -->
     <meta property="og:url" content="<?php echo URL::to('/'); ?>/case">

@@ -4,7 +4,7 @@
     <title>Book Appointment with Top Law Firm in Melbourne</title>
     <meta name="description" content="Book an appointment with Bansal Lawyers, one of the top law firms in Melbourne, Australia. Schedule a consultation for expert legal guidance in divorce, visa matters, property disputes, and more." />
 
-	<link rel="canonical" href="<?php echo URL::to('/'); ?>/book-an-appointment" />
+	<link rel="canonical" href="https://www.bansallawyers.com.au/book-an-appointment" />
 
 	<!-- Facebook Meta Tags -->
     <meta property="og:url" content="<?php echo URL::to('/'); ?>/book-an-appointment">

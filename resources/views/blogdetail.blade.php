@@ -19,7 +19,7 @@
         <meta name="keyword" content="Bansal Lawyers, Legal Blog, {{ $blogdetailists->title }}" />
     @endif
 
-    <link rel="canonical" href="{{ URL::to('/') }}/{{ $blogdetailists->slug }}" />
+    <link rel="canonical" href="https://www.bansallawyers.com.au/{{ $blogdetailists->slug }}" />
     
     <!-- Robots Meta Tags -->
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">

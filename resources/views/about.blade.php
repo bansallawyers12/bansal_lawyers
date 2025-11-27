@@ -17,7 +17,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="language" content="en-AU" />
 
-<link rel="canonical" href="<?php echo URL::to('/'); ?>/about" />
+<link rel="canonical" href="https://www.bansallawyers.com.au/about" />
 
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="<?php echo URL::to('/'); ?>/about">

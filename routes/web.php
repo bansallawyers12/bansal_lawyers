@@ -34,9 +34,12 @@ Route::get('/ourservices', [App\Http\Controllers\HomeController::class, 'ourserv
 Route::get('/ourservices/{slug}', [App\Http\Controllers\HomeController::class, 'servicesdetail'])->name('servicesdetail');
 // Make experimental blog the primary
 Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.index');
+Route::get('/blog/page-{page}', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.index.page')->where('page', '[0-9]+');
 Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.category');
-// Legacy blog detail route - redirects to new format
-Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogDetailExperimental'])->name('blog.detail.legacy');
+Route::get('/blog/category/{categorySlug}/page-{page}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.category.page')->where('page', '[0-9]+');
+// Legacy blog detail route - redirects to new format (exclude page-* pattern to avoid conflicts)
+// Note: This route is kept for backward compatibility but blog.detail route name points to unifiedSlugHandler
+Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogDetailExperimental'])->name('blog.detail.legacy')->where('slug', '^(?!page-).*$');
 
 
 // Backup routes for original blog
@@ -249,8 +252,10 @@ Route::get('/caveats-disputs-and-removal', [\App\Http\Controllers\HomeController
 
 /*********************New Unified Blog and CMS Route ***********************/
 // This handles both blog posts (priority) and CMS pages
+// IMPORTANT: This route must come after /blog routes to avoid conflicts
+// The route name 'blog.detail' is used in views to generate clean URLs like /{slug}
 Route::get('/{slug}', [\App\Http\Controllers\HomeController::class, 'unifiedSlugHandler'])
-	->where('slug', '^(?!admin\/|api\/|login$|register$|home$|invoice$|profile$|clear-cache$|js\/|css\/|images\/|img\/|assets\/|fonts\/|storage\/|blog$).*$')
+	->where('slug', '^(?!admin\/|api\/|login$|register$|home$|invoice$|profile$|clear-cache$|js\/|css\/|images\/|img\/|assets\/|fonts\/|storage\/|blog$|blog\/).*$')
 	->name('blog.detail');
 
 // require __DIR__.'/auth.php'; // File doesn't exist

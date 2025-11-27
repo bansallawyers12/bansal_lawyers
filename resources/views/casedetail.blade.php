@@ -12,7 +12,7 @@
         <meta name="description" content="{{ Str::limit(strip_tags(@$casedetailists->description ?? ''), 150) }}" />
     <?php } ?>
 
-    <link rel="canonical" href="<?php echo URL::to('/'); ?>/{{@$casedetailists->slug}}" />
+    <link rel="canonical" href="https://www.bansallawyers.com.au/{{@$casedetailists->slug}}" />
 
     <!-- OG/Twitter -->
     <meta property="og:url" content="<?php echo URL::to('/'); ?>/{{@$casedetailists->slug}}">

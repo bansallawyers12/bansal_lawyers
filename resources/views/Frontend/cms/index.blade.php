@@ -20,7 +20,7 @@
     <?php } ?>
 
 
-	<link rel="canonical" href="<?php echo URL::to('/'); ?>/{{@$pagedata->slug}}" />
+	<link rel="canonical" href="https://www.bansallawyers.com.au/{{@$pagedata->slug}}" />
 
     <!-- Facebook Meta Tags -->
     <meta property="og:url" content="<?php echo URL::to('/'); ?>/{{@$pagedata->slug}}">

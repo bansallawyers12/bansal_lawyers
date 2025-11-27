@@ -6,7 +6,7 @@
 <title>Best Immigration Lawyer in Melbourne Australia | Bansal Lawyers - Experimental</title>
 <meta name="description" content="Looking for top-rated lawyers in Australia? Bansal Lawyers offers expert legal services in immigration, family, criminal, and business law. Get legal help today!" >
 
-<link rel="canonical" href="<?php echo URL::to('/'); ?>" >
+<link rel="canonical" href="https://www.bansallawyers.com.au" >
 
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="<?php echo URL::to('/'); ?>">

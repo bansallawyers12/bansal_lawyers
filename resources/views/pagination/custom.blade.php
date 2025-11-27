@@ -1,3 +1,15 @@
+@php
+    // Get base path from paginator path
+    $basePath = $paginator->path();
+    // Generate custom URLs in format /blog/page-{page} or /blog/category/{slug}/page-{page}
+    $generatePageUrl = function($page) use ($basePath) {
+        if ($page == 1) {
+            return $basePath;
+        }
+        return rtrim($basePath, '/') . '/page-' . $page;
+    };
+@endphp
+
 @if ($paginator->hasPages())
     <nav aria-label="Blog pagination" class="experimental-pagination">
         <div class="pagination-wrapper">
@@ -8,7 +20,11 @@
                     <span class="btn-text">Previous</span>
                 </span>
             @else
-                <a href="{{ $paginator->previousPageUrl() }}" 
+                @php
+                    $prevPage = $paginator->currentPage() - 1;
+                    $prevUrl = $generatePageUrl($prevPage);
+                @endphp
+                <a href="{{ $prevUrl }}" 
                    class="pagination-btn pagination-btn-prev" 
                    rel="prev" 
                    aria-label="Previous page">
@@ -35,7 +51,10 @@
                                     {{ $page }}
                                 </span>
                             @else
-                                <a href="{{ $url }}" 
+                                @php
+                                    $pageUrl = $generatePageUrl($page);
+                                @endphp
+                                <a href="{{ $pageUrl }}" 
                                    class="pagination-number" 
                                    aria-label="Go to page {{ $page }}">
                                     {{ $page }}
@@ -48,7 +67,11 @@
 
             {{-- Next Page Link --}}
             @if ($paginator->hasMorePages())
-                <a href="{{ $paginator->nextPageUrl() }}" 
+                @php
+                    $nextPage = $paginator->currentPage() + 1;
+                    $nextUrl = $generatePageUrl($nextPage);
+                @endphp
+                <a href="{{ $nextUrl }}" 
                    class="pagination-btn pagination-btn-next" 
                    rel="next" 
                    aria-label="Next page">

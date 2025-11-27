@@ -12,7 +12,7 @@
 	<title>Legal Help in Melbourne | Best Law Firm – Bansal Lawyers - Modern</title>
     <meta name="description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!" />
 
-    <link rel="canonical" href="<?php echo URL::to('/'); ?>/contact" />
+    <link rel="canonical" href="https://www.bansallawyers.com.au/contact" />
         <!-- Facebook Meta Tags -->
     <meta property="og:url" content="<?php echo URL::to('/'); ?>/contact">
     <meta property="og:type" content="website">
