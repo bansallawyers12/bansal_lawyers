@@ -266,31 +266,7 @@
 
 <footer class="footer-section" role="contentinfo" itemscope itemtype="https://schema.org/LegalService"> 
   <div class="container"> 
-    <!-- Hidden structured data for SEO -->
-    <div style="display: none;" itemscope itemtype="https://schema.org/Organization">
-      <span itemprop="name">Bansal Lawyers</span>
-      <span itemprop="legalName">Bansal Lawyers</span>
-      <span itemprop="foundingDate">2015</span>
-      <span itemprop="areaServed">Melbourne, Victoria, Australia</span>
-      <span itemprop="serviceType">Legal Services</span>
-      <span itemprop="priceRange">$$</span>
-      <span itemprop="paymentAccepted">Cash, Credit Card, Bank Transfer</span>
-      <span itemprop="currenciesAccepted">AUD</span>
-      <div itemprop="founder" itemscope itemtype="https://schema.org/Person">
-        <span itemprop="name">Ajay Bansal</span>
-        <span itemprop="jobTitle">Director</span>
-        <span itemprop="worksFor" itemscope itemtype="https://schema.org/Organization">
-          <span itemprop="name">Bansal Lawyers</span>
-        </span>
-      </div>
-      <div itemprop="sameAs">
-        <a href="https://www.facebook.com/profile.php?id=61562008576642">Facebook</a>
-        <a href="https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw">Instagram</a>
-        <a href="https://www.linkedin.com/company/bansallawyers">LinkedIn</a>
-        <a href="https://twitter.com/BansalLawyers">Twitter</a>
-        <a href="https://www.youtube.com/@BansalLawyers">YouTube</a>
-      </div>
-    </div>
+    <!-- Hidden structured data removed to avoid conflicts with JSON-LD schemas in page head -->
     
     <div class="row mb-4">
       <div class="col-md"> 

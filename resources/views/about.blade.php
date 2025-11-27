@@ -73,6 +73,7 @@
         <a href="https://www.youtube.com/@BansalLawyers">YouTube</a>
     </div>
 </div>
+<!-- Note: Hidden structured data removed to avoid conflicts with JSON-LD schemas in page head -->
 
 <style>
 /* Modern Typography and Color Scheme */
