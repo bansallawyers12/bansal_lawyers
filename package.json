@@ -14,6 +14,7 @@
         "build-mix": "node build-scripts.js mix",
         "build-vite": "node build-scripts.js vite",
         "verify-minification": "node build-scripts.js verify",
+        "minify-assets": "node scripts/minify-assets.js",
         "vite": "vite",
         "vite:build": "vite build"
     },

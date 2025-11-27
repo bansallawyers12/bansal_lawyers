@@ -2,8 +2,8 @@
 
 @section('head')
     <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="{{ asset('css/aos.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/aos.min.js') }}"></script>
     <!-- Google Fonts for better typography -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 @endsection
@@ -43,37 +43,8 @@
 
 @section('content')
 
-<!-- Hidden structured data for SEO -->
-<div style="display: none;" itemscope itemtype="https://schema.org/Organization">
-    <span itemprop="name">Bansal Lawyers</span>
-    <span itemprop="legalName">Bansal Lawyers</span>
-    <span itemprop="url">https://www.bansallawyers.com.au</span>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-        <span itemprop="streetAddress">Level 8/278 Collins Street</span>
-        <span itemprop="addressLocality">Melbourne</span>
-        <span itemprop="addressRegion">VIC</span>
-        <span itemprop="postalCode">3000</span>
-        <span itemprop="addressCountry">Australia</span>
-    </div>
-    <div itemprop="geo" itemscope itemtype="https://schema.org/GeoCoordinates">
-        <meta itemprop="latitude" content="-37.8136">
-        <meta itemprop="longitude" content="144.9631">
-    </div>
-    <span itemprop="telephone">+61422905860</span>
-    <span itemprop="email">Info@bansallawyers.com.au</span>
-    <div itemprop="founder" itemscope itemtype="https://schema.org/Person">
-        <span itemprop="name">Ajay Bansal</span>
-        <span itemprop="jobTitle">Director</span>
-    </div>
-    <div itemprop="sameAs">
-        <a href="https://www.facebook.com/profile.php?id=61562008576642">Facebook</a>
-        <a href="https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw">Instagram</a>
-        <a href="https://www.linkedin.com/company/bansallawyers">LinkedIn</a>
-        <a href="https://twitter.com/BansalLawyers">Twitter</a>
-        <a href="https://www.youtube.com/@BansalLawyers">YouTube</a>
-    </div>
-</div>
-<!-- Note: Hidden structured data removed to avoid conflicts with JSON-LD schemas in page head -->
+<!-- Organization microdata removed to avoid conflicts with JSON-LD schema in page head -->
+<!-- The global LegalService schema in frontend.blade.php provides all necessary structured data -->
 
 <style>
 /* Modern Typography and Color Scheme */

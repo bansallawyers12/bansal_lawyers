@@ -264,19 +264,19 @@
 }
 </style>
 
-<footer class="footer-section" role="contentinfo" itemscope itemtype="https://schema.org/LegalService"> 
+<footer class="footer-section" role="contentinfo"> 
   <div class="container"> 
     <!-- Hidden structured data removed to avoid conflicts with JSON-LD schemas in page head -->
     
     <div class="row mb-4">
       <div class="col-md"> 
-        <div class="footer-widget" itemprop="name"> 
+        <div class="footer-widget"> 
           <h2 class="footer-logo">
-            <a href="/" itemprop="url"> 
-              <span itemprop="legalName">Bansal Lawyers</span> <span class="footer-subtitle">A Law Firm</span> 
+            <a href="/"> 
+              <span>Bansal Lawyers</span> <span class="footer-subtitle">A Law Firm</span> 
             </a> 
           </h2> 
-          <p class="footer-text" itemprop="description">Professional legal services provided with expertise and care in Melbourne and beyond. Specializing in Immigration Law, Family Law, Property Law, Commercial Law, and Criminal Law.</p> 
+          <p class="footer-text">Professional legal services provided with expertise and care in Melbourne and beyond. Specializing in Immigration Law, Family Law, Property Law, Commercial Law, and Criminal Law.</p> 
 
           <ul class="footer-social list-unstyled"> 
             
@@ -362,39 +362,29 @@
             <div class="col-md">
                 <div class="footer-widget">
                     <h2 class="footer-heading">Have a Question?</h2>
-                    <div class="block-23" itemscope itemtype="https://schema.org/PostalAddress">
-                        <!-- Hidden geo coordinates for local SEO -->
-                        <div style="display: none;" itemscope itemtype="https://schema.org/GeoCoordinates">
-                            <meta itemprop="latitude" content="-37.8136">
-                            <meta itemprop="longitude" content="144.9631">
-                        </div>
+                    <div class="block-23">
                         <ul>
                             <li class="footer-contact-item">
                                 <span class="icon icon-map-marker footer-contact-icon"></span>
                                 <a href="https://g.co/kgs/Hw16bN8" 
                                    target="_blank" 
-                                   rel="noopener noreferrer" 
-                                   itemprop="url">
-                                    <span itemprop="streetAddress">Level 8/278 Collins St</span>, 
-                                    <span itemprop="addressLocality">Melbourne</span> 
-                                    <span itemprop="addressRegion">VIC</span> 
-                                    <span itemprop="postalCode">3000</span>, 
-                                    <span itemprop="addressCountry">Australia</span>
+                                   rel="noopener noreferrer">
+                                    Level 8/278 Collins St, Melbourne VIC 3000, Australia
                                 </a>
                             </li>
                             <li class="footer-contact-item">
                                 <span class="icon icon-phone footer-contact-icon"></span>
-                                <a href="tel:+61422905860" itemprop="telephone">
+                                <a href="tel:+61422905860">
                                     (+61) 0422 905 860
                                 </a>
                             </li>
                             <li class="footer-contact-item">
                                 <span class="icon icon-phone footer-contact-icon"></span>
-                                <span itemprop="telephone">1300 BANSAL (1300 226 725)</span>
+                                <span>1300 BANSAL (1300 226 725)</span>
                             </li>
                             <li class="footer-contact-item">
                                 <span class="icon icon-envelope footer-contact-icon"></span>
-                                <a href="mailto:Info@bansallawyers.com.au" itemprop="email">
+                                <a href="mailto:Info@bansallawyers.com.au">
                                     Info@bansallawyers.com.au
                                 </a>
                             </li>
@@ -407,10 +397,10 @@
             <div class="col-md">
                 <div class="footer-widget">
                     <h2 class="footer-heading">Business Hours</h2>
-                    <div class="footer-hours" itemscope itemtype="https://schema.org/OpeningHoursSpecification">
+                    <div class="footer-hours">
                         <h4>Opening Hours:</h4>
-                        <p itemprop="dayOfWeek" content="Monday,Tuesday,Wednesday,Thursday,Friday">
-                          <span>Monday – Friday: <time itemprop="opens" content="10:00">10:00 AM</time> to <time itemprop="closes" content="17:30">5:30 PM</time></span>
+                        <p>
+                          <span>Monday – Friday: 10:00 AM to 5:30 PM</span>
                         </p>
                     </div>
                 </div>

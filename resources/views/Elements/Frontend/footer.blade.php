@@ -341,7 +341,7 @@
 </style>
 
 <!-- NEW MODERN FOOTER -->
-<footer class="modern-footer" role="contentinfo" itemscope itemtype="https://schema.org/LegalService">
+<footer class="modern-footer" role="contentinfo">
     <div class="container">
         <!-- Hidden structured data removed to avoid conflicts with JSON-LD schemas in page head -->
 
@@ -350,11 +350,11 @@
                 <!-- Brand Section -->
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="footer-brand fade-in-up">
-                        <a href="/" class="footer-logo" itemprop="url">
-                            <span itemprop="legalName">Bansal Lawyers</span>
+                        <a href="/" class="footer-logo">
+                            <span>Bansal Lawyers</span>
                         </a>
                         <div class="footer-tagline">A Law Firm</div>
-                        <p class="footer-description" itemprop="description">
+                        <p class="footer-description">
                             Professional legal services provided with expertise and care in Melbourne and beyond. 
                             Specializing in Immigration Law, Family Law, Property Law, Commercial Law, and Criminal Law.
                         </p>
@@ -407,24 +407,23 @@
                             <span class="footer-contact-icon">📍</span>
                             <a href="https://g.co/kgs/Hw16bN8" 
                                target="_blank" 
-                               rel="noopener noreferrer" 
-                               itemprop="url">
+                               rel="noopener noreferrer">
                                 Level 8/278 Collins St, Melbourne VIC 3000, Australia
                             </a>
                         </div>
                         <div class="footer-contact-item">
                             <span class="footer-contact-icon">📞</span>
-                            <a href="tel:+61422905860" itemprop="telephone">
+                            <a href="tel:+61422905860">
                                 (+61) 0422 905 860
                             </a>
                         </div>
                         <div class="footer-contact-item">
                             <span class="footer-contact-icon">📞</span>
-                            <span itemprop="telephone">1300 BANSAL (1300 226 725)</span>
+                            <span>1300 BANSAL (1300 226 725)</span>
                         </div>
                         <div class="footer-contact-item">
                             <span class="footer-contact-icon">✉️</span>
-                            <a href="mailto:Info@bansallawyers.com.au" itemprop="email">
+                            <a href="mailto:Info@bansallawyers.com.au">
                                 Info@bansallawyers.com.au
                             </a>
                         </div>

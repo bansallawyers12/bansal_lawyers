@@ -4,8 +4,8 @@
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="{{ asset('css/aos.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/aos.min.js') }}"></script>
 @endsection
 
 @section('seoinfo')

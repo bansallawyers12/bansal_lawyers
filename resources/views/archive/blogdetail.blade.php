@@ -151,12 +151,12 @@
          "addressLocality": "Melbourne",
          "addressRegion": "VIC",
          "postalCode": "3000",
-         "addressCountry": "AU"
-       },
-       "geo": {
-         "@type": "GeoCoordinates",
-         "latitude": "-37.8136",
-         "longitude": "144.9631"
+         "addressCountry": "AU",
+         "geo": {
+           "@type": "GeoCoordinates",
+           "latitude": "-37.8136",
+           "longitude": "144.9631"
+         }
        },
        "telephone": "+61 0422905860",
        "email": "Info@bansallawyers.com.au",
