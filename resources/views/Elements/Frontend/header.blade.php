@@ -77,7 +77,6 @@
         
         <!-- Desktop Menu Items -->
         <div class="desktop-menu" style="display: flex; gap: 25px; align-items: center;">
-            <a href="{{ url('/') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Home</a>
             <a href="{{ url('/about') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">About</a>
             <a href="{{ url('/practice-areas') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Practice Areas</a>
             <a href="{{ url('/case') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Recent Cases</a>
@@ -89,7 +88,6 @@
     
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="{{ url('/') }}">Home</a>
         <a href="{{ url('/about') }}">About</a>
         <a href="{{ url('/practice-areas') }}">Practice Areas</a>
         <a href="{{ url('/case') }}">Recent Cases</a>

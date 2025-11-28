@@ -205,12 +205,34 @@ function toggleFAQ(index) {
      <!-- Favicons-->
 	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
   
+    <!-- DNS Prefetch for external domains -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://maps.googleapis.com">
+    <link rel="dns-prefetch" href="https://www.google.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.facebook.com">
+    <link rel="dns-prefetch" href="https://connect.facebook.net">
+    
     <!-- Preconnect to Google Fonts for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
+    <!-- Preconnect to other external resources -->
+    <link rel="preconnect" href="https://maps.googleapis.com">
+    <link rel="preconnect" href="https://www.google.com">
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"></noscript>
+    
+    <!-- Preload critical font files for faster rendering -->
+    <link rel="preload" href="{{ asset('fonts/fontawesome-webfont.woff2') }}?v=4.7.0" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('fonts/flaticon/font/Flaticon.woff') }}" as="font" type="font/woff" crossorigin>
+    
+    <!-- Preload critical JavaScript files for parallel loading -->
+    <link rel="preload" href="{{ asset('js/jquery-3.7.1.min.js') }}" as="script">
+    <link rel="preload" href="{{ asset('js/bootstrap.bundle.min.js') }}" as="script">
+    <link rel="preload" href="{{ asset('js/main.min.js') }}" as="script">
 
     <!-- Tailwind CSS - Consolidated styling -->
     @vite(['resources/css/app.css'])
@@ -1118,53 +1140,72 @@ function toggleFAQ(index) {
         </svg>
     </div>
 
-    <!-- JavaScript Files - Optimized Loading Order -->
-    <!-- Load jQuery first (moved from head for performance) -->
-    <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
-    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
+    <!-- JavaScript Files - Optimized Loading with Defer for Parallel Loading -->
+    <!-- Load jQuery first with defer (non-blocking, executes in order) -->
+    <script src="{{ asset('js/jquery-3.7.1.min.js')}}" defer></script>
+    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}" defer></script>
     
-    <!-- Core dependencies -->
-    <script src="{{ asset('js/popper.min.js')}}"></script>
-    <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.waypoints.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.stellar.min.js')}}"></script>
-    <script src="{{ asset('js/owl.carousel.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{ asset('js/aos.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.animateNumber.min.js')}}"></script>
-    <script src="{{ asset('js/scrollax.min.js')}}"></script>
+    <!-- Core dependencies - all with defer for parallel loading -->
+    <script src="{{ asset('js/popper.min.js')}}" defer></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js')}}" defer></script>
+    <script src="{{ asset('js/jquery.easing.1.3.min.js')}}" defer></script>
+    <script src="{{ asset('js/jquery.waypoints.min.js')}}" defer></script>
+    <script src="{{ asset('js/jquery.stellar.min.js')}}" defer></script>
+    <script src="{{ asset('js/owl.carousel.min.js')}}" defer></script>
+    <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
+    <script src="{{ asset('js/aos.min.js')}}" defer></script>
+    <script src="{{ asset('js/jquery.animateNumber.min.js')}}" defer></script>
+    <script src="{{ asset('js/scrollax.min.js')}}" defer></script>
     
     <!-- Google Maps will be loaded with proper error handling below -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap"></script>
-    <script>
-        // Wait for Google Maps to load before loading google-map.min.js
-        function initMap() {
-            // Only proceed if a map container exists
-            if (!document.getElementById('map') && !document.getElementById('google-map')) return;
-            // Load google-map.min.js only after Google Maps is ready
-            var script = document.createElement('script');
-            script.src = "{{ asset('js/google-map.min.js')}}";
-            document.head.appendChild(script);
-        }
-        
-        // Handle Google Maps loading errors
-        window.gm_authFailure = function() {
-            // Authentication failed - handled silently
-        };
-        
-        // Fallback if Google Maps fails to load
-        setTimeout(function() {
-            if (typeof google === 'undefined' || !google.maps) {
-                // Google Maps failed to load - handled silently
+    <script defer>
+        // Wait for jQuery and Google Maps to load before executing
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for jQuery to be available
+            function waitForJQuery(callback) {
+                if (typeof jQuery !== 'undefined') {
+                    callback();
+                } else {
+                    setTimeout(function() { waitForJQuery(callback); }, 50);
+                }
             }
-        }, 10000);
+            
+            waitForJQuery(function() {
+                // Wait for Google Maps to load before loading google-map.min.js
+                function initMap() {
+                    // Only proceed if a map container exists
+                    if (!document.getElementById('map') && !document.getElementById('google-map')) return;
+                    // Load google-map.min.js only after Google Maps is ready
+                    var script = document.createElement('script');
+                    script.src = "{{ asset('js/google-map.min.js')}}";
+                    script.defer = true;
+                    document.head.appendChild(script);
+                }
+                
+                // Expose initMap globally for Google Maps callback
+                window.initMap = initMap;
+                
+                // Handle Google Maps loading errors
+                window.gm_authFailure = function() {
+                    // Authentication failed - handled silently
+                };
+                
+                // Fallback if Google Maps fails to load
+                setTimeout(function() {
+                    if (typeof google === 'undefined' || !google.maps) {
+                        // Google Maps failed to load - handled silently
+                    }
+                }, 10000);
+            });
+        });
     </script>
     
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
-    <script src="{{ asset('js/main.min.js')}}"></script>
+    <!-- Main script - loads last with defer -->
+    <script src="{{ asset('js/main.min.js')}}" defer></script>
 </body>
 
 </html>
