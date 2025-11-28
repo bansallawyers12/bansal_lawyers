@@ -32,17 +32,11 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 Route::get('/ourservices', [App\Http\Controllers\HomeController::class, 'ourservices'])->name('ourservices');
 Route::get('/ourservices/{slug}', [App\Http\Controllers\HomeController::class, 'servicesdetail'])->name('servicesdetail');
-// Make experimental blog the primary
+// Simplified blog routes with /blog prefix
 Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.index');
-Route::get('/blog/page-{page}', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.index.page')->where('page', '[0-9]+');
-Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.category');
-Route::get('/blog/category/{categorySlug}/page-{page}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.category.page')->where('page', '[0-9]+');
-// Legacy blog detail route - redirects to new format (exclude page-* pattern to avoid conflicts)
-// Note: This route is kept for backward compatibility but blog.detail route name points to unifiedSlugHandler
-Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogDetailExperimental'])->name('blog.detail.legacy')->where('slug', '^(?!page-).*$');
+Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogdetail'])->name('blog.detail');
 
-
-// Backup routes for original blog
+// Backup routes for original blog (archived)
 Route::get('/blog-original', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog.original');
 Route::get('/blog-original/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategory'])->name('blog.original.category');
 // Route::get('/search_result', [App\Http\Controllers\HomeController::class, 'search_result'])->name('search_result'); // ARCHIVED - searchresults.blade.php moved to archive
