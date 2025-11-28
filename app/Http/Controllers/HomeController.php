@@ -1554,6 +1554,48 @@ class HomeController extends Controller
         return view('blog', compact(['bloglists', 'blogData', 'blogCategories', 'currentPage', 'totalPages']));
     }
     
+    /**
+     * Blog Category Page
+     * URL: /blog/category/{categorySlug}
+     * Handles blog category filtering for the new blog system
+     */
+    public function blogCategoryExperimental(Request $request, $categorySlug = null)
+    {
+        if (!isset($categorySlug) || empty($categorySlug)) {
+            return Redirect::to('/blog')->with('error', 'Invalid category');
+        }
+
+        // Optimized: Cache blog categories as they rarely change
+        $blogCategories = Cache::remember('blog_categories', 3600, function () {
+            return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
+        });
+        
+        $category = $blogCategories->where('slug', $categorySlug)->first();
+        
+        if (!$category) {
+            return Redirect::to('/blog')->with('error', 'Category not found');
+        }
+        
+        $blogquery = Blog::where('status', '=', 1)
+            ->where('parent_category', $category->id)
+            ->with(['categorydetail']);
+        
+        // SEO-Optimized Pagination: 9 posts per page for optimal 3x3 grid
+        $bloglists = $blogquery->orderby('id','DESC')->paginate(9);
+        
+        // Set custom path for pagination URLs
+        $bloglists->setPath('/blog/category/' . $categorySlug);
+        $bloglists->appends($request->except('page'));
+        
+        $blogData = $bloglists->total();
+        
+        // Get current page for SEO meta tags
+        $currentPage = $bloglists->currentPage();
+        $totalPages = $bloglists->lastPage();
+        
+        return view('blog', compact(['bloglists', 'blogData', 'blogCategories', 'category', 'currentPage', 'totalPages']));
+    }
+    
     
     /**
      * Unified Slug Handler - Handles CMS Pages

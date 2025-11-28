@@ -34,6 +34,7 @@ Route::get('/ourservices', [App\Http\Controllers\HomeController::class, 'ourserv
 Route::get('/ourservices/{slug}', [App\Http\Controllers\HomeController::class, 'servicesdetail'])->name('servicesdetail');
 // Simplified blog routes with /blog prefix
 Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.index');
+Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.category');
 Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogdetail'])->name('blog.detail');
 
 // Backup routes for original blog (archived)

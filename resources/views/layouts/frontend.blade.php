@@ -205,7 +205,12 @@ function toggleFAQ(index) {
      <!-- Favicons-->
 	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
   
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" media="print" onload="this.media='all'">
+    <!-- Preconnect to Google Fonts for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"></noscript>
 
     <!-- Tailwind CSS - Consolidated styling -->
     @vite(['resources/css/app.css'])
@@ -216,12 +221,18 @@ function toggleFAQ(index) {
     <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}">
 
     <!-- Essential custom CSS only -->
-    <link rel="stylesheet" href="{{ asset('css/animate.min.css')}}">
+    <!-- Critical CSS - needed for initial render -->
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/aos.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
+    
+    <!-- Non-critical CSS - deferred for performance -->
+    <link rel="preload" href="{{ asset('css/animate.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/animate.min.css') }}"></noscript>
+    
+    <link rel="preload" href="{{ asset('css/magnific-popup.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}"></noscript>
 
 
     <!-- Essential JavaScript only -->
