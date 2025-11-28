@@ -233,11 +233,6 @@ function toggleFAQ(index) {
     
     <link rel="preload" href="{{ asset('css/magnific-popup.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}"></noscript>
-
-
-    <!-- Essential JavaScript only -->
-    <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
-    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
   
     <!-- Meta Pixel Code -->
     <script>
@@ -846,9 +841,14 @@ function toggleFAQ(index) {
      
 	</style>
   
-	<!-- jQuery and jQuery Migrate already loaded above -->
+	<!-- Inline scripts - will execute after jQuery loads -->
 	<script>
-	$(document).ready(function () {
+	// Wait for jQuery to load before executing
+	(function() {
+		function initWhenJQueryReady() {
+			if (typeof jQuery !== 'undefined' && typeof jQuery.fn !== 'undefined') {
+				// jQuery is ready, execute all jQuery-dependent code
+				jQuery(document).ready(function ($) {
         function updateHeroImage() {
             var windowWidth = $(window).width();
           	var windowHeight = $(window).height();
@@ -1049,7 +1049,19 @@ function toggleFAQ(index) {
                 }
             });
         });
-    });
+			});
+		} else {
+			// jQuery not loaded yet, retry after short delay
+			setTimeout(initWhenJQueryReady, 50);
+		}
+	}
+	// Start checking for jQuery immediately
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initWhenJQueryReady);
+	} else {
+		initWhenJQueryReady();
+	}
+	})();
   	</script>
   
   <!-- Hotjar Tracking Code for https://www.bansallawyers.com.au/migration-law -->
@@ -1107,7 +1119,11 @@ function toggleFAQ(index) {
     </div>
 
     <!-- JavaScript Files - Optimized Loading Order -->
-    <!-- jQuery and jQuery Migrate already loaded above -->
+    <!-- Load jQuery first (moved from head for performance) -->
+    <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
+    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
+    
+    <!-- Core dependencies -->
     <script src="{{ asset('js/popper.min.js')}}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>

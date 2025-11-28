@@ -123,9 +123,6 @@
     
     <link rel="preload" href="{{ asset('css/magnific-popup.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}"></noscript>
-    <!-- Essential JavaScript only -->
-    <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
-    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
 
     <style>
       .bg-dark {
@@ -164,7 +161,9 @@
     </div>
 
     <!-- JavaScript Files - Consolidated jQuery 3.7.1 -->
-    <!-- jQuery and jQuery Migrate already loaded above -->
+    <!-- Load jQuery first (moved from head for performance) -->
+    <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
+    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
     
     <!-- Core Dependencies -->
     <script src="{{ asset('js/moment.min.js')}}"></script>
@@ -212,7 +211,11 @@
         });
         
         // Additional protection for jQuery operations
-        $(document).ready(function() {
+        // Wait for jQuery to load
+        (function() {
+            function initWhenJQueryReady() {
+                if (typeof jQuery !== 'undefined' && typeof jQuery.fn !== 'undefined') {
+                    jQuery(document).ready(function($) {
             // Override jQuery methods that might cause getBoundingClientRect errors
             var originalOffset = $.fn.offset;
             $.fn.offset = function() {
@@ -251,7 +254,17 @@
                 }
                 return originalHeight.apply(this, arguments);
             };
-        });
+                    });
+                } else {
+                    setTimeout(initWhenJQueryReady, 50);
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initWhenJQueryReady);
+            } else {
+                initWhenJQueryReady();
+            }
+        })();
     </script>
 
     <!-- COMMON SCRIPTS -->
@@ -261,7 +274,11 @@
 		</script>
 
 		<script>
-		jQuery(document).ready(function($){
+		// Wait for jQuery to load
+		(function() {
+			function initWhenJQueryReady() {
+				if (typeof jQuery !== 'undefined' && typeof jQuery.fn !== 'undefined') {
+					jQuery(document).ready(function($){
 			$('.refresh').on('click', function(){
 				$.ajax({
 					url: '<?php echo URL::to('/'); ?>/refresh-captcha',
@@ -271,7 +288,16 @@
 					}
 				});
 			});
-		});
+				} else {
+					setTimeout(initWhenJQueryReady, 50);
+				}
+			}
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initWhenJQueryReady);
+			} else {
+				initWhenJQueryReady();
+			}
+		})();
 		</script>
 		@yield('scripts')
 </body>
