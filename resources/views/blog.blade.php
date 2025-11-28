@@ -2,15 +2,11 @@
 
 @section('seoinfo')
 @php
-    $baseUrl = isset($category) && $category 
-        ? url('/blog/category/' . $category->slug)
-        : url('/blog');
+    // Force canonical URLs to always use www for SEO consistency
     $canonicalUrl = isset($currentPage) && $currentPage > 1 
-        ? $baseUrl . '/page-' . $currentPage
-        : $baseUrl;
-    $ogUrl = isset($currentPage) && $currentPage > 1 
-        ? $baseUrl . '/page-' . $currentPage
-        : $baseUrl;
+        ? 'https://www.bansallawyers.com.au/blog?page=' . $currentPage
+        : 'https://www.bansallawyers.com.au/blog';
+    $ogUrl = $canonicalUrl;
 @endphp
 
 @if(isset($currentPage) && $currentPage > 1)
@@ -451,7 +447,7 @@
         @if($bloglists->hasPages())
             <div class="row">
                 <div class="col-md-12">
-                    {{ $bloglists->links('pagination.custom') }}
+                    {{ $bloglists->links() }}
                 </div>
             </div>
         @endif
