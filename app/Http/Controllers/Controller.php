@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\CommonMail;
 use App\Models\WebsiteSetting;
 use App\Models\UserRole;
+use App\Services\ImageService;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -67,7 +68,7 @@ class Controller extends BaseController
 		}		
 	}
 	
-	public function uploadFile($file = NULL, $filePath = NULL)
+	public function uploadFile($file = NULL, $filePath = NULL, $generateWebP = true)
 	{
 		$fileName = $file->getClientOriginalName();
 		$explodeFileName = explode('.', $fileName);
@@ -79,6 +80,18 @@ class Controller extends BaseController
 		
 		if($file->move($filePath, $newFileName))
 		{
+			// Generate WebP version if enabled and it's an image
+			if ($generateWebP && in_array(strtolower($ext), ['jpg', 'jpeg', 'png', 'gif'])) {
+				try {
+					$imageService = new ImageService();
+					$fullImagePath = $filePath . '/' . $newFileName;
+					$imageService->generateWebP($fullImagePath);
+				} catch (\Exception $e) {
+					// Continue even if WebP generation fails
+					\Log::warning('WebP generation failed for: ' . $newFileName);
+				}
+			}
+			
 			return $newFileName;
 		}
 	}
@@ -106,6 +119,14 @@ class Controller extends BaseController
 			{	
 				unlink($unlinkFiles);
 			}
+		
+		// Also delete WebP and responsive variants
+		try {
+			$imageService = new ImageService();
+			$imageService->deleteImageVariants($file, $filePath);
+		} catch (\Exception $e) {
+			// Continue even if deletion fails
+		}
 	}
 	
 	

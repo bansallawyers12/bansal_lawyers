@@ -252,9 +252,20 @@
                         </p>
                     </div>
                     @if(isset($casedetailists->image) && $casedetailists->image)
+                        @php
+                            $imagePath = 'images/blog/' . $casedetailists->image;
+                            $pathInfo = pathinfo($imagePath);
+                            $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
+                            $hasWebP = file_exists(public_path($webpPath));
+                        @endphp
                         <div class="et_pb_title_featured_container">
                             <span class="et_pb_image_wrap">
-                                <img fetchpriority="high" decoding="async" src="{{ asset('images/blog/' . @$casedetailists->image) }}" alt="{{@$casedetailists->slug}}" class="wp-image-512">
+                                <picture>
+                                    @if($hasWebP)
+                                        <source type="image/webp" srcset="{{ asset($webpPath) }}">
+                                    @endif
+                                    <img fetchpriority="high" decoding="async" src="{{ asset($imagePath) }}" alt="{{@$casedetailists->slug}}" class="wp-image-512">
+                                </picture>
                             </span>
                         </div>
                     @endif

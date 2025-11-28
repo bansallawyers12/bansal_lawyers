@@ -558,10 +558,20 @@
             <div class="col-lg-8">
                 <div class="experimental-blog-detail-content">
                     @if(isset($blogdetailists->image) && $blogdetailists->image != "")
+                        @php
+                            $imagePath = 'images/blog/' . $blogdetailists->image;
+                            $pathInfo = pathinfo($imagePath);
+                            $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
+                            $hasWebP = file_exists(public_path($webpPath));
+                        @endphp
                         <picture>
-                            <source media="(min-width: 768px)" srcset="{{ asset('images/blog/' . $blogdetailists->image) }}">
-                            <source media="(max-width: 767px)" srcset="{{ asset('images/blog/' . $blogdetailists->image) }}">
-                            <img src="{{ asset('images/blog/' . $blogdetailists->image) }}" 
+                            @if($hasWebP)
+                                <source type="image/webp" media="(min-width: 768px)" srcset="{{ asset($webpPath) }}">
+                                <source type="image/webp" media="(max-width: 767px)" srcset="{{ asset($webpPath) }}">
+                            @endif
+                            <source media="(min-width: 768px)" srcset="{{ asset($imagePath) }}">
+                            <source media="(max-width: 767px)" srcset="{{ asset($imagePath) }}">
+                            <img src="{{ asset($imagePath) }}" 
                                  alt="{{ $blogdetailists->title }} - Legal Blog Post by Bansal Lawyers" 
                                  class="experimental-blog-detail-image"
                                  width="800" 
@@ -570,10 +580,20 @@
                                  fetchpriority="high">
                         </picture>
                     @else
+                        @php
+                            $imagePath = 'images/Blog.jpg';
+                            $pathInfo = pathinfo($imagePath);
+                            $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
+                            $hasWebP = file_exists(public_path($webpPath));
+                        @endphp
                         <picture>
-                            <source media="(min-width: 768px)" srcset="{{ asset('images/Blog.jpg') }}">
-                            <source media="(max-width: 767px)" srcset="{{ asset('images/Blog.jpg') }}">
-                            <img src="{{ asset('images/Blog.jpg') }}" 
+                            @if($hasWebP)
+                                <source type="image/webp" media="(min-width: 768px)" srcset="{{ asset($webpPath) }}">
+                                <source type="image/webp" media="(max-width: 767px)" srcset="{{ asset($webpPath) }}">
+                            @endif
+                            <source media="(min-width: 768px)" srcset="{{ asset($imagePath) }}">
+                            <source media="(max-width: 767px)" srcset="{{ asset($imagePath) }}">
+                            <img src="{{ asset($imagePath) }}" 
                                  alt="{{ $blogdetailists->title }} - Legal Blog Post by Bansal Lawyers" 
                                  class="experimental-blog-detail-image"
                                  width="800" 

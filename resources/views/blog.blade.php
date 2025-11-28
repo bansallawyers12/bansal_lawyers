@@ -383,11 +383,19 @@
             @forelse($bloglists as $list)
                 <div class="col-md-4 col-lg-4 mb-4">
                     <div class="experimental-blog-card">
+                        @php
+                            $imagePath = isset($list->image) && $list->image != "" 
+                                ? 'images/blog/' . $list->image 
+                                : 'images/Blog.jpg';
+                            $pathInfo = pathinfo($imagePath);
+                            $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
+                            $hasWebP = file_exists(public_path($webpPath));
+                        @endphp
                         <div class="experimental-blog-image" 
-                             @if(isset($list->image) && $list->image != "")
-                                 style="background-image: url('{{ asset('images/blog/' . $list->image) }}');"
+                             @if($hasWebP)
+                                 style="background-image: url('{{ asset($webpPath) }}'); background-image: -webkit-image-set(url('{{ asset($webpPath) }}') 1x, url('{{ asset($imagePath) }}') 1x); background-image: image-set(url('{{ asset($webpPath) }}') type('image/webp'), url('{{ asset($imagePath) }}') type('image/jpeg'));"
                              @else
-                                 style="background-image: url('{{ asset('images/Blog.jpg') }}');"
+                                 style="background-image: url('{{ asset($imagePath) }}');"
                              @endif>
                         </div>
                         <div class="experimental-blog-content">

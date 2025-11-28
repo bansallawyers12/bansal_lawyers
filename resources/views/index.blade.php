@@ -778,7 +778,13 @@
             @foreach (@$bloglists as $list)
             <div class="col-md-4 mb-4">
                 <div class="experimental-card">
-                    <div style="height: 200px; background-image: url('{{ !empty(@$list->image) ? asset('images/blog/' . @$list->image) : asset('images/Blog.jpg') }}'); background-size: cover; background-position: center; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({{ asset('images/Blog.jpg') }})'">
+                    @php
+                        $imagePath = !empty(@$list->image) ? 'images/blog/' . @$list->image : 'images/Blog.jpg';
+                        $pathInfo = pathinfo($imagePath);
+                        $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
+                        $hasWebP = file_exists(public_path($webpPath));
+                    @endphp
+                    <div style="height: 200px; @if($hasWebP)background-image: url('{{ asset($webpPath) }}'); @else background-image: url('{{ asset($imagePath) }}'); @endif background-size: cover; background-position: center; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({{ asset('images/Blog.jpg') }})'">
                         <span class="sr-only">{{ @$list->title }}</span>
                     </div>
                     <div class="d-flex align-items-center mb-3">
