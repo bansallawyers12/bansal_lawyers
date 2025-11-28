@@ -233,6 +233,9 @@ function toggleFAQ(index) {
     <link rel="preload" href="{{ asset('js/jquery-3.7.1.min.js') }}" as="script">
     <link rel="preload" href="{{ asset('js/bootstrap.bundle.min.js') }}" as="script">
     <link rel="preload" href="{{ asset('js/main.min.js') }}" as="script">
+    
+    <!-- Preload LCP hero image with high priority -->
+    <link rel="preload" href="{{ asset('images/homepage.jpg') }}" as="image" fetchpriority="high">
 
     <!-- Tailwind CSS - Consolidated styling -->
     @vite(['resources/css/app.css'])
@@ -871,32 +874,9 @@ function toggleFAQ(index) {
 			if (typeof jQuery !== 'undefined' && typeof jQuery.fn !== 'undefined') {
 				// jQuery is ready, execute all jQuery-dependent code
 				jQuery(document).ready(function ($) {
-        function updateHeroImage() {
-            var windowWidth = $(window).width();
-          	var windowHeight = $(window).height();
-            var imageElement = $("#hero-image");    
-
-            if (windowWidth < 768) {
-                // Mobile Image
-                //imageElement.attr("src", "{{ asset('images/homepage-mobile.jpg') }}");
-                imageElement.attr("src", "{{ asset('images/homepage.jpg') }}");
-            } else if (windowWidth >= 768 && windowWidth < 1024) {
-                // Tablet Image
-                //imageElement.attr("src", "{{ asset('images/homepage-tablet.jpg') }}");
-                imageElement.attr("src", "{{ asset('images/homepage.jpg') }}");
-            } else {
-                // Desktop Image
-                imageElement.attr("src", "{{ asset('images/homepage.jpg') }}");
-            }
-        }
-
-        // Run on page load
-        updateHeroImage();
-
-        // Update image on window resize
-        $(window).resize(function () {
-            updateHeroImage();
-        });
+        // Removed updateHeroImage() function - hero section uses CSS background-image
+        // No #hero-image element exists in the current implementation
+        // If converting to <img> tag in future, this function can be restored
       
         $('.nav-link').click(function () {
           // Check if the clicked tab is "Our Values"
