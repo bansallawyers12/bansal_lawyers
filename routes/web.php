@@ -67,7 +67,7 @@ Route::post('/book-an-appointment/store', [App\Http\Controllers\AppointmentBookC
 Route::post('/book-an-appointment/storepaid', [App\Http\Controllers\AppointmentBookController::class, 'storepaid'])->name('stripe.post');
 // Promo code validation for booking
 Route::post('/promo-code/check', [App\Http\Controllers\AppointmentBookController::class, 'checkpromocode']);
-Route::post('/getdatetime', [App\Http\Controllers\HomeController::class, 'getdatetime']);
+Route::match(['get', 'post'], '/getdatetime', [App\Http\Controllers\HomeController::class, 'getdatetime']);
 Route::post('/getdisableddatetime', [App\Http\Controllers\HomeController::class, 'getdisableddatetime']);
 Route::get('/refresh-captcha', [App\Http\Controllers\HomeController::class, 'refresh_captcha']);
 Route::get('page/{slug}', [App\Http\Controllers\HomeController::class, 'Page'])->name('page.slug');

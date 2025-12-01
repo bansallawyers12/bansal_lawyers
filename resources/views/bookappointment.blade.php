@@ -3390,6 +3390,7 @@ $(function() {
      let selectedDate = null;
      let selectedTime = null;
      let disabledWeekdays = []; // Array to store disabled weekdays (0=Sunday, 6=Saturday)
+     let disabledDatesArray = []; // Array to store disabled dates from backend (DD/MM/YYYY format)
      
      // Helper function to parse DD/MM/YYYY format dates
      function parseDateFromDDMMYYYY(dateStr) {
@@ -3448,8 +3449,8 @@ $(function() {
         let dateToSelect = new Date(todayMidnight);
         dateToSelect.setDate(dateToSelect.getDate() + 1);
         
-        // If the next day is a weekend or otherwise disabled, find the next available weekday
-        while (dateToSelect <= todayMidnight || disabledWeekdays.includes(dateToSelect.getDay())) {
+        // If the next day is a weekend, past, or blocked, find the next available weekday
+        while (dateToSelect <= todayMidnight || disabledWeekdays.includes(dateToSelect.getDay()) || disabledDatesArray.includes(formatDateForInput(dateToSelect))) {
              dateToSelect.setDate(dateToSelect.getDate() + 1);
          }
          
@@ -3517,14 +3518,18 @@ $(function() {
                     const dateMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate());
                     const isPast = dateMidnight <= todayMidnight;
                      const isWeekend = disabledWeekdays.includes(date.getDay()); // Check if day is disabled weekend
+                     // Check if date is in disabled dates array
+                     const dateStr = formatDateForInput(date);
+                     const isBlocked = disabledDatesArray.includes(dateStr);
                      const isSelected = selectedDate && isSameDay(date, selectedDate);
-                     const isDisabled = isPast || isWeekend;
+                     const isDisabled = isPast || isWeekend || isBlocked;
                      
                      return `
                          <div class="week-date ${isDisabled ? 'disabled' : ''} ${isSelected ? 'selected' : ''}" 
                               data-date="${formatDateForInput(date)}" 
                               ${isDisabled ? 'disabled' : ''}
-                              ${isWeekend ? 'title="Weekend - Not available for appointments"' : ''}>
+                              ${isWeekend ? 'title="Weekend - Not available for appointments"' : ''}
+                              ${isBlocked ? 'title="This date is blocked and not available for appointments"' : ''}>
                              <div class="day-name">${dayName}</div>
                              <div class="day-number">${dayNumber}</div>
                          </div>
@@ -3769,16 +3774,23 @@ $(function() {
                      enquiry_item: 1 // Default enquiry item
                  },
                  dataType: 'json',
-                 success: function(response) {
-                     console.log('Weekend configuration response:', response);
-                     if (response.success && response.weeks) {
-                         disabledWeekdays = response.weeks;
-                         console.log('Weekend configuration loaded:', disabledWeekdays);
-                     } else {
-                         console.log('Using default weekend configuration (Saturday & Sunday disabled)');
-                     }
-                     resolve();
-                 },
+                success: function(response) {
+                    console.log('Weekend configuration response:', response);
+                    if (response.success && response.weeks) {
+                        disabledWeekdays = response.weeks;
+                        console.log('Weekend configuration loaded:', disabledWeekdays);
+                    } else {
+                        console.log('Using default weekend configuration (Saturday & Sunday disabled)');
+                    }
+                    // Store disabled dates array from backend
+                    if (response.success && response.disabledatesarray && Array.isArray(response.disabledatesarray)) {
+                        disabledDatesArray = response.disabledatesarray;
+                        console.log('Disabled dates loaded:', disabledDatesArray);
+                    } else {
+                        console.log('No disabled dates array in response');
+                    }
+                    resolve();
+                },
                  error: function(xhr, status, error) {
                      console.warn('Failed to fetch weekend configuration, using defaults:', error);
                      console.log('Using default weekend configuration (Saturday & Sunday disabled)');

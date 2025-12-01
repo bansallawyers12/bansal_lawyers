@@ -539,6 +539,33 @@ class HomeController extends Controller
                     }
                 }
 
+                // Fetch blocked dates from BookServiceDisableSlot table (for full day blocks)
+                $book_service_slot_per_person_id = $service->id ?? 1; // Default to 1 for Ajay
+                $blockedSlots = \App\Models\BookServiceDisableSlot::select('disabledates', 'block_all')
+                    ->where('book_service_slot_per_person_id', $book_service_slot_per_person_id)
+                    ->where('block_all', 1) // Only full day blocks
+                    ->get();
+                
+                // Convert blocked dates to DD/MM/YYYY format and add to disabledatesarray
+                foreach ($blockedSlots as $blockedSlot) {
+                    if ($blockedSlot->disabledates) {
+                        try {
+                            // Handle both Carbon instance (from model cast) and string formats
+                            $dateObj = $blockedSlot->disabledates instanceof \Carbon\Carbon 
+                                ? $blockedSlot->disabledates 
+                                : \Carbon\Carbon::parse($blockedSlot->disabledates);
+                            $formattedDate = $dateObj->format('d/m/Y');
+                            // Avoid duplicates
+                            if (!in_array($formattedDate, $disabledatesarray)) {
+                                $disabledatesarray[] = $formattedDate;
+                            }
+                        } catch (\Exception $e) {
+                            // Skip invalid dates and log error
+                            \Log::warning('Invalid blocked date skipped: ' . $blockedSlot->disabledates);
+                        }
+                    }
+                }
+
                 // Add the current date to the array to prevent past date selection
                 $disabledatesarray[] = date('d/m/Y');
                 
