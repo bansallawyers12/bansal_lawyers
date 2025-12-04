@@ -49,6 +49,7 @@ Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'con
 // Route::get('/contact-form-test', [App\Http\Controllers\HomeController::class, 'contactFormTest'])->name('contact.form.test'); // ARCHIVED - test version
 // Route::get('/contact-form-demo', [App\Http\Controllers\HomeController::class, 'contactFormDemo'])->name('contact.form.demo'); // ARCHIVED - demo version
 Route::post('/contact/submit', [App\Http\Controllers\HomeController::class, 'contactSubmit'])->name('contact.submit');
+Route::get('/contact/thank-you', [App\Http\Controllers\HomeController::class, 'contactThankYou'])->name('contact.thankyou');
 
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
 

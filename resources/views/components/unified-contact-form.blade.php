@@ -473,8 +473,18 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Get form data
+        // Get form data (includes CSRF token from @csrf directive)
         const formData = new FormData(form);
+        
+        // Get CSRF token from form input or meta tag (with fallback)
+        const csrfToken = form.querySelector('input[name="_token"]')?.value || 
+                         document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
+                         '';
+        
+        // Ensure CSRF token is in FormData (should already be there from @csrf, but ensure it)
+        if (!formData.has('_token') && csrfToken) {
+            formData.append('_token', csrfToken);
+        }
         
         // Submit via AJAX
         fetch(form.action, {
@@ -482,8 +492,9 @@ document.addEventListener('DOMContentLoaded', function() {
             body: formData,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
+                'X-CSRF-TOKEN': csrfToken
+            },
+            credentials: 'same-origin'
         })
         .then(response => response.json())
         .then(data => {
@@ -497,6 +508,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
                 showSuccess(data.message || 'Thank you! Your message has been sent successfully.');
+                
+                // Redirect to thank you page after 2 seconds
+                if (data.redirect) {
+                    setTimeout(() => {
+                        window.location.href = data.redirect;
+                    }, 2000);
+                }
             } else {
                 // Track form submission error
                 if (typeof gtag !== 'undefined') {

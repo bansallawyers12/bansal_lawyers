@@ -598,13 +598,25 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('form_variant', 'message_tab');
             formData.append('g-recaptcha-response', 'floating-button-bypass'); // Bypass for floating button
             
+            // Get CSRF token from meta tag or form input (with fallback)
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
+                             document.querySelector('input[name="_token"]')?.value || 
+                             '';
+            
+            // Add CSRF token to FormData
+            if (csrfToken) {
+                formData.append('_token', csrfToken);
+            }
+            
             // Submit to existing contact endpoint
             fetch('{{ route("contact.submit") }}', {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                credentials: 'same-origin'
             })
             .then(response => response.json())
             .then(data => {

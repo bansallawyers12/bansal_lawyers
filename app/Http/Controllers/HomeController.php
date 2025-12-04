@@ -201,8 +201,8 @@ class HomeController extends Controller
       	$details = [
           'title' => 'You have a New Query  from  '.$request->name,
           'body' => 'This is for testing email using smtp',
-          'subject'=>$subject,
-          'fullname' => 'Admin',
+          'subject'=>$request->subject,
+          'fullname' => $request->name,
           'from' =>$request->name,
           'email'=> $request->email,
           'phone' => $request->phone,
@@ -277,31 +277,38 @@ class HomeController extends Controller
             $enquiry->message = $request->message;
             $enquiry->save();
 
-            // Send email notification
-            $fromAddress = config('mail.from.address');
-            $subject = 'New Contact Form Submission from ' . $request->name;
-            $details = [
-                'title' => $subject,
-                'body' => 'You have received a new contact form submission.',
-                'subject' => $subject,
-                'fullname' => 'Admin',
-                'from' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'description' => $request->message
-            ];
+            // Send email notification (wrap in try-catch so email failure doesn't break submission)
+            try {
+                $fromAddress = config('mail.from.address');
+                $subject = 'New Contact Form Submission from ' . $request->name;
+                $details = [
+                    'title' => $subject,
+                    'body' => 'You have received a new contact form submission.',
+                    'subject' => $request->subject,
+                    'fullname' => $request->name,
+                    'from' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'description' => $request->message
+                ];
 
-            \Mail::to($fromAddress)->send(new \App\Mail\ContactUsMail($details));
+                \Mail::to($fromAddress)->send(new \App\Mail\ContactUsMail($details));
+            } catch (\Exception $mailException) {
+                // Log email error but don't fail the submission
+                \Log::warning('Contact form email sending failed: ' . $mailException->getMessage());
+            }
 
             // Return response based on request type
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.'
+                    'message' => 'Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.',
+                    'redirect' => route('contact.thankyou')
                 ]);
             }
 
-            return back()->with('success', 'Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.');
+            // Redirect to thank you page for non-AJAX requests
+            return redirect()->route('contact.thankyou')->with('success', 'Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             if ($request->ajax()) {
@@ -871,6 +878,14 @@ class HomeController extends Controller
         }
         
         return view('payment-thankyou', compact('appointment'));
+    }
+
+    /**
+     * Contact form thank you page
+     */
+    public function contactThankYou()
+    {
+        return view('contact-thankyou');
     }
 
     public function search_result(Request $request)
