@@ -26,6 +26,7 @@ class ContactController extends Controller
             $query->where(function($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('contact_email', 'like', "%{$search}%")
+                  ->orWhere('contact_phone', 'like', "%{$search}%")
                   ->orWhere('subject', 'like', "%{$search}%")
                   ->orWhere('message', 'like', "%{$search}%");
             });
@@ -269,6 +270,7 @@ class ContactController extends Controller
             $query->where(function($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('contact_email', 'like', "%{$search}%")
+                  ->orWhere('contact_phone', 'like', "%{$search}%")
                   ->orWhere('subject', 'like', "%{$search}%");
             });
         }
@@ -298,6 +300,7 @@ class ContactController extends Controller
                 'ID',
                 'Name',
                 'Email',
+                'Phone',
                 'Subject',
                 'Message',
                 'Status',
@@ -312,6 +315,7 @@ class ContactController extends Controller
                     $contact->id,
                     $contact->name,
                     $contact->contact_email,
+                    $contact->contact_phone ?? '',
                     $contact->subject,
                     $contact->message,
                     $contact->status ?? 'unread',

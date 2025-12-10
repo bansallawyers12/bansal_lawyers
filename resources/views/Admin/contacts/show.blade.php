@@ -520,6 +520,16 @@
 															</a>
 														</div>
 													</div>
+													@if($contact->contact_phone)
+													<div class="modern-info-item">
+														<div class="modern-info-label">Phone Number</div>
+														<div class="modern-info-value">
+															<a href="tel:{{ $contact->contact_phone }}" class="modern-email-link">
+																{{ $contact->contact_phone }}
+															</a>
+														</div>
+													</div>
+													@endif
 													<div class="modern-info-item" style="grid-column: 1 / -1;">
 														<div class="modern-info-label">Subject</div>
 														<div class="modern-info-value">{{ $contact->subject }}</div>
@@ -748,6 +758,9 @@ function copyContactDetails() {
 Contact Details:
 Name: {{ $contact->name }}
 Email: {{ $contact->contact_email }}
+@if($contact->contact_phone)
+Phone: {{ $contact->contact_phone }}
+@endif
 Subject: {{ $contact->subject }}
 Submitted: {{ $contact->created_at->format('d/m/Y H:i:s') }}
 

@@ -836,7 +836,7 @@
 												<div class="modern-form-group">
 													<label for="search" class="modern-form-label">Search</label>
 													<input type="text" class="modern-form-input" id="search" name="search" 
-														   value="{{ request('search') }}" placeholder="Name, email, subject...">
+														   value="{{ request('search') }}" placeholder="Name, email, phone, subject...">
 												</div>
 												<div class="modern-form-group">
 													<label for="date_from" class="modern-form-label">From Date</label>
@@ -886,6 +886,7 @@
 												</th>
 												<th>Name</th>
 												<th>Email</th>
+												<th>Phone</th>
 												<th>Subject</th>
 												<th>Status</th>
 												<th>Submitted</th>
@@ -905,6 +906,15 @@
 													<a href="mailto:{{ $contact->contact_email }}" class="text-decoration-none">
 														{{ $contact->contact_email }}
 													</a>
+												</td>
+												<td>
+													@if($contact->contact_phone)
+														<a href="tel:{{ $contact->contact_phone }}" class="text-decoration-none">
+															{{ $contact->contact_phone }}
+														</a>
+													@else
+														<span class="text-muted">-</span>
+													@endif
 												</td>
 												<td>
 													<div class="font-weight-500">
@@ -981,7 +991,7 @@
 											</tr>
 											@empty
 											<tr>
-												<td colspan="7" class="text-center py-4">
+												<td colspan="8" class="text-center py-4">
 													<div class="modern-empty-state">
 														<div class="modern-empty-icon">
 															<i class="fas fa-envelope-open"></i>
