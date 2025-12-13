@@ -1,12 +1,12 @@
 <!-- Floating Contact Button Component -->
 <div id="floating-contact-button" class="floating-contact-btn">
     <!-- Main floating button -->
-    <div class="floating-btn-main" onclick="toggleFloatingContact()">
+    <button class="floating-btn-main" onclick="toggleFloatingContact()" aria-label="Open contact modal" type="button">
         <div class="floating-btn-icon">
             <i class="fa fa-phone" aria-hidden="true"></i>
         </div>
         <div class="floating-btn-pulse"></div>
-    </div>
+    </button>
     
     <!-- Mobile call button (visible only on mobile) -->
     <a href="tel:+61422905860" class="floating-btn-mobile-call" id="mobile-call-btn">
@@ -19,17 +19,17 @@
 <div id="contact-modal" class="contact-modal-overlay">
     <div class="contact-modal">
         <div class="contact-modal-header">
-            <div class="modal-tabs">
-                <button class="modal-tab active" data-tab="call">SCHEDULE A CALL</button>
-                <button class="modal-tab" data-tab="message">MESSAGE US</button>
+            <div class="modal-tabs" role="tablist">
+                <button class="modal-tab active" data-tab="call" role="tab" aria-selected="true" aria-controls="call-tab" id="call-tab-btn">SCHEDULE A CALL</button>
+                <button class="modal-tab" data-tab="message" role="tab" aria-selected="false" aria-controls="message-tab" id="message-tab-btn">MESSAGE US</button>
             </div>
-            <button class="modal-close" onclick="closeContactModal()">
-                <i class="fa fa-times"></i>
+            <button class="modal-close" onclick="closeContactModal()" aria-label="Close contact modal" type="button">
+                <i class="fa fa-times" aria-hidden="true"></i>
             </button>
         </div>
         
         <!-- Call Scheduling Tab -->
-        <div id="call-tab" class="modal-tab-content active">
+        <div id="call-tab" class="modal-tab-content active" role="tabpanel" aria-labelledby="call-tab-btn">
             <div class="call-tab-content">
                 <div class="lawyer-profile">
                     <img src="{{ asset('images/bansal_2.webp') }}" 
@@ -63,7 +63,7 @@
         </div>
         
         <!-- Message Tab -->
-        <div id="message-tab" class="modal-tab-content">
+        <div id="message-tab" class="modal-tab-content" role="tabpanel" aria-labelledby="message-tab-btn">
             <div class="message-tab-content">
                 <h3>Send a message to our experienced legal team.</h3>
                 <form class="message-form" id="message-form">
@@ -110,7 +110,10 @@
 .floating-btn-main {
     width: 60px;
     height: 60px;
+    min-width: 44px;
+    min-height: 44px;
     background: linear-gradient(135deg, #1B4D89, #2c5aa0);
+    border: none;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -120,6 +123,7 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    padding: 0;
 }
 
 .floating-btn-main:hover {
@@ -254,9 +258,11 @@
 
 .modal-tab {
     background: transparent;
-    color: #ccc;
+    color: #ffffff;
     border: none;
     padding: 12px 20px;
+    min-height: 44px;
+    min-width: 44px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -291,13 +297,16 @@
     color: white;
     font-size: 20px;
     cursor: pointer;
-    width: 30px;
-    height: 30px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     transition: background 0.3s ease;
+    padding: 0;
 }
 
 .modal-close:hover {
@@ -555,11 +564,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetTab = this.getAttribute('data-tab');
             
             // Remove active class from all tabs and contents
-            tabs.forEach(t => t.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
+            tabs.forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
+            });
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
             
             // Add active class to clicked tab and corresponding content
             this.classList.add('active');
+            this.setAttribute('aria-selected', 'true');
             document.getElementById(targetTab + '-tab').classList.add('active');
         });
     });

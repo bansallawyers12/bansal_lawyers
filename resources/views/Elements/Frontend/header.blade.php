@@ -79,8 +79,8 @@
         </a>
         
         <!-- Mobile Toggle Button -->
-        <button class="mobile-toggle" onclick="toggleMobileMenu()" style="display: none; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">
-            ☰
+        <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobileMenu" style="display: none; background: none; border: none; color: white; font-size: 24px; cursor: pointer; min-width: 44px; min-height: 44px; padding: 8px;">
+            <span aria-hidden="true">☰</span>
         </button>
         
         <!-- Desktop Menu Items -->
@@ -108,10 +108,17 @@
 <script>
 function toggleMobileMenu() {
     const mobileMenu = document.getElementById('mobileMenu');
+    const toggleButton = document.querySelector('.mobile-toggle');
     if (mobileMenu.classList.contains('show')) {
         mobileMenu.classList.remove('show');
+        if (toggleButton) {
+            toggleButton.setAttribute('aria-expanded', 'false');
+        }
     } else {
         mobileMenu.classList.add('show');
+        if (toggleButton) {
+            toggleButton.setAttribute('aria-expanded', 'true');
+        }
     }
 }
 

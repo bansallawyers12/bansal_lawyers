@@ -45,6 +45,30 @@
 <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
 
 <style {!! \App\Services\CspService::getNonceAttribute() !!}>
+/* Accessibility Improvements - Touch Targets and Contrast */
+/* Ensure all interactive elements meet minimum touch target size (44x44px) */
+button, a[role="button"], input[type="button"], input[type="submit"], input[type="reset"], 
+.btn, .dropbtn, .nav-link, .collapse-btn, .fullscreen-btn, [onclick] {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure sufficient spacing between touch targets */
+button + button, .btn + .btn {
+  margin-left: 8px;
+}
+
+@media (max-width: 768px) {
+  button, .btn, a.button, .nav-link {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 10px 16px;
+  }
+}
+
 .dropbtn {
   background-color: transparent;
  border:0;
@@ -151,7 +175,9 @@ body {
 			<!--Left Side Bar-->
 			@include('Elements.Admin.left-side-bar')
 
-			@yield('content')
+			<main role="main">
+				@yield('content')
+			</main>
 
 			@include('Elements.Admin.footer')
 		</div>
@@ -188,8 +214,9 @@ body {
 	
 	<!-- Feature-specific Scripts (load after core) -->
 	<script src="{{ asset('js/fullcalendar.min.js')}}"></script>
-	<script src="{{ asset('js/datatables.min.js')}}"></script>
-	<script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script>
+	<!-- DataTables removed - not used in admin panel (modern-table class used instead) -->
+	<!-- <script src="{{ asset('js/datatables.min.js')}}"></script> -->
+	<!-- <script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script> -->
 	<script src="{{ asset('js/summernote-bs4.js')}}"></script>
 	<script src="{{ asset('js/daterangepicker.js')}}"></script>
 	<script src="{{ asset('js/bootstrap-timepicker.min.js')}}"></script>

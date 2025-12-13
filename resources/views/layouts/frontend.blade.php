@@ -240,9 +240,7 @@ function toggleFAQ(index) {
     <!-- Preload optimized logo for faster rendering -->
     <link rel="preload" href="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }}" as="image">
 
-    <!-- Tailwind CSS - Consolidated styling -->
-    @vite(['resources/css/app.css'])
-    <!-- Legacy CSS needed for current navbar/icons (temporary restore) -->
+    <!-- Bootstrap CSS - Primary framework for frontend -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
@@ -280,6 +278,38 @@ function toggleFAQ(index) {
     <!-- End Meta Pixel Code -->
   
     <style>
+      /* Accessibility Improvements - Touch Targets and Contrast */
+      /* Ensure all interactive elements meet minimum touch target size (44x44px) */
+      button, a[role="button"], input[type="button"], input[type="submit"], input[type="reset"], 
+      .btn, .modal-close, .floating-btn-main, .mobile-toggle, [onclick] {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 8px 16px;
+      }
+      
+      /* Improve contrast for text on backgrounds */
+      .modal-tab {
+        color: #ffffff !important; /* Changed from #ccc to white for better contrast */
+      }
+      
+      .modal-tab.active {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.2) !important; /* Increased opacity for better visibility */
+      }
+      
+      /* Ensure sufficient spacing between touch targets */
+      button + button, .btn + .btn {
+        margin-left: 8px;
+      }
+      
+      @media (max-width: 768px) {
+        button, .btn, a.button {
+          min-height: 44px;
+          min-width: 44px;
+          padding: 10px 16px;
+        }
+      }
+      
       /* Global mobile fixes */
       * {
         box-sizing: border-box;
@@ -602,7 +632,7 @@ function toggleFAQ(index) {
     }
     .consultation .form-control {
         border-radius: 10px;
-        color: #FFF !important;
+        color: #FFFFFF !important; /* Changed from #FFF for explicit contrast */
         background-color: #1B4D89 !important;
     }
     /*Contactus page redesign Code End*/
@@ -1104,7 +1134,9 @@ function toggleFAQ(index) {
     @include('Elements.Frontend.header')
 
     <!--Content-->
-    @yield('content')
+    <main role="main">
+        @yield('content')
+    </main>
 
     <!--Footer-->
     @include('Elements.Frontend.footer')

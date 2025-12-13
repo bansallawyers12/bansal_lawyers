@@ -100,10 +100,7 @@
     <!-- Self-hosted Poppins fonts -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
-    <!-- Tailwind CSS - Consolidated styling -->
-    @vite(['resources/css/app.css'])
-    
-    <!-- Legacy CSS needed for current navbar/icons (temporary restore) -->
+    <!-- Bootstrap CSS - Primary framework for frontend -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
@@ -143,7 +140,9 @@
     @include('Elements.Frontend.header')
 
     <!--Content-->
-    @yield('content')
+    <main role="main">
+        @yield('content')
+    </main>
 
     <!--Footer-->
     @include('Elements.Frontend.footer')
