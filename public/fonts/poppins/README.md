@@ -55,7 +55,32 @@ mv Poppins-ExtraBold.woff2 poppins-extrabold.woff2
 ## File Size Estimate
 - Total size: ~150-200KB for all 6 weights in WOFF2 format
 
+## Font Display Strategy
+
+The fonts use optimized `font-display` values:
+- **Critical weights (400, 600, 700)**: `font-display: swap` - Ensures text is visible immediately
+- **Less critical weights (300, 500, 800)**: `font-display: optional` - Won't block rendering if slow to load
+
+## Font Subsetting (Optional Optimization)
+
+For even smaller file sizes, you can subset fonts to include only used characters:
+
+### Using pyftsubset (Python fonttools)
+```bash
+# Install: pip install fonttools brotli
+pyftsubset Poppins-Regular.woff2 --unicodes="U+0020-007F,U+00A0-00FF,U+0100-017F" --output-file=poppins-regular-subset.woff2
+```
+
+### Using glyphhanger (Node.js)
+```bash
+# Install: npm install -g glyphhanger
+glyphhanger --subset="*.woff2" --formats=woff2
+```
+
+**Note**: Subsetting is optional. The full fonts work well and are already optimized.
+
 ## Notes
 - Only WOFF2 format is required (modern browsers support it)
 - Font files are loaded via `public/css/fonts.css`
-- Fonts are preloaded in layout files for optimal performance
+- Critical fonts (400, 600) are preloaded in layout files for optimal performance
+- Font-display strategy optimizes rendering performance

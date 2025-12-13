@@ -343,11 +343,10 @@ class ContactController extends Controller
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Contact Query Forwarded - Bansal Lawyers</title>
-            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
             <style>
                 * { margin: 0; padding: 0; box-sizing: border-box; }
                 body { 
-                    font-family: "Poppins", Arial, sans-serif; 
+                    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; 
                     line-height: 1.6; 
                     color: #2c3e50; 
                     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);

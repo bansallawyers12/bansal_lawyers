@@ -823,7 +823,16 @@
         <div class="row align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="text-center">
-                    <img src="{{ asset('images/bg_2.jpg') }}" alt="Contact Bansal Lawyers" class="img-fluid rounded" style="box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-radius: 20px !important; max-width: 100%; height: auto;">
+                    <img src="{{ asset('images/bg_2.webp') }}" 
+                         srcset="{{ asset('images/bg_2.webp') }} 1x, 
+                                 {{ asset('images/bg_2@2x.webp') }} 2x" 
+                         sizes="(max-width: 768px) 100vw, 674px" 
+                         alt="Contact Bansal Lawyers" 
+                         class="img-fluid rounded" 
+                         style="box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-radius: 20px !important; max-width: 100%; height: auto;" 
+                         loading="lazy" 
+                         width="674" 
+                         height="405">
                     <div class="mt-4">
                         <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem;">Get in Touch Today</h3>
                         <p style="font-size: 1.1rem; opacity: 0.9; line-height: 1.6;">

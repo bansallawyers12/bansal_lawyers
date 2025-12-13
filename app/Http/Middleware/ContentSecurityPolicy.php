@@ -56,8 +56,8 @@ class ContentSecurityPolicy
             $policies = [
                 "default-src 'self'",
                 "script-src 'self' 'nonce-{$nonce}' https://www.google.com https://www.gstatic.com https://maps.googleapis.com",
-                "style-src 'self' 'nonce-{$nonce}' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
-                "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com",
+                "style-src 'self' 'nonce-{$nonce}' https://cdnjs.cloudflare.com",
+                "font-src 'self' https://cdnjs.cloudflare.com",
                 "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com",
                 "connect-src 'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com",
                 "frame-src 'self' https://www.google.com",
@@ -75,8 +75,8 @@ class ContentSecurityPolicy
             $policies = [
                 "default-src 'self'",
                 "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://connect.facebook.net https://www.google-analytics.com",
-                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
-                "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:",
+                "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+                "font-src 'self' https://cdnjs.cloudflare.com data:",
                 "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com https://www.google.com/recaptcha",
                 "connect-src 'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://www.google.com/recaptcha",
                 "frame-src 'self' https://www.google.com https://www.facebook.com https://www.google.com/recaptcha",
