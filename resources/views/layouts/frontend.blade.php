@@ -238,21 +238,41 @@ function toggleFAQ(index) {
     <link rel="preload" href="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }}" as="image">
 
     <!-- Bootstrap CSS - Primary framework for frontend -->
+    <!-- Critical CSS - Load immediately -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}">
+    
+    <!-- Icon fonts - Can be loaded asynchronously -->
+    <link rel="preload" href="{{ asset('css/font-awesome.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"></noscript>
+    
+    <link rel="preload" href="{{ asset('css/flaticon.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}"></noscript>
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
+    
+    <!-- AOS CSS - Only load on pages that use AOS animations (about, contact) -->
+    @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
     <link rel="stylesheet" href="{{ asset('css/aos.min.css')}}">
+    @else
+    <!-- Defer AOS CSS for pages that don't use it -->
+    <link rel="preload" href="{{ asset('css/aos.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/aos.min.css') }}"></noscript>
+    @endif
+    
+    <!-- Main custom styles - Keep as normal stylesheet to avoid FOUC -->
+    <!-- Note: High unused percentage reported, but needed for layout structure -->
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
     
     <!-- Non-critical CSS - deferred for performance -->
+    <!-- animate.min.css - Only load if actually needed (check for ftco-animate class usage) -->
+    @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*'))
     <link rel="preload" href="{{ asset('css/animate.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/animate.min.css') }}"></noscript>
+    @endif
     
     <link rel="preload" href="{{ asset('css/magnific-popup.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}"></noscript>
@@ -898,6 +918,19 @@ function toggleFAQ(index) {
   
 	<!-- Inline scripts - will execute after jQuery loads -->
 	<script>
+	// Polyfill for rel="preload" as="style" onload pattern
+	(function() {
+		var preloadLinks = document.querySelectorAll('link[rel="preload"][as="style"]');
+		preloadLinks.forEach(function(link) {
+			if (link.onload === null || typeof link.onload !== 'function') {
+				link.onload = function() {
+					this.rel = 'stylesheet';
+					this.onload = null;
+				};
+			}
+		});
+	})();
+	
 	// Wait for jQuery to load before executing
 	(function() {
 		function initWhenJQueryReady() {
@@ -1168,7 +1201,12 @@ function toggleFAQ(index) {
     @endif
     <script src="{{ asset('js/owl.carousel.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
+    
+    <!-- AOS JS - Only load on pages that use AOS animations -->
+    @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
     <script src="{{ asset('js/aos.min.js')}}" defer></script>
+    @endif
+    
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}" defer></script>
     
     <!-- Google Maps will be loaded with proper error handling below -->
