@@ -882,40 +882,40 @@ function validateAndSubmitBlog() {
             editor.on('change', function() {
                 // Update the textarea value when TinyMCE content changes
                 var content = editor.getContent();
-                document.getElementById('description').value = content;
-                
-                // Remove error styling if content exists
-                if (content.trim() !== '') {
-                    const textarea = document.getElementById('description');
-                    const editorContainer = textarea.closest('.modern-editor-container');
-                    const errorMsg = textarea.parentNode.querySelector('.modern-error');
-                    
-                    if (editorContainer) {
-                        editorContainer.classList.remove('error');
-                    }
-                    if (errorMsg) {
-                        errorMsg.style.opacity = '0.5';
-                    }
-                }
-            });
+        document.getElementById('description').value = content;
+        
+        // Remove error styling if content exists
+        if (content.trim() !== '') {
+            const textarea = document.getElementById('description');
+            const editorContainer = textarea.closest('.modern-editor-container');
+            const errorMsg = textarea.parentNode.querySelector('.modern-error');
             
+            if (editorContainer) {
+                editorContainer.classList.remove('error');
+            }
+            if (errorMsg) {
+                errorMsg.style.opacity = '0.5';
+            }
+        }
+    });
+    
             // Handle TinyMCE blur event (when user clicks away)
             editor.on('blur', function() {
                 var content = editor.getContent();
-                document.getElementById('description').value = content;
-                
-                // Remove error styling if content exists
-                if (content.trim() !== '') {
-                    const textarea = document.getElementById('description');
-                    const editorContainer = textarea.closest('.modern-editor-container');
-                    const errorMsg = textarea.parentNode.querySelector('.modern-error');
-                    
-                    if (editorContainer) {
-                        editorContainer.classList.remove('error');
-                    }
-                    if (errorMsg) {
-                        errorMsg.style.opacity = '0.5';
-                    }
+        document.getElementById('description').value = content;
+        
+        // Remove error styling if content exists
+        if (content.trim() !== '') {
+            const textarea = document.getElementById('description');
+            const editorContainer = textarea.closest('.modern-editor-container');
+            const errorMsg = textarea.parentNode.querySelector('.modern-error');
+            
+            if (editorContainer) {
+                editorContainer.classList.remove('error');
+            }
+            if (errorMsg) {
+                errorMsg.style.opacity = '0.5';
+            }
                 }
             });
         }
