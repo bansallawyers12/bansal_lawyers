@@ -242,7 +242,7 @@
     margin-bottom: 1rem;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
     color: #ffffff;
-    font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .experimental-blog-detail-meta {
@@ -289,7 +289,7 @@
     color: #333;
     line-height: 1.8;
     font-size: 1.1rem;
-    font-family: 'Manrope', Helvetica, Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .experimental-blog-detail-text h1,
@@ -299,7 +299,7 @@
 .experimental-blog-detail-text h5,
 .experimental-blog-detail-text h6 {
     color: #1B4D89;
-    font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+    font-family: 'Poppins', sans-serif;
     margin-top: 30px;
     margin-bottom: 15px;
     font-weight: 600;

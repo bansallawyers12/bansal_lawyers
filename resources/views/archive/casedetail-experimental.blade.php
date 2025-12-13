@@ -32,9 +32,9 @@
         .ftco-section { padding: 5em 0 !important; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .blog-entry .text .heading { font-size: 24px !important; line-height: 1.2em !important; }
-        .blog-entry .text .heading a { font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif !important; color: #1B4D89 !important; }
+        .blog-entry .text .heading a { font-family: 'Poppins', sans-serif !important; color: #1B4D89 !important; }
         .post-meta { 
-            font-family: Manrope, Helvetica, Arial, Lucida, sans-serif; 
+            font-family: 'Poppins', sans-serif; 
             font-size: 16px; 
             color: #666 !important; 
             text-align: center;
@@ -63,7 +63,7 @@
         }
         
         .entry-title {
-            font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+            font-family: 'Poppins', sans-serif;
             line-height: 1.2em;
             font-size: 34px;
             color: #1B4D89;
@@ -89,7 +89,7 @@
         }
         
         .et_pb_text_inner h1 {
-            font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+            font-family: 'Poppins', sans-serif;
             line-height: 1.3em;
             font-size: 28px;
             color: #1B4D89;
@@ -100,7 +100,7 @@
             padding-bottom: 10px;
         }
         .et_pb_text_inner h2 {
-            font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+            font-family: 'Poppins', sans-serif;
             line-height: 1.3em;
             font-size: 24px;
             color: #1B4D89;
@@ -109,7 +109,7 @@
             font-weight: 600;
         }
         .et_pb_text_inner h3 {
-            font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+            font-family: 'Poppins', sans-serif;
             line-height: 1.3em;
             font-size: 20px;
             color: #1B4D89;
@@ -187,7 +187,7 @@
             color: #1B4D89;
             margin-bottom: 20px;
             font-weight: 600;
-            font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+            font-family: 'Poppins', sans-serif;
         }
         
         .related-case-item {

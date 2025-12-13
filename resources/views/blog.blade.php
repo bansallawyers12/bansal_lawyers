@@ -201,7 +201,7 @@
     color: #1B4D89;
     margin-bottom: 15px;
     line-height: 1.3;
-    font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .experimental-blog-title a {

@@ -33,8 +33,8 @@
 <style>
 
 .blog-entry .text .heading {font-size: 24px !important;line-height: 1.2em !important; }
-.blog-entry .text .heading a { font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif !important;color: #1B4D89 !important; }
-.post-meta {font-family: Manrope, Helvetica, Arial, Lucida, sans-serif;font-size: 16px;color: #1B4D89 !important;}
+.blog-entry .text .heading a { font-family: 'Poppins', sans-serif !important;color: #1B4D89 !important; }
+.post-meta {font-family: 'Poppins', sans-serif;font-size: 16px;color: #1B4D89 !important;}
   
   @media (max-width: 768px) {
     .block-20 {
