@@ -1,0 +1,23 @@
+{
+  "resources/css/admin.css": {
+    "file": "assets/admin-DnISDPN6.css",
+    "src": "resources/css/admin.css",
+    "isEntry": true
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-CN1a3J8p.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/frontend.css": {
+    "file": "assets/frontend-Be7eXVTV.css",
+    "src": "resources/css/frontend.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app2.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
