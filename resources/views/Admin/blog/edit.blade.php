@@ -809,11 +809,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Custom validation function that handles CKEditor
+// Custom validation function that handles TinyMCE
 function validateAndUpdateBlog() {
-    // First, sync CKEditor content to textarea
-    if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances.description) {
-        var content = CKEDITOR.instances.description.getData();
+    // First, sync TinyMCE content to textarea
+    if (typeof tinymce !== 'undefined' && tinymce.get('description')) {
+        var content = tinymce.get('description').getContent();
         document.getElementById('description').value = content;
         
         // Remove error styling if content exists
@@ -838,51 +838,83 @@ function validateAndUpdateBlog() {
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 <script>
-    // Initialize CKEditor
-    var description = CKEDITOR.replace('description');
-    CKFinder.setupCKEditor(description);
-    
-    // Handle CKEditor validation integration
-    description.on('change', function() {
-        // Update the textarea value when CKEditor content changes
-        var content = description.getData();
-        document.getElementById('description').value = content;
-        
-        // Remove error styling if content exists
-        if (content.trim() !== '') {
-            const textarea = document.getElementById('description');
-            const editorContainer = textarea.closest('.modern-editor-container');
-            const errorMsg = textarea.parentNode.querySelector('.modern-error');
+    // Initialize TinyMCE
+    tinymce.init({
+        selector: '#description',
+        height: 500,
+        menubar: true,
+        plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+        ],
+        toolbar: 'undo redo | blocks | ' +
+            'bold italic forecolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat | link image media | code preview fullscreen | help',
+        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }',
+        file_picker_callback: function (callback, value, meta) {
+            // File picker callback for image/media uploads
+            if (meta.filetype === 'image' || meta.filetype === 'media') {
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', meta.filetype === 'image' ? 'image/*' : 'video/*');
+                input.onchange = function () {
+                    var file = this.files[0];
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        callback(reader.result, {
+                            alt: file.name
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                };
+                input.click();
+            }
+        },
+        setup: function(editor) {
+            // Handle TinyMCE validation integration
+            editor.on('change', function() {
+                // Update the textarea value when TinyMCE content changes
+                var content = editor.getContent();
+                document.getElementById('description').value = content;
+                
+                // Remove error styling if content exists
+                if (content.trim() !== '') {
+                    const textarea = document.getElementById('description');
+                    const editorContainer = textarea.closest('.modern-editor-container');
+                    const errorMsg = textarea.parentNode.querySelector('.modern-error');
+                    
+                    if (editorContainer) {
+                        editorContainer.classList.remove('error');
+                    }
+                    if (errorMsg) {
+                        errorMsg.style.opacity = '0.5';
+                    }
+                }
+            });
             
-            if (editorContainer) {
-                editorContainer.classList.remove('error');
-            }
-            if (errorMsg) {
-                errorMsg.style.opacity = '0.5';
-            }
-        }
-    });
-    
-    // Handle CKEditor blur event (when user clicks away)
-    description.on('blur', function() {
-        var content = description.getData();
-        document.getElementById('description').value = content;
-        
-        // Remove error styling if content exists
-        if (content.trim() !== '') {
-            const textarea = document.getElementById('description');
-            const editorContainer = textarea.closest('.modern-editor-container');
-            const errorMsg = textarea.parentNode.querySelector('.modern-error');
-            
-            if (editorContainer) {
-                editorContainer.classList.remove('error');
-            }
-            if (errorMsg) {
-                errorMsg.style.opacity = '0.5';
-            }
+            // Handle TinyMCE blur event (when user clicks away)
+            editor.on('blur', function() {
+                var content = editor.getContent();
+                document.getElementById('description').value = content;
+                
+                // Remove error styling if content exists
+                if (content.trim() !== '') {
+                    const textarea = document.getElementById('description');
+                    const editorContainer = textarea.closest('.modern-editor-container');
+                    const errorMsg = textarea.parentNode.querySelector('.modern-error');
+                    
+                    if (editorContainer) {
+                        editorContainer.classList.remove('error');
+                    }
+                    if (errorMsg) {
+                        errorMsg.style.opacity = '0.5';
+                    }
+                }
+            });
         }
     });
 </script>

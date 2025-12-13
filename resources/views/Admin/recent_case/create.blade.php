@@ -689,12 +689,43 @@ document.addEventListener('DOMContentLoaded', function() {
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 <script>
-    // Initialize CKEditor
-    var description = CKEDITOR.replace('description');
-    CKFinder.setupCKEditor(description);
+    // Initialize TinyMCE
+    tinymce.init({
+        selector: '#description',
+        height: 500,
+        menubar: true,
+        plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+        ],
+        toolbar: 'undo redo | blocks | ' +
+            'bold italic forecolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat | link image media | code preview fullscreen | help',
+        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }',
+        file_picker_callback: function (callback, value, meta) {
+            // File picker callback for image/media uploads
+            if (meta.filetype === 'image' || meta.filetype === 'media') {
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', meta.filetype === 'image' ? 'image/*' : 'video/*');
+                input.onchange = function () {
+                    var file = this.files[0];
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        callback(reader.result, {
+                            alt: file.name
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                };
+                input.click();
+            }
+        }
+    });
     
     // File upload preview functionality
     var loadFile = function(event) {
