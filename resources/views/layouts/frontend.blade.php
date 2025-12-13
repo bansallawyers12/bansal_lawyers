@@ -1126,19 +1126,21 @@ function toggleFAQ(index) {
     <!-- JavaScript Files - Optimized Loading with Defer for Parallel Loading -->
     <!-- Load jQuery first with defer (non-blocking, executes in order) -->
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}" defer></script>
-    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}" defer></script>
     
     <!-- Core dependencies - all with defer for parallel loading -->
-    <script src="{{ asset('js/popper.min.js')}}" defer></script>
+    <!-- Note: popper.min.js removed - already included in bootstrap.bundle.min.js -->
     <script src="{{ asset('js/bootstrap.bundle.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}" defer></script>
+    <!-- Conditional plugins - only loaded if needed on specific pages -->
+    @if(Request::is('practiceareas') || Request::is('cms/*') || Request::is('archive/*'))
     <script src="{{ asset('js/jquery.waypoints.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.stellar.min.js')}}" defer></script>
+    <script src="{{ asset('js/scrollax.min.js')}}" defer></script>
+    @endif
     <script src="{{ asset('js/owl.carousel.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
     <script src="{{ asset('js/aos.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}" defer></script>
-    <script src="{{ asset('js/scrollax.min.js')}}" defer></script>
     
     <!-- Google Maps will be loaded with proper error handling below -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap"></script>

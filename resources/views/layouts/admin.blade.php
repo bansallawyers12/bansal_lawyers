@@ -43,7 +43,6 @@
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
 <!-- Updated to jQuery 3.7.1 -->
 <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
-<script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
 
 <style {!! \App\Services\CspService::getNonceAttribute() !!}>
 .dropbtn {
