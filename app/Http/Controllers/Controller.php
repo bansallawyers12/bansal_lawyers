@@ -80,15 +80,16 @@ class Controller extends BaseController
 		
 		if($file->move($filePath, $newFileName))
 		{
-			// Generate WebP version if enabled and it's an image
-			if ($generateWebP && in_array(strtolower($ext), ['jpg', 'jpeg', 'png', 'gif'])) {
+			// Generate WebP and AVIF versions if enabled and it's an image
+			if ($generateWebP && in_array(strtolower($ext), ['jpg', 'jpeg', 'png', 'gif', 'bmp'])) {
 				try {
 					$imageService = new ImageService();
 					$fullImagePath = $filePath . '/' . $newFileName;
-					$imageService->generateWebP($fullImagePath);
+					// Use new method that generates both WebP and AVIF
+					$imageService->convertUploadedFile($fullImagePath, $filePath, $newFileName);
 				} catch (\Exception $e) {
-					// Continue even if WebP generation fails
-					\Log::warning('WebP generation failed for: ' . $newFileName);
+					// Continue even if conversion fails
+					\Log::warning('Image conversion failed for: ' . $newFileName . ' - ' . $e->getMessage());
 				}
 			}
 			
@@ -120,7 +121,7 @@ class Controller extends BaseController
 				unlink($unlinkFiles);
 			}
 		
-		// Also delete WebP and responsive variants
+		// Also delete WebP, AVIF and responsive variants
 		try {
 			$imageService = new ImageService();
 			$imageService->deleteImageVariants($file, $filePath);
