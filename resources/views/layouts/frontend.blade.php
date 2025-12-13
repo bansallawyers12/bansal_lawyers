@@ -234,8 +234,8 @@ function toggleFAQ(index) {
     <link rel="preload" href="{{ asset('js/bootstrap.bundle.min.js') }}" as="script">
     <link rel="preload" href="{{ asset('js/main.min.js') }}" as="script">
     
-    <!-- Preload LCP hero image with high priority -->
-    <link rel="preload" href="{{ asset('images/homepage.jpg') }}" as="image" fetchpriority="high">
+    <!-- Preload LCP hero image with high priority (mobile version for faster initial load) -->
+    <link rel="preload" href="{{ asset('images/homepage-mobile.webp') }}" as="image" fetchpriority="high">
     
     <!-- Preload optimized logo for faster rendering -->
     <link rel="preload" href="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }}" as="image">

@@ -10,7 +10,7 @@
     $containerClass = $containerClass ?? '';
     $source = $source ?? request()->path();
     $showPhoto = $showPhoto ?? true;
-    $photoUrl = $photoUrl ?? asset('images/bansal_2.jpg');
+    $photoUrl = $photoUrl ?? asset('images/bansal_2.webp');
     $photoAlt = $photoAlt ?? 'Ajay Bansal - CEO of Bansal Lawyers';
 @endphp
 
@@ -19,7 +19,18 @@
         <div class="contact-form-header">
             @if($showPhoto)
                 <div class="contact-form-photo">
-                    <img src="{{ $photoUrl }}" alt="{{ $photoAlt }}" class="lawyer-photo">
+                    @if(strpos($photoUrl, 'bansal_2') !== false)
+                        <img src="{{ asset('images/bansal_2.webp') }}" 
+                             srcset="{{ asset('images/bansal_2.webp') }} 1x, 
+                                     {{ asset('images/bansal_2@2x.webp') }} 2x" 
+                             alt="{{ $photoAlt }}" 
+                             class="lawyer-photo" 
+                             width="60" 
+                             height="60" 
+                             loading="lazy">
+                    @else
+                        <img src="{{ $photoUrl }}" alt="{{ $photoAlt }}" class="lawyer-photo" loading="lazy">
+                    @endif
                 </div>
             @endif
             <div class="contact-form-title-section">

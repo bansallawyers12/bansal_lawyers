@@ -32,7 +32,14 @@
         <div id="call-tab" class="modal-tab-content active">
             <div class="call-tab-content">
                 <div class="lawyer-profile">
-                    <img src="{{ asset('images/bansal_2.jpg') }}" alt="Legal Representative" class="lawyer-photo">
+                    <img src="{{ asset('images/bansal_2.webp') }}" 
+                         srcset="{{ asset('images/bansal_2.webp') }} 1x, 
+                                 {{ asset('images/bansal_2@2x.webp') }} 2x" 
+                         alt="Legal Representative" 
+                         class="lawyer-photo" 
+                         width="80" 
+                         height="80" 
+                         loading="lazy">
                 </div>
                 <p class="call-description">
                     Want a call back at a convenient time? Please schedule a complimentary call back with a senior legal representative.

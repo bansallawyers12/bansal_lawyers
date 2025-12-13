@@ -64,11 +64,30 @@
     position: relative;
     height: 100vh;
     min-height: 600px;
-    background: url('{{ asset('images/homepage.jpg') }}') center center/auto 100% no-repeat;
+    background: url('{{ asset('images/homepage-mobile.webp') }}') center center/cover no-repeat;
     background-color: #f8f9fa;
     display: flex;
     align-items: center;
     overflow: hidden;
+}
+
+/* Responsive background images for hero section */
+@media (min-width: 768px) {
+    .hero-section {
+        background-image: url('{{ asset('images/homepage-tablet.webp') }}');
+    }
+}
+
+@media (min-width: 1200px) {
+    .hero-section {
+        background-image: url('{{ asset('images/homepage.webp') }}');
+    }
+}
+
+@media (min-width: 1920px) {
+    .hero-section {
+        background-image: url('{{ asset('images/homepage@2x.webp') }}');
+    }
 }
 
 .hero-overlay {
@@ -782,9 +801,14 @@
                         $imagePath = !empty(@$list->image) ? 'images/blog/' . @$list->image : 'images/Blog.jpg';
                         $pathInfo = pathinfo($imagePath);
                         $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
+                        // Check for optimized 400px version for blog listing
+                        $webpPath400 = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '-400.webp';
                         $hasWebP = file_exists(public_path($webpPath));
+                        $hasWebP400 = file_exists(public_path($webpPath400));
+                        // Use 400px version for listing if available, otherwise use full size
+                        $optimizedWebpPath = $hasWebP400 ? $webpPath400 : ($hasWebP ? $webpPath : $imagePath);
                     @endphp
-                    <div style="height: 200px; @if($hasWebP)background-image: url('{{ asset($webpPath) }}'); @else background-image: url('{{ asset($imagePath) }}'); @endif background-size: cover; background-position: center; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({{ asset('images/Blog.jpg') }})'">
+                    <div style="height: 200px; background-image: url('{{ asset($optimizedWebpPath) }}'); background-size: cover; background-position: center; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({{ asset('images/Blog.jpg') }})'">
                         <span class="sr-only">{{ @$list->title }}</span>
                     </div>
                     <div class="d-flex align-items-center mb-3">

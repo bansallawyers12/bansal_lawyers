@@ -209,7 +209,7 @@
                         'variant' => 'sidebar',
                         'source' => 'property-law',
                         'showPhoto' => true,
-                        'photoUrl' => asset('images/bansal_2.jpg'),
+                        'photoUrl' => asset('images/bansal_2.webp'),
                         'photoAlt' => 'Ajay Bansal - CEO of Bansal Lawyers'
                     ])
 
