@@ -3631,7 +3631,6 @@ $(function() {
      }
      
      function showTimeSlots(date) {
-         const timeSlots = generateTimeSlots();
          const dateStr = date.toLocaleDateString('en-AU', { 
              weekday: 'long', 
              year: 'numeric', 
@@ -3642,39 +3641,93 @@ $(function() {
          $('#selectedDateDisplay').text(dateStr);
          $('#timeSlotsContainer').show();
          
-         const timeSlotsHtml = timeSlots.map(slot => `
-             <div class="time-slot ${!slot.available ? 'unavailable' : ''}" 
-                  data-time="${slot.time}" 
-                  ${!slot.available ? 'disabled' : ''}>
-                 ${slot.time}
-             </div>
-         `).join('');
+         // Show loading state
+         $('#timeSlotsGrid').html('<div class="text-center" style="padding: 20px;">Loading time slots...</div>');
          
-         $('#timeSlotsGrid').html(timeSlotsHtml);
+         // Format date for API (DD/MM/YYYY format)
+         const apiDate = formatDateForInput(date);
+         const serviceId = $('input[name="service_id"]').val() || 1;
+         
+         // Call API to get booked time slots
+         $.ajax({
+             url: '/getdisableddatetime',
+             method: 'POST',
+             data: {
+                 sel_date: apiDate,
+                 service_id: serviceId,
+                 _token: $('meta[name="csrf-token"]').attr('content')
+             },
+             dataType: 'json',
+             success: function(response) {
+                 let bookedSlots = [];
+                 if (response.success && response.disabledtimeslotes && Array.isArray(response.disabledtimeslotes)) {
+                     bookedSlots = response.disabledtimeslotes;
+                     console.log('Booked time slots for', apiDate, ':', bookedSlots);
+                 }
+                 
+                 // Generate time slots with booked slots marked as unavailable
+                 const timeSlots = generateTimeSlots(bookedSlots);
+                 
+                 const timeSlotsHtml = timeSlots.map(slot => `
+                     <div class="time-slot ${!slot.available ? 'unavailable' : ''}" 
+                          data-time="${slot.time}" 
+                          ${!slot.available ? 'disabled' : ''}>
+                         ${slot.time}
+                     </div>
+                 `).join('');
+                 
+                 $('#timeSlotsGrid').html(timeSlotsHtml);
+             },
+             error: function(xhr, status, error) {
+                 console.error('Error fetching booked time slots:', error);
+                 // On error, show all slots as available (fallback)
+                 const timeSlots = generateTimeSlots([]);
+                 const timeSlotsHtml = timeSlots.map(slot => `
+                     <div class="time-slot ${!slot.available ? 'unavailable' : ''}" 
+                          data-time="${slot.time}" 
+                          ${!slot.available ? 'disabled' : ''}>
+                         ${slot.time}
+                     </div>
+                 `).join('');
+                 
+                 $('#timeSlotsGrid').html(timeSlotsHtml);
+             }
+         });
      }
      
-     function generateTimeSlots() {
+     function generateTimeSlots(bookedSlots = []) {
         const slots = [
             { time: '9:00 AM', available: true },
             { time: '9:30 AM', available: true },
+            { time: '11:00 AM', available: true },
+            { time: '11:30 AM', available: true },
+            { time: '2:00 PM', available: true },
+            { time: '2:30 PM', available: true },
+            { time: '3:00 PM', available: true },
+            { time: '3:30 PM', available: true },
+            { time: '4:00 PM', available: true },
+            { time: '4:30 PM', available: true },
             { time: '5:00 PM', available: true },
-            { time: '5:30 PM', available: true },
-             { time: '11:00 AM', available: true },
-             { time: '11:30 AM', available: true },
-             { time: '2:00 PM', available: true },
-             { time: '2:30 PM', available: true },
-             { time: '3:00 PM', available: true },
-             { time: '3:30 PM', available: true },
-             { time: '4:00 PM', available: true },
-             { time: '4:30 PM', available: true }
-         ];
-         
-         // Randomly make some slots unavailable for demo
-         return slots.map(slot => ({
-             ...slot,
-             available: Math.random() > 0.2 // 80% availability
-         }));
-     }
+            { time: '5:30 PM', available: true }
+        ];
+        
+        // Mark booked slots as unavailable
+        // bookedSlots array contains time strings like '11:00 AM', '5:00 PM'
+        return slots.map(slot => {
+            // Check if this slot is in the booked slots array
+            const isBooked = bookedSlots.some(bookedTime => {
+                // Normalize both times for comparison (trim whitespace, case-insensitive)
+                const normalizedSlot = slot.time.trim();
+                const normalizedBooked = bookedTime.trim();
+                return normalizedSlot === normalizedBooked;
+            });
+            
+            return {
+                ...slot,
+                available: !isBooked // Mark as unavailable if booked
+            };
+        });
+    }
      
      function updateFormInputs() {
          if (selectedDate && selectedTime && !isNaN(selectedDate.getTime())) {
