@@ -30,7 +30,10 @@ class AppointmentMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Appointment Confirmation - Bansal Lawyers')
+        // Use custom subject if provided, otherwise use default
+        $subject = $this->details['email_subject'] ?? 'Appointment Confirmation - Bansal Lawyers';
+        
+        return $this->subject($subject)
                     ->view('emails.appointment');
     }
 }

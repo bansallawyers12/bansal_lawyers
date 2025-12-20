@@ -639,7 +639,19 @@ class AppointmentBookController extends Controller {
                     
                     return response()->json($response);
                 } else {
-                    // For paid appointments, return payment URL (emails will be sent after payment)
+                    // For paid appointments, send admin notification about pending payment
+                    // This email is sent only once when appointment is created with pending payment
+                    try {
+                        $this->sendAdminPendingPaymentEmail($fullname, $email, $phone, $requestData, $service, $NatureOfEnquiry, $description, $obj->id);
+                    } catch (\Exception $e) {
+                        // Log error but don't fail the appointment creation
+                        \Log::error('Admin pending payment email failed', [
+                            'appointment_id' => $obj->id,
+                            'error' => $e->getMessage()
+                        ]);
+                    }
+                    
+                    // For paid appointments, return payment URL (customer emails will be sent after payment)
                     $payment_url = url('/stripe/' . $obj->id);
                     $message = 'Please complete payment to confirm your appointment on '.$requestData['date'].' '.$requestData['time'];
                     
@@ -741,6 +753,70 @@ class AppointmentBookController extends Controller {
             \Log::error('Customer appointment email failed', [
                 'appointment_id' => $appointmentId,
                 'customer_email' => $email,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
+        
+        return $results;
+    }
+    
+    /**
+     * Send admin notification email for paid appointments with pending payment
+     * This is sent only once when appointment is created with payment pending
+     * 
+     * @param string $fullname
+     * @param string $email
+     * @param string $phone
+     * @param array $requestData
+     * @param object $service
+     * @param object $NatureOfEnquiry
+     * @param string $description
+     * @param int $appointmentId
+     * @return array
+     */
+    public function sendAdminPendingPaymentEmail($fullname, $email, $phone, $requestData, $service, $NatureOfEnquiry, $description, $appointmentId = null)
+    {
+        $results = [
+            'admin_email_sent' => false,
+            'admin_email_error' => null
+        ];
+        
+        // Prepare appointment data
+        $appointmentData = [
+            'fullname' => $fullname,
+            'date' => $requestData['date'],
+            'time' => $requestData['time'],
+            'email' => $email,
+            'phone' => $phone,
+            'description' => $description,
+            'service' => $service->title,
+            'NatureOfEnquiry' => $NatureOfEnquiry ? $NatureOfEnquiry->title : 'N/A',
+            'appointment_details' => $requestData['appointment_details'],
+        ];
+        
+        // Send email to admin only (for pending payment appointments)
+        try {
+            $adminDetails = array_merge($appointmentData, [
+                'title' => 'New Appointment - Payment Pending - ' . $fullname . ' - ' . $service->title,
+                'fullname' => 'Admin',
+                'email_subject' => 'New Appointment - Payment Pending - ' . $fullname . ' - ' . $service->title,
+                'payment_status' => 'pending', // Indicate payment is pending
+            ]);
+            
+            Mail::to('Info@bansallawyers.com.au')->send(new \App\Mail\AppointmentMail($adminDetails));
+            $results['admin_email_sent'] = true;
+            
+            \Log::info('Admin pending payment email sent successfully', [
+                'appointment_id' => $appointmentId,
+                'admin_email' => 'Info@bansallawyers.com.au',
+                'customer_email' => $email
+            ]);
+            
+        } catch (\Exception $e) {
+            $results['admin_email_error'] = $e->getMessage();
+            \Log::error('Admin pending payment email failed', [
+                'appointment_id' => $appointmentId,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);

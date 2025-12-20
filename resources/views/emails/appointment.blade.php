@@ -5,6 +5,16 @@
     
     <p>Dear {{ $details['fullname'] ?? 'Valued Client' }},</p>
     
+    @if(isset($details['payment_status']) && $details['payment_status'] == 'pending')
+        <div class="highlight-box" style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0;">
+            <p style="margin: 0; color: #856404;"><strong>⚠️ Payment Pending:</strong> Your appointment has been scheduled, but payment is still pending. Please complete the payment to confirm your appointment. You will receive a payment link separately.</p>
+        </div>
+    @elseif(isset($details['payment_status']) && $details['payment_status'] == 'failed')
+        <div class="highlight-box" style="background-color: #f8d7da; border-left: 4px solid #dc3545; padding: 15px; margin: 20px 0;">
+            <p style="margin: 0; color: #721c24;"><strong>❌ Payment Failed:</strong> Your appointment has been scheduled, but the payment could not be processed. Please contact us or try completing the payment again using the payment link provided.</p>
+        </div>
+    @endif
+    
     <p>Thank you for choosing Bansal Lawyers for your legal needs. We are pleased to confirm your appointment with us.</p>
     
     <div class="highlight-box">
