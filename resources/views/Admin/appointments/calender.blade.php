@@ -553,9 +553,66 @@ foreach($appointments as $appointment){
             }
         }
 
+        // Get status label based on appointment status (matching appointment listing page)
+        $status_label = "";
+        switch($appointment->status) {
+            case 0:
+                $status_label = "Pending";
+                break;
+            case 1:
+                $status_label = "Approved";
+                break;
+            case 2:
+                $status_label = "Completed";
+                break;
+            case 3:
+                $status_label = "Rejected";
+                break;
+            case 4:
+                $status_label = "N/P";
+                break;
+            case 5:
+                $status_label = "In Progress";
+                break;
+            case 6:
+                $status_label = "Did Not Come";
+                break;
+            case 7:
+                $status_label = "Cancelled";
+                break;
+            case 8:
+                $status_label = "Missed";
+                break;
+            case 9:
+                $status_label = "Payment Pending";
+                break;
+            case 10:
+                $status_label = "Payment Success";
+                break;
+            case 11:
+                $status_label = "Payment Failed";
+                break;
+            default:
+                $status_label = "Unknown";
+                break;
+        }
+
+        // Build appointment_other with status information
         if( isset($appointment->service_id) && $appointment->service_id == 1 ) { //Paid
             $service_type = "Paid";
-            $row['appointment_other'] = $appointment->appointment_details.' - '.$service_type;
+            // Show status instead of just service type
+            if(isset($appointment->appointment_details) && $appointment->appointment_details != "") {
+                $row['appointment_other'] = $appointment->appointment_details.' - '.$status_label;
+            } else {
+                $row['appointment_other'] = $status_label.' ('.$service_type.')';
+            }
+        } else {
+            // For non-paid appointments, still show status
+            if(isset($appointment->appointment_details) && $appointment->appointment_details != "") {
+                $row['appointment_other'] = $appointment->appointment_details.' - '.$status_label;
+            } else {
+                $row['appointment_other'] = $status_label;
+            }
         }
         $sched_res[$appointment->id] = $row;
     }
