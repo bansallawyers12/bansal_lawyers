@@ -37,7 +37,7 @@
     }
 
     body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: 'Poppins', sans-serif;
         line-height: 1.6;
         color: #1a1a1a;
         background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);

@@ -208,24 +208,22 @@ function toggleFAQ(index) {
 	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
   
     <!-- DNS Prefetch for external domains -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="dns-prefetch" href="https://maps.googleapis.com">
     <link rel="dns-prefetch" href="https://www.google.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.facebook.com">
     <link rel="dns-prefetch" href="https://connect.facebook.net">
     
-    <!-- Preconnect to Google Fonts for faster loading -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
     <!-- Preconnect to other external resources -->
     <link rel="preconnect" href="https://maps.googleapis.com">
     <link rel="preconnect" href="https://www.google.com">
     
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"></noscript>
+    <!-- Preload critical Poppins font files for faster rendering -->
+    <link rel="preload" href="{{ asset('fonts/poppins/poppins-regular.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Self-hosted Poppins fonts -->
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     
     <!-- Preload critical font files for faster rendering -->
     <link rel="preload" href="{{ asset('fonts/fontawesome-webfont.woff2') }}?v=4.7.0" as="font" type="font/woff2" crossorigin>
@@ -236,27 +234,45 @@ function toggleFAQ(index) {
     <link rel="preload" href="{{ asset('js/bootstrap.bundle.min.js') }}" as="script">
     <link rel="preload" href="{{ asset('js/main.min.js') }}" as="script">
     
-    <!-- Preload LCP hero image with high priority -->
-    <link rel="preload" href="{{ asset('images/homepage.jpg') }}" as="image" fetchpriority="high">
+    <!-- Preload optimized logo for faster rendering -->
+    <link rel="preload" href="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }}" as="image">
 
-    <!-- Tailwind CSS - Consolidated styling -->
-    @vite(['resources/css/app.css'])
-    <!-- Legacy CSS needed for current navbar/icons (temporary restore) -->
+    <!-- Bootstrap CSS - Primary framework for frontend -->
+    <!-- Critical CSS - Load immediately -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}">
+    
+    <!-- Icon fonts - Can be loaded asynchronously -->
+    <link rel="preload" href="{{ asset('css/font-awesome.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"></noscript>
+    
+    <link rel="preload" href="{{ asset('css/flaticon.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}"></noscript>
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
+    
+    <!-- AOS CSS - Only load on pages that use AOS animations (about, contact) -->
+    @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
     <link rel="stylesheet" href="{{ asset('css/aos.min.css')}}">
+    @else
+    <!-- Defer AOS CSS for pages that don't use it -->
+    <link rel="preload" href="{{ asset('css/aos.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/aos.min.css') }}"></noscript>
+    @endif
+    
+    <!-- Main custom styles - Keep as normal stylesheet to avoid FOUC -->
+    <!-- Note: High unused percentage reported, but needed for layout structure -->
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
     
     <!-- Non-critical CSS - deferred for performance -->
+    <!-- animate.min.css - Only load if actually needed (check for ftco-animate class usage) -->
+    @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*'))
     <link rel="preload" href="{{ asset('css/animate.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/animate.min.css') }}"></noscript>
+    @endif
     
     <link rel="preload" href="{{ asset('css/magnific-popup.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}"></noscript>
@@ -279,6 +295,38 @@ function toggleFAQ(index) {
     <!-- End Meta Pixel Code -->
   
     <style>
+      /* Accessibility Improvements - Touch Targets and Contrast */
+      /* Ensure all interactive elements meet minimum touch target size (44x44px) */
+      button, a[role="button"], input[type="button"], input[type="submit"], input[type="reset"], 
+      .btn, .modal-close, .floating-btn-main, .mobile-toggle, [onclick] {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 8px 16px;
+      }
+      
+      /* Improve contrast for text on backgrounds */
+      .modal-tab {
+        color: #ffffff !important; /* Changed from #ccc to white for better contrast */
+      }
+      
+      .modal-tab.active {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.2) !important; /* Increased opacity for better visibility */
+      }
+      
+      /* Ensure sufficient spacing between touch targets */
+      button + button, .btn + .btn {
+        margin-left: 8px;
+      }
+      
+      @media (max-width: 768px) {
+        button, .btn, a.button {
+          min-height: 44px;
+          min-width: 44px;
+          padding: 10px 16px;
+        }
+      }
+      
       /* Global mobile fixes */
       * {
         box-sizing: border-box;
@@ -601,7 +649,7 @@ function toggleFAQ(index) {
     }
     .consultation .form-control {
         border-radius: 10px;
-        color: #FFF !important;
+        color: #FFFFFF !important; /* Changed from #FFF for explicit contrast */
         background-color: #1B4D89 !important;
     }
     /*Contactus page redesign Code End*/
@@ -870,6 +918,19 @@ function toggleFAQ(index) {
   
 	<!-- Inline scripts - will execute after jQuery loads -->
 	<script>
+	// Polyfill for rel="preload" as="style" onload pattern
+	(function() {
+		var preloadLinks = document.querySelectorAll('link[rel="preload"][as="style"]');
+		preloadLinks.forEach(function(link) {
+			if (link.onload === null || typeof link.onload !== 'function') {
+				link.onload = function() {
+					this.rel = 'stylesheet';
+					this.onload = null;
+				};
+			}
+		});
+	})();
+	
 	// Wait for jQuery to load before executing
 	(function() {
 		function initWhenJQueryReady() {
@@ -1103,7 +1164,9 @@ function toggleFAQ(index) {
     @include('Elements.Frontend.header')
 
     <!--Content-->
-    @yield('content')
+    <main role="main">
+        @yield('content')
+    </main>
 
     <!--Footer-->
     @include('Elements.Frontend.footer')
@@ -1125,19 +1188,26 @@ function toggleFAQ(index) {
     <!-- JavaScript Files - Optimized Loading with Defer for Parallel Loading -->
     <!-- Load jQuery first with defer (non-blocking, executes in order) -->
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}" defer></script>
-    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}" defer></script>
     
     <!-- Core dependencies - all with defer for parallel loading -->
-    <script src="{{ asset('js/popper.min.js')}}" defer></script>
+    <!-- Note: popper.min.js removed - already included in bootstrap.bundle.min.js -->
     <script src="{{ asset('js/bootstrap.bundle.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}" defer></script>
+    <!-- Conditional plugins - only loaded if needed on specific pages -->
+    @if(Request::is('practiceareas') || Request::is('cms/*') || Request::is('archive/*'))
     <script src="{{ asset('js/jquery.waypoints.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.stellar.min.js')}}" defer></script>
+    <script src="{{ asset('js/scrollax.min.js')}}" defer></script>
+    @endif
     <script src="{{ asset('js/owl.carousel.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
+    
+    <!-- AOS JS - Only load on pages that use AOS animations -->
+    @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
     <script src="{{ asset('js/aos.min.js')}}" defer></script>
+    @endif
+    
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}" defer></script>
-    <script src="{{ asset('js/scrollax.min.js')}}" defer></script>
     
     <!-- Google Maps will be loaded with proper error handling below -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap"></script>

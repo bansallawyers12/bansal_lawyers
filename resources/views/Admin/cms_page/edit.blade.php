@@ -801,7 +801,7 @@ document.addEventListener('DOMContentLoaded', function() {
                      field.classList.contains('modern-textarea'))) {
             field.classList.add('error');
         }
-        // Handle CKEditor container
+        // Handle TinyMCE container
         else if (field && field.classList.contains('modern-editor-container')) {
             field.classList.add('error');
         }
@@ -828,11 +828,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Custom validation function that handles CKEditor for CMS page edit
+// Custom validation function that handles TinyMCE for CMS page edit
 function validateAndUpdateCMS() {
-    // First, sync CKEditor content to textarea
-    if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances.description) {
-        var content = CKEDITOR.instances.description.getData();
+    // First, sync TinyMCE content to textarea
+    if (typeof tinymce !== 'undefined' && tinymce.get('description')) {
+        var content = tinymce.get('description').getContent();
         document.getElementById('description').value = content;
         
         // Remove error styling if content exists
@@ -857,38 +857,57 @@ function validateAndUpdateCMS() {
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/ckfinder/ckfinder.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 <script>
-var sharedCKEditorToolbarConfig = {
-    toolbar: [
-        { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
-        { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
-        { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-        { name: 'insert', items: [  'Table', 'HorizontalRule',   'SpecialChar', 'PageBreak' ] },
-        '/',
-        { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-        { name: 'colors', items: [ 'TextColor', 'BGColor', 'EmojiPanel' ] },
-        { name: 'document', items: [ 'ExportPdf', 'Preview', 'Print', '-', 'Templates' ] },
-        { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-        { name: 'editing', items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' , 'Source' ] },
-    ],
-    extraPlugins: 'textwatcher,textmatch,autocomplete,emoji'
-};
-
-// Wait for DOM to be ready before initializing CKEditor
+// Wait for DOM to be ready before initializing TinyMCE
 $(document).ready(function() {
-    // Check if CKEditor is loaded and description element exists
-    if (typeof CKEDITOR !== 'undefined') {
+    // Check if TinyMCE is loaded and description element exists
+    if (typeof tinymce !== 'undefined') {
         var descriptionElement = document.getElementById('description');
         if (descriptionElement) {
-            var editor = CKEDITOR.replace('description', sharedCKEditorToolbarConfig);
-            CKFinder.setupCKEditor(editor);
-            
-            // Handle CKEditor validation integration
+            // Initialize TinyMCE with comprehensive toolbar
+            tinymce.init({
+                selector: '#description',
+                height: 500,
+                menubar: true,
+                plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount',
+                    'emoticons', 'pagebreak', 'nonbreaking', 'template'
+                ],
+                toolbar: 'undo redo | blocks | ' +
+                    'bold italic underline strikethrough | forecolor backcolor | ' +
+                    'alignleft aligncenter alignright alignjustify | ' +
+                    'bullist numlist outdent indent | blockquote | ' +
+                    'removeformat | link image media anchor | ' +
+                    'table | charmap emoticons pagebreak | ' +
+                    'code preview fullscreen | help',
+                content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }',
+                file_picker_callback: function (callback, value, meta) {
+                    // File picker callback for image/media uploads
+                    if (meta.filetype === 'image' || meta.filetype === 'media') {
+                        var input = document.createElement('input');
+                        input.setAttribute('type', 'file');
+                        input.setAttribute('accept', meta.filetype === 'image' ? 'image/*' : 'video/*');
+                        input.onchange = function () {
+                            var file = this.files[0];
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                callback(reader.result, {
+                                    alt: file.name
+                                });
+                            };
+                            reader.readAsDataURL(file);
+                        };
+                        input.click();
+                    }
+                },
+                setup: function(editor) {
+                    // Handle TinyMCE validation integration
             editor.on('change', function() {
-                // Update the textarea value when CKEditor content changes
-                var content = editor.getData();
+                        // Update the textarea value when TinyMCE content changes
+                        var content = editor.getContent();
                 document.getElementById('description').value = content;
                 
                 // Remove error styling if content exists
@@ -906,9 +925,9 @@ $(document).ready(function() {
                 }
             });
             
-            // Handle CKEditor blur event (when user clicks away)
+                    // Handle TinyMCE blur event (when user clicks away)
             editor.on('blur', function() {
-                var content = editor.getData();
+                        var content = editor.getContent();
                 document.getElementById('description').value = content;
                 
                 // Remove error styling if content exists
@@ -923,13 +942,15 @@ $(document).ready(function() {
                     if (errorMsg) {
                         errorMsg.style.opacity = '0.5';
                     }
+                        }
+                    });
                 }
             });
         } else {
-            console.warn('Description element not found for CKEditor initialization');
+            console.warn('Description element not found for TinyMCE initialization');
         }
     } else {
-        console.warn('CKEditor library not loaded');
+        console.warn('TinyMCE library not loaded');
     }
 });
 </script>

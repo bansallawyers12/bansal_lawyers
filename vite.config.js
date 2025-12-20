@@ -5,72 +5,82 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css', 
+                'resources/css/app.css',
+                'resources/css/frontend.css',
+                'resources/css/admin.css',
                 'resources/js/app.js',
-                'public/js/main.js' // Include main.js for proper minification
             ],
             refresh: true,
         }),
     ],
     build: {
+        outDir: 'public/build',
+        emptyOutDir: true,
+        manifest: true,
         minify: 'terser',
         terserOptions: {
             compress: {
                 // Preserve DOM safety checks
-                conditionals: false,    // Don't optimize away if statements
-                dead_code: false,      // Don't remove unreachable code
-                evaluate: false,       // Don't evaluate expressions that might affect DOM checks
-                if_return: false,      // Don't optimize if-return patterns
-                join_vars: false,      // Don't join variable declarations
-                loops: false,          // Don't optimize loops
-                sequences: false,      // Don't optimize sequences
-                side_effects: false,   // Don't remove code with side effects
+                conditionals: false,
+                dead_code: false,
+                evaluate: false,
+                if_return: false,
+                join_vars: false,
+                loops: false,
+                sequences: false,
+                side_effects: false,
                 
                 // Safe optimizations
-                collapse_vars: true,   // Safe to collapse variables
-                comparisons: true,     // Safe to optimize comparisons
-                unused: true,          // Remove unused variables (safe)
-                drop_console: false,   // Keep console statements for debugging
-                drop_debugger: false,  // Keep debugger statements
-                pure_funcs: [],        // Don't assume any functions are pure
+                collapse_vars: true,
+                comparisons: true,
+                unused: true,
+                drop_console: false,
+                drop_debugger: false,
+                pure_funcs: [],
             },
             mangle: {
-                // Variable name mangling (safe for this file)
-                toplevel: false,       // Don't mangle top-level names
-                reserved: ['element', 'videoSection', 'welcomeText'], // Preserve important variable names
+                toplevel: false,
+                reserved: ['element', 'videoSection', 'welcomeText'],
             },
             format: {
-                // Output formatting
-                comments: false,       // Remove comments
-                beautify: false,       // Don't beautify (keep minified)
-                ecma: 2015,           // Target ES2015
-                ascii_only: false,     // Allow non-ASCII characters
+                comments: false,
+                beautify: false,
+                ecma: 2015,
+                ascii_only: false,
             },
-            sourceMap: {
-                // Generate source map for debugging
-                filename: 'main.min.js',
-                url: 'main.min.js.map',
-                includeSources: true,
-            },
-            ecma: 2015,               // Target ES2015
-            toplevel: false,          // Don't assume top-level scope
         },
-        sourcemap: true, // Generate source maps
+        sourcemap: true,
         rollupOptions: {
+            external: [
+                // External packages that are loaded dynamically or via CDN
+                'datatables.net',
+                'datatables.net-bs4',
+                'tom-select',
+                'summernote',
+                '@fullcalendar/core',
+                '@fullcalendar/daygrid',
+                '@fullcalendar/timegrid',
+                '@fullcalendar/interaction',
+                'bootstrap-datepicker',
+                'owl.carousel',
+                'magnific-popup',
+                'aos',
+            ],
             output: {
-                // Preserve file structure
-                entryFileNames: '[name].js',
-                chunkFileNames: '[name].js',
-                assetFileNames: '[name].[ext]',
-                // Generate source maps for each file
-                sourcemap: true,
+                entryFileNames: 'assets/[name].js',
+                chunkFileNames: 'assets/[name]-[hash].js',
+                assetFileNames: 'assets/[name]-[hash].[ext]',
             }
         }
     },
-    // Development server configuration
     server: {
         hmr: {
             host: 'localhost',
+        },
+    },
+    resolve: {
+        alias: {
+            '@': '/resources',
         },
     },
 });

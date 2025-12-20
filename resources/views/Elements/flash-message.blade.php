@@ -262,8 +262,8 @@
             <div class="modern-flash-title">Success!</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
-        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)">
-            <i class="fas fa-times"></i>
+        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)" aria-label="Close notification">
+            <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
     </div>
@@ -278,8 +278,8 @@
             <div class="modern-flash-title">Error!</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
-        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)">
-            <i class="fas fa-times"></i>
+        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)" aria-label="Close notification">
+            <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
     </div>
@@ -294,8 +294,8 @@
             <div class="modern-flash-title">Warning!</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
-        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)">
-            <i class="fas fa-times"></i>
+        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)" aria-label="Close notification">
+            <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
     </div>
@@ -310,8 +310,8 @@
             <div class="modern-flash-title">Information</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
-        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)">
-            <i class="fas fa-times"></i>
+        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)" aria-label="Close notification">
+            <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
     </div>
@@ -333,8 +333,8 @@
                 </ul>
             </div>
         </div>
-        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)">
-            <i class="fas fa-times"></i>
+        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)" aria-label="Close notification">
+            <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
     </div>

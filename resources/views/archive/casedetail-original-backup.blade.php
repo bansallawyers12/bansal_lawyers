@@ -94,7 +94,7 @@ h2{
 }
 
 .entry-title {
-    font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 50px;
     font-size: 2em;
     line-height: 1.2em;
@@ -111,7 +111,7 @@ h2{
 }
 
 .post-meta {
-    font-family: Manrope, Helvetica, Arial, Lucida, sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: #1B4D89 !important;
 }
 
@@ -148,7 +148,7 @@ h2{
     background-position: 50%;
     background-size: 100%;
     background-size: cover;
-    font-family: Manrope, Helvetica, Arial, Lucida, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .et_pb_text_inner {
@@ -170,14 +170,14 @@ h2{
 }
 
 .et_pb_text_inner h1{
-    font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+    font-family: 'Poppins', sans-serif;
     line-height: 1.2em;
     font-size: 30px;
     color: #1B4D89;
     padding-top: 10px;
 }
 .et_pb_text_inner h2{
-    font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+    font-family: 'Poppins', sans-serif;
     line-height: 1.2em;
     font-size: 26px;
     color: #1B4D89;
@@ -185,7 +185,7 @@ h2{
 }
 
 .et_pb_text_inner h3{
-    font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+    font-family: 'Poppins', sans-serif;
     line-height: 1.2em;
     font-size: 22px;
     color: #1B4D89;

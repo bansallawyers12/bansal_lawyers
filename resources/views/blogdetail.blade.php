@@ -242,7 +242,7 @@
     margin-bottom: 1rem;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
     color: #ffffff;
-    font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .experimental-blog-detail-meta {
@@ -289,7 +289,7 @@
     color: #333;
     line-height: 1.8;
     font-size: 1.1rem;
-    font-family: 'Manrope', Helvetica, Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .experimental-blog-detail-text h1,
@@ -299,7 +299,7 @@
 .experimental-blog-detail-text h5,
 .experimental-blog-detail-text h6 {
     color: #1B4D89;
-    font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+    font-family: 'Poppins', sans-serif;
     margin-top: 30px;
     margin-bottom: 15px;
     font-weight: 600;
@@ -558,49 +558,27 @@
             <div class="col-lg-8">
                 <div class="experimental-blog-detail-content">
                     @if(isset($blogdetailists->image) && $blogdetailists->image != "")
-                        @php
-                            $imagePath = 'images/blog/' . $blogdetailists->image;
-                            $pathInfo = pathinfo($imagePath);
-                            $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
-                            $hasWebP = file_exists(public_path($webpPath));
-                        @endphp
-                        <picture>
-                            @if($hasWebP)
-                                <source type="image/webp" media="(min-width: 768px)" srcset="{{ asset($webpPath) }}">
-                                <source type="image/webp" media="(max-width: 767px)" srcset="{{ asset($webpPath) }}">
-                            @endif
-                            <source media="(min-width: 768px)" srcset="{{ asset($imagePath) }}">
-                            <source media="(max-width: 767px)" srcset="{{ asset($imagePath) }}">
-                            <img src="{{ asset($imagePath) }}" 
-                                 alt="{{ $blogdetailists->title }} - Legal Blog Post by Bansal Lawyers" 
-                                 class="experimental-blog-detail-image"
-                                 width="800" 
-                                 height="400"
-                                 loading="eager"
-                                 fetchpriority="high">
-                        </picture>
+                        <x-next-gen-image 
+                            src="images/blog/{{ $blogdetailists->image }}" 
+                            alt="{{ $blogdetailists->title }} - Legal Blog Post by Bansal Lawyers"
+                            is-public="true"
+                            loading="eager"
+                            width="800"
+                            height="400"
+                            img-class="experimental-blog-detail-image"
+                            sizes="(max-width: 767px) 100vw, 800px"
+                        />
                     @else
-                        @php
-                            $imagePath = 'images/Blog.jpg';
-                            $pathInfo = pathinfo($imagePath);
-                            $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
-                            $hasWebP = file_exists(public_path($webpPath));
-                        @endphp
-                        <picture>
-                            @if($hasWebP)
-                                <source type="image/webp" media="(min-width: 768px)" srcset="{{ asset($webpPath) }}">
-                                <source type="image/webp" media="(max-width: 767px)" srcset="{{ asset($webpPath) }}">
-                            @endif
-                            <source media="(min-width: 768px)" srcset="{{ asset($imagePath) }}">
-                            <source media="(max-width: 767px)" srcset="{{ asset($imagePath) }}">
-                            <img src="{{ asset($imagePath) }}" 
-                                 alt="{{ $blogdetailists->title }} - Legal Blog Post by Bansal Lawyers" 
-                                 class="experimental-blog-detail-image"
-                                 width="800" 
-                                 height="400"
-                                 loading="eager"
-                                 fetchpriority="high">
-                        </picture>
+                        <x-next-gen-image 
+                            src="images/Blog.jpg" 
+                            alt="{{ $blogdetailists->title }} - Legal Blog Post by Bansal Lawyers"
+                            is-public="true"
+                            loading="eager"
+                            width="800"
+                            height="400"
+                            img-class="experimental-blog-detail-image"
+                            sizes="(max-width: 767px) 100vw, 800px"
+                        />
                     @endif
                     
                     <div class="experimental-blog-detail-text">
@@ -706,15 +684,21 @@
                                 <div class="experimental-related-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 100%;">
                                     <div class="experimental-related-image" style="height: 150px; overflow: hidden;">
                                         @if(isset($related->image) && $related->image != "")
-                                            <img src="{{ asset('images/blog/' . $related->image) }}" 
-                                                 alt="{{ $related->title }} - Legal Blog Post by Bansal Lawyers"
-                                                 style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
-                                                 loading="lazy">
+                                            <x-next-gen-image 
+                                                src="images/blog/{{ $related->image }}" 
+                                                alt="{{ $related->title }} - Legal Blog Post by Bansal Lawyers"
+                                                is-public="true"
+                                                loading="lazy"
+                                                img-class="experimental-related-image-tag"
+                                            />
                                         @else
-                                            <img src="{{ asset('images/Blog.jpg') }}" 
-                                                 alt="{{ $related->title }} - Legal Blog Post by Bansal Lawyers"
-                                                 style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
-                                                 loading="lazy">
+                                            <x-next-gen-image 
+                                                src="images/Blog.jpg" 
+                                                alt="{{ $related->title }} - Legal Blog Post by Bansal Lawyers"
+                                                is-public="true"
+                                                loading="lazy"
+                                                img-class="experimental-related-image-tag"
+                                            />
                                         @endif
                                     </div>
                                     <div class="experimental-related-content" style="padding: 20px;">
@@ -772,17 +756,23 @@
                     @foreach($latestbloglists as $list)
                         <div class="experimental-latest-post">
                             @if(isset($list->image) && $list->image != "")
-                                <img src="{{ asset('images/blog/' . $list->image) }}" 
-                                     alt="{{ $list->title }} - Legal Blog Post by Bansal Lawyers"
-                                     width="80" 
-                                     height="60"
-                                     loading="lazy">
+                                <x-next-gen-image 
+                                    src="images/blog/{{ $list->image }}" 
+                                    alt="{{ $list->title }} - Legal Blog Post by Bansal Lawyers"
+                                    is-public="true"
+                                    loading="lazy"
+                                    width="80"
+                                    height="60"
+                                />
                             @else
-                                <img src="{{ asset('images/Blog.jpg') }}" 
-                                     alt="{{ $list->title }} - Legal Blog Post by Bansal Lawyers"
-                                     width="80" 
-                                     height="60"
-                                     loading="lazy">
+                                <x-next-gen-image 
+                                    src="images/Blog.jpg" 
+                                    alt="{{ $list->title }} - Legal Blog Post by Bansal Lawyers"
+                                    is-public="true"
+                                    loading="lazy"
+                                    width="80"
+                                    height="60"
+                                />
                             @endif
                             <div class="experimental-latest-post-content">
                                 <h5>

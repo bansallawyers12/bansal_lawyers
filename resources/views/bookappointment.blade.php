@@ -56,8 +56,28 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{{ asset('images/homepage.jpg') }}') center/cover;
+    background: url('{{ asset('images/homepage-mobile.webp') }}') center/cover;
     opacity: 0.1;
+    z-index: 1;
+}
+
+/* Responsive background images */
+@media (min-width: 768px) {
+    .hero-appointment-section::before {
+        background-image: url('{{ asset('images/homepage-tablet.webp') }}');
+    }
+}
+
+@media (min-width: 1200px) {
+    .hero-appointment-section::before {
+        background-image: url('{{ asset('images/homepage.webp') }}');
+    }
+}
+
+@media (min-width: 1920px) {
+    .hero-appointment-section::before {
+        background-image: url('{{ asset('images/homepage@2x.webp') }}');
+    }
     z-index: 1;
 }
 

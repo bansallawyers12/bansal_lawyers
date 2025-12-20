@@ -1,11 +1,11 @@
 @extends('layouts.frontend')
 
 @section('head')
-    <!-- AOS Animation Library -->
-    <link href="{{ asset('css/aos.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/aos.min.js') }}"></script>
-    <!-- Google Fonts for better typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library - Already loaded conditionally in layout for this page -->
+    <!-- Self-hosted Poppins fonts (replacing Playfair Display) -->
+    <link rel="preload" href="{{ asset('fonts/poppins/poppins-regular.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 @endsection
 
 @section('seoinfo')

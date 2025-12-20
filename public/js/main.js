@@ -39,14 +39,17 @@ document.addEventListener("DOMContentLoaded", function() {
 	};
 
 
-	$(window).stellar({
-		responsive: true,
-		parallaxBackgrounds: true,
-		parallaxElements: true,
-		horizontalScrolling: false,
-		hideDistantElements: false,
-		scrollProperty: 'scroll'
-	});
+	// Stellar.js - Only initialize if elements with data-stellar attributes exist
+	if (typeof $.fn.stellar !== 'undefined' && $('[data-stellar-background-ratio], [data-stellar-ratio]').length > 0) {
+		$(window).stellar({
+			responsive: true,
+			parallaxBackgrounds: true,
+			parallaxElements: true,
+			horizontalScrolling: false,
+			hideDistantElements: false,
+			scrollProperty: 'scroll'
+		});
+	}
 
 
 	var fullHeight = function () {
@@ -69,8 +72,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	};
 	loader();
 
-	// Scrollax
-	$.Scrollax();
+	// Scrollax - Only initialize if plugin is loaded and elements exist
+	if (typeof $.Scrollax !== 'undefined' && $('[data-scrollax], [data-scrollax-parent]').length > 0) {
+		$.Scrollax();
+	}
 
 	var carousel = function () {
 		$('.carousel-testimony').owlCarousel({
@@ -220,65 +225,69 @@ document.addEventListener("DOMContentLoaded", function() {
 	};
 
 	var counter = function () {
+		// Only initialize waypoint if plugin is loaded
+		if (typeof $.fn.waypoint !== 'undefined' && $('#section-counter, .hero-wrap, .ftco-counter').length > 0) {
+			$('#section-counter, .hero-wrap, .ftco-counter').waypoint(function (direction) {
 
-		$('#section-counter, .hero-wrap, .ftco-counter').waypoint(function (direction) {
+				if (direction === 'down' && !$(this.element).hasClass('ftco-animated')) {
 
-			if (direction === 'down' && !$(this.element).hasClass('ftco-animated')) {
+					var comma_separator_number_step = $.animateNumber.numberStepFactories.separator(',')
+					$('.number').each(function () {
+						var $this = $(this),
+							num = $this.data('number');
+						console.log(num);
+						$this.animateNumber(
+							{
+								number: num,
+								numberStep: comma_separator_number_step
+							}, 7000
+						);
+					});
 
-				var comma_separator_number_step = $.animateNumber.numberStepFactories.separator(',')
-				$('.number').each(function () {
-					var $this = $(this),
-						num = $this.data('number');
-					console.log(num);
-					$this.animateNumber(
-						{
-							number: num,
-							numberStep: comma_separator_number_step
-						}, 7000
-					);
-				});
+				}
 
-			}
-
-		}, { offset: '95%' });
-
+			}, { offset: '95%' });
+		}
 	}
 	counter();
 
 
 	var contentWayPoint = function () {
-		var i = 0;
-		$('.ftco-animate').waypoint(function (direction) {
+		// Only initialize waypoint if plugin is loaded
+		if (typeof $.fn.waypoint !== 'undefined' && $('.ftco-animate').length > 0) {
+			var i = 0;
+			$('.ftco-animate').waypoint(function (direction) {
 
-			if (direction === 'down' && !$(this.element).hasClass('ftco-animated')) {
+				if (direction === 'down' && !$(this.element).hasClass('ftco-animated')) {
 
-				i++;
+					i++;
 
-				$(this.element).addClass('item-animate');
-				setTimeout(function () {
+					$(this.element).addClass('item-animate');
+					setTimeout(function () {
 
-					$('body .ftco-animate.item-animate').each(function (k) {
-						var el = $(this);
-						setTimeout(function () {
-							var effect = el.data('animate-effect');
-							if (effect === 'fadeIn') {
-								el.addClass('fadeIn ftco-animated');
-							} else if (effect === 'fadeInLeft') {
-								el.addClass('fadeInLeft ftco-animated');
-							} else if (effect === 'fadeInRight') {
-								el.addClass('fadeInRight ftco-animated');
-							} else {
-								el.addClass('fadeInUp ftco-animated');
-							}
-							el.removeClass('item-animate');
-						}, k * 50, 'easeInOutExpo');
-					});
+						$('body .ftco-animate.item-animate').each(function (k) {
+							var el = $(this);
+							setTimeout(function () {
+								var effect = el.data('animate-effect');
+								if (effect === 'fadeIn') {
+									el.addClass('fadeIn ftco-animated');
+								} else if (effect === 'fadeInLeft') {
+									el.addClass('fadeInLeft ftco-animated');
+								} else if (effect === 'fadeInRight') {
+									el.addClass('fadeInRight ftco-animated');
+								} else {
+									el.addClass('fadeInUp ftco-animated');
+								}
+								el.removeClass('item-animate');
+							}, k * 50, 'easeInOutExpo');
+						});
 
-				}, 100);
+					}, 100);
 
-			}
+				}
 
-		}, { offset: '95%' });
+			}, { offset: '95%' });
+		}
 	};
 	contentWayPoint();
 

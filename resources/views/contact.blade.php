@@ -3,9 +3,7 @@
 @section('head')
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <!-- AOS Animation Library -->
-    <link href="{{ asset('css/aos.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/aos.min.js') }}"></script>
+    <!-- AOS Animation Library - Already loaded conditionally in layout for this page -->
 @endsection
 
 @section('seoinfo')
@@ -1099,7 +1097,7 @@
                                     'containerClass' => 'contact-form-overlay',
                                     'source' => 'contact-page',
                                     'showPhoto' => true,
-                                    'photoUrl' => asset('images/bansal_2.jpg'),
+                                    'photoUrl' => asset('images/bansal_2.webp'),
                                     'photoAlt' => 'Ajay Bansal - CEO of Bansal Lawyers'
                                 ])
                             </div>

@@ -201,7 +201,7 @@
     color: #1B4D89;
     margin-bottom: 15px;
     line-height: 1.3;
-    font-family: 'IM Fell French Canon', Georgia, "Times New Roman", serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .experimental-blog-title a {
@@ -385,14 +385,15 @@
                                 : 'images/Blog.jpg';
                             $pathInfo = pathinfo($imagePath);
                             $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
+                            // Check for optimized 400px version for blog listing
+                            $webpPath400 = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '-400.webp';
                             $hasWebP = file_exists(public_path($webpPath));
+                            $hasWebP400 = file_exists(public_path($webpPath400));
+                            // Use 400px version for listing if available, otherwise use full size
+                            $optimizedWebpPath = $hasWebP400 ? $webpPath400 : ($hasWebP ? $webpPath : $imagePath);
                         @endphp
                         <div class="experimental-blog-image" 
-                             @if($hasWebP)
-                                 style="background-image: url('{{ asset($webpPath) }}'); background-image: -webkit-image-set(url('{{ asset($webpPath) }}') 1x, url('{{ asset($imagePath) }}') 1x); background-image: image-set(url('{{ asset($webpPath) }}') type('image/webp'), url('{{ asset($imagePath) }}') type('image/jpeg'));"
-                             @else
-                                 style="background-image: url('{{ asset($imagePath) }}');"
-                             @endif>
+                             style="background-image: url('{{ asset($optimizedWebpPath) }}'); background-size: cover; background-position: center;">
                         </div>
                         <div class="experimental-blog-content">
                             @if(isset($list->categorydetail) && $list->categorydetail)

@@ -93,32 +93,49 @@
 	<!-- Favicons-->
 	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
 
-    <!-- Preconnect to Google Fonts for faster loading -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical Poppins font files for faster rendering -->
+    <link rel="preload" href="{{ asset('fonts/poppins/poppins-regular.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
     
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"></noscript>
+    <!-- Self-hosted Poppins fonts -->
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
-    <!-- Tailwind CSS - Consolidated styling -->
-    @vite(['resources/css/app.css'])
-    
-    <!-- Legacy CSS needed for current navbar/icons (temporary restore) -->
+    <!-- Bootstrap CSS - Primary framework for frontend -->
+    <!-- Critical CSS - Load immediately -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}">
+    
+    <!-- Icon fonts - Can be loaded asynchronously -->
+    <link rel="preload" href="{{ asset('css/font-awesome.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"></noscript>
+    
+    <link rel="preload" href="{{ asset('css/flaticon.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}"></noscript>
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
+    
+    <!-- AOS CSS - Only load on pages that use AOS animations (about, contact) -->
+    @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
     <link rel="stylesheet" href="{{ asset('css/aos.min.css')}}">
+    @else
+    <!-- Defer AOS CSS for pages that don't use it -->
+    <link rel="preload" href="{{ asset('css/aos.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/aos.min.css') }}"></noscript>
+    @endif
+    
+    <!-- Main custom styles - Keep as normal stylesheet to avoid FOUC -->
+    <!-- Note: High unused percentage reported, but needed for layout structure -->
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
     
     <!-- Non-critical CSS - deferred for performance -->
+    <!-- animate.min.css - Only load if actually needed -->
+    @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*'))
     <link rel="preload" href="{{ asset('css/animate.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/animate.min.css') }}"></noscript>
+    @endif
     
     <link rel="preload" href="{{ asset('css/magnific-popup.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}"></noscript>
@@ -143,7 +160,9 @@
     @include('Elements.Frontend.header')
 
     <!--Content-->
-    @yield('content')
+    <main role="main">
+        @yield('content')
+    </main>
 
     <!--Footer-->
     @include('Elements.Frontend.footer')
@@ -162,7 +181,6 @@
     <!-- JavaScript Files - Consolidated jQuery 3.7.1 -->
     <!-- Load jQuery first (moved from head for performance) -->
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
-    <script src="{{ asset('js/jquery-migrate-3.4.1.min.js')}}"></script>
     
     <!-- Core Dependencies -->
     <script src="{{ asset('js/moment.min.js')}}"></script>
@@ -177,7 +195,10 @@
     <script src="{{ asset('js/scrollax.min.js')}}"></script>
     
     <!-- Essential Libraries Only -->
+    <!-- AOS JS - Only load on pages that use AOS animations -->
+    @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
     <script src="{{ asset('js/aos.min.js')}}"></script>
+    @endif
     <script src="{{ asset('js/Frontend/easing.min.js')}}"></script>
     <script src="{{ asset('js/Frontend/hoverIntent.min.js')}}"></script>
     <script src="{{ asset('js/Frontend/superfish.min.js')}}"></script>

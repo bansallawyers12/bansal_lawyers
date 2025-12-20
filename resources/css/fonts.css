@@ -1,0 +1,51 @@
+/* Poppins Font Face Declarations - Self-hosted */
+/* Source: Google Fonts (self-hosted for performance) */
+/* Font files should be placed in: public/fonts/poppins/ */
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  font-display: optional; /* Less critical weight - optional loading */
+  src: url('/fonts/poppins/poppins-light.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/poppins/poppins-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: optional; /* Less critical weight - optional loading */
+  src: url('/fonts/poppins/poppins-medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/poppins/poppins-semibold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/poppins/poppins-bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 800;
+  font-display: optional; /* Less critical weight - optional loading */
+  src: url('/fonts/poppins/poppins-extrabold.woff2') format('woff2');
+}
