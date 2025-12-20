@@ -20,3 +20,5 @@ yarn-error.log
 /storage/framework/sessions/
 /storage/logs/
 /bootstrap/cache/*.tmp
+*.sql
+bansalla_lawyers.sql
