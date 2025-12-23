@@ -639,19 +639,8 @@ class AppointmentBookController extends Controller {
                     
                     return response()->json($response);
                 } else {
-                    // For paid appointments, send admin notification about pending payment
-                    // This email is sent only once when appointment is created with pending payment
-                    try {
-                        $this->sendAdminPendingPaymentEmail($fullname, $email, $phone, $requestData, $service, $NatureOfEnquiry, $description, $obj->id);
-                    } catch (\Exception $e) {
-                        // Log error but don't fail the appointment creation
-                        \Log::error('Admin pending payment email failed', [
-                            'appointment_id' => $obj->id,
-                            'error' => $e->getMessage()
-                        ]);
-                    }
-                    
                     // For paid appointments, return payment URL (customer emails will be sent after payment)
+                    // Note: Admin pending payment email will be sent only when Stripe payment fails (in HomeController::stripePost)
                     $payment_url = url('/stripe/' . $obj->id);
                     $message = 'Please complete payment to confirm your appointment on '.$requestData['date'].' '.$requestData['time'];
                     
@@ -803,7 +792,7 @@ class AppointmentBookController extends Controller {
                 'email_subject' => 'New Appointment - Payment Pending - ' . $fullname . ' - ' . $service->title,
                 'payment_status' => 'pending', // Indicate payment is pending
             ]);
-            
+            //Info@bansallawyers.com.au viplucmca1986@gmail.com
             Mail::to('Info@bansallawyers.com.au')->send(new \App\Mail\AppointmentMail($adminDetails));
             $results['admin_email_sent'] = true;
             

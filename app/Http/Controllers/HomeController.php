@@ -708,6 +708,10 @@ class HomeController extends Controller
 
    public function stripePost(Request $request)
     {
+        // Fetch appointment data early so it's available for failure scenarios
+        $appointment = null;
+        $appointment_id = null;
+        
         try {
             $requestData = $request->all();
             $appointment_id = $requestData['appointment_id'];
@@ -718,6 +722,9 @@ class HomeController extends Controller
             $payment_type = "stripe";
             $order_date = date("Y-m-d H:i:s");
             $amount = 150;
+
+            // Fetch appointment data early for use in failure scenarios
+            $appointment = \App\Models\Appointment::find($appointment_id);
 
             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
@@ -843,29 +850,66 @@ class HomeController extends Controller
                 // Redirect to Thank You page with appointment data
                 return redirect()->route('payment.thankyou', ['appointmentId' => $appointment_id]);
             } else {
-                // Payment failed
+                // Payment failed - send admin pending payment email
+                $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
+                
                 return back()->with('error', 'Payment failed. Please try again.');
             }
         } catch (Stripe\Exception\CardException $e) {
-            // Card was declined
+            // Card was declined - send admin pending payment email
+            if (!$appointment_id) {
+                $appointment_id = $request->input('appointment_id');
+            }
+            $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
+            
             return back()->with('error', 'Your card was declined: ' . $e->getMessage());
         } catch (Stripe\Exception\RateLimitException $e) {
-            // Too many requests made to the API too quickly
+            // Too many requests made to the API too quickly - send admin pending payment email
+            if (!$appointment_id) {
+                $appointment_id = $request->input('appointment_id');
+            }
+            $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
+            
             return back()->with('error', 'Too many requests. Please try again later.');
         } catch (Stripe\Exception\InvalidRequestException $e) {
-            // Invalid parameters were supplied to Stripe's API
+            // Invalid parameters were supplied to Stripe's API - send admin pending payment email
+            if (!$appointment_id) {
+                $appointment_id = $request->input('appointment_id');
+            }
+            $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
+            
             return back()->with('error', 'Invalid request. Please try again.');
         } catch (Stripe\Exception\AuthenticationException $e) {
-            // Authentication with Stripe's API failed
+            // Authentication with Stripe's API failed - send admin pending payment email
+            if (!$appointment_id) {
+                $appointment_id = $request->input('appointment_id');
+            }
+            $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
+            
             return back()->with('error', 'Authentication failed. Please contact support.');
         } catch (Stripe\Exception\ApiConnectionException $e) {
-            // Network communication with Stripe failed
+            // Network communication with Stripe failed - send admin pending payment email
+            if (!$appointment_id) {
+                $appointment_id = $request->input('appointment_id');
+            }
+            $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
+            
             return back()->with('error', 'Network error. Please try again.');
         } catch (Stripe\Exception\ApiErrorException $e) {
-            // Generic Stripe error
+            // Generic Stripe error - send admin pending payment email
+            if (!$appointment_id) {
+                $appointment_id = $request->input('appointment_id');
+            }
+            $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
+            
             return back()->with('error', 'Payment error: ' . $e->getMessage());
         } catch (Exception $e) {
-            // Something else happened
+            // Something else happened - send admin pending payment email
+            if (!$appointment_id) {
+                $appointment_id = $request->input('appointment_id');
+            }
+            $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
+            
             return back()->with('error', 'An unexpected error occurred. Please try again.');
         }
     }
@@ -1621,6 +1665,69 @@ class HomeController extends Controller
 
         // Handle CMS pages only
         return $this->Page($request, $slug);
+    }
+
+    /**
+     * Send admin pending payment email when Stripe payment fails
+     * 
+     * @param object|null $appointment
+     * @param int|null $appointment_id
+     * @return void
+     */
+    private function sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id)
+    {
+        try {
+            if (!$appointment && $appointment_id) {
+                $appointment = \App\Models\Appointment::find($appointment_id);
+            }
+            
+            if (!$appointment) {
+                \Log::warning('Cannot send pending payment email - appointment not found', [
+                    'appointment_id' => $appointment_id
+                ]);
+                return;
+            }
+            
+            // Get service and NatureOfEnquiry data
+            $service = \App\Models\BookService::find($appointment->service_id);
+            $NatureOfEnquiry = \App\Models\NatureOfEnquiry::find($appointment->noe_id);
+            
+            if (!$service) {
+                \Log::warning('Cannot send pending payment email - service not found', [
+                    'appointment_id' => $appointment_id,
+                    'service_id' => $appointment->service_id
+                ]);
+                return;
+            }
+            
+            // Prepare request data for email function (matching format expected by sendAdminPendingPaymentEmail)
+            $requestData = [
+                'date' => $appointment->date,
+                'time' => $appointment->timeslot_full ?? $appointment->time,
+                'appointment_details' => $appointment->appointment_details ?? ''
+            ];
+            
+            // Send admin pending payment email
+            $appointmentController = new \App\Http\Controllers\AppointmentBookController();
+            $appointmentController->sendAdminPendingPaymentEmail(
+                $appointment->full_name,
+                $appointment->email,
+                $appointment->phone,
+                $requestData,
+                $service,
+                $NatureOfEnquiry,
+                $appointment->description ?? '',
+                $appointment->id
+            );
+            
+        } catch (\Exception $e) {
+            // Log error but don't throw - we don't want email failures to break the payment flow
+            \Log::error('Failed to send admin pending payment email on payment failure', [
+                'appointment_id' => $appointment_id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
     }
 
 }
