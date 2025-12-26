@@ -2401,22 +2401,22 @@
                     <ul class="experimental-tab-nav">
                         <li>
                             <a href="#consultation_type" class="experimental-tab-link active" data-tab="consultation_type">
-                                <i class="fa fa-calendar mr-2"></i>Consultation Type
+                                <i class="fa fa-calendar me-2"></i>Consultation Type
                             </a>
                         </li>
                         <li>
                             <a href="#appointment_details" class="experimental-tab-link disabled" data-tab="appointment_details">
-                                <i class="fa fa-clock mr-2"></i>Date & Time
+                                <i class="fa fa-clock me-2"></i>Date & Time
                             </a>
                         </li>
                         <li>
                             <a href="#info" class="experimental-tab-link disabled" data-tab="info">
-                                <i class="fa fa-user mr-2"></i>Your Information
+                                <i class="fa fa-user me-2"></i>Your Information
                             </a>
                         </li>
                         <li>
                             <a href="#confirm" class="experimental-tab-link disabled" data-tab="confirm">
-                                <i class="fa fa-check-circle mr-2"></i>Confirmation
+                                <i class="fa fa-check-circle me-2"></i>Confirmation
                             </a>
                         </li>
                     </ul>
@@ -2592,7 +2592,7 @@
                 <div class="experimental-tab-content" id="info">
                     <!-- Selection Summary -->
                     <div class="experimental-selection-summary">
-                        <h4><i class="fa fa-check-circle mr-2"></i>Your Selection Summary</h4>
+                        <h4><i class="fa fa-check-circle me-2"></i>Your Selection Summary</h4>
                         <div class="summary-items">
                             <div class="summary-item">
                                 <strong>Consultation Type:</strong>
@@ -2670,11 +2670,11 @@
                     
                     <!-- Coupon Code Section -->
                     <div class="experimental-coupon-section">
-                        <h4><i class="fa fa-ticket mr-2"></i>Have a Promo Code?</h4>
+                        <h4><i class="fa fa-ticket me-2"></i>Have a Promo Code?</h4>
                         <div class="coupon-input-group">
                             <input type="text" class="experimental-form-control coupon-code" placeholder="Enter your promo code" name="coupon_code" id="coupon_code">
                             <button type="button" class="experimental-btn btn-apply-coupon" id="apply_coupon">
-                                <i class="fa fa-check mr-2"></i>Apply
+                                <i class="fa fa-check me-2"></i>Apply
                             </button>
                         </div>
                         <div class="coupon-message" id="coupon_message" style="display: none;"></div>
@@ -2961,7 +2961,7 @@ $(function() {
              // Confirmation page - always show pay & submit button
              $nextBtn.show();
              $nextBtn.find('.btn-text').text('Pay & Submit');
-             $nextBtn.html('<i class="fa fa-credit-card mr-2"></i><span class="btn-text">Pay & Submit</span>');
+             $nextBtn.html('<i class="fa fa-credit-card me-2"></i><span class="btn-text">Pay & Submit</span>');
              console.log('Showing pay & submit button for confirm page (permanent)');
          } else if (currentTab && currentTab !== 'confirm') {
              // Other tabs - show next button only if valid
@@ -3973,7 +3973,7 @@ $(function() {
             
             // Add reset button
             if (!$('#reset_coupon').length) {
-                $('#apply_coupon').after('<button type="button" class="experimental-btn btn-reset-coupon" id="reset_coupon" style="background: #6c757d; margin-left: 10px;"><i class="fa fa-refresh mr-2"></i>Reset</button>');
+                $('#apply_coupon').after('<button type="button" class="experimental-btn btn-reset-coupon" id="reset_coupon" style="background: #6c757d; margin-left: 10px;"><i class="fa fa-refresh me-2"></i>Reset</button>');
             }
             
         } else {

@@ -59,7 +59,7 @@
         <input type="hidden" name="form_source" value="{{ $source }}">
         <input type="hidden" name="form_variant" value="{{ $variant }}">
         
-        <div class="form-group">
+        <div class="mb-3">
             <label for="{{ $formId }}-name" class="form-label">Full Name *</label>
             <input type="text" 
                    class="form-control" 
@@ -71,7 +71,7 @@
             <div class="invalid-feedback" id="{{ $formId }}-name-error"></div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             <label for="{{ $formId }}-email" class="form-label">Email Address *</label>
             <input type="email" 
                    class="form-control" 
@@ -83,7 +83,7 @@
             <div class="invalid-feedback" id="{{ $formId }}-email-error"></div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             <label for="{{ $formId }}-phone" class="form-label">Phone Number *</label>
             <input type="tel" 
                    class="form-control" 
@@ -95,7 +95,7 @@
             <div class="invalid-feedback" id="{{ $formId }}-phone-error"></div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             <label for="{{ $formId }}-subject" class="form-label">Subject *</label>
             <input type="text" 
                    class="form-control" 
@@ -107,7 +107,7 @@
             <div class="invalid-feedback" id="{{ $formId }}-subject-error"></div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             <label for="{{ $formId }}-message" class="form-label">Message *</label>
             <textarea class="form-control" 
                       id="{{ $formId }}-message" 
@@ -119,12 +119,12 @@
         </div>
 
         <!-- Google reCAPTCHA -->
-        <div class="form-group">
+        <div class="mb-3">
             <div class="g-recaptcha recaptcha-container" data-sitekey="{{ config('services.recaptcha.key', env('RECAPTCHA_SITE_KEY', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI')) }}"></div>
             <div class="invalid-feedback" id="{{ $formId }}-recaptcha-error"></div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             <button type="submit" class="btn {{ $buttonClass }} contact-form-submit" id="{{ $formId }}-submit">
                 <i class="fa fa-paper-plane"></i>
                 <span class="btn-text">{{ $buttonText }}</span>
@@ -210,7 +210,7 @@
     font-style: italic;
 }
 
-.contact-form .form-group {
+.contact-form .mb-3 {
     margin-bottom: 20px;
 }
 

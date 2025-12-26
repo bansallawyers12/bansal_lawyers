@@ -530,7 +530,7 @@
                 <h2>There is no legal puzzle that we can't solve</h2>
                 <p>Expert legal services in Melbourne, Australia. We handle your legal matters with professionalism and care, so you can focus on what matters most.</p>
                 <a href="/book-an-appointment" class="hero-cta">
-                    Start Your Legal Consultation <i class="ion-ios-arrow-forward ml-2"></i>
+                    Start Your Legal Consultation <i class="ion-ios-arrow-forward ms-2"></i>
                 </a>
             </div>
         </div>
@@ -815,7 +815,7 @@
                         <div style="background: #1B4D89; color: white; padding: 8px 12px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
                             <?php echo date('d M', strtotime($list->created_at));?>
                         </div>
-                        <div class="ml-3">
+                        <div class="ms-3">
                             <div style="color: #1B4D89; font-weight: 600;"><?php echo date('Y', strtotime($list->created_at));?></div>
                         </div>
                     </div>
