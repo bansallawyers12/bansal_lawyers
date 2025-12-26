@@ -78,59 +78,68 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 	var carousel = function () {
-		$('.carousel-testimony').owlCarousel({
-			center: true,
-			loop: true,
-			items: 7,
-			margin: 30,
-			stagePadding: 0,
-			nav: false,   // Show next/prev buttons
-			autoplay: true, // Auto carousel enabled
-			autoplayTimeout: 2000, // Change slides every 2s
-			autoplayHoverPause: true, // Pause on hover
-			navText: ['<span class="ion-ios-arrow-back">', '<span class="ion-ios-arrow-forward">'],
-			responsive: {
-				0: {
-					items: 1  // Mobile
-				},
-				600: {
-					items: 2  // Tablets
-				},
-				1000: {
-					items: 3  // Desktop
-				}
-			}
-		});
+		// carousel-testimony is now handled in frontend.blade.php with Swiper.js
+		// Removed Owl Carousel initialization for carousel-testimony
 
-		$('.carousel-case').owlCarousel({
-			center: true,
-			loop: true,
-			items: 6,
-			margin: 30,
-			stagePadding: 0,
-			nav: true, // Show next/prev buttons
-			autoplay: true, // Auto carousel enabled
-			autoplayTimeout: 2000, // Change slides every 2s
-			autoplayHoverPause: true, // Pause on hover
-			navText: ['<span class="ion-ios-arrow-back">', '<span class="ion-ios-arrow-forward">'],
-			responsive: {
-				0: {
-					items: 1, // Mobile View
-					margin: 10,
-					center: false
+		// Initialize carousel-case with Swiper.js
+		if (typeof Swiper !== 'undefined' && document.querySelector('.carousel-case')) {
+			new Swiper('.carousel-case', {
+				slidesPerView: 1,
+				spaceBetween: 30,
+				centeredSlides: true,
+				loop: true,
+				autoplay: {
+					delay: 2000,
+					disableOnInteraction: false,
+					pauseOnMouseEnter: true,
 				},
-				600: {
-					items: 2, // Tablet View
-					margin: 20
+				navigation: {
+					nextEl: '.swiper-button-next',
+					prevEl: '.swiper-button-prev',
 				},
-				1000: {
-					items: 3  // Desktop
-				}
-			}
-		});
-
+				breakpoints: {
+					0: {
+						slidesPerView: 1,
+						spaceBetween: 10,
+						centeredSlides: false,
+					},
+					600: {
+						slidesPerView: 2,
+						spaceBetween: 20,
+					},
+					1000: {
+						slidesPerView: 3,
+						spaceBetween: 30,
+					},
+				},
+			});
+		}
 	};
-	carousel();
+	
+	// Initialize carousel after DOM is ready and Swiper is loaded
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', function() {
+			// Wait for Swiper to be available
+			function initCarouselWhenReady() {
+				if (typeof Swiper !== 'undefined') {
+					carousel();
+				} else {
+					setTimeout(initCarouselWhenReady, 100);
+				}
+			}
+			initCarouselWhenReady();
+		});
+	} else {
+		// DOM already ready, wait for Swiper
+		function initCarouselWhenReady() {
+			if (typeof Swiper !== 'undefined') {
+				carousel();
+			} else {
+				setTimeout(initCarouselWhenReady, 100);
+			}
+		}
+		initCarouselWhenReady();
+	}
 
 	$('nav .dropdown').hover(function () {
 		var $this = $(this);

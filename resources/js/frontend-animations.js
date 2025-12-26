@@ -1,10 +1,7 @@
 // Frontend Animation Scripts - Loaded on demand
 // Animation and visual effects libraries
 
-// Import animation libraries
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
-import 'owl.carousel';
+// Owl Carousel removed - now using Swiper.js (loaded via CDN in layout)
 
 // Import Magnific Popup
 import 'magnific-popup/dist/magnific-popup.css';
@@ -53,19 +50,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             loadWaypoints()
         ]);
         
-        // Initialize Owl Carousel
-        if (window.$ && window.$.fn && window.$.fn.owlCarousel) {
-            $('.owl-carousel').owlCarousel({
-                loop: true,
-                margin: 10,
-                nav: true,
-                responsive: {
-                    0: { items: 1 },
-                    600: { items: 3 },
-                    1000: { items: 5 }
-                }
-            });
-        }
+        // Owl Carousel removed - carousels now use Swiper.js (initialized in layout files)
         
         // Initialize Magnific Popup
         if (window.$ && window.$.fn && window.$.fn.magnificPopup) {

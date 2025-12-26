@@ -260,16 +260,21 @@ class AppointmentBookController extends Controller {
             return response()->json(['success'=>false,'msg'=>'Please enter a promo code.'], 400);
         }
 
-        // SECURITY FIX: Validate promo code against database AND client-side validation
-        $promo = PromoCode::where('code', $promoCode)->where('status',1)->first();
-        if(!$promo){
-            return response()->json(['success'=>false,'msg'=>'Invalid promo code.'], 404);
+        // Normalize promo code to uppercase for consistent comparison
+        $promoCodeUpper = strtoupper($promoCode);
+        
+        // Additional validation: Check if promo code matches client-side allowed codes FIRST
+        $allowedClientCodes = ['FREE100', 'HALF50'];
+        if(!in_array($promoCodeUpper, $allowedClientCodes)){
+            return response()->json(['success'=>false,'msg'=>'Invalid promo code. Valid codes: FREE100 or HALF50'], 400);
         }
 
-        // Additional validation: Check if promo code matches client-side allowed codes
-        $allowedClientCodes = ['FREE100', 'HALF50'];
-        if(!in_array(strtoupper($promoCode), $allowedClientCodes)){
-            return response()->json(['success'=>false,'msg'=>'Invalid promo code. Valid codes: FREE100 or HALF50'], 400);
+        // SECURITY FIX: Validate promo code against database (case-insensitive)
+        $promo = PromoCode::whereRaw('UPPER(code) = ?', [$promoCodeUpper])
+            ->where('status', 1)
+            ->first();
+        if(!$promo){
+            return response()->json(['success'=>false,'msg'=>'Invalid promo code.'], 404);
         }
 
         $service = \App\Models\BookService::find($serviceId);
@@ -377,19 +382,25 @@ class AppointmentBookController extends Controller {
         if(!empty($requestData['promo_code'])){
             $promoCode = trim($requestData['promo_code']);
             
-            // SECURITY FIX: Validate promo code against database AND client-side validation
-            $promo = PromoCode::where('code', $promoCode)->where('status',1)->first();
+            // Normalize promo code to uppercase for consistent comparison
+            $promoCodeUpper = strtoupper($promoCode);
+            
+            // Additional validation: Check if promo code matches client-side allowed codes FIRST
+            $allowedClientCodes = ['FREE100', 'HALF50'];
+            if(!in_array($promoCodeUpper, $allowedClientCodes)){
+                \Log::warning('Promo code validation mismatch: ' . $promoCode . ' not in client-side allowed codes');
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'Invalid promo code. Valid codes: FREE100 or HALF50'
+                ], 400);
+            }
+            
+            // SECURITY FIX: Validate promo code against database (case-insensitive)
+            $promo = PromoCode::whereRaw('UPPER(code) = ?', [$promoCodeUpper])
+                ->where('status', 1)
+                ->first();
             
             if($promo){
-                // Additional validation: Check if promo code matches client-side allowed codes
-                $allowedClientCodes = ['FREE100', 'HALF50'];
-                if(!in_array(strtoupper($promoCode), $allowedClientCodes)){
-                    \Log::warning('Promo code validation mismatch: ' . $promoCode . ' not in client-side allowed codes');
-                    return response()->json([
-                        'success' => false, 
-                        'message' => 'Invalid promo code. Please use a valid code.'
-                    ], 400);
-                }
                 
                 $discountPercentage = (float) ($promo->discount_percentage ?? 0);
                 if($discountPercentage > 0){

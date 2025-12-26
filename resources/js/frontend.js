@@ -15,16 +15,13 @@ import 'aos/dist/aos.js';
 
 // Lazy load non-critical libraries
 const loadNonCriticalLibraries = async () => {
-    // Load Owl Carousel
-    const { default: OwlCarousel } = await import('owl.carousel');
-    import('owl.carousel/dist/assets/owl.carousel.css');
-    import('owl.carousel/dist/assets/owl.theme.default.css');
+    // Owl Carousel removed - now using Swiper.js (loaded via CDN in layout)
     
     // Load Magnific Popup
     const { default: MagnificPopup } = await import('magnific-popup');
     import('magnific-popup/dist/magnific-popup.css');
     
-    return { OwlCarousel, MagnificPopup };
+    return { MagnificPopup };
 };
 
 // Load external scripts that aren't available as npm packages
@@ -71,21 +68,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Load non-critical libraries asynchronously
     try {
-        const { OwlCarousel, MagnificPopup } = await loadNonCriticalLibraries();
+        const { MagnificPopup } = await loadNonCriticalLibraries();
         
-        // Initialize Owl Carousel
-        if (window.$ && window.$.fn && window.$.fn.owlCarousel) {
-            $('.owl-carousel').owlCarousel({
-                loop: true,
-                margin: 10,
-                nav: true,
-                responsive: {
-                    0: { items: 1 },
-                    600: { items: 3 },
-                    1000: { items: 5 }
-                }
-            });
-        }
+        // Owl Carousel removed - carousels now use Swiper.js (initialized in layout files)
         
         // Initialize Magnific Popup
         if (window.$ && window.$.fn && window.$.fn.magnificPopup) {

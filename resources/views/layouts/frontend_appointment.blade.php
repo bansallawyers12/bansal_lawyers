@@ -114,8 +114,7 @@
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
-    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     
     <!-- AOS CSS - Only load on pages that use AOS animations (about, contact) -->
     @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
@@ -189,7 +188,7 @@
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>
     <script src="{{ asset('js/jquery.waypoints.min.js')}}"></script>
     <script src="{{ asset('js/jquery.stellar.min.js')}}"></script>
-    <script src="{{ asset('js/owl.carousel.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="{{ asset('js/jquery.magnific-popup.min.js')}}"></script>
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}"></script>
     <script src="{{ asset('js/scrollax.min.js')}}"></script>

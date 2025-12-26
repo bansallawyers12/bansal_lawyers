@@ -464,13 +464,13 @@ function toggleFAQ(index) {
       
       
       
-    /*carousel Css center tile heightlight Code Start*/
-    .carousel-case .owl-item {
+    /*carousel Css center tile heightlight Code Start - Swiper.js */
+    .carousel-case .swiper-slide {
         transition: transform 0.5s ease-in-out;
         filter: brightness(80%);
     }
 
-    .carousel-case .owl-item.center {
+    .carousel-case .swiper-slide-active {
         transform: scale(1.2);  /* Scale up the center item */
         filter: brightness(100%);
     }
@@ -960,7 +960,7 @@ function toggleFAQ(index) {
                         disableOnInteraction: false,
                         pauseOnMouseEnter: true,
                     },
-                    speed: 1500,
+                    speed: 800,
                     pagination: {
                         el: '.swiper-pagination',
                         clickable: true,
