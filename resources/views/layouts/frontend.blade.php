@@ -251,8 +251,7 @@ function toggleFAQ(index) {
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
-    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     
     <!-- AOS CSS - Only load on pages that use AOS animations (about, contact) -->
     @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
@@ -531,49 +530,42 @@ function toggleFAQ(index) {
         font-weight: 600;
     }
 
-    /* Owl Carousel Customization for Testimonials */
-    .carousel-testimony .owl-stage-outer {
-        overflow: hidden;
-        padding: 20px 0;
-    }
-
-    .carousel-testimony .owl-stage {
-        display: flex;
-        align-items: stretch;
-    }
-
-    .carousel-testimony .owl-item {
-        display: flex;
-        align-items: stretch;
-        float: left;
-    }
-
-    .carousel-testimony .item {
-        width: 100%;
-        height: 100%;
-    }
-
+    /* Swiper.js Customization for Testimonials */
     .carousel-testimony {
         position: relative;
+        padding: 20px 0 60px 0;
     }
 
-    .carousel-testimony .owl-dots {
+    .carousel-testimony .swiper-wrapper {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .carousel-testimony .swiper-slide {
+        height: auto;
+        display: flex;
+        align-items: stretch;
+    }
+
+    .carousel-testimony .swiper-pagination {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
         text-align: center;
         margin-top: 30px;
     }
 
-    .carousel-testimony .owl-dot {
-        display: inline-block;
+    .carousel-testimony .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
         margin: 0 5px;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
         background: #ddd;
-        cursor: pointer;
+        opacity: 1;
         transition: background 0.3s ease;
     }
 
-    .carousel-testimony .owl-dot.active {
+    .carousel-testimony .swiper-pagination-bullet-active {
         background: #1B4D89;
     }
       
@@ -956,39 +948,36 @@ function toggleFAQ(index) {
           }
         });
         
-        // Initialize Testimonials Carousel for homepage
+        // Initialize Testimonials Carousel for homepage with Swiper.js
         function initTestimonialsCarousel() {
-            if ($('.carousel-testimony').length && typeof $.fn.owlCarousel !== 'undefined') {
-                $('.carousel-testimony').owlCarousel({
+            if (document.querySelector('.carousel-testimony') && typeof Swiper !== 'undefined') {
+                new Swiper('.carousel-testimony', {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
                     loop: true,
-                    margin: 20,
-                    nav: false,
-                    dots: true,
-                    autoplay: true,
-                    autoplayTimeout: 5000,
-                    autoplayHoverPause: true,
-                    center: false,
-                    stagePadding: 0,
-                    responsive: {
-                        0: {
-                            items: 1,
-                            margin: 10,
-                            stagePadding: 10
-                        },
+                    autoplay: {
+                        delay: 8000,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                    },
+                    speed: 1500,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    breakpoints: {
                         768: {
-                            items: 2,
-                            margin: 15,
-                            stagePadding: 15
+                            slidesPerView: 2,
+                            spaceBetween: 30,
                         },
                         1024: {
-                            items: 3,
-                            margin: 20,
-                            stagePadding: 20
-                        }
-                    }
+                            slidesPerView: 2,
+                            spaceBetween: 30,
+                        },
+                    },
                 });
             } else {
-                // Retry after a short delay if Owl Carousel is not loaded yet
+                // Retry after a short delay if Swiper is not loaded yet
                 setTimeout(initTestimonialsCarousel, 100);
             }
         }
@@ -1199,7 +1188,7 @@ function toggleFAQ(index) {
     <script src="{{ asset('js/jquery.stellar.min.js')}}" defer></script>
     <script src="{{ asset('js/scrollax.min.js')}}" defer></script>
     @endif
-    <script src="{{ asset('js/owl.carousel.min.js')}}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
     
     <!-- AOS JS - Only load on pages that use AOS animations -->

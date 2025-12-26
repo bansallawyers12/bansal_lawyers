@@ -139,7 +139,8 @@
     transition: all 0.3s ease;
     height: 100%;
     border: 1px solid #f0f0f0;
-    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
 }
 
 .experimental-blog-card:hover {
@@ -173,6 +174,9 @@
 
 .experimental-blog-content {
     padding: 30px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
 }
 
 .experimental-blog-category {
@@ -241,6 +245,8 @@
     gap: 8px;
     transition: all 0.3s ease;
     font-size: 0.9rem;
+    margin-top: auto;
+    align-self: flex-start;
 }
 
 .experimental-read-more:hover {
@@ -303,21 +309,19 @@
     }
 }
 
-/* Ensure equal card height and align button at bottom */
-.experimental-blog-card {
+/* Ensure proper row alignment for blog cards */
+#blog-list.row {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
 }
 
-.experimental-blog-content {
+#blog-list.row > [class*="col-"] {
+    padding-left: 15px;
+    padding-right: 15px;
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;
-}
-
-.experimental-read-more {
-    margin-top: auto;
-    align-self: flex-start;
 }
 </style>
 
@@ -377,8 +381,8 @@
         <!-- Blog Posts Grid -->
         <div class="row" id="blog-list">
             @forelse($bloglists as $list)
-                <div class="col-md-4 col-lg-4 mb-4">
-                    <div class="experimental-blog-card">
+                <div class="col-md-4 col-lg-4 mb-4" style="display: flex;">
+                    <div class="experimental-blog-card" style="width: 100%;">
                         @php
                             $imagePath = isset($list->image) && $list->image != "" 
                                 ? 'images/blog/' . $list->image 

@@ -692,91 +692,95 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="carousel-testimony owl-carousel ftco-owl">
-                    <!-- Testimonial Item 1 -->
-                    <div class="item">
-                        <div class="experimental-testimonial-card">
-                            <p>"Bansal Lawyers turned a daunting process into a manageable one. Their team was always available to answer my questions and address my concerns. Their professionalism and expertise are unmatched."</p>
-                            <div class="author">
-                                <div class="author-avatar">S</div>
-                                <div>
-                                    <h5 style="margin: 0; font-weight: 600;">Sonu Choudhary</h5>
+                <div class="swiper carousel-testimony">
+                    <div class="swiper-wrapper">
+                        <!-- Testimonial Item 1 -->
+                        <div class="swiper-slide">
+                            <div class="experimental-testimonial-card">
+                                <p>"Bansal Lawyers turned a daunting process into a manageable one. Their team was always available to answer my questions and address my concerns. Their professionalism and expertise are unmatched."</p>
+                                <div class="author">
+                                    <div class="author-avatar">S</div>
+                                    <div>
+                                        <h5 style="margin: 0; font-weight: 600;">Sonu Choudhary</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial Item 2 -->
+                        <div class="swiper-slide">
+                            <div class="experimental-testimonial-card">
+                                <p>"From the very first consultation, Bansal Lawyers impressed me with their professionalism. They provided honest advice and ensured my case was handled with utmost care. Their expertise turned my legal challenges into a seamless experience."</p>
+                                <div class="author">
+                                    <div class="author-avatar">R</div>
+                                    <div>
+                                        <h5 style="margin: 0; font-weight: 600;">Ruhi Bagga</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial Item 3 -->
+                        <div class="swiper-slide">
+                            <div class="experimental-testimonial-card">
+                                <p>"Thanks to Bansal Lawyers, my visa was approved quickly and without any issues. They provided clear guidance and ensured all paperwork was flawless. I'm grateful for their dedication and expertise."</p>
+                                <div class="author">
+                                    <div class="author-avatar">D</div>
+                                    <div>
+                                        <h5 style="margin: 0; font-weight: 600;">Dhiman Guru</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial Item 4 -->
+                        <div class="swiper-slide">
+                            <div class="experimental-testimonial-card">
+                                <p>"I can't thank Bansal Lawyers enough for their help with my visa application. They were meticulous, responsive, and always approachable. Their expertise made all the difference in achieving a positive outcome."</p>
+                                <div class="author">
+                                    <div class="author-avatar">M</div>
+                                    <div>
+                                        <h5 style="margin: 0; font-weight: 600;">Manjeet Singh</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial Item 5 -->
+                        <div class="swiper-slide">
+                            <div class="experimental-testimonial-card">
+                                <p>"I really appreciate their dedication and personal approach, which made a complicated process much simpler. I highly recommend Bansal Lawyers to anyone looking for reliable and expert legal. They are a team you can trust."</p>
+                                <div class="author">
+                                    <div class="author-avatar">A</div>
+                                    <div>
+                                        <h5 style="margin: 0; font-weight: 600;">Anisha Dhirwan</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial Item 6 -->
+                        <div class="swiper-slide">
+                            <div class="experimental-testimonial-card">
+                                <p>"Bansal Lawyers exceeded my expectations in every way. Their team was attentive, thorough, and always approachable. They took the time to understand my situation and worked hard to deliver the best outcome possible."</p>
+                                <div class="author">
+                                    <div class="author-avatar">P</div>
+                                    <div>
+                                        <h5 style="margin: 0; font-weight: 600;">Prabhjot Kaur</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Testimonial Item 7 -->
+                        <div class="swiper-slide">
+                            <div class="experimental-testimonial-card">
+                                <p>"The team at Bansal Lawyers is exceptional. They listened to my concerns, explained the process clearly, and delivered results. Their support made all the difference in my legal journey."</p>
+                                <div class="author">
+                                    <div class="author-avatar">P</div>
+                                    <div>
+                                        <h5 style="margin: 0; font-weight: 600;">Parminder Ghill</h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Testimonial Item 2 -->
-                    <div class="item">
-                        <div class="experimental-testimonial-card">
-                            <p>"From the very first consultation, Bansal Lawyers impressed me with their professionalism. They provided honest advice and ensured my case was handled with utmost care. Their expertise turned my legal challenges into a seamless experience."</p>
-                            <div class="author">
-                                <div class="author-avatar">R</div>
-                                <div>
-                                    <h5 style="margin: 0; font-weight: 600;">Ruhi Bagga</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Testimonial Item 3 -->
-                    <div class="item">
-                        <div class="experimental-testimonial-card">
-                            <p>"Thanks to Bansal Lawyers, my visa was approved quickly and without any issues. They provided clear guidance and ensured all paperwork was flawless. I'm grateful for their dedication and expertise."</p>
-                            <div class="author">
-                                <div class="author-avatar">D</div>
-                                <div>
-                                    <h5 style="margin: 0; font-weight: 600;">Dhiman Guru</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Testimonial Item 4 -->
-                    <div class="item">
-                        <div class="experimental-testimonial-card">
-                            <p>"I can't thank Bansal Lawyers enough for their help with my visa application. They were meticulous, responsive, and always approachable. Their expertise made all the difference in achieving a positive outcome."</p>
-                            <div class="author">
-                                <div class="author-avatar">M</div>
-                                <div>
-                                    <h5 style="margin: 0; font-weight: 600;">Manjeet Singh</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Testimonial Item 5 -->
-                    <div class="item">
-                        <div class="experimental-testimonial-card">
-                            <p>"I really appreciate their dedication and personal approach, which made a complicated process much simpler. I highly recommend Bansal Lawyers to anyone looking for reliable and expert legal. They are a team you can trust."</p>
-                            <div class="author">
-                                <div class="author-avatar">A</div>
-                                <div>
-                                    <h5 style="margin: 0; font-weight: 600;">Anisha Dhirwan</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Testimonial Item 6 -->
-                    <div class="item">
-                        <div class="experimental-testimonial-card">
-                            <p>"Bansal Lawyers exceeded my expectations in every way. Their team was attentive, thorough, and always approachable. They took the time to understand my situation and worked hard to deliver the best outcome possible."</p>
-                            <div class="author">
-                                <div class="author-avatar">P</div>
-                                <div>
-                                    <h5 style="margin: 0; font-weight: 600;">Prabhjot Kaur</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Testimonial Item 7 -->
-                    <div class="item">
-                        <div class="experimental-testimonial-card">
-                            <p>"The team at Bansal Lawyers is exceptional. They listened to my concerns, explained the process clearly, and delivered results. Their support made all the difference in my legal journey."</p>
-                            <div class="author">
-                                <div class="author-avatar">P</div>
-                                <div>
-                                    <h5 style="margin: 0; font-weight: 600;">Parminder Ghill</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Pagination -->
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
         </div>
@@ -955,33 +959,7 @@ document.addEventListener('keydown', function(event) {
 });
 </script>
 
-<!-- Owl Carousel for Testimonials -->
-<script>
-$(document).ready(function(){
-    $('.carousel-testimony').owlCarousel({
-        loop:true,
-        margin:30,
-        nav:false,
-        dots:true,
-        autoplay:true,
-        autoplayTimeout:8000,
-        autoplaySpeed:2000,
-        smartSpeed:1500,
-        autoplayHoverPause:true,
-        responsive:{
-            0:{
-                items:1
-            },
-            768:{
-                items:2
-            },
-            1024:{
-                items:2
-            }
-        }
-    });
-});
-</script>
+<!-- Swiper.js initialization is handled in the layout file -->
 
 <!-- Additional styles for home contact form -->
 <script>
