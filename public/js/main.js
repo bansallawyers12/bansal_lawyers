@@ -41,11 +41,46 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	// Stellar.js - Only initialize if elements with data-stellar attributes exist
 	// Wait for Stellar.js to be fully loaded and ready before initializing
+	var stellarInitialized = false; // Flag to prevent multiple initializations
+	
+	// Patch Stellar.js to fix the particles undefined bug
+	function patchStellar() {
+		if (typeof $.fn.stellar !== 'undefined' && $.stellar) {
+			// Store original refresh method
+			var originalRefresh = $.stellar.scrollProperty ? null : null; // Check if we can access it
+			
+			// Monkey-patch the Stellar prototype if possible
+			if (window.Stellar && window.Stellar.prototype) {
+				var originalFindParticles = window.Stellar.prototype._findParticles;
+				if (originalFindParticles) {
+					window.Stellar.prototype._findParticles = function() {
+						// Ensure particles is initialized before accessing it
+						if (this.particles === undefined || this.particles === null) {
+							this.particles = [];
+						}
+						return originalFindParticles.apply(this, arguments);
+					};
+				}
+			}
+		}
+	}
+	
 	function initStellar() {
 		try {
+			// Prevent multiple initializations
+			if (stellarInitialized) {
+				return;
+			}
+			
 			// Check if Stellar.js is available and elements exist
 			if (typeof $.fn.stellar === 'undefined') {
 				return; // Stellar.js not loaded yet
+			}
+			
+			// Check if Stellar is already initialized on window
+			if ($(window).data('plugin_stellar')) {
+				stellarInitialized = true;
+				return; // Already initialized
 			}
 			
 			var stellarElements = $('[data-stellar-background-ratio], [data-stellar-ratio]');
@@ -54,29 +89,84 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 			
 			// Initialize Stellar with error handling
-			$(window).stellar({
-				responsive: true,
-				parallaxBackgrounds: true,
-				parallaxElements: true,
-				horizontalScrolling: false,
-				hideDistantElements: false,
-				scrollProperty: 'scroll'
-			});
+			// Wrap in try-catch to handle internal Stellar.js errors
+			try {
+				$(window).stellar({
+					responsive: true,
+					parallaxBackgrounds: true,
+					parallaxElements: true,
+					horizontalScrolling: false,
+					hideDistantElements: false,
+					scrollProperty: 'scroll'
+				});
+				
+				// Verify initialization succeeded by checking if plugin data exists
+				if ($(window).data('plugin_stellar')) {
+					stellarInitialized = true; // Mark as initialized
+				}
+			} catch (initError) {
+				// If initialization fails, try again after a short delay
+				console.warn('Stellar.js initialization failed, retrying...', initError);
+				setTimeout(function() {
+					try {
+						if (!$(window).data('plugin_stellar')) {
+							$(window).stellar({
+								responsive: true,
+								parallaxBackgrounds: true,
+								parallaxElements: true,
+								horizontalScrolling: false,
+								hideDistantElements: false,
+								scrollProperty: 'scroll'
+							});
+							if ($(window).data('plugin_stellar')) {
+								stellarInitialized = true;
+							}
+						}
+					} catch (retryError) {
+						console.warn('Stellar.js retry also failed:', retryError);
+					}
+				}, 300);
+			}
 		} catch (error) {
 			console.warn('Stellar.js initialization error:', error);
 			// Silently fail - parallax is not critical for page functionality
 		}
 	}
 	
+	// Try to initialize with multiple retries to ensure script is loaded
+	function initStellarWithRetry(retries) {
+		retries = retries || 0;
+		if (retries > 10) {
+			return; // Give up after 10 retries (1 second)
+		}
+		
+		if (typeof $.fn.stellar === 'undefined' || typeof jQuery === 'undefined') {
+			setTimeout(function() {
+				initStellarWithRetry(retries + 1);
+			}, 100);
+			return;
+		}
+		
+		// Apply patch before initializing to fix particles undefined bug
+		patchStellar();
+		
+		initStellar();
+	}
+	
 	// Try to initialize immediately if ready, otherwise wait
+	// Use longer delay to ensure all deferred scripts (including Stellar.js) are fully loaded
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', function() {
-			// Wait a bit for deferred scripts to load
-			setTimeout(initStellar, 100);
+			// Wait for deferred scripts to load - increased delay for Stellar.js
+			setTimeout(function() {
+				initStellarWithRetry(0);
+			}, 500);
 		});
 	} else {
 		// DOM already ready, but wait for deferred scripts
-		setTimeout(initStellar, 100);
+		setTimeout(function() {
+			initStellarWithRetry(0);
+		}, 500);
 	}
 
 

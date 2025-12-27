@@ -858,7 +858,7 @@
                          alt="Contact Bansal Lawyers" 
                          class="img-fluid rounded" 
                          style="box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-radius: 20px !important; max-width: 100%; height: auto;" 
-                         loading="lazy" 
+                         loading="eager" 
                          width="674" 
                          height="405">
                     <div class="mt-4">
