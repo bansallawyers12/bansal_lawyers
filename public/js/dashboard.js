@@ -27,8 +27,17 @@ $(function () {
     zIndex              : 999999
   }) */
 
-  // bootstrap WYSIHTML5 - text editor
-  $('.textarea').summernote()
+  // TinyMCE text editor (replaced Summernote)
+  if (typeof tinymce !== 'undefined') {
+    tinymce.init({
+      selector: '.textarea',
+      height: 250,
+      menubar: false,
+      plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'],
+      toolbar: 'undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image | code preview',
+      content_style: 'body { font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }'
+    });
+  }
 
   $('.daterange').daterangepicker({
     ranges   : {

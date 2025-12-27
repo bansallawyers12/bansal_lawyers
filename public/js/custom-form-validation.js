@@ -1719,9 +1719,25 @@ function customValidate(formName, savetype = '')
 								if(obj.status){
 								    $('#create_note_d input[name="title"]').val('');
 								    $('#create_note_d input[name="title"]').val('');
-					$("#create_note_d .summernote-simple").val('');
-				$('#create_note_d input[name="noteid"]').val('');                    
-			$("#create_note_d .summernote-simple").summernote('code','');
+					// Clear TinyMCE editor (replaced Summernote)
+					if (typeof tinymce !== 'undefined') {
+						// Find all textareas with summernote-simple class and clear them
+						$("#create_note_d .summernote-simple").each(function() {
+							var textareaId = $(this).attr('id');
+							if (textareaId) {
+								var editor = tinymce.get(textareaId);
+								if (editor) {
+									editor.setContent('');
+								}
+							}
+							// Also clear the textarea value directly
+							$(this).val('');
+						});
+					} else {
+						// Fallback: clear textarea value if TinyMCE not loaded
+						$("#create_note_d .summernote-simple").val('');
+					}
+				$('#create_note_d input[name="noteid"]').val('');
 									$('#create_note_d').modal('hide');
 								$('.custom-error-msg').html('<span class="alert alert-success">'+obj.message+'</span>');
 								$.ajax({

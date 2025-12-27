@@ -321,9 +321,17 @@ document.addEventListener('DOMContentLoaded', function () {
     container: "body"
   });
 
-  // Select2
-  if (jQuery().select2) {
-    $(".select2").select2();
+  // Select2 removed - now using Tom Select
+  // Initialize Tom Select for elements with .select2 class (backward compatibility)
+  if (typeof window.TomSelect !== 'undefined' && typeof window.initTomSelect === 'function') {
+    document.querySelectorAll('.select2').forEach(function(select) {
+      if (!select.tomselect) {
+        window.initTomSelect(select, {
+          placeholder: 'Select an option',
+          allowEmptyOption: true
+        });
+      }
+    });
   }
 
   // Selectric
@@ -357,20 +365,32 @@ document.addEventListener('DOMContentLoaded', function () {
       // });
     });
 
-  if (jQuery().summernote) {
-    $(".summernote").summernote({
-      dialogsInBody: true,
-      minHeight: 250
-    });
-    $(".summernote-simple").summernote({
-      dialogsInBody: true,
-      minHeight: 150,
-      toolbar: [
-        ["style", ["bold", "italic", "underline", "clear"]],
-        ["font", ["strikethrough"]],
-        ["para", ["paragraph"]]
-      ]
-    });
+  // Summernote removed - now using TinyMCE
+  // Initialize TinyMCE for elements that still have .summernote or .summernote-simple classes (for backward compatibility)
+  if (typeof tinymce !== 'undefined') {
+    // Initialize full TinyMCE for .summernote elements
+    if ($('.summernote').length > 0) {
+      tinymce.init({
+        selector: '.summernote',
+        height: 250,
+        menubar: false,
+        plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'],
+        toolbar: 'undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image | code preview',
+        content_style: 'body { font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }'
+      });
+    }
+    
+    // Initialize simple TinyMCE for .summernote-simple elements
+    if ($('.summernote-simple').length > 0) {
+      tinymce.init({
+        selector: '.summernote-simple',
+        height: 150,
+        menubar: false,
+        plugins: ['lists', 'link'],
+        toolbar: 'bold italic underline strikethrough | bullist numlist | link | removeformat',
+        content_style: 'body { font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }'
+      });
+    }
   }
 
   // Dismiss function

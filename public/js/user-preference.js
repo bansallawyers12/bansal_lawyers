@@ -130,15 +130,33 @@ function showuser_pref_dateformat(heading,description,button,action)
 	}
 	$("#pop_action").html($("#popup_user-preference_contents").html()); //load into popuop
 	if(!isMobile){
-		$('#pop_action #format').select2({
-			width:"320px"		//No I18N
-			}).on("select2:close", function (e) { 
-				$(e.target).siblings(".select2").find(".select2-selection--single").focus();
-		});
-		$('#pop_action #hours_type').select2({
-			width:"320px",//No I18N
-			minimumResultsForSearch: Infinity
-		});
+		// Migrated from Select2 to Tom Select
+		// Wait for Tom Select to be available, then initialize
+		var initSelects = function() {
+			if (typeof window.initTomSelect === 'function') {
+				// Initialize Tom Select for format dropdown
+				var formatSelect = document.querySelector('#pop_action #format');
+				if (formatSelect) {
+					formatSelect.style.width = '320px';
+					window.initTomSelect(formatSelect, {
+						placeholder: 'Select format'
+					});
+				}
+				
+				// Initialize Tom Select for hours_type dropdown
+				var hoursSelect = document.querySelector('#pop_action #hours_type');
+				if (hoursSelect) {
+					hoursSelect.style.width = '320px';
+					window.initTomSelect(hoursSelect, {
+						placeholder: 'Select hours type'
+					});
+				}
+			} else {
+				// Retry after a short delay if Tom Select not yet loaded
+				setTimeout(initSelects, 100);
+			}
+		};
+		initSelects();
 	}
 	
 	$(savedateformat).children("button").addClass("pref_disable_btn");
@@ -1214,13 +1232,30 @@ function show_deletepopup()
 	});
 	if(!isMobile)
 	{
-		$("#delete_acc_reason").select2({
-			minimumResultsForSearch: Infinity
-		});
+		// Migrated from Select2 to Tom Select
+		var initDeleteReason = function() {
+			if (typeof window.initTomSelect === 'function') {
+				var reasonSelect = document.querySelector('#delete_acc_reason');
+				if (reasonSelect) {
+					window.initTomSelect(reasonSelect, {
+						placeholder: 'Select reason'
+					});
+					// Focus the Tom Select control
+					setTimeout(function() {
+						if (reasonSelect.tomselect) {
+							reasonSelect.tomselect.focus();
+						}
+					}, 100);
+				}
+			} else {
+				// Retry after a short delay if Tom Select not yet loaded
+				setTimeout(initDeleteReason, 100);
+			}
+		};
+		initDeleteReason();
 	}
 	popup_blurHandler('6','.5');
 	control_Enter(".blue"); //No i18N
-	$("#delete_acc_reason~.select2 .select2-selection").focus();
 	closePopup(close_deleteaccount,"popup_deleteaccount_close");//No I18N
 	
 }

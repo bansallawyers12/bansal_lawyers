@@ -39,9 +39,14 @@ const loadAdminLibraries = async (libraries = []) => {
                     
                 case 'tom-select':
                     // Tom Select is loaded via npm and initialized via Alpine.js components
-                    // No jQuery dependency - check if Tom Select module is available
-                    // Will be dynamically imported by Alpine.js component if needed
-                    loadedLibraries.tomSelect = true;
+                    // Also make it globally available for legacy code
+                    try {
+                        const TomSelectModule = await import('tom-select');
+                        window.TomSelect = TomSelectModule.default;
+                        loadedLibraries.tomSelect = true;
+                    } catch (error) {
+                        console.warn('Tom Select not available:', error);
+                    }
                     break;
                     
                 case 'tinymce':

@@ -24,10 +24,10 @@
 	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.20/index.global.min.css" rel="stylesheet" />
 	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.20/index.global.min.css" rel="stylesheet" />
 	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/list@6.1.20/index.global.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="{{ asset('css/summernote-bs4.css')}}">
+	<!-- Summernote CSS removed - now using TinyMCE -->
 	<link rel="stylesheet" href="{{ asset('css/daterangepicker.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/bootstrap-timepicker.min.css')}}">
-	<link rel="stylesheet" href="{{ asset('css/select2.min.css')}}">
+	<!-- Select2 CSS removed - now using Tom Select (loaded via Vite) -->
 	<!-- Template CSS -->
 	<!--<link rel="stylesheet" href="{{--asset('css/niceCountryInput.css')--}}">-->
 	<!--<link rel="stylesheet" href="{{--asset('css/flagstrap.css')--}}">-->
@@ -225,10 +225,12 @@ body {
 	<!-- DataTables removed - not used in admin panel (modern-table class used instead) -->
 	<!-- <script src="{{ asset('js/datatables.min.js')}}"></script> -->
 	<!-- <script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script> -->
-	<script src="{{ asset('js/summernote-bs4.js')}}"></script>
+	<!-- Summernote JS removed - now using TinyMCE -->
+	<!-- Load TinyMCE globally for backward compatibility with .summernote and .summernote-simple classes -->
+	<script src="{{ asset('assets/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('js/daterangepicker.js')}}"></script>
 	<script src="{{ asset('js/bootstrap-timepicker.min.js')}}"></script>
-	<script src="{{ asset('js/select2.full.min.js')}}"></script>
+	<!-- Select2 JS removed - now using Tom Select (loaded via Vite in admin.js) -->
 	<script src="{{ asset('js/bootstrap-formhelpers.min.js')}}"></script>
 	<script src="{{ asset('js/intlTelInput.js')}}"></script>
 	
@@ -251,6 +253,47 @@ body {
 	<!--<script src="{{--asset('js/apexcharts.min.js')--}}"></script>-->
 	<!--<script src="{{--asset('js/jquery.flagstrap.js')--}}"></script>-->
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
+		// Global Tom Select helper for legacy code (replaces Select2)
+		window.initTomSelect = function(selector, options) {
+			if (typeof TomSelect === 'undefined') {
+				console.warn('Tom Select not loaded. Please ensure tom-select is available.');
+				return null;
+			}
+			
+			var element = typeof selector === 'string' ? document.querySelector(selector) : selector;
+			if (!element) {
+				console.warn('Element not found for selector:', selector);
+				return null;
+			}
+			
+			// Destroy existing instance if any
+			if (element.tomselect) {
+				element.tomselect.destroy();
+			}
+			
+			var config = {
+				plugins: ['clear_button'],
+				placeholder: options.placeholder || 'Select an option',
+				allowEmptyOption: true,
+				...options
+			};
+			
+			// Remove width from config (Tom Select handles this differently)
+			if (config.width) {
+				element.style.width = config.width;
+				delete config.width;
+			}
+			
+			try {
+				var instance = new TomSelect(element, config);
+				element.tomselect = instance;
+				return instance;
+			} catch (error) {
+				console.error('Failed to initialize Tom Select:', error);
+				return null;
+			}
+		};
+		
 		// Date handling utilities for consistent ISO format usage
 		window.DateUtils = {
 			// Convert display date to ISO format for backend
