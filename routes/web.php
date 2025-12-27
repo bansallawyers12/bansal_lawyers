@@ -12,6 +12,9 @@
 */
 
 /*********************General Function for Both (Front-end & Back-end) ***********************/
+// CSP violation reporting endpoint (CSRF excluded in VerifyCsrfToken middleware)
+Route::post('/csp-report', [App\Http\Controllers\SecurityController::class, 'cspReport']);
+
 Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
 	Route::post('/clear-cache', function() {
 

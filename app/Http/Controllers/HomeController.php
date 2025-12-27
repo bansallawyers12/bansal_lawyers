@@ -8,13 +8,11 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Cache;
 
 use App\Models\WebsiteSetting;
-use App\Models\Slider;
 use App\Models\Blog;
 use App\Models\Contact;
 use App\Models\BlogCategory;
 use App\Models\OurService;
 use App\Models\Testimonial;
-use App\Models\WhyChooseus;
 use App\Models\HomeContent;
 use App\Models\CmsPage;
 use App\Models\AppointmentPayment;

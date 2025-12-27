@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 use App\Mail\CommonMail;
 use App\Models\WebsiteSetting;
-use App\Models\UserRole;
 use App\Services\ImageService;
 
 use Illuminate\Support\Facades\Auth;
