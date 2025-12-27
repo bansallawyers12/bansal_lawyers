@@ -71,6 +71,3 @@ export function tinyMCE(options = {}) {
     };
 }
 
-// Export for use in admin.js
-export { tinyMCE };
-

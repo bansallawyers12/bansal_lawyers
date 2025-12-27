@@ -62,6 +62,3 @@ export function tomSelect(options = {}) {
     };
 }
 
-// Export for use in admin.js
-export { tomSelect };
-
