@@ -1,0 +1,8 @@
+/* Admin vendor styles */
+
+/* Font Awesome Icons */
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+/* Bootstrap Datepicker CSS */
+@import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
+

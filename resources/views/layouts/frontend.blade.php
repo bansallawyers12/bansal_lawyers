@@ -251,7 +251,8 @@ function toggleFAQ(index) {
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <!-- Vendor bundles (Swiper, Font Awesome) loaded via Vite -->
+    @vite(['resources/css/vendor-frontend.css'])
     
     <!-- AOS CSS - Only load on pages that use AOS animations (about, contact) -->
     @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
@@ -1188,7 +1189,8 @@ function toggleFAQ(index) {
     <script src="{{ asset('js/jquery.stellar.min.js')}}" defer></script>
     <script src="{{ asset('js/scrollax.min.js')}}" defer></script>
     @endif
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+    <!-- Vendor bundles (Swiper) loaded via Vite -->
+    @vite(['resources/js/vendor-frontend.js'])
     <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
     
     <!-- AOS JS - Only load on pages that use AOS animations -->

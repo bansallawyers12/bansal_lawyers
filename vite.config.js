@@ -5,10 +5,17 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
+                // CSS files
                 'resources/css/app.css',
                 'resources/css/frontend.css',
                 'resources/css/admin.css',
+                'resources/css/vendor-frontend.css',
+                'resources/css/vendor-admin.css',
+                
+                // JS files
                 'resources/js/app.js',
+                'resources/js/vendor-frontend.js',
+                'resources/js/vendor-admin.js',
             ],
             refresh: true,
         }),
@@ -40,7 +47,7 @@ export default defineConfig({
             },
             mangle: {
                 toplevel: false,
-                reserved: ['element', 'videoSection', 'welcomeText'],
+                reserved: ['element', 'videoSection', 'welcomeText', 'Swiper', 'feather'],
             },
             format: {
                 comments: false,
@@ -53,6 +60,7 @@ export default defineConfig({
         rollupOptions: {
             external: [
                 // External packages that are loaded dynamically or via CDN
+                // Note: bootstrap-datepicker removed - now bundled via npm
                 'datatables.net',
                 'datatables.net-bs4',
                 'tom-select',
@@ -61,7 +69,6 @@ export default defineConfig({
                 '@fullcalendar/daygrid',
                 '@fullcalendar/timegrid',
                 '@fullcalendar/interaction',
-                'bootstrap-datepicker',
                 'owl.carousel',
                 'magnific-popup',
                 'aos',
@@ -70,6 +77,12 @@ export default defineConfig({
                 entryFileNames: 'assets/[name].js',
                 chunkFileNames: 'assets/[name]-[hash].js',
                 assetFileNames: 'assets/[name]-[hash].[ext]',
+                manualChunks: {
+                    // Separate vendor chunks for better caching
+                    'vendor-frontend': ['swiper'],
+                    'vendor-admin': ['feather-icons', 'bootstrap-datepicker'],
+                    // Note: jquery.nicescroll and sticky-kit loaded from public/js/vendor/ (no ES module support)
+                }
             }
         }
     },

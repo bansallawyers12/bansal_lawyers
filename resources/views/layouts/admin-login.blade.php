@@ -20,8 +20,8 @@
 	<!-- Self-hosted Poppins fonts -->
 	<link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 	
-	<!-- Font Awesome -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<!-- Font Awesome loaded via Vite vendor bundle -->
+	@vite(['resources/css/vendor-admin.css'])
 	
 	<!-- BASE CSS -->
 	<link href="{{ asset('css/app.min.css')}}" rel="stylesheet">
