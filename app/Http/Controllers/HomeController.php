@@ -698,14 +698,47 @@ class HomeController extends Controller
             }
             
             // Get manually disabled slots from BookServiceDisableSlot table
-            $disabled_slot_arr = BookServiceDisableSlot::select('id','slots')
+            $disabled_slot_arr = BookServiceDisableSlot::select('id','slots', 'block_all')
                 ->where('book_service_slot_per_person_id', $book_service_slot_per_person_tbl_unique_id)
                 ->whereDate('disabledates', $datey)
                 ->get();
                 
             if ($disabled_slot_arr->isNotEmpty()) {
-                $newArray = explode(",", $disabled_slot_arr[0]->slots);
-                $disabledtimeslotes = array_merge($disabledtimeslotes, $newArray);
+                foreach ($disabled_slot_arr as $disabledSlot) {
+                    // Skip full day blocks (block_all = 1) - these are handled in the calendar view
+                    if ($disabledSlot->block_all == 1) {
+                        continue;
+                    }
+                    
+                    if (!empty($disabledSlot->slots)) {
+                        // Check if it's a time range (format: "09:00-17:00") or comma-separated list
+                        if (strpos($disabledSlot->slots, '-') !== false && substr_count($disabledSlot->slots, '-') === 1) {
+                            // Time range format - generate 30-minute slots
+                            $parts = explode('-', $disabledSlot->slots);
+                            $startTime = trim($parts[0]);
+                            $endTime = trim($parts[1]);
+                            
+                            // Parse times and generate 30-minute intervals
+                            $start = strtotime($startTime);
+                            $end = strtotime($endTime);
+                            
+                            if ($start !== false && $end !== false && $start < $end) {
+                                $current = $start;
+                                while ($current < $end) {
+                                    // Format as 'g:i A' (e.g., '9:00 AM')
+                                    $disabledtimeslotes[] = date('g:i A', $current);
+                                    $current = strtotime('+30 minutes', $current);
+                                }
+                            }
+                        } else {
+                            // Comma-separated format (backward compatibility)
+                            $newArray = explode(",", $disabledSlot->slots);
+                            $newArray = array_map('trim', $newArray);
+                            $newArray = array_filter($newArray); // Remove empty values
+                            $disabledtimeslotes = array_merge($disabledtimeslotes, $newArray);
+                        }
+                    }
+                }
             }
             
             return response()->json([

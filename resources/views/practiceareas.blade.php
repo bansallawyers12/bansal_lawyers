@@ -192,7 +192,7 @@
     .card-icon img {
         width: 40px;
         height: 40px;
-        filter: brightness(0) invert(1);
+        /* Removed filter - icons are already light colored */
     }
 
     .card-title {
@@ -612,6 +612,17 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
         observer.observe(el);
     });
+
+    // Force immediate visibility check for elements already in viewport
+    setTimeout(function() {
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+            if (isInViewport && !el.classList.contains('visible')) {
+                el.classList.add('visible');
+            }
+        });
+    }, 100);
 
     // Add staggered animation to practice cards
     const practiceCards = document.querySelectorAll('.practice-card');

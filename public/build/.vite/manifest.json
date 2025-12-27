@@ -74,12 +74,12 @@
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-AyJ7io-g.css",
+    "file": "assets/app-BM2wJ-iW.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/frontend.css": {
-    "file": "assets/frontend-Be7eXVTV.css",
+    "file": "assets/frontend-DUWUPFIT.css",
     "src": "resources/css/frontend.css",
     "isEntry": true
   },
@@ -103,7 +103,7 @@
     ]
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-RDqJMalA.js",
+    "file": "assets/admin-D33mJW3E.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,

@@ -69,11 +69,12 @@ img {
   transition: opacity var(--transition-base);
 }
 
-img[loading="lazy"] {
+/* Only hide images that use data-src (custom lazy loading), not native loading="lazy" */
+img[data-src]:not([src]) {
   opacity: 0;
 }
 
-img[loading="lazy"].loaded {
+img[data-src].loaded {
   opacity: 1;
 }
 
