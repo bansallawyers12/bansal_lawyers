@@ -40,15 +40,43 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 	// Stellar.js - Only initialize if elements with data-stellar attributes exist
-	if (typeof $.fn.stellar !== 'undefined' && $('[data-stellar-background-ratio], [data-stellar-ratio]').length > 0) {
-		$(window).stellar({
-			responsive: true,
-			parallaxBackgrounds: true,
-			parallaxElements: true,
-			horizontalScrolling: false,
-			hideDistantElements: false,
-			scrollProperty: 'scroll'
+	// Wait for Stellar.js to be fully loaded and ready before initializing
+	function initStellar() {
+		try {
+			// Check if Stellar.js is available and elements exist
+			if (typeof $.fn.stellar === 'undefined') {
+				return; // Stellar.js not loaded yet
+			}
+			
+			var stellarElements = $('[data-stellar-background-ratio], [data-stellar-ratio]');
+			if (stellarElements.length === 0) {
+				return; // No stellar elements on this page
+			}
+			
+			// Initialize Stellar with error handling
+			$(window).stellar({
+				responsive: true,
+				parallaxBackgrounds: true,
+				parallaxElements: true,
+				horizontalScrolling: false,
+				hideDistantElements: false,
+				scrollProperty: 'scroll'
+			});
+		} catch (error) {
+			console.warn('Stellar.js initialization error:', error);
+			// Silently fail - parallax is not critical for page functionality
+		}
+	}
+	
+	// Try to initialize immediately if ready, otherwise wait
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', function() {
+			// Wait a bit for deferred scripts to load
+			setTimeout(initStellar, 100);
 		});
+	} else {
+		// DOM already ready, but wait for deferred scripts
+		setTimeout(initStellar, 100);
 	}
 
 
