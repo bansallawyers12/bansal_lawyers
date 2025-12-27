@@ -31,7 +31,7 @@
     <meta property="og:type" content="article">
     <meta property="og:title" content="{{ $blogdetailists->meta_title ?: $blogdetailists->title }}">
     <meta property="og:description" content="{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
-    <meta property="og:image" content="{{ isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="{!! isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') !!}">
     <meta property="og:image:alt" content="{{ $blogdetailists->title }}">
     <meta property="article:published_time" content="{{ $blogdetailists->created_at }}">
     <meta property="article:modified_time" content="{{ $blogdetailists->updated_at }}">
@@ -45,7 +45,7 @@
     <meta property="twitter:url" content="{{ URL::to('/') }}/{{ $blogdetailists->slug }}">
     <meta name="twitter:title" content="{{ $blogdetailists->meta_title ?: $blogdetailists->title }}">
     <meta name="twitter:description" content="{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
-    <meta property="twitter:image" content="{{ isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="twitter:image" content="{!! isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') !!}">
     <meta property="twitter:image:alt" content="{{ $blogdetailists->title }}">
 
     <!-- Article Schema Markup -->
@@ -55,7 +55,7 @@
       "@@type": "Article",
       "headline": "{{ $blogdetailists->title }}",
       "description": "{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}",
-      "image": "{{ isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') }}",
+      "image": {!! json_encode(isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png')) !!},
       "author": {
         "@@type": "Organization",
         "name": "Bansal Lawyers",

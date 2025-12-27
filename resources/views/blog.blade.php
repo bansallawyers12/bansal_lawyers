@@ -397,7 +397,7 @@
                             $optimizedWebpPath = $hasWebP400 ? $webpPath400 : ($hasWebP ? $webpPath : $imagePath);
                         @endphp
                         <div class="experimental-blog-image" 
-                             style="background-image: url('{{ asset($optimizedWebpPath) }}'); background-size: cover; background-position: center;">
+                             style="background-image: url('{!! asset($optimizedWebpPath) !!}'); background-size: cover; background-position: center;">
                         </div>
                         <div class="experimental-blog-content">
                             @if(isset($list->categorydetail) && $list->categorydetail)

@@ -554,7 +554,7 @@ input:checked + .modern-checkbox-slider:before {
 											@if(!empty($fetchedData->image) && file_exists(public_path('images/cmspage/' . $fetchedData->image)))
 												<div class="modern-media-preview">
 													<strong>Current Image:</strong><br>
-													<img src="{{ asset('images/cmspage/' . $fetchedData->image) }}" alt="{{ $fetchedData->title ?? '' }}" class="img-avatar">
+													<img src="{!! asset('images/cmspage/' . $fetchedData->image) !!}" alt="{{ $fetchedData->title ?? '' }}" class="img-avatar">
 												</div>
 											@endif
 											
@@ -640,7 +640,7 @@ input:checked + .modern-checkbox-slider:before {
 											@if(!empty($fetchedData->pdf_doc))
 												<div class="modern-media-preview">
 													<strong>Current File:</strong><br>
-													<a href="{{ asset('images/cmspage/' . $fetchedData->pdf_doc) }}" target="_blank">
+													<a href="{!! asset('images/cmspage/' . $fetchedData->pdf_doc) !!}" target="_blank">
 														<i class="fas fa-external-link-alt"></i>
 														Open PDF/Video File
 													</a>

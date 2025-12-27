@@ -56,9 +56,9 @@
                     <div class="experimental-case-card">
                         <div class="experimental-case-image" 
                              @if(isset($list->image) && $list->image != "")
-                                 style="background-image: url('{{ asset('images/blog/' . $list->image) }}');"
+                                 style="background-image: url('{!! asset('images/blog/' . $list->image) !!}');"
                              @else
-                                 style="background-image: url('{{ asset('images/CaseStudies.jpg') }}');"
+                                 style="background-image: url('{!! asset('images/CaseStudies.jpg') !!}');"
                              @endif>
                         </div>
                         <div class="experimental-case-content">

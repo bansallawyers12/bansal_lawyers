@@ -513,14 +513,14 @@ input:checked + .modern-checkbox-slider:before {
 													@endphp
 													
 													@if(strtolower($extension) == 'mp4')
-														<iframe width="200" height="100" src="{{ asset('images/blog/' . $fetchedData->image) }}?autoplay=1&mute=1"></iframe>
+														<iframe width="200" height="100" src="{!! asset('images/blog/' . $fetchedData->image) !!}?autoplay=1&mute=1"></iframe>
 													@elseif(strtolower($extension) == 'pdf')
-														<a href="{{ asset('images/blog/' . $fetchedData->image) }}" target="_blank">
+														<a href="{!! asset('images/blog/' . $fetchedData->image) !!}" target="_blank">
 															<i class="fas fa-file-pdf"></i>
 															View PDF Document
 														</a>
 													@else
-														<img src="{{ asset('images/blog/' . $fetchedData->image) }}" alt="{{ $fetchedData->title }}">
+														<img src="{!! asset('images/blog/' . $fetchedData->image) !!}" alt="{{ $fetchedData->title }}">
 													@endif
 												</div>
 											@endif
@@ -620,7 +620,7 @@ input:checked + .modern-checkbox-slider:before {
 											@if($fetchedData->pdf_doc != '')
 												<div class="modern-media-preview">
 													<strong>Current File:</strong><br>
-													<a href="{{ asset('images/blog/' . $fetchedData->pdf_doc) }}" target="_blank">
+													<a href="{!! asset('images/blog/' . $fetchedData->pdf_doc) !!}" target="_blank">
 														<i class="fas fa-external-link-alt"></i>
 														Open PDF/Video File
 													</a>

@@ -20,9 +20,9 @@
             @if($showPhoto)
                 <div class="contact-form-photo">
                     @if(strpos($photoUrl, 'bansal_2') !== false)
-                        <img src="{{ asset('images/bansal_2.webp') }}" 
-                             srcset="{{ asset('images/bansal_2.webp') }} 1x, 
-                                     {{ asset('images/bansal_2@2x.webp') }} 2x" 
+                        <img src="{!! asset('images/bansal_2.webp') !!}" 
+                             srcset="{!! asset('images/bansal_2.webp') !!} 1x, 
+                                     {!! asset('images/bansal_2@2x.webp') !!} 2x" 
                              alt="{{ $photoAlt }}" 
                              class="lawyer-photo" 
                              width="60" 

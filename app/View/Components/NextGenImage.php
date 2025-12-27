@@ -34,7 +34,9 @@ class NextGenImage extends Component
         bool $isPublic = false,
         ?string $sizes = null
     ) {
-        $this->src = $src;
+        // Decode any HTML entities in the source path (e.g., &amp; to &)
+        // This prevents double-encoding issues when filenames contain special characters
+        $this->src = html_entity_decode($src, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $this->alt = $alt ?? '';
         $this->class = $class;
         $this->imgClass = $imgClass;

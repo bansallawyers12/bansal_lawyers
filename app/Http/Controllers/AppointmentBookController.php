@@ -10,7 +10,6 @@ use App\Models\Appointment;
 use App\Models\Admin;
 use App\Models\AppointmentPayment;
 use Helper;
-use App\Models\PromoCode;
 
 class AppointmentBookController extends Controller {
     /**
@@ -263,18 +262,14 @@ class AppointmentBookController extends Controller {
         // Normalize promo code to uppercase for consistent comparison
         $promoCodeUpper = strtoupper($promoCode);
         
-        // Additional validation: Check if promo code matches client-side allowed codes FIRST
-        $allowedClientCodes = ['FREE100', 'HALF50'];
-        if(!in_array($promoCodeUpper, $allowedClientCodes)){
+        // Validate promo code against hardcoded allowed codes
+        $promoCodes = [
+            'FREE100' => 100.00,  // 100% discount
+            'HALF50' => 50.00     // 50% discount
+        ];
+        
+        if(!isset($promoCodes[$promoCodeUpper])){
             return response()->json(['success'=>false,'msg'=>'Invalid promo code. Valid codes: FREE100 or HALF50'], 400);
-        }
-
-        // SECURITY FIX: Validate promo code against database (case-insensitive)
-        $promo = PromoCode::whereRaw('UPPER(code) = ?', [$promoCodeUpper])
-            ->where('status', 1)
-            ->first();
-        if(!$promo){
-            return response()->json(['success'=>false,'msg'=>'Invalid promo code.'], 404);
         }
 
         $service = \App\Models\BookService::find($serviceId);
@@ -283,7 +278,7 @@ class AppointmentBookController extends Controller {
         }
 
         $price = (float) str_replace(["aud","AUD","$"," "], "", $service->price);
-        $discountPercentage = (float) ($promo->discount_percentage ?? 0);
+        $discountPercentage = (float) $promoCodes[$promoCodeUpper];
         $discountAmount = round(($price * $discountPercentage)/100, 2);
         $payable = max(0, round($price - $discountAmount, 2));
 
@@ -385,39 +380,30 @@ class AppointmentBookController extends Controller {
             // Normalize promo code to uppercase for consistent comparison
             $promoCodeUpper = strtoupper($promoCode);
             
-            // Additional validation: Check if promo code matches client-side allowed codes FIRST
-            $allowedClientCodes = ['FREE100', 'HALF50'];
-            if(!in_array($promoCodeUpper, $allowedClientCodes)){
-                \Log::warning('Promo code validation mismatch: ' . $promoCode . ' not in client-side allowed codes');
+            // Validate promo code against hardcoded allowed codes
+            $promoCodes = [
+                'FREE100' => 100.00,  // 100% discount
+                'HALF50' => 50.00     // 50% discount
+            ];
+            
+            if(!isset($promoCodes[$promoCodeUpper])){
+                \Log::warning('Invalid promo code attempted: ' . $promoCode);
                 return response()->json([
                     'success' => false, 
                     'message' => 'Invalid promo code. Valid codes: FREE100 or HALF50'
                 ], 400);
             }
             
-            // SECURITY FIX: Validate promo code against database (case-insensitive)
-            $promo = PromoCode::whereRaw('UPPER(code) = ?', [$promoCodeUpper])
-                ->where('status', 1)
-                ->first();
-            
-            if($promo){
-                
-                $discountPercentage = (float) ($promo->discount_percentage ?? 0);
-                if($discountPercentage > 0){
-                    $discountAmount = round(($amount * $discountPercentage) / 100, 2);
-                    $amount = max(0, round($amount - $discountAmount, 2));
-                    $appliedPromo = $promo;
-                    // Log promo code application in development only
-                    if (config('app.debug')) {
-                        \Log::info('Promo code applied: ' . $promoCode . ' - Discount: ' . $discountPercentage . '%');
-                    }
+            // Apply discount based on hardcoded promo codes
+            $discountPercentage = (float) $promoCodes[$promoCodeUpper];
+            if($discountPercentage > 0){
+                $discountAmount = round(($amount * $discountPercentage) / 100, 2);
+                $amount = max(0, round($amount - $discountAmount, 2));
+                $appliedPromo = ['code' => $promoCodeUpper, 'discount_percentage' => $discountPercentage];
+                // Log promo code application in development only
+                if (config('app.debug')) {
+                    \Log::info('Promo code applied: ' . $promoCodeUpper . ' - Discount: ' . $discountPercentage . '%');
                 }
-            } else {
-                \Log::warning('Invalid promo code attempted: ' . $promoCode);
-                return response()->json([
-                    'success' => false, 
-                    'message' => 'Invalid promo code. Valid codes: FREE100 or HALF50'
-                ], 400);
             }
         }
 
