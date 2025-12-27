@@ -97,12 +97,17 @@ document.addEventListener('DOMContentLoaded', async function() {
         await loadExternalScripts();
         
         // Initialize Stellar for parallax effects
-        if (window.Stellar) {
-            $(window).stellar({
-                responsive: true,
-                horizontalScrolling: false,
-                verticalOffset: 0
-            });
+        // Check if Stellar.js jQuery plugin is available and elements exist
+        try {
+            if (typeof $.fn.stellar !== 'undefined' && $('[data-stellar-background-ratio], [data-stellar-ratio]').length > 0) {
+                $(window).stellar({
+                    responsive: true,
+                    horizontalScrolling: false,
+                    verticalOffset: 0
+                });
+            }
+        } catch (error) {
+            console.warn('Stellar.js initialization error:', error);
         }
         
     } catch (error) {

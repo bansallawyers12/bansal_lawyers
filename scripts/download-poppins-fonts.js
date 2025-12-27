@@ -7,9 +7,13 @@
  * from Google Fonts and saves them to public/fonts/poppins/
  */
 
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Font weights to download
 const fontWeights = [
@@ -69,13 +73,20 @@ function downloadFile(url, filepath) {
 }
 
 /**
- * Extract WOFF2 URL from Google Fonts CSS
+ * Get WOFF2 URL from Google Fonts Helper API
+ * This is more reliable than parsing CSS
  */
 async function getWoff2Url(weight) {
+  // Use google-webfonts-helper API which provides direct download links
+  const helperApiUrl = `https://gwfh.mranftl.com/api/fonts/poppins?download=zip&subsets=latin&formats=woff2&variants=${weight}`;
+  
   return new Promise((resolve, reject) => {
-    const url = `${GOOGLE_FONTS_API}${weight}&display=swap`;
-    
-    https.get(url, (response) => {
+    // First, try to get the direct URL from the helper API
+    https.get(helperApiUrl, { 
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      }
+    }, (response) => {
       let data = '';
       
       response.on('data', (chunk) => {
@@ -83,18 +94,63 @@ async function getWoff2Url(weight) {
       });
       
       response.on('end', () => {
-        // Extract WOFF2 URL from CSS
-        const woff2Match = data.match(/url\(([^)]+\.woff2[^)]*)\)/);
-        if (woff2Match && woff2Match[1]) {
-          let fontUrl = woff2Match[1];
-          // Remove quotes if present
-          fontUrl = fontUrl.replace(/['"]/g, '');
-          resolve(fontUrl);
-        } else {
-          reject(new Error(`Could not find WOFF2 URL for weight ${weight}`));
+        try {
+          const json = JSON.parse(data);
+          if (json.files && json.files[`${weight}`] && json.files[`${weight}`]['woff2']) {
+            resolve(json.files[`${weight}`]['woff2']);
+            return;
+          }
+        } catch (e) {
+          // Not JSON, continue to fallback
         }
+        
+        // Fallback: Try Google Fonts CSS with better parsing
+        const cssUrl = `${GOOGLE_FONTS_API}${weight}&display=swap`;
+        https.get(cssUrl, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+          }
+        }, (cssResponse) => {
+          let cssData = '';
+          cssResponse.on('data', (chunk) => cssData += chunk);
+          cssResponse.on('end', () => {
+            // Look for woff2 URLs in the CSS
+            const urlMatches = cssData.matchAll(/url\(['"]?([^'")]+\.woff2[^'")]*)['"]?\)/g);
+            for (const match of urlMatches) {
+              let url = match[1].trim();
+              if (url.includes('woff2')) {
+                // Clean up the URL
+                url = url.replace(/^['"]|['"]$/g, '');
+                if (url.startsWith('//')) {
+                  url = 'https:' + url;
+                } else if (!url.startsWith('http')) {
+                  url = 'https://fonts.gstatic.com' + (url.startsWith('/') ? '' : '/') + url;
+                }
+                resolve(url);
+                return;
+              }
+            }
+            reject(new Error(`Could not find WOFF2 URL for weight ${weight}`));
+          });
+        }).on('error', reject);
       });
-    }).on('error', reject);
+    }).on('error', (err) => {
+      // Final fallback: use known Google Fonts CDN pattern
+      // These are approximate - may need adjustment
+      const fallbackUrls = {
+        300: 'https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLDz8Z1xlFQ.woff2',
+        500: 'https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLGT9Z1xlFQ.woff2',
+        700: 'https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2',
+        800: 'https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLDD4Z1xlFQ.woff2'
+      };
+      
+      if (fallbackUrls[weight]) {
+        console.log(`   ⚠️  Using fallback URL for weight ${weight}`);
+        resolve(fallbackUrls[weight]);
+      } else {
+        reject(err);
+      }
+    });
   });
 }
 
