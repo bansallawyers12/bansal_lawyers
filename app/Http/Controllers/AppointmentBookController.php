@@ -623,6 +623,7 @@ class AppointmentBookController extends Controller {
                         'success' => true,
                         'message' => $message,
                         'appointment_id' => $obj->id,
+                        'redirect' => route('payment.thankyou', ['appointmentId' => $obj->id]),
                         'email_status' => [
                             'admin_notification_sent' => $emailResults['admin_email_sent'],
                             'confirmation_sent' => $emailResults['customer_email_sent']

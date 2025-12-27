@@ -812,7 +812,7 @@
                         // Use 400px version for listing if available, otherwise use full size
                         $optimizedWebpPath = $hasWebP400 ? $webpPath400 : ($hasWebP ? $webpPath : $imagePath);
                     @endphp
-                    <div style="height: 200px; background-image: url('{!! asset($optimizedWebpPath) !!}'); background-size: cover; background-position: center; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({!! asset('images/Blog.jpg') !!})'">
+                    <div style="height: 200px; min-height: 200px; background-image: url('{!! asset($optimizedWebpPath) !!}'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({!! asset('images/Blog.jpg') !!})'">
                         <span class="sr-only">{{ @$list->title }}</span>
                     </div>
                     <div class="d-flex align-items-center mb-3">

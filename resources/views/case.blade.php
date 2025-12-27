@@ -205,8 +205,10 @@
 
 .experimental-case-image {
     height: 250px;
+    min-height: 250px;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     position: relative;
     overflow: hidden;
 }
@@ -321,6 +323,7 @@
     
     .experimental-case-image {
         height: 200px;
+        min-height: 200px;
     }
     
     .experimental-case-content {

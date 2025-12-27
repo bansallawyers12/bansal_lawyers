@@ -1196,12 +1196,14 @@ function toggleFAQ(index) {
     
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}" defer></script>
     
-    <!-- Google Maps will be loaded with proper error handling below -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap"></script>
-    <script defer>
-        // Wait for jQuery and Google Maps to load before executing
-        document.addEventListener('DOMContentLoaded', function() {
-            // Wait for jQuery to be available
+    <!-- Google Maps - Define initMap BEFORE loading the script to prevent race condition -->
+    <script>
+        // Define initMap immediately (synchronously) so Google Maps callback can find it
+        window.initMap = function() {
+            // Only proceed if a map container exists
+            if (!document.getElementById('map') && !document.getElementById('google-map')) return;
+            
+            // Wait for jQuery to be available before loading google-map.min.js
             function waitForJQuery(callback) {
                 if (typeof jQuery !== 'undefined') {
                     callback();
@@ -1211,34 +1213,20 @@ function toggleFAQ(index) {
             }
             
             waitForJQuery(function() {
-                // Wait for Google Maps to load before loading google-map.min.js
-                function initMap() {
-                    // Only proceed if a map container exists
-                    if (!document.getElementById('map') && !document.getElementById('google-map')) return;
-                    // Load google-map.min.js only after Google Maps is ready
-                    var script = document.createElement('script');
-                    script.src = "{{ asset('js/google-map.min.js')}}";
-                    script.defer = true;
-                    document.head.appendChild(script);
-                }
-                
-                // Expose initMap globally for Google Maps callback
-                window.initMap = initMap;
-                
-                // Handle Google Maps loading errors
-                window.gm_authFailure = function() {
-                    // Authentication failed - handled silently
-                };
-                
-                // Fallback if Google Maps fails to load
-                setTimeout(function() {
-                    if (typeof google === 'undefined' || !google.maps) {
-                        // Google Maps failed to load - handled silently
-                    }
-                }, 10000);
+                // Load google-map.min.js only after Google Maps and jQuery are ready
+                var script = document.createElement('script');
+                script.src = "{{ asset('js/google-map.min.js')}}";
+                script.defer = true;
+                document.head.appendChild(script);
             });
-        });
+        };
+        
+        // Handle Google Maps loading errors
+        window.gm_authFailure = function() {
+            // Authentication failed - handled silently
+        };
     </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap"></script>
     
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>

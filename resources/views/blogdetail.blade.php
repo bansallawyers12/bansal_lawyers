@@ -367,6 +367,15 @@
     border-bottom: 2px solid #f0f0f0;
 }
 
+.experimental-related-image-tag {
+    width: 100% !important;
+    height: 150px !important;
+    min-height: 150px;
+    max-height: 150px;
+    object-fit: cover;
+    display: block;
+}
+
 .experimental-latest-post {
     display: flex;
     align-items: flex-start;
@@ -390,6 +399,7 @@
 .experimental-latest-post img {
     width: 80px;
     height: 60px;
+    min-height: 60px;
     object-fit: cover;
     border-radius: 8px;
     flex-shrink: 0;
@@ -682,13 +692,15 @@
                             @if($related->id != $blogdetailists->id)
                             <div class="col-md-4 mb-3">
                                 <div class="experimental-related-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 100%;">
-                                    <div class="experimental-related-image" style="height: 150px; overflow: hidden;">
+                                    <div class="experimental-related-image" style="height: 150px; min-height: 150px; overflow: hidden;">
                                         @if(isset($related->image) && $related->image != "")
                                             <x-next-gen-image 
                                                 src="images/blog/{{ $related->image }}" 
                                                 alt="{{ $related->title }} - Legal Blog Post by Bansal Lawyers"
                                                 is-public="true"
                                                 loading="lazy"
+                                                width="400"
+                                                height="150"
                                                 img-class="experimental-related-image-tag"
                                             />
                                         @else
@@ -697,6 +709,8 @@
                                                 alt="{{ $related->title }} - Legal Blog Post by Bansal Lawyers"
                                                 is-public="true"
                                                 loading="lazy"
+                                                width="400"
+                                                height="150"
                                                 img-class="experimental-related-image-tag"
                                             />
                                         @endif

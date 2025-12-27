@@ -3199,24 +3199,42 @@ $(function() {
                         
                         console.log('Final amount:', finalAmount, 'Calculated final:', calculatedFinal);
                         
-                        // If price is zero, skip Stripe and show success message
+                        // If price is zero, skip Stripe and redirect to thank you page
                         if (calculatedFinal <= 0) {
                             console.log('Price is zero - skipping Stripe payment');
-                            showSuccessMessage('Appointment booked successfully! You will receive a confirmation email shortly.');
+                            showSuccessMessage('Appointment booked successfully! Redirecting to confirmation page...');
                             setTimeout(function() {
-                                window.location.reload();
-                            }, 3000);
+                                if (response.redirect) {
+                                    window.location.href = response.redirect;
+                                } else if (response.appointment_id) {
+                                    window.location.href = '/payment-thankyou/' + response.appointment_id;
+                                } else {
+                                    window.location.reload();
+                                }
+                            }, 1500);
                         } else if (response.payment_url) {
                             // Success - redirect to Stripe payment for non-zero amounts
                             console.log('Redirecting to Stripe payment:', response.payment_url);
                             console.log('Appointment ID:', response.appointment_id);
                             window.location.href = response.payment_url;
                         } else {
-                            // Fallback - show success message
-                            showSuccessMessage(response.message || 'Appointment booked successfully! You will receive a confirmation email shortly.');
-                            setTimeout(function() {
-                                window.location.reload();
-                            }, 3000);
+                            // Fallback - redirect to thank you page if appointment_id available
+                            if (response.redirect) {
+                                showSuccessMessage(response.message || 'Appointment booked successfully! Redirecting...');
+                                setTimeout(function() {
+                                    window.location.href = response.redirect;
+                                }, 1500);
+                            } else if (response.appointment_id) {
+                                showSuccessMessage(response.message || 'Appointment booked successfully! Redirecting...');
+                                setTimeout(function() {
+                                    window.location.href = '/payment-thankyou/' + response.appointment_id;
+                                }, 1500);
+                            } else {
+                                showSuccessMessage(response.message || 'Appointment booked successfully! You will receive a confirmation email shortly.');
+                                setTimeout(function() {
+                                    window.location.reload();
+                                }, 3000);
+                            }
                         }
                     } else {
                         // Backend validation error
