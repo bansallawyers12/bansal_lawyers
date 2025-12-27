@@ -473,7 +473,15 @@ body::before {
 	<script type="text/javascript">
 		var site_url = "<?php echo URL::to('/'); ?>";
 	</script>
-	<script src="{{ asset('js/app.min.js')}}"></script>
+	
+	<!-- Core Dependencies (load first) -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+	
+	<!-- Icons Library required by scripts.js -->
+	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+	
+	<!-- Custom Scripts (load after jQuery and Bootstrap) -->
 	<script src="{{ asset('js/scripts.js')}}"></script>
 	<script src="{{ asset('js/custom.js')}}"></script>
 	

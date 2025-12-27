@@ -240,12 +240,10 @@ function toggleFAQ(index) {
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
     
-    <!-- Icon fonts - Can be loaded asynchronously -->
-    <link rel="preload" href="{{ asset('css/font-awesome.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"></noscript>
-    
-    <link rel="preload" href="{{ asset('css/flaticon.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}"></noscript>
+    <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fonts/ionicons/css/ionicons.min.css') }}">
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
@@ -1235,7 +1233,7 @@ function toggleFAQ(index) {
     @vite(['resources/js/frontend.js'])
     
     <!-- Main script - loads last with defer (legacy support) -->
-    <script src="{{ asset('js/main.min.js')}}" defer></script>
+    <script src="{{ asset('js/main.js')}}" defer></script>
 </body>
 
 </html>

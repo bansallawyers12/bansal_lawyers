@@ -160,6 +160,13 @@ document.addEventListener("DOMContentLoaded", function() {
 	// Try to initialize with multiple retries to ensure script is loaded
 	function initStellarWithRetry(retries) {
 		retries = retries || 0;
+		
+		// Exit early if no stellar elements exist on the page
+		var stellarElements = $('[data-stellar-background-ratio], [data-stellar-ratio]');
+		if (stellarElements.length === 0) {
+			return; // No stellar elements, skip initialization
+		}
+		
 		if (retries > 10) {
 			return; // Give up after 10 retries (1 second)
 		}
