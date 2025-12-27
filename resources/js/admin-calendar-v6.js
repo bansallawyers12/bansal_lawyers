@@ -7,8 +7,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 
-// FullCalendar CSS will be loaded via link tag in admin layout
-// CSS imports don't work well with Vite for FullCalendar v6
+// FullCalendar CSS - Will be loaded via link tags in admin layout
+// Dynamic import doesn't work for CSS, so we'll use a different approach
 
 // Initialize calendar when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {

@@ -20,7 +20,7 @@ window.addEventListener('error', function(e) {
 
 
 // Wait for DOM to be ready before executing any code
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
     // All DOM manipulation code will be wrapped here
     console.log('DOM is ready - safe to access elements');
     
@@ -381,3 +381,4 @@ $(document).ready(function() {
 		
 		return html;	
 	}
+}); // End of DOMContentLoaded

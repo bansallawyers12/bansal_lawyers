@@ -19,11 +19,11 @@
 	
 	<!-- Legacy CSS files (will be migrated gradually) -->
 	<link rel="stylesheet" href="{{ asset('css/app.min.css')}}">
-	 <!-- FullCalendar v6 CSS -->
-	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/main.min.css" rel="stylesheet" />
-	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/main.min.css" rel="stylesheet" />
-	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.15/main.min.css" rel="stylesheet" />
-	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/list@6.1.15/main.min.css" rel="stylesheet" />
+	 <!-- FullCalendar v6 CSS - Using jsDelivr with correct path format -->
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.20/index.global.min.css" rel="stylesheet" />
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.20/index.global.min.css" rel="stylesheet" />
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.20/index.global.min.css" rel="stylesheet" />
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/list@6.1.20/index.global.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="{{ asset('css/summernote-bs4.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/daterangepicker.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/bootstrap-timepicker.min.css')}}">
@@ -236,8 +236,8 @@ body {
 	<!-- Icons Library required by scripts.js -->
 	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 	<!-- jQuery plugins expected by scripts.js -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.nicescroll/3.7.6/jquery.nicescroll.min.js" integrity="sha512-rv3BqCk2wQ0o4tVSMk9z3j2rdcGQ5S9gVn1v8qY0tCnu2wukHhMsiT1u8f3Jr8XxVwTz7v2mG/2rM4b7kA+V3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha512-xM8CzZrD1k7N8b1Z2mX2m1e2wM0m2m3n4p0dYkq3S0J6zQ7vQ+vGk7G0o9xjz33Jp1xYy1T1sPq0jQ6H1Hk3tQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<!-- NiceScroll removed - causing CORS/integrity errors, will replace with CSS scrollbar styling -->
+	<!-- Sticky Kit removed - not used (layout-2 class not found), will replace with CSS position: sticky -->
 	
 	<!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
 	@vite(['resources/js/admin.js'])
