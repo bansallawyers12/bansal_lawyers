@@ -1025,7 +1025,7 @@ class HomeController extends Controller
                 $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
                 $relatedpagedata = $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1058,7 +1058,7 @@ class HomeController extends Controller
                 $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
                 $relatedpagedata = $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1074,7 +1074,7 @@ class HomeController extends Controller
                 $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
                 $relatedpagedata = $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1090,7 +1090,7 @@ class HomeController extends Controller
                 $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
                 $relatedpagedata = $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1106,7 +1106,7 @@ class HomeController extends Controller
                 $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
                 $relatedpagedata = $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1127,7 +1127,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1146,7 +1146,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1165,7 +1165,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1184,7 +1184,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1203,7 +1203,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1224,7 +1224,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1244,7 +1244,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1264,7 +1264,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1283,7 +1283,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1304,7 +1304,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1324,7 +1324,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1343,7 +1343,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1362,7 +1362,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1383,7 +1383,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1403,7 +1403,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1422,7 +1422,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1441,7 +1441,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1461,7 +1461,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1480,7 +1480,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
@@ -1499,7 +1499,7 @@ class HomeController extends Controller
                                     ->where('id', '!=', $pagedata->id);
                 $relatedpagedata 	= $relatedpagequery->get();
             }
-            return view('practice_area_experimental', compact('type','pagedata','relatedpagedata'));
+            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
     }
