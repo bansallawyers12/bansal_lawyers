@@ -17,12 +17,15 @@ import './alpine-utils.js';
 // window.AOS = AOS;
 
 // Lazy load non-critical libraries
+// Note: These libraries are loaded via CDN/asset() in Blade templates and marked as external in vite.config.js
 const loadNonCriticalLibraries = async () => {
     // Owl Carousel removed - now using Swiper.js (loaded via CDN in layout)
     
-    // Load Magnific Popup
-    const { default: MagnificPopup } = await import('magnific-popup');
-    import('magnific-popup/dist/magnific-popup.css');
+    // Magnific Popup is loaded via asset() in frontend.blade.php
+    // Check if it's already loaded
+    const MagnificPopup = window.$ && window.$.fn && window.$.fn.magnificPopup 
+        ? window.$.fn.magnificPopup 
+        : null;
     
     return { MagnificPopup };
 };

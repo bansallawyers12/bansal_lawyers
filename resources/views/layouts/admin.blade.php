@@ -13,6 +13,11 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>Bansal Lawyers | @yield('title')</title>
 	<!--<link rel="icon" type="image/png" href="{{ asset('images/favicon.png')}}">-->
+	
+	<!-- Vite CSS - Modern optimized CSS bundle -->
+	@vite(['resources/css/admin.css'])
+	
+	<!-- Legacy CSS files (will be migrated gradually) -->
 	<link rel="stylesheet" href="{{ asset('css/app.min.css')}}">
 	 <link rel="stylesheet" href="{{ asset('css/fullcalendar.min.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/summernote-bs4.css')}}">
@@ -229,6 +234,9 @@ body {
 	<!-- jQuery plugins expected by scripts.js -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.nicescroll/3.7.6/jquery.nicescroll.min.js" integrity="sha512-rv3BqCk2wQ0o4tVSMk9z3j2rdcGQ5S9gVn1v8qY0tCnu2wukHhMsiT1u8f3Jr8XxVwTz7v2mG/2rM4b7kA+V3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha512-xM8CzZrD1k7N8b1Z2mX2m1e2wM0m2m3n4p0dYkq3S0J6zQ7vQ+vGk7G0o9xjz33Jp1xYy1T1sPq0jQ6H1Hk3tQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	
+	<!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
+	@vite(['resources/js/admin.js'])
 	
 	<!-- Custom Scripts (load last to ensure DOM is ready) -->
 	<script src="{{ asset('js/custom-form-validation.js')}}"></script>

@@ -14,6 +14,8 @@ import { formValidation } from './components/form-validation.js';
 // in Blade templates, so we don't import it here.
 
 // Lazy load admin libraries based on page needs
+// Note: These libraries are loaded via CDN/asset() in Blade templates and marked as external in vite.config.js
+// This function detects what's needed and initializes them if they're already loaded
 const loadAdminLibraries = async (libraries = []) => {
     const loadedLibraries = {};
     
@@ -21,40 +23,43 @@ const loadAdminLibraries = async (libraries = []) => {
         try {
             switch (lib) {
                 case 'datatables':
-                    const { default: DataTables } = await import('datatables.net');
-                    const { default: DataTablesBootstrap } = await import('datatables.net-bs4');
-                    import('datatables.net-bs4/css/dataTables.bootstrap4.css');
-                    loadedLibraries.datatables = { DataTables, DataTablesBootstrap };
+                    // DataTables is loaded via asset() in admin.blade.php
+                    if (window.$ && window.$.fn && window.$.fn.DataTable) {
+                        loadedLibraries.datatables = { DataTables: window.$.fn.DataTable };
+                    }
                     break;
                     
                 case 'tom-select':
-                    const TomSelect = await import('tom-select');
-                    import('tom-select/dist/css/tom-select.css');
-                    loadedLibraries.tomSelect = TomSelect.default;
+                    // Tom Select would need to be installed via npm if used
+                    // For now, using Select2 which is loaded via asset()
+                    if (window.$ && window.$.fn && window.$.fn.select2) {
+                        loadedLibraries.select2 = window.$.fn.select2;
+                    }
                     break;
                     
                 case 'summernote':
-                    const { default: Summernote } = await import('summernote');
-                    import('summernote/dist/summernote-bs4.css');
-                    loadedLibraries.summernote = Summernote;
+                    // Summernote is loaded via asset() in admin.blade.php
+                    if (window.$ && window.$.fn && window.$.fn.summernote) {
+                        loadedLibraries.summernote = window.$.fn.summernote;
+                    }
                     break;
                     
                 case 'fullcalendar':
-                    const { Calendar } = await import('@fullcalendar/core');
-                    const dayGridPlugin = await import('@fullcalendar/daygrid');
-                    const timeGridPlugin = await import('@fullcalendar/timegrid');
-                    const interactionPlugin = await import('@fullcalendar/interaction');
-                    loadedLibraries.fullcalendar = { Calendar, dayGridPlugin, timeGridPlugin, interactionPlugin };
+                    // FullCalendar is loaded via asset() in admin.blade.php
+                    if (window.FullCalendar) {
+                        loadedLibraries.fullcalendar = window.FullCalendar;
+                    }
                     break;
                     
                 case 'datepicker':
-                    const { default: Datepicker } = await import('bootstrap-datepicker');
-                    import('bootstrap-datepicker/dist/css/bootstrap-datepicker.css');
-                    loadedLibraries.datepicker = Datepicker;
+                    // Datepicker is loaded via asset() in admin.blade.php (daterangepicker.js)
+                    if (window.$ && window.$.fn && window.$.fn.daterangepicker) {
+                        loadedLibraries.datepicker = window.$.fn.daterangepicker;
+                    }
                     break;
             }
         } catch (error) {
-            console.warn(`Failed to load ${lib}:`, error);
+            console.warn(`Failed to initialize ${lib}:`, error);
         }
     }
     

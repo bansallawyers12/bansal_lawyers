@@ -100,6 +100,9 @@
     <!-- Self-hosted Poppins fonts -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
+    <!-- Vite CSS - Modern optimized CSS bundle -->
+    @vite(['resources/css/frontend.css'])
+
     <!-- Bootstrap CSS - Primary framework for frontend -->
     <!-- Critical CSS - Load immediately -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
@@ -214,6 +217,9 @@
         document.head.appendChild(s);
       }
     </script>
+    
+    <!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
+    @vite(['resources/js/frontend.js'])
     
     <!-- Main Application Script -->
     <script src="{{ asset('js/main.min.js')}}"></script>

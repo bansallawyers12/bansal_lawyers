@@ -229,13 +229,11 @@ function toggleFAQ(index) {
     <link rel="preload" href="{{ asset('fonts/fontawesome-webfont.woff2') }}?v=4.7.0" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{{ asset('fonts/flaticon/font/Flaticon.woff') }}" as="font" type="font/woff" crossorigin>
     
-    <!-- Preload critical JavaScript files for parallel loading -->
-    <link rel="preload" href="{{ asset('js/jquery-3.7.1.min.js') }}" as="script">
-    <link rel="preload" href="{{ asset('js/bootstrap.bundle.min.js') }}" as="script">
-    <link rel="preload" href="{{ asset('js/main.min.js') }}" as="script">
-    
     <!-- Preload optimized logo for faster rendering -->
     <link rel="preload" href="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }}" as="image">
+
+    <!-- Vite CSS - Modern optimized CSS bundle -->
+    @vite(['resources/css/frontend.css'])
 
     <!-- Bootstrap CSS - Primary framework for frontend -->
     <!-- Critical CSS - Load immediately -->
@@ -1245,7 +1243,10 @@ function toggleFAQ(index) {
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
-    <!-- Main script - loads last with defer -->
+    <!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
+    @vite(['resources/js/frontend.js'])
+    
+    <!-- Main script - loads last with defer (legacy support) -->
     <script src="{{ asset('js/main.min.js')}}" defer></script>
 </body>
 
