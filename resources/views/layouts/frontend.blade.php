@@ -241,9 +241,9 @@ function toggleFAQ(index) {
     <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
     
     <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('fonts/ionicons/css/ionicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('fonts/ionicons/css/ionicons.min.css') }}?v={{ time() }}">
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
@@ -1057,11 +1057,13 @@ function toggleFAQ(index) {
         preloadLogos();
 
         // Ensure logo is visible on page load and preload images
-        $(document).ready(function() {
-            var logoElement = $('#image_logo');
-            if (logoElement.length) {
+        document.addEventListener('DOMContentLoaded', function() {
+            var logoElement = document.getElementById('image_logo');
+            if (!logoElement) return;
+            var $logoElement = $(logoElement);
+            if ($logoElement.length) {
                 // Force logo to be visible with immediate CSS
-                logoElement.css({
+                $logoElement.css({
                     'display': 'block',
                     'visibility': 'visible',
                     'opacity': '1',
@@ -1069,7 +1071,7 @@ function toggleFAQ(index) {
                 });
                 
                 // Ensure parent navbar brand is visible
-                logoElement.closest('.navbar-brand').css({
+                $logoElement.closest('.navbar-brand').css({
                     'display': 'block',
                     'visibility': 'visible',
                     'opacity': '1',
@@ -1233,7 +1235,7 @@ function toggleFAQ(index) {
     @vite(['resources/js/frontend.js'])
     
     <!-- Main script - loads last with defer (legacy support) -->
-    <script src="{{ asset('js/main.js')}}" defer></script>
+    <script src="{{ asset('js/main.js') }}?v={{ time() }}" defer></script>
 </body>
 
 </html>

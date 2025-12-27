@@ -161,21 +161,30 @@ document.addEventListener("DOMContentLoaded", function() {
 	function initStellarWithRetry(retries) {
 		retries = retries || 0;
 		
-		// Exit early if no stellar elements exist on the page
-		var stellarElements = $('[data-stellar-background-ratio], [data-stellar-ratio]');
-		if (stellarElements.length === 0) {
-			return; // No stellar elements, skip initialization
-		}
-		
 		if (retries > 10) {
 			return; // Give up after 10 retries (1 second)
 		}
 		
-		if (typeof $.fn.stellar === 'undefined' || typeof jQuery === 'undefined') {
+		// Check if jQuery is available first
+		if (typeof jQuery === 'undefined') {
 			setTimeout(function() {
 				initStellarWithRetry(retries + 1);
 			}, 100);
 			return;
+		}
+		
+		// Check if Stellar.js plugin is loaded
+		if (typeof $.fn.stellar === 'undefined') {
+			setTimeout(function() {
+				initStellarWithRetry(retries + 1);
+			}, 100);
+			return;
+		}
+		
+		// Now that jQuery is available, check for stellar elements
+		var stellarElements = $('[data-stellar-background-ratio], [data-stellar-ratio]');
+		if (stellarElements.length === 0) {
+			return; // No stellar elements, skip initialization
 		}
 		
 		// Initialize Stellar (patch is applied inside initStellar)
@@ -660,5 +669,6 @@ function showCaseDetails(caseId) {
 	// Scroll to the description section
 	descriptionSection.scrollIntoView({ behavior: "smooth" });
 }
+
 
 

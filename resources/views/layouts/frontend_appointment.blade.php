@@ -109,9 +109,9 @@
     <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
     
     <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('fonts/ionicons/css/ionicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('fonts/ionicons/css/ionicons.min.css') }}?v={{ time() }}">
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
@@ -220,7 +220,7 @@
     @vite(['resources/js/frontend.js'])
     
     <!-- Main Application Script -->
-    <script src="{{ asset('js/main.min.js')}}"></script>
+    <script src="{{ asset('js/main.js') }}?v={{ time() }}"></script>
 
     <!-- Global Error Handler -->
     <script>

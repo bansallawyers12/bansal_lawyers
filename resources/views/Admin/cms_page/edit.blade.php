@@ -860,7 +860,7 @@ function validateAndUpdateCMS() {
 <script src="{{ asset('assets/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 <script>
 // Wait for DOM to be ready before initializing TinyMCE
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Check if TinyMCE is loaded and description element exists
     if (typeof tinymce !== 'undefined') {
         var descriptionElement = document.getElementById('description');

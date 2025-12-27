@@ -2760,9 +2760,10 @@
 
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
-$(function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Tab navigation
-    $('.next-tab').click(function() {
+    document.querySelectorAll('.next-tab').forEach(function(btn) {
+        btn.addEventListener('click', function() {
         var nextTab = $(this).data('next');
         var currentTab = $('.experimental-tab-content.active').attr('id');
         
@@ -2770,6 +2771,7 @@ $(function() {
         if (validateCurrentTab(currentTab)) {
             switchTab(nextTab);
         }
+        });
     });
     
     // Back button navigation

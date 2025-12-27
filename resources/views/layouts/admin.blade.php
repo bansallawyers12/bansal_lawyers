@@ -277,16 +277,18 @@ body {
 			}
 		};
 		
-		$(document).ready(function () {
-
-		    $(".tel_input").on("blur", function() {
-                /*if (/^0/.test(this.value)) {
-                   //this.value = this.value.replace(/^0/, "")
-                } else {
-                    //this.value =  "0" + this.value;
-                }*/
-                this.value =  this.value;
+		document.addEventListener('DOMContentLoaded', function () {
+		    document.querySelectorAll(".tel_input").forEach(function(input) {
+		        input.addEventListener("blur", function() {
+                    /*if (/^0/.test(input.value)) {
+                       //input.value = input.value.replace(/^0/, "")
+                    } else {
+                        //input.value =  "0" + input.value;
+                    }*/
+                    input.value = input.value;
+                });
             });
+        });
 
 
 
