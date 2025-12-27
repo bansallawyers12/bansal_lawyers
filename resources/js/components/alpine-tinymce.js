@@ -43,6 +43,10 @@ export function tinyMCE(options = {}) {
                         // Sync content with Alpine.js data
                         editor.on('change keyup', () => {
                             this.content = editor.getContent();
+                            // Update textarea value for form submission
+                            if (this.$el) {
+                                this.$el.value = this.content;
+                            }
                             this.$dispatch('tinymce:change', { content: this.content });
                         });
                         
@@ -51,7 +55,12 @@ export function tinyMCE(options = {}) {
                             editor.setContent(this.content);
                         }
                     },
-                    ...options
+                    // Include file_picker_callback and other options (will be set via editor.settings if needed)
+                    ...Object.fromEntries(
+                        Object.entries(options).filter(([key]) => 
+                            !['height', 'menubar', 'plugins', 'toolbar', 'contentStyle'].includes(key)
+                        )
+                    )
                 };
                 
                 try {
