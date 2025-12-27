@@ -1,7 +1,14 @@
 {
-  "_alpine-utils-DEVg5VAh.js": {
-    "file": "assets/alpine-utils-DEVg5VAh.js",
-    "name": "alpine-utils"
+  "_alpine-utils-DUYmnTDj.js": {
+    "file": "assets/alpine-utils-DUYmnTDj.js",
+    "name": "alpine-utils",
+    "imports": [
+      "_vendor-alpine-COi9gVU0.js"
+    ]
+  },
+  "_vendor-DB-HZWW_.js": {
+    "file": "assets/vendor-DB-HZWW_.js",
+    "name": "vendor"
   },
   "_vendor-alpine-COi9gVU0.js": {
     "file": "assets/vendor-alpine-COi9gVU0.js",
@@ -11,11 +18,11 @@
     "file": "assets/vendor-axios-CcrxTH1M.js",
     "name": "vendor-axios"
   },
-  "_vendor-bootstrap-DdK303FI.js": {
-    "file": "assets/vendor-bootstrap-DdK303FI.js",
+  "_vendor-bootstrap--RKbWR1z.js": {
+    "file": "assets/vendor-bootstrap--RKbWR1z.js",
     "name": "vendor-bootstrap",
     "imports": [
-      "_vendor-tkYmcTcM.js"
+      "_vendor-DB-HZWW_.js"
     ]
   },
   "_vendor-jquery-Cx5wq2av.js": {
@@ -28,10 +35,6 @@
     "imports": [
       "_vendor-jquery-Cx5wq2av.js"
     ]
-  },
-  "_vendor-tkYmcTcM.js": {
-    "file": "assets/vendor-tkYmcTcM.js",
-    "name": "vendor"
   },
   "resources/css/admin.css": {
     "file": "assets/admin-DnISDPN6.css",
@@ -48,37 +51,48 @@
     "src": "resources/css/frontend.css",
     "isEntry": true
   },
+  "resources/js/admin-calendar-v6.js": {
+    "file": "assets/admin-calendar-v6-fBrX2LN4.js",
+    "name": "admin-calendar-v6",
+    "src": "resources/js/admin-calendar-v6.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor-DB-HZWW_.js"
+    ]
+  },
   "resources/js/admin.js": {
-    "file": "assets/admin-B9S9r1IL.js",
+    "file": "assets/admin-Djf7Kzad.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
-      "_alpine-utils-DEVg5VAh.js",
-      "_vendor-axios-CcrxTH1M.js"
+      "_alpine-utils-DUYmnTDj.js",
+      "_vendor-axios-CcrxTH1M.js",
+      "_vendor-alpine-COi9gVU0.js"
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-Duzoau6k.js",
+    "file": "assets/app-DR7ZRFch.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
       "_vendor-lodash-CDFAzL-S.js",
       "_vendor-jquery-Cx5wq2av.js",
-      "_vendor-bootstrap-DdK303FI.js",
+      "_vendor-bootstrap--RKbWR1z.js",
       "_vendor-axios-CcrxTH1M.js",
       "_vendor-alpine-COi9gVU0.js",
-      "_vendor-tkYmcTcM.js"
+      "_vendor-DB-HZWW_.js"
     ]
   },
   "resources/js/frontend.js": {
-    "file": "assets/frontend-CtYdj6h_.js",
+    "file": "assets/frontend-CQPvfid4.js",
     "name": "frontend",
     "src": "resources/js/frontend.js",
     "isEntry": true,
     "imports": [
-      "_alpine-utils-DEVg5VAh.js"
+      "_alpine-utils-DUYmnTDj.js",
+      "_vendor-alpine-COi9gVU0.js"
     ]
   }
 }

@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/frontend.js',
                 'resources/js/admin.js',
+                'resources/js/admin-calendar-v6.js',
             ],
             refresh: true,
         }),

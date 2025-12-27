@@ -19,7 +19,11 @@
 	
 	<!-- Legacy CSS files (will be migrated gradually) -->
 	<link rel="stylesheet" href="{{ asset('css/app.min.css')}}">
-	 <link rel="stylesheet" href="{{ asset('css/fullcalendar.min.css')}}">
+	 <!-- FullCalendar v6 CSS -->
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/main.min.css" rel="stylesheet" />
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/main.min.css" rel="stylesheet" />
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.15/main.min.css" rel="stylesheet" />
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/list@6.1.15/main.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="{{ asset('css/summernote-bs4.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/daterangepicker.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/bootstrap-timepicker.min.css')}}">
@@ -218,7 +222,7 @@ body {
 	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 	
 	<!-- Feature-specific Scripts (load after core) -->
-	<script src="{{ asset('js/fullcalendar.min.js')}}"></script>
+	<!-- FullCalendar v6 loaded via Vite in admin.js (no jQuery needed) -->
 	<!-- DataTables removed - not used in admin panel (modern-table class used instead) -->
 	<!-- <script src="{{ asset('js/datatables.min.js')}}"></script> -->
 	<!-- <script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script> -->
