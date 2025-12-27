@@ -1714,6 +1714,11 @@ tinyglobby@^0.2.12, tinyglobby@^0.2.13:
     fdir "^6.5.0"
     picomatch "^4.0.3"
 
+tinymce@^8.3.1:
+  version "8.3.1"
+  resolved "https://registry.npmjs.org/tinymce/-/tinymce-8.3.1.tgz"
+  integrity sha512-mdQdTAA90aEIyhEteIwy+QQ6UnxPCd3qQ5MlGvvByOvnjyOSdBzBcmnXeqWuhGz3fIs3XBJjIw7JyIMiHjebqw==
+
 to-regex-range@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz"

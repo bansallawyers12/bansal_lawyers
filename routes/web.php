@@ -21,9 +21,6 @@ Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
 		Artisan::call('config:clear');
 		Artisan::call('view:clear');
 		Artisan::call('route:clear');
-		/* $exitCode = \Artisan::call('BirthDate:birthdate');
-			$output = \Artisan::output();
-			return $output;  */
 		return response()->noContent();
 	});
 });
@@ -43,14 +40,11 @@ Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogdet
 // Backup routes for original blog (archived)
 Route::get('/blog-original', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog.original');
 Route::get('/blog-original/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategory'])->name('blog.original.category');
-// Route::get('/search_result', [App\Http\Controllers\HomeController::class, 'search_result'])->name('search_result'); // ARCHIVED - searchresults.blade.php moved to archive
 
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus']);
 Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'contact']);
 
 // Unified contact form routes
-// Route::get('/contact-form-test', [App\Http\Controllers\HomeController::class, 'contactFormTest'])->name('contact.form.test'); // ARCHIVED - test version
-// Route::get('/contact-form-demo', [App\Http\Controllers\HomeController::class, 'contactFormDemo'])->name('contact.form.demo'); // ARCHIVED - demo version
 Route::post('/contact/submit', [App\Http\Controllers\HomeController::class, 'contactSubmit'])->name('contact.submit');
 Route::get('/contact/thank-you', [App\Http\Controllers\HomeController::class, 'contactThankYou'])->name('contact.thankyou');
 
@@ -187,29 +181,15 @@ Route::prefix('admin')->group(function() {
 
 
 Route::get('/practice-areas', [\App\Http\Controllers\HomeController::class, 'practiceareas'])->name('practice-areas');
-// Route::get('/practice-areas-backup', [\App\Http\Controllers\HomeController::class, 'practiceareasBackup'])->name('practice-areas-backup'); // ARCHIVED - backup version
 Route::get('/case', [\App\Http\Controllers\HomeController::class, 'case'])->name('case');
-// Route::get('/case-experiment', [\App\Http\Controllers\HomeController::class, 'caseExperiment'])->name('case-experiment'); // ARCHIVED - experimental version
-// Route::get('/case-new', [\App\Http\Controllers\HomeController::class, 'caseNew'])->name('case-new'); // ARCHIVED - unused duplicate
-// Experimental case detail (noindex)
-// Route::get('/case-experiment/{slug}', [\App\Http\Controllers\HomeController::class, 'casedetailExperiment'])->name('case-detail-experiment'); // ARCHIVED - experimental version
 
 //Practice area main Page
-// Swap: make experimental the primary and keep original as backup
 Route::get('/family-law', [\App\Http\Controllers\HomeController::class, 'familylawExperiment'])->name('family-law');
-// Route::get('/family-law-backup', [\App\Http\Controllers\HomeController::class, 'familylaw'])->name('family-law-backup'); // ARCHIVED - backup version
-// Swap: make experimental the primary and keep original as backup
 Route::get('/migration-law', [\App\Http\Controllers\HomeController::class, 'migrationlawExperiment'])->name('migration-law');
 Route::get('/migration-law-backup', [\App\Http\Controllers\HomeController::class, 'migrationlaw'])->name('migration-law-backup');
-// Swap: make experimental the primary and keep original as backup
 Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'criminallawExperiment'])->name('criminal-law');
-// Route::get('/criminal-law-backup', [\App\Http\Controllers\HomeController::class, 'criminallaw'])->name('criminal-law-backup'); // ARCHIVED - backup version
-// Swap: make experimental the primary and keep original as backup
 Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallawExperiment'])->name('commercial-law');
-// Route::get('/commercial-law-backup', [\App\Http\Controllers\HomeController::class, 'commerciallaw'])->name('commercial-law-backup'); // ARCHIVED - backup version
-// Swap: make experimental the primary and keep original as backup
 Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylawExperiment'])->name('property-law');
-// Route::get('/property-law-backup', [\App\Http\Controllers\HomeController::class, 'propertylaw'])->name('property-law-backup'); // ARCHIVED - backup version
 // Experimental route for Migration Law page
 Route::get('/migration-law-experiment', [\App\Http\Controllers\HomeController::class, 'migrationlawExperiment'])->name('migration-law-experiment');
 // Experimental routes for other practice areas
@@ -256,5 +236,3 @@ Route::get('/caveats-disputs-and-removal', [\App\Http\Controllers\HomeController
 Route::get('/{slug}', [\App\Http\Controllers\HomeController::class, 'unifiedSlugHandler'])
 	->where('slug', '^(?!admin\/|api\/|login$|register$|home$|invoice$|profile$|clear-cache$|js\/|css\/|images\/|img\/|assets\/|fonts\/|storage\/|blog$|blog\/).*$')
 	->name('blog.detail');
-
-// require __DIR__.'/auth.php'; // File doesn't exist

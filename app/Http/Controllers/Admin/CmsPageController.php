@@ -79,9 +79,7 @@ class CmsPageController extends Controller
 
 		$lists		= $query->orderBy('id', 'desc')->latest()->paginate(20); //dd($lists);
 
-		// return view('Admin.cms_page.index',compact(['lists', 'totalData']));
-
-		return view('Admin.cms_page.index',compact(['lists', 'totalData']))
+		return view('Admin.cms_page.index', compact('lists', 'totalData'))
         ->with('i', (request()->input('page', 1) - 1) * 20);
 	}
 
@@ -261,7 +259,7 @@ class CmsPageController extends Controller
 				if(CmsPage::where('id', '=', $id)->exists())
 				{
 					$fetchedData = CmsPage::find($id);
-					return view('Admin.cms_page.edit', compact(['fetchedData']));
+					return view('Admin.cms_page.edit', compact('fetchedData'));
 				}
 				else
 				{

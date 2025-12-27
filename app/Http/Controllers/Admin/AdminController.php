@@ -87,7 +87,6 @@ class AdminController extends Controller
 				return redirect('/admin/settings/taxes/returnsetting')->with('success', 'Your Profile has been edited successfully.');
 			}
 		}else{
-			//return view('Admin.my_profile', compact(['fetchedData', 'countries']));
 			return view('Admin.settings.returnsetting');
 		}
 	}
@@ -162,7 +161,7 @@ class AdminController extends Controller
 			$id = Auth::id();
 			$fetchedData = Admin::find($id);
 
-			return view('Admin.my_profile', compact(['fetchedData', 'countries']));
+			return view('Admin.my_profile', compact('fetchedData', 'countries'));
 		}
 	}
 	/**
@@ -288,7 +287,7 @@ class AdminController extends Controller
 		{
 			$fetchedData = WebsiteSetting::where('id', '!=', '')->first();
 
-			return view('Admin.website_setting', compact(['fetchedData']));
+			return view('Admin.website_setting', compact('fetchedData'));
 		}
 	}
 

@@ -68,7 +68,7 @@ class RecentCaseController extends Controller {
 
 		$lists		= $query->orderby('id','DESC')->get();
 
-		return view('Admin.recent_case.index',compact(['lists', 'totalData']));
+		return view('Admin.recent_case.index', compact('lists', 'totalData'));
 	}
 
 	public function create(Request $request)
@@ -242,7 +242,7 @@ class RecentCaseController extends Controller {
 				if(RecentCase::where('id', '=', $id)->exists())
 				{
 					$fetchedData = RecentCase::find($id);
-					return view('Admin.recent_case.edit', compact(['fetchedData']));
+					return view('Admin.recent_case.edit', compact('fetchedData'));
 				}
 				else
 				{

@@ -29,7 +29,7 @@ class BookingBlockController extends Controller
                 ->get();
         }
 
-        return view('Admin.feature.bookingblocks.index', compact(['lists','totalData']));
+        return view('Admin.feature.bookingblocks.index', compact('lists', 'totalData'));
     }
 
     public function create(Request $request)

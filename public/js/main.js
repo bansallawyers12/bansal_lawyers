@@ -43,24 +43,41 @@ document.addEventListener("DOMContentLoaded", function() {
 	// Wait for Stellar.js to be fully loaded and ready before initializing
 	var stellarInitialized = false; // Flag to prevent multiple initializations
 	
-	// Patch Stellar.js to fix the particles undefined bug
-	function patchStellar() {
-		if (typeof $.fn.stellar !== 'undefined' && $.stellar) {
-			// Store original refresh method
-			var originalRefresh = $.stellar.scrollProperty ? null : null; // Check if we can access it
+	// Patch Stellar.js instance to fix the particles undefined bug
+	function patchStellarInstance(stellarInstance) {
+		if (!stellarInstance) return;
+		
+		// Store the original particles value if it exists
+		var originalParticles = stellarInstance.particles;
+		
+		// Use Object.defineProperty to ensure particles is always an array
+		// This intercepts all access to this.particles
+		try {
+			// Delete the existing property descriptor if possible, then redefine
+			delete stellarInstance.particles;
 			
-			// Monkey-patch the Stellar prototype if possible
-			if (window.Stellar && window.Stellar.prototype) {
-				var originalFindParticles = window.Stellar.prototype._findParticles;
-				if (originalFindParticles) {
-					window.Stellar.prototype._findParticles = function() {
-						// Ensure particles is initialized before accessing it
-						if (this.particles === undefined || this.particles === null) {
-							this.particles = [];
-						}
-						return originalFindParticles.apply(this, arguments);
-					};
-				}
+			Object.defineProperty(stellarInstance, 'particles', {
+				get: function() {
+					// Always return an array, never undefined
+					if (this._stellarParticles === undefined || !Array.isArray(this._stellarParticles)) {
+						this._stellarParticles = (originalParticles && Array.isArray(originalParticles)) ? originalParticles : [];
+					}
+					return this._stellarParticles;
+				},
+				set: function(value) {
+					// Ensure it's always an array
+					this._stellarParticles = (value && Array.isArray(value)) ? value : [];
+				},
+				enumerable: true,
+				configurable: true
+			});
+			
+			// Initialize with original value or empty array
+			stellarInstance.particles = originalParticles || [];
+		} catch (e) {
+			// Fallback: just ensure it's always an array
+			if (!stellarInstance.particles || !Array.isArray(stellarInstance.particles)) {
+				stellarInstance.particles = [];
 			}
 		}
 	}
@@ -78,7 +95,10 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 			
 			// Check if Stellar is already initialized on window
-			if ($(window).data('plugin_stellar')) {
+			var existingInstance = $(window).data('plugin_stellar');
+			if (existingInstance) {
+				// Patch existing instance
+				patchStellarInstance(existingInstance);
 				stellarInitialized = true;
 				return; // Already initialized
 			}
@@ -100,8 +120,10 @@ document.addEventListener("DOMContentLoaded", function() {
 					scrollProperty: 'scroll'
 				});
 				
-				// Verify initialization succeeded by checking if plugin data exists
-				if ($(window).data('plugin_stellar')) {
+				// Patch the instance immediately after initialization
+				var stellarInstance = $(window).data('plugin_stellar');
+				if (stellarInstance) {
+					patchStellarInstance(stellarInstance);
 					stellarInitialized = true; // Mark as initialized
 				}
 			} catch (initError) {
@@ -118,7 +140,9 @@ document.addEventListener("DOMContentLoaded", function() {
 								hideDistantElements: false,
 								scrollProperty: 'scroll'
 							});
-							if ($(window).data('plugin_stellar')) {
+							var retryInstance = $(window).data('plugin_stellar');
+							if (retryInstance) {
+								patchStellarInstance(retryInstance);
 								stellarInitialized = true;
 							}
 						}
@@ -147,9 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			return;
 		}
 		
-		// Apply patch before initializing to fix particles undefined bug
-		patchStellar();
-		
+		// Initialize Stellar (patch is applied inside initStellar)
 		initStellar();
 	}
 	

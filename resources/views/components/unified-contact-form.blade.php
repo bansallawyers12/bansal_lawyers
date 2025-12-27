@@ -120,7 +120,7 @@
 
         <!-- Google reCAPTCHA -->
         <div class="mb-3">
-            <div class="g-recaptcha recaptcha-container" data-sitekey="{{ config('services.recaptcha.key', env('RECAPTCHA_SITE_KEY', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI')) }}"></div>
+            <div class="g-recaptcha recaptcha-container" data-sitekey="{{ config('services.recaptcha.key', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') }}"></div>
             <div class="invalid-feedback" id="{{ $formId }}-recaptcha-error"></div>
         </div>
 

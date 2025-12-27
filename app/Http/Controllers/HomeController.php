@@ -16,11 +16,9 @@ use App\Models\Testimonial;
 use App\Models\HomeContent;
 use App\Models\CmsPage;
 use App\Models\AppointmentPayment;
-// use App\Mail\CommonMail; // unused
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Config;
-// use Illuminate\Support\Facades\Cookie; // unused
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
@@ -51,24 +49,90 @@ class HomeController extends Controller
         return view('coming_soon');
     }
 
+	/**
+	 * Generate CAPTCHA image
+	 * Modernized GD library implementation with improved error handling and structure
+	 * 
+	 * Note: While functional, consider migrating to modern CAPTCHA solutions like Google reCAPTCHA
+	 * which is already used elsewhere in this application.
+	 * 
+	 * @param Request $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function sicaptcha(Request $request)
     {
 		$request->validate([
 			'code' => 'required|string|max:10'
 		]);
 		
-		$code = $request->code;
-
-		$im = imagecreatetruecolor(50, 24);
-		$bg = imagecolorallocate($im, 37, 37, 37); //background color blue
-		$fg = imagecolorallocate($im, 255, 241, 70);//text color white
-		imagefill($im, 0, 0, $bg);
-		imagestring($im, 5, 5, 5,  $code, $fg);
-		header("Cache-Control: no-cache, must-revalidate");
-		header('Content-type: image/png');
-		imagepng($im);
-		imagedestroy($im);
-
+		// Check if GD extension is available
+		if (!extension_loaded('gd')) {
+			Log::error('GD extension not available for CAPTCHA generation');
+			abort(500, 'Image generation service unavailable');
+		}
+		
+		$code = $request->input('code');
+		
+		// Image dimensions
+		$width = 50;
+		$height = 24;
+		
+		// Color definitions (RGB)
+		$backgroundColor = [37, 37, 37];   // Dark gray background
+		$textColor = [255, 241, 70];        // Yellow text
+		
+		try {
+			// Create image resource
+			$image = imagecreatetruecolor($width, $height);
+			
+			if ($image === false) {
+				throw new \RuntimeException('Failed to create image resource');
+			}
+			
+			// Allocate colors
+			$bgColor = imagecolorallocate($image, $backgroundColor[0], $backgroundColor[1], $backgroundColor[2]);
+			$fgColor = imagecolorallocate($image, $textColor[0], $textColor[1], $textColor[2]);
+			
+			if ($bgColor === false || $fgColor === false) {
+				imagedestroy($image);
+				throw new \RuntimeException('Failed to allocate colors');
+			}
+			
+			// Fill background
+			imagefill($image, 0, 0, $bgColor);
+			
+			// Add text using built-in font (font size 5)
+			// imagestring($image, font, x, y, string, color)
+			imagestring($image, 5, 5, 5, $code, $fgColor);
+			
+			// Capture image output
+			ob_start();
+			$success = imagepng($image);
+			$imageData = ob_get_clean();
+			
+			// Clean up
+			imagedestroy($image);
+			
+			if (!$success || empty($imageData)) {
+				throw new \RuntimeException('Failed to generate image data');
+			}
+			
+			// Return response with proper headers
+			return response($imageData, 200)
+				->header('Content-Type', 'image/png')
+				->header('Cache-Control', 'no-cache, must-revalidate, max-age=0')
+				->header('Pragma', 'no-cache')
+				->header('Expires', '0');
+				
+		} catch (\Exception $e) {
+			Log::error('CAPTCHA generation failed: ' . $e->getMessage(), [
+				'code' => $code,
+				'trace' => $e->getTraceAsString()
+			]);
+			
+			// Return a simple error image or abort
+			abort(500, 'Failed to generate CAPTCHA image');
+		}
     }
 
     public static function hextorgb ($hexstring){
@@ -86,7 +150,7 @@ class HomeController extends Controller
 		// Check RecentCase first
 		$casedetailists = RecentCase::where('slug', '=', $slug)->where('status', '=', 1)->first();
 		if($casedetailists) {
-			return view('casedetail', compact(['casedetailists']));
+			return view('casedetail', compact('casedetailists'));
 		}
 		
 		// Check Blog
@@ -101,7 +165,7 @@ class HomeController extends Controller
 					->take(5)
 					->get();
 			});
-			return view('blogdetail', compact(['blogdetailists','latestbloglists']));
+			return view('blogdetail', compact('blogdetailists', 'latestbloglists'));
 		}
 		
 		// Check CmsPage
@@ -121,9 +185,9 @@ class HomeController extends Controller
 			];
 			
 			if(in_array($pagedata->slug, $practiceAreaSlugs)) {
-				return view('Frontend.cms.index_inner', compact(['pagedata']));
+				return view('Frontend.cms.index_inner', compact('pagedata'));
 			} else {
-				return view('Frontend.cms.index', compact(['pagedata']));
+				return view('Frontend.cms.index', compact('pagedata'));
 			}
 		}
 		
@@ -142,30 +206,13 @@ class HomeController extends Controller
 		// Get total count from pagination object to avoid separate query
 		$blogData = $bloglists->total();
 		
-        return view('index', compact(['bloglists', 'blogData']));
+        return view('index', compact('bloglists', 'blogData'));
     }
 
 	public function contactus(Request $request)
     {
 		return view('contact');
     }
-
-    /**
-     * Contact form test page
-     */
-    // ARCHIVED - test version
-    // public function contactFormTest(Request $request)
-    // {
-    //     return view('contact-form-test');
-    // }
-
-    /**
-     * Contact form demo page - ARCHIVED
-     */
-    // public function contactFormDemo(Request $request)
-    // {
-    //     return view('contact-form-demo');
-    // }
 
 	public function refresh_captcha() {
 		// This method is no longer needed with Google reCAPTCHA
@@ -190,7 +237,6 @@ class HomeController extends Controller
             return $recaptchaResponse;
         }
 
-       //$set = \App\Models\Admin::where('id',1)->first();
 		$obj = new Contact;
         $obj->name = $request->name;
         $obj->contact_email = $request->email;
@@ -222,20 +268,6 @@ class HomeController extends Controller
 
         Mail::to($fromAddress)->send(new \App\Mail\ContactUsMail($details));
        
-
-        //mail to customer
-        /*$subject_customer = 'You have a new query from Bansal Lawyers';
-		$details_customer = [
-            'title' => 'You have a new query from Bansal Lawyers',
-            'body' => 'This is for testing email using smtp',
-            'subject'=>$subject_customer,
-            'fullname' => $request->name,
-            'from' =>'Admin',
-            'email'=> $request->email,
-            //'phone' => $request->phone,
-            'description' => $request->message
-        ];
-        \Mail::to($request->email)->send(new \App\Mail\ContactUsCustomerMail($details_customer));*/
 
         return back()->with('success', 'Thanks for sharing your interest. our team will respond to you with in 24 hours.');
 	}
@@ -351,7 +383,7 @@ class HomeController extends Controller
 		$serviceData 	= 	$servicequery->count();	//for all data
 		$servicelists		=  $servicequery->orderby('id','ASC')->get();
 
-	   return view('ourservices', compact(['servicelists', 'serviceData']));
+	   return view('ourservices', compact('servicelists', 'serviceData'));
     }
 
 	public function blog(Request $request)
@@ -380,7 +412,7 @@ class HomeController extends Controller
 		$currentPage = $bloglists->currentPage();
 		$totalPages = $bloglists->lastPage();
 		
-        return view('bloglatest', compact(['bloglists', 'blogData', 'blogCategories', 'currentPage', 'totalPages']));
+        return view('bloglatest', compact('bloglists', 'blogData', 'blogCategories', 'currentPage', 'totalPages'));
     }
     
     public function blogCategory(Request $request, $categorySlug = null)
@@ -406,7 +438,7 @@ class HomeController extends Controller
                 $currentPage = $bloglists->currentPage();
                 $totalPages = $bloglists->lastPage();
                 
-                return view('bloglatest', compact(['bloglists', 'blogData', 'blogCategories', 'category', 'currentPage', 'totalPages']));
+                return view('bloglatest', compact('bloglists', 'blogData', 'blogCategories', 'category', 'currentPage', 'totalPages'));
             } else {
                 return redirect('/blog')->with('error', 'Category not found');
             }
@@ -451,7 +483,7 @@ class HomeController extends Controller
             return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
         });
         
-        return view('blogdetail', compact(['blogdetailists','latestbloglists', 'blogCategories']));
+        return view('blogdetail', compact('blogdetailists', 'latestbloglists', 'blogCategories'));
     }
   
 	public function servicesdetail(Request $request, $slug = null)
@@ -462,7 +494,7 @@ class HomeController extends Controller
 			$servicesdetailquery 		= OurService::where('slug', '=', $slug)->where('status', '=', 1);
 			$servicesdetailists		=  $servicesdetailquery->first();
 
-			return view('servicesdetail', compact(['servicesdetailists']));
+			return view('servicesdetail', compact('servicesdetailists'));
 			}
 			else
 			{
@@ -705,7 +737,7 @@ class HomeController extends Controller
         } else {
             $adminInfo = [];
         }
-        return view('stripe', compact(['appointmentId','appointmentInfo','adminInfo']));
+        return view('stripe', compact('appointmentId', 'appointmentInfo', 'adminInfo'));
     }
 
    public function stripePost(Request $request)
@@ -941,13 +973,6 @@ class HomeController extends Controller
         } else {
             $search_string 	= 'search_string';
         }
-        /*$query 	= CmsPage::where('title', 'LIKE', '%'.$search_string.'%')
-        ->orWhere('slug', 'LIKE', '%' . $search_string . '%')
-        ->orWhere('content', 'LIKE', '%' . $search_string . '%')
-        ->orWhere('meta_title', 'LIKE', '%' . $search_string . '%')
-        ->orWhere('meta_description', 'LIKE', '%' . $search_string . '%')
-        ->orWhere('meta_keyward', 'LIKE', '%' . $search_string . '%');*/
-
         $query 	= CmsPage::where('title', 'LIKE', '%'.$search_string.'%')
         ->orWhere('slug', 'LIKE', '%' . $search_string . '%')
         ->orWhere('meta_title', 'LIKE', '%' . $search_string . '%')
@@ -955,7 +980,7 @@ class HomeController extends Controller
 
         $totalData 	= $query->count();
         $lists	= $query->sortable(['id' => 'desc'])->paginate(20);
-        return view('searchresults', compact(['lists', 'totalData']));
+        return view('searchresults', compact('lists', 'totalData'));
     }
   
   
@@ -964,37 +989,13 @@ class HomeController extends Controller
 		return view('practiceareas');
     }
 
-    // ARCHIVED - backup version
-    // public function practiceareasBackup(Request $request)
-    // {
-	// 	return view('practiceareas_backup');
-    // }
-  
      public function case(Request $request)
     {
         $casequery 		= RecentCase::where('status', '=', 1);
 		$caseData 	    = $casequery->count();	//for all data
 		$caselists		= $casequery->orderby('id','DESC')->paginate(9);
-        return view('case', compact(['caselists', 'caseData']));
+        return view('case', compact('caselists', 'caseData'));
 	}
-
-    // ARCHIVED - experimental version
-    // public function caseExperiment(Request $request)
-    // {
-    //     $casequery 		= RecentCase::where('id', '!=', '')->where('status', '=', 1);
-	// 	$caseData 	    = $casequery->count();	//for all data
-	// 	$caselists		= $casequery->orderby('id','DESC')->get();
-    //     return view('case-experiment', compact(['caselists', 'caseData']));
-	// }
-
-    // ARCHIVED - unused duplicate method
-    // public function caseNew(Request $request)
-    // {
-    //     $casequery 		= RecentCase::where('id', '!=', '')->where('status', '=', 1);
-	// 	$caseData 	    = $casequery->count();	//for all data
-	// 	$caselists		= $casequery->orderby('id','DESC')->get();
-    //     return view('case-new', compact(['caselists', 'caseData']));
-	// }
 
     public function casedetail(Request $request, $slug = null)
     {
@@ -1003,7 +1004,7 @@ class HomeController extends Controller
 			    $casedetailquery 	= RecentCase::where('slug', '=', $slug)->where('status', '=', 1);
 			    $casedetailists		=  $casedetailquery->first();
 
-                return view('casedetail', compact(['casedetailists']));
+                return view('casedetail', compact('casedetailists'));
 			} else {
 				return redirect('/case')->with('error', 'Case'.config('constants.not_exist'));
 			}
@@ -1012,42 +1013,6 @@ class HomeController extends Controller
 			return redirect('/case')->with('error', config('constants.unauthorized'));
 		}
     }
-
-    // ARCHIVED - experimental case detail method
-    // public function casedetailExperiment(Request $request, $slug = null)
-    // {
-    //     if(isset($slug) && !empty($slug)){
-    //         if(RecentCase::where('slug', '=', $slug)->exists()) {
-    //             $casedetailquery = RecentCase::where('slug', '=', $slug)->where('status', '=', 1);
-    //             $casedetailists = $casedetailquery->first();
-
-    //             return view('casedetail-experimental', compact(['casedetailists']));
-    //         } else {
-    //             return Redirect::to('/case')->with('error', 'Case'.Config::get('constants.not_exist'));
-    //         }
-    //     }
-    //     else{
-    //         return Redirect::to('/case')->with('error', Config::get('constants.unauthorized'));
-    //     }
-    // }
-  
-    //Practice area main page
-    // ARCHIVED - backup version
-    // public function familylaw(Request $request)
-    // {
-    //     $type = 'family-law';
-	// 	if(CmsPage::where('slug', '=', $type)->exists()) {
-    //         //for all data
-    //         $pagequery 	= CmsPage::where('slug', '=', $type);
-    //         $pagedata 	= $pagequery->first(); //dd($pagedata);
-    //         //Get all its related pages
-    //         if( isset($pagedata) &&  $pagedata->id != ""){
-    //             $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
-    //             $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
-    //         }
-    //         return view('practice_area', compact('type','pagedata','relatedpagedata'));
-    //     }
-    // }
 
     // Experimental Family Law using new template
     public function familylawExperiment(Request $request)
@@ -1098,24 +1063,6 @@ class HomeController extends Controller
         abort(404, 'Page not found');
     }
 
-    // ARCHIVED - backup version
-    // public function criminallaw(Request $request)
-    // {
-    //     $type = 'criminal-law';
-	// 	if(CmsPage::where('slug', '=', $type)->exists()) {
-    //         //for all data
-    //         $pagequery 	= CmsPage::where('slug', '=', $type);
-    //         $pagedata 	= $pagequery->first(); //dd($pagedata);
-
-    //         //Get all its related pages
-    //         if( isset($pagedata) &&  $pagedata->id != ""){
-    //             $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
-    //             $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
-    //         }
-    //         return view('practice_area', compact('type','pagedata','relatedpagedata'));
-    //     }
-    // }
-
     // Experimental Criminal Law
     public function criminallawExperiment(Request $request)
     {
@@ -1132,24 +1079,6 @@ class HomeController extends Controller
         abort(404, 'Page not found');
     }
 
-    // ARCHIVED - backup version
-    // public function commerciallaw(Request $request)
-    // {
-    //     $type = 'commercial-law';
-    //     if(CmsPage::where('slug', '=', $type)->exists()) {
-    //         //for all data
-    //         $pagequery 	= CmsPage::where('slug', '=', $type);
-    //         $pagedata 	= $pagequery->first(); //dd($pagedata);
-
-    //         //Get all its related pages
-    //         if( isset($pagedata) &&  $pagedata->id != ""){
-    //             $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
-    //             $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
-    //         }
-    //         return view('practice_area', compact('type','pagedata','relatedpagedata'));
-    //     }
-    // }
-
     // Experimental Commercial Law
     public function commerciallawExperiment(Request $request)
     {
@@ -1165,24 +1094,6 @@ class HomeController extends Controller
         }
         abort(404, 'Page not found');
     }
-
-    // ARCHIVED - backup version
-    // public function propertylaw(Request $request)
-    // {
-    //     $type = 'property-law';
-    //     if(CmsPage::where('slug', '=', $type)->exists()) {
-    //         //for all data
-    //         $pagequery 	= CmsPage::where('slug', '=', $type);
-    //         $pagedata 	= $pagequery->first(); //dd($pagedata);
-
-    //         //Get all its related pages
-    //         if( isset($pagedata) &&  $pagedata->id != ""){
-    //             $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
-    //             $relatedpagedata 	= $relatedpagequery->get(); //dd($relatedpagedata);
-    //         }
-    //         return view('practice_area', compact('type','pagedata','relatedpagedata'));
-    //     }
-    // }
 
     // Experimental Property Law
     public function propertylawExperiment(Request $request)
@@ -1659,7 +1570,7 @@ class HomeController extends Controller
         $currentPage = $bloglists->currentPage();
         $totalPages = $bloglists->lastPage();
         
-        return view('blog', compact(['bloglists', 'blogData', 'blogCategories', 'currentPage', 'totalPages']));
+        return view('blog', compact('bloglists', 'blogData', 'blogCategories', 'currentPage', 'totalPages'));
     }
     
     /**

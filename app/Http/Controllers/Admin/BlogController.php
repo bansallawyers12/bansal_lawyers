@@ -85,7 +85,7 @@ class BlogController extends Controller {
 
 		$lists		= $query->orderby('id','DESC')->get();
 
-		return view('Admin.blog.index',compact(['lists', 'totalData']));
+		return view('Admin.blog.index', compact('lists', 'totalData'));
 	}
 
 	public function create(Request $request)
@@ -284,7 +284,7 @@ class BlogController extends Controller {
 				{
 					$fetchedData = Blog::find($id);
 					$categories = BlogCategory::where('parent_id', null)->orderby('name', 'asc')->get();
-					return view('Admin.blog.edit', compact(['fetchedData', 'categories']));
+					return view('Admin.blog.edit', compact('fetchedData', 'categories'));
 				}
 				else
 				{

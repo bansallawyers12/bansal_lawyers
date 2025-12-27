@@ -73,7 +73,7 @@ class BlogCategoryController extends Controller {
 		
 		$lists		= $query->orderby('id','DESC')->get();
 		
-		return view('Admin.blogcategory.index',compact(['lists', 'totalData']));	
+		return view('Admin.blogcategory.index', compact('lists', 'totalData'));	
 	}
 	
 	public function create(Request $request)
@@ -159,7 +159,7 @@ class BlogCategoryController extends Controller {
 				{
 					$fetchedData = BlogCategory::find($id);
 					$categories = BlogCategory::where('parent_id', null)->orderby('name', 'asc')->get();	
-				return view('Admin.blogcategory.edit', compact(['fetchedData', 'categories']));
+				return view('Admin.blogcategory.edit', compact('fetchedData', 'categories'));
 				}
 				else
 				{

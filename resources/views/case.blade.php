@@ -204,8 +204,10 @@
 }
 
 .experimental-case-image {
-    height: 250px;
-    min-height: 250px;
+    height: 250px !important;
+    min-height: 250px !important;
+    max-height: 250px !important;
+    flex: 0 0 250px !important;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -324,6 +326,8 @@
     .experimental-case-image {
         height: 200px;
         min-height: 200px;
+        max-height: 200px;
+        flex-shrink: 0;
     }
     
     .experimental-case-content {
