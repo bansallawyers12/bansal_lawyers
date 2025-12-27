@@ -184,13 +184,13 @@
             
             <li class="menu-item">
                 <a href="#" 
-                   class="menu-link {{ in_array(Route::currentRouteName(), ['appointments.index', 'appointments-others', 'admin.feature.appointmentdisabledate.index']) ? 'active' : '' }}"
+                   class="menu-link {{ in_array(Route::currentRouteName(), ['appointments.index', 'appointments-others']) || request()->routeIs('admin.feature.bookingblocks.*') ? 'active' : '' }}"
                    onclick="toggleSubmenu('appointments')">
                     <i class="menu-icon fas fa-calendar-alt"></i>
                     <span>Appointments</span>
                     <i class="fas fa-chevron-down ml-auto" id="appointments-chevron"></i>
                 </a>
-                <ul class="submenu" id="appointments-submenu" style="display: {{ in_array(Route::currentRouteName(), ['appointments.index', 'appointments-others', 'admin.feature.appointmentdisabledate.index']) ? 'block' : 'none' }}">
+                <ul class="submenu" id="appointments-submenu" style="display: {{ in_array(Route::currentRouteName(), ['appointments.index', 'appointments-others']) || request()->routeIs('admin.feature.bookingblocks.*') ? 'block' : 'none' }}">
                     <li class="submenu-item">
                         <a href="{{ route('appointments.index') }}" 
                            class="submenu-link {{ Route::currentRouteName() == 'appointments.index' ? 'active' : '' }}">
@@ -204,13 +204,9 @@
                         </a>
                     </li>
                     <li class="submenu-item">
-                        <a href="{{ route('admin.feature.appointmentdisabledate.index') }}" 
-                           class="submenu-link {{ Route::currentRouteName() == 'admin.feature.appointmentdisabledate.index' ? 'active' : '' }}">
-                            Block Time Slots
-                        </a>
                         <a href="{{ route('admin.feature.bookingblocks.index') }}" 
                            class="submenu-link {{ request()->routeIs('admin.feature.bookingblocks.*') ? 'active' : '' }}">
-                            Block Time Slots (New)
+                            Block Time Slots
                         </a>
                     </li>
                 </ul>
@@ -297,8 +293,9 @@ function toggleSubmenu(menuId) {
 // Auto-expand submenus if current route is active
 document.addEventListener('DOMContentLoaded', function() {
     const currentRoute = '{{ Route::currentRouteName() }}';
+    const currentPath = window.location.pathname;
     
-    if (['appointments.index', 'appointments-others', 'admin.feature.appointmentdisabledate.index'].includes(currentRoute)) {
+    if (['appointments.index', 'appointments-others'].includes(currentRoute) || currentPath.includes('/booking-blocks')) {
         document.getElementById('appointments-submenu').style.display = 'block';
         document.getElementById('appointments-chevron').style.transform = 'rotate(180deg)';
     }

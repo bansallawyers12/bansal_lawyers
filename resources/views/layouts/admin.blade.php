@@ -19,11 +19,8 @@
 	
 	<!-- Legacy CSS files (will be migrated gradually) -->
 	<link rel="stylesheet" href="{{ asset('css/app.min.css')}}">
-	 <!-- FullCalendar v6 CSS - Using jsDelivr with correct path format -->
-	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.20/index.global.min.css" rel="stylesheet" />
-	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.20/index.global.min.css" rel="stylesheet" />
-	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.20/index.global.min.css" rel="stylesheet" />
-	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/list@6.1.20/index.global.min.css" rel="stylesheet" />
+	 <!-- FullCalendar v6 CSS - Auto-injected by JavaScript (no CSS files needed in v6) -->
+	 <!-- The admin-calendar-v6.js imports inject CSS automatically at runtime -->
 	<!-- Summernote CSS removed - now using TinyMCE -->
 	<link rel="stylesheet" href="{{ asset('css/daterangepicker.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/bootstrap-timepicker.min.css')}}">

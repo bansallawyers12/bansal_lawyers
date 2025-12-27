@@ -674,7 +674,8 @@ jQuery(document).ready(function($){
         }
     });
     
-    function closeModal() {
+    // Make closeModal globally accessible
+    window.closeModal = function() {
         var modal = $('#event-details-modal');
         try {
             if (typeof $.fn.modal !== 'undefined') {
@@ -692,7 +693,7 @@ jQuery(document).ready(function($){
             $('body').removeClass('modal-open');
             $('.modal-backdrop').remove();
         }
-    }
+    };
 
 });
 
@@ -840,7 +841,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="eventModalLabel">Appointment Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal(); return false;">
                         <span aria-hidden="true"><i class="fa fa-times"></i></span>
                     </button>
                 </div>

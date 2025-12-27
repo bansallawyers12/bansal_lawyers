@@ -121,14 +121,7 @@ Route::prefix('admin')->group(function() {
 			Route::post('/update_apppointment_comment', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_apppointment_comment']);
 			Route::post('/update_apppointment_description', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_apppointment_description']);
 
-			//Appointment Dates Not Available
-			Route::get('/appointment-dates-disable', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'index'])->name('admin.feature.appointmentdisabledate.index');
-			Route::get('/appointment-dates-disable/create', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'create'])->name('admin.feature.appointmentdisabledate.create');
-			Route::post('/appointment-dates-disable/store', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'store'])->name('admin.feature.appointmentdisabledate.store');
-			Route::get('/appointment-dates-disable/edit/{id}', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'edit'])->name('admin.feature.appointmentdisabledate.edit');
-        Route::post('/appointment-dates-disable/edit', [App\Http\Controllers\Admin\AppointmentDisableDateController::class, 'edit'])->name('admin.feature.appointmentdisabledate.edit');
-
-			// NEW: Booking Blocks module (sandbox)
+			// Booking Blocks module
 			Route::prefix('booking-blocks')->name('admin.feature.bookingblocks.')->group(function () {
 				Route::get('/', [App\Http\Controllers\Admin\BookingBlockController::class, 'index'])->name('index');
 				Route::get('/create', [App\Http\Controllers\Admin\BookingBlockController::class, 'create'])->name('create');

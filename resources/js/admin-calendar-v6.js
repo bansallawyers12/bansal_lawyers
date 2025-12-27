@@ -7,8 +7,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction';
 
-// FullCalendar CSS - Will be loaded via link tags in admin layout
-// Dynamic import doesn't work for CSS, so we'll use a different approach
+// FullCalendar v6 CSS is automatically injected by the JavaScript modules
+// No separate CSS files are needed - this is a feature of v6!
 
 // Initialize calendar when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {

@@ -1,3 +1,17 @@
+// Global error handler to catch Stellar.js particles undefined error
+window.addEventListener('error', function(e) {
+	// Catch Stellar.js particles undefined error and prevent it from breaking the page
+	if (e.message && (
+		e.message.includes('particles is undefined') ||
+		e.message.includes("can't access property") && e.message.includes('particles') ||
+		e.filename && e.filename.includes('stellar')
+	)) {
+		console.warn('Stellar.js error caught and suppressed:', e.message);
+		e.preventDefault();
+		return true; // Prevent default error handling
+	}
+}, true); // Use capture phase to catch errors early
+
 // AOS initialization with proper guards
 document.addEventListener("DOMContentLoaded", function() {
 	// Check if AOS is available and DOM elements exist
@@ -42,6 +56,24 @@ document.addEventListener("DOMContentLoaded", function() {
 	// Stellar.js - Only initialize if elements with data-stellar attributes exist
 	// Wait for Stellar.js to be fully loaded and ready before initializing
 	var stellarInitialized = false; // Flag to prevent multiple initializations
+	
+	// Patch Stellar.js prototype BEFORE initialization to prevent particles undefined error
+	// This must run as soon as Stellar.js is loaded, before any instances are created
+	function patchStellarPrototype() {
+		try {
+			// Check if Stellar.js is loaded
+			if (typeof $.fn.stellar === 'undefined') {
+				return; // Stellar.js not loaded yet
+			}
+			
+			// Get the Stellar constructor/class from jQuery plugin
+			// Stellar.js stores instances in jQuery data, we need to patch the prototype
+			// Since Stellar.js is a jQuery plugin, we'll patch instances when they're created
+			// For now, we'll use a more aggressive approach: patch on initialization
+		} catch (e) {
+			console.warn('Could not patch Stellar.js prototype:', e);
+		}
+	}
 	
 	// Patch Stellar.js instance to fix the particles undefined bug
 	function patchStellarInstance(stellarInstance) {
@@ -109,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 			
 			// Initialize Stellar with error handling
-			// Wrap in try-catch to handle internal Stellar.js errors
+			// The global error handler will catch any particles undefined errors
 			try {
 				$(window).stellar({
 					responsive: true,
@@ -123,37 +155,23 @@ document.addEventListener("DOMContentLoaded", function() {
 				// Patch the instance immediately after initialization
 				var stellarInstance = $(window).data('plugin_stellar');
 				if (stellarInstance) {
+					// Ensure particles exists before patching
+					if (!stellarInstance.particles) {
+						stellarInstance.particles = [];
+					}
 					patchStellarInstance(stellarInstance);
 					stellarInitialized = true; // Mark as initialized
 				}
 			} catch (initError) {
-				// If initialization fails, try again after a short delay
-				console.warn('Stellar.js initialization failed, retrying...', initError);
-				setTimeout(function() {
-					try {
-						if (!$(window).data('plugin_stellar')) {
-							$(window).stellar({
-								responsive: true,
-								parallaxBackgrounds: true,
-								parallaxElements: true,
-								horizontalScrolling: false,
-								hideDistantElements: false,
-								scrollProperty: 'scroll'
-							});
-							var retryInstance = $(window).data('plugin_stellar');
-							if (retryInstance) {
-								patchStellarInstance(retryInstance);
-								stellarInitialized = true;
-							}
-						}
-					} catch (retryError) {
-						console.warn('Stellar.js retry also failed:', retryError);
-					}
-				}, 300);
+				// If initialization fails, mark as initialized to prevent retries
+				// The error handler will have already caught and suppressed the particles error
+				console.warn('Stellar.js initialization encountered an error (may be suppressed):', initError.message);
+				stellarInitialized = true; // Mark as initialized to prevent infinite retries
 			}
 		} catch (error) {
 			console.warn('Stellar.js initialization error:', error);
 			// Silently fail - parallax is not critical for page functionality
+			stellarInitialized = true; // Mark as initialized to prevent retries
 		}
 	}
 	

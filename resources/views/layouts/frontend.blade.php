@@ -1173,6 +1173,28 @@ function toggleFAQ(index) {
         </svg>
     </div>
 
+    <!-- Global Error Handler - Must load FIRST to catch Stellar.js errors -->
+    <script>
+        // Global error handler to catch Stellar.js particles undefined error
+        // This must run IMMEDIATELY before any deferred scripts load
+        (function() {
+            window.addEventListener('error', function(e) {
+                // Catch Stellar.js particles undefined error and prevent it from breaking the page
+                if (e.message && (
+                    e.message.includes('particles is undefined') ||
+                    (e.message.includes("can't access property") && e.message.includes('particles')) ||
+                    (e.message.includes('length') && e.message.includes('particles') && e.message.includes('undefined')) ||
+                    (e.filename && e.filename.includes('stellar'))
+                )) {
+                    console.warn('Stellar.js error caught and suppressed:', e.message);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return true; // Prevent default error handling
+                }
+            }, true); // Use capture phase to catch errors early
+        })();
+    </script>
+    
     <!-- JavaScript Files - Optimized Loading with Defer for Parallel Loading -->
     <!-- Load jQuery first with defer (non-blocking, executes in order) -->
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}" defer></script>

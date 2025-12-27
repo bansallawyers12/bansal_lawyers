@@ -80,9 +80,13 @@ const loadAdminLibraries = async (libraries = []) => {
 };
 
 // Load external scripts that aren't available as npm packages
+// Note: app.min.js removed - it's a Node.js bundle incompatible with browsers
+// All its dependencies (Alpine.js, axios, lodash, jQuery, Bootstrap) are already loaded via Vite/npm
 const loadExternalAdminScripts = (scripts = []) => {
     const externalScripts = [
-        '/js/app.min.js',
+        // '/js/app.min.js', // REMOVED: Contains CommonJS require() - incompatible with browser
+        // Dependencies already available: Alpine.js (via alpine-utils.js), axios (via ajax-utils.js), 
+        // lodash/jQuery (via bootstrap.js), Bootstrap (via admin.blade.php)
         '/js/daterangepicker.js',
         '/js/bootstrap-timepicker.min.js',
         '/js/bootstrap-formhelpers.min.js',

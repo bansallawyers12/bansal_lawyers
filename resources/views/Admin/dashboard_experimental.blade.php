@@ -332,7 +332,7 @@
                     <i class="nav-link-icon fas fa-calendar"></i>
                     <span>Ajay Calendar</span>
                 </a>
-                <a href="{{ route('admin.feature.appointmentdisabledate.index') }}" class="nav-link">
+                <a href="{{ route('admin.feature.bookingblocks.index') }}" class="nav-link">
                     <i class="nav-link-icon fas fa-ban"></i>
                     <span>Block Time Slots</span>
                 </a>
