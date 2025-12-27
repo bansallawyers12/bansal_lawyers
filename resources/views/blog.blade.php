@@ -149,13 +149,15 @@
 }
 
 .experimental-blog-image {
+    width: 100%;
     height: 250px !important;
     min-height: 250px !important;
     max-height: 250px !important;
     flex: 0 0 250px !important;
-    background-size: cover;
-    background-position: center;
+    background-size: 100% auto;
+    background-position: center top;
     background-repeat: no-repeat;
+    background-color: #f8f9fa;
     position: relative;
     overflow: hidden;
 }
@@ -301,6 +303,7 @@
     }
     
     .experimental-blog-image {
+        width: 100%;
         height: 200px !important;
         min-height: 200px !important;
         max-height: 200px !important;
