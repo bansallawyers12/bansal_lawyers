@@ -97,11 +97,45 @@
 
 ### Guiding Principles
 
-1. **Incremental approach** - Migrate piece by piece, not all at once
-2. **Feature flags** - Can enable/disable new code via `.env`
-3. **Low risk first** - Start with simple, non-critical pages
-4. **Test thoroughly** - Extensive testing before production
-5. **Keep jQuery** - Don't remove until everything is migrated
+1. **Alpine.js First** - Use Alpine.js for all reactive UI patterns (x-data, x-show, @click)
+2. **Incremental approach** - Migrate piece by piece, not all at once
+3. **Feature flags** - Can enable/disable new code via `.env`
+4. **Low risk first** - Start with simple, non-critical pages
+5. **Test thoroughly** - Extensive testing before production
+6. **Keep jQuery** - Don't remove until everything is migrated
+
+### Alpine.js Migration Patterns
+
+**Show/Hide:**
+```html
+<!-- OLD: jQuery -->
+<div id="content" style="display:none">Content</div>
+<script>$('#content').show();</script>
+
+<!-- NEW: Alpine.js -->
+<div x-data="{ isOpen: false }" x-show="isOpen">Content</div>
+<button @click="isOpen = true">Show</button>
+```
+
+**Event Handling:**
+```html
+<!-- OLD: jQuery -->
+<button id="btn">Click</button>
+<script>$('#btn').click(function() { ... });</script>
+
+<!-- NEW: Alpine.js -->
+<button @click="handleClick()" x-data="{ handleClick() { ... } }">Click</button>
+```
+
+**Form Interactions:**
+```html
+<!-- OLD: jQuery -->
+<input type="text" id="input">
+<script>$('#input').on('change', function() { ... });</script>
+
+<!-- NEW: Alpine.js -->
+<input type="text" @change="handleChange()" x-data="{ handleChange() { ... } }">
+```
 
 ### Feature Flag System
 
@@ -232,7 +266,7 @@ window.ajaxUtils     // Should exist
 
 #### Day 3-4: Drop-in Plugin Replacements (7 hours)
 
-**Task 1: Replace Select2 with Tom Select**
+**Task 1: Replace Select2 with Tom Select + Alpine.js**
 
 ```javascript
 // OLD: Select2 (jQuery)
@@ -241,26 +275,43 @@ $('.select2').select2({
     allowClear: true
 });
 
-// NEW: Tom Select (no jQuery)
-import TomSelect from 'tom-select';
-new TomSelect('.select2', {
-    plugins: ['clear_button'],
-    placeholder: 'Select option'
-});
+// NEW: Tom Select with Alpine.js (Reactive & Fast)
+// In Alpine.js component:
+x-data="{
+    selected: null,
+    init() {
+        this.$nextTick(() => {
+            new TomSelect(this.$el, {
+                plugins: ['clear_button'],
+                placeholder: 'Select option',
+                onChange: (value) => { this.selected = value; }
+            });
+        });
+    }
+}"
+```
+
+```html
+<!-- In Blade template -->
+<select x-data="{ selected: null }" @tom-select:change="selected = $event.detail.value">
+    <option value="">Select option</option>
+    <option value="1">Option 1</option>
+</select>
 ```
 
 **Files to update:**
 - `resources/js/admin.js` - Import Tom Select
 - `layouts/admin.blade.php` - Remove Select2 script
-- All admin pages using `.select2` class
+- All admin pages using `.select2` class - Convert to Alpine.js pattern
 
 **Testing:**
 - [ ] All dropdowns work
 - [ ] Search functionality works
 - [ ] Clear button works
 - [ ] Multi-select works (if used)
+- [ ] Reactive updates work with Alpine.js
 
-**Task 2: Replace Summernote with TinyMCE**
+**Task 2: Replace Summernote with TinyMCE + Alpine.js**
 
 ```javascript
 // OLD: Summernote (jQuery)
@@ -269,25 +320,46 @@ $('.summernote').summernote({
     toolbar: [...]
 });
 
-// NEW: TinyMCE (no jQuery)
-tinymce.init({
-    selector: '.summernote',
-    height: 300,
-    plugins: 'lists link image',
-    toolbar: 'undo redo | bold italic | bullist numlist'
-});
+// NEW: TinyMCE with Alpine.js (Reactive & Fast)
+// In Alpine.js component:
+x-data="{
+    content: '',
+    init() {
+        this.$nextTick(() => {
+            tinymce.init({
+                target: this.$el,
+                height: 300,
+                plugins: 'lists link image',
+                toolbar: 'undo redo | bold italic | bullist numlist',
+                setup: (editor) => {
+                    editor.on('change', () => {
+                        this.content = editor.getContent();
+                    });
+                }
+            });
+        });
+    }
+}"
+```
+
+```html
+<!-- In Blade template -->
+<textarea x-data="{ content: '{{ old('content', $model->content ?? '') }}' }"
+          x-init="initTinyMCE($el)">
+</textarea>
 ```
 
 **Files to update:**
-- `resources/js/admin.js` - Initialize TinyMCE
+- `resources/js/admin.js` - Initialize TinyMCE with Alpine.js
 - `layouts/admin.blade.php` - Remove Summernote script
-- Blog/CMS edit pages
+- Blog/CMS edit pages - Convert to Alpine.js pattern
 
 **Testing:**
 - [ ] Rich text editor loads
 - [ ] Toolbar buttons work
 - [ ] Content saves correctly
 - [ ] Image uploads work
+- [ ] Reactive updates work with Alpine.js
 
 **Deliverable:** 2 major plugins replaced
 
@@ -316,23 +388,31 @@ document.addEventListener('DOMContentLoaded', function() {
 - Find all: `$(document).ready` and `$(function`
 - Replace with `DOMContentLoaded` or remove wrapper
 
-**Task 2: Replace .show()/.hide() (50-100 instances)**
+**Task 2: Replace .show()/.hide() with Alpine.js x-show (50-100 instances)**
 
-```javascript
-// OLD:
+```html
+<!-- OLD: jQuery -->
+<div id="loader" style="display:none">Loading...</div>
+<script>
 $('.loader').show();
 $('.error').hide();
 $('.modal').toggle();
+</script>
 
-// NEW (using your utilities):
-domUtils.show('.loader');
-domUtils.hide('.error');
-domUtils.toggle('.modal');
-
-// OR native:
-document.querySelector('.loader').style.display = 'block';
-document.querySelector('.error').style.display = 'none';
+<!-- NEW: Alpine.js (Reactive & Faster) -->
+<div x-data="{ isLoading: false, error: null, showModal: false }">
+    <div x-show="isLoading">Loading...</div>
+    <div x-show="error" x-text="error"></div>
+    <div x-show="showModal" class="modal">...</div>
+    <button @click="showModal = !showModal">Toggle Modal</button>
+</div>
 ```
+
+**Benefits:**
+- ⚡ Faster (no DOM queries needed)
+- 🔄 Reactive (automatic updates)
+- 🎯 Declarative (clearer code)
+- 📦 Smaller bundle (no jQuery needed)
 
 **Target files:**
 - `bookappointment.blade.php` (~18 instances)
@@ -340,7 +420,7 @@ document.querySelector('.error').style.display = 'none';
 - `layouts/admin.blade.php` (~141 instances)
 - Others
 
-**Focus on:** Simple show/hide (not animated ones)
+**Focus on:** Convert to Alpine.js x-show/x-if patterns
 
 **Task 3: Replace .addClass()/.removeClass() (20-30 instances)**
 
@@ -713,7 +793,14 @@ If issues occur:
 - [x] **Phase 0:** Setup (1 day) - COMPLETE
 - [x] **Phase 1:** Documentation (2 days) - COMPLETE
 - [x] **Phase 1.5:** Extended audit (1 day) - COMPLETE
-- [ ] **Phase 1.5:** Quick wins (1 week) - **NEXT**
+- [ ] **Phase 1.5:** Quick wins (1 week) - **IN PROGRESS**
+  - [x] FullCalendar v6 upgrade - COMPLETE
+  - [x] Sticky Kit removal - COMPLETE
+  - [x] NiceScroll removal - COMPLETE
+  - [x] Replace $(document).ready() calls - COMPLETE ✅
+  - [ ] Replace Select2 with Tom Select - NEXT
+  - [ ] Replace Summernote with TinyMCE
+  - [ ] Replace simple .show()/.hide() calls
 - [ ] **Phase 2:** Admin pages (2-3 weeks)
 - [ ] **Phase 3:** Complex admin (3-4 weeks)
 - [ ] **Phase 4:** Frontend (2-3 weeks)
@@ -722,10 +809,19 @@ If issues occur:
 
 ### Current Status
 
-**Phase:** 1.5 Extended Audit Complete  
-**Next:** Phase 1.5 Quick Wins (1 week)  
+**Phase:** 1.5 Quick Wins - In Progress  
+**Current Task:** Task 3 - Replace Select2/Summernote with Alpine.js Components  
 **Timeline:** On track for 10-15 weeks total  
-**Blockers:** FullCalendar v3 (decision needed)
+**Blockers:** None (FullCalendar v6 upgrade complete!)
+
+**Migration Strategy:** ⚡ **Alpine.js First** - Using Alpine.js for all reactive UI patterns
+
+**Recent Completion:**
+- ✅ Task 1: Replaced $(function() in scripts.js with DOMContentLoaded
+- ✅ Task 1: Removed empty $(document).ready() block in admin.blade.php
+- ✅ Created Alpine.js components for Tom Select and TinyMCE
+- ✅ Removed Summernote initialization (replaced with Alpine.js + TinyMCE)
+- ✅ Created migration guides (ALPINE_JS_MIGRATION_GUIDE.md, ALPINE_COMPONENTS_USAGE.md)
 
 ---
 
@@ -734,7 +830,7 @@ If issues occur:
 ### Critical Decisions
 
 1. **FullCalendar Strategy:**
-   - [ ] Upgrade to v6 (recommended)
+   - [x] Upgrade to v6 (recommended) - ✅ COMPLETE
    - [ ] Keep v3 + jQuery
    - [ ] Replace with different library
 
@@ -752,6 +848,31 @@ If issues occur:
 ---
 
 **Last Updated:** December 27, 2025  
-**Next Review:** Before Phase 1.5 execution  
+**Next Review:** After Task 1 completion  
 **Document Owner:** Development Team
+
+---
+
+## Recent Updates
+
+### December 27, 2025 - Phase 1.5 Progress
+
+**Completed:**
+- ✅ FullCalendar v6 upgrade - No longer requires jQuery
+- ✅ Sticky Kit plugin removed - Not used (layout-2 class not found)
+- ✅ NiceScroll plugin removed - Replaced with CSS scrollbar styling
+
+**Completed:**
+- ✅ Task 1: Replace $(document).ready() calls - COMPLETE
+  - `public/js/scripts.js` - Replaced $(function() with DOMContentLoaded ✅
+  - `resources/views/layouts/admin.blade.php` - Removed empty $(document).ready() block ✅
+
+**Next:**
+- 📋 Task 3: Replace Select2 with Tom Select (verify usage first)
+- 📋 Task 4: Replace Summernote with TinyMCE (verify usage first)
+
+**Next Steps:**
+- Verify Select2/Summernote usage in admin pages
+- Replace Select2 with Tom Select (if used)
+- Replace Summernote with TinyMCE (if used)
 

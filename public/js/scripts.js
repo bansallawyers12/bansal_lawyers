@@ -6,7 +6,7 @@ $(window).on("load", function () {
 
 feather.replace();
 // Global
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
   let sidebar_nicescroll_opts = {
     cursoropacitymin: 0,
     cursoropacitymax: 0.8,

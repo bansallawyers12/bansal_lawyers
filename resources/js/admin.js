@@ -8,6 +8,14 @@ import './alpine-utils.js';
 import { modernSelect } from './components/modern-select.js';
 import { ajaxUtils } from './components/ajax-utils.js';
 import { formValidation } from './components/form-validation.js';
+import { tomSelect } from './components/alpine-select.js';
+import { tinyMCE } from './components/alpine-tinymce.js';
+
+// Register Alpine.js data components globally
+if (window.Alpine) {
+    window.Alpine.data('tomSelect', tomSelect);
+    window.Alpine.data('tinyMCE', tinyMCE);
+}
 
 // Note: CSS files should be imported in CSS entry points (resources/css/admin.css)
 // or loaded via Vite's CSS handling. The app.min.css is loaded via asset() helper
@@ -30,17 +38,17 @@ const loadAdminLibraries = async (libraries = []) => {
                     break;
                     
                 case 'tom-select':
-                    // Tom Select would need to be installed via npm if used
-                    // For now, using Select2 which is loaded via asset()
-                    if (window.$ && window.$.fn && window.$.fn.select2) {
-                        loadedLibraries.select2 = window.$.fn.select2;
-                    }
+                    // Tom Select is loaded via npm and initialized via Alpine.js components
+                    // No jQuery dependency - check if Tom Select module is available
+                    // Will be dynamically imported by Alpine.js component if needed
+                    loadedLibraries.tomSelect = true;
                     break;
                     
-                case 'summernote':
-                    // Summernote is loaded via asset() in admin.blade.php
-                    if (window.$ && window.$.fn && window.$.fn.summernote) {
-                        loadedLibraries.summernote = window.$.fn.summernote;
+                case 'tinymce':
+                    // TinyMCE is loaded via npm and initialized via Alpine.js components
+                    // Check if TinyMCE is globally available
+                    if (typeof tinymce !== 'undefined') {
+                        loadedLibraries.tinymce = tinymce;
                     }
                     break;
                     
@@ -100,12 +108,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         neededLibraries.push('datatables');
     }
     
-    if (document.querySelector('.modern-select, select[data-modern-select]')) {
+    if (document.querySelector('.modern-select, select[data-modern-select], select[x-data*="tomSelect"]')) {
         neededLibraries.push('tom-select');
     }
     
-    if (document.querySelector('.summernote, textarea[data-summernote]')) {
-        neededLibraries.push('summernote');
+    if (document.querySelector('textarea[data-tinymce], textarea[x-data*="tinyMCE"]')) {
+        neededLibraries.push('tinymce');
     }
     
     if (document.querySelector('#calendar, .calendar')) {
@@ -144,9 +152,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             $('.datatable, table[data-datatable]').DataTable();
         }
         
-        // Initialize Modern Select (Tom Select)
+        // Initialize Modern Select (Tom Select) via Alpine.js components
+        // For non-Alpine selects, use modernSelect.init() as fallback
+        // Primary method: Use x-data="tomSelect()" in blade templates
         if (loadedLibraries.tomSelect) {
-            modernSelect.init('.modern-select, select[data-modern-select]', {
+            // Fallback for selects without Alpine.js
+            modernSelect.init('.modern-select:not([x-data]), select[data-modern-select]:not([x-data])', {
                 placeholder: 'Select an option',
                 allowEmptyOption: true,
                 closeAfterSelect: true,
@@ -156,24 +167,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
         }
         
-        // Initialize Summernote
-        if (loadedLibraries.summernote && window.$ && window.$.fn && window.$.fn.summernote) {
-            $('.summernote, textarea[data-summernote]').summernote({
-                height: 300,
-                minHeight: 200,
-                maxHeight: 500,
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'italic', 'underline', 'clear']],
-                    ['fontname', ['fontname']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ]
-            });
-        }
+        // Initialize TinyMCE via Alpine.js components
+        // Use x-data="tinyMCE({ height: 500 })" in blade templates instead of Summernote
+        // TinyMCE will be initialized automatically by Alpine.js components
+        // No manual initialization needed here - Alpine.js handles it reactively
         
         // Initialize FullCalendar v6
         if (loadedLibraries.fullcalendar) {

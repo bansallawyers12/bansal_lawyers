@@ -682,16 +682,6 @@ body {
 		}); */
 	});
 
-$(document).ready(function(){
-
-
-
-
-
-
-
-});
-
 	</script>
 
 
