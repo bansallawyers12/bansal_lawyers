@@ -790,7 +790,7 @@ function validateAndSubmitCMS() {
 <script src="{{ asset('assets/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 <script>
 // Wait for DOM to be ready before initializing TinyMCE
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Check if TinyMCE is loaded and description element exists
     if (typeof tinymce !== 'undefined') {
         var descriptionElement = document.getElementById('description');
@@ -813,7 +813,7 @@ $(document).ready(function() {
                     'removeformat | link image media anchor | ' +
                     'table | charmap emoticons pagebreak | ' +
                     'code preview fullscreen | help',
-                content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }',
+                content_style: 'body { font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }',
                 file_picker_callback: function (callback, value, meta) {
                     // File picker callback for image/media uploads
                     if (meta.filetype === 'image' || meta.filetype === 'media') {

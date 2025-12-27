@@ -14,7 +14,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         '\App\\Console\\Commands\\CronJob',
-        '\App\\Console\\Commands\\BirthDate',
         '\App\\Console\\Commands\\InPersonCompleteTaskRemoval',
         '\App\\Console\\Commands\\WpAppointmentToCrm',
         '\App\\Console\\Commands\\SendAppointmentReminders',
@@ -32,7 +31,6 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('CronJob:cronjob')->daily();
-        $schedule->command('BirthDate:birthdate')->daily();
         
         //InPerson Complete Task Removal daily 1 time
         $schedule->command('InPersonCompleteTaskRemoval:daily')->daily();

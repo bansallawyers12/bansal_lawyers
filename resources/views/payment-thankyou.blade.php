@@ -140,7 +140,7 @@
         <h1>Thank You!</h1>
         
         <div class="success-message">
-            Your payment is Completed.
+            Your appointment is confirmed.
         </div>
         
         <p>Your appointment has been successfully confirmed. You will receive a confirmation email shortly with all the details.</p>

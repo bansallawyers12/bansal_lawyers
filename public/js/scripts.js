@@ -6,7 +6,7 @@ $(window).on("load", function () {
 
 feather.replace();
 // Global
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
   let sidebar_nicescroll_opts = {
     cursoropacitymin: 0,
     cursoropacitymax: 0.8,
@@ -14,31 +14,33 @@ $(function () {
   },
     now_layout_class = null;
 
-  var sidebar_sticky = function () {
-    if ($("body").hasClass("layout-2")) {
-      $("body.layout-2 #sidebar-wrapper").stick_in_parent({
-        parent: $("body")
-      });
-      $("body.layout-2 #sidebar-wrapper").stick_in_parent({ recalc_every: 1 });
-    }
-  };
-  sidebar_sticky();
+  // Sticky Kit removed - layout-2 class not used, replaced with CSS position: sticky
+  // var sidebar_sticky = function () {
+  //   if ($("body").hasClass("layout-2")) {
+  //     $("body.layout-2 #sidebar-wrapper").stick_in_parent({
+  //       parent: $("body")
+  //     });
+  //     $("body.layout-2 #sidebar-wrapper").stick_in_parent({ recalc_every: 1 });
+  //   }
+  // };
+  // sidebar_sticky();
 
-  var sidebar_nicescroll;
-  var update_sidebar_nicescroll = function () {
-    let a = setInterval(function () {
-      if (sidebar_nicescroll != null) sidebar_nicescroll.resize();
-    }, 10);
-
-    setTimeout(function () {
-      clearInterval(a);
-    }, 600);
-  };
+  // NiceScroll removed - causing CORS/integrity errors, will replace with CSS scrollbar styling
+  // var sidebar_nicescroll;
+  // var update_sidebar_nicescroll = function () {
+  //   let a = setInterval(function () {
+  //     if (sidebar_nicescroll != null) sidebar_nicescroll.resize();
+  //   }, 10);
+  //   setTimeout(function () {
+  //     clearInterval(a);
+  //   }, 600);
+  // };
 
   var sidebar_dropdown = function () {
     if ($(".main-sidebar").length) {
-      $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
-      sidebar_nicescroll = $(".main-sidebar").getNiceScroll();
+      // NiceScroll removed - using native scrollbar
+      // $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
+      // sidebar_nicescroll = $(".main-sidebar").getNiceScroll();
 
       $(".main-sidebar .sidebar-menu li a.has-dropdown")
         .off("click")
@@ -48,7 +50,7 @@ $(function () {
           me.parent()
             .find("> .dropdown-menu")
             .slideToggle(500, function () {
-              update_sidebar_nicescroll();
+              // update_sidebar_nicescroll(); // NiceScroll removed
               return false;
             });
           return false;
@@ -62,14 +64,14 @@ $(function () {
       .css({
         height: 315
       })
-      .niceScroll();
+      // .niceScroll(); // NiceScroll removed - using native scrollbar
   }
   if ($("#scroll-new").length) {
     $("#scroll-new")
       .css({
         height: 200
       })
-      .niceScroll();
+      // .niceScroll(); // NiceScroll removed - using native scrollbar
   }
 
   $(".main-content").css({
@@ -99,8 +101,8 @@ $(function () {
         overflow: "hidden"
       });
       setTimeout(function () {
-        $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
-        sidebar_nicescroll = $(".main-sidebar").getNiceScroll();
+        // $(".main-sidebar").niceScroll(sidebar_nicescroll_opts); // NiceScroll removed
+        // sidebar_nicescroll = $(".main-sidebar").getNiceScroll(); // NiceScroll removed
       }, 500);
       $(".main-sidebar .sidebar-menu > li > ul .dropdown-title").remove();
       $(".main-sidebar .sidebar-menu > li > a").removeAttr("data-toggle");
@@ -111,8 +113,8 @@ $(function () {
     } else {
       body.addClass("sidebar-mini");
       body.removeClass("sidebar-show");
-      sidebar_nicescroll.remove();
-      sidebar_nicescroll = null;
+      // sidebar_nicescroll.remove(); // NiceScroll removed
+      // sidebar_nicescroll = null; // NiceScroll removed
       $(".main-sidebar .sidebar-menu > li").each(function () {
         let me = $(this);
 
@@ -198,8 +200,8 @@ $(function () {
     if (w.outerWidth() <= 1024) {
       if ($("body").hasClass("sidebar-mini")) {
         toggle_sidebar_mini(false);
-        $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
-        sidebar_nicescroll = $(".main-sidebar").getNiceScroll();
+        // $(".main-sidebar").niceScroll(sidebar_nicescroll_opts); // NiceScroll removed
+        // sidebar_nicescroll = $(".main-sidebar").getNiceScroll(); // NiceScroll removed
       }
 
       $("body").addClass("sidebar-gone");
@@ -250,8 +252,8 @@ $(function () {
           )
         );
         setTimeout(function () {
-          sidebar_nicescroll = main_sidebar.niceScroll(sidebar_nicescroll_opts);
-          sidebar_nicescroll = main_sidebar.getNiceScroll();
+          // sidebar_nicescroll = main_sidebar.niceScroll(sidebar_nicescroll_opts); // NiceScroll removed
+          // sidebar_nicescroll = main_sidebar.getNiceScroll(); // NiceScroll removed
         }, 700);
 
         sidebar_dropdown();
@@ -336,22 +338,23 @@ $(function () {
   $(".notification-toggle")
     .parent()
     .on("shown.bs.dropdown", function () {
-      $(".dropdown-list-icons").niceScroll({
-        cursoropacitymin: 0.3,
-        cursoropacitymax: 0.8,
-        cursorwidth: 7
-      });
+      // NiceScroll removed - using native scrollbar
+      // $(".dropdown-list-icons").niceScroll({
+      //   cursoropacitymin: 0.3,
+      //   cursoropacitymax: 0.8,
+      //   cursorwidth: 7
+      // });
     });
 
   $(".message-toggle").dropdown();
   $(".message-toggle")
     .parent()
     .on("shown.bs.dropdown", function () {
-      $(".dropdown-list-message").niceScroll({
-        cursoropacitymin: 0.3,
-        cursoropacitymax: 0.8,
-        cursorwidth: 7
-      });
+      // $(".dropdown-list-message").niceScroll({ // NiceScroll removed
+      //   cursoropacitymin: 0.3,
+      //   cursoropacitymax: 0.8,
+      //   cursorwidth: 7
+      // });
     });
 
   if (jQuery().summernote) {
@@ -761,7 +764,7 @@ $(function () {
     if (!mouse_is_inside) $(".settingSidebar").removeClass("showSettingPanel");
   });
 
-  $(".settingSidebar-body").niceScroll();
+  // $(".settingSidebar-body").niceScroll(); // NiceScroll removed
 
   // theme change event
   $(".choose-theme li").on("click", function () {

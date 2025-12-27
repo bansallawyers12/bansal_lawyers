@@ -100,17 +100,18 @@
     <!-- Self-hosted Poppins fonts -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
+    <!-- Vite CSS - Modern optimized CSS bundle -->
+    @vite(['resources/css/frontend.css'])
+
     <!-- Bootstrap CSS - Primary framework for frontend -->
     <!-- Critical CSS - Load immediately -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
     
-    <!-- Icon fonts - Can be loaded asynchronously -->
-    <link rel="preload" href="{{ asset('css/font-awesome.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"></noscript>
-    
-    <link rel="preload" href="{{ asset('css/flaticon.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}"></noscript>
+    <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('fonts/ionicons/css/ionicons.min.css') }}?v={{ time() }}">
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
@@ -217,8 +218,11 @@
       }
     </script>
     
+    <!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
+    @vite(['resources/js/frontend.js'])
+    
     <!-- Main Application Script -->
-    <script src="{{ asset('js/main.min.js')}}"></script>
+    <script src="{{ asset('js/main.js') }}?v={{ time() }}"></script>
 
     <!-- Global Error Handler -->
     <script>

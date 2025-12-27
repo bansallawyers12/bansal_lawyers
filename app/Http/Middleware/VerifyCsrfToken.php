@@ -21,6 +21,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         // Only exclude API routes and webhook endpoints that legitimately need CSRF bypass
 		'api/*',
+		// CSP violation reporting endpoint (browsers send reports automatically without CSRF tokens)
+		'csp-report',
 		// Note: All admin endpoints now require CSRF protection for security
     ];
 }

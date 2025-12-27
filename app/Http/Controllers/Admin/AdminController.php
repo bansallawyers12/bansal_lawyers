@@ -87,7 +87,6 @@ class AdminController extends Controller
 				return redirect('/admin/settings/taxes/returnsetting')->with('success', 'Your Profile has been edited successfully.');
 			}
 		}else{
-			//return view('Admin.my_profile', compact(['fetchedData', 'countries']));
 			return view('Admin.settings.returnsetting');
 		}
 	}
@@ -162,7 +161,7 @@ class AdminController extends Controller
 			$id = Auth::id();
 			$fetchedData = Admin::find($id);
 
-			return view('Admin.my_profile', compact(['fetchedData', 'countries']));
+			return view('Admin.my_profile', compact('fetchedData', 'countries'));
 		}
 	}
 	/**
@@ -288,7 +287,7 @@ class AdminController extends Controller
 		{
 			$fetchedData = WebsiteSetting::where('id', '!=', '')->first();
 
-			return view('Admin.website_setting', compact(['fetchedData']));
+			return view('Admin.website_setting', compact('fetchedData'));
 		}
 	}
 
@@ -760,107 +759,8 @@ class AdminController extends Controller
 							{
 								$message = config('constants.server_error');
 							}
-							}else if($requestData['table'] == 'quotations'){
-								/* if($requestData['current_status'] == 0)
-								{
-									$updated_status = 1;
-									$message = 'Record has been enabled successfully.';
-								}
-								else
-								{
-									$updated_status = 0;
-									$message = 'Record has been disabled successfully.';
-								}	 */
-
-							$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update(['is_archive' => 1]);
-							if($response)
-							{
-								$status = 1;
-								$message = 'Record has been enabled successfully.';
 							}
-							else
-							{
-								$message = config('constants.server_error');
-							}
-							}
-							else
-							if($requestData['table'] == 'currencies'){
-								$isexist	=	$recordExist = DB::table($requestData['table'])->where('id', $requestData['id'])->exists();
-								if($isexist){
-									$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
-
-									if($response)
-									{
-										$status = 1;
-										$message = 'Record has been deleted successfully.';
-									}
-									else
-									{
-										$message = config('constants.server_error');
-									}
-								}else{
-									$message = 'ID does not exist, please check it once again.';
-								}
-							}else
-							if($requestData['table'] == 'templates'){
-								$isexist	=	$recordExist = DB::table($requestData['table'])->where('id', $requestData['id'])->exists();
-								if($isexist){
-									$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
-									DB::table('template_infos')->where('quotation_id', @$requestData['id'])->delete();
-
-									if($response)
-									{
-										$status = 1;
-										$message = 'Record has been deleted successfully.';
-									}
-									else
-									{
-										$message = config('constants.server_error');
-									}
-								}else{
-									$message = 'ID does not exist, please check it once again.';
-								}
-							}else
-							if($requestData['table'] == 'invoice_schedules'){
-								$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
-								DB::table('schedule_items')->where('schedule_id', @$requestData['id'])->delete();
-
-								if($response)
-									{
-										$status = 1;
-										$message = 'Record has been deleted successfully.';
-									}
-									else
-									{
-										$message = config('constants.server_error');
-									}
-							}else if($requestData['table'] == 'products'){
-								$applicationisexist	= DB::table('applications')->where('product_id', $requestData['id'])->exists();
-
-								if($applicationisexist){
-									$message = "Can't Delete its have relation with other records";
-								}else{
-									$isexist	=	$recordExist = DB::table($requestData['table'])->where('id', $requestData['id'])->exists();
-									if($isexist){
-									$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
-									DB::table('template_infos')->where('quotation_id', @$requestData['id'])->delete();
-
-									if($response)
-									{
-										$status = 1;
-										$message = 'Record has been deleted successfully.';
-									}
-									else
-									{
-										$message = config('constants.server_error');
-									}
-									}else{
-										$message = 'ID does not exist, please check it once again.';
-									}
-								}
-
-
-							}else{
+							else{
 								try {
 									$response	=	DB::table($requestData['table'])->where('id', @$requestData['id'])->delete();
 

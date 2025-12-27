@@ -32,9 +32,9 @@
         <div id="call-tab" class="modal-tab-content active" role="tabpanel" aria-labelledby="call-tab-btn">
             <div class="call-tab-content">
                 <div class="lawyer-profile">
-                    <img src="{{ asset('images/bansal_2.webp') }}" 
-                         srcset="{{ asset('images/bansal_2.webp') }} 1x, 
-                                 {{ asset('images/bansal_2@2x.webp') }} 2x" 
+                    <img src="{!! asset('images/bansal_2.webp') !!}" 
+                         srcset="{!! asset('images/bansal_2.webp') !!} 1x, 
+                                 {!! asset('images/bansal_2@2x.webp') !!} 2x" 
                          alt="Legal Representative" 
                          class="lawyer-photo" 
                          width="80" 

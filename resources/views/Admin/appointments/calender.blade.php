@@ -622,6 +622,8 @@ foreach($appointments as $appointment){
 @endsection
 @section('scripts')
 <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+<!-- FullCalendar v6 loaded via Vite -->
+@vite(['resources/js/admin-calendar-v6.js'])
 <script>
 jQuery(document).ready(function($){
     // Ensure modal is hidden on page load
@@ -707,151 +709,123 @@ function decodeHTMLEntities(str) {
     return textarea.value;
 }
 
+// FullCalendar v6 - Prepare events data (no jQuery needed)
 var events = [];
- var scheds = $.parseJSON('<?= json_encode($sched_res) ?>');
- if (!!scheds) {
-        Object.keys(scheds).map(k => {
-            var row = scheds[k]
-            //events.push({ id: row.id, title: row.full_name, start: row.start, end: row.end, backgroundColor: row.backgroundColor });
-            events.push({ id: row.id, title: row.full_name+ '\n' + row.appointment_other, start: row.start, end: row.end, backgroundColor: row.backgroundColor });
-    	});
+var scheds = <?= json_encode($sched_res) ?>;
+if (scheds && typeof scheds === 'object') {
+    Object.keys(scheds).forEach(function(k) {
+        var row = scheds[k];
+        events.push({ 
+            id: row.id, 
+            title: row.full_name + '\n' + row.appointment_other, 
+            start: row.start, 
+            end: row.end, 
+            backgroundColor: row.backgroundColor 
+        });
+    });
+}
+
+// Make data available globally for calendar initialization
+window.calendarEvents = events;
+window.calendarScheds = scheds;
+
+// OLD v3 CODE REMOVED - Now using FullCalendar v6 via admin-calendar-v6.js
+// The calendar is initialized in admin-calendar-v6.js which loads via Vite
+
+// Listen for FullCalendar v6 event clicks (from admin-calendar-v6.js)
+document.addEventListener('fullcalendar-event-click', function(e) {
+    var details = document.getElementById('event-details-modal');
+    var id = e.detail.id;
+    
+    if (!details || !scheds || !scheds[id]) {
+        return;
     }
-var today = new Date();
-year = today.getFullYear();
-month = today.getMonth();
-day = today.getDate();
-var calendar = $("#myEvent").fullCalendar({
-  height: "auto",
-  defaultView: "month",
-  editable: false,
-  selectable: true,
-  displayEventTime: true,
-  allDaySlot: false,
-  minTime: "10:00:00",
-  maxTime: "18:00:00",
-  scrollTime: "10:00:00",
-  slotDuration: "00:30:00",
-  slotEventOverlap: false,
-  eventOverlap: false,
-  header: {
-    left: "prev,next today",
-    center: "title",
-    right: "month,agendaWeek,agendaDay,listMonth",
-  },
-  events: events,
-  timeFormat: 'h:mm A',
-  timezone: 'Australia/Melbourne',
-  // Remove timezone conversion to prevent date/time shifting
-  eventClick: function(info) {
-            // Only proceed if this is a valid event click with data
-            if (!info || !info.id) {
-                return false;
-            }
+    
+    if (scheds[id].name && scheds[id].service) {
+        // Clear any previous selections
+        var csel1='', csel2='', csel3='', csel4='', csel5='', csel6='', csel7='', csel8='', csel9='', csel10='', csel11='';
+        
+        // Update modal content (using jQuery for now, will migrate later)
+        var $details = $(details);
+        $details.find('#service').text(scheds[id].service || 'N/A');
+        $details.find('#nature_of_enquiry').text(scheds[id].nature_of_enquiry || 'N/A');
+        $details.find('#timeslot_full').text(scheds[id].timeslot_full || 'N/A');
+        $details.find('#appointment_id').val(id);
+        
+        $details.find('#followup_date').val(scheds[id].appointdate || '');
+        $details.find('#followup_time').val(scheds[id].appointtime || '');
+        
+        $details.find('#start').html(scheds[id].start+' <a href="javascript:;" class="editfollowupdate"><i class="fa fa-edit"></i> Edit</a>');
+        
+        // Ensure edit form is hidden initially
+        $details.find('.if_edit_followup').hide();
+        $details.find('.editfollowupdate').show();
+        
+        // Set selected status
+        if(scheds[id].status == '1'){ csel1 = 'selected'; }
+        else if(scheds[id].status == '2'){ csel2 = 'selected'; }
+        else if(scheds[id].status == '3'){ csel3 = 'selected'; }
+        else if(scheds[id].status == '4'){ csel4 = 'selected'; }
+        else if(scheds[id].status == '5'){ csel5 = 'selected'; }
+        else if(scheds[id].status == '6'){ csel6 = 'selected'; }
+        else if(scheds[id].status == '7'){ csel7 = 'selected'; }
+        else if(scheds[id].status == '8'){ csel8 = 'selected'; }
+        else if(scheds[id].status == '9'){ csel9 = 'selected'; }
+        else if(scheds[id].status == '10'){ csel10 = 'selected'; }
+        else if(scheds[id].status == '11'){ csel11 = 'selected'; }
+        
+        // Build client info and status dropdown
+        var clientName = atob(scheds[id].name);
+        
+        $details.find('.clienturl').html('<div class="row"><div class="col-md-6"><strong>'+clientName+' '+scheds[id].stitle+'</strong></div><div class="col-md-6" style="text-align: right;"><select class="form-control form-control-sm" id="updateappointmentstatus"><option value="0">Pending</option><option value="1" '+csel1+'>Approve</option><option value="2" '+csel2+'>Completed</option><option value="3" '+csel3+'>Rejected</option><option value="4" '+csel4+'>N/P</option><option value="5" '+csel5+'>Inrogress</option><option value="6" '+csel6+'>Did Not Come</option><option value="7" '+csel7+'>Cancelled</option><option value="8" '+csel8+'>Missed</option><option value="9" '+csel9+'>Pending With payment Pending</option><option value="10" '+csel10+'>Pending With payment Success</option><option value="11" '+csel11+'>Pending With payment Failed</option></select><input type="hidden" id="appid" value="'+id+'"></div></div>');
+        
+        // Enhanced modal display with multiple fallbacks
+        try {
+            // First ensure modal is properly positioned
+            $details.css({
+                'position': 'fixed',
+                'z-index': '1050',
+                'top': '0',
+                'left': '0',
+                'width': '100%',
+                'height': '100%'
+            });
             
-            var details = $('#event-details-modal');
-            var id = info.id;
-
-            if (!!scheds[id] && scheds[id].name && scheds[id].service) {
-                // Clear any previous selections
-                var csel1='', csel2='', csel3='', csel4='', csel5='', csel6='', csel7='', csel8='', csel9='', csel10='', csel11='';
-                
-                details.find('#service').text(scheds[id].service || 'N/A');
-            	details.find('#nature_of_enquiry').text(scheds[id].nature_of_enquiry || 'N/A');
-               	details.find('#timeslot_full').text(scheds[id].timeslot_full || 'N/A');
-				details.find('#appointment_id').val(id);
-
-                details.find('#followup_date').val(scheds[id].appointdate || '');
-                details.find('#followup_time').val(scheds[id].appointtime || '');
-
-                details.find('#start').html(scheds[id].start+' <a href="javascript:;" class="editfollowupdate"><i class="fa fa-edit"></i> Edit</a>');
-                
-                // Ensure edit form is hidden initially
-                details.find('.if_edit_followup').hide();
-                details.find('.editfollowupdate').show();
-                
-                // Set selected status
-                if(scheds[id].status == '1'){
-                    csel1 = 'selected';
-                } else if(scheds[id].status == '2'){
-                    csel2 = 'selected';
-                } else if(scheds[id].status == '3'){
-                    csel3 = 'selected';
-                } else if(scheds[id].status == '4'){
-                    csel4 = 'selected';
-                } else if(scheds[id].status == '5'){
-                    csel5 = 'selected';
-                } else if(scheds[id].status == '6'){
-                    csel6 = 'selected';
-                } else if(scheds[id].status == '7'){
-                    csel7 = 'selected';
-                } else if(scheds[id].status == '8'){
-                    csel8 = 'selected';
-                } else if(scheds[id].status == '9'){
-                    csel9 = 'selected';
-                } else if(scheds[id].status == '10'){
-                    csel10 = 'selected';
-                } else if(scheds[id].status == '11'){
-                    csel11 = 'selected';
-                }
-                
-                // Build client info and status dropdown
-                var clientName = atob(scheds[id].name);
-                
-           		details.find('.clienturl').html('<div class="row"><div class="col-md-6"><strong>'+clientName+' '+scheds[id].stitle+'</strong></div><div class="col-md-6" style="text-align: right;"><select class="form-control form-control-sm" id="updateappointmentstatus"><option value="0">Pending</option><option value="1" '+csel1+'>Approve</option><option value="2" '+csel2+'>Completed</option><option value="3" '+csel3+'>Rejected</option><option value="4" '+csel4+'>N/P</option><option value="5" '+csel5+'>Inrogress</option><option value="6" '+csel6+'>Did Not Come</option><option value="7" '+csel7+'>Cancelled</option><option value="8" '+csel8+'>Missed</option><option value="9" '+csel9+'>Pending With payment Pending</option><option value="10" '+csel10+'>Pending With payment Success</option><option value="11" '+csel11+'>Pending With payment Failed</option></select><input type="hidden" id="appid" value="'+id+'"></div></div>');
-                
-                // Enhanced modal display with multiple fallbacks
-                try {
-                    // First ensure modal is properly positioned
-                    details.css({
-                        'position': 'fixed',
-                        'z-index': '1050',
-                        'top': '0',
-                        'left': '0',
-                        'width': '100%',
-                        'height': '100%'
-                    });
-                    
-                    // Try Bootstrap modal
-                    if (typeof $.fn.modal !== 'undefined') {
-                        details.modal({
-                            backdrop: 'static',
-                            keyboard: true,
-                            show: true
-                        });
-                    } else {
-                        // Manual modal display
-                        details.addClass('show').css('display', 'block');
-                        $('body').addClass('modal-open');
-                        
-                        // Add backdrop if it doesn't exist
-                        if ($('.modal-backdrop').length === 0) {
-                            $('body').append('<div class="modal-backdrop fade show"></div>');
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error showing modal:', error);
-                    // Force manual display
-                    details.addClass('show').css({
-                        'display': 'block',
-                        'position': 'fixed',
-                        'z-index': '1050',
-                        'top': '0',
-                        'left': '0',
-                        'width': '100%',
-                        'height': '100%'
-                    });
-                    $('body').addClass('modal-open');
-                    if ($('.modal-backdrop').length === 0) {
-                        $('body').append('<div class="modal-backdrop fade show"></div>');
-                    }
-                }
-                
+            // Try Bootstrap modal
+            if (typeof $.fn.modal !== 'undefined') {
+                $details.modal({
+                    backdrop: 'static',
+                    keyboard: true,
+                    show: true
+                });
             } else {
-                // No valid event data found, do nothing
-                return false;
+                // Manual modal display
+                $details.addClass('show').css('display', 'block');
+                $('body').addClass('modal-open');
+                
+                // Add backdrop if it doesn't exist
+                if ($('.modal-backdrop').length === 0) {
+                    $('body').append('<div class="modal-backdrop fade show"></div>');
+                }
+            }
+        } catch (error) {
+            console.error('Error showing modal:', error);
+            // Force manual display
+            $details.css({
+                'display': 'block',
+                'position': 'fixed',
+                'z-index': '1050',
+                'top': '0',
+                'left': '0',
+                'width': '100%',
+                'height': '100%'
+            });
+            $('body').addClass('modal-open');
+            if ($('.modal-backdrop').length === 0) {
+                $('body').append('<div class="modal-backdrop fade show"></div>');
             }
         }
-
+    }
 });
 </script>
 <style>

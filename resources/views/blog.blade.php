@@ -149,9 +149,13 @@
 }
 
 .experimental-blog-image {
-    height: 250px;
+    height: 250px !important;
+    min-height: 250px !important;
+    max-height: 250px !important;
+    flex: 0 0 250px !important;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     position: relative;
     overflow: hidden;
 }
@@ -297,7 +301,10 @@
     }
     
     .experimental-blog-image {
-        height: 200px;
+        height: 200px !important;
+        min-height: 200px !important;
+        max-height: 200px !important;
+        flex: 0 0 200px !important;
     }
     
     .experimental-blog-content {
@@ -320,8 +327,6 @@
 #blog-list.row > [class*="col-"] {
     padding-left: 15px;
     padding-right: 15px;
-    display: flex;
-    flex-direction: column;
 }
 </style>
 
@@ -381,8 +386,8 @@
         <!-- Blog Posts Grid -->
         <div class="row" id="blog-list">
             @forelse($bloglists as $list)
-                <div class="col-md-4 col-lg-4 mb-4" style="display: flex;">
-                    <div class="experimental-blog-card" style="width: 100%;">
+                <div class="col-md-4 col-lg-4 mb-4">
+                    <div class="experimental-blog-card">
                         @php
                             $imagePath = isset($list->image) && $list->image != "" 
                                 ? 'images/blog/' . $list->image 
@@ -397,7 +402,7 @@
                             $optimizedWebpPath = $hasWebP400 ? $webpPath400 : ($hasWebP ? $webpPath : $imagePath);
                         @endphp
                         <div class="experimental-blog-image" 
-                             style="background-image: url('{{ asset($optimizedWebpPath) }}'); background-size: cover; background-position: center;">
+                             style="background-image: url('{!! asset($optimizedWebpPath) !!}');">
                         </div>
                         <div class="experimental-blog-content">
                             @if(isset($list->categorydetail) && $list->categorydetail)

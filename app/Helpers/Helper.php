@@ -12,9 +12,9 @@ class Helper
     
         try {
             
-            $account_sid = getenv("TWILIO_SID");
-            $auth_token = getenv("TWILIO_TOKEN");
-            $twilio_number = getenv("TWILIO_FROM");
+            $account_sid = config('services.twilio.sid');
+            $auth_token = config('services.twilio.token');
+            $twilio_number = config('services.twilio.from');
     
             $client = new Client($account_sid, $auth_token);
             $client->messages->create($receiverNumber, [

@@ -3,6 +3,17 @@
  * Modern replacements for common jQuery patterns
  */
 
+// Import and initialize Alpine.js
+import Alpine from 'alpinejs';
+
+// Make Alpine available globally
+window.Alpine = Alpine;
+
+// Start Alpine.js
+Alpine.start();
+
+console.log('✓ Alpine.js initialized and available globally');
+
 // Form validation utilities
 window.formUtils = {
     // Validate form with Alpine.js
@@ -310,6 +321,18 @@ window.formValidation = {
         return window.formUtils.validateField(fieldId);
     }
 };
+
+// Verify all utilities are available globally
+document.addEventListener('DOMContentLoaded', function() {
+    const utilities = ['formUtils', 'modalUtils', 'ajaxUtils', 'domUtils', 'tableUtils', 'eventUtils', 'loadingUtils', 'Alpine'];
+    const missing = utilities.filter(util => typeof window[util] === 'undefined');
+    
+    if (missing.length === 0) {
+        console.log('✓ All modern utilities loaded successfully:', utilities.join(', '));
+    } else {
+        console.warn('⚠ Missing utilities:', missing.join(', '));
+    }
+});
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {

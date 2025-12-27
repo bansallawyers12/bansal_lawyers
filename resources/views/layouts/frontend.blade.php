@@ -229,25 +229,21 @@ function toggleFAQ(index) {
     <link rel="preload" href="{{ asset('fonts/fontawesome-webfont.woff2') }}?v=4.7.0" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{{ asset('fonts/flaticon/font/Flaticon.woff') }}" as="font" type="font/woff" crossorigin>
     
-    <!-- Preload critical JavaScript files for parallel loading -->
-    <link rel="preload" href="{{ asset('js/jquery-3.7.1.min.js') }}" as="script">
-    <link rel="preload" href="{{ asset('js/bootstrap.bundle.min.js') }}" as="script">
-    <link rel="preload" href="{{ asset('js/main.min.js') }}" as="script">
-    
     <!-- Preload optimized logo for faster rendering -->
     <link rel="preload" href="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }}" as="image">
+
+    <!-- Vite CSS - Modern optimized CSS bundle -->
+    @vite(['resources/css/frontend.css'])
 
     <!-- Bootstrap CSS - Primary framework for frontend -->
     <!-- Critical CSS - Load immediately -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
     
-    <!-- Icon fonts - Can be loaded asynchronously -->
-    <link rel="preload" href="{{ asset('css/font-awesome.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"></noscript>
-    
-    <link rel="preload" href="{{ asset('css/flaticon.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}"></noscript>
+    <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('fonts/ionicons/css/ionicons.min.css') }}?v={{ time() }}">
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
@@ -1062,11 +1058,13 @@ function toggleFAQ(index) {
         preloadLogos();
 
         // Ensure logo is visible on page load and preload images
-        $(document).ready(function() {
-            var logoElement = $('#image_logo');
-            if (logoElement.length) {
+        document.addEventListener('DOMContentLoaded', function() {
+            var logoElement = document.getElementById('image_logo');
+            if (!logoElement) return;
+            var $logoElement = $(logoElement);
+            if ($logoElement.length) {
                 // Force logo to be visible with immediate CSS
-                logoElement.css({
+                $logoElement.css({
                     'display': 'block',
                     'visibility': 'visible',
                     'opacity': '1',
@@ -1074,7 +1072,7 @@ function toggleFAQ(index) {
                 });
                 
                 // Ensure parent navbar brand is visible
-                logoElement.closest('.navbar-brand').css({
+                $logoElement.closest('.navbar-brand').css({
                     'display': 'block',
                     'visibility': 'visible',
                     'opacity': '1',
@@ -1200,12 +1198,14 @@ function toggleFAQ(index) {
     
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}" defer></script>
     
-    <!-- Google Maps will be loaded with proper error handling below -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap"></script>
-    <script defer>
-        // Wait for jQuery and Google Maps to load before executing
-        document.addEventListener('DOMContentLoaded', function() {
-            // Wait for jQuery to be available
+    <!-- Google Maps - Define initMap BEFORE loading the script to prevent race condition -->
+    <script>
+        // Define initMap immediately (synchronously) so Google Maps callback can find it
+        window.initMap = function() {
+            // Only proceed if a map container exists
+            if (!document.getElementById('map') && !document.getElementById('google-map')) return;
+            
+            // Wait for jQuery to be available before loading google-map.min.js
             function waitForJQuery(callback) {
                 if (typeof jQuery !== 'undefined') {
                     callback();
@@ -1215,40 +1215,29 @@ function toggleFAQ(index) {
             }
             
             waitForJQuery(function() {
-                // Wait for Google Maps to load before loading google-map.min.js
-                function initMap() {
-                    // Only proceed if a map container exists
-                    if (!document.getElementById('map') && !document.getElementById('google-map')) return;
-                    // Load google-map.min.js only after Google Maps is ready
-                    var script = document.createElement('script');
-                    script.src = "{{ asset('js/google-map.min.js')}}";
-                    script.defer = true;
-                    document.head.appendChild(script);
-                }
-                
-                // Expose initMap globally for Google Maps callback
-                window.initMap = initMap;
-                
-                // Handle Google Maps loading errors
-                window.gm_authFailure = function() {
-                    // Authentication failed - handled silently
-                };
-                
-                // Fallback if Google Maps fails to load
-                setTimeout(function() {
-                    if (typeof google === 'undefined' || !google.maps) {
-                        // Google Maps failed to load - handled silently
-                    }
-                }, 10000);
+                // Load google-map.min.js only after Google Maps and jQuery are ready
+                var script = document.createElement('script');
+                script.src = "{{ asset('js/google-map.min.js')}}";
+                script.defer = true;
+                document.head.appendChild(script);
             });
-        });
+        };
+        
+        // Handle Google Maps loading errors
+        window.gm_authFailure = function() {
+            // Authentication failed - handled silently
+        };
     </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap"></script>
     
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
-    <!-- Main script - loads last with defer -->
-    <script src="{{ asset('js/main.min.js')}}" defer></script>
+    <!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
+    @vite(['resources/js/frontend.js'])
+    
+    <!-- Main script - loads last with defer (legacy support) -->
+    <script src="{{ asset('js/main.js') }}?v={{ time() }}" defer></script>
 </body>
 
 </html>

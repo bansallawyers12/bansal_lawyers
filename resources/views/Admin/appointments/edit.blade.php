@@ -532,11 +532,14 @@ document.addEventListener('DOMContentLoaded', function() {
 @section('scripts')
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('.date').datepicker({
-            format: 'dd/mm/yyyy',
-            daysOfWeekDisabled: [0, 6] // 0 = Sunday, 6 = Saturday
-        });
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize datepicker if jQuery is available
+        if (typeof $ !== 'undefined' && $.fn.datepicker) {
+            $('.date').datepicker({
+                format: 'dd/mm/yyyy',
+                daysOfWeekDisabled: [0, 6] // 0 = Sunday, 6 = Saturday
+            });
+        }
     });
 
     // Time input validation for 15-minute intervals

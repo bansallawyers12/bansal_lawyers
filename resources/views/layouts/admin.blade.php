@@ -13,8 +13,17 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>Bansal Lawyers | @yield('title')</title>
 	<!--<link rel="icon" type="image/png" href="{{ asset('images/favicon.png')}}">-->
+	
+	<!-- Vite CSS - Modern optimized CSS bundle -->
+	@vite(['resources/css/admin.css'])
+	
+	<!-- Legacy CSS files (will be migrated gradually) -->
 	<link rel="stylesheet" href="{{ asset('css/app.min.css')}}">
-	 <link rel="stylesheet" href="{{ asset('css/fullcalendar.min.css')}}">
+	 <!-- FullCalendar v6 CSS - Using jsDelivr with correct path format -->
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.20/index.global.min.css" rel="stylesheet" />
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.20/index.global.min.css" rel="stylesheet" />
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.20/index.global.min.css" rel="stylesheet" />
+	 <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/list@6.1.20/index.global.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="{{ asset('css/summernote-bs4.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/daterangepicker.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/bootstrap-timepicker.min.css')}}">
@@ -212,7 +221,7 @@ body {
 	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 	
 	<!-- Feature-specific Scripts (load after core) -->
-	<script src="{{ asset('js/fullcalendar.min.js')}}"></script>
+	<!-- FullCalendar v6 loaded via Vite in admin.js (no jQuery needed) -->
 	<!-- DataTables removed - not used in admin panel (modern-table class used instead) -->
 	<!-- <script src="{{ asset('js/datatables.min.js')}}"></script> -->
 	<!-- <script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script> -->
@@ -223,12 +232,14 @@ body {
 	<script src="{{ asset('js/bootstrap-formhelpers.min.js')}}"></script>
 	<script src="{{ asset('js/intlTelInput.js')}}"></script>
 	
-	<!-- Vendor bundles (loaded via Vite) -->
-	@vite(['resources/css/vendor-admin.css', 'resources/js/vendor-admin.js'])
+	<!-- Icons Library required by scripts.js -->
+	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+	<!-- jQuery plugins expected by scripts.js -->
+	<!-- NiceScroll removed - causing CORS/integrity errors, will replace with CSS scrollbar styling -->
+	<!-- Sticky Kit removed - not used (layout-2 class not found), will replace with CSS position: sticky -->
 	
-	<!-- Legacy jQuery plugins (loaded from public folder - no ES module support) -->
-	<script src="{{ asset('js/vendor/jquery.nicescroll.min.js')}}"></script>
-	<script src="{{ asset('js/vendor/sticky-kit.min.js')}}"></script>
+	<!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
+	@vite(['resources/js/admin.js'])
 	
 	<!-- Custom Scripts (load last to ensure DOM is ready) -->
 	<script src="{{ asset('js/custom-form-validation.js')}}"></script>
@@ -265,16 +276,18 @@ body {
 			}
 		};
 		
-		$(document).ready(function () {
-
-		    $(".tel_input").on("blur", function() {
-                /*if (/^0/.test(this.value)) {
-                   //this.value = this.value.replace(/^0/, "")
-                } else {
-                    //this.value =  "0" + this.value;
-                }*/
-                this.value =  this.value;
+		document.addEventListener('DOMContentLoaded', function () {
+		    document.querySelectorAll(".tel_input").forEach(function(input) {
+		        input.addEventListener("blur", function() {
+                    /*if (/^0/.test(input.value)) {
+                       //input.value = input.value.replace(/^0/, "")
+                    } else {
+                        //input.value =  "0" + input.value;
+                    }*/
+                    input.value = input.value;
+                });
             });
+        });
 
 
 
@@ -667,16 +680,6 @@ body {
 			showSeconds: true,
 		}); */
 	});
-
-$(document).ready(function(){
-
-
-
-
-
-
-
-});
 
 	</script>
 

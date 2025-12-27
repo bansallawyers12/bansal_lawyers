@@ -56,6 +56,12 @@ return [
     'google_analytics' => [
         'id' => env('GOOGLE_ANALYTICS_ID'),
         'gtm_id' => env('GOOGLE_TAG_MANAGER_ID'),
-    ]
+    ],
+
+    'twilio' => [
+        'sid' => env('TWILIO_SID'),
+        'token' => env('TWILIO_TOKEN'),
+        'from' => env('TWILIO_FROM'),
+    ],
 
 ];

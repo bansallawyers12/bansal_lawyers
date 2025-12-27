@@ -573,7 +573,19 @@ input:checked + .modern-checkbox-slider:before {
 											<span class="required">*</span>
 										</label>
 										<div class="modern-editor-container">
-											<textarea class="modern-textarea" id="description" placeholder="Write your blog post content here..." rows="10" name="description" data-valid="required">{{ old('description') }}</textarea>
+											<textarea x-data="tinyMCE({ 
+												height: 500,
+												menubar: true,
+												plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'],
+												toolbar: 'undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image media | code preview fullscreen | help',
+												contentStyle: 'body { font-family: \"Poppins\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Helvetica Neue\", Arial, sans-serif; font-size: 14px }'
+											})" 
+													  class="modern-textarea" 
+													  id="description" 
+													  placeholder="Write your blog post content here..." 
+													  rows="10" 
+													  name="description" 
+													  data-valid="required">{{ old('description') }}</textarea>
 										</div>
 										@if ($errors->has('description'))
 											<span class="modern-error">
@@ -841,96 +853,82 @@ function validateAndSubmitBlog() {
 @endsection
 
 @section('scripts')
+{{-- Load TinyMCE globally (required for Alpine.js component) --}}
 <script src="{{ asset('assets/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
+{{-- TinyMCE is now initialized via Alpine.js component (x-data="tinyMCE()") --}}
+{{-- Additional TinyMCE setup for validation and file picker --}}
 <script>
-    // Initialize TinyMCE
-    tinymce.init({
-        selector: '#description',
-        height: 500,
-        menubar: true,
-        plugins: [
-            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-            'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-        ],
-        toolbar: 'undo redo | blocks | ' +
-            'bold italic forecolor | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ' +
-            'removeformat | link image media | code preview fullscreen | help',
-        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }',
-        file_picker_callback: function (callback, value, meta) {
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait for TinyMCE to be initialized by Alpine.js
+    setTimeout(function() {
+        if (typeof tinymce !== 'undefined' && tinymce.get('description')) {
+            var editor = tinymce.get('description');
+            
             // File picker callback for image/media uploads
-            if (meta.filetype === 'image' || meta.filetype === 'media') {
-                var input = document.createElement('input');
-                input.setAttribute('type', 'file');
-                input.setAttribute('accept', meta.filetype === 'image' ? 'image/*' : 'video/*');
-                input.onchange = function () {
-                    var file = this.files[0];
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                        callback(reader.result, {
-                            alt: file.name
-                        });
-                    };
-                    reader.readAsDataURL(file);
+            if (editor) {
+                editor.settings.file_picker_callback = function(callback, value, meta) {
+                    if (meta.filetype === 'image' || meta.filetype === 'media') {
+                        var input = document.createElement('input');
+                        input.setAttribute('type', 'file');
+                        input.setAttribute('accept', meta.filetype === 'image' ? 'image/*' : 'video/*');
+                        input.onchange = function () {
+                            var file = this.files[0];
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                callback(reader.result, { alt: file.name });
+                            };
+                            reader.readAsDataURL(file);
+                        };
+                        input.click();
+                    }
                 };
-                input.click();
-            }
-        },
-        setup: function(editor) {
-            // Handle TinyMCE validation integration
-            editor.on('change', function() {
-                // Update the textarea value when TinyMCE content changes
-                var content = editor.getContent();
-        document.getElementById('description').value = content;
-        
-        // Remove error styling if content exists
-        if (content.trim() !== '') {
-            const textarea = document.getElementById('description');
-            const editorContainer = textarea.closest('.modern-editor-container');
-            const errorMsg = textarea.parentNode.querySelector('.modern-error');
-            
-            if (editorContainer) {
-                editorContainer.classList.remove('error');
-            }
-            if (errorMsg) {
-                errorMsg.style.opacity = '0.5';
+                
+                // Handle validation integration
+                editor.on('change keyup', function() {
+                    var content = editor.getContent();
+                    document.getElementById('description').value = content;
+                    if (content.trim() !== '') {
+                        var textarea = document.getElementById('description');
+                        var editorContainer = textarea ? textarea.closest('.modern-editor-container') : null;
+                        var errorMsg = textarea && textarea.parentNode ? textarea.parentNode.querySelector('.modern-error') : null;
+                        if (editorContainer) editorContainer.classList.remove('error');
+                        if (errorMsg) errorMsg.style.opacity = '0.5';
+                    }
+                });
+                
+                editor.on('blur', function() {
+                    var content = editor.getContent();
+                    document.getElementById('description').value = content;
+                    if (content.trim() !== '') {
+                        var textarea = document.getElementById('description');
+                        var editorContainer = textarea ? textarea.closest('.modern-editor-container') : null;
+                        var errorMsg = textarea && textarea.parentNode ? textarea.parentNode.querySelector('.modern-error') : null;
+                        if (editorContainer) editorContainer.classList.remove('error');
+                        if (errorMsg) errorMsg.style.opacity = '0.5';
+                    }
+                });
             }
         }
-    });
-    
-            // Handle TinyMCE blur event (when user clicks away)
-            editor.on('blur', function() {
-                var content = editor.getContent();
-        document.getElementById('description').value = content;
-        
-        // Remove error styling if content exists
-        if (content.trim() !== '') {
-            const textarea = document.getElementById('description');
-            const editorContainer = textarea.closest('.modern-editor-container');
-            const errorMsg = textarea.parentNode.querySelector('.modern-error');
-            
-            if (editorContainer) {
-                editorContainer.classList.remove('error');
-            }
-            if (errorMsg) {
-                errorMsg.style.opacity = '0.5';
-            }
-                }
-            });
-        }
-    });
-    
-    // File upload preview functionality
-    var loadFile = function(event) {
-        var output = document.getElementById('output');
-        if (output) {
-            output.src = URL.createObjectURL(event.target.files[0]);
-            output.onload = function() {
-                URL.revokeObjectURL(output.src);
+    }, 500); // Wait for Alpine.js to initialize TinyMCE
+});
+
+// File upload preview functionality
+var loadFile = function(event) {
+    var output = document.getElementById('output');
+    if (output) {
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function() {
+            URL.revokeObjectURL(output.src);
+            // Convert jQuery to Alpine.js or native JS when migrating this
+            if (typeof $ !== 'undefined') {
                 $('.if_image').hide();
+            } else {
+                document.querySelectorAll('.if_image').forEach(function(el) {
+                    el.style.display = 'none';
+                });
             }
         }
-    };
+    }
+};
 </script>
 @endsection

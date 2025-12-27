@@ -56,9 +56,9 @@
                     <div class="experimental-case-card">
                         <div class="experimental-case-image" 
                              @if(isset($list->image) && $list->image != "")
-                                 style="background-image: url('{{ asset('images/blog/' . $list->image) }}');"
+                                 style="background-image: url('{!! asset('images/blog/' . $list->image) !!}');"
                              @else
-                                 style="background-image: url('{{ asset('images/CaseStudies.jpg') }}');"
+                                 style="background-image: url('{!! asset('images/CaseStudies.jpg') !!}');"
                              @endif>
                         </div>
                         <div class="experimental-case-content">
@@ -204,9 +204,13 @@
 }
 
 .experimental-case-image {
-    height: 250px;
+    height: 250px !important;
+    min-height: 250px !important;
+    max-height: 250px !important;
+    flex: 0 0 250px !important;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     position: relative;
     overflow: hidden;
 }
@@ -321,6 +325,9 @@
     
     .experimental-case-image {
         height: 200px;
+        min-height: 200px;
+        max-height: 200px;
+        flex-shrink: 0;
     }
     
     .experimental-case-content {

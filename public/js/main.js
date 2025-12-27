@@ -40,15 +40,171 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 	// Stellar.js - Only initialize if elements with data-stellar attributes exist
-	if (typeof $.fn.stellar !== 'undefined' && $('[data-stellar-background-ratio], [data-stellar-ratio]').length > 0) {
-		$(window).stellar({
-			responsive: true,
-			parallaxBackgrounds: true,
-			parallaxElements: true,
-			horizontalScrolling: false,
-			hideDistantElements: false,
-			scrollProperty: 'scroll'
+	// Wait for Stellar.js to be fully loaded and ready before initializing
+	var stellarInitialized = false; // Flag to prevent multiple initializations
+	
+	// Patch Stellar.js instance to fix the particles undefined bug
+	function patchStellarInstance(stellarInstance) {
+		if (!stellarInstance) return;
+		
+		// Store the original particles value if it exists
+		var originalParticles = stellarInstance.particles;
+		
+		// Use Object.defineProperty to ensure particles is always an array
+		// This intercepts all access to this.particles
+		try {
+			// Delete the existing property descriptor if possible, then redefine
+			delete stellarInstance.particles;
+			
+			Object.defineProperty(stellarInstance, 'particles', {
+				get: function() {
+					// Always return an array, never undefined
+					if (this._stellarParticles === undefined || !Array.isArray(this._stellarParticles)) {
+						this._stellarParticles = (originalParticles && Array.isArray(originalParticles)) ? originalParticles : [];
+					}
+					return this._stellarParticles;
+				},
+				set: function(value) {
+					// Ensure it's always an array
+					this._stellarParticles = (value && Array.isArray(value)) ? value : [];
+				},
+				enumerable: true,
+				configurable: true
+			});
+			
+			// Initialize with original value or empty array
+			stellarInstance.particles = originalParticles || [];
+		} catch (e) {
+			// Fallback: just ensure it's always an array
+			if (!stellarInstance.particles || !Array.isArray(stellarInstance.particles)) {
+				stellarInstance.particles = [];
+			}
+		}
+	}
+	
+	function initStellar() {
+		try {
+			// Prevent multiple initializations
+			if (stellarInitialized) {
+				return;
+			}
+			
+			// Check if Stellar.js is available and elements exist
+			if (typeof $.fn.stellar === 'undefined') {
+				return; // Stellar.js not loaded yet
+			}
+			
+			// Check if Stellar is already initialized on window
+			var existingInstance = $(window).data('plugin_stellar');
+			if (existingInstance) {
+				// Patch existing instance
+				patchStellarInstance(existingInstance);
+				stellarInitialized = true;
+				return; // Already initialized
+			}
+			
+			var stellarElements = $('[data-stellar-background-ratio], [data-stellar-ratio]');
+			if (stellarElements.length === 0) {
+				return; // No stellar elements on this page
+			}
+			
+			// Initialize Stellar with error handling
+			// Wrap in try-catch to handle internal Stellar.js errors
+			try {
+				$(window).stellar({
+					responsive: true,
+					parallaxBackgrounds: true,
+					parallaxElements: true,
+					horizontalScrolling: false,
+					hideDistantElements: false,
+					scrollProperty: 'scroll'
+				});
+				
+				// Patch the instance immediately after initialization
+				var stellarInstance = $(window).data('plugin_stellar');
+				if (stellarInstance) {
+					patchStellarInstance(stellarInstance);
+					stellarInitialized = true; // Mark as initialized
+				}
+			} catch (initError) {
+				// If initialization fails, try again after a short delay
+				console.warn('Stellar.js initialization failed, retrying...', initError);
+				setTimeout(function() {
+					try {
+						if (!$(window).data('plugin_stellar')) {
+							$(window).stellar({
+								responsive: true,
+								parallaxBackgrounds: true,
+								parallaxElements: true,
+								horizontalScrolling: false,
+								hideDistantElements: false,
+								scrollProperty: 'scroll'
+							});
+							var retryInstance = $(window).data('plugin_stellar');
+							if (retryInstance) {
+								patchStellarInstance(retryInstance);
+								stellarInitialized = true;
+							}
+						}
+					} catch (retryError) {
+						console.warn('Stellar.js retry also failed:', retryError);
+					}
+				}, 300);
+			}
+		} catch (error) {
+			console.warn('Stellar.js initialization error:', error);
+			// Silently fail - parallax is not critical for page functionality
+		}
+	}
+	
+	// Try to initialize with multiple retries to ensure script is loaded
+	function initStellarWithRetry(retries) {
+		retries = retries || 0;
+		
+		if (retries > 10) {
+			return; // Give up after 10 retries (1 second)
+		}
+		
+		// Check if jQuery is available first
+		if (typeof jQuery === 'undefined') {
+			setTimeout(function() {
+				initStellarWithRetry(retries + 1);
+			}, 100);
+			return;
+		}
+		
+		// Check if Stellar.js plugin is loaded
+		if (typeof $.fn.stellar === 'undefined') {
+			setTimeout(function() {
+				initStellarWithRetry(retries + 1);
+			}, 100);
+			return;
+		}
+		
+		// Now that jQuery is available, check for stellar elements
+		var stellarElements = $('[data-stellar-background-ratio], [data-stellar-ratio]');
+		if (stellarElements.length === 0) {
+			return; // No stellar elements, skip initialization
+		}
+		
+		// Initialize Stellar (patch is applied inside initStellar)
+		initStellar();
+	}
+	
+	// Try to initialize immediately if ready, otherwise wait
+	// Use longer delay to ensure all deferred scripts (including Stellar.js) are fully loaded
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', function() {
+			// Wait for deferred scripts to load - increased delay for Stellar.js
+			setTimeout(function() {
+				initStellarWithRetry(0);
+			}, 500);
 		});
+	} else {
+		// DOM already ready, but wait for deferred scripts
+		setTimeout(function() {
+			initStellarWithRetry(0);
+		}, 500);
 	}
 
 
@@ -513,5 +669,6 @@ function showCaseDetails(caseId) {
 	// Scroll to the description section
 	descriptionSection.scrollIntoView({ behavior: "smooth" });
 }
+
 
 

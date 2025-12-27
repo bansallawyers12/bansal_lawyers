@@ -812,7 +812,7 @@
                         // Use 400px version for listing if available, otherwise use full size
                         $optimizedWebpPath = $hasWebP400 ? $webpPath400 : ($hasWebP ? $webpPath : $imagePath);
                     @endphp
-                    <div style="height: 200px; background-image: url('{{ asset($optimizedWebpPath) }}'); background-size: cover; background-position: center; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({{ asset('images/Blog.jpg') }})'">
+                    <div style="height: 200px; min-height: 200px; max-height: 200px; flex-shrink: 0; background-image: url('{!! asset($optimizedWebpPath) !!}'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({!! asset('images/Blog.jpg') !!})'">
                         <span class="sr-only">{{ @$list->title }}</span>
                     </div>
                     <div class="d-flex align-items-center mb-3">
@@ -851,14 +851,14 @@
         <div class="row align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="text-center">
-                    <img src="{{ asset('images/bg_2.webp') }}" 
-                         srcset="{{ asset('images/bg_2.webp') }} 1x, 
-                                 {{ asset('images/bg_2@2x.webp') }} 2x" 
+                    <img src="{!! asset('images/bg_2.webp') !!}" 
+                         srcset="{!! asset('images/bg_2.webp') !!} 1x, 
+                                 {!! asset('images/bg_2@2x.webp') !!} 2x" 
                          sizes="(max-width: 768px) 100vw, 674px" 
                          alt="Contact Bansal Lawyers" 
                          class="img-fluid rounded" 
                          style="box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-radius: 20px !important; max-width: 100%; height: auto;" 
-                         loading="lazy" 
+                         loading="eager" 
                          width="674" 
                          height="405">
                     <div class="mt-4">

@@ -19,7 +19,7 @@
     <meta property="og:type" content="article">
     <meta property="og:title" content="{{@$casedetailists->meta_title ?? @$casedetailists->title}}">
     <meta property="og:description" content="{{@$casedetailists->meta_description ?? Str::limit(strip_tags(@$casedetailists->description ?? ''), 150)}}">
-    <meta property="og:image" content="{{ isset($casedetailists->image) && $casedetailists->image ? asset('images/blog/' . $casedetailists->image) : asset('images/logo/Bansal_Lawyers.png') }}">
+    <meta property="og:image" content="{!! isset($casedetailists->image) && $casedetailists->image ? asset('images/blog/' . $casedetailists->image) : asset('images/logo/Bansal_Lawyers.png') !!}">
     <meta property="og:image:alt" content="Bansal Lawyers">
     <meta name="twitter:card" content="summary_large_image">
 @endsection
@@ -262,9 +262,9 @@
                             <span class="et_pb_image_wrap">
                                 <picture>
                                     @if($hasWebP)
-                                        <source type="image/webp" srcset="{{ asset($webpPath) }}">
+                                        <source type="image/webp" srcset="{!! asset($webpPath) !!}">
                                     @endif
-                                    <img fetchpriority="high" decoding="async" src="{{ asset($imagePath) }}" alt="{{@$casedetailists->slug}}" class="wp-image-512">
+                                    <img fetchpriority="high" decoding="async" src="{!! asset($imagePath) !!}" alt="{{@$casedetailists->slug}}" class="wp-image-512">
                                 </picture>
                             </span>
                         </div>

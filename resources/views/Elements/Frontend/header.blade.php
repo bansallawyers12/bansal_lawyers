@@ -63,9 +63,9 @@
         <!-- Logo -->
         <a href="{{ url('/') }}" style="text-decoration: none;">
             <div class="logo-container" style="background-color: white; padding: 8px 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: inline-block;">
-                <img src="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }}" 
-                     srcset="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }} 1x, 
-                             {{ asset('images/logo/Bansal_Lawyers_origional@2x.webp') }} 2x" 
+                <img src="{!! asset('images/logo/Bansal_Lawyers_origional.webp') !!}" 
+                     srcset="{!! asset('images/logo/Bansal_Lawyers_origional.webp') !!} 1x, 
+                             {!! asset('images/logo/Bansal_Lawyers_origional@2x.webp') !!} 2x" 
                      alt="Bansal Lawyers" 
                      style="height: 55px; display: block; max-width: 100%;" 
                      width="261" 

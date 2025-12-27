@@ -585,7 +585,7 @@ input:checked + .modern-status-slider:before {
 																<i class="fas fa-file-pdf"></i>
 															</div>
 														@else
-															<img src="{{ asset('images/blog/' . $list->image) }}" alt="{{ $list->title }}" class="modern-blog-image">
+															<img src="{!! asset('images/blog/' . $list->image) !!}" alt="{{ $list->title }}" class="modern-blog-image">
 														@endif
 													@else
 														<div class="modern-media-icon image">

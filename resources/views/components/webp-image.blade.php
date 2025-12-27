@@ -20,9 +20,9 @@
 
 <picture>
     @if($hasWebP)
-        <source type="image/webp" srcset="{{ asset($webpPath) }}">
+        <source type="image/webp" srcset="{!! asset($webpPath) !!}">
     @endif
-    <img src="{{ asset($imagePath) }}" 
+    <img src="{!! asset($imagePath) !!}" 
          alt="{{ $alt }}"
          @if($class) class="{{ $class }}" @endif
          @if($width) width="{{ $width }}" @endif

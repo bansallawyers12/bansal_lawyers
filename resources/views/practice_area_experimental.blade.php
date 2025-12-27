@@ -42,7 +42,7 @@
     <style>
         /* Font and scrolling fixes */
         html, body { height: auto; overflow-y: auto; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 17px; line-height: 1.7; }
+        body { font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 17px; line-height: 1.7; }
         /* Hero styling adapted from experimental blog */
         .pae-hero { background: linear-gradient(135deg, #0a1a2e 0%, #16213e 50%, #1B4D89 100%); color: #fff; padding: 70px 0; text-align: center; position: relative; overflow: hidden; }
         .pae-hero::before { content:''; position:absolute; inset:0; background:url('{{ asset('images/Blog.jpg') }}') center/cover no-repeat; opacity:.18; z-index:1; }

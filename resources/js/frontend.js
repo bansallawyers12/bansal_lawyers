@@ -4,22 +4,28 @@
 // Import Alpine.js utilities
 import './alpine-utils.js';
 
-// Import critical frontend styles
-import '../../public/css/animate.min.css';
-import '../../public/css/flaticon.min.css';
-import '../../public/css/icomoon.min.css';
+// Note: CSS files should be imported in CSS entry points (resources/css/frontend.css)
+// or loaded via Vite's CSS handling. These public CSS files are loaded via
+// asset() helper in Blade templates, so we don't import them here.
 
 // Import AOS (Animate On Scroll) - critical for animations
-import 'aos/dist/aos.css';
-import 'aos/dist/aos.js';
+// Note: AOS is loaded via CDN in layout files (resources/views/layouts/frontend.blade.php)
+// If you want to use npm version, install: npm install aos
+// Then uncomment and use:
+// import 'aos/dist/aos.css';
+// import AOS from 'aos';
+// window.AOS = AOS;
 
 // Lazy load non-critical libraries
+// Note: These libraries are loaded via CDN/asset() in Blade templates and marked as external in vite.config.js
 const loadNonCriticalLibraries = async () => {
     // Owl Carousel removed - now using Swiper.js (loaded via CDN in layout)
     
-    // Load Magnific Popup
-    const { default: MagnificPopup } = await import('magnific-popup');
-    import('magnific-popup/dist/magnific-popup.css');
+    // Magnific Popup is loaded via asset() in frontend.blade.php
+    // Check if it's already loaded
+    const MagnificPopup = window.$ && window.$.fn && window.$.fn.magnificPopup 
+        ? window.$.fn.magnificPopup 
+        : null;
     
     return { MagnificPopup };
 };
@@ -90,14 +96,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     try {
         await loadExternalScripts();
         
-        // Initialize Stellar for parallax effects
-        if (window.Stellar) {
-            $(window).stellar({
-                responsive: true,
-                horizontalScrolling: false,
-                verticalOffset: 0
-            });
-        }
+        // Stellar.js initialization is handled by main.js which includes the particles fix
+        // Skip initialization here to avoid conflicts - main.js loads last and patches the instance
         
     } catch (error) {
         console.warn('Some external scripts failed to load:', error);
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     ];
     
     // Only preload if we're not in development mode to avoid warnings
-    if (typeof process === 'undefined' || process.env.NODE_ENV !== 'development') {
+    if (import.meta.env.MODE !== 'development') {
         criticalImages.forEach(src => {
             // Check if image exists before preloading
             const img = new Image();

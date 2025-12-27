@@ -554,7 +554,7 @@ input:checked + .modern-checkbox-slider:before {
 											@if(!empty($fetchedData->image) && file_exists(public_path('images/cmspage/' . $fetchedData->image)))
 												<div class="modern-media-preview">
 													<strong>Current Image:</strong><br>
-													<img src="{{ asset('images/cmspage/' . $fetchedData->image) }}" alt="{{ $fetchedData->title ?? '' }}" class="img-avatar">
+													<img src="{!! asset('images/cmspage/' . $fetchedData->image) !!}" alt="{{ $fetchedData->title ?? '' }}" class="img-avatar">
 												</div>
 											@endif
 											
@@ -640,7 +640,7 @@ input:checked + .modern-checkbox-slider:before {
 											@if(!empty($fetchedData->pdf_doc))
 												<div class="modern-media-preview">
 													<strong>Current File:</strong><br>
-													<a href="{{ asset('images/cmspage/' . $fetchedData->pdf_doc) }}" target="_blank">
+													<a href="{!! asset('images/cmspage/' . $fetchedData->pdf_doc) !!}" target="_blank">
 														<i class="fas fa-external-link-alt"></i>
 														Open PDF/Video File
 													</a>
@@ -860,7 +860,7 @@ function validateAndUpdateCMS() {
 <script src="{{ asset('assets/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 <script>
 // Wait for DOM to be ready before initializing TinyMCE
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Check if TinyMCE is loaded and description element exists
     if (typeof tinymce !== 'undefined') {
         var descriptionElement = document.getElementById('description');
@@ -883,7 +883,7 @@ $(document).ready(function() {
                     'removeformat | link image media anchor | ' +
                     'table | charmap emoticons pagebreak | ' +
                     'code preview fullscreen | help',
-                content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }',
+                content_style: 'body { font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }',
                 file_picker_callback: function (callback, value, meta) {
                     // File picker callback for image/media uploads
                     if (meta.filetype === 'image' || meta.filetype === 'media') {

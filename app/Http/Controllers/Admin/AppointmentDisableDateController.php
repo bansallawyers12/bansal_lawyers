@@ -40,7 +40,7 @@ class AppointmentDisableDateController extends Controller
                 ->get();
         }
         
-        return view('Admin.feature.appointmentdisabledate.index',compact(['lists', 'totalData']));
+        return view('Admin.feature.appointmentdisabledate.index', compact('lists', 'totalData'));
     }
 
 	public function create(Request $request)
@@ -206,7 +206,7 @@ class AppointmentDisableDateController extends Controller
                         }
                     }
 
-                    return view('Admin.feature.appointmentdisabledate.edit', compact(['fetchedData','weekendd','disabledatesF','disableSlotArr']));
+                    return view('Admin.feature.appointmentdisabledate.edit', compact('fetchedData', 'weekendd', 'disabledatesF', 'disableSlotArr'));
 				} else {
 					return Redirect::to('/admin/appointment-dates-disable')->with('error', 'Slot Not Exist');
 				}

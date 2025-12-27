@@ -20,9 +20,9 @@
             @if($showPhoto)
                 <div class="contact-form-photo">
                     @if(strpos($photoUrl, 'bansal_2') !== false)
-                        <img src="{{ asset('images/bansal_2.webp') }}" 
-                             srcset="{{ asset('images/bansal_2.webp') }} 1x, 
-                                     {{ asset('images/bansal_2@2x.webp') }} 2x" 
+                        <img src="{!! asset('images/bansal_2.webp') !!}" 
+                             srcset="{!! asset('images/bansal_2.webp') !!} 1x, 
+                                     {!! asset('images/bansal_2@2x.webp') !!} 2x" 
                              alt="{{ $photoAlt }}" 
                              class="lawyer-photo" 
                              width="60" 
@@ -120,7 +120,7 @@
 
         <!-- Google reCAPTCHA -->
         <div class="mb-3">
-            <div class="g-recaptcha recaptcha-container" data-sitekey="{{ config('services.recaptcha.key', env('RECAPTCHA_SITE_KEY', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI')) }}"></div>
+            <div class="g-recaptcha recaptcha-container" data-sitekey="{{ config('services.recaptcha.key', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') }}"></div>
             <div class="invalid-feedback" id="{{ $formId }}-recaptcha-error"></div>
         </div>
 

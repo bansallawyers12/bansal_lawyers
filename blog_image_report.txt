@@ -1,0 +1,155 @@
+=== BLOG IMAGE DIAGNOSTIC REPORT (EXTENDED) ===
+Generated: 2025-12-27 14:08:36
+
+Total active blogs: 31
+Blogs with images: 30
+
+--- ALL BLOG IMAGE FILENAMES IN DATABASE ---
+ID: 25 | guide-to-successful-co-parenting-after-divorce     | Γ£ô
+  File: Guide_to_Successful_Co-Parenting_TN.jpg (WebP Γ£ô)
+  Updated: 2025-08-22 15:29:20
+
+ID:  4 | dont-miss-out-why-the-new-subclass-482-sid-visa-is | Γ£ô
+  File: DONT_MISS_OUT_WHY_THE_NEW_SUBCLASS_482_SID_VISA_IS_THE_FASTEST_WAY_TO_WORK_AND_STAY_IN_AUSTRALIA.jpg (WebP Γ£ô)
+  Updated: 2025-08-06 15:01:07
+
+ID: 13 | understanding-affidavits-statutory-declarations-st | Γ£ô
+  File: Blog_TN_(2).jpg (WebP Γ£ô)
+  Updated: 2025-07-24 20:18:12
+
+ID:  2 | navigating-corporate-litigation                    | Γ£ô
+  File: image_2.jpg (WebP Γ£ô)
+  Updated: 2025-07-24 17:40:24
+
+ID: 16 | top-legal-risks-for-small-businesses               | Γ£ô
+  File: IMG_0072.jpg (WebP Γ£ô)
+  Updated: 2025-07-24 17:18:37
+
+ID: 20 | step-by-step-guide-applying-divorce-in-australia   | Γ£ô
+  File: Step_by_step.jpg (WebP Γ£ô)
+  Updated: 2025-07-24 16:52:47
+
+ID: 10 | human-rights-legal-recourse-australia              | Γ£ô
+  File: Blog_TN.jpg (WebP Γ£ô)
+  Updated: 2025-07-24 16:31:52
+
+ID: 29 | how-to-build-strong-brand-legal-considerations-for | Γ£ô
+  File: How_to_build_a_strong_brand.jpg (WebP Γ£ô)
+  Updated: 2025-07-24 16:06:26
+
+ID: 28 | hiding-assets-during-divorce-australia             | Γ£ô
+  File: Hiding_Assets_During_Divorce.jpg (WebP Γ£ô)
+  Updated: 2025-07-24 15:47:32
+
+ID: 26 | why-you-need-power-of-attorney-bansal-lawyers-aust | Γ£ô
+  File: Why_You_Need_Power_of_Attorney_TN.jpg (WebP Γ£ô)
+  Updated: 2025-07-23 20:40:37
+
+ID: 18 | why-you-need-power-of-attorney-today               | Γ£ô
+  File: Securing_your_Future_Blog_TN.jpg (WebP Γ£ô)
+  Updated: 2025-07-23 20:31:42
+
+ID: 24 | breaking-rental-agreement-early-in-australia       | Γ£ô
+  File: Understanding_Your_Rights_When_Breaking_a_Rental_Agreement_Early.jpg (WebP Γ£ô)
+  Updated: 2025-07-10 23:22:05
+
+ID:  3 | breaking-australia-national-innovation-visa-set-to | Γ£ô
+  File: breaking_blog_1.jpeg (WebP Γ£ô)
+  Updated: 2025-07-10 21:13:33
+
+ID: 31 | what-is-the-civil-dispute-resolution-act-2011-aust | Γ£ô
+  File: What_is_the_Civil_Dispute_Resolution_Act_2011_&_How_It_Helps_Settle_Disputes_in_Australia_(1).jpg (WebP Γ£ô)
+  Updated: 2025-07-10 20:54:06
+
+ID: 22 | understanding-family-law-court-fees-australia      | Γ£ô
+  File: Understanding_Family_Law_Court_Fees_TN.jpg (WebP Γ£ô)
+  Updated: 2025-07-09 18:13:58
+
+ID: 14 | understanding-de-facto-relationship-vs-marriage-au | Γ£ô
+  File: Legal_Rights_of_De_Facto_Couples_Under_Australian_Law.jpg (WebP Γ£ô)
+  Updated: 2025-07-09 18:11:09
+
+ID: 19 | understanding-administrative-law-bansal-lawyers    | Γ£ô
+  File: Understanding_Administrative_Law_A_Guide_by_Bansal_Lawyers.jpg (WebP Γ£ô)
+  Updated: 2025-07-09 18:08:12
+
+ID: 23 | parenting-arrangements-after-divorce-in-australia  | Γ£ô
+  File: Parenting_Arrangements_After_Divorce_Insights_from_Bansal_Lawyers.jpg (WebP Γ£ô)
+  Updated: 2025-07-09 18:02:20
+
+ID: 17 | noicc-visa-cancellation-australia                  | Γ£ô
+  File: What_is_Noicc.jpeg (WebP Γ£ô)
+  Updated: 2025-07-09 17:58:43
+
+ID: 21 | how-to-divide-finances-and-property-after-separati | Γ£ô
+  File: Finances_and_Property_After_Separation_TN.jpg (WebP Γ£ô)
+  Updated: 2025-07-09 17:57:25
+
+ID: 12 | how-to-appeal-visa-refusal-cancellation-art        | Γ£ô
+  File: Blog_TN_(1).jpg (WebP Γ£ô)
+  Updated: 2025-07-09 17:24:22
+
+ID: 15 | divorce-laws-india-vs-australia                    | Γ£ô
+  File: Understanding_the_Divorce_process_in_IN_&_AU.jpg (WebP Γ£ô)
+  Updated: 2025-07-09 17:15:46
+
+ID: 11 | difference-between-courts-and-administrative-revie | Γ£ô
+  File: ART_Blog_TN.jpg (WebP Γ£ô)
+  Updated: 2025-07-09 16:46:06
+
+ID: 27 | administrative-law-explained-expert-guidance-bansa | Γ£ô
+  File: Administrative_Law_Explained_TN.jpg (WebP Γ£ô)
+  Updated: 2025-07-09 15:54:39
+
+ID:  5 | judicial-review-of-migration-decisions-in-australi | Γ£ô
+  File: Judicial_Review_Cases_Web_(2).jpg (WebP Γ£ô)
+  Updated: 2025-06-09 21:11:46
+
+ID: 30 | closing-loopholes-reforms-independent-contractors  | Γ£ô
+  File: Understanding_the_Closing_Loopholes_Reforms_Changes_for_Independent_Contractors.jpg (WebP Γ£ô)
+  Updated: 2025-06-09 18:39:09
+
+ID:  7 | exciting-changes-to-australias-administrative-revi | Γ£ô
+  File: Exciting_Changes_Web.jpg (WebP Γ£ô)
+  Updated: 2025-06-04 20:39:47
+
+ID:  8 | visa-refusal-australia-review-appeal-bansal-lawyer | Γ£ô
+  File: Visa_Refusal_Blog_TN.jpg (WebP Γ£ô)
+  Updated: 2025-06-04 20:38:31
+
+ID:  9 | how-to-appeal-visa-refusal-administrative-review-t | Γ£ô
+  File: Visa_Refusal_Blog_TN_(1).jpg (WebP Γ£ô)
+  Updated: 2025-06-04 20:33:37
+
+ID:  6 | important-changes-to-student-visa-processing-minis | Γ£ô
+  File: Important_Changes_to_Student_Visa_Processing_Ministerial_Direction.jpg (WebP Γ£ô)
+  Updated: 2025-03-05 23:34:11
+
+--- UPDATE HISTORY ---
+Blogs updated in last 30 days: 0
+Oldest blog update: 2025-03-05 23:34:11
+Newest blog update: 2025-08-22 15:29:20
+
+--- SPECIFIC BLOGS MENTIONED IN ERROR REPORT ---
+Slug: closing-loopholes-reforms-independent-contractors
+  DB Image: Understanding_the_Closing_Loopholes_Reforms_Changes_for_Independent_Contractors.jpg
+  File exists: YES
+  WebP exists: YES
+  Last updated: 2025-06-09 18:39:09
+
+Slug: what-is-the-civil-dispute-resolution-act-2011-australia
+  DB Image: What_is_the_Civil_Dispute_Resolution_Act_2011_&_How_It_Helps_Settle_Disputes_in_Australia_(1).jpg
+  File exists: YES
+  WebP exists: YES
+  Last updated: 2025-07-10 20:54:06
+
+--- CHECK FOR ERROR REPORT FILENAME ---
+NOT FOUND: Top_10_legal_Service_in_Australia.jpg is not used in any blog post
+
+--- WEBP COVERAGE ---
+Blogs with images: 30
+With WebP version: 30 (100%)
+With 400px WebP: 2 (6.7%)
+With 800px WebP: 2 (6.7%)
+
+=== END OF REPORT ===
