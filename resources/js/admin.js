@@ -9,8 +9,9 @@ import { modernSelect } from './components/modern-select.js';
 import { ajaxUtils } from './components/ajax-utils.js';
 import { formValidation } from './components/form-validation.js';
 
-// Import critical admin styles
-import '../../public/css/app.min.css';
+// Note: CSS files should be imported in CSS entry points (resources/css/admin.css)
+// or loaded via Vite's CSS handling. The app.min.css is loaded via asset() helper
+// in Blade templates, so we don't import it here.
 
 // Lazy load admin libraries based on page needs
 const loadAdminLibraries = async (libraries = []) => {

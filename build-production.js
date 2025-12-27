@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Production Build Script with CSS Purging and Optimization
- * This script handles advanced CSS purging, asset optimization, and performance monitoring
+ * Production Build Script for Vite
+ * This script handles Vite production builds with asset optimization and performance monitoring
+ * Note: Vite handles CSS purging and minification natively via PostCSS and Tailwind
  */
 
 import { execSync } from 'child_process';
@@ -12,104 +13,21 @@ import { join } from 'path';
 const BUILD_DIR = 'public/build';
 const MANIFEST_FILE = join(BUILD_DIR, 'manifest.json');
 
-// CSS PurgeCSS configuration for different environments
-const PURGECSS_CONFIGS = {
-    frontend: {
-        content: [
-            './resources/views/**/*.blade.php',
-            './resources/views/components/**/*.blade.php',
-            './resources/js/frontend*.js',
-            './resources/js/alpine-utils.js',
-            './resources/js/lazy-loading.js'
-        ],
-        css: [
-            './resources/css/frontend.css',
-            './resources/css/components/**/*.css'
-        ],
-        safelist: [
-            // Animation classes
-            /^aos-/,
-            /^owl-/,
-            /^mfp-/,
-            // Component classes
-            /^hero-/,
-            /^navbar/,
-            /^btn-/,
-            /^card-/,
-            /^form-/,
-            // Utility classes
-            /^text-/,
-            /^bg-/,
-            /^border-/,
-            /^shadow-/,
-            /^rounded-/,
-            // Responsive classes
-            /^d-/,
-            /^flex/,
-            /^grid/,
-            /^w-/,
-            /^h-/,
-            /^p-/,
-            /^m-/,
-            // State classes
-            /^active/,
-            /^show/,
-            /^hide/,
-            /^disabled/,
-            /^selected/
-        ]
-    },
-    admin: {
-        content: [
-            './resources/views/Admin/**/*.blade.php',
-            './resources/views/layouts/admin*.blade.php',
-            './resources/js/admin*.js',
-            './resources/js/admin-datatables.js',
-            './resources/js/admin-calendar.js'
-        ],
-        css: [
-            './resources/css/admin.css',
-            './resources/css/layouts/admin.css'
-        ],
-        safelist: [
-            // Admin specific classes
-            /^dataTables/,
-            /^dt-/,
-            /^fc-/,
-            /^select2-/,
-            /^flatpickr-/,
-            /^summernote/,
-            /^tooltip/,
-            /^popover/,
-            /^modal/,
-            // Bootstrap admin classes
-            /^sidebar/,
-            /^main-content/,
-            /^page-header/,
-            /^breadcrumb/,
-            /^table/,
-            /^form-control/,
-            /^btn-outline/,
-            /^alert/,
-            /^badge/,
-            /^progress/
-        ]
-    }
-};
-
 // Performance optimization settings
+// Note: Vite handles most of these optimizations natively
 const OPTIMIZATION_SETTINGS = {
-    css: {
-        minify: true,
-        removeUnused: true,
-        mergeMediaQueries: true,
-        normalizeWhitespace: true
-    },
-    js: {
-        minify: true,
-        removeConsole: true,
-        removeDebugger: true,
-        mangle: true
+    vite: {
+        minify: 'terser',
+        cssCodeSplit: true,
+        sourcemap: true,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    'vendor': ['jquery', 'bootstrap', 'alpinejs'],
+                    'axios': ['axios']
+                }
+            }
+        }
     },
     assets: {
         optimizeImages: true,
@@ -149,16 +67,13 @@ class ProductionBuilder {
             process.env.NODE_ENV = 'production';
             process.env.CRITICAL_CSS = 'true';
             
-            // Step 1: Run Vite build
+            // Step 1: Run Vite build (handles CSS purging via Tailwind and minification)
             await this.runViteBuild();
             
-            // Step 2: Apply CSS purging
-            await this.purgeCSS();
-            
-            // Step 3: Optimize assets
+            // Step 2: Optimize assets and analyze build output
             await this.optimizeAssets();
             
-            // Step 4: Generate build report
+            // Step 3: Generate build report
             await this.generateReport();
             
             const duration = Date.now() - this.startTime;
@@ -184,53 +99,18 @@ class ProductionBuilder {
         }
     }
 
-    async purgeCSS() {
-        this.log('Applying CSS purging...');
-        
-        if (!existsSync(MANIFEST_FILE)) {
-            this.log('Manifest file not found, skipping CSS purging', 'warning');
-            return;
-        }
-
-        const manifest = JSON.parse(readFileSync(MANIFEST_FILE, 'utf8'));
-        
-        for (const [entry, config] of Object.entries(PURGECSS_CONFIGS)) {
-            this.log(`Purging CSS for ${entry}...`);
-            
-            // Find CSS files in manifest
-            const cssFiles = Object.entries(manifest)
-                .filter(([key, value]) => 
-                    key.includes(entry) && value.file && value.file.endsWith('.css')
-                )
-                .map(([key, value]) => value.file);
-            
-            for (const cssFile of cssFiles) {
-                const fullPath = join(BUILD_DIR, cssFile);
-                if (existsSync(fullPath)) {
-                    const originalSize = readFileSync(fullPath).length;
-                    this.stats.cssFiles++;
-                    this.stats.totalSize += originalSize;
-                    
-                    // Apply purging logic here (simplified)
-                    this.log(`Processed ${cssFile} (${Math.round(originalSize / 1024)}KB)`);
-                }
-            }
-        }
-        
-        this.log('CSS purging completed', 'success');
-    }
 
     async optimizeAssets() {
-        this.log('Optimizing assets...');
+        this.log('Analyzing optimized assets...');
         
         if (!existsSync(MANIFEST_FILE)) {
-            this.log('Manifest file not found, skipping asset optimization', 'warning');
+            this.log('Manifest file not found, skipping asset analysis', 'warning');
             return;
         }
 
         const manifest = JSON.parse(readFileSync(MANIFEST_FILE, 'utf8'));
         
-        // Count and measure assets
+        // Count and measure assets from Vite build
         for (const [key, value] of Object.entries(manifest)) {
             if (value.file) {
                 const fullPath = join(BUILD_DIR, value.file);
@@ -240,12 +120,16 @@ class ProductionBuilder {
                     
                     if (value.file.endsWith('.js')) {
                         this.stats.jsFiles++;
+                    } else if (value.file.endsWith('.css')) {
+                        this.stats.cssFiles++;
                     }
                 }
             }
         }
         
-        this.log('Asset optimization completed', 'success');
+        this.log('Asset analysis completed', 'success');
+        this.log(`  Total assets: ${this.stats.jsFiles + this.stats.cssFiles} files`);
+        this.log(`  Total size: ${Math.round(this.stats.totalSize / 1024)}KB`);
     }
 
     async generateReport() {
@@ -260,8 +144,8 @@ class ProductionBuilder {
                 totalSizeKB: Math.round(this.stats.totalSize / 1024),
                 cssFiles: this.stats.cssFiles,
                 jsFiles: this.stats.jsFiles,
-                compressionRatio: this.stats.purgedSize > 0 ? 
-                    Math.round((1 - this.stats.purgedSize / this.stats.totalSize) * 100) : 0
+                averageFileSizeKB: this.stats.jsFiles + this.stats.cssFiles > 0 ? 
+                    Math.round(this.stats.totalSize / (this.stats.jsFiles + this.stats.cssFiles) / 1024) : 0
             }
         };
         

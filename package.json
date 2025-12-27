@@ -7,11 +7,6 @@
         "watch": "vite build --watch",
         "prod": "vite build",
         "production": "vite build",
-        "minify-main": "node minify-main.js",
-        "build-all": "node build-scripts.js all",
-        "build-custom": "node build-scripts.js custom",
-        "build-vite": "node build-scripts.js vite",
-        "verify-minification": "node build-scripts.js verify",
         "minify-assets": "node scripts/minify-assets.js"
     },
     "devDependencies": {

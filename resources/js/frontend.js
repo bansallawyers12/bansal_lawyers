@@ -4,14 +4,17 @@
 // Import Alpine.js utilities
 import './alpine-utils.js';
 
-// Import critical frontend styles
-import '../../public/css/animate.min.css';
-import '../../public/css/flaticon.min.css';
-import '../../public/css/icomoon.min.css';
+// Note: CSS files should be imported in CSS entry points (resources/css/frontend.css)
+// or loaded via Vite's CSS handling. These public CSS files are loaded via
+// asset() helper in Blade templates, so we don't import them here.
 
 // Import AOS (Animate On Scroll) - critical for animations
-import 'aos/dist/aos.css';
-import 'aos/dist/aos.js';
+// Note: AOS is loaded via CDN in layout files (resources/views/layouts/frontend.blade.php)
+// If you want to use npm version, install: npm install aos
+// Then uncomment and use:
+// import 'aos/dist/aos.css';
+// import AOS from 'aos';
+// window.AOS = AOS;
 
 // Lazy load non-critical libraries
 const loadNonCriticalLibraries = async () => {
@@ -121,7 +124,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     ];
     
     // Only preload if we're not in development mode to avoid warnings
-    if (typeof process === 'undefined' || process.env.NODE_ENV !== 'development') {
+    if (import.meta.env.MODE !== 'development') {
         criticalImages.forEach(src => {
             // Check if image exists before preloading
             const img = new Image();

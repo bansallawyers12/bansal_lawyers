@@ -3,13 +3,13 @@
 echo "🚀 BANSAL LAWYERS - PERFORMANCE OPTIMIZATION SCRIPT"
 echo "=================================================="
 
-# Install/Update dependencies
-echo "📦 Installing performance optimization dependencies..."
-npm install cssnano@^5.1.0 purgecss-webpack-plugin@^5.0.0 terser-webpack-plugin@^5.3.0 laravel-mix@^6.0.49 --save-dev
+# Install/Update dependencies (Vite handles optimization natively)
+echo "📦 Installing/updating dependencies..."
+npm install
 
-# Build optimized bundles
-echo "🔨 Building optimized asset bundles..."
-npm run production
+# Build optimized bundles using Vite
+echo "🔨 Building optimized asset bundles with Vite..."
+npm run build
 
 # Create .htaccess for compression and caching
 echo "⚙️  Creating performance-optimized .htaccess..."
@@ -110,7 +110,7 @@ echo "• Improved Core Web Vitals scores"
 echo "• Better mobile performance"
 echo ""
 echo "🔧 NEXT STEPS:"
-echo "1. Run: npm run production"
+echo "1. Run: npm run build"
 echo "2. Clear browser cache and test"
 echo "3. Monitor performance with Google PageSpeed Insights"
 echo "4. Consider implementing a CDN for further optimization"
