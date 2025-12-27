@@ -23,10 +23,18 @@ use Illuminate\Support\Facades\Config;
 // use Illuminate\Support\Facades\Cookie; // unused
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
 
 use Stripe;
 use App\Models\Enquiry;
 use App\Models\RecentCase;
+use App\Models\Appointment;
+use App\Models\BookService;
+use App\Models\BookServiceSlotPerPerson;
+use App\Models\BookServiceDisableSlot;
+use App\Models\Admin;
+use App\Models\NatureOfEnquiry;
 
 class HomeController extends Controller
 {
@@ -35,7 +43,7 @@ class HomeController extends Controller
 		$siteData = Cache::remember('site_data', 3600, function () {
 			return WebsiteSetting::first();
 		});
-		\View::share('siteData', $siteData);
+		View::share('siteData', $siteData);
 	}
 
     public function coming_soon()
@@ -65,10 +73,10 @@ class HomeController extends Controller
 
     public static function hextorgb ($hexstring){
         $integar = hexdec($hexstring);
-                    return array( "red" => 0xFF & ($integar >> 0x10),
+                    return [ "red" => 0xFF & ($integar >> 0x10),
         "green" => 0xFF & ($integar >> 0x8),
         "blue" => 0xFF & $integar
-        );
+        ];
     }
 
 	public function Page(Request $request, $slug= null)
@@ -212,7 +220,7 @@ class HomeController extends Controller
           'description' => $request->message
         ];
 
-        \Mail::to($fromAddress)->send(new \App\Mail\ContactUsMail($details));
+        Mail::to($fromAddress)->send(new \App\Mail\ContactUsMail($details));
        
 
         //mail to customer
@@ -295,10 +303,10 @@ class HomeController extends Controller
                     'description' => $request->message
                 ];
 
-                \Mail::to($fromAddress)->send(new \App\Mail\ContactUsMail($details));
+                Mail::to($fromAddress)->send(new \App\Mail\ContactUsMail($details));
             } catch (\Exception $mailException) {
                 // Log email error but don't fail the submission
-                \Log::warning('Contact form email sending failed: ' . $mailException->getMessage());
+                Log::warning('Contact form email sending failed: ' . $mailException->getMessage());
             }
 
             // Return response based on request type
@@ -323,7 +331,7 @@ class HomeController extends Controller
             }
             throw $e;
         } catch (\Exception $e) {
-            \Log::error('Contact form submission error: ' . $e->getMessage());
+            Log::error('Contact form submission error: ' . $e->getMessage());
             
             if ($request->ajax()) {
                 return response()->json([
@@ -400,10 +408,10 @@ class HomeController extends Controller
                 
                 return view('bloglatest', compact(['bloglists', 'blogData', 'blogCategories', 'category', 'currentPage', 'totalPages']));
             } else {
-                return Redirect::to('/blog')->with('error', 'Category not found');
+                return redirect('/blog')->with('error', 'Category not found');
             }
         } else {
-            return Redirect::to('/blog')->with('error', 'Invalid category');
+            return redirect('/blog')->with('error', 'Invalid category');
         }
     }
   
@@ -415,7 +423,7 @@ class HomeController extends Controller
 	public function blogdetail(Request $request, $slug = null)
     {
 		if(!isset($slug) || empty($slug)){
-            return Redirect::to('/blog')->with('error', 'Blog not found');
+            return redirect('/blog')->with('error', 'Blog not found');
         }
 
         // Find the blog post
@@ -458,11 +466,11 @@ class HomeController extends Controller
 			}
 			else
 			{
-				return Redirect::to('/ourservices')->with('error', 'Our Services'.Config::get('constants.not_exist'));
+				return redirect('/ourservices')->with('error', 'Our Services'.config('constants.not_exist'));
 			}
 		}
 		else{
-			return Redirect::to('/ourservices')->with('error', Config::get('constants.unauthorized'));
+			return redirect('/ourservices')->with('error', config('constants.unauthorized'));
 		}
     }
 
@@ -497,15 +505,15 @@ class HomeController extends Controller
             $person_id = 1; // Ajay Bansal
             $service_type = 1; // Paid service
             
-            $bookservice = \App\Models\BookService::where('id', $req_service_id)->first();
+            $bookservice = BookService::where('id', $req_service_id)->first();
             if (!$bookservice) {
                 return response()->json(['success' => false, 'message' => 'Service not found']);
             }
             
-            $service = \App\Models\BookServiceSlotPerPerson::where('person_id', $person_id)->where('service_type', $service_type)->first();
+            $service = BookServiceSlotPerPerson::where('person_id', $person_id)->where('service_type', $service_type)->first();
             
             if ($service) {
-                $weekendd = array();
+                $weekendd = [];
                 if ($service->weekend != '') {
                     $weekend = explode(',', $service->weekend);
                     foreach ($weekend as $e) {
@@ -539,19 +547,19 @@ class HomeController extends Controller
                 $end_time = date('H:i', strtotime($service->end_time));
 
                 // Handle disabled dates
-                $disabledatesarray = array();
+                $disabledatesarray = [];
                 if ($service->disabledates != '') {
-                    if (strpos($service->disabledates, ',') !== false) {
+                    if (str_contains($service->disabledates, ',')) {
                         $disabledatesArr = explode(',', $service->disabledates);
                         $disabledatesarray = array_map('trim', $disabledatesArr);
                     } else {
-                        $disabledatesarray = array(trim($service->disabledates));
+                        $disabledatesarray = [trim($service->disabledates)];
                     }
                 }
 
                 // Fetch blocked dates from BookServiceDisableSlot table (for full day blocks)
                 $book_service_slot_per_person_id = $service->id ?? 1; // Default to 1 for Ajay
-                $blockedSlots = \App\Models\BookServiceDisableSlot::select('disabledates', 'block_all')
+                $blockedSlots = BookServiceDisableSlot::select('disabledates', 'block_all')
                     ->where('book_service_slot_per_person_id', $book_service_slot_per_person_id)
                     ->where('block_all', 1) // Only full day blocks
                     ->get();
@@ -571,7 +579,7 @@ class HomeController extends Controller
                             }
                         } catch (\Exception $e) {
                             // Skip invalid dates and log error
-                            \Log::warning('Invalid blocked date skipped: ' . $blockedSlot->disabledates);
+                            Log::warning('Invalid blocked date skipped: ' . $blockedSlot->disabledates);
                         }
                     }
                 }
@@ -595,7 +603,7 @@ class HomeController extends Controller
                 ]);
             }
         } catch (\Exception $e) {
-            \Log::error('getdatetime error: ' . $e->getMessage());
+            Log::error('getdatetime error: ' . $e->getMessage());
             return response()->json([
                 'success' => false, 
                 'message' => 'Server error occurred'
@@ -623,7 +631,7 @@ class HomeController extends Controller
             
             // Handle different date formats
             $selDate = $requestData['sel_date'];
-            if (strpos($selDate, '-') !== false) {
+            if (str_contains($selDate, '-')) {
                 // YYYY-MM-DD format from JavaScript
                 $datey = $selDate;
             } else {
@@ -639,7 +647,7 @@ class HomeController extends Controller
             $book_service_slot_per_person_tbl_unique_id = 1;
             
             // Check for existing appointments on this date with active nature of enquiry
-            $servicelist = \App\Models\Appointment::select('id', 'date', 'time')
+            $servicelist = Appointment::select('id', 'date', 'time')
                 ->where('status', '!=', 7)
                 ->whereDate('date', $datey)
                 ->where('service_id', 1)
@@ -648,7 +656,7 @@ class HomeController extends Controller
                 })
                 ->get();
 
-            $disabledtimeslotes = array();
+            $disabledtimeslotes = [];
             
             // Add existing appointment times to disabled slots
             if ($servicelist->isNotEmpty()) {
@@ -658,7 +666,7 @@ class HomeController extends Controller
             }
             
             // Get manually disabled slots from BookServiceDisableSlot table
-            $disabled_slot_arr = \App\Models\BookServiceDisableSlot::select('id','slots')
+            $disabled_slot_arr = BookServiceDisableSlot::select('id','slots')
                 ->where('book_service_slot_per_person_id', $book_service_slot_per_person_tbl_unique_id)
                 ->whereDate('disabledates', $datey)
                 ->get();
@@ -674,7 +682,7 @@ class HomeController extends Controller
             ]);
             
         } catch (\Exception $e) {
-            \Log::error('getdisableddatetime error: ' . $e->getMessage());
+            Log::error('getdisableddatetime error: ' . $e->getMessage());
             return response()->json([
                 'success' => false, 
                 'message' => 'Server error occurred',
@@ -691,11 +699,11 @@ class HomeController extends Controller
 
 	public function stripe($appointmentId)
     {
-        $appointmentInfo = \App\Models\Appointment::find($appointmentId);
+        $appointmentInfo = Appointment::find($appointmentId);
         if($appointmentInfo){
-            $adminInfo = \App\Models\Admin::find($appointmentInfo->client_id);
+            $adminInfo = Admin::find($appointmentInfo->client_id);
         } else {
-            $adminInfo = array();
+            $adminInfo = [];
         }
         return view('stripe', compact(['appointmentId','appointmentInfo','adminInfo']));
     }
@@ -718,7 +726,7 @@ class HomeController extends Controller
             $amount = 150;
 
             // Fetch appointment data early for use in failure scenarios
-            $appointment = \App\Models\Appointment::find($appointment_id);
+            $appointment = Appointment::find($appointment_id);
 
             Stripe\Stripe::setApiKey(config('services.stripe.secret') ?? env('STRIPE_SECRET'));
 
@@ -749,7 +757,7 @@ class HomeController extends Controller
                 $appointment_status = 10; // Pending Appointment With Payment Success
                 
                 // Get appointment to find the correct order_hash
-                $appointment = \App\Models\Appointment::find($appointment_id);
+                $appointment = Appointment::find($appointment_id);
                 $appointmentOrderHash = $appointment ? $appointment->order_hash : null;
                 
                 // Find existing payment record by appointment's order_hash
@@ -771,7 +779,7 @@ class HomeController extends Controller
                         'stripe_payment_status' => $payment_intent->status,
                         'stripe_payment_response' => $payment_intent->toArray()
                     ]);
-                    \Log::info('Updated existing payment record ID: ' . $paymentRecord->id);
+                    Log::info('Updated existing payment record ID: ' . $paymentRecord->id);
                 } else {
                     // Create new payment record if not found
                     $paymentRecord = AppointmentPayment::create([
@@ -788,7 +796,7 @@ class HomeController extends Controller
                         'stripe_payment_status' => $payment_intent->status,
                         'stripe_payment_response' => $payment_intent->toArray()
                     ]);
-                    \Log::info('Created new payment record ID: ' . $paymentRecord->id);
+                    Log::info('Created new payment record ID: ' . $paymentRecord->id);
                 }
                 
                 // Update appointment status and order_hash if needed
@@ -801,8 +809,8 @@ class HomeController extends Controller
                 // Send confirmation emails after successful payment
                 if ($appointment) {
                     // Get service and NatureOfEnquiry data
-                    $service = \App\Models\BookService::find($appointment->service_id);
-                    $NatureOfEnquiry = \App\Models\NatureOfEnquiry::find($appointment->noe_id);
+                    $service = BookService::find($appointment->service_id);
+                    $NatureOfEnquiry = NatureOfEnquiry::find($appointment->noe_id);
                     
                     // Prepare request data for email function
                     $requestData = [
@@ -826,14 +834,14 @@ class HomeController extends Controller
                     
                     // Log email results
                     if (!$emailResults['admin_email_sent']) {
-                        \Log::error('Admin email failed to send after payment', [
+                        Log::error('Admin email failed to send after payment', [
                             'appointment_id' => $appointment->id,
                             'error' => $emailResults['admin_email_error']
                         ]);
                     }
                     
                     if (!$emailResults['customer_email_sent']) {
-                        \Log::error('Customer confirmation email failed to send after payment', [
+                        Log::error('Customer confirmation email failed to send after payment', [
                             'appointment_id' => $appointment->id,
                             'customer_email' => $appointment->email,
                             'error' => $emailResults['customer_email_error']
@@ -912,7 +920,7 @@ class HomeController extends Controller
     {
         $appointment = null;
         if ($appointmentId) {
-            $appointment = \App\Models\Appointment::find($appointmentId);
+            $appointment = Appointment::find($appointmentId);
         }
         
         return view('payment-thankyou', compact('appointment'));
@@ -997,11 +1005,11 @@ class HomeController extends Controller
 
                 return view('casedetail', compact(['casedetailists']));
 			} else {
-				return Redirect::to('/case')->with('error', 'Case'.Config::get('constants.not_exist'));
+				return redirect('/case')->with('error', 'Case'.config('constants.not_exist'));
 			}
 		}
 		else{
-			return Redirect::to('/case')->with('error', Config::get('constants.unauthorized'));
+			return redirect('/case')->with('error', config('constants.unauthorized'));
 		}
     }
 
@@ -1663,7 +1671,7 @@ class HomeController extends Controller
     {
         // Redirect all category pages to main blog (SEO: prevent duplicate content)
         // Categories are not used, so consolidate all URLs to /blog
-        return Redirect::to('https://www.bansallawyers.com.au/blog', 301);
+        return redirect('https://www.bansallawyers.com.au/blog', 301);
     }
     
     
@@ -1674,7 +1682,7 @@ class HomeController extends Controller
     public function unifiedSlugHandler(Request $request, $slug = null)
     {
         if(!isset($slug) || empty($slug)){
-            return Redirect::to('/')->with('error', 'Page not found');
+            return redirect('/')->with('error', 'Page not found');
         }
 
         // Handle CMS pages only
@@ -1692,22 +1700,22 @@ class HomeController extends Controller
     {
         try {
             if (!$appointment && $appointment_id) {
-                $appointment = \App\Models\Appointment::find($appointment_id);
+                $appointment = Appointment::find($appointment_id);
             }
             
             if (!$appointment) {
-                \Log::warning('Cannot send pending payment email - appointment not found', [
+                Log::warning('Cannot send pending payment email - appointment not found', [
                     'appointment_id' => $appointment_id
                 ]);
                 return;
             }
             
             // Get service and NatureOfEnquiry data
-            $service = \App\Models\BookService::find($appointment->service_id);
-            $NatureOfEnquiry = \App\Models\NatureOfEnquiry::find($appointment->noe_id);
+            $service = BookService::find($appointment->service_id);
+            $NatureOfEnquiry = NatureOfEnquiry::find($appointment->noe_id);
             
             if (!$service) {
-                \Log::warning('Cannot send pending payment email - service not found', [
+                Log::warning('Cannot send pending payment email - service not found', [
                     'appointment_id' => $appointment_id,
                     'service_id' => $appointment->service_id
                 ]);
@@ -1736,7 +1744,7 @@ class HomeController extends Controller
             
         } catch (\Exception $e) {
             // Log error but don't throw - we don't want email failures to break the payment flow
-            \Log::error('Failed to send admin pending payment email on payment failure', [
+            Log::error('Failed to send admin pending payment email on payment failure', [
                 'appointment_id' => $appointment_id,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()

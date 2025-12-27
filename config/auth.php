@@ -87,7 +87,7 @@ return [
     'passwords' => [
         'admins' => [
             'provider' => 'admins',
-            'table' => 'password_resets',
+            // 'table' => 'password_resets', // Table removed - password reset functionality not implemented
             'expire' => 15,
         ],
     ],
