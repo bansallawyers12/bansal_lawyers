@@ -381,4 +381,3 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		return html;	
 	}
-}); // End of DOMContentLoaded

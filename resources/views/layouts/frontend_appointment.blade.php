@@ -201,11 +201,6 @@
     @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
     <script src="{{ asset('js/aos.min.js')}}"></script>
     @endif
-    <script src="{{ asset('js/Frontend/easing.min.js')}}"></script>
-    <script src="{{ asset('js/Frontend/hoverIntent.min.js')}}"></script>
-    <script src="{{ asset('js/Frontend/superfish.min.js')}}"></script>
-    <script src="{{ asset('js/Frontend/wow.min.js')}}"></script>
-    <script src="{{ asset('js/Frontend/sticky.min.js')}}"></script>
     
     <!-- Google Maps - Removed for appointment page -->
     <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&callback=initMap"></script> -->
@@ -298,32 +293,33 @@
 			var redirecturl = "<?php echo URL::to('/thanks'); ?>";
 		</script>
 
-		<script>
-		// Wait for jQuery to load
-		(function() {
-			function initWhenJQueryReady() {
-				if (typeof jQuery !== 'undefined' && typeof jQuery.fn !== 'undefined') {
-					jQuery(document).ready(function($){
-			$('.refresh').on('click', function(){
-				$.ajax({
-					url: '<?php echo URL::to('/'); ?>/refresh-captcha',
-					type: 'GET',
-					success: function(html){
-						$('.code_verify .image').html(html);
-					}
+	<script>
+	// Wait for jQuery to load
+	(function() {
+		function initWhenJQueryReady() {
+			if (typeof jQuery !== 'undefined' && typeof jQuery.fn !== 'undefined') {
+				jQuery(document).ready(function($){
+					$('.refresh').on('click', function(){
+						$.ajax({
+							url: '<?php echo URL::to('/'); ?>/refresh-captcha',
+							type: 'GET',
+							success: function(html){
+								$('.code_verify .image').html(html);
+							}
+						});
+					});
 				});
-			});
-				} else {
-					setTimeout(initWhenJQueryReady, 50);
-				}
-			}
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', initWhenJQueryReady);
 			} else {
-				initWhenJQueryReady();
+				setTimeout(initWhenJQueryReady, 50);
 			}
-		})();
-		</script>
+		}
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', initWhenJQueryReady);
+		} else {
+			initWhenJQueryReady();
+		}
+	})();
+	</script>
 		@yield('scripts')
 </body>
 

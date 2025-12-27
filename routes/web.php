@@ -37,10 +37,6 @@ Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperiment
 Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.category');
 Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogdetail'])->name('blog.detail');
 
-// Backup routes for original blog (archived)
-Route::get('/blog-original', [App\Http\Controllers\HomeController::class, 'blog'])->name('blog.original');
-Route::get('/blog-original/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategory'])->name('blog.original.category');
-
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus']);
 Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'contact']);
 
@@ -49,11 +45,6 @@ Route::post('/contact/submit', [App\Http\Controllers\HomeController::class, 'con
 Route::get('/contact/thank-you', [App\Http\Controllers\HomeController::class, 'contactThankYou'])->name('contact.thankyou');
 
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
-
-// Test Footer Page
-Route::get('/test-footer', function () {
-    return view('test-footer');
-})->name('test-footer');
 
 Route::get('stripe/{appointmentId}', [App\Http\Controllers\HomeController::class, 'stripe']);
 Route::post('stripe', [App\Http\Controllers\HomeController::class, 'stripePost'])->name('stripe.post1');
@@ -84,8 +75,6 @@ Route::prefix('admin')->group(function() {
 		Route::middleware('auth:admin')->group(function () {
 			Route::post('/logout', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'destroy'])->name('admin.logout');
 			Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('admin.dashboard');
-            // Experimental, lightweight dashboard (safe to access alongside default)
-            Route::get('/dashboard/experimental', [App\Http\Controllers\Admin\AdminController::class, 'experimentalDashboard'])->name('admin.dashboard.experimental');
 			Route::get('/get_customer_detail', [App\Http\Controllers\Admin\AdminController::class, 'CustomerDetail'])->name('admin.get_customer_detail');
 			Route::get('/my_profile', [App\Http\Controllers\Admin\AdminController::class, 'myProfile'])->name('admin.my_profile');
 			Route::post('/my_profile', [App\Http\Controllers\Admin\AdminController::class, 'myProfile'])->name('admin.my_profile');
@@ -186,17 +175,9 @@ Route::get('/case', [\App\Http\Controllers\HomeController::class, 'case'])->name
 //Practice area main Page
 Route::get('/family-law', [\App\Http\Controllers\HomeController::class, 'familylawExperiment'])->name('family-law');
 Route::get('/migration-law', [\App\Http\Controllers\HomeController::class, 'migrationlawExperiment'])->name('migration-law');
-Route::get('/migration-law-backup', [\App\Http\Controllers\HomeController::class, 'migrationlaw'])->name('migration-law-backup');
 Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'criminallawExperiment'])->name('criminal-law');
 Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallawExperiment'])->name('commercial-law');
 Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylawExperiment'])->name('property-law');
-// Experimental route for Migration Law page
-Route::get('/migration-law-experiment', [\App\Http\Controllers\HomeController::class, 'migrationlawExperiment'])->name('migration-law-experiment');
-// Experimental routes for other practice areas
-Route::get('/family-law-experiment', [\App\Http\Controllers\HomeController::class, 'familylawExperiment'])->name('family-law-experiment');
-Route::get('/criminal-law-experiment', [\App\Http\Controllers\HomeController::class, 'criminallawExperiment'])->name('criminal-law-experiment');
-Route::get('/commercial-law-experiment', [\App\Http\Controllers\HomeController::class, 'commerciallawExperiment'])->name('commercial-law-experiment');
-Route::get('/property-law-experiment', [\App\Http\Controllers\HomeController::class, 'propertylawExperiment'])->name('property-law-experiment');
 
 
 /*********************Practice Area Inner Pages ***********************/

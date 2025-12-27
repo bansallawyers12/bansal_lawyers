@@ -710,21 +710,19 @@ body {
 				$('.card .card-body .grid_data').hide();
 				$('.card .card-body .list_data').show();
 			});
-			$('.card .card-body .document_layout_type a.grid').on('click', function(){
-				$('.card .card-body .document_layout_type a').removeClass('active');
-				$(this).addClass('active');
-				$('.card .card-body .list_data').hide();
-				$('.card .card-body .grid_data').show();
-			});
+		$('.card .card-body .document_layout_type a.grid').on('click', function(){
+			$('.card .card-body .document_layout_type a').removeClass('active');
+			$(this).addClass('active');
+			$('.card .card-body .list_data').hide();
+			$('.card .card-body .grid_data').show();
+		});
 
+	/* $('.timepicker').timepicker({
+		minuteStep: 1,
+		showSeconds: true,
+	}); */
 
-		/* $('.timepicker').timepicker({
-			minuteStep: 1,
-			showSeconds: true,
-		}); */
-	});
-
-	</script>
+</script>
 
 
 @yield('scripts')

@@ -27,14 +27,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // NiceScroll removed - causing CORS/integrity errors, will replace with CSS scrollbar styling
   // var sidebar_nicescroll;
-  // var update_sidebar_nicescroll = function () {
-  //   let a = setInterval(function () {
-  //     if (sidebar_nicescroll != null) sidebar_nicescroll.resize();
-  //   }, 10);
-  //   setTimeout(function () {
-  //     clearInterval(a);
-  //   }, 600);
-  // };
+  // Stub function to prevent ReferenceError - NiceScroll functionality removed
+  var update_sidebar_nicescroll = function () {
+    // Function intentionally left empty as NiceScroll was removed
+  };
 
   var sidebar_dropdown = function () {
     if ($(".main-sidebar").length) {
