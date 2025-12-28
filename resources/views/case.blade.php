@@ -40,8 +40,8 @@
         <h1>Recent Case Law Updates</h1>
         <p>Stay informed with the latest case law developments and legal precedents. Our team provides insights and analysis on important court decisions that may impact your legal matters across various areas of Australian law.</p>
         <p class="breadcrumbs">
-            <span class="mr-2"><a href="/" style="color: #f1f3f4; text-decoration: none;">Home <i class="ion-ios-arrow-forward"></i></a></span>
-            <span style="color: #f1f3f4;">Recent Case Law Updates <i class="ion-ios-arrow-forward"></i></span>
+            <span class="mr-2"><a href="/" style="color: #f1f3f4; text-decoration: none;">Home <i class="fa fa-arrow-right"></i></a></span>
+            <span style="color: #f1f3f4;">Recent Case Law Updates <i class="fa fa-arrow-right"></i></span>
         </p>
     </div>
 </div>
@@ -75,7 +75,7 @@
                             </h3>
                             
                             <div class="experimental-case-meta">
-                                <i class="ion-ios-calendar mr-2"></i>
+                                <i class="fa fa-calendar mr-2"></i>
                                 {{ \Carbon\Carbon::parse(@$list->created_at)->format('M d, Y') }}
                             </div>
                             
@@ -85,7 +85,7 @@
                             
                             <a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" 
                                class="experimental-read-more">
-                                Read Analysis <i class="ion-ios-arrow-forward"></i>
+                                Read Analysis <i class="fa fa-arrow-right"></i>
                             </a>
                         </div>
                     </div>

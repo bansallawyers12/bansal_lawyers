@@ -422,7 +422,7 @@
                             </h3>
                             
                             <div class="experimental-blog-meta">
-                                <i class="ion-ios-calendar mr-2"></i>
+                                <i class="fa fa-calendar mr-2"></i>
                                 {{ date('M d, Y', strtotime($list->created_at)) }}
                             </div>
                             
@@ -432,7 +432,7 @@
                             
                             <a href="{{ route('blog.detail', $list->slug) }}" 
                                class="experimental-read-more">
-                                Read More <i class="ion-ios-arrow-forward"></i>
+                                Read More <i class="fa fa-arrow-right"></i>
                             </a>
                         </div>
                     </div>
@@ -449,7 +449,7 @@
                             @endif
                         </p>
                         <a href="{{ route('blog.index') }}" class="experimental-read-more">
-                            View All Posts <i class="ion-ios-arrow-forward"></i>
+                            View All Posts <i class="fa fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>

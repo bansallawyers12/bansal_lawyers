@@ -68,8 +68,8 @@
                         <p>Discover how Bansal Lawyers has consistently delivered successful outcomes in complex legal cases.</p>
                     <?php } ?>
                     <p class="breadcrumbs">
-                        <span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span>
-                        <span>{{@$pagedata->title}} <i class="ion-ios-arrow-forward"></i></span>
+                        <span class="mr-2"><a href="/">Home <i class="fa fa-arrow-right"></i></a></span>
+                        <span>{{@$pagedata->title}} <i class="fa fa-arrow-right"></i></span>
                     </p>
                 </div>
             </div>

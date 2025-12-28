@@ -516,7 +516,7 @@
                 <h2>There is no legal puzzle that we can't solve</h2>
                 <p>Expert legal services in Melbourne, Australia. We handle your legal matters with professionalism and care, so you can focus on what matters most.</p>
                 <a href="/book-an-appointment" class="hero-cta">
-                    Start Your Legal Consultation <i class="ion-ios-arrow-forward ms-2"></i>
+                    Start Your Legal Consultation <i class="fa fa-arrow-right ms-2"></i>
                 </a>
             </div>
         </div>
@@ -819,7 +819,7 @@
                     </h4>
                     <p style="color: #666; margin-bottom: 20px; line-height: 1.5; font-size: 0.95rem;">{{@$list->title}}</p>
                     <a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;">
-                        Read More <i class="ion-ios-arrow-forward" style="font-size: 0.8rem;"></i>
+                        Read More <i class="fa fa-arrow-right" style="font-size: 0.8rem;"></i>
                     </a>
                 </div>
             </div>
@@ -829,7 +829,7 @@
 </section>
 
 <!-- Experimental Contact Section -->
-<section class="experimental-section" style="background: #f8f9fa; color: #333; position: relative; overflow: hidden; padding: 80px 0;">
+<section class="experimental-section" style="background: #1B4D89; position: relative; overflow: hidden; padding: 80px 0;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
@@ -845,18 +845,18 @@
                          width="674" 
                          height="405">
                     <div class="mt-4">
-                        <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem; color: #1B4D89;">Get in Touch Today</h3>
-                        <p style="font-size: 1.1rem; color: #666; line-height: 1.6;">
+                        <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem; color: #fff;">Get in Touch Today</h3>
+                        <p style="font-size: 1.1rem; color: rgba(255,255,255,0.9); line-height: 1.6;">
                             Ready to discuss your legal needs? Our experienced team is here to provide you with expert legal guidance and support.
                         </p>
                         <div class="mt-4">
                             <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
-                                <i class="ion-ios-telephone" style="font-size: 1.5rem; margin-right: 15px; color: #1B4D89;"></i>
-                                <span style="font-size: 1.1rem; font-weight: 500; color: #333;">1300 BANSAL (1300 226 725)</span>
+                                <i class="fa fa-phone" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
+                                <span style="font-size: 1.1rem; font-weight: 500; color: #fff;">1300 BANSAL (1300 226 725)</span>
                             </div>
                             <div style="display: flex; align-items: center; justify-content: center;">
-                                <i class="ion-ios-email" style="font-size: 1.5rem; margin-right: 15px; color: #1B4D89;"></i>
-                                <span style="font-size: 1.1rem; font-weight: 500; color: #333;">info@bansallawyers.com.au</span>
+                                <i class="fa fa-envelope" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
+                                <span style="font-size: 1.1rem; font-weight: 500; color: #fff;">info@bansallawyers.com.au</span>
                             </div>
                         </div>
                     </div>
@@ -866,14 +866,14 @@
                 <div style="background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
                     @if ($message = Session::get('success'))
                         <div class="alert alert-success" style="margin-bottom: 15px; border-radius: 8px; border: none; background: #28a745; color: white; padding: 8px 12px; font-size: 0.85rem;">
-                            <i class="ion-ios-checkmark-circle" style="margin-right: 6px;"></i>
+                            <i class="fa fa-check-circle" style="margin-right: 6px;"></i>
                             <strong>Success!</strong> {{ $message }}
                         </div>
                     @endif
                     
                     @if ($errors->any())
                         <div class="alert alert-danger" style="margin-bottom: 15px; border-radius: 8px; border: none; background: #dc3545; color: white; padding: 8px 12px; font-size: 0.85rem;">
-                            <i class="ion-ios-warning" style="margin-right: 6px;"></i>
+                            <i class="fa fa-exclamation-triangle" style="margin-right: 6px;"></i>
                             <strong>Please correct the following errors:</strong>
                             <ul style="margin: 6px 0 0 0; padding-left: 12px; font-size: 0.8rem;">
                                 @foreach ($errors->all() as $error)

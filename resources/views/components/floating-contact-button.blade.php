@@ -19,18 +19,15 @@
 <div id="contact-modal" class="contact-modal-overlay">
     <div class="contact-modal">
         <div class="contact-modal-header">
-            <div class="modal-tabs" role="tablist">
-                <button class="modal-tab active" data-tab="call" role="tab" aria-selected="true" aria-controls="call-tab" id="call-tab-btn">SCHEDULE A CALL</button>
-                <button class="modal-tab" data-tab="message" role="tab" aria-selected="false" aria-controls="message-tab" id="message-tab-btn">MESSAGE US</button>
-            </div>
+            <h3 class="modal-title">Contact Us</h3>
             <button class="modal-close" onclick="closeContactModal()" aria-label="Close contact modal" type="button">
                 <i class="fa fa-times" aria-hidden="true"></i>
             </button>
         </div>
         
-        <!-- Call Scheduling Tab -->
-        <div id="call-tab" class="modal-tab-content active" role="tabpanel" aria-labelledby="call-tab-btn">
-            <div class="call-tab-content">
+        <!-- Single Contact Form -->
+        <div class="modal-content">
+            <div class="contact-form-content">
                 <div class="lawyer-profile">
                     <img src="{!! asset('images/bansal_2.webp') !!}" 
                          srcset="{!! asset('images/bansal_2.webp') !!} 1x, 
@@ -41,56 +38,39 @@
                          height="80" 
                          loading="lazy">
                 </div>
-                <p class="call-description">
-                    Want a call back at a convenient time? Please schedule a complimentary call back with a senior legal representative.
+                <p class="contact-description">
+                    Need legal assistance? Share your phone number and message, and our experienced legal team will get back to you within 24 hours.
                 </p>
-                <form class="call-form" id="call-form">
-                    <div class="phone-input-group">
-                        <select class="country-code" id="country-code">
-                            <option value="+61" data-flag="🇦🇺">🇦🇺 +61</option>
-                            <option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>
-                            <option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>
-                            <option value="+91" data-flag="🇮🇳">🇮🇳 +91</option>
-                        </select>
-                        <input type="tel" class="phone-input" id="phone-number" placeholder="412 345 678" required>
-                    </div>
-                    <div class="modal-buttons">
-                        <button type="button" class="btn-secondary" onclick="closeContactModal()">CALL ME LATER</button>
-                        <button type="submit" class="btn-primary">SCHEDULE A CALL</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        
-        <!-- Message Tab -->
-        <div id="message-tab" class="modal-tab-content" role="tabpanel" aria-labelledby="message-tab-btn">
-            <div class="message-tab-content">
-                <h3>Send a message to our experienced legal team.</h3>
-                <form class="message-form" id="message-form">
+                <form class="contact-form" id="contact-form">
                     <div class="form-group">
-                        <input type="text" class="form-input" id="message-name" placeholder="Name" required>
-                        <i class="fa fa-user form-icon"></i>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-input" id="message-email" placeholder="Email" required>
-                        <i class="fa fa-envelope form-icon"></i>
-                    </div>
-                    <div class="form-group">
+                        <label for="country-code" class="form-label">Phone Number</label>
                         <div class="phone-input-group">
-                            <select class="country-code" id="message-country-code">
+                            <select class="country-code" id="country-code" required>
                                 <option value="+61" data-flag="🇦🇺">🇦🇺 +61</option>
                                 <option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>
                                 <option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>
                                 <option value="+91" data-flag="🇮🇳">🇮🇳 +91</option>
                             </select>
-                            <input type="tel" class="phone-input" id="message-phone" placeholder="412 345 678" required>
+                            <input type="tel" class="phone-input" id="phone-number" placeholder="412 345 678" required>
                         </div>
+                        <div class="error-message" id="phone-error"></div>
                     </div>
+                    
                     <div class="form-group">
-                        <textarea class="form-textarea" id="message-content" placeholder="Your message" rows="4" required></textarea>
-                        <i class="fa fa-align-left form-icon textarea-icon"></i>
+                        <label for="message-content" class="form-label">Your Message</label>
+                        <textarea class="form-textarea" id="message-content" placeholder="Tell us about your legal matter..." rows="4" required></textarea>
+                        <div class="error-message" id="message-error"></div>
                     </div>
-                    <button type="submit" class="btn-primary full-width">MESSAGE US</button>
+                    
+                    <div class="modal-buttons">
+                        <button type="button" class="btn-secondary" onclick="closeContactModal()">CANCEL</button>
+                        <button type="submit" class="btn-primary" id="submit-btn">
+                            <span class="btn-text">SEND MESSAGE</span>
+                            <span class="btn-spinner" style="display: none;">
+                                <i class="fa fa-spinner fa-spin"></i> Sending...
+                            </span>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -248,44 +228,16 @@
     padding: 20px;
     border-radius: 20px 20px 0 0;
     position: relative;
-}
-
-.modal-tabs {
     display: flex;
-    gap: 0;
-    margin-bottom: 0;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.modal-tab {
-    background: transparent;
-    color: #ffffff;
-    border: none;
-    padding: 12px 20px;
-    min-height: 44px;
-    min-width: 44px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    position: relative;
-}
-
-.modal-tab.active {
+.modal-title {
     color: white;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.modal-tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: white;
-    border-radius: 2px 2px 0 0;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
 }
 
 .modal-close {
@@ -313,17 +265,11 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
-.modal-tab-content {
-    display: none;
+.modal-content {
     padding: 30px;
 }
 
-.modal-tab-content.active {
-    display: block;
-}
-
-/* Call Tab Styles */
-.call-tab-content {
+.contact-form-content {
     text-align: center;
 }
 
@@ -339,7 +285,7 @@
     border: 3px solid #1B4D89;
 }
 
-.call-description {
+.contact-description {
     color: #333;
     font-size: 16px;
     line-height: 1.6;
@@ -347,14 +293,37 @@
     text-align: left;
 }
 
-.call-form {
+.contact-form {
     text-align: left;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 14px;
 }
 
 .phone-input-group {
     display: flex;
     gap: 10px;
-    margin-bottom: 25px;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
 }
 
 .country-code {
@@ -410,9 +379,22 @@
     color: white;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
     background: #2c5aa0;
     transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-primary.loading .btn-text {
+    display: none;
+}
+
+.btn-primary.loading .btn-spinner {
+    display: inline-block !important;
 }
 
 .btn-secondary {
@@ -426,56 +408,22 @@
     border-color: #ccc;
 }
 
-/* Message Tab Styles */
-.message-tab-content h3 {
-    color: #333;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 25px;
-    text-align: center;
-}
-
-.form-group {
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.form-input, .form-textarea {
+.form-textarea {
     width: 100%;
-    padding: 12px 40px 12px 12px;
+    padding: 12px;
     border: 2px solid #e1e5e9;
     border-radius: 8px;
     font-size: 14px;
     transition: border-color 0.3s ease;
     box-sizing: border-box;
-}
-
-.form-input:focus, .form-textarea:focus {
-    outline: none;
-    border-color: #1B4D89;
-}
-
-.form-textarea {
     resize: vertical;
     min-height: 100px;
+    font-family: inherit;
 }
 
-.form-icon {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #ccc;
-    font-size: 16px;
-}
-
-.textarea-icon {
-    top: 15px;
-    transform: none;
-}
-
-.full-width {
-    width: 100%;
+.form-textarea:focus {
+    outline: none;
+    border-color: #1B4D89;
 }
 
 /* Mobile Responsive */
@@ -491,12 +439,7 @@
         border-radius: 15px 15px 0 0;
     }
     
-    .modal-tab {
-        padding: 10px 15px;
-        font-size: 12px;
-    }
-    
-    .modal-tab-content {
+    .modal-content {
         padding: 20px;
     }
     
@@ -551,86 +494,91 @@ function closeContactModal() {
         modal.classList.remove('show');
         isModalOpen = false;
         document.body.style.overflow = '';
+        
+        // Clear form and errors
+        const form = document.getElementById('contact-form');
+        if (form) {
+            form.reset();
+            clearErrors();
+        }
     }
 }
 
-// Handle tab switching
-document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.modal-tab');
-    const tabContents = document.querySelectorAll('.modal-tab-content');
-    
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            const targetTab = this.getAttribute('data-tab');
-            
-            // Remove active class from all tabs and contents
-            tabs.forEach(t => {
-                t.classList.remove('active');
-                t.setAttribute('aria-selected', 'false');
-            });
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Add active class to clicked tab and corresponding content
-            this.classList.add('active');
-            this.setAttribute('aria-selected', 'true');
-            document.getElementById(targetTab + '-tab').classList.add('active');
-        });
+// Clear error messages
+function clearErrors() {
+    document.querySelectorAll('.error-message').forEach(el => {
+        el.classList.remove('show');
+        el.textContent = '';
     });
+}
+
+// Show error message
+function showError(fieldId, message) {
+    const errorEl = document.getElementById(fieldId + '-error');
+    if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.classList.add('show');
+    }
+}
+
+// Handle form submission
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
     
     // Close modal when clicking outside
-    document.getElementById('contact-modal').addEventListener('click', function(e) {
+    document.getElementById('contact-modal')?.addEventListener('click', function(e) {
         if (e.target === this) {
             closeContactModal();
         }
     });
     
-    // Handle form submissions
-    const callForm = document.getElementById('call-form');
-    const messageForm = document.getElementById('message-form');
-    
-    if (callForm) {
-        callForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const phoneNumber = document.getElementById('phone-number').value;
-            const countryCode = document.getElementById('country-code').value;
-            
-            // For call scheduling, we'll show a simple alert for now
-            // In a real implementation, you might want to create a separate endpoint
-            alert('Call scheduled! We will contact you at ' + countryCode + ' ' + phoneNumber + ' within 24 hours.');
+    // Handle escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isModalOpen) {
             closeContactModal();
-            
-            // Clear form
-            callForm.reset();
-        });
-    }
+        }
+    });
     
-    if (messageForm) {
-        messageForm.addEventListener('submit', function(e) {
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            clearErrors();
             
-            const formData = new FormData();
-            formData.append('name', document.getElementById('message-name').value);
-            formData.append('email', document.getElementById('message-email').value);
-            formData.append('phone', document.getElementById('message-country-code').value + ' ' + document.getElementById('message-phone').value);
-            formData.append('subject', 'Inquiry from Floating Contact Button');
-            formData.append('message', document.getElementById('message-content').value);
-            formData.append('form_source', 'floating_contact_button');
-            formData.append('form_variant', 'message_tab');
-            formData.append('g-recaptcha-response', 'floating-button-bypass'); // Bypass for floating button
+            // Get form values
+            const phoneNumber = document.getElementById('phone-number').value.trim();
+            const countryCode = document.getElementById('country-code').value;
+            const message = document.getElementById('message-content').value.trim();
             
-            // Get CSRF token from meta tag or form input (with fallback)
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
-                             document.querySelector('input[name="_token"]')?.value || 
-                             '';
-            
-            // Add CSRF token to FormData
-            if (csrfToken) {
-                formData.append('_token', csrfToken);
+            // Basic validation
+            if (!phoneNumber) {
+                showError('phone', 'Please enter your phone number');
+                return;
             }
             
-            // Submit to existing contact endpoint
+            if (!message) {
+                showError('message', 'Please enter your message');
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            
+            // Get CSRF token
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            
+            // Prepare form data
+            const formData = new FormData();
+            formData.append('phone', countryCode + ' ' + phoneNumber);
+            formData.append('message', message);
+            formData.append('subject', 'Quick Contact Request - Floating Contact Button');
+            formData.append('form_source', 'floating_contact_button');
+            formData.append('form_variant', 'quick_contact');
+            formData.append('g-recaptcha-response', 'floating-button-bypass');
+            formData.append('_token', csrfToken);
+            
+            // Submit to backend
             fetch('{{ route("contact.submit") }}', {
                 method: 'POST',
                 body: formData,
@@ -641,9 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 credentials: 'same-origin'
             })
             .then(response => {
-                // Check if response is ok
                 if (!response.ok) {
-                    // If response is not ok, try to parse JSON error, otherwise throw
                     return response.text().then(text => {
                         try {
                             const json = JSON.parse(text);
@@ -657,12 +603,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
                 
-                // Check if response is JSON
                 const contentType = response.headers.get('content-type');
                 if (contentType && contentType.includes('application/json')) {
                     return response.json();
                 } else {
-                    // If not JSON, read as text and try to parse
                     return response.text().then(text => {
                         try {
                             return JSON.parse(text);
@@ -674,27 +618,58 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 if (data.success) {
-                    alert('Message sent successfully! We will get back to you soon.');
+                    alert('Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.');
                     closeContactModal();
-                    messageForm.reset();
+                    contactForm.reset();
                 } else {
-                    const errorMsg = data.message || 'There was an error sending your message. Please try again or call us directly.';
-                    alert(errorMsg);
+                    // Handle validation errors
+                    if (data.errors) {
+                        if (data.errors.phone) {
+                            showError('phone', data.errors.phone[0]);
+                        }
+                        if (data.errors.message) {
+                            showError('message', data.errors.message[0]);
+                        }
+                    } else {
+                        alert(data.message || 'There was an error sending your message. Please try again.');
+                    }
                 }
             })
             .catch(error => {
                 console.error('Floating contact form error:', error);
                 const errorMsg = error.json?.message || error.message || 'There was an error sending your message. Please try again or call us directly.';
                 alert(errorMsg);
+            })
+            .finally(() => {
+                // Remove loading state
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
             });
         });
     }
     
-    // Handle escape key to close modal
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && isModalOpen) {
-            closeContactModal();
-        }
-    });
+    // Track mobile call button clicks
+    const mobileCallBtn = document.getElementById('mobile-call-btn');
+    if (mobileCallBtn) {
+        mobileCallBtn.addEventListener('click', function() {
+            // Google Analytics tracking
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'mobile_call_button_click', {
+                    'event_category': 'Contact',
+                    'event_label': 'Mobile Call Button',
+                    'value': 1
+                });
+            }
+            
+            // Facebook Pixel tracking
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Contact', {
+                    content_name: 'Mobile Call Button Click'
+                });
+            }
+            
+            console.log('Mobile call button clicked');
+        });
+    }
 });
 </script>

@@ -278,9 +278,12 @@ class HomeController extends Controller
     public function contactSubmit(Request $request)
     {
         try {
+            // Check if it's floating contact button form
+            $isFloatingButton = $request->form_source === 'floating_contact_button';
+            
             $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
+                'name' => $isFloatingButton ? 'nullable|string|max:255' : 'required|string|max:255',
+                'email' => $isFloatingButton ? 'nullable|email|max:255' : 'required|email|max:255',
                 'phone' => 'required|string|max:20',
                 'subject' => 'required|string|max:255',
                 'message' => 'required|string|max:2000',
@@ -302,10 +305,14 @@ class HomeController extends Controller
                 return $recaptchaResponse;
             }
 
+            // Use defaults for floating button if name/email not provided
+            $name = $request->name ?? 'Quick Contact Request';
+            $email = $request->email ?? 'quickcontact@floating-button.local';
+
             // Save to Contact model
             $contact = new Contact;
-            $contact->name = $request->name;
-            $contact->contact_email = $request->email;
+            $contact->name = $name;
+            $contact->contact_email = $email;
             $contact->contact_phone = $request->phone;
             $contact->subject = $request->subject;
             $contact->message = $request->message;
@@ -313,8 +320,8 @@ class HomeController extends Controller
 
             // Save to Enquiry model
             $enquiry = new Enquiry;
-            $enquiry->first_name = $request->name;
-            $enquiry->email = $request->email;
+            $enquiry->first_name = $name;
+            $enquiry->email = $email;
             $enquiry->phone = $request->phone;
             $enquiry->subject = $request->subject;
             $enquiry->message = $request->message;
@@ -323,14 +330,14 @@ class HomeController extends Controller
             // Send email notification (wrap in try-catch so email failure doesn't break submission)
             try {
                 $fromAddress = config('mail.from.address');
-                $subject = 'New Contact Form Submission from ' . $request->name;
+                $subject = 'New Contact Form Submission from ' . $name;
                 $details = [
                     'title' => $subject,
                     'body' => 'You have received a new contact form submission.',
                     'subject' => $request->subject,
-                    'fullname' => $request->name,
-                    'from' => $request->name,
-                    'email' => $request->email,
+                    'fullname' => $name,
+                    'from' => $name,
+                    'email' => $email,
                     'phone' => $request->phone,
                     'description' => $request->message
                 ];
@@ -1543,6 +1550,12 @@ class HomeController extends Controller
     private function validateRecaptcha(Request $request): bool|\Illuminate\Http\RedirectResponse
     {
         $recaptcha_response = $request->input('g-recaptcha-response');
+        
+        // Allow bypass for floating contact button
+        if ($recaptcha_response === 'floating-button-bypass' && 
+            $request->input('form_source') === 'floating_contact_button') {
+            return true;
+        }
         
         if (is_null($recaptcha_response)) {
             $errors = ['g-recaptcha-response' => 'Please complete the reCAPTCHA to proceed'];

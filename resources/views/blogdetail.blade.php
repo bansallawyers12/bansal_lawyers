@@ -536,12 +536,12 @@
         <h1>{{ $blogdetailists->title }}</h1>
         <div class="experimental-blog-detail-meta">
             <span>
-                <i class="ion-ios-calendar mr-2"></i>
+                <i class="fa fa-calendar mr-2"></i>
                 {{ date('M d, Y', strtotime($blogdetailists->created_at)) }}
             </span>
             @if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail)
                 <span>
-                    <i class="ion-ios-folder mr-2"></i>
+                    <i class="fa fa-folder mr-2"></i>
                     <a href="{{ route('blog.category', $blogdetailists->categorydetail->slug) }}" 
                        style="color: white; text-decoration: none;">
                         {{ $blogdetailists->categorydetail->name }}
@@ -549,11 +549,11 @@
                 </span>
             @endif
             <span>
-                <i class="ion-ios-time mr-2"></i>
+                <i class="fa fa-clock mr-2"></i>
                 {{ ceil(str_word_count(strip_tags($blogdetailists->description)) / 200) }} min read
             </span>
             <span>
-                <i class="ion-ios-document mr-2"></i>
+                <i class="fa fa-file-alt mr-2"></i>
                 {{ str_word_count(strip_tags($blogdetailists->description)) }} words
             </span>
         </div>
@@ -612,7 +612,7 @@
                         @if($blogdetailists->updated_at != $blogdetailists->created_at)
                         <div class="experimental-updated-info" style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 8px; border-left: 4px solid #17a2b8;">
                             <p style="margin: 0; color: #0c5460; font-size: 0.9rem;">
-                                <i class="ion-ios-refresh mr-2"></i>
+                                <i class="fa fa-sync mr-2"></i>
                                 Last updated: {{ date('M d, Y', strtotime($blogdetailists->updated_at)) }}
                             </p>
                         </div>
@@ -621,7 +621,7 @@
                         <!-- FAQ Section -->
                         <div class="experimental-faq-section" style="margin-top: 40px; padding: 30px; background: #f8f9fa; border-radius: 15px; border-left: 4px solid #1B4D89;">
                             <h3 style="color: #1B4D89; margin-bottom: 25px; font-size: 1.5rem; font-weight: 600;">
-                                <i class="ion-ios-help-circle mr-2"></i>Frequently Asked Questions
+                                <i class="fa fa-question-circle mr-2"></i>Frequently Asked Questions
                             </h3>
                             
                             @php
@@ -669,15 +669,15 @@
                     <div class="experimental-share-buttons">
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" 
                            target="_blank" class="experimental-share-btn facebook">
-                            <i class="ion-social-facebook"></i> Share on Facebook
+                            <i class="fa-brands fa-facebook"></i> Share on Facebook
                         </a>
                         <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($blogdetailists->title) }}" 
                            target="_blank" class="experimental-share-btn twitter">
-                            <i class="ion-social-twitter"></i> Tweet
+                            <i class="fa-brands fa-twitter"></i> Tweet
                         </a>
                         <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->url()) }}" 
                            target="_blank" class="experimental-share-btn linkedin">
-                            <i class="ion-social-linkedin"></i> Share on LinkedIn
+                            <i class="fa-brands fa-linkedin"></i> Share on LinkedIn
                         </a>
                     </div>
                 </div>
@@ -685,7 +685,7 @@
                 <!-- Related Articles Section -->
                 <div class="experimental-related-articles" style="margin-top: 50px; padding: 30px; background: #f8f9fa; border-radius: 15px; border-left: 4px solid #1B4D89;">
                     <h3 style="color: #1B4D89; margin-bottom: 25px; font-size: 1.5rem; font-weight: 600;">
-                        <i class="ion-ios-paper mr-2"></i>You Might Also Like
+                        <i class="fa fa-file-alt mr-2"></i>You Might Also Like
                     </h3>
                     <div class="row">
                         @foreach($latestbloglists->take(3) as $related)
@@ -722,7 +722,7 @@
                                             {{ \Illuminate\Support\Str::limit(strip_tags($related->description), 80) }}
                                         </p>
                                         <div style="margin-top: 10px; font-size: 0.8rem; color: #888;">
-                                            <i class="ion-ios-calendar mr-1"></i>
+                                            <i class="fa fa-calendar mr-1"></i>
                                             {{ date('M d, Y', strtotime($related->created_at)) }}
                                         </div>
                                     </div>

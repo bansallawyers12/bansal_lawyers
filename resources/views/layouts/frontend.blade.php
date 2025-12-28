@@ -243,7 +243,6 @@ function toggleFAQ(index) {
     <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('fonts/ionicons/css/ionicons.min.css') }}?v={{ time() }}">
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
