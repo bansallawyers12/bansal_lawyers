@@ -106,7 +106,6 @@
     <!-- Bootstrap CSS - Primary framework for frontend -->
     <!-- Critical CSS - Load immediately -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
     
     <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}?v={{ time() }}">

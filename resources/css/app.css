@@ -8,29 +8,6 @@
     font-family: 'Poppins', sans-serif;
   }
   
-  /* Protect Open Iconic from Tailwind reset */
-  .oi {
-    font-family: Icons !important;
-    line-height: 1 !important;
-    display: inline-block !important;
-    position: relative !important;
-    top: 1px !important;
-    speak: none !important;
-    font-style: normal !important;
-    font-weight: 400 !important;
-    -webkit-font-smoothing: antialiased !important;
-    -moz-osx-font-smoothing: grayscale !important;
-  }
-  
-  .oi:empty:before {
-    width: 1em !important;
-    text-align: center !important;
-    box-sizing: content-box !important;
-  }
-  
-  .oi-menu:before {
-    content: '\e09b' !important;
-  }
 }
 
 @layer components {
