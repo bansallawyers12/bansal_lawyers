@@ -313,44 +313,30 @@
     }
     
     /* Contact Section Mobile Styles */
-    .experimental-section[style*="background: linear-gradient"] {
+    .experimental-section[style*="background: #f8f9fa"] {
         padding: 40px 0 !important;
     }
     
-    .experimental-section[style*="background: linear-gradient"] .container > .row > div {
+    .experimental-section[style*="background: #f8f9fa"] .container > .row > div {
         padding: 0 15px;
     }
     
-    .experimental-section[style*="background: linear-gradient"] .container > .row > div > div[style*="background: rgba(255,255,255,0.15)"] {
-        padding: 20px 12px !important;
+    .experimental-section[style*="background: #f8f9fa"] .container > .row > div > div[style*="background: #fff"] {
+        padding: 20px 15px !important;
         margin: 10px 0;
     }
     
-    .experimental-section[style*="background: linear-gradient"] h2 {
+    .experimental-section[style*="background: #f8f9fa"] h2 {
         font-size: 1.6rem !important;
     }
     
-    .experimental-section[style*="background: linear-gradient"] h3 {
+    .experimental-section[style*="background: #f8f9fa"] h3 {
         font-size: 1.2rem !important;
     }
     
-    .experimental-section[style*="background: linear-gradient"] .g-recaptcha {
-        transform: scale(0.7);
+    .experimental-section[style*="background: #f8f9fa"] .g-recaptcha {
+        transform: scale(0.85);
         transform-origin: center;
-    }
-    
-    .experimental-section[style*="background: linear-gradient"] .form-group {
-        margin-bottom: 0.8rem !important;
-    }
-    
-    .experimental-section[style*="background: linear-gradient"] input,
-    .experimental-section[style*="background: linear-gradient"] textarea {
-        padding: 8px 10px !important;
-        font-size: 0.85rem !important;
-    }
-    
-    .experimental-section[style*="background: linear-gradient"] label {
-        font-size: 0.8rem !important;
     }
 }
 
@@ -367,28 +353,28 @@
 }
 
 .home-contact-form-container .contact-form .form-label {
-    color: white !important;
+    color: #333 !important;
     font-weight: 600 !important;
-    margin-bottom: 3px !important;
+    margin-bottom: 5px !important;
     display: block !important;
-    font-size: 0.85rem !important;
+    font-size: 0.9rem !important;
 }
 
 .home-contact-form-container .contact-form .form-control {
     border-radius: 8px !important;
-    border: 2px solid rgba(255,255,255,0.3) !important;
-    padding: 8px 12px !important;
-    font-size: 0.9rem !important;
-    background: rgba(255,255,255,0.9) !important;
+    border: 1px solid #ddd !important;
+    padding: 12px 15px !important;
+    font-size: 0.95rem !important;
+    background: #fff !important;
     color: #333 !important;
     transition: all 0.3s ease !important;
 }
 
 .home-contact-form-container .contact-form .form-control:focus {
-    border-color: #fff !important;
-    background: rgba(255,255,255,1) !important;
+    border-color: #1B4D89 !important;
+    background: #fff !important;
     outline: none !important;
-    box-shadow: none !important;
+    box-shadow: 0 0 0 2px rgba(27, 77, 137, 0.1) !important;
 }
 
 .home-contact-form-container .contact-form .form-control::placeholder {
@@ -405,17 +391,16 @@
 
 /* Custom reCAPTCHA styling for better integration */
 .home-contact-form-container .g-recaptcha > div {
-    background: rgba(255,255,255,0.1) !important;
-    border: 2px solid rgba(255,255,255,0.3) !important;
+    background: #fff !important;
+    border: 1px solid #ddd !important;
     border-radius: 8px !important;
-    backdrop-filter: blur(10px) !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
     transition: all 0.3s ease !important;
 }
 
 .home-contact-form-container .g-recaptcha > div:hover {
-    border-color: rgba(255,255,255,0.5) !important;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2) !important;
+    border-color: #1B4D89 !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
 }
 
 /* Style the reCAPTCHA iframe */
@@ -427,8 +412,8 @@
 /* Style the reCAPTCHA checkbox area */
 .home-contact-form-container .g-recaptcha .recaptcha-checkbox-border {
     border-radius: 6px !important;
-    background: rgba(255,255,255,0.9) !important;
-    border: 1px solid rgba(255,255,255,0.3) !important;
+    background: #fff !important;
+    border: 1px solid #ddd !important;
 }
 
 .home-contact-form-container .g-recaptcha .recaptcha-checkbox-checkmark {
@@ -465,13 +450,13 @@
     width: 100% !important;
     text-align: center !important;
     border: none !important;
-    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%) !important;
-    color: #1B4D89 !important;
-    padding: 10px 20px !important;
-    border-radius: 30px !important;
+    background: #1B4D89 !important;
+    color: #fff !important;
+    padding: 15px 20px !important;
+    border-radius: 8px !important;
     font-weight: 700 !important;
-    font-size: 0.95rem !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    font-size: 1rem !important;
+    box-shadow: 0 4px 15px rgba(27, 77, 137, 0.3) !important;
     transition: all 0.3s ease !important;
     position: relative !important;
     overflow: hidden !important;
@@ -479,8 +464,9 @@
 
 .home-contact-form-container .btn-experimental-cta:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3) !important;
-    color: #1B4D89 !important;
+    box-shadow: 0 6px 20px rgba(27, 77, 137, 0.4) !important;
+    background: #153d6b !important;
+    color: #fff !important;
 }
 
 .home-contact-form-container .btn-experimental-cta:active {
@@ -843,11 +829,8 @@
 </section>
 
 <!-- Experimental Contact Section -->
-<section class="experimental-section" style="background: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%); color: white; position: relative; overflow: hidden;">
-    <!-- Background Pattern -->
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 50% 10%, rgba(255,255,255,0.05) 0.5px, transparent 0.5px), radial-gradient(circle at 10% 60%, rgba(255,255,255,0.05) 0.5px, transparent 0.5px), radial-gradient(circle at 90% 40%, rgba(255,255,255,0.05) 0.5px, transparent 0.5px); background-size: 20px 20px, 20px 20px, 15px 15px, 15px 15px, 15px 15px; opacity: 0.3; z-index: 1;"></div>
-    
-    <div class="container" style="position: relative; z-index: 2;">
+<section class="experimental-section" style="background: #f8f9fa; color: #333; position: relative; overflow: hidden; padding: 80px 0;">
+    <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="text-center">
@@ -862,34 +845,34 @@
                          width="674" 
                          height="405">
                     <div class="mt-4">
-                        <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem;">Get in Touch Today</h3>
-                        <p style="font-size: 1.1rem; opacity: 0.9; line-height: 1.6;">
+                        <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem; color: #1B4D89;">Get in Touch Today</h3>
+                        <p style="font-size: 1.1rem; color: #666; line-height: 1.6;">
                             Ready to discuss your legal needs? Our experienced team is here to provide you with expert legal guidance and support.
                         </p>
                         <div class="mt-4">
                             <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
-                                <i class="ion-ios-telephone" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
-                                <span style="font-size: 1.1rem; font-weight: 500;">1300 BANSAL (1300 226 725)</span>
+                                <i class="ion-ios-telephone" style="font-size: 1.5rem; margin-right: 15px; color: #1B4D89;"></i>
+                                <span style="font-size: 1.1rem; font-weight: 500; color: #333;">1300 BANSAL (1300 226 725)</span>
                             </div>
                             <div style="display: flex; align-items: center; justify-content: center;">
-                                <i class="ion-ios-email" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
-                                <span style="font-size: 1.1rem; font-weight: 500;">info@bansallawyers.com.au</span>
+                                <i class="ion-ios-email" style="font-size: 1.5rem; margin-right: 15px; color: #1B4D89;"></i>
+                                <span style="font-size: 1.1rem; font-weight: 500; color: #333;">info@bansallawyers.com.au</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div style="background: rgba(255,255,255,0.15); border-radius: 15px; padding: 25px; backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+                <div style="background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
                     @if ($message = Session::get('success'))
-                        <div class="alert alert-success" style="margin-bottom: 15px; border-radius: 8px; border: none; background: rgba(40, 167, 69, 0.9); color: white; padding: 8px 12px; font-size: 0.85rem;">
+                        <div class="alert alert-success" style="margin-bottom: 15px; border-radius: 8px; border: none; background: #28a745; color: white; padding: 8px 12px; font-size: 0.85rem;">
                             <i class="ion-ios-checkmark-circle" style="margin-right: 6px;"></i>
                             <strong>Success!</strong> {{ $message }}
                         </div>
                     @endif
                     
                     @if ($errors->any())
-                        <div class="alert alert-danger" style="margin-bottom: 15px; border-radius: 8px; border: none; background: rgba(220, 53, 69, 0.9); color: white; padding: 8px 12px; font-size: 0.85rem;">
+                        <div class="alert alert-danger" style="margin-bottom: 15px; border-radius: 8px; border: none; background: #dc3545; color: white; padding: 8px 12px; font-size: 0.85rem;">
                             <i class="ion-ios-warning" style="margin-right: 6px;"></i>
                             <strong>Please correct the following errors:</strong>
                             <ul style="margin: 6px 0 0 0; padding-left: 12px; font-size: 0.8rem;">
@@ -900,10 +883,10 @@
                         </div>
                     @endif
                     
-                    <div class="text-center mb-2">
-                        <span style="color: rgba(255,255,255,0.9); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Get Legal Help</span>
-                        <h2 style="font-size: 1.8rem; font-weight: 700; margin: 0.5rem 0 0.2rem;">Contact Our Melbourne Lawyers</h2>
-                        <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0;">Send us a message and we'll get back to you with expert legal advice</p>
+                    <div class="text-center mb-4">
+                        <span style="color: #1B4D89; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Get Legal Help</span>
+                        <h2 style="font-size: 1.8rem; font-weight: 700; margin: 0.5rem 0 0.2rem; color: #1B4D89;">Contact Our Melbourne Lawyers</h2>
+                        <p style="font-size: 0.9rem; color: #666; margin-bottom: 0;">Send us a message and we'll get back to you with expert legal advice</p>
                     </div>
                     
                     <!-- Unified Contact Form Component -->

@@ -640,19 +640,52 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 credentials: 'same-origin'
             })
-            .then(response => response.json())
+            .then(response => {
+                // Check if response is ok
+                if (!response.ok) {
+                    // If response is not ok, try to parse JSON error, otherwise throw
+                    return response.text().then(text => {
+                        try {
+                            const json = JSON.parse(text);
+                            return Promise.reject({ json: json, status: response.status });
+                        } catch (e) {
+                            return Promise.reject({ 
+                                message: `Server error (${response.status}): ${response.statusText}`, 
+                                status: response.status 
+                            });
+                        }
+                    });
+                }
+                
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json();
+                } else {
+                    // If not JSON, read as text and try to parse
+                    return response.text().then(text => {
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            throw new Error('Server returned non-JSON response');
+                        }
+                    });
+                }
+            })
             .then(data => {
                 if (data.success) {
                     alert('Message sent successfully! We will get back to you soon.');
                     closeContactModal();
                     messageForm.reset();
                 } else {
-                    alert('There was an error sending your message. Please try again or call us directly.');
+                    const errorMsg = data.message || 'There was an error sending your message. Please try again or call us directly.';
+                    alert(errorMsg);
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('There was an error sending your message. Please try again or call us directly.');
+                console.error('Floating contact form error:', error);
+                const errorMsg = error.json?.message || error.message || 'There was an error sending your message. Please try again or call us directly.';
+                alert(errorMsg);
             });
         });
     }

@@ -475,9 +475,26 @@ document.addEventListener('DOMContentLoaded', function() {
         btnLoading.style.display = 'inline-block';
         
         // Validate reCAPTCHA
+        if (typeof grecaptcha === 'undefined') {
+            showError('reCAPTCHA is not loaded. Please refresh the page and try again.');
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline-block';
+            btnLoading.style.display = 'none';
+            return;
+        }
+        
         const recaptchaResponse = grecaptcha.getResponse();
         if (!recaptchaResponse) {
             showFieldError('recaptcha', 'Please complete the reCAPTCHA verification.');
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline-block';
+            btnLoading.style.display = 'none';
+            return;
+        }
+        
+        // Validate form action URL
+        if (!form.action || form.action === '' || form.action === '#') {
+            showError('Form action URL is missing. Please refresh the page and try again.');
             submitBtn.disabled = false;
             btnText.style.display = 'inline-block';
             btnLoading.style.display = 'none';
@@ -497,6 +514,15 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('_token', csrfToken);
         }
         
+        // Validate CSRF token
+        if (!csrfToken) {
+            showError('CSRF token is missing. Please refresh the page and try again.');
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline-block';
+            btnLoading.style.display = 'none';
+            return;
+        }
+        
         // Submit via AJAX
         fetch(form.action, {
             method: 'POST',
@@ -507,7 +533,38 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             credentials: 'same-origin'
         })
-        .then(response => response.json())
+        .then(response => {
+            // Check if response is ok
+            if (!response.ok) {
+                // If response is not ok, try to parse JSON error, otherwise throw
+                return response.text().then(text => {
+                    try {
+                        const json = JSON.parse(text);
+                        return Promise.reject({ json: json, status: response.status });
+                    } catch (e) {
+                        return Promise.reject({ 
+                            message: `Server error (${response.status}): ${response.statusText}`, 
+                            status: response.status 
+                        });
+                    }
+                });
+            }
+            
+            // Check if response is JSON
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return response.json();
+            } else {
+                // If not JSON, read as text and try to parse
+                return response.text().then(text => {
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        throw new Error('Server returned non-JSON response');
+                    }
+                });
+            }
+        })
         .then(data => {
             if (data.success) {
                 // Track successful form submission
@@ -547,7 +604,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error('Contact form submission error:', error);
+            
             // Track form submission error
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'contact_form_error', {
@@ -556,7 +614,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     'value': 0
                 });
             }
-            showError('Sorry, there was an error sending your message. Please try again.');
+            
+            // Handle different types of errors
+            if (error.json) {
+                // Server returned JSON error response
+                if (error.json.errors) {
+                    Object.keys(error.json.errors).forEach(field => {
+                        const fieldName = field.replace('g-recaptcha-response', 'recaptcha');
+                        showFieldError(fieldName, error.json.errors[field][0]);
+                    });
+                } else {
+                    showError(error.json.message || 'Sorry, there was an error sending your message. Please try again.');
+                }
+            } else if (error.message) {
+                // Network or parsing error
+                showError('Network error: ' + error.message + '. Please check your connection and try again.');
+            } else {
+                // Generic error
+                showError('Sorry, there was an error sending your message. Please try again or contact us directly.');
+            }
         })
         .finally(() => {
             // Reset button state
