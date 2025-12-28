@@ -530,12 +530,13 @@ function toggleFAQ(index) {
     /* Swiper.js Customization for Testimonials */
     .carousel-testimony {
         position: relative;
-        padding: 20px 0 60px 0;
+        padding: 20px 0 50px 0;
     }
 
     .carousel-testimony .swiper-wrapper {
         display: flex;
         align-items: stretch;
+        padding-bottom: 40px;
     }
 
     .carousel-testimony .swiper-slide {
@@ -546,11 +547,14 @@ function toggleFAQ(index) {
 
     .carousel-testimony .swiper-pagination {
         position: absolute;
-        bottom: 0;
+        bottom: 15px;
         left: 0;
+        right: 0;
         width: 100%;
         text-align: center;
-        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .carousel-testimony .swiper-pagination-bullet {
