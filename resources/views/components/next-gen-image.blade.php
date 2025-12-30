@@ -15,6 +15,7 @@
         {!! $loading ? 'loading="' . $loading . '"' : '' !!}
         {!! $width ? 'width="' . $width . '"' : '' !!}
         {!! $height ? 'height="' . $height . '"' : '' !!}
+        onerror="this.onerror=null; this.src='{{ asset('images/Blog.jpg') }}';"
     >
 </picture>
 @else
@@ -25,5 +26,6 @@
     {!! $loading ? 'loading="' . $loading . '"' : '' !!}
     {!! $width ? 'width="' . $width . '"' : '' !!}
     {!! $height ? 'height="' . $height . '"' : '' !!}
+    onerror="this.onerror=null; this.src='{{ asset('images/Blog.jpg') }}';"
 >
 @endif
