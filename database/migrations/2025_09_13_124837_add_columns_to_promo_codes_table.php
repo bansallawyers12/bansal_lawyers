@@ -11,15 +11,31 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('promo_codes', function (Blueprint $table) {
-            $table->string('code')->unique()->after('id');
-            $table->decimal('discount_percentage', 5, 2)->after('code');
-            $table->boolean('status')->default(true)->after('discount_percentage');
-            $table->text('description')->nullable()->after('status');
-            $table->timestamp('expires_at')->nullable()->after('description');
-            $table->integer('usage_limit')->nullable()->after('expires_at');
-            $table->integer('used_count')->default(0)->after('usage_limit');
-        });
+        if (Schema::hasTable('promo_codes')) {
+            Schema::table('promo_codes', function (Blueprint $table) {
+                if (!Schema::hasColumn('promo_codes', 'code')) {
+                    $table->string('code')->unique()->after('id');
+                }
+                if (!Schema::hasColumn('promo_codes', 'discount_percentage')) {
+                    $table->decimal('discount_percentage', 5, 2)->after('code');
+                }
+                if (!Schema::hasColumn('promo_codes', 'status')) {
+                    $table->boolean('status')->default(true)->after('discount_percentage');
+                }
+                if (!Schema::hasColumn('promo_codes', 'description')) {
+                    $table->text('description')->nullable()->after('status');
+                }
+                if (!Schema::hasColumn('promo_codes', 'expires_at')) {
+                    $table->timestamp('expires_at')->nullable()->after('description');
+                }
+                if (!Schema::hasColumn('promo_codes', 'usage_limit')) {
+                    $table->integer('usage_limit')->nullable()->after('expires_at');
+                }
+                if (!Schema::hasColumn('promo_codes', 'used_count')) {
+                    $table->integer('used_count')->default(0)->after('usage_limit');
+                }
+            });
+        }
     }
 
     /**

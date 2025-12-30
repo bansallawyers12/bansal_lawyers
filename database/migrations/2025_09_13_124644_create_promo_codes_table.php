@@ -11,17 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('promo_codes', function (Blueprint $table) {
-            $table->id();
-            $table->string('code')->unique();
-            $table->decimal('discount_percentage', 5, 2);
-            $table->boolean('status')->default(true);
-            $table->text('description')->nullable();
-            $table->timestamp('expires_at')->nullable();
-            $table->integer('usage_limit')->nullable();
-            $table->integer('used_count')->default(0);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('promo_codes')) {
+            Schema::create('promo_codes', function (Blueprint $table) {
+                $table->id();
+                $table->string('code')->unique();
+                $table->decimal('discount_percentage', 5, 2);
+                $table->boolean('status')->default(true);
+                $table->text('description')->nullable();
+                $table->timestamp('expires_at')->nullable();
+                $table->integer('usage_limit')->nullable();
+                $table->integer('used_count')->default(0);
+                $table->timestamps();
+            });
+        }
     }
 
     /**

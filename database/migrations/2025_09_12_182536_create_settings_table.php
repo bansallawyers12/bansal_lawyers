@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('office_id')->nullable();
-            $table->string('date_format')->default('Y-m-d');
-            $table->string('time_format')->default('H:i:s');
-            $table->timestamps();
-            
-            $table->foreign('office_id')->references('id')->on('admins')->onDelete('cascade');
-            $table->index(['office_id']);
-        });
+        if (!Schema::hasTable('settings')) {
+            Schema::create('settings', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('office_id')->nullable();
+                $table->string('date_format')->default('Y-m-d');
+                $table->string('time_format')->default('H:i:s');
+                $table->timestamps();
+                
+                $table->foreign('office_id')->references('id')->on('admins')->onDelete('cascade');
+                $table->index(['office_id']);
+            });
+        }
     }
 
     /**

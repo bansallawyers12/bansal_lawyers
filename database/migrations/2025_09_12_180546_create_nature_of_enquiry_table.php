@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nature_of_enquiry', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->boolean('status')->default(1);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('nature_of_enquiry')) {
+            Schema::create('nature_of_enquiry', function (Blueprint $table) {
+                $table->id();
+                $table->string('title');
+                $table->boolean('status')->default(1);
+                $table->timestamps();
+            });
+        }
     }
 
     /**
