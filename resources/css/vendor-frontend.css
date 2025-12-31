@@ -4,6 +4,7 @@
 /* Font Awesome 4.7.0 is loaded separately via font-awesome.min.css */
 /* @import '@fortawesome/fontawesome-free/css/all.css'; */
 
-/* Swiper CSS - included via JS import, but adding here for explicit control */
-@import 'swiper/css/bundle';
+/* Swiper CSS - Already imported in resources/js/vendor-frontend.js */
+/* Removing duplicate import to prevent CSS syntax errors during build */
+/* @import 'swiper/css/bundle'; */
 

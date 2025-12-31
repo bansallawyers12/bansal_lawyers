@@ -3,10 +3,11 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
+        "build": "vite build && npm run copy-manifest",
         "watch": "vite build --watch",
-        "prod": "vite build",
-        "production": "vite build",
+        "prod": "vite build && npm run copy-manifest",
+        "production": "vite build && npm run copy-manifest",
+        "copy-manifest": "node -e \"const fs=require('fs');const path=require('path');const src=path.join('public','build','.vite','manifest.json');const dest=path.join('public','build','manifest.json');if(fs.existsSync(src)){fs.copyFileSync(src,dest);console.log('Manifest copied to public/build/manifest.json');}else{console.log('Source manifest not found');}\"",
         "minify-assets": "node scripts/minify-assets.js"
     },
     "devDependencies": {
