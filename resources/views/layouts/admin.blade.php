@@ -222,7 +222,8 @@ body {
 	<!-- DataTables removed - not used in admin panel (modern-table class used instead) -->
 	<!-- <script src="{{ asset('js/datatables.min.js')}}"></script> -->
 	<!-- <script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script> -->
-	<!-- Summernote JS removed - TinyMCE bundled via npm (see admin.js) -->
+	<!-- Summernote JS removed - now using TinyMCE -->
+	<script src="{{ asset('assets/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('js/daterangepicker.js')}}"></script>
 	<script src="{{ asset('js/bootstrap-timepicker.min.js')}}"></script>
 	<!-- Select2 JS removed - now using Tom Select (loaded via Vite in admin.js) -->

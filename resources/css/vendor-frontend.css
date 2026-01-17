@@ -1,7 +1,8 @@
 /* Frontend vendor styles */
 
-/* Font Awesome Icons */
-@import '@fortawesome/fontawesome-free/css/all.min.css';
+/* Font Awesome 4.7.0 - loaded separately via public/css/font-awesome.min.css for better caching */
+/* Loading via asset() instead of bundling reduces main bundle size and improves cache reuse */
+/* @import '@fortawesome/fontawesome-free/css/all.min.css'; */
 
 /* Swiper CSS - Already imported in resources/js/vendor-frontend.js */
 /* Removing duplicate import to prevent CSS syntax errors during build */

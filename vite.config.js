@@ -133,8 +133,9 @@ export default defineConfig({
         }
     },
     server: {
+        host: '127.0.0.1', // Use same IP as Laravel server to avoid CORS
         hmr: {
-            host: 'localhost',
+            host: '127.0.0.1',
         },
     },
     resolve: {

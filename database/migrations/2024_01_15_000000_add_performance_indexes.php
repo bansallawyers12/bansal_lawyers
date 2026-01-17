@@ -43,18 +43,6 @@ return new class extends Migration
             $table->index(['status'], 'idx_cases_status');
         });
 
-        // Add indexes for testimonials table
-        Schema::table('testimonials', function (Blueprint $table) {
-            $table->index(['status'], 'idx_testimonials_status');
-            $table->index(['status', 'created_at'], 'idx_testimonials_status_created');
-        });
-
-        // Add indexes for our_services table
-        Schema::table('our_services', function (Blueprint $table) {
-            $table->index(['status'], 'idx_services_status');
-            $table->index(['slug', 'status'], 'idx_services_slug_status');
-        });
-
         // Add indexes for contacts table
         Schema::table('contacts', function (Blueprint $table) {
             $table->index(['created_at'], 'idx_contacts_created_at');
@@ -119,18 +107,6 @@ return new class extends Migration
             $table->dropIndex('idx_cases_slug_status');
             $table->dropIndex('idx_cases_status_created');
             $table->dropIndex('idx_cases_status');
-        });
-
-        // Drop indexes for testimonials table
-        Schema::table('testimonials', function (Blueprint $table) {
-            $table->dropIndex('idx_testimonials_status');
-            $table->dropIndex('idx_testimonials_status_created');
-        });
-
-        // Drop indexes for our_services table
-        Schema::table('our_services', function (Blueprint $table) {
-            $table->dropIndex('idx_services_status');
-            $table->dropIndex('idx_services_slug_status');
         });
 
         // Drop indexes for contacts table

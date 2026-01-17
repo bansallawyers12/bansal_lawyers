@@ -13,7 +13,7 @@ class ClearContentCache extends Command
      * @var string
      */
     protected $signature = 'cache:clear-content 
-                            {type : Content type (blog|service|testimonial|page|case|all)}
+                            {type : Content type (blog|page|case|all)}
                             {--identifier= : Specific content identifier (slug/id)}';
 
     /**

@@ -7,13 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Cache;
 
-use App\Models\WebsiteSetting;
 use App\Models\Blog;
 use App\Models\Contact;
 use App\Models\BlogCategory;
-use App\Models\OurService;
-use App\Models\Testimonial;
-use App\Models\HomeContent;
 use App\Models\CmsPage;
 use App\Models\AppointmentPayment;
 
@@ -21,7 +17,6 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Config;
 
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Log;
 
 use Stripe;
@@ -36,14 +31,6 @@ use App\Models\NatureOfEnquiry;
 
 class HomeController extends Controller
 {
-	public function __construct(Request $request)
-    {
-		$siteData = Cache::remember('site_data', 3600, function () {
-			return WebsiteSetting::first();
-		});
-		View::share('siteData', $siteData);
-	}
-
     public function coming_soon()
     {
         return view('coming_soon');
@@ -384,15 +371,6 @@ class HomeController extends Controller
     }
 
 
-	public function ourservices(Request $request)
-    {
-		$servicequery 		= OurService::where('status', '=', 1);
-		$serviceData 	= 	$servicequery->count();	//for all data
-		$servicelists		=  $servicequery->orderby('id','ASC')->get();
-
-	   return view('ourservices', compact('servicelists', 'serviceData'));
-    }
-
 	public function blog(Request $request)
     {
 		// Optimized: Cache blog categories as they rarely change
@@ -493,26 +471,6 @@ class HomeController extends Controller
         return view('blogdetail', compact('blogdetailists', 'latestbloglists', 'blogCategories'));
     }
   
-	public function servicesdetail(Request $request, $slug = null)
-    {
-		if(isset($slug) && !empty($slug)){
-			if(OurService::where('slug', '=', $slug)->exists())
-			{
-			$servicesdetailquery 		= OurService::where('slug', '=', $slug)->where('status', '=', 1);
-			$servicesdetailists		=  $servicesdetailquery->first();
-
-			return view('servicesdetail', compact('servicesdetailists'));
-			}
-			else
-			{
-				return redirect('/ourservices')->with('error', 'Our Services'.config('constants.not_exist'));
-			}
-		}
-		else{
-			return redirect('/ourservices')->with('error', config('constants.unauthorized'));
-		}
-    }
-
 	public function bookappointment()
     {
         return view('bookappointment');

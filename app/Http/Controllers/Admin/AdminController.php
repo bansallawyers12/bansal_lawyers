@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\Admin;
-use App\Models\WebsiteSetting;
-use App\Models\Setting;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -221,75 +219,6 @@ class AdminController extends Controller
 		}
 	}
 
-	public function websiteSetting(Request $request)
-	{
-		//check authorization start
-			$check = $this->checkAuthorizationAction('Admin', $request->route()->getActionMethod(), Auth::user()->role);
-			if($check)
-			{
-				return redirect('/admin/dashboard')->with('error',config('constants.unauthorized'));
-			}
-		//check authorization end
-
-		if ($request->isMethod('post'))
-		{
-			$requestData 		= 	$request->all();
-
-			$this->validate($request, [
-										'phone' => 'required|max:20',
-										'ofc_timing' => 'nullable|max:255',
-										'email' => 'required|max:255'
-									  ]);
-
-			/* Logo Upload Function Start */
-				if($request->hasfile('logo'))
-				{
-					/* Unlink File Function Start */
-						if(@$requestData['logo'] != '')
-							{
-								$this->unlinkFile(@$requestData['old_logo'], config('constants.logo'));
-							}
-					/* Unlink File Function End */
-
-					$logo = $this->uploadFile($request->file('logo'), config('constants.logo'));
-				}
-				else
-				{
-					$logo = @$requestData['old_logo'];
-				}
-			/* Logoe Upload Function End */
-
-			if(!empty(@$requestData['id']))
-			{
-				$obj				= 	WebsiteSetting::find(@$requestData['id']);
-			}
-			else
-			{
-				$obj				= 	new WebsiteSetting;
-			}
-			$obj->phone				=	@$requestData['phone'];
-			$obj->ofc_timing		=	@$requestData['ofc_timing'];
-			$obj->email				=	@$requestData['email'];
-			$obj->logo				=	@$logo;
-
-			$saved							=	$obj->save();
-
-			if(!$saved)
-			{
-				return redirect()->back()->with('error', config('constants.server_error'));
-			}
-			else
-			{
-				return redirect('/admin/website_setting')->with('success', 'Website Setting has been edited successfully.');
-			}
-		}
-		else
-		{
-			$fetchedData = WebsiteSetting::where('id', '!=', '')->first();
-
-			return view('Admin.website_setting', compact('fetchedData'));
-		}
-	}
 
 
 	public function editapi(Request $request)
@@ -948,10 +877,6 @@ class AdminController extends Controller
         }
 	}
 
-	public function gensettings(Request $request){
-	   $setting = Setting::where('office_id', Auth::user()->office_id)->first();
-		return view('Admin.gensettings.index', compact('setting'));
-	}
 
 
 	// Removed: appointmentsEducation, appointmentsJrp, appointmentsTourist - only Ajay appointments now
@@ -963,23 +888,6 @@ class AdminController extends Controller
 
 	
 
-    public function gensettingsupdate(Request $request){
-        if(Setting::where('office_id', Auth::user()->office_id)->exists()){
-           $setting = Setting::where('office_id', Auth::user()->office_id)->first();
-            $objs = Setting::find($setting->id);
-            $objs->date_format = $request->date_format;
-             $objs->time_format = $request->time_format;
-            $objs->save();
-        }else{
-             $objs = new Setting;
-            $objs->date_format = $request->date_format;
-            $objs->office_id = Auth::user()->office_id;
-             $objs->time_format = $request->time_format;
-            $objs->save();
-        }
-
-        	return redirect('/admin/gen-settings')->with('success', 'Record updated successfully');
-    }
 
     /**
      * Admin Users Management

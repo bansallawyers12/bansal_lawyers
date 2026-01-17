@@ -853,7 +853,6 @@ function validateAndSubmitBlog() {
 @endsection
 
 @section('scripts')
-{{-- TinyMCE bundled via npm in admin.js --}}
 {{-- TinyMCE is now initialized via Alpine.js component (x-data="tinyMCE()") --}}
 {{-- Additional TinyMCE setup for validation and file picker --}}
 <script>

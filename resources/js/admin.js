@@ -1,37 +1,6 @@
 // Admin JS Bundle - Optimized for Performance
 // Admin functionality with modern ES6+ features
 
-// Import TinyMCE from npm and expose globally
-import tinymce from 'tinymce/tinymce';
-import 'tinymce/icons/default';
-import 'tinymce/themes/silver';
-import 'tinymce/models/dom';
-import 'tinymce/skins/ui/oxide/skin.css';
-import 'tinymce/skins/content/default/content.css';
-import 'tinymce/plugins/advlist';
-import 'tinymce/plugins/autolink';
-import 'tinymce/plugins/lists';
-import 'tinymce/plugins/link';
-import 'tinymce/plugins/image';
-import 'tinymce/plugins/charmap';
-import 'tinymce/plugins/preview';
-import 'tinymce/plugins/anchor';
-import 'tinymce/plugins/searchreplace';
-import 'tinymce/plugins/visualblocks';
-import 'tinymce/plugins/code';
-import 'tinymce/plugins/fullscreen';
-import 'tinymce/plugins/insertdatetime';
-import 'tinymce/plugins/media';
-import 'tinymce/plugins/table';
-import 'tinymce/plugins/help';
-import 'tinymce/plugins/wordcount';
-import 'tinymce/plugins/emoticons';
-import 'tinymce/plugins/pagebreak';
-import 'tinymce/plugins/nonbreaking';
-import 'tinymce/plugins/template';
-
-window.tinymce = tinymce;
-
 // Import Alpine.js utilities
 import './alpine-utils.js';
 
@@ -47,6 +16,10 @@ if (window.Alpine) {
     window.Alpine.data('tomSelect', tomSelect);
     window.Alpine.data('tinyMCE', tinyMCE);
 }
+
+// Note: TinyMCE is loaded via script tag in blade templates for better performance
+// Only pages that need TinyMCE load it (blog, cms, recent case forms)
+// This keeps the admin bundle small and fast for all other admin pages
 
 // Note: CSS files should be imported in CSS entry points (resources/css/admin.css)
 // or loaded via Vite's CSS handling. The app.min.css is loaded via asset() helper

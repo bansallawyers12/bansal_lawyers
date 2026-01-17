@@ -30,8 +30,6 @@ Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
 //Home Page
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
-Route::get('/ourservices', [App\Http\Controllers\HomeController::class, 'ourservices'])->name('ourservices');
-Route::get('/ourservices/{slug}', [App\Http\Controllers\HomeController::class, 'servicesdetail'])->name('servicesdetail');
 // Simplified blog routes with /blog prefix
 Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.index');
 Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.category');

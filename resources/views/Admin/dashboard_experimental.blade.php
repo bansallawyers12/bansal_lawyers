@@ -10,7 +10,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Bansal Lawyers | Navigation Dashboard</title>
     
-    <!-- Font Awesome (loaded via Vite) -->
+    <!-- Font Awesome (bundled via Vite) -->
     @vite(['resources/css/vendor-admin.css'])
     
     <!-- Self-hosted Poppins fonts -->

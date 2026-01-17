@@ -10,12 +10,10 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 
 use App\Mail\CommonMail;
-use App\Models\WebsiteSetting;
 use App\Services\ImageService;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Swift_SmtpTransport;
 use Swift_Mailer;
@@ -23,14 +21,6 @@ use Swift_Mailer;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-	
-	public function __construct()
-    {
-		$siteData = WebsiteSetting::where('id', '!=', '')->first();
-		View::share('siteData', $siteData);
-        //$this->middleware('guest:admin')->except('logout');
-	//	exec('php public_html/development/artisan view:clear');
-    }
 	
 	
 	public function generateRandomString($length = 10) 
