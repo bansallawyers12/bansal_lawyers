@@ -85,7 +85,7 @@
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-BM2wJ-iW.css",
+    "file": "assets/app-DypDEz62.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -95,7 +95,7 @@
     "isEntry": true
   },
   "resources/css/vendor-admin.css": {
-    "file": "assets/vendor-admin-DhRpHuSy.css",
+    "file": "assets/vendor-admin-CySzR86N.css",
     "src": "resources/css/vendor-admin.css",
     "isEntry": true
   },
@@ -114,7 +114,7 @@
     ]
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-D33mJW3E.js",
+    "file": "assets/admin-8UwypdTw.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,

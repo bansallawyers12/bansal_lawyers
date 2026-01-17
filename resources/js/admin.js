@@ -65,9 +65,9 @@ const loadAdminLibraries = async (libraries = []) => {
                     break;
                     
                 case 'datepicker':
-                    // Datepicker is loaded via asset() in admin.blade.php (daterangepicker.js)
-                    if (window.$ && window.$.fn && window.$.fn.daterangepicker) {
-                        loadedLibraries.datepicker = window.$.fn.daterangepicker;
+                    // Flatpickr is loaded via npm
+                    if (window.flatpickr) {
+                        loadedLibraries.datepicker = window.flatpickr;
                     }
                     break;
             }
@@ -202,12 +202,15 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         }
         
-        // Initialize Datepicker
-        if (loadedLibraries.datepicker && window.$ && window.$.fn && window.$.fn.datepicker) {
-            $('.datepicker, input[data-datepicker]').datepicker({
-                format: 'yyyy-mm-dd',
-                autoclose: true,
-                todayHighlight: true
+        // Initialize Flatpickr
+        if (loadedLibraries.datepicker && window.flatpickr) {
+            const datepickerElements = document.querySelectorAll('.datepicker, input[data-datepicker]');
+            datepickerElements.forEach(element => {
+                window.flatpickr(element, {
+                    dateFormat: 'Y-m-d',
+                    allowInput: true,
+                    clickOpens: true
+                });
             });
         }
         
