@@ -18,7 +18,7 @@
 	<link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
 	
 	<!-- Self-hosted Poppins fonts -->
-	<link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
+	@vite(['public/css/fonts.css'])
 	
 	<!-- Font Awesome loaded via Vite vendor bundle -->
 	@vite(['resources/css/vendor-admin.css'])

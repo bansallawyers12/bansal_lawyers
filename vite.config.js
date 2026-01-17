@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/css/admin.css',
                 'resources/css/vendor-frontend.css',
                 'resources/css/vendor-admin.css',
+                'public/css/fonts.css', // Add fonts.css to build pipeline
                 
                 // JS files
                 'resources/js/app.js',
@@ -18,6 +19,7 @@ export default defineConfig({
                 'resources/js/vendor-frontend.js',
                 'resources/js/admin.js',
                 'resources/js/admin-calendar-v6.js',
+                'public/js/main.js', // Add main.js to build pipeline
             ],
             refresh: true,
             // Ensure manifest is created in the correct location for Laravel
@@ -96,6 +98,8 @@ export default defineConfig({
                 'owl.carousel',
                 'magnific-popup',
                 'aos',
+                'swiper/bundle', // Add swiper to external
+                'swiper/css/bundle', // Add swiper CSS to external
             ],
             output: {
                 entryFileNames: 'assets/[name]-[hash].js',

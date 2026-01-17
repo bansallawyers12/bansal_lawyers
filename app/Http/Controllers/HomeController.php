@@ -526,7 +526,9 @@ class HomeController extends Controller
 
     public function about()
     {
-        return view('about');
+        // Fetch CMS page data for "about" slug to get dynamic meta tags
+        $pagedata = CmsPage::where('slug', '=', 'about')->first();
+        return view('about', compact('pagedata'));
     }
 
     public function getdatetime(Request $request)

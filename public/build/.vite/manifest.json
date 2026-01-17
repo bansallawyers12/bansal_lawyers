@@ -6,16 +6,9 @@
       "_vendor-alpine-BaAjcTWD.js"
     ]
   },
-  "_vendor-CJ-KzOvo.css": {
-    "file": "assets/vendor-CJ-KzOvo.css",
-    "src": "_vendor-CJ-KzOvo.css"
-  },
-  "_vendor-DeQ94BXj.js": {
-    "file": "assets/vendor-DeQ94BXj.js",
-    "name": "vendor",
-    "css": [
-      "assets/vendor-CJ-KzOvo.css"
-    ]
+  "_vendor-0v4emCv7.js": {
+    "file": "assets/vendor-0v4emCv7.js",
+    "name": "vendor"
   },
   "_vendor-alpine-BaAjcTWD.js": {
     "file": "assets/vendor-alpine-BaAjcTWD.js",
@@ -25,11 +18,11 @@
     "file": "assets/vendor-axios-CcrxTH1M.js",
     "name": "vendor-axios"
   },
-  "_vendor-bootstrap-CYAEY0-r.js": {
-    "file": "assets/vendor-bootstrap-CYAEY0-r.js",
+  "_vendor-bootstrap-BK5kNesQ.js": {
+    "file": "assets/vendor-bootstrap-BK5kNesQ.js",
     "name": "vendor-bootstrap",
     "imports": [
-      "_vendor-DeQ94BXj.js"
+      "_vendor-0v4emCv7.js"
     ]
   },
   "_vendor-jquery-Cx5wq2av.js": {
@@ -75,13 +68,24 @@
     "file": "assets/fa-v4compatibility-C9RhG_FT.woff2",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
+  "public/css/fonts.css": {
+    "file": "assets/fonts-DK9RArkq.css",
+    "src": "public/css/fonts.css",
+    "isEntry": true
+  },
+  "public/js/main.js": {
+    "file": "assets/main-B4Zsaqeo.js",
+    "name": "main",
+    "src": "public/js/main.js",
+    "isEntry": true
+  },
   "resources/css/admin.css": {
     "file": "assets/admin-DnISDPN6.css",
     "src": "resources/css/admin.css",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-D7zHvYCw.css",
+    "file": "assets/app-BM2wJ-iW.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -91,7 +95,7 @@
     "isEntry": true
   },
   "resources/css/vendor-admin.css": {
-    "file": "assets/vendor-admin-BMk20h4e.css",
+    "file": "assets/vendor-admin-DhRpHuSy.css",
     "src": "resources/css/vendor-admin.css",
     "isEntry": true
   },
@@ -101,12 +105,12 @@
     "isEntry": true
   },
   "resources/js/admin-calendar-v6.js": {
-    "file": "assets/admin-calendar-v6-Q-3X6AAT.js",
+    "file": "assets/admin-calendar-v6-kXCZt0h6.js",
     "name": "admin-calendar-v6",
     "src": "resources/js/admin-calendar-v6.js",
     "isEntry": true,
     "imports": [
-      "_vendor-DeQ94BXj.js"
+      "_vendor-0v4emCv7.js"
     ]
   },
   "resources/js/admin.js": {
@@ -121,17 +125,17 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-C5GJZ2-d.js",
+    "file": "assets/app-f9yrkAuQ.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
       "_vendor-lodash-CDFAzL-S.js",
       "_vendor-jquery-Cx5wq2av.js",
-      "_vendor-bootstrap-CYAEY0-r.js",
+      "_vendor-bootstrap-BK5kNesQ.js",
       "_vendor-axios-CcrxTH1M.js",
       "_vendor-alpine-BaAjcTWD.js",
-      "_vendor-DeQ94BXj.js"
+      "_vendor-0v4emCv7.js"
     ]
   },
   "resources/js/frontend.js": {
@@ -145,12 +149,9 @@
     ]
   },
   "resources/js/vendor-frontend.js": {
-    "file": "assets/vendor-frontend-qpEaj0-k.js",
+    "file": "assets/vendor-frontend-D0LYzjbN.js",
     "name": "vendor-frontend",
     "src": "resources/js/vendor-frontend.js",
-    "isEntry": true,
-    "imports": [
-      "_vendor-DeQ94BXj.js"
-    ]
+    "isEntry": true
   }
 }
