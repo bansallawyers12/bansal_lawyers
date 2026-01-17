@@ -1,17 +1,23 @@
 @extends('layouts.frontend')
 @section('seoinfo')
-	<title>Immigration, family and more lawyers consultation in Melbourne</title>
-	<meta name="description" content="If you are looking expert lawyers consultation in Melbourne? Get professional legal advice from experienced lawyers to guide you legal challenges with confidence." />
+<?php 
+    // Use dynamic meta title, description and keywords from CMS page if available, otherwise use defaults
+    $metaTitle = (isset($pagedata->meta_title) && $pagedata->meta_title != "") ? $pagedata->meta_title : "Immigration, family and more lawyers consultation in Melbourne";
+    $metaDescription = (isset($pagedata->meta_description) && $pagedata->meta_description != "") ? $pagedata->meta_description : "If you are looking expert lawyers consultation in Melbourne? Get professional legal advice from experienced lawyers to guide you legal challenges with confidence.";
+    $metaKeywords = (isset($pagedata->meta_keyward) && $pagedata->meta_keyward != "") ? $pagedata->meta_keyward : "Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!";
+?>
+	<title>{{ $metaTitle }}</title>
+	<meta name="description" content="{{ $metaDescription }}" />
 
-    <meta name="keyword" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!" />
+    <meta name="keyword" content="{{ $metaKeywords }}" />
 
     <link rel="canonical" href="https://www.bansallawyers.com.au/practice-areas" />
 
 	<!-- Facebook Meta Tags -->
     <meta property="og:url" content="<?php echo URL::to('/'); ?>/practice-areas">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Legal Services in Australia | Family, Immigration, Property & More">
-    <meta property="og:description" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!">
+    <meta property="og:title" content="{{ $metaTitle }}">
+    <meta property="og:description" content="{{ $metaDescription }}">
     <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
@@ -20,8 +26,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/practice-areas">
-    <meta name="twitter:title" content="Legal Services in Australia | Family, Immigration, Property & More">
-    <meta name="twitter:description" content="Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!">
+    <meta name="twitter:title" content="{{ $metaTitle }}">
+    <meta name="twitter:description" content="{{ $metaDescription }}">
     <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 

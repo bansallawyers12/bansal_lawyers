@@ -1,17 +1,23 @@
 @extends('layouts.frontend')
 @section('seoinfo')
-	<title>Recent Case Law Updates | Legal Precedents & Court Decisions | Bansal Lawyers Melbourne</title>
-	<meta name="description" content="Stay informed with the latest case law updates and legal precedents. Expert analysis of important court decisions in family law, immigration, property disputes, and more from Bansal Lawyers Melbourne." />
+<?php 
+    // Use dynamic meta title, description and keywords from CMS page if available, otherwise use defaults
+    $metaTitle = (isset($pagedata->meta_title) && $pagedata->meta_title != "") ? $pagedata->meta_title : "Recent Case Law Updates | Legal Precedents & Court Decisions | Bansal Lawyers Melbourne";
+    $metaDescription = (isset($pagedata->meta_description) && $pagedata->meta_description != "") ? $pagedata->meta_description : "Stay informed with the latest case law updates and legal precedents. Expert analysis of important court decisions in family law, immigration, property disputes, and more from Bansal Lawyers Melbourne.";
+    $metaKeywords = (isset($pagedata->meta_keyward) && $pagedata->meta_keyward != "") ? $pagedata->meta_keyward : "case law updates, legal precedents, court decisions, legal analysis, Australian law, family law, immigration law, property disputes, criminal law, commercial law, Melbourne lawyers, Victoria legal services, High Court decisions, Federal Court cases, Supreme Court judgments, legal commentary, law firm Melbourne, Bansal Lawyers, Australian legal system, recent judgments, legal developments, court rulings";
+?>
+	<title>{{ $metaTitle }}</title>
+	<meta name="description" content="{{ $metaDescription }}" />
 
-    <meta name="keyword" content="case law updates, legal precedents, court decisions, legal analysis, Australian law, family law, immigration law, property disputes, criminal law, commercial law, Melbourne lawyers, Victoria legal services, High Court decisions, Federal Court cases, Supreme Court judgments, legal commentary, law firm Melbourne, Bansal Lawyers, Australian legal system, recent judgments, legal developments, court rulings" />
+    <meta name="keyword" content="{{ $metaKeywords }}" />
 
     <link rel="canonical" href="https://www.bansallawyers.com.au/case" />
 
 	<!-- Facebook Meta Tags -->
     <meta property="og:url" content="<?php echo URL::to('/'); ?>/case">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Recent Case Law Updates | Legal Precedents & Court Decisions | Bansal Lawyers Melbourne">
-    <meta property="og:description" content="Stay informed with the latest case law updates and legal precedents. Expert analysis of important court decisions in family law, immigration, property disputes, and more from Bansal Lawyers Melbourne.">
+    <meta property="og:title" content="{{ $metaTitle }}">
+    <meta property="og:description" content="{{ $metaDescription }}">
     <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
     <meta property="og:image:alt" content="Bansal Lawyers Logo">
     <meta property="og:site_name" content="Bansal Lawyers">
@@ -21,8 +27,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/case">
-    <meta name="twitter:title" content="Recent Case Law Updates | Legal Precedents & Court Decisions | Bansal Lawyers Melbourne">
-    <meta name="twitter:description" content="Stay informed with the latest case law updates and legal precedents. Expert analysis of important court decisions in family law, immigration, property disputes, and more from Bansal Lawyers Melbourne.">
+    <meta name="twitter:title" content="{{ $metaTitle }}">
+    <meta name="twitter:description" content="{{ $metaDescription }}">
     <meta name="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
     <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 

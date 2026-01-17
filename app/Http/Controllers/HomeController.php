@@ -1028,15 +1028,20 @@ class HomeController extends Controller
   
     public function practiceareas(Request $request)
     { 
-		return view('practiceareas');
+		// Fetch CMS page data for "practice-areas" slug to get dynamic meta tags
+		$pagedata = CmsPage::where('slug', '=', 'practice-areas')->first();
+		return view('practiceareas', compact('pagedata'));
     }
 
      public function case(Request $request)
     {
+		// Fetch CMS page data for "case" slug to get dynamic meta tags
+		$pagedata = CmsPage::where('slug', '=', 'case')->first();
+		
         $casequery 		= RecentCase::where('status', '=', 1);
 		$caseData 	    = $casequery->count();	//for all data
 		$caselists		= $casequery->orderby('id','DESC')->paginate(9);
-        return view('case', compact('caselists', 'caseData'));
+        return view('case', compact('caselists', 'caseData', 'pagedata'));
 	}
 
     public function casedetail(Request $request, $slug = null)
