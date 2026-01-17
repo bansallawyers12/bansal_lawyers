@@ -10,8 +10,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Bansal Lawyers | Navigation Dashboard</title>
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Font Awesome (loaded via Vite) -->
+    @vite(['resources/css/vendor-admin.css'])
     
     <!-- Self-hosted Poppins fonts -->
     <link rel="preload" href="{{ asset('fonts/poppins/poppins-regular.woff2') }}" as="font" type="font/woff2" crossorigin>

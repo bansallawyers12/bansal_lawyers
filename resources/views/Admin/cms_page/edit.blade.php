@@ -857,7 +857,6 @@ function validateAndUpdateCMS() {
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 <script>
 // Wait for DOM to be ready before initializing TinyMCE
 document.addEventListener('DOMContentLoaded', function() {
