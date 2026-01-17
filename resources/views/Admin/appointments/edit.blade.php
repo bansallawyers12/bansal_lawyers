@@ -530,14 +530,20 @@ document.addEventListener('DOMContentLoaded', function() {
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Initialize datepicker if jQuery is available
-        if (typeof $ !== 'undefined' && $.fn.datepicker) {
-            $('.date').datepicker({
-                format: 'dd/mm/yyyy',
-                daysOfWeekDisabled: [0, 6] // 0 = Sunday, 6 = Saturday
+        // Initialize flatpickr
+        if (typeof flatpickr !== 'undefined') {
+            flatpickr('.date', {
+                dateFormat: 'd/m/Y',
+                allowInput: true,
+                clickOpens: true,
+                disable: [
+                    function(date) {
+                        // Disable Sunday (0) and Saturday (6)
+                        return (date.getDay() === 0 || date.getDay() === 6);
+                    }
+                ]
             });
         }
     });

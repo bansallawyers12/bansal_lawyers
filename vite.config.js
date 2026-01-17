@@ -76,7 +76,7 @@ export default defineConfig({
         cssCodeSplit: true,
         // Optimize chunk size
         chunkSizeWarningLimit: 1000,
-        // Suppress CSS warnings from vendor files (Font Awesome, Bootstrap Datepicker)
+        // Suppress CSS warnings from vendor files (Font Awesome, Flatpickr)
         // The warning is non-fatal and doesn't affect functionality
         onwarn(warning, warn) {
             // Suppress CSS syntax warnings from vendor files
@@ -89,7 +89,7 @@ export default defineConfig({
         rollupOptions: {
             external: [
                 // External packages that are loaded dynamically or via CDN
-                // Note: bootstrap-datepicker removed - now bundled via npm
+                // Note: Flatpickr is now bundled via npm (replaces bootstrap-datepicker)
                 // Note: FullCalendar removed from external - now bundled via npm
                 // Note: Swiper removed from external - now bundled via npm
                 'datatables.net',

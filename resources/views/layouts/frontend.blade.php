@@ -229,7 +229,6 @@ function toggleFAQ(index) {
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     
     <!-- Preload critical font files for faster rendering -->
-    <link rel="preload" href="{{ asset('fonts/fontawesome-webfont.woff2') }}?v=4.7.0" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{{ asset('fonts/flaticon/font/Flaticon.woff') }}" as="font" type="font/woff" crossorigin>
     
     <!-- Preload optimized logo for faster rendering -->
@@ -243,7 +242,6 @@ function toggleFAQ(index) {
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     
     <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v={{ time() }}">
 
     <!-- Essential custom CSS only -->

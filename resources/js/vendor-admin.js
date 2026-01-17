@@ -3,11 +3,11 @@
 // Feather Icons
 import feather from 'feather-icons';
 
-// Bootstrap Datepicker (bundled via npm)
-import 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
+// Flatpickr (modern datepicker replacement)
+import flatpickr from 'flatpickr';
 
-// Bootstrap Datepicker CSS
-import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
+// Flatpickr CSS
+import 'flatpickr/dist/flatpickr.min.css';
 
 // Note: jquery.nicescroll and sticky-kit are loaded from public/js/vendor/
 // They don't support ES modules, so loaded via <script> tags
@@ -15,6 +15,9 @@ import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
 // Initialize Feather Icons globally
 // This replaces the feather.replace() call that was done via CDN
 window.feather = feather;
+
+// Make flatpickr available globally for legacy code
+window.flatpickr = flatpickr;
 
 // Auto-replace feather icons on DOM ready
 document.addEventListener('DOMContentLoaded', function() {
@@ -30,5 +33,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Export for ES modules if needed
-export { feather };
+export { feather, flatpickr };
 

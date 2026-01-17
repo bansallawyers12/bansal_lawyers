@@ -3,6 +3,6 @@
 /* Font Awesome Icons */
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 
-/* Bootstrap Datepicker CSS */
-@import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
+/* Flatpickr CSS (modern datepicker) */
+@import 'flatpickr/dist/flatpickr.min.css';
 

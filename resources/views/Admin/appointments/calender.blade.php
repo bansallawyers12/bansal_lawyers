@@ -621,7 +621,6 @@ foreach($appointments as $appointment){
 ?>
 @endsection
 @section('scripts')
-<script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
 <!-- FullCalendar v6 loaded via Vite -->
 @vite(['resources/js/admin-calendar-v6.js'])
 <script>
@@ -631,10 +630,14 @@ jQuery(document).ready(function($){
     $('body').removeClass('modal-open');
     $('.modal-backdrop').remove();
     
-    $('.followup_date').datepicker({
-        format: 'dd/mm/yyyy',
-        autoclose: true
-    });
+    // Initialize flatpickr for followup date
+    if (typeof flatpickr !== 'undefined') {
+        flatpickr('.followup_date', {
+            dateFormat: 'd/m/Y',
+            allowInput: true,
+            clickOpens: true
+        });
+    }
 
     $(document).delegate('.editfollowupdate', 'click', function(){
         $('.if_edit_followup').show();

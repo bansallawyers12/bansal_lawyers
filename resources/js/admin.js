@@ -1,6 +1,37 @@
 // Admin JS Bundle - Optimized for Performance
 // Admin functionality with modern ES6+ features
 
+// Import TinyMCE from npm and expose globally
+import tinymce from 'tinymce/tinymce';
+import 'tinymce/icons/default';
+import 'tinymce/themes/silver';
+import 'tinymce/models/dom';
+import 'tinymce/skins/ui/oxide/skin.css';
+import 'tinymce/skins/content/default/content.css';
+import 'tinymce/plugins/advlist';
+import 'tinymce/plugins/autolink';
+import 'tinymce/plugins/lists';
+import 'tinymce/plugins/link';
+import 'tinymce/plugins/image';
+import 'tinymce/plugins/charmap';
+import 'tinymce/plugins/preview';
+import 'tinymce/plugins/anchor';
+import 'tinymce/plugins/searchreplace';
+import 'tinymce/plugins/visualblocks';
+import 'tinymce/plugins/code';
+import 'tinymce/plugins/fullscreen';
+import 'tinymce/plugins/insertdatetime';
+import 'tinymce/plugins/media';
+import 'tinymce/plugins/table';
+import 'tinymce/plugins/help';
+import 'tinymce/plugins/wordcount';
+import 'tinymce/plugins/emoticons';
+import 'tinymce/plugins/pagebreak';
+import 'tinymce/plugins/nonbreaking';
+import 'tinymce/plugins/template';
+
+window.tinymce = tinymce;
+
 // Import Alpine.js utilities
 import './alpine-utils.js';
 
@@ -65,9 +96,9 @@ const loadAdminLibraries = async (libraries = []) => {
                     break;
                     
                 case 'datepicker':
-                    // Datepicker is loaded via asset() in admin.blade.php (daterangepicker.js)
-                    if (window.$ && window.$.fn && window.$.fn.daterangepicker) {
-                        loadedLibraries.datepicker = window.$.fn.daterangepicker;
+                    // Flatpickr is loaded via npm
+                    if (window.flatpickr) {
+                        loadedLibraries.datepicker = window.flatpickr;
                     }
                     break;
             }
@@ -202,12 +233,15 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         }
         
-        // Initialize Datepicker
-        if (loadedLibraries.datepicker && window.$ && window.$.fn && window.$.fn.datepicker) {
-            $('.datepicker, input[data-datepicker]').datepicker({
-                format: 'yyyy-mm-dd',
-                autoclose: true,
-                todayHighlight: true
+        // Initialize Flatpickr
+        if (loadedLibraries.datepicker && window.flatpickr) {
+            const datepickerElements = document.querySelectorAll('.datepicker, input[data-datepicker]');
+            datepickerElements.forEach(element => {
+                window.flatpickr(element, {
+                    dateFormat: 'Y-m-d',
+                    allowInput: true,
+                    clickOpens: true
+                });
             });
         }
         
