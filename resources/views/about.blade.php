@@ -9,9 +9,15 @@
 @endsection
 
 @section('seoinfo')
-<title>About Bansal Lawyers - Leading Legal Firm in Melbourne | Expert Legal Services</title>
-<meta name="description" content="Learn about Bansal Lawyers, Melbourne's trusted legal firm led by Director Ajay Bansal. Expert services in Immigration, Family, Property, and Commercial Law with over 15 years of experience." />
-<meta name="keywords" content="About Bansal Lawyers, Melbourne law firm, Ajay Bansal, legal services Australia, Immigration lawyer Melbourne, Family lawyer, Property lawyer, Commercial lawyer" />
+<?php 
+    // Use dynamic meta title and description from CMS page if available, otherwise use defaults
+    $metaTitle = (isset($pagedata->meta_title) && $pagedata->meta_title != "") ? $pagedata->meta_title : "About Bansal Lawyers - Leading Legal Firm in Melbourne | Expert Legal Services";
+    $metaDescription = (isset($pagedata->meta_description) && $pagedata->meta_description != "") ? $pagedata->meta_description : "Learn about Bansal Lawyers, Melbourne's trusted legal firm led by Director Ajay Bansal. Expert services in Immigration, Family, Property, and Commercial Law with over 15 years of experience.";
+    $metaKeywords = (isset($pagedata->meta_keyward) && $pagedata->meta_keyward != "") ? $pagedata->meta_keyward : "About Bansal Lawyers, Melbourne law firm, Ajay Bansal, legal services Australia, Immigration lawyer Melbourne, Family lawyer, Property lawyer, Commercial lawyer";
+?>
+<title>{{ $metaTitle }}</title>
+<meta name="description" content="{{ $metaDescription }}" />
+<meta name="keywords" content="{{ $metaKeywords }}" />
 <meta name="author" content="Bansal Lawyers" />
 <meta name="robots" content="index, follow" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,16 +28,16 @@
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="<?php echo URL::to('/'); ?>/about">
 <meta property="og:type" content="website">
-<meta property="og:title" content="About Bansal Lawyers - Leading Legal Firm in Melbourne">
-<meta property="og:description" content="Learn about Bansal Lawyers, Melbourne's trusted legal firm led by Director Ajay Bansal. Expert services in Immigration, Family, Property, and Commercial Law.">
+<meta property="og:title" content="{{ $metaTitle }}">
+<meta property="og:description" content="{{ $metaDescription }}">
 <meta property="og:image" content="{{ asset('images/ajay-bansal2.jpg') }}">
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="bansallawyers.com.au">
 <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/about">
-<meta name="twitter:title" content="About Bansal Lawyers - Leading Legal Firm in Melbourne">
-<meta name="twitter:description" content="Learn about Bansal Lawyers, Melbourne's trusted legal firm led by Director Ajay Bansal. Expert services in Immigration, Family, Property, and Commercial Law.">
+<meta name="twitter:title" content="{{ $metaTitle }}">
+<meta name="twitter:description" content="{{ $metaDescription }}">
 <meta property="twitter:image" content="{{ asset('images/ajay-bansal2.jpg') }}">
 
 <!-- Additional SEO Meta Tags -->
