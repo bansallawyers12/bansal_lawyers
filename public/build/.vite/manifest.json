@@ -75,11 +75,6 @@
     "file": "assets/fa-v4compatibility-C9RhG_FT.woff2",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
-  "public/css/fonts.css": {
-    "file": "assets/fonts-DK9RArkq.css",
-    "src": "public/css/fonts.css",
-    "isEntry": true
-  },
   "public/js/main.js": {
     "file": "assets/main-B4Zsaqeo.js",
     "name": "main",
@@ -102,12 +97,12 @@
     "isEntry": true
   },
   "resources/css/vendor-admin.css": {
-    "file": "assets/vendor-admin-DhRpHuSy.css",
+    "file": "assets/vendor-admin-CySzR86N.css",
     "src": "resources/css/vendor-admin.css",
     "isEntry": true
   },
   "resources/css/vendor-frontend.css": {
-    "file": "assets/vendor-frontend-tn0RQdqM.css",
+    "file": "assets/vendor-frontend-Bd-mmswS.css",
     "src": "resources/css/vendor-frontend.css",
     "isEntry": true
   },
@@ -121,7 +116,7 @@
     ]
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-D33mJW3E.js",
+    "file": "assets/admin-8UwypdTw.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,

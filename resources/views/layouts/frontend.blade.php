@@ -243,7 +243,7 @@ function toggleFAQ(index) {
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     
     <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}?v={{ time() }}">
+    <!-- Font Awesome now loaded via Vite in vendor-frontend.css -->
     <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v={{ time() }}">
 
     <!-- Essential custom CSS only -->
