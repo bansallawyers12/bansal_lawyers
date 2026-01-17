@@ -6,9 +6,16 @@
       "_vendor-alpine-BaAjcTWD.js"
     ]
   },
-  "_vendor-0v4emCv7.js": {
-    "file": "assets/vendor-0v4emCv7.js",
-    "name": "vendor"
+  "_vendor-CJ-KzOvo.css": {
+    "file": "assets/vendor-CJ-KzOvo.css",
+    "src": "_vendor-CJ-KzOvo.css"
+  },
+  "_vendor-DeQ94BXj.js": {
+    "file": "assets/vendor-DeQ94BXj.js",
+    "name": "vendor",
+    "css": [
+      "assets/vendor-CJ-KzOvo.css"
+    ]
   },
   "_vendor-alpine-BaAjcTWD.js": {
     "file": "assets/vendor-alpine-BaAjcTWD.js",
@@ -18,11 +25,11 @@
     "file": "assets/vendor-axios-CcrxTH1M.js",
     "name": "vendor-axios"
   },
-  "_vendor-bootstrap-BK5kNesQ.js": {
-    "file": "assets/vendor-bootstrap-BK5kNesQ.js",
+  "_vendor-bootstrap-CYAEY0-r.js": {
+    "file": "assets/vendor-bootstrap-CYAEY0-r.js",
     "name": "vendor-bootstrap",
     "imports": [
-      "_vendor-0v4emCv7.js"
+      "_vendor-DeQ94BXj.js"
     ]
   },
   "_vendor-jquery-Cx5wq2av.js": {
@@ -85,7 +92,7 @@
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-BM2wJ-iW.css",
+    "file": "assets/app-D7zHvYCw.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -105,12 +112,12 @@
     "isEntry": true
   },
   "resources/js/admin-calendar-v6.js": {
-    "file": "assets/admin-calendar-v6-kXCZt0h6.js",
+    "file": "assets/admin-calendar-v6-Q-3X6AAT.js",
     "name": "admin-calendar-v6",
     "src": "resources/js/admin-calendar-v6.js",
     "isEntry": true,
     "imports": [
-      "_vendor-0v4emCv7.js"
+      "_vendor-DeQ94BXj.js"
     ]
   },
   "resources/js/admin.js": {
@@ -125,17 +132,17 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-f9yrkAuQ.js",
+    "file": "assets/app-C5GJZ2-d.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
       "_vendor-lodash-CDFAzL-S.js",
       "_vendor-jquery-Cx5wq2av.js",
-      "_vendor-bootstrap-BK5kNesQ.js",
+      "_vendor-bootstrap-CYAEY0-r.js",
       "_vendor-axios-CcrxTH1M.js",
       "_vendor-alpine-BaAjcTWD.js",
-      "_vendor-0v4emCv7.js"
+      "_vendor-DeQ94BXj.js"
     ]
   },
   "resources/js/frontend.js": {
@@ -149,9 +156,12 @@
     ]
   },
   "resources/js/vendor-frontend.js": {
-    "file": "assets/vendor-frontend-D0LYzjbN.js",
+    "file": "assets/vendor-frontend-qpEaj0-k.js",
     "name": "vendor-frontend",
     "src": "resources/js/vendor-frontend.js",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "_vendor-DeQ94BXj.js"
+    ]
   }
 }
