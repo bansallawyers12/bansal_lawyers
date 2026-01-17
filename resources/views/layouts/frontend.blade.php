@@ -225,7 +225,8 @@ function toggleFAQ(index) {
     <link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
     
     <!-- Self-hosted Poppins fonts -->
-    @vite(['public/css/fonts.css'])
+    <!-- Load as static asset to avoid Vite path resolution issues with font files -->
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     
     <!-- Preload critical font files for faster rendering -->
     <link rel="preload" href="{{ asset('fonts/fontawesome-webfont.woff2') }}?v=4.7.0" as="font" type="font/woff2" crossorigin>
@@ -1111,13 +1112,14 @@ function toggleFAQ(index) {
             
             // Global error handler for missing images to suppress 404 console errors
             // This handles cases where images are referenced but don't exist (e.g., cached references)
-            document.addEventListener('error', function(e) {
-                if (e.target.tagName === 'IMG') {
+            window.addEventListener('error', function(e) {
+                // Handle image loading errors
+                if (e.target && e.target.tagName === 'IMG') {
                     var img = e.target;
                     var src = img.src || img.getAttribute('src');
                     
-                    // Check if it's a missing blog image
-                    if (src && (src.includes('blog/') || src.includes('Top') || src.includes('legal'))) {
+                    // Check if it's a missing blog image (including images with spaces in filename)
+                    if (src && (src.includes('blog/') || src.includes('Top') || src.includes('legal') || src.includes('Service'))) {
                         // Suppress console error for known missing images
                         e.preventDefault();
                         e.stopPropagation();
@@ -1128,9 +1130,21 @@ function toggleFAQ(index) {
                             img.src = '{{ asset("images/Blog.jpg") }}';
                             img.onerror = null; // Prevent infinite loop
                         }
+                        return true; // Prevent default error handling
                     }
                 }
             }, true); // Use capture phase to catch errors early
+            
+            // Also handle unhandled promise rejections for image loading
+            window.addEventListener('unhandledrejection', function(e) {
+                if (e.reason && e.reason.message && e.reason.message.includes('404')) {
+                    var message = e.reason.message;
+                    if (message.includes('blog/') || message.includes('Top') || message.includes('legal')) {
+                        e.preventDefault();
+                        return true;
+                    }
+                }
+            });
         });
 			});
 		} else {

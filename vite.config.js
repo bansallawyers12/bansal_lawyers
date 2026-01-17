@@ -11,7 +11,7 @@ export default defineConfig({
                 'resources/css/admin.css',
                 'resources/css/vendor-frontend.css',
                 'resources/css/vendor-admin.css',
-                'public/css/fonts.css', // Add fonts.css to build pipeline
+                // fonts.css removed - now loaded as static asset to avoid Vite path resolution issues
                 
                 // JS files
                 'resources/js/app.js',
@@ -91,6 +91,7 @@ export default defineConfig({
                 // External packages that are loaded dynamically or via CDN
                 // Note: Flatpickr is now bundled via npm (replaces bootstrap-datepicker)
                 // Note: FullCalendar removed from external - now bundled via npm
+                // Note: Swiper removed from external - now bundled via npm
                 'datatables.net',
                 'datatables.net-bs4',
                 'tom-select',
@@ -98,8 +99,6 @@ export default defineConfig({
                 'owl.carousel',
                 'magnific-popup',
                 'aos',
-                'swiper/bundle', // Add swiper to external
-                'swiper/css/bundle', // Add swiper CSS to external
             ],
             output: {
                 entryFileNames: 'assets/[name]-[hash].js',
