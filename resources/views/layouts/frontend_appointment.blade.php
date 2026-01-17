@@ -98,7 +98,7 @@
     <link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
     
     <!-- Self-hosted Poppins fonts -->
-    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
+    @vite(['public/css/fonts.css'])
 
     <!-- Vite CSS - Modern optimized CSS bundle -->
     @vite(['resources/css/frontend.css'])
@@ -215,7 +215,7 @@
     @vite(['resources/js/frontend.js'])
     
     <!-- Main Application Script -->
-    <script src="{{ asset('js/main.js') }}?v={{ time() }}"></script>
+    @vite(['public/js/main.js'])
 
     <!-- Global Error Handler -->
     <script>

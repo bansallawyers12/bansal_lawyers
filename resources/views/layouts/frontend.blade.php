@@ -225,7 +225,7 @@ function toggleFAQ(index) {
     <link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
     
     <!-- Self-hosted Poppins fonts -->
-    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
+    @vite(['public/css/fonts.css'])
     
     <!-- Preload critical font files for faster rendering -->
     <link rel="preload" href="{{ asset('fonts/fontawesome-webfont.woff2') }}?v=4.7.0" as="font" type="font/woff2" crossorigin>
@@ -1289,7 +1289,7 @@ function toggleFAQ(index) {
     @vite(['resources/js/frontend.js'])
     
     <!-- Main script - loads last with defer (legacy support) -->
-    <script src="{{ asset('js/main.js') }}?v={{ time() }}" defer></script>
+    @vite(['public/js/main.js'])
 </body>
 
 </html>
