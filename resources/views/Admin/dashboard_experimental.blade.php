@@ -173,6 +173,7 @@
     .nav-icon.blogs { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
     .nav-icon.cms { background: linear-gradient(135deg, #3b82f6, #2563eb); }
     .nav-icon.cases { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .nav-icon.contacts { background: linear-gradient(135deg, #ec4899, #be185d); }
     .nav-icon.users { background: linear-gradient(135deg, #06b6d4, #0891b2); }
     .nav-icon.logout { background: linear-gradient(135deg, #ef4444, #dc2626); }
 
@@ -408,6 +409,31 @@
             <a href="{{ route('admin.recent_case.index') }}" class="primary-action">
                 <i class="fas fa-arrow-right"></i>
                 Manage Cases
+            </a>
+					</div>
+
+        <!-- Contact Management Card -->
+        <div class="nav-card">
+            <div class="nav-icon contacts">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <h3 class="nav-title">Contact Management</h3>
+            <p class="nav-description">View and manage client consultation queries, contact form submissions, and lead inquiries</p>
+            
+            <div class="nav-links">
+                <a href="{{ route('admin.contacts.index') }}" class="nav-link">
+                    <i class="nav-link-icon fas fa-list"></i>
+                    <span>All Contact Submissions</span>
+                </a>
+                <a href="{{ route('admin.contacts.index') }}?status=unread" class="nav-link">
+                    <i class="nav-link-icon fas fa-envelope-open"></i>
+                    <span>Unread Messages</span>
+                </a>
+						</div>
+            
+            <a href="{{ route('admin.contacts.index') }}" class="primary-action" style="background: linear-gradient(135deg, #ec4899, #be185d);">
+                <i class="fas fa-arrow-right"></i>
+                Manage Contacts
             </a>
 					</div>
 

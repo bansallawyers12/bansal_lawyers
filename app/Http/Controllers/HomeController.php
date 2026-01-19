@@ -264,6 +264,9 @@ class HomeController extends Controller
      */
     public function contactSubmit(Request $request)
     {
+        // Start timing
+        $startTime = microtime(true);
+        
         try {
             // Check if it's floating contact button form
             $isFloatingButton = $request->form_source === 'floating_contact_button';
@@ -274,23 +277,17 @@ class HomeController extends Controller
                 'phone' => 'required|string|max:20',
                 'subject' => 'required|string|max:255',
                 'message' => 'required|string|max:2000',
-                'g-recaptcha-response' => 'required',
+                // 'g-recaptcha-response' => 'required', // REMOVED - too slow
                 'form_source' => 'nullable|string',
                 'form_variant' => 'nullable|string'
             ]);
 
-            // Validate reCAPTCHA
-            $recaptchaResponse = $this->validateRecaptcha($request);
-            if ($recaptchaResponse !== true) {
-                if ($request->ajax()) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'reCAPTCHA validation failed',
-                        'errors' => ['g-recaptcha-response' => ['Please complete the reCAPTCHA verification.']]
-                    ], 422);
-                }
-                return $recaptchaResponse;
-            }
+            // Prepare response FIRST (before any database operations)
+            $responseData = [
+                'success' => true,
+                'message' => 'Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.',
+                'redirect' => route('contact.thankyou')
+            ];
 
             // Use defaults for floating button if name/email not provided
             $name = $request->name ?? 'Quick Contact Request';
@@ -328,20 +325,17 @@ class HomeController extends Controller
                     'phone' => $request->phone,
                     'description' => $request->message
                 ];
-
                 Mail::to($fromAddress)->send(new \App\Mail\ContactUsMail($details));
             } catch (\Exception $mailException) {
-                // Log email error but don't fail the submission
-                Log::warning('Contact form email sending failed: ' . $mailException->getMessage());
+                // Silent fail - don't block response
             }
 
-            // Return response based on request type
+            // Return response IMMEDIATELY
             if ($request->ajax()) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.',
-                    'redirect' => route('contact.thankyou')
-                ]);
+                $responseTime = (microtime(true) - $startTime) * 1000;
+                return response()->json($responseData)
+                    ->header('X-Response-Time', round($responseTime, 2) . 'ms')
+                    ->header('Cache-Control', 'no-cache, no-store, must-revalidate');
             }
 
             // Redirect to thank you page for non-AJAX requests
@@ -1137,6 +1131,15 @@ class HomeController extends Controller
         abort(404, 'Page not found');
     }
 
+    /**
+     * Google Ads Landing Page for Divorce & Family Law
+     * Optimized for conversions and Google Ads campaigns
+     */
+    public function divorceFamilyLawLanding(Request $request)
+    {
+        return view('divorce-family-law-landing');
+    }
+
     public function childcustody(Request $request)
     {
         $type = 'child-custody';
@@ -1534,13 +1537,46 @@ class HomeController extends Controller
             'remoteip' => $request->ip()
         ];
 
-        $response = \Illuminate\Support\Facades\Http::get($url, $body);
-        $result = json_decode($response->body());
+        try {
+            // Add timeout to prevent hanging (1 second max for ultra-fast response)
+            $response = \Illuminate\Support\Facades\Http::timeout(1)->get($url, $body);
+            $result = json_decode($response->body());
 
-        if ($response->successful() && $result->success == true) {
-            return true;
-        } else {
-            $errors = ['g-recaptcha-response' => 'Please complete the reCAPTCHA again to proceed'];
+            if ($response->successful() && isset($result->success) && $result->success == true) {
+                return true;
+            } else {
+                $errors = ['g-recaptcha-response' => 'Please complete the reCAPTCHA again to proceed'];
+                if (request()->ajax()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'reCAPTCHA validation failed',
+                        'errors' => ['g-recaptcha-response' => ['Please complete the reCAPTCHA verification.']]
+                    ], 422);
+                }
+                return redirect()->back()->withErrors($errors)->withInput();
+            }
+        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+            // reCAPTCHA timeout - return error quickly
+            Log::warning('reCAPTCHA validation timeout: ' . $e->getMessage());
+            $errors = ['g-recaptcha-response' => 'reCAPTCHA validation timed out. Please try again.'];
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'reCAPTCHA validation timeout. Please try again.',
+                    'errors' => ['g-recaptcha-response' => ['reCAPTCHA validation timed out. Please try again.']]
+                ], 422);
+            }
+            return redirect()->back()->withErrors($errors)->withInput();
+        } catch (\Exception $e) {
+            Log::error('reCAPTCHA validation error: ' . $e->getMessage());
+            $errors = ['g-recaptcha-response' => 'reCAPTCHA validation error. Please try again.'];
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'reCAPTCHA validation error',
+                    'errors' => ['g-recaptcha-response' => ['reCAPTCHA validation error. Please try again.']]
+                ], 422);
+            }
             return redirect()->back()->withErrors($errors)->withInput();
         }
     }

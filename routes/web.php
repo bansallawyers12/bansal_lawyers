@@ -174,6 +174,7 @@ Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'prope
 
 /*********************Practice Area Inner Pages ***********************/
 Route::get('/divorce', [\App\Http\Controllers\HomeController::class, 'divorce'])->name('divorce');
+Route::get('/landing', [\App\Http\Controllers\HomeController::class, 'divorceFamilyLawLanding'])->name('divorce-family-law-landing');
 Route::get('/child-custody', [\App\Http\Controllers\HomeController::class, 'childcustody'])->name('child-custody');
 Route::get('/family-violence', [\App\Http\Controllers\HomeController::class, 'familyviolence'])->name('family-violence');
 Route::get('/property-settlement', [\App\Http\Controllers\HomeController::class, 'propertysettlement'])->name('property-settlement');

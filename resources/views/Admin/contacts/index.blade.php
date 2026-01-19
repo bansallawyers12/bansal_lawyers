@@ -2,6 +2,9 @@
 @section('title', 'Contact Management')
 
 @section('content')
+<!-- Ensure Font Awesome is loaded -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
 /* Modern Contact Management Design System */
 :root {
@@ -183,8 +186,40 @@
 }
 
 .modern-btn-sm {
-    padding: 0.5rem 1rem;
-    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    min-width: 38px;
+    min-height: 38px;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative;
+}
+
+.modern-btn-sm i {
+    font-size: 0.95rem !important;
+    display: inline-block !important;
+    line-height: 1 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: inherit !important;
+    margin: 0 !important;
+}
+
+/* Ensure buttons with only icons are square */
+/* Icon-only buttons */
+.modern-btn-sm:only-child,
+.modern-btn-sm:has(i:only-child) {
+    padding: 0.5rem !important;
+    width: 38px !important;
+    height: 38px !important;
+}
+
+/* Fallback for browsers that don't support :has() */
+.modern-btn-sm.icon-only {
+    padding: 0.5rem !important;
+    width: 38px !important;
+    height: 38px !important;
 }
 
 .modern-card-body {
@@ -474,9 +509,60 @@
 }
 
 .modern-actions {
-    display: flex;
-    gap: 0.25rem;
+    display: flex !important;
+    gap: 0.5rem;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.modern-actions .modern-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center;
+    white-space: nowrap;
+    position: relative;
+}
+
+.modern-actions .modern-btn i {
+    display: inline-block !important;
+    font-size: 0.95rem !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: inherit !important;
+    font-style: normal !important;
+    font-weight: 900 !important;
+}
+
+/* Ensure Font Awesome icons are visible */
+.modern-actions .modern-btn i.fas,
+.modern-actions .modern-btn i.far,
+.modern-actions .modern-btn i.fal,
+.modern-actions .modern-btn i.fab {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "FontAwesome" !important;
+    font-weight: 900 !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    speak: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+}
+
+/* Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
 
 .modern-dropdown {
@@ -952,23 +1038,27 @@
 												<td>
 													<div class="modern-actions">
 														<a href="{{ route('admin.contacts.show', $contact->id) }}" 
-														   class="modern-btn modern-btn-info modern-btn-sm" title="View Details">
-															<i class="fas fa-eye"></i>
+														   class="modern-btn modern-btn-info modern-btn-sm icon-only" title="View Details">
+															<i class="fas fa-eye" aria-hidden="true"></i>
+															<span class="sr-only">View</span>
 														</a>
 														@if($contact->status === 'forwarded')
-															<button type="button" class="modern-btn modern-btn-secondary modern-btn-sm" disabled title="Already Forwarded">
-																<i class="fas fa-check"></i>
+															<button type="button" class="modern-btn modern-btn-secondary modern-btn-sm icon-only" disabled title="Already Forwarded">
+																<i class="fas fa-check" aria-hidden="true"></i>
+																<span class="sr-only">Forwarded</span>
 															</button>
 														@else
-															<button type="button" class="modern-btn modern-btn-primary modern-btn-sm" 
+															<button type="button" class="modern-btn modern-btn-primary modern-btn-sm icon-only" 
 																	onclick="sendToBansalEmail({{ $contact->id }})" title="Send to Bansal Email">
-																<i class="fas fa-paper-plane"></i>
+																<i class="fas fa-paper-plane" aria-hidden="true"></i>
+																<span class="sr-only">Send Email</span>
 															</button>
 														@endif
 														<div class="modern-dropdown">
-															<button type="button" class="modern-btn modern-btn-warning modern-btn-sm modern-dropdown-toggle" 
+															<button type="button" class="modern-btn modern-btn-warning modern-btn-sm modern-dropdown-toggle icon-only" 
 																	onclick="toggleDropdown({{ $contact->id }})" title="Change Status">
-																<i class="fas fa-edit"></i>
+																<i class="fas fa-edit" aria-hidden="true"></i>
+																<span class="sr-only">Change Status</span>
 															</button>
 															<div class="modern-dropdown-menu" id="dropdown-{{ $contact->id }}">
 																<a class="modern-dropdown-item" href="#" onclick="updateStatus({{ $contact->id }}, 'read')">
@@ -982,9 +1072,10 @@
 																</a>
 															</div>
 														</div>
-														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" 
+														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm icon-only" 
 																onclick="deleteContact({{ $contact->id }})" title="Delete">
-															<i class="fas fa-trash"></i>
+															<i class="fas fa-trash" aria-hidden="true"></i>
+															<span class="sr-only">Delete</span>
 														</button>
 													</div>
 												</td>
