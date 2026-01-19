@@ -50,12 +50,12 @@
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/open-iconic-bootstrap.min.css') }}">
     
-    <!-- Icon fonts -->
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}?v={{ time() }}">
+    <!-- Icon fonts - Font Awesome loaded via Vite in vendor-frontend.css -->
     <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('fonts/ionicons/css/ionicons.min.css') }}?v={{ time() }}">
+    
+    <!-- Magnific Popup CSS for lightbox functionality -->
+    <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}">
     
     <!-- Vendor bundles -->
     @vite(['resources/css/vendor-frontend.css'])
@@ -103,6 +103,9 @@
     
     <!-- Vendor bundles -->
     @vite(['resources/js/vendor-frontend.js'])
+    
+    <!-- Magnific Popup for lightbox functionality -->
+    <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
     
     <!-- Vite JS -->
     @vite(['resources/js/frontend.js'])
