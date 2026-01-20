@@ -1945,7 +1945,7 @@ body {
     <div class="limited-time-banner-content">
         <span class="limited-time-icon">⏰</span>
         <span class="limited-time-text">FREE CONSULTATION - LIMITED TIME OFFER!</span>
-        <span class="limited-time-highlight">Ends After February 15, 2025</span>
+        <span class="limited-time-highlight">Ends After February 15, 2026</span>
         <span class="limited-time-date">Don't miss out - Book your free consultation today!</span>
     </div>
 </a>
@@ -2060,7 +2060,7 @@ body {
         <div style="display: inline-block; background: linear-gradient(135deg, rgba(255, 107, 53, 0.95) 0%, rgba(255, 142, 83, 0.95) 100%); padding: 18px 40px; border-radius: 50px; margin-bottom: 30px; backdrop-filter: blur(15px); border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 10px 40px rgba(255, 107, 53, 0.5), 0 0 0 4px rgba(255, 255, 255, 0.2); animation: urgentPulse 2s ease-in-out infinite, slideInDown 0.8s ease-out; position: relative; overflow: hidden;">
             <span style="position: relative; z-index: 1; color: var(--white); font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 800; font-size: 1.15rem; letter-spacing: 2px; text-transform: uppercase; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);">
                 <span style="font-size: 1.4rem; animation: sparkle 1.5s ease-in-out infinite;">✨</span>
-                LIMITED TIME OFFER - ENDS AFTER FEBRUARY 15, 2025
+                LIMITED TIME OFFER - ENDS AFTER FEBRUARY 15, 2026
                 <span style="font-size: 1.4rem; animation: sparkle 1.5s ease-in-out infinite 0.5s;">✨</span>
             </span>
             <div style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent); animation: urgentShine 3s infinite;"></div>
@@ -2083,7 +2083,7 @@ body {
                 <span style="font-size: 1.8rem; animation: pulse-icon 2s ease-in-out infinite;">⏰</span>
                 <div>
                     <div style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 1.1rem;">Limited Time Offer</div>
-                    <div style="font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; font-size: 0.85rem; opacity: 0.9;">Ends Feb 15</div>
+                    <div style="font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; font-size: 0.85rem; opacity: 0.9;">Ends Feb 15, 2026</div>
                 </div>
             </div>
             <div class="trust-badge" style="display: flex; align-items: center; gap: 12px; color: var(--white); background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%); padding: 16px 28px; border-radius: 35px; backdrop-filter: blur(15px); border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); transition: all 0.3s ease; cursor: default;">
