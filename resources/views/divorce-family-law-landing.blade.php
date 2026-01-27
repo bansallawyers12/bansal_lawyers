@@ -27,13 +27,15 @@
 
 @section('content')
 <style>
-/* Ocean Breeze Color Scheme - Exact from PDF */
+/* Dark Navy Blue Professional Color Scheme */
 :root {
-    --primary-teal: #006D77;
-    --accent-teal: #83C5BE;
-    --light-blue: #EDF6F9;
-    --warm-coral: #FFDDD2;
+    --primary-teal: #0F172A; /* Very Dark Navy Blue - Professional & Trustworthy */
+    --accent-teal: #0F172A; /* Dark Navy Blue - Modern & Eye-catching */
+    --light-blue: #E2E8F0; /* Light Blue-Gray - Clean & Fresh */
+    --warm-coral: #1E40AF; /* Medium Dark Blue - Warm & Inviting */
     --white: #FFFFFF;
+    --gradient-primary: linear-gradient(135deg, #0F172A 0%, #0F172A 50%, #1E40AF 100%); /* Dark Navy to Blue Gradient */
+    --gradient-secondary: linear-gradient(135deg, #0F172A 0%, #1E40AF 50%, #1E3A8A 100%); /* Dark Navy Blue Gradient */
 }
 
 /* Typography System - Exact from PDF */
@@ -132,14 +134,14 @@ body {
     font-size: 1.2rem;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(0, 109, 119, 0.3);
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.3);
     margin-top: 20px;
     animation: fadeInUp 1.4s ease-out;
 }
 
 .cover-cta-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(0, 109, 119, 0.4);
+    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4);
     color: var(--white);
     text-decoration: none;
     background: var(--accent-teal);
@@ -166,7 +168,7 @@ body {
     background: 
         radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 60%),
         radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 60%),
-        radial-gradient(circle at 50% 50%, rgba(255, 221, 210, 0.1) 0%, transparent 70%);
+        radial-gradient(circle at 50% 50%, rgba(30, 64, 175, 0.1) 0%, transparent 70%);
     opacity: 1;
     animation: pulse 4s ease-in-out infinite;
 }
@@ -281,7 +283,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 109, 119, 0.2);
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.2);
 }
 
 .cover-feature-text {
@@ -344,14 +346,14 @@ body {
 
 /* Limited Time Offer Banner */
 .limited-time-banner {
-    background: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
+    background: var(--gradient-primary);
     color: var(--white);
     padding: 18px 0;
     text-align: center;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.4);
     animation: slideDown 0.5s ease-out;
     border-bottom: 3px solid rgba(255, 255, 255, 0.3);
     cursor: pointer;
@@ -361,9 +363,30 @@ body {
 }
 
 .limited-time-banner:hover {
-    background: linear-gradient(135deg, #FF8E53 0%, #FF6B35 100%);
-    box-shadow: 0 6px 30px rgba(255, 107, 53, 0.6);
+    background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 50%, #0F172A 100%);
+    box-shadow: 0 6px 30px rgba(15, 23, 42, 0.6);
     transform: translateY(-2px);
+    color: var(--white) !important;
+}
+
+.limited-time-banner:active,
+.limited-time-banner:visited,
+.limited-time-banner:focus {
+    color: var(--white) !important;
+}
+
+.limited-time-banner:active .limited-time-text,
+.limited-time-banner:visited .limited-time-text,
+.limited-time-banner:focus .limited-time-text,
+.limited-time-banner:hover .limited-time-text {
+    color: var(--white) !important;
+}
+
+.limited-time-banner:active .limited-time-date,
+.limited-time-banner:visited .limited-time-date,
+.limited-time-banner:focus .limited-time-date,
+.limited-time-banner:hover .limited-time-date {
+    color: var(--white) !important;
 }
 
 .limited-time-banner-content {
@@ -388,11 +411,12 @@ body {
     font-size: 1.5rem;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     letter-spacing: 0.5px;
+    color: var(--white) !important;
 }
 
 .limited-time-highlight {
     background: rgba(255, 255, 255, 0.95);
-    color: #FF6B35;
+    color: #0F172A;
     padding: 10px 25px;
     border-radius: 25px;
     font-weight: 700;
@@ -408,6 +432,7 @@ body {
     font-size: 1.1rem;
     font-weight: 600;
     opacity: 0.95;
+    color: var(--white) !important;
 }
 
 @keyframes slideDown {
@@ -435,7 +460,7 @@ body {
     font-weight: 700;
     font-size: 1.3rem;
     text-decoration: none;
-    box-shadow: 0 12px 45px rgba(0, 109, 119, 0.5);
+    box-shadow: 0 12px 45px rgba(15, 23, 42, 0.5);
     display: flex;
     align-items: center;
     gap: 15px;
@@ -447,7 +472,7 @@ body {
 
 .floating-cta-button:hover {
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 50px rgba(0, 109, 119, 0.5);
+    box-shadow: 0 15px 50px rgba(15, 23, 42, 0.5);
     color: var(--white);
     text-decoration: none;
     background: linear-gradient(135deg, var(--accent-teal) 0%, var(--primary-teal) 100%);
@@ -496,11 +521,11 @@ body {
 @keyframes pulse {
     0%, 100% {
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(0, 109, 119, 0.4);
+        box-shadow: 0 0 0 0 rgba(15, 23, 42, 0.4);
     }
     50% {
         transform: scale(1.02);
-        box-shadow: 0 0 0 20px rgba(0, 109, 119, 0);
+        box-shadow: 0 0 0 20px rgba(15, 23, 42, 0);
     }
 }
 
@@ -603,7 +628,7 @@ body {
 }
 
 .section.about-section {
-    background: linear-gradient(180deg, var(--white) 0%, var(--light-blue) 50%, var(--white) 100%);
+    background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 50%, var(--light-blue) 100%);
     position: relative;
     overflow: hidden;
 }
@@ -616,8 +641,8 @@ body {
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(circle at 10% 20%, rgba(131, 197, 190, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 90% 80%, rgba(255, 221, 210, 0.05) 0%, transparent 50%);
+        radial-gradient(circle at 10% 20%, rgba(15, 23, 42, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(30, 64, 175, 0.05) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -673,7 +698,7 @@ body {
     border: 2px solid transparent;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 109, 119, 0.08);
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.08);
 }
 
 .info-card::before {
@@ -700,7 +725,7 @@ body {
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(131, 197, 190, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(15, 23, 42, 0.1) 0%, transparent 70%);
     opacity: 0;
     transition: opacity 0.4s ease;
 }
@@ -711,7 +736,7 @@ body {
 
 .info-card:hover {
     transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 50px rgba(0, 109, 119, 0.2);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
     border-color: var(--accent-teal);
     background: linear-gradient(135deg, var(--white) 0%, rgba(237, 246, 249, 0.8) 100%);
 }
@@ -727,7 +752,7 @@ body {
     background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%);
     border-radius: 50%;
     color: var(--white);
-    box-shadow: 0 10px 30px rgba(0, 109, 119, 0.3);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
     transition: all 0.4s ease;
     position: relative;
     z-index: 1;
@@ -735,7 +760,7 @@ body {
 
 .info-card:hover .card-icon {
     transform: scale(1.1) rotate(5deg);
-    box-shadow: 0 15px 40px rgba(0, 109, 119, 0.4);
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.4);
 }
 
 .card-icon.heart-icon {
@@ -782,6 +807,35 @@ body {
 
 .info-card:hover .card-body {
     opacity: 1;
+}
+
+/* White text on dark blue backgrounds */
+.info-card[style*="background: var(--warm-coral)"],
+.info-card[style*="background: var(--primary-teal)"],
+.info-card[style*="background: linear-gradient"][style*="#0F172A"],
+.info-card[style*="background: linear-gradient"][style*="var(--primary-teal)"] {
+    color: var(--white);
+}
+
+.info-card[style*="background: var(--warm-coral)"] .card-header,
+.info-card[style*="background: var(--primary-teal)"] .card-header,
+.info-card[style*="background: linear-gradient"][style*="#0F172A"] .card-header,
+.info-card[style*="background: linear-gradient"][style*="var(--primary-teal)"] .card-header {
+    color: var(--white);
+}
+
+.info-card[style*="background: var(--warm-coral)"] .card-body,
+.info-card[style*="background: var(--primary-teal)"] .card-body,
+.info-card[style*="background: linear-gradient"][style*="#0F172A"] .card-body,
+.info-card[style*="background: linear-gradient"][style*="var(--primary-teal)"] .card-body {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.info-card[style*="background: var(--warm-coral)"] .card-icon,
+.info-card[style*="background: var(--primary-teal)"] .card-icon,
+.info-card[style*="background: linear-gradient"][style*="#0F172A"] .card-icon,
+.info-card[style*="background: linear-gradient"][style*="var(--primary-teal)"] .card-icon {
+    filter: brightness(0) invert(1);
 }
 
 /* Grid Layouts - Enhanced */
@@ -843,9 +897,9 @@ body {
     padding: 40px 35px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 109, 119, 0.12);
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 2px solid rgba(131, 197, 190, 0.2);
+    border: 2px solid rgba(15, 23, 42, 0.2);
     animation: fadeInUp 0.8s ease-out backwards;
 }
 
@@ -884,14 +938,14 @@ body {
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(131, 197, 190, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(15, 23, 42, 0.1) 0%, transparent 70%);
     opacity: 0;
     transition: opacity 0.4s ease;
 }
 
 .requirement-card:hover {
     transform: translateY(-12px) scale(1.03);
-    box-shadow: 0 25px 60px rgba(0, 109, 119, 0.3), 0 0 0 1px rgba(131, 197, 190, 0.2);
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.3), 0 0 0 1px rgba(15, 23, 42, 0.2);
     border-color: var(--accent-teal);
     border-width: 3px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(237, 246, 249, 0.98) 100%);
@@ -946,7 +1000,7 @@ body {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
     font-weight: 800;
     font-size: 4.5rem;
-    color: rgba(0, 109, 119, 0.08);
+    color: rgba(15, 23, 42, 0.08);
     line-height: 1;
     z-index: 0;
     transition: all 0.3s ease;
@@ -954,7 +1008,7 @@ body {
 }
 
 .requirement-card:hover .req-number {
-    color: rgba(0, 109, 119, 0.12);
+    color: rgba(15, 23, 42, 0.12);
     transform: scale(1.1);
 }
 
@@ -1055,7 +1109,7 @@ body {
 .process-card-enhanced:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-    border-color: rgba(0, 109, 119, 0.2);
+    border-color: rgba(15, 23, 42, 0.2);
 }
 
 .process-arrow {
@@ -1070,7 +1124,7 @@ body {
     border-radius: 20px;
     padding: 45px 35px;
     margin: 20px 0;
-    box-shadow: 0 15px 45px rgba(255, 221, 210, 0.5);
+    box-shadow: 0 15px 45px rgba(30, 64, 175, 0.5);
     border: 3px solid rgba(255, 255, 255, 0.5);
     position: relative;
     overflow: hidden;
@@ -1090,7 +1144,7 @@ body {
 
 .highlight-box:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 60px rgba(255, 221, 210, 0.6);
+    box-shadow: 0 20px 60px rgba(30, 64, 175, 0.6);
     border-color: rgba(255, 255, 255, 0.8);
 }
 
@@ -1166,8 +1220,8 @@ body {
     background: linear-gradient(135deg, var(--white) 0%, var(--light-blue) 100%);
     border-radius: 20px;
     padding: 50px;
-    box-shadow: 0 10px 40px rgba(0, 109, 119, 0.15);
-    border: 2px solid rgba(131, 197, 190, 0.2);
+    box-shadow: 0 10px 40px rgba(15, 23, 42, 0.15);
+    border: 2px solid rgba(15, 23, 42, 0.2);
     position: relative;
     overflow: hidden;
     transition: all 0.4s ease;
@@ -1192,7 +1246,7 @@ body {
 
 .explanation-panel:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 50px rgba(0, 109, 119, 0.2);
+    box-shadow: 0 15px 50px rgba(15, 23, 42, 0.2);
     border-color: var(--accent-teal);
 }
 
@@ -1261,13 +1315,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 109, 119, 0.3);
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
     transition: all 0.3s ease;
 }
 
 .panel-list li:hover::before {
     transform: scale(1.15) rotate(5deg);
-    box-shadow: 0 6px 20px rgba(0, 109, 119, 0.4);
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.4);
 }
 
 /* Testimonial Cards */
@@ -1331,7 +1385,7 @@ body {
     margin-top: 80px;
     background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%);
     border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0, 109, 119, 0.3);
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -1401,7 +1455,7 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 109, 119, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.1), transparent);
     transition: left 0.5s ease;
 }
 
@@ -1983,29 +2037,139 @@ body {
         </p>
     </div>
     <div class="cover-image">
-        <div class="cover-visual-content">
-            <div class="cover-icon-large">⚖️</div>
-            <h3 class="cover-visual-title">Expert Legal Support</h3>
-            <p class="cover-visual-subtitle">
-                Trusted guidance through every step of your family law journey
-            </p>
-            <div class="cover-features">
-                <div class="cover-feature-item">
-                    <span class="cover-feature-icon">✓</span>
-                    <span class="cover-feature-text">10+ Years of Legal Experience</span>
+        <div class="cover-visual-content" style="max-width: 750px; text-align: left;">
+            <h3 class="cover-visual-title" style="text-align: center; margin-bottom: 35px; font-size: 2.8rem;">
+                ⚡ GET YOUR FREE CONSULTATION NOW ⚡
+            </h3>
+            
+            <div style="background: rgba(255, 255, 255, 0.98); border-radius: 25px; padding: 50px 45px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); position: relative; z-index: 2;">
+                <!-- Success/Error Messages -->
+                <div id="cover-consultation-form-messages" style="display: none; margin-bottom: 20px;">
+                    <div id="cover-consultation-form-success" style="display: none; background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); color: #155724; padding: 15px 20px; border-radius: 12px; border-left: 5px solid #28a745; margin-bottom: 15px; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 1.5rem;">✓</span>
+                        <div>
+                            <strong style="font-size: 1rem; display: block; margin-bottom: 5px;">Success!</strong>
+                            <span id="cover-consultation-form-success-text" style="font-size: 0.9rem;"></span>
+                        </div>
+                    </div>
+                    <div id="cover-consultation-form-error" style="display: none; background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%); color: #721c24; padding: 15px 20px; border-radius: 12px; border-left: 5px solid #dc3545; margin-bottom: 15px; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 1.5rem;">✗</span>
+                        <div>
+                            <strong style="font-size: 1rem; display: block; margin-bottom: 5px;">Error:</strong>
+                            <span id="cover-consultation-form-error-text" style="font-size: 0.9rem;"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="cover-feature-item">
-                    <span class="cover-feature-icon">✓</span>
-                    <span class="cover-feature-text">Compassionate & Professional</span>
-                </div>
-                <div class="cover-feature-item">
-                    <span class="cover-feature-icon">✓</span>
-                    <span class="cover-feature-text">Expert Legal Guidance</span>
-                </div>
-                <div class="cover-feature-item">
-                    <span class="cover-feature-icon">✓</span>
-                    <span class="cover-feature-text">Proven Track Record</span>
-                </div>
+                
+                <form id="cover-consultation-form-element" action="{{ route('contact.submit') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="form_source" value="divorce-family-law-landing-cover">
+                    <input type="hidden" name="form_variant" value="consultation">
+                    <input type="hidden" name="subject" value="Free Consultation Request - Divorce & Family Law">
+                    
+                    <div style="margin-bottom: 25px;">
+                        <label for="cover-consultation-name" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
+                            <span style="color: #1E40AF; font-size: 1.3rem;">👤</span> Full Name *
+                        </label>
+                        <input type="text" 
+                               id="cover-consultation-name" 
+                               name="name" 
+                               required
+                               placeholder="Enter your full name"
+                               value="{{ old('name') }}"
+                               style="width: 100%; padding: 16px 20px; border: 2px solid #e8e8e8; border-radius: 12px; font-size: 1.05rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; transition: all 0.3s ease; background: #fafafa;"
+                               onfocus="this.style.borderColor='#0F172A'; this.style.boxShadow='0 0 0 3px rgba(15, 23, 42, 0.1)'; this.style.background='#fff'"
+                               onblur="this.style.borderColor='#e8e8e8'; this.style.boxShadow='none'; this.style.background='#fafafa'">
+                        <div id="cover-consultation-name-error" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 6px;"></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <label for="cover-consultation-phone" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
+                            <span style="color: #1E40AF; font-size: 1.3rem;">📞</span> Phone Number *
+                        </label>
+                        <div style="display: flex; align-items: center; width: 100%; border: 2px solid #e8e8e8; border-radius: 12px; background: #fafafa; transition: all 0.3s ease;" 
+                             id="cover-consultation-phone-wrapper"
+                             onfocusin="this.style.borderColor='#0F172A'; this.style.boxShadow='0 0 0 3px rgba(15, 23, 42, 0.1)'; this.style.background='#fff'; document.getElementById('cover-consultation-phone').style.background='#fff'"
+                             onfocusout="this.style.borderColor='#e8e8e8'; this.style.boxShadow='none'; this.style.background='#fafafa'; document.getElementById('cover-consultation-phone').style.background='#fafafa'">
+                            <span style="padding: 16px 12px 16px 20px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem; border-right: 1px solid #e8e8e8; background: transparent; user-select: none;">+61</span>
+                            <input type="tel" 
+                                   id="cover-consultation-phone" 
+                                   name="phone" 
+                                   required
+                                   maxlength="9"
+                                   pattern="^[0-9]{9}$"
+                                   placeholder="9 digits"
+                                   value="{{ old('phone') ? str_replace(['+61', '+', ' ', '-', '(', ')'], '', old('phone')) : '' }}"
+                                   style="flex: 1; padding: 16px 20px 16px 12px; border: none; border-radius: 0 12px 12px 0; font-size: 1.05rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; transition: all 0.3s ease; background: #fafafa; outline: none;"
+                                   onblur="validatePhoneNumber(this)"
+                                   oninput="allowOnlyNumbers(this)"
+                                   onkeypress="return isNumberKey(event)">
+                        </div>
+                        <div id="cover-consultation-phone-error" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 6px;"></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <label for="cover-consultation-email" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
+                            <span style="color: #1E40AF; font-size: 1.3rem;">✉️</span> Email Address *
+                        </label>
+                        <input type="email" 
+                               id="cover-consultation-email" 
+                               name="email" 
+                               required
+                               placeholder="Enter your email address"
+                               value="{{ old('email') }}"
+                               style="width: 100%; padding: 16px 20px; border: 2px solid #e8e8e8; border-radius: 12px; font-size: 1.05rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; transition: all 0.3s ease; background: #fafafa;"
+                               onfocus="this.style.borderColor='#0F172A'; this.style.boxShadow='0 0 0 3px rgba(15, 23, 42, 0.1)'; this.style.background='#fff'"
+                               onblur="this.style.borderColor='#e8e8e8'; this.style.boxShadow='none'; this.style.background='#fafafa'">
+                        <div id="cover-consultation-email-error" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 6px;"></div>
+                    </div>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <label for="cover-consultation-message" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
+                            <span style="color: #1E40AF; font-size: 1.3rem;">💬</span> Tell Us About Your Situation *
+                        </label>
+                        <textarea id="cover-consultation-message" 
+                                  name="message" 
+                                  required
+                                  rows="5"
+                                  placeholder="Brief details about your matter..."
+                                  style="width: 100%; padding: 16px 20px; border: 2px solid #e8e8e8; border-radius: 12px; font-size: 1.05rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; resize: vertical; transition: all 0.3s ease; background: #fafafa; line-height: 1.6;"
+                                  onfocus="this.style.borderColor='#0F172A'; this.style.boxShadow='0 0 0 3px rgba(15, 23, 42, 0.1)'; this.style.background='#fff'"
+                                  onblur="this.style.borderColor='#e8e8e8'; this.style.boxShadow='none'; this.style.background='#fafafa'">{{ old('message') }}</textarea>
+                        <div id="cover-consultation-message-error" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 6px;"></div>
+                    </div>
+                    
+                    <!-- Google reCAPTCHA -->
+                    <div style="margin-bottom: 20px; display: flex; justify-content: center;">
+                        <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') }}"></div>
+                        <div id="cover-consultation-recaptcha-error" style="display: none; color: #dc3545; font-size: 0.85rem; margin-top: 10px; text-align: center; width: 100%;"></div>
+                    </div>
+                    
+                    <button type="submit" 
+                            id="cover-consultation-form-submit"
+                            style="width: 100%; padding: 22px 35px; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); color: white; border: none; border-radius: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 800; font-size: 1.3rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4); display: flex; align-items: center; justify-content: center; gap: 15px; text-transform: uppercase; letter-spacing: 0.5px;"
+                            onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 18px 45px rgba(15, 23, 42, 0.5)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 12px 35px rgba(15, 23, 42, 0.4)'">
+                        <span id="cover-consultation-btn-text" style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size: 1.8rem;">📞</span>
+                            <span>CLAIM YOUR FREE CONSULTATION NOW</span>
+                            <span style="font-size: 1.5rem;">→</span>
+                        </span>
+                        <span id="cover-consultation-btn-loading" style="display: none;">
+                            <span style="display: inline-block; animation: spin 1s linear infinite; font-size: 1.3rem; margin-right: 12px;">⏳</span> 
+                            <span>Sending...</span>
+                        </span>
+                    </button>
+                    
+                    <!-- GUARANTEE MESSAGE -->
+                    <div style="text-align: center; margin-top: 25px;">
+                        <p style="margin: 0; color: #64748b; font-size: 0.95rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; line-height: 1.6;">
+                            <span style="color: #0F172A; font-weight: 700;">✓ 100% Free</span> • 
+                            <span style="color: #0F172A; font-weight: 700;">✓ No Obligation</span> • 
+                            <span style="color: #0F172A; font-weight: 700;">✓ Confidential</span>
+                        </p>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -2014,8 +2178,8 @@ body {
 <!-- Slide 2: About Bansal Lawyers -->
 <section class="section about-section">
     <div class="section-header">
-        <h2 class="section-title">About Bansal Lawyers</h2>
-        <p class="section-subtitle">Comprehensive Legal Practice Based in Melbourne, Australia</p>
+        <h2 class="section-title" style="color: var(--white);">About Bansal Lawyers</h2>
+        <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.9);">Comprehensive Legal Practice Based in Melbourne, Australia</p>
     </div>
     <div class="grid-2x2">
         <div class="info-card" style="animation: fadeInUp 0.6s ease-out;">
@@ -2041,241 +2205,9 @@ body {
     </div>
 </section>
 
-<!-- Consultation Form Section -->
-<section id="consultation-form" class="consultation-form-section" style="background: linear-gradient(135deg, #006D77 0%, #008A95 30%, #00A8B5 60%, #83C5BE 100%); padding: 120px 60px; position: relative; overflow: hidden;">
-    <!-- Animated Background Elements -->
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: 
-        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(255, 221, 210, 0.1) 0%, transparent 60%);
-        pointer-events: none; animation: backgroundPulse 8s ease-in-out infinite;"></div>
-    
-    <!-- Floating Decorative Elements -->
-    <div style="position: absolute; top: 10%; left: 5%; width: 100px; height: 100px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; animation: float 6s ease-in-out infinite; pointer-events: none;"></div>
-    <div style="position: absolute; bottom: 15%; right: 8%; width: 80px; height: 80px; background: rgba(255, 255, 255, 0.08); border-radius: 50%; animation: float 8s ease-in-out infinite reverse; pointer-events: none;"></div>
-    <div style="position: absolute; top: 50%; right: 10%; width: 60px; height: 60px; background: rgba(255, 255, 255, 0.12); border-radius: 50%; animation: float 7s ease-in-out infinite; pointer-events: none;"></div>
-    
-    <div class="section-header" style="position: relative; z-index: 1; margin-bottom: 70px; text-align: center;">
-        <!-- URGENT LIMITED TIME BANNER - SUPER PROMINENT -->
-        <div style="display: inline-block; background: linear-gradient(135deg, rgba(255, 107, 53, 0.95) 0%, rgba(255, 142, 83, 0.95) 100%); padding: 18px 40px; border-radius: 50px; margin-bottom: 30px; backdrop-filter: blur(15px); border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 10px 40px rgba(255, 107, 53, 0.5), 0 0 0 4px rgba(255, 255, 255, 0.2); animation: urgentPulse 2s ease-in-out infinite, slideInDown 0.8s ease-out; position: relative; overflow: hidden;">
-            <span style="position: relative; z-index: 1; color: var(--white); font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 800; font-size: 1.15rem; letter-spacing: 2px; text-transform: uppercase; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);">
-                <span style="font-size: 1.4rem; animation: sparkle 1.5s ease-in-out infinite;">✨</span>
-                LIMITED TIME OFFER - ENDS AFTER FEBRUARY 15, 2026
-                <span style="font-size: 1.4rem; animation: sparkle 1.5s ease-in-out infinite 0.5s;">✨</span>
-            </span>
-            <div style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent); animation: urgentShine 3s infinite;"></div>
-        </div>
-        
-        <!-- MAIN HEADLINE - BIGGER AND BOLDER -->
-        <h2 class="section-title" style="color: var(--white); text-shadow: 4px 4px 16px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 255, 255, 0.2); font-size: 4.2rem; margin-bottom: 25px; animation: fadeInUp 1s ease-out; line-height: 1.1; font-weight: 800; letter-spacing: -1px;">
-            ⚡ GET YOUR FREE CONSULTATION NOW ⚡
-        </h2>
-        
-        <!-- URGENCY SUBHEADLINE -->
-        <p class="section-subtitle" style="color: rgba(255, 255, 255, 1); font-size: 1.8rem; margin-top: 20px; font-weight: 600; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); animation: fadeInUp 1.2s ease-out; line-height: 1.4;">
-            <span style="background: rgba(255, 255, 255, 0.25); padding: 8px 20px; border-radius: 20px; display: inline-block; margin-bottom: 10px; border: 2px solid rgba(255, 255, 255, 0.4);">⏰ Don't Wait - Limited Spots Available!</span><br>
-            Fill out the form below and our expert team will contact you within <strong style="color: #FFD700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">24 HOURS</strong>
-        </p>
-        
-        <!-- Enhanced Trust Badges -->
-        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 40px; flex-wrap: wrap; animation: fadeInUp 1.4s ease-out;">
-            <div class="trust-badge" style="display: flex; align-items: center; gap: 12px; color: var(--white); background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%); padding: 16px 28px; border-radius: 35px; backdrop-filter: blur(15px); border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); transition: all 0.3s ease; cursor: default;">
-                <span style="font-size: 1.8rem; animation: pulse-icon 2s ease-in-out infinite;">⏰</span>
-                <div>
-                    <div style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 1.1rem;">Limited Time Offer</div>
-                    <div style="font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; font-size: 0.85rem; opacity: 0.9;">Ends Feb 15, 2026</div>
-                </div>
-            </div>
-            <div class="trust-badge" style="display: flex; align-items: center; gap: 12px; color: var(--white); background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%); padding: 16px 28px; border-radius: 35px; backdrop-filter: blur(15px); border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); transition: all 0.3s ease; cursor: default;">
-                <span style="font-size: 1.8rem; animation: pulse-icon 2s ease-in-out infinite 0.3s;">✓</span>
-                <div>
-                    <div style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 1.1rem;">No Obligation</div>
-                    <div style="font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; font-size: 0.85rem; opacity: 0.9;">100% Free</div>
-                </div>
-            </div>
-            <div class="trust-badge" style="display: flex; align-items: center; gap: 12px; color: var(--white); background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%); padding: 16px 28px; border-radius: 35px; backdrop-filter: blur(15px); border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); transition: all 0.3s ease; cursor: default;">
-                <span style="font-size: 1.8rem; animation: pulse-icon 2s ease-in-out infinite 0.6s;">🔒</span>
-                <div>
-                    <div style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 1.1rem;">Confidential</div>
-                    <div style="font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; font-size: 0.85rem; opacity: 0.9;">Privacy Protected</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div style="max-width: 900px; margin: 0 auto; position: relative; z-index: 1; animation: fadeInUp 1.6s ease-out;">
-        <div style="background: var(--white); border-radius: 25px; padding: 60px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1); position: relative; overflow: hidden;">
-            <!-- Decorative Corner Elements -->
-            <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: linear-gradient(135deg, rgba(0, 109, 119, 0.05) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-            <div style="position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px; background: linear-gradient(135deg, rgba(131, 197, 190, 0.05) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-            <!-- Success/Error Messages -->
-            <div id="consultation-form-messages" style="display: none; margin-bottom: 30px; animation: slideInDown 0.5s ease-out;">
-                <div id="consultation-form-success" style="display: none; background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); color: #155724; padding: 20px 25px; border-radius: 15px; border-left: 5px solid #28a745; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(40, 167, 69, 0.2); display: flex; align-items: center; gap: 15px;">
-                    <span style="font-size: 2rem; animation: pulse-icon 1s ease-in-out infinite;">✓</span>
-                    <div>
-                        <strong style="font-size: 1.1rem; display: block; margin-bottom: 5px;">Success!</strong>
-                        <span id="consultation-form-success-text" style="font-size: 1rem;"></span>
-                    </div>
-                </div>
-                <div id="consultation-form-error" style="display: none; background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%); color: #721c24; padding: 20px 25px; border-radius: 15px; border-left: 5px solid #dc3545; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(220, 53, 69, 0.2); display: flex; align-items: center; gap: 15px;">
-                    <span style="font-size: 2rem;">✗</span>
-                    <div>
-                        <strong style="font-size: 1.1rem; display: block; margin-bottom: 5px;">Error:</strong>
-                        <span id="consultation-form-error-text" style="font-size: 1rem;"></span>
-                    </div>
-                </div>
-            </div>
-            
-            <form id="consultation-form-element" action="{{ route('contact.submit') }}" method="POST">
-                @csrf
-                <input type="hidden" name="form_source" value="divorce-family-law-landing">
-                <input type="hidden" name="form_variant" value="consultation">
-                <input type="hidden" name="subject" value="Free Consultation Request - Divorce & Family Law">
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
-                    <div style="position: relative;">
-                        <label for="consultation-name" style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: var(--primary-teal); font-size: 1.05rem;">
-                            <span style="color: var(--accent-teal); font-size: 1.2rem;">👤</span> Full Name *
-                        </label>
-                        <input type="text" 
-                               id="consultation-name" 
-                               name="name" 
-                               required
-                               placeholder="Enter your full name"
-                               value="{{ old('name') }}"
-                               class="form-input-enhanced"
-                               style="width: 100%; padding: 16px 20px; border: 2px solid #e8e8e8; border-radius: 12px; font-size: 1.05rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: #fafafa;"
-                               onfocus="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 0 0 4px rgba(0, 109, 119, 0.15)'; this.style.background='#fff'; this.style.transform='translateY(-2px)'"
-                               onblur="this.style.borderColor='#e8e8e8'; this.style.boxShadow='none'; this.style.background='#fafafa'; this.style.transform='translateY(0)'">
-                        <div id="consultation-name-error" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 8px; font-weight: 500;"></div>
-                    </div>
-                    
-                    <div style="position: relative;">
-                        <label for="consultation-phone" style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: var(--primary-teal); font-size: 1.05rem;">
-                            <span style="color: var(--accent-teal); font-size: 1.2rem;">📞</span> Phone Number *
-                        </label>
-                        <input type="tel" 
-                               id="consultation-phone" 
-                               name="phone" 
-                               required
-                               placeholder="Enter your phone number"
-                               value="{{ old('phone') }}"
-                               class="form-input-enhanced"
-                               style="width: 100%; padding: 16px 20px; border: 2px solid #e8e8e8; border-radius: 12px; font-size: 1.05rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: #fafafa;"
-                               onfocus="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 0 0 4px rgba(0, 109, 119, 0.15)'; this.style.background='#fff'; this.style.transform='translateY(-2px)'"
-                               onblur="this.style.borderColor='#e8e8e8'; this.style.boxShadow='none'; this.style.background='#fafafa'; this.style.transform='translateY(0)'">
-                        <div id="consultation-phone-error" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 8px; font-weight: 500;"></div>
-                    </div>
-                </div>
-                
-                <div style="margin-bottom: 30px; position: relative;">
-                    <label for="consultation-email" style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: var(--primary-teal); font-size: 1.05rem;">
-                        <span style="color: var(--accent-teal); font-size: 1.2rem;">✉️</span> Email Address *
-                    </label>
-                    <input type="email" 
-                           id="consultation-email" 
-                           name="email" 
-                           required
-                           placeholder="Enter your email address"
-                           value="{{ old('email') }}"
-                           class="form-input-enhanced"
-                           style="width: 100%; padding: 16px 20px; border: 2px solid #e8e8e8; border-radius: 12px; font-size: 1.05rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: #fafafa;"
-                           onfocus="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 0 0 4px rgba(0, 109, 119, 0.15)'; this.style.background='#fff'; this.style.transform='translateY(-2px)'"
-                           onblur="this.style.borderColor='#e8e8e8'; this.style.boxShadow='none'; this.style.background='#fafafa'; this.style.transform='translateY(0)'">
-                    <div id="consultation-email-error" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 8px; font-weight: 500;"></div>
-                </div>
-                
-                <div style="margin-bottom: 30px; position: relative;">
-                    <label for="consultation-message" style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: var(--primary-teal); font-size: 1.05rem;">
-                        <span style="color: var(--accent-teal); font-size: 1.2rem;">💬</span> Tell Us About Your Situation *
-                    </label>
-                    <textarea id="consultation-message" 
-                              name="message" 
-                              required
-                              rows="6"
-                              placeholder="Please provide details about your divorce or family law matter. All information is confidential and will be handled with the utmost privacy."
-                              class="form-input-enhanced"
-                              style="width: 100%; padding: 16px 20px; border: 2px solid #e8e8e8; border-radius: 12px; font-size: 1.05rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; resize: vertical; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: #fafafa; line-height: 1.6;"
-                              onfocus="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 0 0 4px rgba(0, 109, 119, 0.15)'; this.style.background='#fff'; this.style.transform='translateY(-2px)'"
-                              onblur="this.style.borderColor='#e8e8e8'; this.style.boxShadow='none'; this.style.background='#fafafa'; this.style.transform='translateY(0)'">{{ old('message') }}</textarea>
-                    <div id="consultation-message-error" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 8px; font-weight: 500;"></div>
-                </div>
-                
-                <!-- Google reCAPTCHA -->
-                <div style="margin-bottom: 35px; display: flex; justify-content: center; padding: 20px; background: linear-gradient(135deg, rgba(0, 109, 119, 0.03) 0%, rgba(131, 197, 190, 0.03) 100%); border-radius: 15px; border: 2px dashed rgba(0, 109, 119, 0.2);">
-                    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') }}"></div>
-                    <div id="consultation-recaptcha-error" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 10px; text-align: center; width: 100%; font-weight: 500;"></div>
-                </div>
-                
-                <!-- URGENCY MESSAGE ABOVE BUTTON -->
-                <div style="text-align: center; margin-bottom: 20px; padding: 15px; background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 215, 0, 0.1) 100%); border-radius: 12px; border: 2px dashed rgba(255, 107, 53, 0.4);">
-                    <p style="margin: 0; color: var(--primary-teal); font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 1.1rem;">
-                        🔥 <span style="color: #FF6B35;">Only <strong id="spots-left" style="color: #FF6B35; font-size: 1.3rem;">12</strong> consultation spots left this week!</span> 🔥
-                    </p>
-                </div>
-                
-                <button type="submit" 
-                        id="consultation-form-submit"
-                        class="consultation-submit-btn"
-                        style="width: 100%; padding: 26px 45px; background: linear-gradient(135deg, #FF6B35 0%, #FF8E53 50%, #FF6B35 100%); background-size: 200% 100%; color: var(--white); border: none; border-radius: 18px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 800; font-size: 1.6rem; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 50px rgba(255, 107, 53, 0.6), 0 0 0 0 rgba(255, 107, 53, 0.7), inset 0 2px 10px rgba(255, 255, 255, 0.3); display: flex; align-items: center; justify-content: center; gap: 18px; position: relative; overflow: hidden; text-transform: uppercase; letter-spacing: 1px; animation: buttonPulse 2s ease-in-out infinite;"
-                        onmouseover="this.style.transform='translateY(-6px) scale(1.05)'; this.style.boxShadow='0 20px 60px rgba(255, 107, 53, 0.7), 0 0 0 6px rgba(255, 107, 53, 0.3), inset 0 2px 10px rgba(255, 255, 255, 0.4)'; this.style.backgroundPosition='100% 0'"
-                        onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 15px 50px rgba(255, 107, 53, 0.6), 0 0 0 0 rgba(255, 107, 53, 0.7), inset 0 2px 10px rgba(255, 255, 255, 0.3)'; this.style.backgroundPosition='0% 0'">
-                    <span id="consultation-btn-text" style="display: flex; align-items: center; gap: 15px; position: relative; z-index: 1;">
-                        <span style="font-size: 2rem; animation: pulse-icon 1.5s ease-in-out infinite; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));">📞</span>
-                        <span style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);">CLAIM YOUR FREE CONSULTATION NOW</span>
-                        <span style="font-size: 1.8rem; animation: bounce 1s ease-in-out infinite;">→</span>
-                    </span>
-                    <span id="consultation-btn-loading" style="display: none; position: relative; z-index: 1;">
-                        <span style="display: inline-block; animation: spin 1s linear infinite; font-size: 1.5rem; margin-right: 12px;">⏳</span> 
-                        <span>Sending Your Request...</span>
-                    </span>
-                    <!-- Multiple shine effects -->
-                    <span style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent); animation: shine 2.5s infinite;"></span>
-                    <span style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent); animation: shine 2.5s infinite 1.25s;"></span>
-                </button>
-                
-                <!-- GUARANTEE MESSAGE BELOW BUTTON -->
-                <div style="text-align: center; margin-top: 25px;">
-                    <p style="margin: 0; color: #666; font-size: 0.95rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; line-height: 1.6;">
-                        <span style="color: var(--accent-teal); font-weight: 700;">✓ 100% Free</span> • 
-                        <span style="color: var(--accent-teal); font-weight: 700;">✓ No Obligation</span> • 
-                        <span style="color: var(--accent-teal); font-weight: 700;">✓ Confidential</span> • 
-                        <span style="color: var(--accent-teal); font-weight: 700;">✓ Response Within 24 Hours</span>
-                    </p>
-                </div>
-                
-                <!-- TRUST INDICATORS -->
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; padding: 25px; background: linear-gradient(135deg, rgba(0, 109, 119, 0.05) 0%, rgba(131, 197, 190, 0.05) 100%); border-radius: 15px; border: 2px solid rgba(0, 109, 119, 0.1);">
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; margin-bottom: 8px;">🛡️</div>
-                        <div style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: var(--primary-teal); font-size: 0.95rem;">Secure & Private</div>
-                        <div style="font-size: 0.8rem; color: #666; margin-top: 4px;">Your data is protected</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; margin-bottom: 8px;">⚡</div>
-                        <div style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: var(--primary-teal); font-size: 0.95rem;">Fast Response</div>
-                        <div style="font-size: 0.8rem; color: #666; margin-top: 4px;">Within 24 hours</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; margin-bottom: 8px;">⭐</div>
-                        <div style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: var(--primary-teal); font-size: 0.95rem;">Expert Team</div>
-                        <div style="font-size: 0.8rem; color: #666; margin-top: 4px;">10+ years experience</div>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: 20px;">
-                    <p style="color: #666; font-size: 0.9rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; line-height: 1.6;">
-                        🔒 By submitting this form, you agree to our privacy policy. We respect your confidentiality and will never share your information.
-                    </p>
-                </div>
-            </form>
-        </div>
-    </div>
-</section>
-
 <!-- Slide 3: Understanding Divorce in Australia -->
 <section class="section" style="background: linear-gradient(180deg, var(--light-blue) 0%, rgba(237, 246, 249, 0.5) 50%, var(--light-blue) 100%); position: relative; overflow: hidden;">
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 30%, rgba(131, 197, 190, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 221, 210, 0.1) 0%, transparent 50%); pointer-events: none;"></div>
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 30%, rgba(15, 23, 42, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(30, 64, 175, 0.1) 0%, transparent 50%); pointer-events: none;"></div>
     <div class="section-header" style="position: relative; z-index: 1;">
         <h2 class="section-title">Understanding Divorce in Australia</h2>
         <p class="section-subtitle">Australia's Family Law System Operates on a No-Fault Basis</p>
@@ -2289,7 +2221,7 @@ body {
                 <li>The sole ground for divorce is the irretrievable breakdown of the marriage</li>
                 <li>This approach reduces conflict and simplifies the legal process</li>
             </ul>
-            <p class="panel-text" style="font-style: italic; margin-top: 25px; padding: 20px; background: rgba(131, 197, 190, 0.1); border-radius: 12px; border-left: 4px solid var(--accent-teal);">
+            <p class="panel-text" style="font-style: italic; margin-top: 25px; padding: 20px; background: rgba(15, 23, 42, 0.1); border-radius: 12px; border-left: 4px solid var(--accent-teal);">
                 Divorce legally ends the marriage, but property division and parenting arrangements must be addressed separately
             </p>
         </div>
@@ -2314,8 +2246,8 @@ body {
 <section class="section" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, var(--light-blue) 30%, rgba(255, 255, 255, 0.5) 100%); position: relative; overflow: hidden;">
     <!-- Decorative Background Elements -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: 
-        radial-gradient(circle at 10% 20%, rgba(131, 197, 190, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 90% 80%, rgba(255, 221, 210, 0.08) 0%, transparent 50%);
+        radial-gradient(circle at 10% 20%, rgba(15, 23, 42, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(30, 64, 175, 0.08) 0%, transparent 50%);
         pointer-events: none;"></div>
     
     <div class="section-header" style="position: relative; z-index: 1;">
@@ -2323,14 +2255,14 @@ body {
         <p class="section-subtitle" style="font-size: 1.3rem; margin-top: 15px;">Understanding the Essential Criteria for Filing a Divorce Application</p>
     </div>
     <div class="grid-2x2" style="position: relative; z-index: 1;">
-        <div class="requirement-card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(237, 246, 249, 0.95) 100%); border-top-color: #8b5cf6;">
-            <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.3); border: 3px solid rgba(255, 255, 255, 0.5); position: relative; z-index: 2;">
+        <div class="requirement-card" style="background: linear-gradient(135deg, rgba(30, 58, 138, 0.08) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(237, 246, 249, 0.95) 100%); border-top-color: #1E3A8A;">
+            <div class="card-icon" style="background: linear-gradient(135deg, #1E3A8A 0%, #7c3aed 100%); width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(30, 58, 138, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.3); border: 3px solid rgba(255, 255, 255, 0.5); position: relative; z-index: 2;">
                 <span style="filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));">📅</span>
             </div>
             <div class="req-number">01</div>
             <h3 class="req-title" style="color: #7c3aed;">Separation Period</h3>
-            <p class="req-description">Continuous separation for at least <strong style="color: #8b5cf6; font-weight: 700; font-size: 1.15rem;">12 months and 1 day</strong></p>
-            <p class="req-note" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(139, 92, 246, 0.08) 100%); padding: 14px 20px; border-radius: 12px; border-left: 4px solid #8b5cf6; margin-top: 18px; font-size: 0.95rem; font-style: italic; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.15);">Separation under one roof is possible with additional evidence</p>
+            <p class="req-description">Continuous separation for at least <strong style="color: #1E3A8A; font-weight: 700; font-size: 1.15rem;">12 months and 1 day</strong></p>
+            <p class="req-note" style="background: linear-gradient(135deg, rgba(30, 58, 138, 0.12) 0%, rgba(30, 58, 138, 0.08) 100%); padding: 14px 20px; border-radius: 12px; border-left: 4px solid #1E3A8A; margin-top: 18px; font-size: 0.95rem; font-style: italic; box-shadow: 0 4px 15px rgba(30, 58, 138, 0.15);">Separation under one roof is possible with additional evidence</p>
         </div>
         <div class="requirement-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(237, 246, 249, 0.95) 100%); border-top-color: #10b981;">
             <div class="card-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.3); border: 3px solid rgba(255, 255, 255, 0.5); position: relative; z-index: 2;">
@@ -2363,14 +2295,14 @@ body {
             <p class="req-description">A valid marriage certificate must be provided with the divorce application</p>
             <p class="req-note" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(6, 182, 212, 0.08) 100%); padding: 14px 20px; border-radius: 12px; border-left: 4px solid #06b6d4; margin-top: 18px; font-size: 0.95rem; font-style: italic; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.15);">Original or certified copy accepted</p>
         </div>
-        <div class="requirement-card" style="background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(237, 246, 249, 0.95) 100%); border-top-color: #FF6B35;">
-            <div class="card-icon" style="background: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%); width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.3); border: 3px solid rgba(255, 255, 255, 0.5); position: relative; z-index: 2;">
+        <div class="requirement-card" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.08) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(237, 246, 249, 0.95) 100%); border-top-color: #0F172A;">
+            <div class="card-icon" style="background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.3); border: 3px solid rgba(255, 255, 255, 0.5); position: relative; z-index: 2;">
                 <span style="filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));">👨‍👩‍👧‍👦</span>
             </div>
             <div class="req-number">04</div>
-            <h3 class="req-title" style="color: #FF6B35;">Children Consideration</h3>
-            <p class="req-description">If there are children <strong style="color: #FF6B35; font-weight: 700; font-size: 1.15rem;">under 18</strong>, court attendance may be required</p>
-            <p class="req-note" style="background: linear-gradient(135deg, rgba(255, 107, 53, 0.12) 0%, rgba(255, 107, 53, 0.08) 100%); padding: 14px 20px; border-radius: 12px; border-left: 4px solid #FF6B35; margin-top: 18px; font-size: 0.95rem; font-style: italic; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.15);">The court ensures proper arrangements are in place for children's welfare</p>
+            <h3 class="req-title" style="color: #0F172A;">Children Consideration</h3>
+            <p class="req-description">If there are children <strong style="color: #0F172A; font-weight: 700; font-size: 1.15rem;">under 18</strong>, court attendance may be required</p>
+            <p class="req-note" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.12) 0%, rgba(15, 23, 42, 0.08) 100%); padding: 14px 20px; border-radius: 12px; border-left: 4px solid #0F172A; margin-top: 18px; font-size: 0.95rem; font-style: italic; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);">The court ensures proper arrangements are in place for children's welfare</p>
         </div>
     </div>
 </section>
@@ -2379,81 +2311,73 @@ body {
 <section class="section" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafb 50%, #ffffff 100%); position: relative; overflow: hidden; padding: 120px 60px;">
     <!-- Subtle Background Pattern -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: 
-        radial-gradient(circle at 20% 30%, rgba(0, 109, 119, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(131, 197, 190, 0.03) 0%, transparent 50%);
+        radial-gradient(circle at 20% 30%, rgba(15, 23, 42, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(15, 23, 42, 0.03) 0%, transparent 50%);
         pointer-events: none;"></div>
     
     <div class="section-header" style="position: relative; z-index: 1; margin-bottom: 70px;">
         <h2 class="section-title" style="color: var(--primary-teal); font-size: 3.5rem; margin-bottom: 15px; font-weight: 800;">The Divorce Process: Step by Step</h2>
-        <p class="section-subtitle" style="font-size: 1.5rem; color: #64748b; font-weight: 500;">A Structured Path from Application to Finalization</p>
+        <p class="section-subtitle" style="font-size: 1.5rem; color: #94A3B8; font-weight: 500;">A Structured Path from Application to Finalization</p>
     </div>
     
     <div class="process-flow-enhanced" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; position: relative; z-index: 1; max-width: 1400px; margin: 0 auto;">
         <!-- Step 1: Application -->
         <div class="process-card-enhanced" style="background: #ffffff; border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #f1f5f9; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);"></div>
-            <div style="position: absolute; top: 20px; right: 20px; width: 60px; height: 60px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, transparent 100%); border-radius: 50%; pointer-events: none;"></div>
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #0F172A 0%, #1E3A8A 100%);"></div>
             
-            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3); position: relative;">
+            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3); position: relative;">
                 <span style="font-size: 2.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">📝</span>
-                <div style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background: #6366f1; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);">1</div>
             </div>
             
-            <h3 style="color: #1e293b; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Application</h3>
-            <p style="color: #64748b; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">File with Federal Circuit and Family Court of Australia (online or paper)</p>
-            <div style="background: #f8fafb; padding: 12px 16px; border-radius: 8px; border-left: 3px solid #6366f1; margin-top: 15px;">
-                <p style="font-size: 0.9rem; color: #6366f1; font-weight: 600; margin: 0; font-style: italic;">Sole or joint application</p>
+            <h3 style="color: #0F172A; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Application</h3>
+            <p style="color: #94A3B8; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">File with Federal Circuit and Family Court of Australia (online or paper)</p>
+            <div style="background: #f8fafb; padding: 12px 16px; border-radius: 8px; border-left: 3px solid #0F172A; margin-top: 15px;">
+                <p style="font-size: 0.9rem; color: #0F172A; font-weight: 600; margin: 0; font-style: italic;">Sole or joint application</p>
             </div>
         </div>
         
         <!-- Step 2: Service -->
         <div class="process-card-enhanced" style="background: #ffffff; border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #f1f5f9; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #3b82f6 0%, #06b6d4 100%);"></div>
-            <div style="position: absolute; top: 20px; right: 20px; width: 60px; height: 60px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%); border-radius: 50%; pointer-events: none;"></div>
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #1E40AF 0%, #06b6d4 100%);"></div>
             
-            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); position: relative;">
+            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #1E40AF 0%, #06b6d4 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 10px 30px rgba(30, 64, 175, 0.3); position: relative;">
                 <span style="font-size: 2.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">📤</span>
-                <div style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);">2</div>
             </div>
             
-            <h3 style="color: #1e293b; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Service</h3>
-            <p style="color: #64748b; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">For sole applications, divorce papers must be formally served on the other spouse</p>
-            <div style="background: #f8fafb; padding: 12px 16px; border-radius: 8px; border-left: 3px solid #3b82f6; margin-top: 15px;">
-                <p style="font-size: 0.9rem; color: #3b82f6; font-weight: 600; margin: 0; font-style: italic;">Not required for joint applications</p>
+            <h3 style="color: #0F172A; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Service</h3>
+            <p style="color: #94A3B8; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">For sole applications, divorce papers must be formally served on the other spouse</p>
+            <div style="background: #f8fafb; padding: 12px 16px; border-radius: 8px; border-left: 3px solid #1E40AF; margin-top: 15px;">
+                <p style="font-size: 0.9rem; color: #1E40AF; font-weight: 600; margin: 0; font-style: italic;">Not required for joint applications</p>
             </div>
         </div>
         
         <!-- Step 3: Court Hearing -->
         <div class="process-card-enhanced" style="background: #ffffff; border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #f1f5f9; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #8b5cf6 0%, #a855f7 100%);"></div>
-            <div style="position: absolute; top: 20px; right: 20px; width: 60px; height: 60px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, transparent 100%); border-radius: 50%; pointer-events: none;"></div>
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #1E3A8A 0%, #a855f7 100%);"></div>
             
-            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3); position: relative;">
+            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #1E3A8A 0%, #a855f7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3); position: relative;">
                 <span style="font-size: 2.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">⚖️</span>
-                <div style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background: #8b5cf6; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);">3</div>
             </div>
             
-            <h3 style="color: #1e293b; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Court Hearing</h3>
-            <p style="color: #64748b; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Court reviews the application to ensure all legal requirements are met</p>
-            <div style="background: #f8fafb; padding: 12px 16px; border-radius: 8px; border-left: 3px solid #8b5cf6; margin-top: 15px;">
-                <p style="font-size: 0.9rem; color: #8b5cf6; font-weight: 600; margin: 0;">May be required, especially with children under 18</p>
+            <h3 style="color: #0F172A; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Court Hearing</h3>
+            <p style="color: #94A3B8; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Court reviews the application to ensure all legal requirements are met</p>
+            <div style="background: #f8fafb; padding: 12px 16px; border-radius: 8px; border-left: 3px solid #1E3A8A; margin-top: 15px;">
+                <p style="font-size: 0.9rem; color: #1E3A8A; font-weight: 600; margin: 0;">May be required, especially with children under 18</p>
             </div>
         </div>
         
         <!-- Step 4: Finalization -->
-        <div class="process-card-enhanced" style="background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%); border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; box-shadow: 0 8px 30px rgba(255, 107, 53, 0.15), 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #fed7aa; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #FF6B35 0%, #f97316 100%);"></div>
-            <div style="position: absolute; top: 20px; right: 20px; width: 60px; height: 60px; background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, transparent 100%); border-radius: 50%; pointer-events: none;"></div>
+        <div class="process-card-enhanced" style="background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%); border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; box-shadow: 0 8px 30px rgba(15, 23, 42, 0.15), 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #fed7aa; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #0F172A 0%, #1E40AF 100%);"></div>
             
-            <div style="width: 90px; height: 90px; background: linear-gradient(135deg, #FF6B35 0%, #f97316 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4); position: relative;">
+            <div style="width: 90px; height: 90px; background: linear-gradient(135deg, #0F172A 0%, #1E40AF 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4); position: relative;">
                 <span style="font-size: 2.8rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">✅</span>
-                <div style="position: absolute; top: -8px; right: -8px; width: 32px; height: 32px; background: #FF6B35; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.5);">4</div>
             </div>
             
-            <h3 style="color: #FF6B35; font-size: 1.6rem; font-weight: 800; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Finalization</h3>
-            <p style="color: #64748b; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Divorce order becomes final one month and one day after the court hearing</p>
-            <div style="background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); padding: 14px 18px; border-radius: 10px; border: 2px solid #FF6B35; margin-top: 15px; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);">
-                <p style="font-weight: 700; font-size: 1rem; color: #FF6B35; margin: 0;">Your marriage is legally ended</p>
+            <h3 style="color: #0F172A; font-size: 1.6rem; font-weight: 800; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Finalization</h3>
+            <p style="color: #94A3B8; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Divorce order becomes final one month and one day after the court hearing</p>
+            <div style="background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); padding: 14px 18px; border-radius: 10px; border: 2px solid #0F172A; margin-top: 15px; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.2);">
+                <p style="font-weight: 700; font-size: 1rem; color: #0F172A; margin: 0;">Your marriage is legally ended</p>
             </div>
         </div>
     </div>
@@ -2466,8 +2390,8 @@ body {
 <section class="section" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafb 50%, #ffffff 100%); position: relative; overflow: hidden; padding: 100px 60px;">
     <!-- Subtle Background Pattern -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: 
-        radial-gradient(circle at 20% 30%, rgba(0, 109, 119, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(131, 197, 190, 0.03) 0%, transparent 50%);
+        radial-gradient(circle at 20% 30%, rgba(15, 23, 42, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(15, 23, 42, 0.03) 0%, transparent 50%);
         pointer-events: none;"></div>
     
     <div class="section-header" style="position: relative; z-index: 1; margin-bottom: 60px;">
@@ -2478,21 +2402,21 @@ body {
         <!-- Left Panel: What is Property Settlement -->
         <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%); border-radius: 25px; padding: 50px 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); border: 2px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;">
             <!-- Decorative Corner -->
-            <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: linear-gradient(135deg, rgba(0, 109, 119, 0.08) 0%, transparent 100%); border-radius: 50%; pointer-events: none;"></div>
+            <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.08) 0%, transparent 100%); border-radius: 50%; pointer-events: none;"></div>
             
             <!-- Icon Header -->
             <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 30px;">
-                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #006D77 0%, #83C5BE 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0, 109, 119, 0.25);">
+                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #006D77 0%, #83C5BE 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(15, 23, 42, 0.25);">
                     <span style="font-size: 2.2rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">💰</span>
                 </div>
                 <h3 class="panel-header" style="color: var(--primary-teal); font-size: 2rem; font-weight: 800; margin: 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">What is Property Settlement?</h3>
             </div>
             
-            <p class="panel-text" style="color: #475569; font-size: 1.1rem; line-height: 1.8; margin-bottom: 25px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+            <p class="panel-text" style="color: #94A3B8; font-size: 1.1rem; line-height: 1.8; margin-bottom: 25px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
                 The process of dividing assets, liabilities, and financial resources after a relationship breakdown
             </p>
             
-            <div style="background: linear-gradient(135deg, rgba(0, 109, 119, 0.08) 0%, rgba(131, 197, 190, 0.08) 100%); padding: 18px 22px; border-radius: 12px; border-left: 4px solid var(--primary-teal); margin-bottom: 35px; box-shadow: 0 4px 15px rgba(0, 109, 119, 0.1);">
+            <div style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.08) 100%); padding: 18px 22px; border-radius: 12px; border-left: 4px solid var(--primary-teal); margin-bottom: 35px; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.1);">
                 <p class="panel-text" style="font-weight: 700; color: var(--primary-teal); font-size: 1.05rem; margin: 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">
                     ✓ Applies to both married couples and de facto relationships
                 </p>
@@ -2504,42 +2428,42 @@ body {
             </h3>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px;">
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(0, 109, 119, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
                     <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
                         <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
                     </div>
                     <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">Family home & real estate</span>
                 </div>
                 
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(0, 109, 119, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
                     <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
                         <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
                     </div>
                     <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">Bank accounts & investments</span>
                 </div>
                 
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(0, 109, 119, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
                     <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
                         <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
                     </div>
                     <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">Business interests</span>
                 </div>
                 
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(0, 109, 119, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
                     <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
                         <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
                     </div>
                     <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">Superannuation funds</span>
                 </div>
                 
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(0, 109, 119, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
                     <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
                         <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
                     </div>
                     <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">Personal property & vehicles</span>
                 </div>
                 
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(0, 109, 119, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
                     <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
                         <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
                     </div>
@@ -2547,8 +2471,8 @@ body {
                 </div>
             </div>
             
-            <div style="background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); padding: 20px 25px; border-radius: 15px; border: 2px solid #FF6B35; margin-top: 25px; box-shadow: 0 8px 25px rgba(255, 107, 53, 0.15); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+            <div style="background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); padding: 20px 25px; border-radius: 15px; border: 2px solid #0F172A; margin-top: 25px; box-shadow: 0 8px 25px rgba(15, 23, 42, 0.15); position: relative; overflow: hidden;">
+                <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(15, 23, 42, 0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
                 <p style="font-style: italic; color: #7c2d12; font-size: 1rem; font-weight: 600; margin: 0; position: relative; z-index: 1; line-height: 1.6;">
                     ⚠️ Property settlement is separate from divorce. Both must be addressed for complete resolution.
                 </p>
@@ -2556,35 +2480,35 @@ body {
         </div>
         
         <!-- Right Panel: Critical Time Limits -->
-        <div style="background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 30%, #ffffff 100%); border-radius: 25px; padding: 50px 40px; box-shadow: 0 10px 40px rgba(255, 107, 53, 0.15), 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #fed7aa; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 50px rgba(255, 107, 53, 0.2), 0 6px 25px rgba(0, 0, 0, 0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 40px rgba(255, 107, 53, 0.15), 0 4px 20px rgba(0, 0, 0, 0.08)'">
+        <div style="background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 30%, #ffffff 100%); border-radius: 25px; padding: 50px 40px; box-shadow: 0 10px 40px rgba(15, 23, 42, 0.15), 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #fed7aa; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 50px rgba(15, 23, 42, 0.2), 0 6px 25px rgba(0, 0, 0, 0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 40px rgba(15, 23, 42, 0.15), 0 4px 20px rgba(0, 0, 0, 0.08)'">
             <!-- Decorative Elements -->
-            <div style="position: absolute; top: -40px; right: -40px; width: 140px; height: 140px; background: radial-gradient(circle, rgba(255, 107, 53, 0.12) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-            <div style="position: absolute; bottom: -30px; left: -30px; width: 100px; height: 100px; background: radial-gradient(circle, rgba(255, 142, 83, 0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+            <div style="position: absolute; top: -40px; right: -40px; width: 140px; height: 140px; background: radial-gradient(circle, rgba(15, 23, 42, 0.12) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+            <div style="position: absolute; bottom: -30px; left: -30px; width: 100px; height: 100px; background: radial-gradient(circle, rgba(30, 58, 138, 0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
             
             <!-- Icon -->
-            <div style="width: 90px; height: 90px; background: linear-gradient(135deg, #FF6B35 0%, #f97316 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4); position: relative; z-index: 1; animation: pulse-icon 2s ease-in-out infinite;">
+            <div style="width: 90px; height: 90px; background: linear-gradient(135deg, #0F172A 0%, #1E40AF 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4); position: relative; z-index: 1; animation: pulse-icon 2s ease-in-out infinite;">
                 <span style="font-size: 2.8rem; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));">⏰</span>
             </div>
             
             <h3 style="text-align: center; color: #7c2d12; font-size: 1.8rem; font-weight: 800; margin-bottom: 35px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; position: relative; z-index: 1;">Critical Time Limits</h3>
             
             <!-- Married Couples -->
-            <div style="background: #ffffff; padding: 20px 22px; border-radius: 15px; border-left: 5px solid #FF6B35; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.1); position: relative; z-index: 1;">
-                <p style="font-weight: 800; color: #FF6B35; font-size: 1.05rem; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">
+            <div style="background: #ffffff; padding: 20px 22px; border-radius: 15px; border-left: 5px solid #0F172A; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.1); position: relative; z-index: 1;">
+                <p style="font-weight: 800; color: #0F172A; font-size: 1.05rem; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">
                     💑 Married Couples:
                 </p>
-                <p style="color: #475569; font-size: 1rem; margin: 0; line-height: 1.6; font-weight: 500;">
-                    Within <strong style="color: #FF6B35; font-weight: 700;">12 months</strong> of divorce order becoming final
+                <p style="color: #94A3B8; font-size: 1rem; margin: 0; line-height: 1.6; font-weight: 500;">
+                    Within <strong style="color: #0F172A; font-weight: 700;">12 months</strong> of divorce order becoming final
                 </p>
             </div>
             
             <!-- De Facto Couples -->
-            <div style="background: #ffffff; padding: 20px 22px; border-radius: 15px; border-left: 5px solid #f97316; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.1); position: relative; z-index: 1;">
-                <p style="font-weight: 800; color: #f97316; font-size: 1.05rem; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">
+            <div style="background: #ffffff; padding: 20px 22px; border-radius: 15px; border-left: 5px solid #1E40AF; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.1); position: relative; z-index: 1;">
+                <p style="font-weight: 800; color: #1E40AF; font-size: 1.05rem; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">
                     👥 De Facto Couples:
                 </p>
-                <p style="color: #475569; font-size: 1rem; margin: 0; line-height: 1.6; font-weight: 500;">
-                    Within <strong style="color: #f97316; font-weight: 700;">2 years</strong> of separation date
+                <p style="color: #94A3B8; font-size: 1rem; margin: 0; line-height: 1.6; font-weight: 500;">
+                    Within <strong style="color: #1E40AF; font-weight: 700;">2 years</strong> of separation date
                 </p>
             </div>
             
@@ -2597,7 +2521,7 @@ body {
             </div>
             
             <!-- Call to Action -->
-            <a href="#consultation-form" style="display: block; background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%); padding: 18px 22px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0, 109, 119, 0.3); position: relative; z-index: 1; text-decoration: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 35px rgba(0, 109, 119, 0.4)'; this.style.background='linear-gradient(135deg, var(--accent-teal) 0%, var(--primary-teal) 100%)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(0, 109, 119, 0.3)'; this.style.background='linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%)'">
+            <a href="#consultation-form" style="display: block; background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%); padding: 18px 22px; border-radius: 15px; box-shadow: 0 8px 25px rgba(15, 23, 42, 0.3); position: relative; z-index: 1; text-decoration: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 35px rgba(15, 23, 42, 0.4)'; this.style.background='linear-gradient(135deg, var(--accent-teal) 0%, var(--primary-teal) 100%)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(15, 23, 42, 0.3)'; this.style.background='linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%)'">
                 <p style="font-weight: 700; color: white; font-size: 1.05rem; margin: 0; text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px;">
                     <span>💡</span>
                     <span>Seek legal advice early to protect your rights</span>
@@ -2645,11 +2569,11 @@ body {
                 <li>Financial resources and needs</li>
             </ul>
         </div>
-        <div class="info-card" style="background: var(--warm-coral);">
-            <div class="card-icon">⚖️</div>
-            <h3 class="card-header">Step 4: Make a Just and Equitable Order</h3>
-            <p class="card-body">The court makes a final decision on division to ensure fairness to both parties</p>
-            <p class="card-body" style="font-weight: 700; margin-top: 15px;">
+        <div class="info-card" style="background: var(--primary-teal);">
+            <div class="card-icon" style="background: #ffffff; border: 3px solid rgba(255, 255, 255, 0.5); color: #0F172A; font-size: 3.5rem; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); line-height: 1; display: flex; align-items: center; justify-content: center; filter: none !important;">⚖️</div>
+            <h3 class="card-header" style="color: var(--white);">Step 4: Make a Just and Equitable Order</h3>
+            <p class="card-body" style="color: rgba(255, 255, 255, 0.95);">The court makes a final decision on division to ensure fairness to both parties</p>
+            <p class="card-body" style="font-weight: 700; margin-top: 15px; color: rgba(255, 255, 255, 0.95);">
                 Binding court order that protects both parties' interests
             </p>
         </div>
@@ -2708,7 +2632,7 @@ body {
                 <li><strong>Consent Orders:</strong> Court-approved agreements (legally binding)</li>
                 <li><strong>Court Orders:</strong> Issued after mediation if parents cannot agree</li>
             </ul>
-            <p class="card-body" style="background: var(--warm-coral); padding: 15px; border-radius: 8px; margin-top: 20px; font-weight: 700;">
+            <p class="card-body" style="background: #0F172A; color: white; padding: 15px; border-radius: 8px; margin-top: 20px; font-weight: 700;">
                 Consent orders provide legal protection while maintaining cooperation
             </p>
         </div>
@@ -2719,30 +2643,30 @@ body {
 <section class="section" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafb 50%, #ffffff 100%); position: relative; overflow: hidden; padding: 80px 60px;">
     <!-- Subtle Background Pattern -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: 
-        radial-gradient(circle at 20% 30%, rgba(0, 109, 119, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(131, 197, 190, 0.03) 0%, transparent 50%);
+        radial-gradient(circle at 20% 30%, rgba(15, 23, 42, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(15, 23, 42, 0.03) 0%, transparent 50%);
         pointer-events: none;"></div>
     
     <div class="section-header" style="position: relative; z-index: 1; margin-bottom: 50px;">
         <h2 class="section-title" style="color: var(--primary-teal); font-size: 3rem; margin-bottom: 12px; font-weight: 800;">Why Choose Bansal Lawyers?</h2>
-        <p class="section-subtitle" style="font-size: 1.3rem; color: #64748b; font-weight: 500;">Your Trusted Partner Through Life's Most Challenging Legal Matters</p>
+        <p class="section-subtitle" style="font-size: 1.3rem; color: #94A3B8; font-weight: 500;">Your Trusted Partner Through Life's Most Challenging Legal Matters</p>
     </div>
     
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;">
         <!-- Card 1: Specialized Expertise -->
-        <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%); border-radius: 20px; padding: 35px 28px; box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08); border: 2px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 40px rgba(0, 109, 119, 0.15)'; this.style.borderColor='var(--primary-teal)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 25px rgba(0, 0, 0, 0.08)'; this.style.borderColor='#e2e8f0'">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);"></div>
-            <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+        <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%); border-radius: 20px; padding: 35px 28px; box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08); border: 2px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 40px rgba(15, 23, 42, 0.15)'; this.style.borderColor='var(--primary-teal)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 25px rgba(0, 0, 0, 0.08)'; this.style.borderColor='#e2e8f0'">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #0F172A 0%, #1E3A8A 100%);"></div>
+            <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(15, 23, 42, 0.08) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
             
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-                <div style="width: 65px; height: 65px; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3); flex-shrink: 0;">
+                <div style="width: 65px; height: 65px; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3); flex-shrink: 0;">
                     <span style="font-size: 2rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">🏆</span>
                 </div>
-                <div style="width: 45px; height: 45px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6366f1; font-weight: 800; font-size: 1.1rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">01</div>
+                <div style="width: 45px; height: 45px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(30, 58, 138, 0.1) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0F172A; font-weight: 800; font-size: 1.1rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">01</div>
             </div>
             
-            <h3 style="color: #1e293b; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Specialized Expertise</h3>
-            <p style="color: #64748b; font-size: 0.95rem; line-height: 1.6; margin-bottom: 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+            <h3 style="color: #0F172A; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Specialized Expertise</h3>
+            <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
                 Handling complex family law matters with empathy and skill. Expert handling of divorce, separation, parenting plans, and property settlements.
             </p>
             <a href="#consultation-form" style="display: inline-flex; align-items: center; gap: 8px; color: var(--primary-teal); font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: all 0.3s ease; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;" onmouseover="this.style.gap='12px'; this.style.color='var(--accent-teal)'" onmouseout="this.style.gap='8px'; this.style.color='var(--primary-teal)'">
@@ -2751,22 +2675,22 @@ body {
         </div>
         
         <!-- Card 2: Client-Centered Approach -->
-        <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%); border-radius: 20px; padding: 35px 28px; box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08); border: 2px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 40px rgba(255, 107, 53, 0.15)'; this.style.borderColor='#FF6B35'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 25px rgba(0, 0, 0, 0.08)'; this.style.borderColor='#e2e8f0'">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #FF6B35 0%, #f97316 100%);"></div>
-            <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+        <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%); border-radius: 20px; padding: 35px 28px; box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08); border: 2px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 40px rgba(15, 23, 42, 0.15)'; this.style.borderColor='#0F172A'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 25px rgba(0, 0, 0, 0.08)'; this.style.borderColor='#e2e8f0'">
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #0F172A 0%, #1E40AF 100%);"></div>
+            <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(15, 23, 42, 0.08) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
             
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-                <div style="width: 65px; height: 65px; background: linear-gradient(135deg, #FF6B35 0%, #f97316 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3); flex-shrink: 0;">
+                <div style="width: 65px; height: 65px; background: linear-gradient(135deg, #0F172A 0%, #1E40AF 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3); flex-shrink: 0;">
                     <span style="font-size: 2rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">❤️</span>
                 </div>
-                <div style="width: 45px; height: 45px; background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FF6B35; font-weight: 800; font-size: 1.1rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">02</div>
+                <div style="width: 45px; height: 45px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0F172A; font-weight: 800; font-size: 1.1rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">02</div>
             </div>
             
-            <h3 style="color: #1e293b; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Client-Centered Approach</h3>
-            <p style="color: #64748b; font-size: 0.95rem; line-height: 1.6; margin-bottom: 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+            <h3 style="color: #0F172A; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Client-Centered Approach</h3>
+            <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
                 Committed to understanding each client's unique situation. Tailored advice and dedicated support to make the legal process manageable.
             </p>
-            <a href="#consultation-form" style="display: inline-flex; align-items: center; gap: 8px; color: #FF6B35; font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: all 0.3s ease; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;" onmouseover="this.style.gap='12px'; this.style.color='#f97316'" onmouseout="this.style.gap='8px'; this.style.color='#FF6B35'">
+            <a href="#consultation-form" style="display: inline-flex; align-items: center; gap: 8px; color: #0F172A; font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: all 0.3s ease; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;" onmouseover="this.style.gap='12px'; this.style.color='#1E40AF'" onmouseout="this.style.gap='8px'; this.style.color='#0F172A'">
                 <span>Personalized assistance at every step →</span>
             </a>
         </div>
@@ -2783,8 +2707,8 @@ body {
                 <div style="width: 45px; height: 45px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #10b981; font-weight: 800; font-size: 1.1rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">03</div>
             </div>
             
-            <h3 style="color: #1e293b; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Proven Track Record</h3>
-            <p style="color: #64748b; font-size: 0.95rem; line-height: 1.6; margin-bottom: 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+            <h3 style="color: #0F172A; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Proven Track Record</h3>
+            <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
                 Client testimonials highlight our professionalism and positive outcomes. We've helped countless families navigate separation with dignity.
             </p>
             <a href="#consultation-form" style="display: inline-flex; align-items: center; gap: 8px; color: #10b981; font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: all 0.3s ease; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;" onmouseover="this.style.gap='12px'; this.style.color='#059669'" onmouseout="this.style.gap='8px'; this.style.color='#10b981'">
@@ -2868,7 +2792,7 @@ body {
 </section>
 
 <!-- Slide 14: CTA Section -->
-<section class="cta-section" id="contact-form" style="background: linear-gradient(135deg, #006D77 0%, #008A95 30%, #00A8B5 60%, #83C5BE 100%); position: relative; overflow: hidden; padding: 100px 60px; margin: 80px auto; max-width: 1400px; border-radius: 30px; box-shadow: 0 20px 60px rgba(0, 109, 119, 0.3);">
+<section class="cta-section" id="contact-form" style="background: linear-gradient(135deg, #0F172A 0%, #0F172A 50%, #E2E8F0 100%); position: relative; overflow: hidden; padding: 100px 60px; margin: 80px auto; max-width: 1400px; border-radius: 30px; box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3);">
     <!-- Animated Background Elements -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: 
         radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
@@ -2900,40 +2824,40 @@ body {
         
         <div class="contact-panel" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%); border-radius: 25px; padding: 50px 45px; margin: 40px auto; max-width: 900px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); position: relative; overflow: hidden; animation: fadeInUp 1.2s ease-out;">
             <!-- Decorative Corner -->
-            <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(0, 109, 119, 0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+            <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(15, 23, 42, 0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
             
             <p class="contact-intro" style="text-align: center; font-size: 1.2rem; color: var(--primary-teal); font-weight: 600; margin-bottom: 35px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; line-height: 1.6;">
                 Our expert team is ready to provide compassionate, professional guidance for your family law matter.
             </p>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px;">
-                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(0, 109, 119, 0.05) 0%, rgba(131, 197, 190, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid var(--primary-teal); transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(0, 109, 119, 0.15)'; this.style.background='linear-gradient(135deg, rgba(0, 109, 119, 0.1) 0%, rgba(131, 197, 190, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(0, 109, 119, 0.05) 0%, rgba(131, 197, 190, 0.05) 100%)'">
+                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid var(--primary-teal); transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(15, 23, 42, 0.15)'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%)'">
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                        <div style="width: 45px; height: 45px; background: linear-gradient(135deg, #FF6B35 0%, #f97316 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3); flex-shrink: 0;">
+                        <div style="width: 45px; height: 45px; background: linear-gradient(135deg, #0F172A 0%, #1E40AF 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(15, 23, 42, 0.3); flex-shrink: 0;">
                             <span style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">📞</span>
                         </div>
                         <span class="contact-label" style="font-weight: 700; color: var(--primary-teal); font-size: 1.05rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Call us</span>
                     </div>
                     <div style="padding-left: 57px;">
-                        <span class="contact-value" style="color: #1e293b; font-size: 1.1rem; font-weight: 600; display: block; margin-bottom: 5px;">1300 BANSAL</span>
-                        <span class="contact-value" style="color: #64748b; font-size: 0.95rem;">(1300 226 725)</span>
-                        <span class="contact-value" style="color: #64748b; font-size: 0.95rem; display: block; margin-top: 5px;">(+61) 0422 905 860</span>
+                        <span class="contact-value" style="color: #0F172A; font-size: 1.1rem; font-weight: 600; display: block; margin-bottom: 5px;">1300 BANSAL</span>
+                        <span class="contact-value" style="color: #94A3B8; font-size: 0.95rem;">(1300 226 725)</span>
+                        <span class="contact-value" style="color: #94A3B8; font-size: 0.95rem; display: block; margin-top: 5px;">(+61) 0422 905 860</span>
                     </div>
                 </div>
                 
-                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(0, 109, 119, 0.05) 0%, rgba(131, 197, 190, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid var(--accent-teal); transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(0, 109, 119, 0.15)'; this.style.background='linear-gradient(135deg, rgba(0, 109, 119, 0.1) 0%, rgba(131, 197, 190, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(0, 109, 119, 0.05) 0%, rgba(131, 197, 190, 0.05) 100%)'">
+                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid var(--accent-teal); transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(15, 23, 42, 0.15)'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%)'">
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                        <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(0, 109, 119, 0.3); flex-shrink: 0;">
+                        <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(15, 23, 42, 0.3); flex-shrink: 0;">
                             <span style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">✉️</span>
                         </div>
                         <span class="contact-label" style="font-weight: 700; color: var(--primary-teal); font-size: 1.05rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Email us</span>
                     </div>
                     <div style="padding-left: 57px;">
-                        <span class="contact-value" style="color: #1e293b; font-size: 1rem; font-weight: 600;">info@bansallawyers.com.au</span>
+                        <span class="contact-value" style="color: #0F172A; font-size: 1rem; font-weight: 600;">info@bansallawyers.com.au</span>
                     </div>
                 </div>
                 
-                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(0, 109, 119, 0.05) 0%, rgba(131, 197, 190, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid #10b981; transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(0, 109, 119, 0.15)'; this.style.background='linear-gradient(135deg, rgba(0, 109, 119, 0.1) 0%, rgba(131, 197, 190, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(0, 109, 119, 0.05) 0%, rgba(131, 197, 190, 0.05) 100%)'">
+                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid #10b981; transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(15, 23, 42, 0.15)'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%)'">
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
                         <div style="width: 45px; height: 45px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3); flex-shrink: 0;">
                             <span style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">📍</span>
@@ -2941,19 +2865,19 @@ body {
                         <span class="contact-label" style="font-weight: 700; color: var(--primary-teal); font-size: 1.05rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Visit us</span>
                     </div>
                     <div style="padding-left: 57px;">
-                        <span class="contact-value" style="color: #1e293b; font-size: 0.95rem; font-weight: 500; line-height: 1.5;">Level 8/278 Collins St<br>Melbourne VIC 3000, Australia</span>
+                        <span class="contact-value" style="color: #0F172A; font-size: 0.95rem; font-weight: 500; line-height: 1.5;">Level 8/278 Collins St<br>Melbourne VIC 3000, Australia</span>
                     </div>
                 </div>
                 
-                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(0, 109, 119, 0.05) 0%, rgba(131, 197, 190, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid #8b5cf6; transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(0, 109, 119, 0.15)'; this.style.background='linear-gradient(135deg, rgba(0, 109, 119, 0.1) 0%, rgba(131, 197, 190, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(0, 109, 119, 0.05) 0%, rgba(131, 197, 190, 0.05) 100%)'">
+                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid #1E3A8A; transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(15, 23, 42, 0.15)'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%)'">
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                        <div style="width: 45px; height: 45px; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3); flex-shrink: 0;">
+                        <div style="width: 45px; height: 45px; background: linear-gradient(135deg, #1E3A8A 0%, #7c3aed 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(30, 58, 138, 0.3); flex-shrink: 0;">
                             <span style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">🕐</span>
                         </div>
                         <span class="contact-label" style="font-weight: 700; color: var(--primary-teal); font-size: 1.05rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Business Hours</span>
                     </div>
                     <div style="padding-left: 57px;">
-                        <span class="contact-value" style="color: #1e293b; font-size: 0.95rem; font-weight: 500;">Monday – Friday<br>10:00 AM – 5:30 PM</span>
+                        <span class="contact-value" style="color: #0F172A; font-size: 0.95rem; font-weight: 500;">Monday – Friday<br>10:00 AM – 5:30 PM</span>
                     </div>
                 </div>
             </div>
@@ -2966,7 +2890,7 @@ body {
         </div>
         
         <div style="text-align: center; margin-top: 45px; position: relative; z-index: 1; animation: fadeInUp 1.6s ease-out;">
-            <a href="#consultation-form" class="cover-cta-button" style="display: inline-flex; align-items: center; gap: 15px; padding: 22px 50px; font-size: 1.4rem; background: linear-gradient(135deg, #FF6B35 0%, #FF8E53 50%, #FF6B35 100%); background-size: 200% 100%; color: white; border: none; border-radius: 50px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 800; text-decoration: none; box-shadow: 0 15px 50px rgba(255, 107, 53, 0.5), 0 0 0 0 rgba(255, 107, 53, 0.7); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); text-transform: uppercase; letter-spacing: 1px; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-6px) scale(1.05)'; this.style.boxShadow='0 20px 60px rgba(255, 107, 53, 0.6), 0 0 0 6px rgba(255, 107, 53, 0.3)'; this.style.backgroundPosition='100% 0'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 15px 50px rgba(255, 107, 53, 0.5), 0 0 0 0 rgba(255, 107, 53, 0.7)'; this.style.backgroundPosition='0% 0'">
+            <a href="#consultation-form" class="cover-cta-button" style="display: inline-flex; align-items: center; gap: 15px; padding: 22px 50px; font-size: 1.4rem; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 50%, #0F172A 100%); background-size: 200% 100%; color: white; border: none; border-radius: 50px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 800; text-decoration: none; box-shadow: 0 15px 50px rgba(15, 23, 42, 0.5), 0 0 0 0 rgba(15, 23, 42, 0.7); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); text-transform: uppercase; letter-spacing: 1px; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-6px) scale(1.05)'; this.style.boxShadow='0 20px 60px rgba(15, 23, 42, 0.6), 0 0 0 6px rgba(15, 23, 42, 0.3)'; this.style.backgroundPosition='100% 0'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 15px 50px rgba(15, 23, 42, 0.5), 0 0 0 0 rgba(15, 23, 42, 0.7)'; this.style.backgroundPosition='0% 0'">
                 <span style="font-size: 1.8rem; animation: pulse-icon 1.5s ease-in-out infinite; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));">📝</span>
                 <span style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);">Fill Out Consultation Form</span>
                 <span style="font-size: 1.6rem; animation: bounce 1s ease-in-out infinite;">→</span>
@@ -3283,7 +3207,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 spots = Math.max(5, spots - Math.floor(Math.random() * 2));
                 spotsElement.textContent = spots;
                 if (spots <= 7) {
-                    spotsElement.style.color = '#FF6B35';
+                    spotsElement.style.color = '#0F172A';
                     spotsElement.style.animation = 'pulse-icon 1s ease-in-out infinite';
                 }
             }
@@ -3309,6 +3233,254 @@ document.addEventListener('DOMContentLoaded', function() {
         }, { threshold: 0.2 });
         
         observer.observe(formSection);
+    }
+    
+    // Cover Consultation Form Submission Handler
+    const coverForm = document.getElementById('cover-consultation-form-element');
+    if (coverForm) {
+        const coverSubmitBtn = document.getElementById('cover-consultation-form-submit');
+        const coverBtnText = document.getElementById('cover-consultation-btn-text');
+        const coverBtnLoading = document.getElementById('cover-consultation-btn-loading');
+        const coverMessagesContainer = document.getElementById('cover-consultation-form-messages');
+        const coverSuccessAlert = document.getElementById('cover-consultation-form-success');
+        const coverErrorAlert = document.getElementById('cover-consultation-form-error');
+        const coverSuccessText = document.getElementById('cover-consultation-form-success-text');
+        const coverErrorText = document.getElementById('cover-consultation-form-error-text');
+        
+        function clearCoverValidationErrors() {
+            const errorMessages = coverForm.querySelectorAll('[id^="cover-consultation-"][id$="-error"]');
+            errorMessages.forEach(msg => {
+                msg.style.display = 'none';
+                msg.textContent = '';
+            });
+        }
+        
+        function showCoverFieldError(fieldName, message) {
+            const errorDiv = document.getElementById('cover-consultation-' + fieldName + '-error');
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+        }
+        
+        function showCoverSuccess(message) {
+            clearCoverValidationErrors();
+            coverSuccessText.textContent = message;
+            coverSuccessAlert.style.display = 'block';
+            coverErrorAlert.style.display = 'none';
+            coverMessagesContainer.style.display = 'block';
+            coverForm.reset();
+            coverMessagesContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function showCoverError(message) {
+            clearCoverValidationErrors();
+            coverErrorText.textContent = message;
+            coverErrorAlert.style.display = 'block';
+            coverSuccessAlert.style.display = 'none';
+            coverMessagesContainer.style.display = 'block';
+            coverMessagesContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        // Phone Number Validation Functions - Only 9 digits, no letters (globally accessible)
+        window.isNumberKey = function(evt) {
+            const charCode = (evt.which) ? evt.which : evt.keyCode;
+            // Allow: backspace, delete, tab, escape, enter, and numbers (0-9)
+            if (charCode === 8 || charCode === 9 || charCode === 27 || charCode === 13 || charCode === 46 ||
+                (charCode >= 35 && charCode <= 40) || // arrow keys
+                (charCode >= 48 && charCode <= 57)) { // numbers 0-9
+                return true;
+            }
+            evt.preventDefault();
+            return false;
+        }
+        
+        window.allowOnlyNumbers = function(input) {
+            // Remove any non-numeric characters
+            let value = input.value.replace(/\D/g, '');
+            
+            // Limit to 9 digits
+            if (value.length > 9) {
+                value = value.substring(0, 9);
+            }
+            
+            input.value = value;
+        }
+        
+        window.validatePhoneNumber = function(input) {
+            const phoneError = document.getElementById('cover-consultation-phone-error');
+            const phoneWrapper = document.getElementById('cover-consultation-phone-wrapper');
+            let value = input.value.replace(/\D/g, ''); // Remove any non-digits
+            
+            // Reset styling
+            if (phoneWrapper) {
+                phoneWrapper.style.borderColor = '#e8e8e8';
+                phoneWrapper.style.boxShadow = 'none';
+            }
+            
+            if (!value || value.length === 0) {
+                phoneError.style.display = 'none';
+                return true; // Required validation will handle empty
+            }
+            
+            // Must be exactly 9 digits
+            if (value.length !== 9) {
+                phoneError.textContent = 'Phone number must be exactly 9 digits (e.g., +61 4XX XXX XXX)';
+                phoneError.style.display = 'block';
+                if (phoneWrapper) {
+                    phoneWrapper.style.borderColor = '#dc3545';
+                    phoneWrapper.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
+                }
+                return false;
+            }
+            
+            // Check if contains only numbers
+            if (!/^[0-9]{9}$/.test(value)) {
+                phoneError.textContent = 'Phone number must contain only numbers (no letters or special characters)';
+                phoneError.style.display = 'block';
+                if (phoneWrapper) {
+                    phoneWrapper.style.borderColor = '#dc3545';
+                    phoneWrapper.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
+                }
+                return false;
+            }
+            
+            // Valid phone number
+            phoneError.style.display = 'none';
+            if (phoneWrapper) {
+                phoneWrapper.style.borderColor = '#28a745';
+                phoneWrapper.style.boxShadow = '0 0 0 3px rgba(40, 167, 69, 0.1)';
+            }
+            return true;
+        }
+        
+        // Clean initial phone value on page load (remove +61 and non-digits, limit to 9)
+        const initialPhoneInput = document.getElementById('cover-consultation-phone');
+        if (initialPhoneInput && initialPhoneInput.value) {
+            let cleanedValue = initialPhoneInput.value.replace(/\D/g, '').replace(/^61/, '');
+            if (cleanedValue.length > 9) {
+                cleanedValue = cleanedValue.substring(cleanedValue.length - 9);
+            }
+            initialPhoneInput.value = cleanedValue;
+        }
+        
+        coverForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            coverMessagesContainer.style.display = 'none';
+            clearCoverValidationErrors();
+            
+            // Validate phone number before submission
+            const phoneInput = document.getElementById('cover-consultation-phone');
+            if (phoneInput && !validatePhoneNumber(phoneInput)) {
+                coverSubmitBtn.disabled = false;
+                coverBtnText.style.display = 'flex';
+                coverBtnLoading.style.display = 'none';
+                return;
+            }
+            
+            coverSubmitBtn.disabled = true;
+            coverBtnText.style.display = 'none';
+            coverBtnLoading.style.display = 'inline-block';
+            
+            const formData = new FormData(coverForm);
+            
+            // Prepend +61 to phone number if it's not already there
+            const phoneValue = formData.get('phone');
+            if (phoneValue && !phoneValue.startsWith('+61')) {
+                formData.set('phone', '+61' + phoneValue.replace(/\D/g, ''));
+            }
+            const csrfToken = coverForm.querySelector('input[name="_token"]')?.value || 
+                             document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
+            
+            fetch(coverForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                credentials: 'same-origin',
+                signal: controller.signal
+            })
+            .then(response => {
+                clearTimeout(timeoutId);
+                if (!response.ok) {
+                    return response.json().then(data => Promise.reject(data));
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'cover_consultation_form_submit', {
+                            'event_category': 'Lead Generation',
+                            'event_label': 'Cover Consultation Form Success',
+                            'value': 1
+                        });
+                    }
+                    
+                    showCoverSuccess(data.message || 'Thank you! Your consultation request has been sent successfully.');
+                    
+                    coverForm.reset();
+                    if (typeof grecaptcha !== 'undefined') {
+                        grecaptcha.reset();
+                    }
+                    
+                    const redirectUrl = data.redirect || '{{ route("contact.thankyou") }}';
+                    setTimeout(function() {
+                        window.location.replace(redirectUrl);
+                    }, 1500);
+                } else {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'cover_consultation_form_error', {
+                            'event_category': 'Lead Generation',
+                            'event_label': 'Cover Consultation Form Error',
+                            'value': 0
+                        });
+                    }
+                    
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(field => {
+                            const fieldName = field.replace('g-recaptcha-response', 'recaptcha');
+                            showCoverFieldError(fieldName, data.errors[field][0]);
+                        });
+                    } else {
+                        showCoverError(data.message || 'Sorry, there was an error sending your request. Please try again.');
+                    }
+                }
+            })
+            .catch(error => {
+                clearTimeout(timeoutId);
+                console.error('Error:', error);
+                
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'cover_consultation_form_error', {
+                        'event_category': 'Lead Generation',
+                        'event_label': 'Cover Consultation Form Network Error',
+                        'value': 0
+                    });
+                }
+                
+                if (error.name === 'AbortError' || (error.message && (error.message.includes('timeout') || error.message.includes('aborted')))) {
+                    showCoverSuccess('Your form may have been submitted successfully. If you don\'t receive a confirmation, please contact us at 1300 BANSAL or try again.');
+                    coverForm.reset();
+                    if (typeof grecaptcha !== 'undefined') {
+                        grecaptcha.reset();
+                    }
+                } else {
+                    showCoverError('Sorry, there was an error sending your request. Please check your connection and try again, or call us at 1300 BANSAL.');
+                }
+            })
+            .finally(() => {
+                coverSubmitBtn.disabled = false;
+                coverBtnText.style.display = 'inline-block';
+                coverBtnLoading.style.display = 'none';
+            });
+        });
     }
 });
 </script>
