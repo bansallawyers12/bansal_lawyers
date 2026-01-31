@@ -3593,6 +3593,65 @@ body {
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <script>
+// Phone validation helpers - defined immediately so inline onblur/oninput handlers can use them
+window.isNumberKey = function(evt) {
+    const charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode === 8 || charCode === 9 || charCode === 27 || charCode === 13 || charCode === 46 ||
+        (charCode >= 35 && charCode <= 40) || (charCode >= 48 && charCode <= 57)) {
+        return true;
+    }
+    evt.preventDefault();
+    return false;
+};
+window.allowOnlyNumbers = function(input) {
+    if (!input) return;
+    var value = (input.value || '').replace(/\D/g, '');
+    if (value.length > 9) value = value.substring(0, 9);
+    input.value = value;
+};
+window.validatePhoneNumber = function(input) {
+    var phoneError = document.getElementById('cover-consultation-phone-error');
+    var phoneWrapper = document.getElementById('cover-consultation-phone-wrapper');
+    if (!input) return true;
+    var value = (input.value || '').replace(/\D/g, '');
+    if (phoneWrapper) {
+        phoneWrapper.style.borderColor = '#e8e8e8';
+        phoneWrapper.style.boxShadow = 'none';
+    }
+    if (!value || value.length === 0) {
+        if (phoneError) phoneError.style.display = 'none';
+        return true;
+    }
+    if (value.length !== 9) {
+        if (phoneError) {
+            phoneError.textContent = 'Phone number must be exactly 9 digits (e.g., +61 4XX XXX XXX)';
+            phoneError.style.display = 'block';
+        }
+        if (phoneWrapper) {
+            phoneWrapper.style.borderColor = '#dc3545';
+            phoneWrapper.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
+        }
+        return false;
+    }
+    if (!/^[0-9]{9}$/.test(value)) {
+        if (phoneError) {
+            phoneError.textContent = 'Phone number must contain only numbers (no letters or special characters)';
+            phoneError.style.display = 'block';
+        }
+        if (phoneWrapper) {
+            phoneWrapper.style.borderColor = '#dc3545';
+            phoneWrapper.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
+        }
+        return false;
+    }
+    if (phoneError) phoneError.style.display = 'none';
+    if (phoneWrapper) {
+        phoneWrapper.style.borderColor = '#28a745';
+        phoneWrapper.style.boxShadow = '0 0 0 3px rgba(40, 167, 69, 0.1)';
+    }
+    return true;
+};
+
 // Smooth scroll for anchor links - Enhanced
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -3966,78 +4025,6 @@ document.addEventListener('DOMContentLoaded', function() {
             coverSuccessAlert.style.display = 'none';
             coverMessagesContainer.style.display = 'block';
             coverMessagesContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-        
-        // Phone Number Validation Functions - Only 9 digits, no letters (globally accessible)
-        window.isNumberKey = function(evt) {
-            const charCode = (evt.which) ? evt.which : evt.keyCode;
-            // Allow: backspace, delete, tab, escape, enter, and numbers (0-9)
-            if (charCode === 8 || charCode === 9 || charCode === 27 || charCode === 13 || charCode === 46 ||
-                (charCode >= 35 && charCode <= 40) || // arrow keys
-                (charCode >= 48 && charCode <= 57)) { // numbers 0-9
-                return true;
-            }
-            evt.preventDefault();
-            return false;
-        }
-        
-        window.allowOnlyNumbers = function(input) {
-            // Remove any non-numeric characters
-            let value = input.value.replace(/\D/g, '');
-            
-            // Limit to 9 digits
-            if (value.length > 9) {
-                value = value.substring(0, 9);
-            }
-            
-            input.value = value;
-        }
-        
-        window.validatePhoneNumber = function(input) {
-            const phoneError = document.getElementById('cover-consultation-phone-error');
-            const phoneWrapper = document.getElementById('cover-consultation-phone-wrapper');
-            let value = input.value.replace(/\D/g, ''); // Remove any non-digits
-            
-            // Reset styling
-            if (phoneWrapper) {
-                phoneWrapper.style.borderColor = '#e8e8e8';
-                phoneWrapper.style.boxShadow = 'none';
-            }
-            
-            if (!value || value.length === 0) {
-                phoneError.style.display = 'none';
-                return true; // Required validation will handle empty
-            }
-            
-            // Must be exactly 9 digits
-            if (value.length !== 9) {
-                phoneError.textContent = 'Phone number must be exactly 9 digits (e.g., +61 4XX XXX XXX)';
-                phoneError.style.display = 'block';
-                if (phoneWrapper) {
-                    phoneWrapper.style.borderColor = '#dc3545';
-                    phoneWrapper.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
-                }
-                return false;
-            }
-            
-            // Check if contains only numbers
-            if (!/^[0-9]{9}$/.test(value)) {
-                phoneError.textContent = 'Phone number must contain only numbers (no letters or special characters)';
-                phoneError.style.display = 'block';
-                if (phoneWrapper) {
-                    phoneWrapper.style.borderColor = '#dc3545';
-                    phoneWrapper.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
-                }
-                return false;
-            }
-            
-            // Valid phone number
-            phoneError.style.display = 'none';
-            if (phoneWrapper) {
-                phoneWrapper.style.borderColor = '#28a745';
-                phoneWrapper.style.boxShadow = '0 0 0 3px rgba(40, 167, 69, 0.1)';
-            }
-            return true;
         }
         
         // Clean initial phone value on page load (remove +61 and non-digits, limit to 9)
