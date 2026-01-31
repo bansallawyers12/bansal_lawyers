@@ -47,11 +47,18 @@
     padding: 0;
 }
 
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 body {
     font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;
     line-height: 1.7;
     color: var(--primary-teal);
     background: var(--white);
+    width: 100%;
+    max-width: 100%;
 }
 
 /* Typography Classes */
@@ -1711,17 +1718,32 @@ body {
 }
 
 @media (max-width: 768px) {
+    /* Universal rule: Force all 2-column grids to single column on mobile */
+    div[style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+    
     .cover-section {
         grid-template-columns: 1fr;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+        min-height: auto;
+        height: auto;
     }
     
     .cover-image {
-        height: 500px;
-        min-height: 500px;
+        height: auto;
+        min-height: auto;
+        width: 100%;
+        max-width: 100%;
+        overflow: visible;
     }
     
     .cover-content {
-        padding: 40px 30px;
+        padding: 40px 20px;
+        width: 100%;
+        max-width: 100%;
     }
     
     .cover-title {
@@ -1733,7 +1755,101 @@ body {
     }
     
     .cover-visual-content {
-        padding: 30px 20px;
+        padding: 30px 15px !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        overflow: visible !important;
+    }
+    
+    /* Form Container Mobile Fixes */
+    .cover-visual-content > div[style*="background: rgba(255, 255, 255"] {
+        padding: 25px 18px !important;
+        border-radius: 20px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        min-height: auto !important;
+        height: auto !important;
+    }
+    
+    /* Form Inputs Mobile Fixes */
+    .cover-visual-content input[type="text"],
+    .cover-visual-content input[type="email"],
+    .cover-visual-content input[type="tel"],
+    .cover-visual-content textarea {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 14px 16px !important;
+        font-size: 1rem !important;
+        margin: 0 !important;
+    }
+    
+    /* Form Field Spacing Mobile */
+    .cover-visual-content form > div[style*="margin-bottom"] {
+        margin-bottom: 20px !important;
+    }
+    
+    /* Submit Button Mobile */
+    .cover-visual-content button[type="submit"] {
+        width: 100% !important;
+        margin-top: 20px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    /* reCAPTCHA Mobile */
+    .cover-visual-content .g-recaptcha {
+        margin-bottom: 15px !important;
+        transform: scale(0.85);
+        transform-origin: 0 0;
+    }
+    
+    /* Phone Number Wrapper Mobile Fix */
+    .cover-visual-content div[id*="phone-wrapper"],
+    .cover-visual-content div[style*="display: flex"][style*="width: 100%"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+    }
+    
+    .cover-visual-content div[id*="phone-wrapper"] input {
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+    }
+    
+    /* Form Labels Mobile */
+    .cover-visual-content label {
+        font-size: 0.95rem !important;
+        gap: 8px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    .cover-visual-content label span[style*="font-size: 1.3rem"] {
+        font-size: 1.1rem !important;
+        flex-shrink: 0 !important;
+    }
+    
+    /* Form Wrapper Mobile */
+    .cover-visual-content form {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    .cover-visual-content form > div {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
     
     .cover-icon-large {
@@ -1749,6 +1865,14 @@ body {
     .cover-visual-subtitle {
         font-size: 1.1rem;
         margin-bottom: 30px;
+    }
+    
+    .cover-visual-title {
+        font-size: 1.8rem !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        max-width: 100% !important;
+        padding: 0 10px !important;
     }
     
     .cover-features {
@@ -1879,7 +2003,125 @@ body {
     /* Property Settlement Responsive */
     section > div[style*="grid-template-columns: 3fr 2fr"] {
         grid-template-columns: 1fr !important;
-        gap: 30px !important;
+        gap: 25px !important;
+    }
+    
+    /* Property Settlement Section Mobile */
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"] {
+        padding: 30px 20px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    /* Property Settlement Panel Header Mobile */
+    section > div[style*="grid-template-columns: 3fr 2fr"] h3.panel-header {
+        font-size: 1.5rem !important;
+        margin-bottom: 20px !important;
+    }
+    
+    /* Property Settlement Icon Mobile */
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"] > div[style*="display: flex"][style*="align-items: center"] > div[style*="width: 70px"] {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"] > div[style*="display: flex"][style*="align-items: center"] > div[style*="width: 70px"] span {
+        font-size: 1.6rem !important;
+    }
+    
+    /* What Can Be Divided Grid Mobile - Target all possible combinations */
+    section > div[style*="grid-template-columns: 1fr 1fr"][style*="gap: 12px"],
+    div[style*="display: grid"][style*="grid-template-columns: 1fr 1fr"][style*="gap: 12px"],
+    div[style*="grid-template-columns: 1fr 1fr"][style*="margin-bottom: 30px"],
+    div[style*="display: grid"][style*="grid-template-columns: 1fr 1fr"][style*="margin-bottom: 30px"],
+    div[style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        display: grid !important;
+        gap: 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Force single column for all 2-column grids in Property Settlement section */
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div > div[style*="display: grid"][style*="grid-template-columns: 1fr 1fr"],
+    section > div[style*="grid-template-columns: 3fr 2fr"] div[style*="grid-template-columns: 1fr 1fr"],
+    section > div[style*="grid-template-columns: 3fr 2fr"] div[style*="display: grid"][style*="gap: 12px"] {
+        grid-template-columns: 1fr !important;
+        display: grid !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Ensure grid items don't overflow */
+    section > div[style*="grid-template-columns: 3fr 2fr"] div[style*="grid-template-columns: 1fr 1fr"] > div,
+    section > div[style*="grid-template-columns: 3fr 2fr"] div[style*="display: grid"] > div {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        min-width: 0 !important;
+        flex-shrink: 1 !important;
+    }
+    
+    /* Ensure text doesn't overflow in grid items */
+    section > div[style*="grid-template-columns: 3fr 2fr"] div[style*="display: grid"] > div span {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        max-width: 100% !important;
+    }
+    
+    /* Property Settlement Items Mobile */
+    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] {
+        padding: 12px 14px !important;
+        gap: 10px !important;
+    }
+    
+    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] span[style*="color: #334155"] {
+        font-size: 0.85rem !important;
+    }
+    
+    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] > div[style*="width: 32px"] {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    
+    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] > div[style*="width: 32px"] span {
+        font-size: 0.9rem !important;
+    }
+    
+    /* Property Settlement Text Mobile */
+    section > div[style*="grid-template-columns: 3fr 2fr"] p.panel-text {
+        font-size: 1rem !important;
+        margin-bottom: 20px !important;
+    }
+    
+    /* Property Settlement Warning Box Mobile */
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 20px 25px"] {
+        padding: 18px 20px !important;
+        margin-top: 20px !important;
+    }
+    
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 20px 25px"] p {
+        font-size: 0.9rem !important;
+    }
+    
+    /* Right Panel Mobile */
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 50px 40px"][style*="border: 2px solid #fed7aa"] {
+        padding: 30px 20px !important;
+    }
+    
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 50px 40px"][style*="border: 2px solid #fed7aa"] h3 {
+        font-size: 1.4rem !important;
+        margin-bottom: 25px !important;
+    }
+    
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 50px 40px"][style*="border: 2px solid #fed7aa"] > div[style*="width: 90px"] {
+        width: 70px !important;
+        height: 70px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 50px 40px"][style*="border: 2px solid #fed7aa"] > div[style*="width: 90px"] span {
+        font-size: 2.2rem !important;
     }
     
     .feature-panel {
@@ -1888,13 +2130,109 @@ body {
     }
     
     .contact-panel {
-        padding: 30px 20px;
+        padding: 30px 20px !important;
+        margin: 30px auto !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Contact Panel Grid Mobile */
+    .contact-panel > div[style*="grid-template-columns: 1fr 1fr"],
+    .contact-panel div[style*="display: grid"][style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        display: grid !important;
+        gap: 20px !important;
+        margin-bottom: 25px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Contact Panel Container - Add bottom margin for floating button */
+    .contact-panel {
+        margin-bottom: 80px !important;
+    }
+    
+    /* Contact Intro Mobile */
+    .contact-panel .contact-intro {
+        font-size: 1rem !important;
+        margin-bottom: 25px !important;
+        padding: 0 10px !important;
+    }
+    
+    /* Contact Items Mobile */
+    .contact-panel .contact-item-enhanced {
+        padding: 18px 16px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Contact Item Content Mobile */
+    .contact-panel .contact-item-enhanced > div[style*="padding-left: 57px"] {
+        padding-left: 0 !important;
+        padding-top: 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Contact Labels and Values Mobile */
+    .contact-panel .contact-label {
+        font-size: 0.95rem !important;
+    }
+    
+    .contact-panel .contact-value {
+        font-size: 0.9rem !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        max-width: 100% !important;
+        display: block !important;
+        line-height: 1.4 !important;
+    }
+    
+    /* Address Text Mobile - Ensure proper wrapping */
+    .contact-panel .contact-value[style*="Level 8"] {
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    /* Contact Icons Mobile */
+    .contact-panel .contact-item-enhanced > div[style*="display: flex"] > div[style*="width: 45px"] {
+        width: 40px !important;
+        height: 40px !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .contact-panel .contact-item-enhanced > div[style*="display: flex"] > div[style*="width: 45px"] span {
+        font-size: 1.3rem !important;
     }
     
     /* CTA Section Mobile */
     .cta-section {
-        padding: 60px 30px !important;
+        padding: 50px 20px !important;
         border-radius: 20px !important;
+        margin: 50px auto !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* CTA Section with inline styles */
+    section.cta-section[style*="padding: 100px 60px"],
+    section.cta-section[style*="padding: 100px"] {
+        padding: 50px 20px !important;
+        margin: 50px auto 80px auto !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    section.cta-section > div {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 0 10px !important;
     }
     
     .cta-section > div[style*="grid-template-columns: 1fr 1fr"] {
@@ -1905,9 +2243,78 @@ body {
     .cta-headline {
         font-size: 2.5rem;
     }
-
+    
     .cta-subheadline {
         font-size: 1.5rem;
+    }
+    
+    /* Encouragement Note Mobile */
+    .encouragement-note {
+        padding: 20px 20px !important;
+        margin: 25px auto !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    .encouragement-note p {
+        font-size: 1rem !important;
+        padding: 0 10px !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    /* CTA Button Mobile */
+    .cta-section a.cover-cta-button,
+    .cta-section a[href*="consultation-form"][class*="cover-cta-button"],
+    .cta-section > div > div > a[style*="display: inline-flex"],
+    .cta-section a[style*="display: inline-flex"][style*="align-items: center"] {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        padding: 18px 20px !important;
+        font-size: 1rem !important;
+        width: calc(100% - 30px) !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        text-align: center !important;
+        margin: 0 auto !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    .cta-section a.cover-cta-button span,
+    .cta-section a[href*="consultation-form"] span,
+    .cta-section a[style*="display: inline-flex"] span {
+        font-size: 0.95rem !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        text-align: center !important;
+        display: block !important;
+        width: 100% !important;
+    }
+    
+    .cta-section a.cover-cta-button span[style*="font-size: 1.8rem"],
+    .cta-section a[style*="display: inline-flex"] span[style*="font-size: 1.8rem"] {
+        font-size: 1.3rem !important;
+    }
+    
+    .cta-section a.cover-cta-button span[style*="font-size: 1.6rem"],
+    .cta-section a[style*="display: inline-flex"] span[style*="font-size: 1.6rem"] {
+        font-size: 1.1rem !important;
+    }
+    
+    /* CTA Button Container Mobile */
+    .cta-section > div[style*="text-align: center"],
+    .cta-section > div[style*="margin-top: 45px"] {
+        margin-top: 30px !important;
+        padding: 0 15px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
     }
     
     /* Understanding Divorce Section Mobile */
@@ -1918,38 +2325,45 @@ body {
     
     /* Limited Time Banner Mobile */
     .limited-time-banner {
-        padding: 12px 0;
+        padding: 8px 0;
     }
     
     .limited-time-banner-content {
         flex-direction: column;
-        gap: 10px;
+        gap: 6px;
         text-align: center;
+        padding: 0 15px;
+    }
+    
+    .limited-time-icon {
+        font-size: 1.2rem;
     }
     
     .limited-time-text {
-        font-size: 1rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.3px;
     }
     
     .limited-time-highlight {
-        font-size: 1rem;
-        padding: 8px 18px;
+        font-size: 0.75rem;
+        padding: 6px 12px;
     }
     
     .limited-time-date {
-        font-size: 0.85rem;
+        font-size: 0.7rem;
     }
     
     /* Floating CTA Button Mobile */
     .floating-cta-button {
         bottom: 20px;
         right: 20px;
-        padding: 18px 32px;
-        font-size: 1.1rem;
+        padding: 15px 28px;
+        font-size: 1rem;
+        gap: 10px;
     }
     
     .floating-cta-icon {
-        font-size: 1.6rem;
+        font-size: 1.2rem;
     }
     
     /* Consultation Form Mobile */
@@ -1977,9 +2391,31 @@ body {
         grid-template-columns: 1fr !important;
         gap: 20px !important;
     }
+    
+    /* Textarea Mobile Fixes */
+    .consultation-form-section textarea,
+    textarea[id*="consultation-message"],
+    textarea[name="message"] {
+        min-height: 120px !important;
+        padding: 14px 16px !important;
+        font-size: 1rem !important;
+        line-height: 1.5 !important;
+        resize: vertical !important;
+        overflow-y: auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
 }
 
 @media (max-width: 480px) {
+    /* Ensure all 2-column grids stay single column on extra small mobile */
+    div[style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+    
     .cover-title {
         font-size: 2rem;
     }
@@ -1988,8 +2424,215 @@ body {
         font-size: 1.8rem;
     }
     
+    /* Property Settlement Section Title Mobile */
+    .section-title[style*="Property Settlement: Dividing"] {
+        font-size: 1.6rem !important;
+        margin-bottom: 20px !important;
+    }
+    
     .section {
         padding: 40px 20px;
+    }
+    
+    /* Property Settlement Section Extra Small Mobile */
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"] {
+        padding: 25px 15px !important;
+    }
+    
+    section > div[style*="grid-template-columns: 3fr 2fr"] h3.panel-header {
+        font-size: 1.3rem !important;
+    }
+    
+    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] {
+        padding: 10px 12px !important;
+    }
+    
+    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] span[style*="color: #334155"] {
+        font-size: 0.8rem !important;
+    }
+    
+    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 50px 40px"][style*="border: 2px solid #fed7aa"] {
+        padding: 25px 15px !important;
+    }
+    
+    /* Contact Panel Extra Small Mobile */
+    .contact-panel {
+        padding: 25px 15px !important;
+        margin: 25px auto 90px auto !important;
+    }
+    
+    .contact-panel > div[style*="grid-template-columns: 1fr 1fr"],
+    .contact-panel div[style*="display: grid"][style*="grid-template-columns: 1fr 1fr"] {
+        gap: 15px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .contact-panel > div[style*="grid-template-columns: 1fr 1fr"] {
+        gap: 15px !important;
+    }
+    
+    .contact-panel .contact-item-enhanced {
+        padding: 15px 14px !important;
+    }
+    
+    .contact-panel .contact-intro {
+        font-size: 0.95rem !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .contact-panel .contact-value {
+        font-size: 0.85rem !important;
+    }
+    
+    /* CTA Section Extra Small Mobile */
+    .cta-section,
+    section.cta-section[style*="padding: 100px 60px"],
+    section.cta-section[style*="padding: 100px"] {
+        padding: 40px 15px !important;
+        margin: 40px auto 90px auto !important;
+    }
+    
+    section.cta-section > div {
+        padding: 0 5px !important;
+    }
+    
+    .encouragement-note {
+        padding: 18px 15px !important;
+        margin: 20px auto !important;
+    }
+    
+    .encouragement-note p {
+        font-size: 0.9rem !important;
+        padding: 0 5px !important;
+    }
+    
+    .cta-section a.cover-cta-button,
+    .cta-section a[href*="consultation-form"][class*="cover-cta-button"],
+    .cta-section > div > div > a[style*="display: inline-flex"] {
+        padding: 16px 20px !important;
+        font-size: 0.9rem !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    .cta-section a.cover-cta-button span {
+        font-size: 0.9rem !important;
+    }
+    
+    .cta-section a.cover-cta-button span[style*="font-size: 1.8rem"] {
+        font-size: 1.2rem !important;
+    }
+    
+    .cta-section a.cover-cta-button span[style*="font-size: 1.6rem"] {
+        font-size: 1rem !important;
+    }
+    
+    /* Limited Time Banner - Extra Small Mobile */
+    .limited-time-banner {
+        padding: 6px 0;
+    }
+    
+    .limited-time-banner-content {
+        gap: 4px;
+        padding: 0 10px;
+    }
+    
+    .limited-time-icon {
+        font-size: 1rem;
+    }
+    
+    .limited-time-text {
+        font-size: 0.65rem;
+        letter-spacing: 0.2px;
+    }
+    
+    .limited-time-highlight {
+        font-size: 0.65rem;
+        padding: 4px 10px;
+    }
+    
+    .limited-time-date {
+        font-size: 0.6rem;
+    }
+    
+    /* Floating CTA Button - Extra Small Mobile */
+    .floating-cta-button {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+        gap: 8px;
+    }
+    
+    .floating-cta-icon {
+        font-size: 1rem;
+    }
+    
+    /* Textarea Extra Small Mobile */
+    .consultation-form-section textarea,
+    textarea[id*="consultation-message"],
+    textarea[name="message"] {
+        min-height: 100px !important;
+        padding: 12px 14px !important;
+        font-size: 0.95rem !important;
+        line-height: 1.4 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    /* Form Container Extra Small Mobile */
+    .cover-visual-content {
+        padding: 20px 10px !important;
+    }
+    
+    .cover-visual-content > div[style*="background: rgba(255, 255, 255"] {
+        padding: 20px 15px 35px 15px !important;
+        margin-bottom: 70px !important;
+    }
+    
+    .cover-visual-title {
+        font-size: 1.5rem !important;
+        padding: 0 10px !important;
+        margin-bottom: 25px !important;
+    }
+    
+    .cover-visual-content input[type="text"],
+    .cover-visual-content input[type="email"],
+    .cover-visual-content input[type="tel"],
+    .cover-visual-content textarea {
+        padding: 12px 14px !important;
+        font-size: 0.95rem !important;
+    }
+    
+    /* Phone Number Prefix Mobile */
+    .cover-visual-content div[id*="phone-wrapper"] span {
+        padding: 12px 8px 12px 12px !important;
+        font-size: 0.9rem !important;
+        white-space: nowrap;
+    }
+    
+    .cover-visual-content div[id*="phone-wrapper"] input {
+        padding: 12px 12px 12px 8px !important;
+        min-width: 0 !important;
+    }
+    
+    /* Form Field Spacing Extra Small Mobile */
+    .cover-visual-content form > div[style*="margin-bottom"] {
+        margin-bottom: 18px !important;
+    }
+    
+    /* Button Mobile */
+    .cover-visual-content button[type="submit"] {
+        font-size: 1rem !important;
+        padding: 16px 20px !important;
+        margin-top: 15px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    /* reCAPTCHA Extra Small Mobile */
+    .cover-visual-content .g-recaptcha {
+        transform: scale(0.8);
+        margin-bottom: 12px !important;
     }
 }
 </style>
@@ -2133,7 +2776,7 @@ body {
                                   required
                                   rows="5"
                                   placeholder="Brief details about your matter..."
-                                  style="width: 100%; padding: 16px 20px; border: 2px solid #e8e8e8; border-radius: 12px; font-size: 1.05rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; resize: vertical; transition: all 0.3s ease; background: #fafafa; line-height: 1.6;"
+                                  style="width: 100%; padding: 16px 20px; border: 2px solid #e8e8e8; border-radius: 12px; font-size: 1.05rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; resize: vertical; transition: all 0.3s ease; background: #fafafa; line-height: 1.6; min-height: 120px; box-sizing: border-box;"
                                   onfocus="this.style.borderColor='#0F172A'; this.style.boxShadow='0 0 0 3px rgba(15, 23, 42, 0.1)'; this.style.background='#fff'"
                                   onblur="this.style.borderColor='#e8e8e8'; this.style.boxShadow='none'; this.style.background='#fafafa'">{{ old('message') }}</textarea>
                         <div id="cover-consultation-message-error" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 6px;"></div>
