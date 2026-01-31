@@ -86,7 +86,8 @@ body {
     gap: 0;
     background: var(--white);
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 .cover-content {
@@ -156,13 +157,16 @@ body {
 
 .cover-image {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
     position: relative;
     background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 50%, var(--light-blue) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 40px 20px;
 }
 
 .cover-image::before {
@@ -581,6 +585,17 @@ body {
     opacity: 0.7;
     cursor: not-allowed;
     transform: none !important;
+}
+
+/* Ensure submit button is always visible */
+#cover-consultation-form-submit {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 100 !important;
+    margin-top: 15px !important;
+    margin-bottom: 20px !important;
 }
 
 @keyframes spin {
@@ -1738,6 +1753,8 @@ body {
         width: 100%;
         max-width: 100%;
         overflow: visible;
+        overflow-y: visible;
+        padding: 20px 15px;
     }
     
     .cover-content {
@@ -1850,6 +1867,16 @@ body {
         box-sizing: border-box !important;
         margin-left: 0 !important;
         margin-right: 0 !important;
+    }
+    
+    .cover-image {
+        min-height: auto;
+        padding: 20px 15px;
+        overflow-y: visible;
+    }
+    
+    .cover-section {
+        overflow-y: visible;
     }
     
     .cover-icon-large {
@@ -2408,6 +2435,21 @@ body {
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
     }
+    
+    /* Ensure submit button is visible on mobile */
+    #cover-consultation-form-submit {
+        display: flex !important;
+        visibility: visible !important;
+        margin-top: 20px !important;
+        margin-bottom: 30px !important;
+        padding: 20px 30px !important;
+        font-size: 1.1rem !important;
+    }
+    
+    /* Add extra bottom padding to form container on mobile to account for floating button */
+    .cover-section .cover-visual-content > div {
+        padding-bottom: 100px !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -2685,7 +2727,7 @@ body {
                 ⚡ GET YOUR FREE CONSULTATION NOW ⚡
             </h3>
             
-            <div style="background: rgba(255, 255, 255, 0.98); border-radius: 25px; padding: 50px 45px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); position: relative; z-index: 2;">
+            <div style="background: rgba(255, 255, 255, 0.98); border-radius: 25px; padding: 50px 45px 120px 45px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); position: relative; z-index: 2; margin-bottom: 50px;">
                 <!-- Success/Error Messages -->
                 <div id="cover-consultation-form-messages" style="display: none; margin-bottom: 20px;">
                     <div id="cover-consultation-form-success" style="display: none; background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); color: #155724; padding: 15px 20px; border-radius: 12px; border-left: 5px solid #28a745; margin-bottom: 15px; display: flex; align-items: center; gap: 12px;">
@@ -2783,14 +2825,14 @@ body {
                     </div>
                     
                     <!-- Google reCAPTCHA -->
-                    <div style="margin-bottom: 20px; display: flex; justify-content: center;">
+                    <div style="margin-bottom: 25px; display: flex; justify-content: center;">
                         <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') }}"></div>
                         <div id="cover-consultation-recaptcha-error" style="display: none; color: #dc3545; font-size: 0.85rem; margin-top: 10px; text-align: center; width: 100%;"></div>
                     </div>
                     
                     <button type="submit" 
                             id="cover-consultation-form-submit"
-                            style="width: 100%; padding: 22px 35px; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); color: white; border: none; border-radius: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 800; font-size: 1.3rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4); display: flex; align-items: center; justify-content: center; gap: 15px; text-transform: uppercase; letter-spacing: 0.5px;"
+                            style="width: 100%; padding: 22px 35px; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); color: white; border: none; border-radius: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 800; font-size: 1.3rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4); display: flex !important; align-items: center; justify-content: center; gap: 15px; text-transform: uppercase; letter-spacing: 0.5px; position: relative; z-index: 10; margin-top: 15px; margin-bottom: 30px;"
                             onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 18px 45px rgba(15, 23, 42, 0.5)'"
                             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 12px 35px rgba(15, 23, 42, 0.4)'">
                         <span id="cover-consultation-btn-text" style="display: flex; align-items: center; gap: 12px;">
@@ -3593,7 +3635,8 @@ if (typeof gtag !== 'undefined') {
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('consultation-form-element') || document.querySelector('form#consultation-form-element');
     if (!form || !(form instanceof HTMLFormElement)) {
-        console.error('Consultation form not found');
+        // Form not found - this is expected if the page doesn't have a consultation-form-element
+        // The cover-consultation-form-element is handled separately
         return;
     }
     
