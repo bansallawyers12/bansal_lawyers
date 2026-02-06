@@ -228,12 +228,11 @@ function toggleFAQ(index) {
     <!-- Load as static asset to avoid Vite path resolution issues with font files -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     
-    <!-- Preload critical font files for faster rendering -->
-    <link rel="preload" href="{{ asset('fonts/fontawesome-webfont.woff2') }}?v=4.7.0" as="font" type="font/woff2" crossorigin>
+    <!-- Preload critical font files for faster rendering (Flaticon only; Font Awesome 6 loads via Vite build) -->
     <link rel="preload" href="{{ asset('fonts/flaticon/font/Flaticon.woff') }}" as="font" type="font/woff" crossorigin>
     
-    <!-- Preload optimized logo for faster rendering -->
-    <link rel="preload" href="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }}" as="image">
+    <!-- Preload logo - imagesrcset ensures correct variant (1x/2x) is preloaded and consumed by header img -->
+    <link rel="preload" as="image" href="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }}" imagesrcset="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }} 1x, {{ asset('images/logo/Bansal_Lawyers_origional@2x.webp') }} 2x">
 
     <!-- Vite CSS - Modern optimized CSS bundle -->
     @vite(['resources/css/frontend.css'])

@@ -359,27 +359,27 @@
                             Specializing in Immigration Law, Family Law, Property Law, Commercial Law, and Criminal Law.
                         </p>
                         
-                        <!-- Social Media Links -->
+                        <!-- Social Media Links (fab = Font Awesome 6 Brands - required for brand icons) -->
                         <div class="footer-social">
                             <a href="https://www.facebook.com/profile.php?id=61562008576642" 
                                aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-                                <i class="fa fa-facebook"></i>
+                                <i class="fab fa-facebook"></i>
                             </a>
                             <a href="https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw" 
                                aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-                                <i class="fa fa-instagram"></i>
+                                <i class="fab fa-instagram"></i>
                             </a>
                             <a href="https://www.linkedin.com/company/bansallawyers" 
                                aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-                                <i class="fa fa-linkedin"></i>
+                                <i class="fab fa-linkedin"></i>
                             </a>
                             <a href="https://twitter.com/BansalLawyers" 
                                aria-label="Twitter" target="_blank" rel="noopener noreferrer">
-                                <i class="fa fa-twitter"></i>
+                                <i class="fab fa-twitter"></i>
                             </a>
                             <a href="https://www.youtube.com/@BansalLawyers" 
                                aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-                                <i class="fa fa-youtube"></i>
+                                <i class="fab fa-youtube"></i>
                             </a>
                         </div>
                     </div>
