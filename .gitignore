@@ -20,5 +20,7 @@ yarn-error.log
 /storage/framework/sessions/
 /storage/logs/
 /bootstrap/cache/*.tmp
+/bootstrap/cache/packages.php
+/bootstrap/cache/services.php
 *.sql
 bansalla_lawyers.sql

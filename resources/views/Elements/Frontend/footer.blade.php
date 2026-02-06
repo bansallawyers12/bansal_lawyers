@@ -414,7 +414,7 @@
                         <div class="footer-contact-item">
                             <span class="footer-contact-icon">📞</span>
                             <a href="tel:+61422905860">
-                                (+61) 0422 905 860
+                                (+61) 422 905 860
                             </a>
                         </div>
                         <div class="footer-contact-item">
