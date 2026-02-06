@@ -24,8 +24,7 @@
 	<!-- Font Awesome loaded via Vite vendor bundle -->
 	@vite(['resources/css/vendor-admin.css'])
 	
-	<!-- BASE CSS -->
-	<link href="{{ asset('css/app.min.css')}}" rel="stylesheet">
+	<!-- BASE CSS (app.min.css removed - file not present; vendor-admin + below provide styles) -->
 	<link href="{{ asset('css/bootstrap-social.css')}}" rel="stylesheet">
 	<link href="{{ asset('css/components.css')}}" rel="stylesheet">
 	<link href="{{ asset('css/custom.css')}}" rel="stylesheet">

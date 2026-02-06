@@ -17,8 +17,7 @@
 	<!-- Vite CSS - Modern optimized CSS bundle -->
 	@vite(['resources/css/admin.css'])
 	
-	<!-- Legacy CSS files (will be migrated gradually) -->
-	<link rel="stylesheet" href="{{ asset('css/app.min.css')}}">
+	<!-- Legacy CSS files (will be migrated gradually) - app.min.css removed (file not present; Vite admin.css provides styles) -->
 	 <!-- FullCalendar v6 CSS - Auto-injected by JavaScript (no CSS files needed in v6) -->
 	 <!-- The admin-calendar-v6.js imports inject CSS automatically at runtime -->
 	<!-- Summernote CSS removed - now using TinyMCE -->
@@ -222,8 +221,15 @@ body {
 	<!-- DataTables removed - not used in admin panel (modern-table class used instead) -->
 	<!-- <script src="{{ asset('js/datatables.min.js')}}"></script> -->
 	<!-- <script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script> -->
-	<!-- Summernote JS removed - now using TinyMCE -->
-	<script src="{{ asset('assets/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
+	<!-- Summernote JS removed - now using TinyMCE (CDN so themes/skins load correctly) -->
+	<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
+	<script type="text/javascript">
+		// Required when loading TinyMCE from CDN so themes/icons load from same origin (must run before any tinymce.init())
+		if (typeof tinymce !== 'undefined') {
+			tinymce.baseURL = 'https://cdn.jsdelivr.net/npm/tinymce@6';
+			tinymce.suffix = '.min';
+		}
+	</script>
 	<script src="{{ asset('js/daterangepicker.js')}}"></script>
 	<script src="{{ asset('js/bootstrap-timepicker.min.js')}}"></script>
 	<!-- Select2 JS removed - now using Tom Select (loaded via Vite in admin.js) -->
