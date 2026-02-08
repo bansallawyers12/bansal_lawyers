@@ -31,11 +31,6 @@ use App\Models\NatureOfEnquiry;
 
 class HomeController extends Controller
 {
-    public function coming_soon()
-    {
-        return view('coming_soon');
-    }
-
 	/**
 	 * Generate CAPTCHA image
 	 * Modernized GD library implementation with improved error handling and structure
@@ -120,14 +115,6 @@ class HomeController extends Controller
 			// Return a simple error image or abort
 			abort(500, 'Failed to generate CAPTCHA image');
 		}
-    }
-
-    public static function hextorgb ($hexstring){
-        $integar = hexdec($hexstring);
-                    return [ "red" => 0xFF & ($integar >> 0x10),
-        "green" => 0xFF & ($integar >> 0x8),
-        "blue" => 0xFF & $integar
-        ];
     }
 
 	public function Page(Request $request, $slug= null)
@@ -364,68 +351,6 @@ class HomeController extends Controller
         }
     }
 
-
-	public function blog(Request $request)
-    {
-		// Optimized: Cache blog categories as they rarely change
-		$blogCategories = Cache::remember('blog_categories', 3600, function () {
-			return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
-		});
-		
-		$blogquery = Blog::where('status', '=', 1)->with(['categorydetail']);
-		
-		// Filter by category if provided - optimized query
-		if ($request->has('category') && !empty($request->category)) {
-			$categorySlug = $request->category;
-			$category = $blogCategories->where('slug', $categorySlug)->first();
-			if ($category) {
-				$blogquery->where('parent_category', $category->id);
-			}
-		}
-		
-		// SEO-Optimized Pagination: 9 posts per page for optimal 3x3 grid
-		$bloglists = $blogquery->orderby('id','DESC')->paginate(9);
-		$blogData = $bloglists->total();
-		
-		// Get current page for SEO meta tags
-		$currentPage = $bloglists->currentPage();
-		$totalPages = $bloglists->lastPage();
-		
-        return view('bloglatest', compact('bloglists', 'blogData', 'blogCategories', 'currentPage', 'totalPages'));
-    }
-    
-    public function blogCategory(Request $request, $categorySlug = null)
-    {
-        if (isset($categorySlug) && !empty($categorySlug)) {
-            // Optimized: Use cached categories instead of separate query
-            $blogCategories = Cache::remember('blog_categories', 3600, function () {
-                return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
-            });
-            
-            $category = $blogCategories->where('slug', $categorySlug)->first();
-            
-            if ($category) {
-                $blogquery = Blog::where('parent_category', $category->id)
-                                ->where('status', 1)
-                                ->with(['categorydetail']);
-                
-                // SEO-Optimized Pagination: 9 posts per page
-                $bloglists = $blogquery->orderby('id','DESC')->paginate(9);
-                $blogData = $bloglists->total();
-                
-                // Get current page for SEO meta tags
-                $currentPage = $bloglists->currentPage();
-                $totalPages = $bloglists->lastPage();
-                
-                return view('bloglatest', compact('bloglists', 'blogData', 'blogCategories', 'category', 'currentPage', 'totalPages'));
-            } else {
-                return redirect('/blog')->with('error', 'Category not found');
-            }
-        } else {
-            return redirect('/blog')->with('error', 'Invalid category');
-        }
-    }
-  
 	/**
      * Blog Detail Page
      * URL: /blog/{slug}
@@ -472,7 +397,8 @@ class HomeController extends Controller
 
     public function bookappointment1()
     {
-        return view('bookappointment1');
+        // Legacy route: bookappointment1.blade.php was never created; redirect to main appointment page
+        return redirect()->route('bookappointment', [], 301);
     }
 
 
@@ -960,24 +886,6 @@ class HomeController extends Controller
         return view('contact-thankyou');
     }
 
-    public function search_result(Request $request)
-    {
-        if ( isset($request->search) &&  $request->search != "" ) {
-            $search_string 	= $request->search;
-        } else {
-            $search_string 	= 'search_string';
-        }
-        $query 	= CmsPage::where('title', 'LIKE', '%'.$search_string.'%')
-        ->orWhere('slug', 'LIKE', '%' . $search_string . '%')
-        ->orWhere('meta_title', 'LIKE', '%' . $search_string . '%')
-        ->orWhere('meta_keyward', 'LIKE', '%' . $search_string . '%');
-
-        $totalData 	= $query->count();
-        $lists	= $query->sortable(['id' => 'desc'])->paginate(20);
-        return view('searchresults', compact('lists', 'totalData'));
-    }
-  
-  
     public function practiceareas(Request $request)
     { 
 		// Fetch CMS page data for "practice-areas" slug to get dynamic meta tags
@@ -996,23 +904,6 @@ class HomeController extends Controller
         return view('case', compact('caselists', 'caseData', 'pagedata'));
 	}
 
-    public function casedetail(Request $request, $slug = null)
-    {
-		if(isset($slug) && !empty($slug)){
-			if(RecentCase::where('slug', '=', $slug)->exists()) {
-			    $casedetailquery 	= RecentCase::where('slug', '=', $slug)->where('status', '=', 1);
-			    $casedetailists		=  $casedetailquery->first();
-
-                return view('casedetail', compact('casedetailists'));
-			} else {
-				return redirect('/case')->with('error', 'Case'.config('constants.not_exist'));
-			}
-		}
-		else{
-			return redirect('/case')->with('error', config('constants.unauthorized'));
-		}
-    }
-
     // Experimental Family Law using new template
     public function familylawExperiment(Request $request)
     {
@@ -1023,23 +914,6 @@ class HomeController extends Controller
             if (isset($pagedata) && $pagedata->id != "") {
                 $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
                 $relatedpagedata = $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
-    }
-
-    public function migrationlaw(Request $request)
-    {
-        $type = 'migration-law';
-		if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
             }
             return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
