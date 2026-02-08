@@ -32,14 +32,4 @@ class Admin extends Authenticatable
     ];
 	
 	public $sortable = ['id', 'first_name', 'last_name', 'email', 'created_at', 'updated_at'];
-	
-	public function countryData()
-    {
-        return $this->belongsTo('App\Models\Country','country');
-    }
-	
-	public function stateData()
-    {
-        return $this->belongsTo('App\Models\State','state');
-    }
 }
