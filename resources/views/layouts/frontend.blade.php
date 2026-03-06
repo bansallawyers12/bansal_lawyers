@@ -14,7 +14,7 @@
 </script>
 <!-- End Google Tag Manager -->
 
-<!-- Google Analytics 4 -->
+{{-- Google Analytics 4 (commented out - duplicate of gtag block above)
 @if(\App\Helpers\Helper::isAnalyticsEnabled())
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google_analytics.id') }}"></script>
 <script>
@@ -28,6 +28,7 @@
   });
 </script>
 @endif
+--}}
 
 <!-- Enhanced Analytics & Tracking -->
 <script>
