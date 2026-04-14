@@ -64,4 +64,11 @@ return [
         'from' => env('TWILIO_FROM'),
     ],
 
+    /*
+    | Shared secret for GET /api/appointments (Bearer or X-Appointments-Api-Token header).
+    */
+    'appointments_api' => [
+        'token' => env('APPOINTMENTS_API_TOKEN'),
+    ],
+
 ];

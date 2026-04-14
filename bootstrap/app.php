@@ -2,12 +2,9 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
 
 $app = Application::configure(basePath: __DIR__.'/../')
     ->withRouting(
@@ -40,6 +37,7 @@ $app = Application::configure(basePath: __DIR__.'/../')
         ]);
 
         $middleware->alias([
+            'appointments.api.token' => \App\Http\Middleware\ValidateAppointmentsApiToken::class,
             'auth' => \App\Http\Middleware\Authenticate::class,
             'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
             'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
@@ -50,11 +48,7 @@ $app = Application::configure(basePath: __DIR__.'/../')
             'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions) {
-        // RateLimiter::for('api', function (Request $request) {
-        //     return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
-        // });
-    })
+    ->withExceptions(function (Exceptions $exceptions) {})
     ->create();
 
 // Register only the custom AppServiceProvider (Laravel auto-registers core providers)

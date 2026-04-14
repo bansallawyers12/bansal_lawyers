@@ -48,4 +48,9 @@ class Appointment extends Model
     {
         return $this->belongsTo('App\Models\NatureOfEnquiry','noe_id','id');
     }
+
+    public function payment()
+    {
+        return $this->hasOne(AppointmentPayment::class, 'order_hash', 'order_hash');
+    }
 }
