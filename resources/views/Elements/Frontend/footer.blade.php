@@ -431,7 +431,7 @@
                         <!-- Business Hours -->
                         <div class="footer-hours">
                             <h4>Business Hours</h4>
-                            <p><strong>Monday – Friday:</strong> 10:00 AM to 5:30 PM</p>
+                            <p><strong>Monday – Friday:</strong> 9:30 AM to 6:00 PM</p>
                         </div>
                     </div>
                 </div>
