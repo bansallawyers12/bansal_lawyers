@@ -71,4 +71,24 @@ return [
         'token' => env('APPOINTMENTS_API_TOKEN'),
     ],
 
+    /*
+    | Sync successful website appointment bookings to Bansal CRM.
+    | Set CRM_LEAD_POST_URL empty to disable outbound calls.
+    | Optional CRM_API_TOKEN sends Authorization: Bearer on both CRM requests.
+    */
+    'crm_lead' => [
+        'url' => env('CRM_LEAD_POST_URL', 'https://legal.bansalcrm.com/api/leadspost'),
+        'booking_url' => env('CRM_BOOKING_POST_URL', 'https://legal.bansalcrm.com/api/booking-appointments'),
+        'api_token' => env('CRM_API_TOKEN'),
+        'country_code' => env('CRM_LEAD_COUNTRY_CODE', '+61'),
+        'source' => env('CRM_LEAD_SOURCE', 'Website form'),
+        'lead_status' => env('CRM_LEAD_LEAD_STATUS', 'new'),
+        'location' => env('CRM_BOOKING_LOCATION', 'melbourne'),
+        'consultant_id' => env('CRM_BOOKING_CONSULTANT_ID', 2),
+        'crm_service_id' => env('CRM_BOOKING_CRM_SERVICE_ID', 2),
+        'meeting_type' => env('CRM_BOOKING_MEETING_TYPE', 'in_person'),
+        'default_timezone' => env('CRM_BOOKING_TIMEZONE', 'Australia/Sydney'),
+        'default_duration' => env('CRM_BOOKING_DEFAULT_DURATION', 30),
+    ],
+
 ];

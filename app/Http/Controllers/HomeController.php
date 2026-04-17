@@ -28,6 +28,7 @@ use App\Models\BookServiceSlotPerPerson;
 use App\Models\BookServiceDisableSlot;
 use App\Models\Admin;
 use App\Models\NatureOfEnquiry;
+use App\Support\CrmLeadSync;
 
 class HomeController extends Controller
 {
@@ -757,6 +758,29 @@ class HomeController extends Controller
                     $updateData['order_hash'] = $finalOrderHash;
                 }
                 DB::table('appointments')->where('id', $appointment_id)->update($updateData);
+
+                $appointment = Appointment::with('service')->find($appointment_id);
+                if ($appointment) {
+                    $serviceModel = $appointment->service;
+                    $listAmount = $serviceModel
+                        ? (float) str_replace(['aud', 'AUD', '$', ' '], '', (string) $serviceModel->price)
+                        : 0.0;
+                    $finalAmount = isset($payment_intent->amount) ? ((int) $payment_intent->amount) / 100 : (float) $amount;
+                    $discountAmount = round(max(0, $listAmount - $finalAmount), 2);
+                    $nowStr = now()->format('Y-m-d H:i:s');
+                    CrmLeadSync::syncAppointmentToCrm($appointment, [
+                        'is_paid' => true,
+                        'amount' => $listAmount,
+                        'discount_amount' => $discountAmount,
+                        'final_amount' => $finalAmount,
+                        'promo_code' => null,
+                        'payment_status' => 'completed',
+                        'payment_method' => 'stripe',
+                        'paid_at' => $nowStr,
+                        'confirmed_at' => $nowStr,
+                        'status' => (string) $appointment_status,
+                    ]);
+                }
                 
                 // Send confirmation emails after successful payment
                 if ($appointment) {

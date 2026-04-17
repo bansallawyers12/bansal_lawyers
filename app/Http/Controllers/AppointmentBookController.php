@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\Appointment;
 use App\Models\Admin;
 use App\Models\AppointmentPayment;
+use App\Support\CrmLeadSync;
 use Helper;
 
 class AppointmentBookController extends Controller {
@@ -371,6 +372,7 @@ class AppointmentBookController extends Controller {
         } else {
             $amount = 0;
         }
+        $listPrice = $amount;
 
         // Apply promo code discount if provided
         $appliedPromo = null;
@@ -574,6 +576,22 @@ class AppointmentBookController extends Controller {
                 
                 // Commit the transaction if appointment is saved successfully
                 DB::commit();
+
+                if ((float) $amount <= 0) {
+                    $obj->load('service');
+                    CrmLeadSync::syncAppointmentToCrm($obj, [
+                        'is_paid' => false,
+                        'amount' => $listPrice,
+                        'discount_amount' => round(max(0, $listPrice - (float) $amount), 2),
+                        'final_amount' => (float) $amount,
+                        'promo_code' => ($appliedPromo ?? [])['code'] ?? null,
+                        'payment_status' => 'completed',
+                        'payment_method' => 'promo_free',
+                        'paid_at' => $order_date,
+                        'confirmed_at' => $order_date,
+                        'status' => '10',
+                    ]);
+                }
                 
                 // Only send emails for free appointments (amount <= 0)
                 // For paid appointments, emails will be sent after successful Stripe payment
