@@ -578,8 +578,8 @@ class AppointmentBookController extends Controller {
                 DB::commit();
 
                 if ((float) $amount <= 0) {
-                    $obj->load('service');
-                    CrmLeadSync::syncAppointmentToCrm($obj, [
+                    $crmAppointmentId = $obj->id;
+                    $crmPaymentPayload = [
                         'is_paid' => false,
                         'amount' => $listPrice,
                         'discount_amount' => round(max(0, $listPrice - (float) $amount), 2),
@@ -590,7 +590,20 @@ class AppointmentBookController extends Controller {
                         'paid_at' => $order_date,
                         'confirmed_at' => $order_date,
                         'status' => '10',
-                    ]);
+                    ];
+                    app()->terminating(function () use ($crmAppointmentId, $crmPaymentPayload) {
+                        try {
+                            $appt = Appointment::with('service')->find($crmAppointmentId);
+                            if ($appt) {
+                                CrmLeadSync::syncAppointmentToCrm($appt, $crmPaymentPayload);
+                            }
+                        } catch (\Throwable $e) {
+                            \Log::error('CRM sync after booking response failed', [
+                                'appointment_id' => $crmAppointmentId,
+                                'message' => $e->getMessage(),
+                            ]);
+                        }
+                    });
                 }
                 
                 // Only send emails for free appointments (amount <= 0)

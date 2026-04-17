@@ -2760,6 +2760,7 @@
 
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
+window.bansalAppUrl = <?php echo json_encode(rtrim(url('/'), '/')); ?>;
 document.addEventListener('DOMContentLoaded', function() {
     // Tab navigation
     document.querySelectorAll('.next-tab').forEach(function(btn) {
@@ -3181,7 +3182,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Submit to backend
             $.ajax({
-                url: '/book-an-appointment/storepaid',
+                url: window.bansalAppUrl + '/book-an-appointment/storepaid',
                 method: 'POST',
                 data: formData,
                 dataType: 'json',
@@ -3209,7 +3210,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 if (response.redirect) {
                                     window.location.href = response.redirect;
                                 } else if (response.appointment_id) {
-                                    window.location.href = '/payment-thankyou/' + response.appointment_id;
+                                    window.location.href = window.bansalAppUrl + '/payment-thankyou/' + response.appointment_id;
                                 } else {
                                     window.location.reload();
                                 }
@@ -3229,7 +3230,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             } else if (response.appointment_id) {
                                 showSuccessMessage(response.message || 'Appointment booked successfully! Redirecting...');
                                 setTimeout(function() {
-                                    window.location.href = '/payment-thankyou/' + response.appointment_id;
+                                    window.location.href = window.bansalAppUrl + '/payment-thankyou/' + response.appointment_id;
                                 }, 1500);
                             } else {
                                 showSuccessMessage(response.message || 'Appointment booked successfully! You will receive a confirmation email shortly.');
@@ -3670,7 +3671,7 @@ document.addEventListener('DOMContentLoaded', function() {
          
          // Call API to get booked time slots
          $.ajax({
-             url: '/getdisableddatetime',
+             url: window.bansalAppUrl + '/getdisableddatetime',
              method: 'POST',
              data: {
                  sel_date: apiDate,
@@ -3858,7 +3859,7 @@ document.addEventListener('DOMContentLoaded', function() {
              disabledWeekdays = [0, 6]; // 0=Sunday, 6=Saturday
              
              $.ajax({
-                 url: '/getdatetime',
+                 url: window.bansalAppUrl + '/getdatetime',
                  method: 'GET',
                  data: {
                      id: 1, // Service ID for paid appointments

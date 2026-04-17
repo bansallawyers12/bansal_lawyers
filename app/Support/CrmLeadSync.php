@@ -104,7 +104,7 @@ final class CrmLeadSync
             ? (int) $crmServiceId
             : (int) $appointment->service_id;
 
-        $duration = (int) ($appointment->service->duration ?? config('services.crm_lead.default_duration', 30));
+        $duration = (int) ($appointment->service?->duration ?? config('services.crm_lead.default_duration', 30));
 
         $payload = [
             'client_name' => $appointment->full_name,

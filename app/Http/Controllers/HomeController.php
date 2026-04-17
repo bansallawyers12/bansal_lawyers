@@ -768,7 +768,7 @@ class HomeController extends Controller
                     $finalAmount = isset($payment_intent->amount) ? ((int) $payment_intent->amount) / 100 : (float) $amount;
                     $discountAmount = round(max(0, $listAmount - $finalAmount), 2);
                     $nowStr = now()->format('Y-m-d H:i:s');
-                    CrmLeadSync::syncAppointmentToCrm($appointment, [
+                    $crmPaymentPayload = [
                         'is_paid' => true,
                         'amount' => $listAmount,
                         'discount_amount' => $discountAmount,
@@ -779,7 +779,21 @@ class HomeController extends Controller
                         'paid_at' => $nowStr,
                         'confirmed_at' => $nowStr,
                         'status' => (string) $appointment_status,
-                    ]);
+                    ];
+                    $crmApptId = (int) $appointment->id;
+                    app()->terminating(function () use ($crmApptId, $crmPaymentPayload) {
+                        try {
+                            $appt = Appointment::with('service')->find($crmApptId);
+                            if ($appt) {
+                                CrmLeadSync::syncAppointmentToCrm($appt, $crmPaymentPayload);
+                            }
+                        } catch (\Throwable $e) {
+                            Log::error('CRM sync after payment response failed', [
+                                'appointment_id' => $crmApptId,
+                                'message' => $e->getMessage(),
+                            ]);
+                        }
+                    });
                 }
                 
                 // Send confirmation emails after successful payment
