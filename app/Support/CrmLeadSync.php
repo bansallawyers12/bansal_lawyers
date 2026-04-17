@@ -163,7 +163,7 @@ final class CrmLeadSync
             'noe_id' => (int) $appointment->noe_id,
             'timezone' => (string) ($appointment->timezone ?: config('services.crm_lead.default_timezone', 'Australia/Sydney')),
             'client_id' => $leadId,
-            'meeting_type' => (string) config('services.crm_lead.meeting_type', 'in_person'),
+            'meeting_type' => self::meetingTypeForCrm($appointment->appointment_details),
             'enquiry_details' => trim((string) $appointment->description.(($appointment->appointment_details ?? '') !== ''
                 ? "\n\n".(string) $appointment->appointment_details
                 : '')),
@@ -277,6 +277,33 @@ final class CrmLeadSync
         }
 
         return null;
+    }
+
+    /**
+     * CRM booking `meeting_type` from stored consultation mode (`appointments.appointment_details`).
+     * Falls back to `services.crm_lead.meeting_type` when empty or unrecognized.
+     */
+    private static function meetingTypeForCrm(?string $appointmentDetails): string
+    {
+        $fallback = (string) config('services.crm_lead.meeting_type', 'in_person');
+        $label = trim((string) $appointmentDetails);
+        if ($label === '') {
+            return $fallback;
+        }
+
+        $lower = strtolower($label);
+
+        if (str_contains($lower, 'zoom') || str_contains($lower, 'google meeting')) {
+            return 'video';
+        }
+        if (str_contains($lower, 'phone')) {
+            return 'phone';
+        }
+        if (str_contains($lower, 'in-person') || str_contains($lower, 'in person')) {
+            return 'in_person';
+        }
+
+        return $fallback;
     }
 
     private static function httpClient(): PendingRequest
