@@ -11,16 +11,15 @@ use Illuminate\Support\Facades\Log;
 final class CrmLeadSync
 {
     /**
-     * Create CRM lead then booking row. Logs and returns on failure; never throws to callers.
-     *
-     * @param  array<string, mixed>  $payment
+     * POST /api/leads — CRM creates a lead or returns existing (same email). Returns admins.id / lead_id or null.
      */
-    public static function syncAppointmentToCrm(Appointment $appointment, array $payment = []): void
+    public static function createOrResolveLeadId(Appointment $appointment): ?int
     {
-        $leadUrl = (string) config('services.crm_lead.url', '');
+        $leadUrl = rtrim((string) config('services.crm_lead.url', ''), '/');
         if ($leadUrl === '') {
-            return;
+            return null;
         }
+
 
         $appointment->loadMissing('service');
 
@@ -30,7 +29,6 @@ final class CrmLeadSync
 
         $defaultCc = (string) config('services.crm_lead.country_code', '+61');
         [$countryCode, $nationalPhone] = self::splitCountryAndPhone($phoneRaw, $defaultCc);
-        $clientPhoneE164 = self::e164($countryCode, $nationalPhone);
 
         $leadPayload = [
             'full_name' => $fullName,
@@ -48,43 +46,89 @@ final class CrmLeadSync
                 ->post($leadUrl, $leadPayload);
 
             if (! $leadResponse->successful()) {
-                Log::warning('CRM leadspost returned non-success status', [
+                Log::warning('CRM /api/leads returned non-success status', [
                     'status' => $leadResponse->status(),
                     'body' => $leadResponse->body(),
+                    'appointment_id' => $appointment->id,
                 ]);
 
-                return;
+                return null;
             }
 
             $leadJson = $leadResponse->json();
-            $crmClientId = self::extractLeadId($leadJson);
+            $leadArray = is_array($leadJson) ? $leadJson : null;
+            $leadId = self::parseLeadIdFromLeadsApiResponse($leadArray);
 
-            if ($crmClientId === null) {
-                Log::warning('CRM leadspost succeeded but lead id not found in response', [
+            if ($leadId === null) {
+                Log::warning('CRM /api/leads succeeded but lead_id not found in response', [
                     'body' => $leadResponse->body(),
+                    'json_type' => get_debug_type($leadJson),
+                    'appointment_id' => $appointment->id,
                 ]);
 
-                return;
+                return null;
             }
 
-            self::postBookingAppointment($appointment, $crmClientId, $clientPhoneE164, $payment);
-        } catch (\Throwable $e) {
-            Log::error('CRM leadspost request failed', [
-                'message' => $e->getMessage(),
+            Log::info('CRM /api/leads lead_id resolved (passed to booking as client_id)', [
+                'appointment_id' => $appointment->id,
+                'lead_id' => $leadId,
+                'http' => $leadResponse->status(),
             ]);
+
+            return $leadId;
+        } catch (\Throwable $e) {
+            Log::error('CRM /api/leads request failed', [
+                'message' => $e->getMessage(),
+                'appointment_id' => $appointment->id,
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return null;
         }
     }
 
     /**
+     * Create or resolve lead via /api/leads, then POST booking-appointments with that client_id.
+     *
      * @param  array<string, mixed>  $payment
+     */
+    public static function syncAppointmentToCrm(Appointment $appointment, array $payment = []): void
+    {
+        $leadUrl = rtrim((string) config('services.crm_lead.url', ''), '/');
+        if ($leadUrl === '') {
+            return;
+        }
+
+        $appointment->loadMissing('service');
+
+        Log::info('CRM sync started (lead + booking)', [
+            'appointment_id' => $appointment->id,
+            'lead_url' => $leadUrl,
+        ]);
+
+        $leadId = self::createOrResolveLeadId($appointment);
+        if ($leadId === null) {
+            return;
+        }
+
+        $phoneRaw = (string) $appointment->phone;
+        $defaultCc = (string) config('services.crm_lead.country_code', '+61');
+        [$countryCode, $nationalPhone] = self::splitCountryAndPhone($phoneRaw, $defaultCc);
+        $clientPhoneE164 = self::e164($countryCode, $nationalPhone);
+
+        self::postBookingAppointment($appointment, $leadId, $clientPhoneE164, $payment);
+    }
+
+    /**
+     * @param  int  $leadId  Numeric id from POST /api/leads response (`lead_id` / `data.lead_id` / `data.id` = CRM `admins.id`).
      */
     private static function postBookingAppointment(
         Appointment $appointment,
-        int $crmClientId,
+        int $leadId,
         string $clientPhoneE164,
         array $payment
     ): void {
-        $bookingUrl = (string) config('services.crm_lead.booking_url', '');
+        $bookingUrl = rtrim((string) config('services.crm_lead.booking_url', ''), '/');
         if ($bookingUrl === '') {
             return;
         }
@@ -107,6 +151,8 @@ final class CrmLeadSync
         $duration = (int) ($appointment->service?->duration ?? config('services.crm_lead.default_duration', 30));
 
         $payload = [
+            'bansal_appointment_id' => (int) $appointment->id,
+            'order_hash' => (string) ($appointment->order_hash ?? ''),
             'client_name' => $appointment->full_name,
             'client_email' => $appointment->email,
             'client_phone' => $clientPhoneE164,
@@ -116,12 +162,11 @@ final class CrmLeadSync
             'duration' => $duration,
             'noe_id' => (int) $appointment->noe_id,
             'timezone' => (string) ($appointment->timezone ?: config('services.crm_lead.default_timezone', 'Australia/Sydney')),
-            'client_id' => $crmClientId,
+            'client_id' => $leadId,
             'meeting_type' => (string) config('services.crm_lead.meeting_type', 'in_person'),
             'enquiry_details' => trim((string) $appointment->description.(($appointment->appointment_details ?? '') !== ''
                 ? "\n\n".(string) $appointment->appointment_details
                 : '')),
-            'consultant_id' => (int) config('services.crm_lead.consultant_id', 2),
             'status' => (string) ($payment['status'] ?? (string) $appointment->status),
             'is_paid' => $isPaid,
             'amount' => $amount,
@@ -135,6 +180,15 @@ final class CrmLeadSync
             'confirmed_at' => $confirmedAt,
         ];
 
+        $consultantId = config('services.crm_lead.consultant_id');
+        if ($consultantId !== null && $consultantId !== '') {
+            $payload['consultant_id'] = (int) $consultantId;
+        }
+
+        if (($payload['order_hash'] ?? '') === '') {
+            unset($payload['order_hash']);
+        }
+
         try {
             $bookingResponse = self::httpClient()
                 ->timeout(20)
@@ -145,63 +199,98 @@ final class CrmLeadSync
                 Log::warning('CRM booking-appointments returned non-success status', [
                     'status' => $bookingResponse->status(),
                     'body' => $bookingResponse->body(),
-                    'crm_client_id' => $crmClientId,
+                    'lead_id' => $leadId,
                 ]);
+
+                return;
             }
+
+            Log::info('CRM booking created', [
+                'appointment_id' => $appointment->id,
+                'lead_id' => $leadId,
+                'http' => $bookingResponse->status(),
+            ]);
         } catch (\Throwable $e) {
             Log::error('CRM booking-appointments request failed', [
                 'message' => $e->getMessage(),
-                'crm_client_id' => $crmClientId,
+                'lead_id' => $leadId,
+                'trace' => $e->getTraceAsString(),
             ]);
         }
+    }
+
+    /**
+     * Read only BansalLaw_CRM /api/leads fields — do not use generic id scanning (avoids wrong client_id).
+     *
+     * Shape: { "success": true, "lead_id": <int>, "data": { "id", "lead_id", "client_reference", ... } }
+     * `client_reference` is NOT the FK; booking `client_id` must be `lead_id` / admins.id.
+     */
+    private static function parseLeadIdFromLeadsApiResponse(?array $json): ?int
+    {
+        if ($json === null) {
+            return null;
+        }
+
+        $fromRoot = self::coerceAdminPk($json['lead_id'] ?? null);
+        if ($fromRoot !== null) {
+            return $fromRoot;
+        }
+
+        if (isset($json['data']) && is_array($json['data'])) {
+            $data = $json['data'];
+            $fromDataLead = self::coerceAdminPk($data['lead_id'] ?? null);
+            if ($fromDataLead !== null) {
+                return $fromDataLead;
+            }
+            $fromDataId = self::coerceAdminPk($data['id'] ?? null);
+            if ($fromDataId !== null) {
+                return $fromDataId;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * CRM admins.id from API (positive integer only — never use client_reference / string client_id).
+     */
+    private static function coerceAdminPk(mixed $value): ?int
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+        if (is_int($value)) {
+            return $value > 0 ? $value : null;
+        }
+        if (is_string($value)) {
+            $value = trim($value);
+            if ($value !== '' && ctype_digit($value)) {
+                $i = (int) $value;
+
+                return $i > 0 ? $i : null;
+            }
+        }
+        if (is_float($value)) {
+            $i = (int) round($value);
+
+            return $i > 0 ? $i : null;
+        }
+
+        return null;
     }
 
     private static function httpClient(): PendingRequest
     {
         $req = Http::acceptJson();
+        if (! config('services.crm_lead.verify_ssl', true)) {
+            $req = $req->withoutVerifying();
+        }
         $token = (string) config('services.crm_lead.api_token', '');
         if ($token !== '') {
             $req = $req->withToken($token);
         }
 
         return $req;
-    }
-
-    /**
-     * @param  array<string, mixed>|null  $json
-     */
-    private static function extractLeadId(?array $json): ?int
-    {
-        if ($json === null) {
-            return null;
-        }
-
-        $paths = [
-            ['id'],
-            ['lead_id'],
-            ['client_id'],
-            ['data', 'id'],
-            ['data', 'lead_id'],
-            ['data', 'client_id'],
-            ['result', 'id'],
-            ['lead', 'id'],
-        ];
-
-        foreach ($paths as $path) {
-            $v = $json;
-            foreach ($path as $p) {
-                if (! is_array($v) || ! array_key_exists($p, $v)) {
-                    $v = null;
-                    break;
-                }
-                $v = $v[$p];
-            }
-            if ($v !== null && $v !== '' && is_numeric($v)) {
-                return (int) $v;
-            }
-        }
-
-        return null;
     }
 
     private static function appointmentDatetime(Appointment $a): string

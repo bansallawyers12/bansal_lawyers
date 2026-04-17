@@ -768,32 +768,25 @@ class HomeController extends Controller
                     $finalAmount = isset($payment_intent->amount) ? ((int) $payment_intent->amount) / 100 : (float) $amount;
                     $discountAmount = round(max(0, $listAmount - $finalAmount), 2);
                     $nowStr = now()->format('Y-m-d H:i:s');
-                    $crmPaymentPayload = [
-                        'is_paid' => true,
-                        'amount' => $listAmount,
-                        'discount_amount' => $discountAmount,
-                        'final_amount' => $finalAmount,
-                        'promo_code' => null,
-                        'payment_status' => 'completed',
-                        'payment_method' => 'stripe',
-                        'paid_at' => $nowStr,
-                        'confirmed_at' => $nowStr,
-                        'status' => (string) $appointment_status,
-                    ];
-                    $crmApptId = (int) $appointment->id;
-                    app()->terminating(function () use ($crmApptId, $crmPaymentPayload) {
-                        try {
-                            $appt = Appointment::with('service')->find($crmApptId);
-                            if ($appt) {
-                                CrmLeadSync::syncAppointmentToCrm($appt, $crmPaymentPayload);
-                            }
-                        } catch (\Throwable $e) {
-                            Log::error('CRM sync after payment response failed', [
-                                'appointment_id' => $crmApptId,
-                                'message' => $e->getMessage(),
-                            ]);
-                        }
-                    });
+                    try {
+                        CrmLeadSync::syncAppointmentToCrm($appointment, [
+                            'is_paid' => true,
+                            'amount' => $listAmount,
+                            'discount_amount' => $discountAmount,
+                            'final_amount' => $finalAmount,
+                            'promo_code' => null,
+                            'payment_status' => 'completed',
+                            'payment_method' => 'stripe',
+                            'paid_at' => $nowStr,
+                            'confirmed_at' => $nowStr,
+                            'status' => (string) $appointment_status,
+                        ]);
+                    } catch (\Throwable $e) {
+                        Log::error('CRM sync during payment success failed', [
+                            'appointment_id' => $appointment->id,
+                            'message' => $e->getMessage(),
+                        ]);
+                    }
                 }
                 
                 // Send confirmation emails after successful payment

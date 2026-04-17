@@ -3262,7 +3262,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     showErrorMessage(errorMessage);
-                    console.error('Form submission error:', xhr);
+                    console.error('Form submission error:', {
+                        status: xhr.status,
+                        statusText: xhr.statusText,
+                        responseText: xhr.responseText && xhr.responseText.substring ? xhr.responseText.substring(0, 2000) : xhr.responseText,
+                        responseJSON: xhr.responseJSON
+                    });
                 }
             });
         }
