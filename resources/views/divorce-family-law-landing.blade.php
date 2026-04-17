@@ -3562,7 +3562,7 @@ body {
                         <span class="contact-label" style="font-weight: 700; color: var(--primary-teal); font-size: 1.05rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Business Hours</span>
                     </div>
                     <div style="padding-left: 57px;">
-                        <span class="contact-value" style="color: #0F172A; font-size: 0.95rem; font-weight: 500;">Monday – Friday<br>10:00 AM – 5:30 PM</span>
+                        <span class="contact-value" style="color: #0F172A; font-size: 0.95rem; font-weight: 500;">Monday – Friday<br>9:30 AM – 6:00 PM</span>
                     </div>
                 </div>
             </div>

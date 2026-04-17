@@ -3717,7 +3717,6 @@ document.addEventListener('DOMContentLoaded', function() {
      
      function generateTimeSlots(bookedSlots = []) {
         const slots = [
-            { time: '9:00 AM', available: true },
             { time: '9:30 AM', available: true },
             { time: '11:00 AM', available: true },
             { time: '11:30 AM', available: true },
@@ -3727,8 +3726,7 @@ document.addEventListener('DOMContentLoaded', function() {
             { time: '3:30 PM', available: true },
             { time: '4:00 PM', available: true },
             { time: '4:30 PM', available: true },
-            { time: '5:00 PM', available: true },
-            { time: '5:30 PM', available: true }
+            { time: '5:00 PM', available: true }
         ];
         
         // Mark booked slots as unavailable
