@@ -536,110 +536,111 @@ class HomeController extends Controller
 
 	public function getdisableddatetime(Request $request)
     {
+        return $this->disabledDatetimeSlotsJsonResponse($request, 'getdisableddatetime');
+    }
+
+    /**
+     * Token-authenticated API copy of getdisableddatetime (POST /api/getdisableddatetimenewapi).
+     */
+    public function getdisableddatetimenewapi(Request $request)
+    {
+        return $this->disabledDatetimeSlotsJsonResponse($request, 'getdisableddatetimenewapi');
+    }
+
+    /**
+     * Shared implementation for disabled time slots (same JSON as legacy getdisableddatetime).
+     */
+    private function disabledDatetimeSlotsJsonResponse(Request $request, string $logContext): \Illuminate\Http\JsonResponse
+    {
         try {
             $requestData = $request->all();
-            
-            // Validate required parameters
-            if (!isset($requestData['sel_date']) || !isset($request->service_id)) {
+
+            if (! isset($requestData['sel_date']) || ! isset($request->service_id)) {
                 return response()->json(['success' => false, 'message' => 'Missing required parameters']);
             }
-            
-            // Only handle paid appointments (service_id = 1) for Ajay Bansal
+
             if ($request->service_id != 1) {
                 return response()->json(['success' => false, 'message' => 'Only paid appointments are available']);
             }
-            
-            // Handle different date formats
+
             $selDate = $requestData['sel_date'];
             if (str_contains($selDate, '-')) {
-                // YYYY-MM-DD format from JavaScript
                 $datey = $selDate;
             } else {
-                // DD/MM/YYYY format
                 $date = explode('/', $selDate);
                 if (count($date) != 3) {
                     return response()->json(['success' => false, 'message' => 'Invalid date format']);
                 }
                 $datey = $date[2].'-'.$date[1].'-'.$date[0];
             }
-            
-            // Ajay Bansal's configuration (person_id = 1, service_type = 1)
+
             $book_service_slot_per_person_tbl_unique_id = 1;
-            
-            // Check for existing appointments on this date with active nature of enquiry
+
             $servicelist = Appointment::select('id', 'date', 'time')
                 ->where('status', '!=', 7)
                 ->whereDate('date', $datey)
                 ->where('service_id', 1)
-                ->whereHas('natureOfEnquiry', function($query) {
+                ->whereHas('natureOfEnquiry', function ($query) {
                     $query->where('status', 1);
                 })
                 ->get();
 
             $disabledtimeslotes = [];
-            
-            // Add existing appointment times to disabled slots
+
             if ($servicelist->isNotEmpty()) {
-                foreach($servicelist as $list) {
+                foreach ($servicelist as $list) {
                     $disabledtimeslotes[] = date('g:i A', strtotime($list->time));
                 }
             }
-            
-            // Get manually disabled slots from BookServiceDisableSlot table
-            $disabled_slot_arr = BookServiceDisableSlot::select('id','slots', 'block_all')
+
+            $disabled_slot_arr = BookServiceDisableSlot::select('id', 'slots', 'block_all')
                 ->where('book_service_slot_per_person_id', $book_service_slot_per_person_tbl_unique_id)
                 ->whereDate('disabledates', $datey)
                 ->get();
-                
+
             if ($disabled_slot_arr->isNotEmpty()) {
                 foreach ($disabled_slot_arr as $disabledSlot) {
-                    // Skip full day blocks (block_all = 1) - these are handled in the calendar view
                     if ($disabledSlot->block_all == 1) {
                         continue;
                     }
-                    
-                    if (!empty($disabledSlot->slots)) {
-                        // Check if it's a time range (format: "09:00-17:00") or comma-separated list
+
+                    if (! empty($disabledSlot->slots)) {
                         if (strpos($disabledSlot->slots, '-') !== false && substr_count($disabledSlot->slots, '-') === 1) {
-                            // Time range format - generate 30-minute slots
                             $parts = explode('-', $disabledSlot->slots);
                             $startTime = trim($parts[0]);
                             $endTime = trim($parts[1]);
-                            
-                            // Parse times and generate 30-minute intervals
+
                             $start = strtotime($startTime);
                             $end = strtotime($endTime);
-                            
+
                             if ($start !== false && $end !== false && $start < $end) {
                                 $current = $start;
                                 while ($current < $end) {
-                                    // Format as 'g:i A' (e.g., '9:00 AM')
                                     $disabledtimeslotes[] = date('g:i A', $current);
                                     $current = strtotime('+30 minutes', $current);
                                 }
                             }
                         } else {
-                            // Comma-separated format (backward compatibility)
-                            $newArray = explode(",", $disabledSlot->slots);
+                            $newArray = explode(',', $disabledSlot->slots);
                             $newArray = array_map('trim', $newArray);
-                            $newArray = array_filter($newArray); // Remove empty values
+                            $newArray = array_filter($newArray);
                             $disabledtimeslotes = array_merge($disabledtimeslotes, $newArray);
                         }
                     }
                 }
             }
-            
+
             return response()->json([
-                'success' => true, 
-                'disabledtimeslotes' => $disabledtimeslotes
+                'success' => true,
+                'disabledtimeslotes' => $disabledtimeslotes,
             ]);
-            
         } catch (\Exception $e) {
-            Log::error('getdisableddatetime error: ' . $e->getMessage());
+            Log::error($logContext.' error: '.$e->getMessage());
+
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => 'Server error occurred',
-                'disabledtimeslotes' => []
+                'disabledtimeslotes' => [],
             ]);
         }
     }

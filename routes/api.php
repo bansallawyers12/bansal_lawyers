@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('appointments.api.token')->group(function () {
     Route::get('/appointments', [AppointmentController::class, 'index']);
-    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show']);
+    Route::match(['get', 'post'], '/getdisableddatetimenewapi', [HomeController::class, 'getdisableddatetimenewapi']);
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])
+        ->whereNumber('appointment');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
