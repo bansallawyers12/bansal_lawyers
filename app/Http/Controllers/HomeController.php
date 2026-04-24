@@ -559,6 +559,17 @@ class HomeController extends Controller
         return $this->getdatetime($request);
     }
 
+    /**
+     * API: GET /api/appointments/timeslot-labels — returns BookingTimeSlots::labels() (same list as book UI).
+     */
+    public function appointmentsTimeSlotLabels()
+    {
+        return response()->json([
+            'success' => true,
+            'timeslot_labels' => BookingTimeSlots::labels(),
+        ]);
+    }
+
 	public function getdisableddatetime(Request $request)
     {
         return $this->disabledDatetimeSlotsJsonResponse($request, 'getdisableddatetime');
