@@ -28,6 +28,7 @@ use App\Models\BookServiceSlotPerPerson;
 use App\Models\BookServiceDisableSlot;
 use App\Models\Admin;
 use App\Models\NatureOfEnquiry;
+use App\Support\BookingTimeSlots;
 use App\Support\CrmLeadSync;
 
 class HomeController extends Controller
@@ -393,7 +394,9 @@ class HomeController extends Controller
   
 	public function bookappointment()
     {
-        return view('bookappointment');
+        return view('bookappointment', [
+            'bookingTimeSlotLabels' => BookingTimeSlots::labels(),
+        ]);
     }
 
     public function bookappointment1()
@@ -418,7 +421,11 @@ class HomeController extends Controller
             
             // Only handle paid appointments (service_id = 1) for Ajay Bansal
             if ($req_service_id != 1) {
-                return response()->json(['success' => false, 'message' => 'Only paid appointments are available']);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Only paid appointments are available',
+                    'timeslot_labels' => BookingTimeSlots::labels(),
+                ]);
             }
             
             // Ajay Bansal's configuration (person_id = 1, service_type = 1)
@@ -427,7 +434,11 @@ class HomeController extends Controller
             
             $bookservice = BookService::where('id', $req_service_id)->first();
             if (!$bookservice) {
-                return response()->json(['success' => false, 'message' => 'Service not found']);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Service not found',
+                    'timeslot_labels' => BookingTimeSlots::labels(),
+                ]);
             }
             
             $service = BookServiceSlotPerPerson::where('person_id', $person_id)->where('service_type', $service_type)->first();
@@ -509,30 +520,44 @@ class HomeController extends Controller
                 
                 
                 return response()->json([
-                    'success' => true, 
+                    'success' => true,
                     'duration' => $bookservice->duration,
                     'weeks' => $weekendd,
                     'start_time' => $start_time,
                     'end_time' => $end_time,
-                    'disabledatesarray' => $disabledatesarray
+                    'disabledatesarray' => $disabledatesarray,
+                    'timeslot_labels' => BookingTimeSlots::labels(),
                 ]);
             } else {
                 return response()->json([
-                    'success' => false, 
-                    'message' => 'Service configuration not found'
+                    'success' => false,
+                    'message' => 'Service configuration not found',
+                    'timeslot_labels' => BookingTimeSlots::labels(),
                 ]);
             }
         } catch (\Exception $e) {
             Log::error('getdatetime error: ' . $e->getMessage());
             return response()->json([
-                'success' => false, 
-                'message' => 'Server error occurred'
+                'success' => false,
+                'message' => 'Server error occurred',
+                'timeslot_labels' => BookingTimeSlots::labels(),
             ]);
         }
     }
 
+    /**
+     * API: /api/appointments/get-datetime-backend — same response as getdatetime with id=1&enquiry_item=1
+     * (defaults applied when id or enquiry_item are omitted). Includes timeslot_labels (e.g. from 9:30 AM).
+     */
+    public function appointmentsGetDatetimeBackend(Request $request)
+    {
+        $request->mergeIfMissing([
+            'id' => 1,
+            'enquiry_item' => 1,
+        ]);
 
-    // Removed getdatetimebackend method - only handling paid appointments for Ajay Bansal
+        return $this->getdatetime($request);
+    }
 
 	public function getdisableddatetime(Request $request)
     {
