@@ -3723,6 +3723,11 @@ document.addEventListener('DOMContentLoaded', function() {
      
      const BOOKING_TIME_SLOT_LABELS = @json($bookingTimeSlotLabels ?? []);
      
+     function normalizeBookedTimeLabel(s) {
+         if (s == null || typeof s !== 'string') return '';
+         return s.trim().replace(/\s+/g, ' ').toLowerCase();
+     }
+
      function generateTimeSlots(bookedSlots = []) {
         const labels = (Array.isArray(BOOKING_TIME_SLOT_LABELS) && BOOKING_TIME_SLOT_LABELS.length)
             ? BOOKING_TIME_SLOT_LABELS
@@ -3734,10 +3739,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return slots.map(slot => {
             // Check if this slot is in the booked slots array
             const isBooked = bookedSlots.some(bookedTime => {
-                // Normalize both times for comparison (trim whitespace, case-insensitive)
-                const normalizedSlot = slot.time.trim();
-                const normalizedBooked = bookedTime.trim();
-                return normalizedSlot === normalizedBooked;
+                return normalizeBookedTimeLabel(slot.time) === normalizeBookedTimeLabel(String(bookedTime));
             });
             
             return {

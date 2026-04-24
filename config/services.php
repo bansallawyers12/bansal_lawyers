@@ -80,6 +80,10 @@ return [
     'crm_lead' => [
         'url' => env('CRM_LEAD_POST_URL', 'https://legal.bansalcrm.com/api/leads'),
         'booking_url' => env('CRM_BOOKING_POST_URL', 'https://legal.bansalcrm.com/api/booking-appointments'),
+        /** POST; same as CRM /api/appointments/get-booked-disabled-time-slots. Empty URL skips merge. */
+        'disabled_time_slots_url' => env('CRM_DISABLED_TIME_SLOTS_URL', 'https://legal.bansalcrm.com/api/appointments/get-booked-disabled-time-slots'),
+        /** Public CRM route: false avoids sending CRM_API_TOKEN (some servers return 401 for wrong Bearer). */
+        'disabled_time_slots_use_token' => filter_var(env('CRM_DISABLED_TIME_SLOTS_USE_TOKEN', false), FILTER_VALIDATE_BOOL),
         /** Set false on dev machines with broken PHP CA bundle (SSL errors in laravel.log). */
         'verify_ssl' => filter_var(env('CRM_HTTP_VERIFY_SSL', true), FILTER_VALIDATE_BOOL),
         'api_token' => env('CRM_API_TOKEN'),

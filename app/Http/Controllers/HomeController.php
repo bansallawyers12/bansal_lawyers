@@ -666,6 +666,24 @@ class HomeController extends Controller
                 }
             }
 
+            $selDateRaw = (string) ($requestData['sel_date'] ?? '');
+            $dateForCrmPost = $selDateRaw;
+            if (str_contains($selDateRaw, '-')) {
+                $dp = explode('-', $selDateRaw);
+                if (count($dp) === 3) {
+                    $dateForCrmPost = sprintf('%02d/%02d/%s', (int) $dp[2], (int) $dp[1], $dp[0]);
+                }
+            }
+
+            $inpersonForCrm = (int) $request->input('inperson_address', 2);
+            $crmSlots = CrmLeadSync::fetchCrmBookedDisabledTimeSlots(
+                $dateForCrmPost,
+                in_array($inpersonForCrm, [1, 2], true) ? $inpersonForCrm : 2
+            );
+            if ($crmSlots !== []) {
+                $disabledtimeslotes = array_values(array_unique(array_merge($disabledtimeslotes, $crmSlots)));
+            }
+
             return response()->json([
                 'success' => true,
                 'disabledtimeslotes' => $disabledtimeslotes,

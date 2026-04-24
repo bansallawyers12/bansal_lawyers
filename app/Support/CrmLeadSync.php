@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\Appointment;
+use App\Support\BookingTimeSlots;
 use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
@@ -84,6 +85,78 @@ final class CrmLeadSync
             ]);
 
             return null;
+        }
+    }
+
+    /**
+     * POST CRM get-booked-disabled-time-slots (booked starts for a day as slot labels).
+     * Response shape: { success, data: { disabledtimeslotes: string[] } }.
+     *
+     * @param  string  $dateDdMmYyyy  e.g. 27/04/2026
+     * @return list<string>
+     */
+    public static function fetchCrmBookedDisabledTimeSlots(string $dateDdMmYyyy, int $inpersonAddress = 2): array
+    {
+        $url = rtrim((string) config('services.crm_lead.disabled_time_slots_url', ''), '/');
+        if ($url === '') {
+            return [];
+        }
+
+        $addr = in_array($inpersonAddress, [1, 2], true) ? $inpersonAddress : 2;
+
+        try {
+            $response = self::httpClientForDisabledTimeSlots()
+                ->timeout(12)
+                ->asJson()
+                ->post($url, [
+                    'date' => $dateDdMmYyyy,
+                    'inperson_address' => $addr,
+                ]);
+
+            if (! $response->successful()) {
+                Log::warning('CRM get-booked-disabled-time-slots returned non-success status', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ]);
+
+                return [];
+            }
+
+            $json = $response->json();
+            if (! is_array($json)) {
+                return [];
+            }
+
+            $slots = [];
+            $data = $json['data'] ?? null;
+            if (is_array($data) && isset($data['disabledtimeslotes']) && is_array($data['disabledtimeslotes'])) {
+                $slots = $data['disabledtimeslotes'];
+            } elseif (isset($json['disabledtimeslotes']) && is_array($json['disabledtimeslotes'])) {
+                $slots = $json['disabledtimeslotes'];
+            }
+
+            if ($slots === []) {
+                return [];
+            }
+
+            $normalized = [];
+            foreach ($slots as $raw) {
+                if (! is_string($raw) && ! is_numeric($raw)) {
+                    continue;
+                }
+                $n = BookingTimeSlots::normalizeLabel((string) $raw);
+                if ($n !== '') {
+                    $normalized[] = $n;
+                }
+            }
+
+            return array_values(array_unique($normalized));
+        } catch (\Throwable $e) {
+            Log::warning('CRM get-booked-disabled-time-slots request failed', [
+                'message' => $e->getMessage(),
+            ]);
+
+            return [];
         }
     }
 
@@ -314,6 +387,24 @@ final class CrmLeadSync
         }
         $token = (string) config('services.crm_lead.api_token', '');
         if ($token !== '') {
+            $req = $req->withToken($token);
+        }
+
+        return $req;
+    }
+
+    /**
+     * CRM disabled-slots route is public; avoid sending Bearer by default so lead-sync tokens do not cause 401.
+     */
+    private static function httpClientForDisabledTimeSlots(): PendingRequest
+    {
+        $req = Http::acceptJson();
+        if (! config('services.crm_lead.verify_ssl', true)) {
+            $req = $req->withoutVerifying();
+        }
+        $useToken = (bool) config('services.crm_lead.disabled_time_slots_use_token', false);
+        $token = (string) config('services.crm_lead.api_token', '');
+        if ($useToken && $token !== '') {
             $req = $req->withToken($token);
         }
 

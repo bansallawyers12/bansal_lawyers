@@ -26,4 +26,22 @@ class BookingTimeSlots
             '5:00 PM',
         ];
     }
+
+    /**
+     * Normalize a slot label to match {@see labels()} formatting (g:i A).
+     */
+    public static function normalizeLabel(string $label): string
+    {
+        $label = trim(preg_replace('/\s+/u', ' ', $label));
+        if ($label === '') {
+            return $label;
+        }
+
+        $ts = strtotime($label);
+        if ($ts !== false) {
+            return date('g:i A', $ts);
+        }
+
+        return $label;
+    }
 }
