@@ -83,7 +83,7 @@ return [
         /** POST; same as CRM /api/appointments/get-booked-disabled-time-slots. Empty URL skips merge. */
         'disabled_time_slots_url' => env('CRM_DISABLED_TIME_SLOTS_URL', 'https://legal.bansalcrm.com/api/appointments/get-booked-disabled-time-slots'),
         /** Max seconds for CRM disabled-slots HTTP call (booking UI); avoids blocking page when CRM is slow. */
-        'disabled_time_slots_timeout' => max(1.0, (float) env('CRM_DISABLED_TIME_SLOTS_TIMEOUT', 4)),
+        'disabled_time_slots_timeout' => max(1.0, (float) env('CRM_DISABLED_TIME_SLOTS_TIMEOUT', 2)),
         /** Public CRM route: false avoids sending CRM_API_TOKEN (some servers return 401 for wrong Bearer). */
         'disabled_time_slots_use_token' => filter_var(env('CRM_DISABLED_TIME_SLOTS_USE_TOKEN', false), FILTER_VALIDATE_BOOL),
         /** Set false on dev machines with broken PHP CA bundle (SSL errors in laravel.log). */
