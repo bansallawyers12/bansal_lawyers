@@ -104,9 +104,15 @@ final class CrmLeadSync
 
         $addr = in_array($inpersonAddress, [1, 2], true) ? $inpersonAddress : 2;
 
+        $timeoutSeconds = (float) config('services.crm_lead.disabled_time_slots_timeout', 4);
+        if ($timeoutSeconds < 1.0) {
+            $timeoutSeconds = 4.0;
+        }
+
         try {
             $response = self::httpClientForDisabledTimeSlots()
-                ->timeout(12)
+                ->connectTimeout(min(3.0, $timeoutSeconds))
+                ->timeout($timeoutSeconds)
                 ->asJson()
                 ->post($url, [
                     'date' => $dateDdMmYyyy,
