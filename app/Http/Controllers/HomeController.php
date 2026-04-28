@@ -530,8 +530,17 @@ class HomeController extends Controller
 
                 // Add the current date to the array to prevent past date selection
                 $disabledatesarray[] = date('d/m/Y');
-                
-                
+
+                // Remove past dates — only keep today and future dates
+                $today = \Carbon\Carbon::today();
+                $disabledatesarray = array_values(array_filter($disabledatesarray, function ($d) use ($today) {
+                    try {
+                        return \Carbon\Carbon::createFromFormat('d/m/Y', trim($d))->greaterThanOrEqualTo($today);
+                    } catch (\Exception $e) {
+                        return false;
+                    }
+                }));
+
                 return response()->json([
                     'success' => true,
                     'duration' => $bookservice->duration,
