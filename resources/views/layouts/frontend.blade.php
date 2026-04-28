@@ -244,7 +244,7 @@ function toggleFAQ(index) {
     
     <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
     <!-- Font Awesome now loaded via Vite in vendor-frontend.css -->
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v=1.0.0">
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->
@@ -274,25 +274,7 @@ function toggleFAQ(index) {
     <link rel="preload" href="{{ asset('css/magnific-popup.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}"></noscript>
   
-    <!-- Meta Pixel Code -->
-    <script>
-    // Note: Facebook Pixel may trigger "Permissions policy violation: unload" warnings
-    // This is a known issue with Facebook's fbevents.js script using the unload event
-    // which is blocked by modern browser permissions policies. The script still works correctly.
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '628232819622737');
-    fbq('track', 'PageView');
-    </script>
-
-    
-    <!-- End Meta Pixel Code -->
+    {{-- Facebook Pixel moved to end of body to avoid blocking HTML parsing --}}
   
     <style>
       /* Accessibility Improvements - Touch Targets and Contrast */
@@ -1264,37 +1246,32 @@ function toggleFAQ(index) {
     
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}" defer></script>
     
-    <!-- Google Maps - Define initMap BEFORE loading the script to prevent race condition -->
+    <!-- Google Maps — only load the API when this page actually has a map container -->
     <script>
-        // Define initMap immediately (synchronously) so Google Maps callback can find it
-        window.initMap = function() {
-            // Only proceed if a map container exists
+        (function() {
             if (!document.getElementById('map') && !document.getElementById('google-map')) return;
-            
-            // Wait for jQuery to be available before loading google-map.min.js
-            function waitForJQuery(callback) {
-                if (typeof jQuery !== 'undefined') {
-                    callback();
-                } else {
-                    setTimeout(function() { waitForJQuery(callback); }, 50);
+
+            window.initMap = function() {
+                function waitForJQuery(cb) {
+                    if (typeof jQuery !== 'undefined') { cb(); }
+                    else { setTimeout(function() { waitForJQuery(cb); }, 50); }
                 }
-            }
-            
-            waitForJQuery(function() {
-                // Load google-map.min.js only after Google Maps and jQuery are ready
-                var script = document.createElement('script');
-                script.src = "{{ asset('js/google-map.min.js')}}";
-                script.defer = true;
-                document.head.appendChild(script);
-            });
-        };
-        
-        // Handle Google Maps loading errors
-        window.gm_authFailure = function() {
-            // Authentication failed - handled silently
-        };
+                waitForJQuery(function() {
+                    var s = document.createElement('script');
+                    s.src = "{{ asset('js/google-map.min.js') }}";
+                    s.defer = true;
+                    document.head.appendChild(s);
+                });
+            };
+            window.gm_authFailure = function() {};
+
+            var mapScript = document.createElement('script');
+            mapScript.async = true;
+            mapScript.defer = true;
+            mapScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap';
+            document.head.appendChild(mapScript);
+        })();
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap"></script>
     
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -1304,6 +1281,21 @@ function toggleFAQ(index) {
     
     <!-- Main script - loads last with defer (legacy support) -->
     @vite(['public/js/main.js'])
+
+    <!-- Meta Pixel Code — deferred to end of body so it doesn't block HTML parsing -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '628232819622737');
+    fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
 </body>
 
 </html>

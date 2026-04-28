@@ -177,6 +177,23 @@ class HomeController extends Controller
 		
 		// Get total count from pagination object to avoid separate query
 		$blogData = $bloglists->total();
+
+		// Resolve the best image URL per blog item here (controller) so Blade avoids
+		// synchronous file_exists() disk I/O inside a foreach loop on every page render.
+		foreach ($bloglists as $blog) {
+			$imagePath = !empty($blog->image) ? 'images/blog/' . $blog->image : 'images/Blog.jpg';
+			$pathInfo  = pathinfo($imagePath);
+			$webpPath  = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
+			$webpPath400 = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '-400.webp';
+
+			if (file_exists(public_path($webpPath400))) {
+				$blog->resolved_image = $webpPath400;
+			} elseif (file_exists(public_path($webpPath))) {
+				$blog->resolved_image = $webpPath;
+			} else {
+				$blog->resolved_image = $imagePath;
+			}
+		}
 		
         return view('index', compact('bloglists', 'blogData'));
     }

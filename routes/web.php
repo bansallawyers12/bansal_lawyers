@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,7 +67,7 @@ Route::get('sicaptcha', [App\Http\Controllers\HomeController::class, 'sicaptcha'
 Route::prefix('admin')->group(function() {
      //Login and Logout
 		Route::middleware('guest:admin')->group(function () {
-			Route::get('/', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])->name('admin.login');
+			Route::get('/', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])->name('admin.login.root');
 			Route::get('/login', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])->name('admin.login');
 			Route::post('/', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'store']); // Handle POST to /admin
 			Route::post('/login', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'store']);
@@ -76,11 +79,11 @@ Route::prefix('admin')->group(function() {
 			Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('admin.dashboard');
 			Route::get('/get_customer_detail', [App\Http\Controllers\Admin\AdminController::class, 'CustomerDetail'])->name('admin.get_customer_detail');
 			Route::get('/my_profile', [App\Http\Controllers\Admin\AdminController::class, 'myProfile'])->name('admin.my_profile');
-			Route::post('/my_profile', [App\Http\Controllers\Admin\AdminController::class, 'myProfile'])->name('admin.my_profile');
+			Route::post('/my_profile', [App\Http\Controllers\Admin\AdminController::class, 'myProfile']);
 			Route::get('/change_password', [App\Http\Controllers\Admin\AdminController::class, 'change_password'])->name('admin.change_password');
-			Route::post('/change_password', [App\Http\Controllers\Admin\AdminController::class, 'change_password'])->name('admin.change_password');
+			Route::post('/change_password', [App\Http\Controllers\Admin\AdminController::class, 'change_password']);
 			Route::get('/sessions', [App\Http\Controllers\Admin\AdminController::class, 'sessions'])->name('admin.sessions');
-			Route::post('/sessions', [App\Http\Controllers\Admin\AdminController::class, 'sessions'])->name('admin.sessions');
+			Route::post('/sessions', [App\Http\Controllers\Admin\AdminController::class, 'sessions']);
         Route::post('/delete_action', [App\Http\Controllers\Admin\AdminController::class, 'deleteAction'])->name('admin.delete_action');
         Route::post('/declined_action', [App\Http\Controllers\Admin\AdminController::class, 'declinedAction']);
         Route::post('/approved_action', [App\Http\Controllers\Admin\AdminController::class, 'approvedAction']);
@@ -93,21 +96,21 @@ Route::prefix('admin')->group(function() {
 			Route::get('/blog/create', [App\Http\Controllers\Admin\BlogController::class, 'create'])->name('admin.blog.create');
 			Route::post('/blog/store', [App\Http\Controllers\Admin\BlogController::class, 'store'])->name('admin.blog.store');
 			Route::get('/blog/edit/{id}', [App\Http\Controllers\Admin\BlogController::class, 'edit'])->name('admin.blog.edit');
-			Route::post('/blog/edit', [App\Http\Controllers\Admin\BlogController::class, 'edit'])->name('admin.blog.edit');
+			Route::post('/blog/edit', [App\Http\Controllers\Admin\BlogController::class, 'edit']);
 
 		    //Blog Category
 			Route::get('/blogcategories', [App\Http\Controllers\Admin\BlogCategoryController::class, 'index'])->name('admin.blogcategory.index');
 			Route::get('/blogcategories/create', [App\Http\Controllers\Admin\BlogCategoryController::class, 'create'])->name('admin.blogcategory.create');
 			Route::post('/blogcategories/store', [App\Http\Controllers\Admin\BlogCategoryController::class, 'store'])->name('admin.blogcategory.store');
 			Route::get('/blogcategories/edit/{id}', [App\Http\Controllers\Admin\BlogCategoryController::class, 'edit'])->name('admin.blogcategory.edit');
-			Route::post('/blogcategories/edit', [App\Http\Controllers\Admin\BlogCategoryController::class, 'edit'])->name('admin.blogcategory.edit');
+			Route::post('/blogcategories/edit', [App\Http\Controllers\Admin\BlogCategoryController::class, 'edit']);
 
 			//CMS Pages
 			Route::get('/cms_pages', [App\Http\Controllers\Admin\CmsPageController::class, 'index'])->name('admin.cms_pages.index');
 			Route::get('/cms_pages/create', [App\Http\Controllers\Admin\CmsPageController::class, 'create'])->name('admin.cms_pages.create');
 			Route::post('/cms_pages/store', [App\Http\Controllers\Admin\CmsPageController::class, 'store'])->name('admin.cms_pages.store');
 			Route::get('/cms_pages/edit/{id}', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage'])->name('admin.edit_cms_page');
-        Route::post('/cms_pages/edit', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage'])->name('admin.edit_cms_page');
+        Route::post('/cms_pages/edit', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage']);
 
         // Appointment Module
 			Route::get('/appointments-others', [App\Http\Controllers\Admin\AdminController::class, 'appointmentsOthers'])->name('appointments-others');
@@ -135,7 +138,7 @@ Route::prefix('admin')->group(function() {
 			Route::get('/recent_case/create', [App\Http\Controllers\Admin\RecentCaseController::class, 'create'])->name('admin.recent_case.create');
 			Route::post('/recent_case/store', [App\Http\Controllers\Admin\RecentCaseController::class, 'store'])->name('admin.recent_case.store');
 			Route::get('/recent_case/edit/{id}', [App\Http\Controllers\Admin\RecentCaseController::class, 'edit'])->name('admin.recent_case.edit');
-			Route::post('/recent_case/edit', [App\Http\Controllers\Admin\RecentCaseController::class, 'edit'])->name('admin.recent_case.edit');
+			Route::post('/recent_case/edit', [App\Http\Controllers\Admin\RecentCaseController::class, 'edit']);
 
         Route::post('/delete_slot_action', [App\Http\Controllers\Admin\AdminController::class, 'deleteSlotAction']);
 
@@ -204,9 +207,8 @@ Route::get('/building-and-construction-disputes', [\App\Http\Controllers\HomeCon
 Route::get('/caveats-disputs-and-removal', [\App\Http\Controllers\HomeController::class, 'caveatsdisputsandremoval'])->name('caveats-disputs-and-removal');
 
 /*********************New Unified Blog and CMS Route ***********************/
-// This handles both blog posts (priority) and CMS pages
+// This handles CMS pages and recent cases at /{slug}
 // IMPORTANT: This route must come after /blog routes to avoid conflicts
-// The route name 'blog.detail' is used in views to generate clean URLs like /{slug}
 Route::get('/{slug}', [\App\Http\Controllers\HomeController::class, 'unifiedSlugHandler'])
 	->where('slug', '^(?!admin\/|api\/|login$|register$|home$|invoice$|profile$|clear-cache$|js\/|css\/|images\/|img\/|assets\/|fonts\/|storage\/|blog$|blog\/).*$')
-	->name('blog.detail');
+	->name('cms.slug');

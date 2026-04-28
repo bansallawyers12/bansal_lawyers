@@ -1,3 +1,70 @@
+# -------------------------------------------------------
+# Gzip / Deflate compression
+# -------------------------------------------------------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+    AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript
+    AddOutputFilterByType DEFLATE application/json application/xml application/xhtml+xml
+    AddOutputFilterByType DEFLATE image/svg+xml font/ttf font/otf font/woff font/woff2
+    # Don't compress images/video (already compressed)
+    SetEnvIfNoCase Request_URI \.(gif|jpg|jpeg|png|webp|ico|mp4|mp3|ogg|gz|zip)$ no-gzip dont-vary
+</IfModule>
+
+# -------------------------------------------------------
+# Browser caching — long TTL for fingerprinted assets
+# -------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    # Default fallback
+    ExpiresDefault                          "access plus 1 month"
+
+    # HTML — no cache (dynamic content)
+    ExpiresByType text/html                 "access plus 0 seconds"
+
+    # CSS / JS
+    ExpiresByType text/css                  "access plus 1 year"
+    ExpiresByType application/javascript    "access plus 1 year"
+    ExpiresByType text/javascript           "access plus 1 year"
+
+    # Images
+    ExpiresByType image/jpeg                "access plus 1 year"
+    ExpiresByType image/png                 "access plus 1 year"
+    ExpiresByType image/gif                 "access plus 1 year"
+    ExpiresByType image/webp                "access plus 1 year"
+    ExpiresByType image/svg+xml             "access plus 1 year"
+    ExpiresByType image/x-icon              "access plus 1 year"
+    ExpiresByType image/vnd.microsoft.icon  "access plus 1 year"
+
+    # Fonts
+    ExpiresByType font/ttf                  "access plus 1 year"
+    ExpiresByType font/otf                  "access plus 1 year"
+    ExpiresByType font/woff                 "access plus 1 year"
+    ExpiresByType font/woff2                "access plus 1 year"
+    ExpiresByType application/font-woff     "access plus 1 year"
+</IfModule>
+
+# -------------------------------------------------------
+# Cache-Control headers
+# -------------------------------------------------------
+<IfModule mod_headers.c>
+    # 1 year for versioned static assets (CSS, JS, images, fonts)
+    <FilesMatch "\.(css|js|webp|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|otf|eot)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    # No caching for HTML
+    <FilesMatch "\.(html|htm|php)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires 0
+    </FilesMatch>
+    # Security headers (bonus performance: prevents some redirect round-trips)
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# -------------------------------------------------------
+# Laravel rewrite rules
+# -------------------------------------------------------
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes

@@ -787,18 +787,8 @@
             @foreach (@$bloglists as $list)
             <div class="col-md-4 mb-4">
                 <div class="experimental-card">
-                    @php
-                        $imagePath = !empty(@$list->image) ? 'images/blog/' . @$list->image : 'images/Blog.jpg';
-                        $pathInfo = pathinfo($imagePath);
-                        $webpPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
-                        // Check for optimized 400px version for blog listing
-                        $webpPath400 = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '-400.webp';
-                        $hasWebP = file_exists(public_path($webpPath));
-                        $hasWebP400 = file_exists(public_path($webpPath400));
-                        // Use 400px version for listing if available, otherwise use full size
-                        $optimizedWebpPath = $hasWebP400 ? $webpPath400 : ($hasWebP ? $webpPath : $imagePath);
-                    @endphp
-                    <div style="height: 200px; min-height: 200px; max-height: 200px; flex-shrink: 0; background-image: url('{!! asset($optimizedWebpPath) !!}'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({!! asset('images/Blog.jpg') !!})'">
+                    {{-- Image URL pre-resolved in HomeController::index() to avoid file_exists() disk I/O here --}}
+                    <div style="height: 200px; min-height: 200px; max-height: 200px; flex-shrink: 0; background-image: url('{!! asset($list->resolved_image) !!}'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({!! asset('images/Blog.jpg') !!})'">
                         <span class="sr-only">{{ @$list->title }}</span>
                     </div>
                     <div class="d-flex align-items-center mb-3">
@@ -908,8 +898,7 @@
 @endsection
 
 @section('scripts')
-<!-- Google reCAPTCHA v2 Script -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{{-- reCAPTCHA is already loaded by the global frontend layout --}}
 
 <!-- Video Modal Functions -->
 <script>
