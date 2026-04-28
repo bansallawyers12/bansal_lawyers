@@ -585,6 +585,8 @@ class HomeController extends Controller
 
     /**
      * Shared implementation for disabled time slots (same JSON as legacy getdisableddatetime).
+     * Pass include_crm=0 to skip the CRM call and return only local DB slots instantly.
+     * The frontend uses this for a two-phase load: local slots first, CRM overlay async.
      */
     private function disabledDatetimeSlotsJsonResponse(Request $request, string $logContext): \Illuminate\Http\JsonResponse
     {
@@ -675,18 +677,24 @@ class HomeController extends Controller
                 }
             }
 
-            $inpersonForCrm = (int) $request->input('inperson_address', 2);
-            $crmSlots = CrmLeadSync::fetchCrmBookedDisabledTimeSlots(
-                $dateForCrmPost,
-                in_array($inpersonForCrm, [1, 2], true) ? $inpersonForCrm : 2
-            );
-            if ($crmSlots !== []) {
-                $disabledtimeslotes = array_values(array_unique(array_merge($disabledtimeslotes, $crmSlots)));
+            // include_crm=0 lets the frontend skip the slow CRM call on first load (phase 1).
+            $includeCrm = filter_var($request->input('include_crm', true), FILTER_VALIDATE_BOOLEAN);
+
+            if ($includeCrm) {
+                $inpersonForCrm = (int) $request->input('inperson_address', 2);
+                $crmSlots = CrmLeadSync::fetchCrmBookedDisabledTimeSlots(
+                    $dateForCrmPost,
+                    in_array($inpersonForCrm, [1, 2], true) ? $inpersonForCrm : 2
+                );
+                if ($crmSlots !== []) {
+                    $disabledtimeslotes = array_values(array_unique(array_merge($disabledtimeslotes, $crmSlots)));
+                }
             }
 
             return response()->json([
                 'success' => true,
                 'disabledtimeslotes' => $disabledtimeslotes,
+                'crm_included' => $includeCrm,
             ]);
         } catch (\Exception $e) {
             Log::error($logContext.' error: '.$e->getMessage());

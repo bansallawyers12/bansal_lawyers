@@ -3667,56 +3667,73 @@ document.addEventListener('DOMContentLoaded', function() {
          $('#selectedDateDisplay').text(dateStr);
          $('#timeSlotsContainer').show();
          
-         // Show loading state
-         $('#timeSlotsGrid').html('<div class="text-center" style="padding: 20px;">Loading time slots...</div>');
-         
          // Format date for API (DD/MM/YYYY format)
          const apiDate = formatDateForInput(date);
          const serviceId = $('input[name="service_id"]').val() || 1;
-         
-         // Call API to get booked time slots
+         const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+         // Helper: build the time-slots HTML from a disabled-slots array
+         function renderTimeSlotsHtml(bookedSlots) {
+             return generateTimeSlots(bookedSlots).map(slot => `
+                 <div class="time-slot ${!slot.available ? 'unavailable' : ''}"
+                      data-time="${slot.time}"
+                      ${!slot.available ? 'disabled' : ''}>
+                     ${slot.time}
+                 </div>
+             `).join('');
+         }
+
+         // Helper: overlay CRM-booked slots onto already-rendered grid without re-rendering
+         function overlayCrmSlots(crmSlots) {
+             if (!crmSlots || crmSlots.length === 0) return;
+             $('#timeSlotsGrid .time-slot').each(function() {
+                 const slotTime = $(this).data('time');
+                 if (crmSlots.some(s => s.trim().toLowerCase() === String(slotTime).trim().toLowerCase())) {
+                     $(this).addClass('unavailable').attr('disabled', true);
+                 }
+             });
+         }
+
+         // --- Phase 1: show local DB slots immediately (no CRM call, fast) ---
+         $('#timeSlotsGrid').html('<div class="text-center" style="padding: 20px;">Loading time slots...</div>');
+
          $.ajax({
              url: window.bansalAppUrl + '/getdisableddatetime',
              method: 'POST',
-             data: {
-                 sel_date: apiDate,
-                 service_id: serviceId,
-                 _token: $('meta[name="csrf-token"]').attr('content')
-             },
+             data: { sel_date: apiDate, service_id: serviceId, include_crm: 0, _token: csrfToken },
              dataType: 'json',
              success: function(response) {
-                 let bookedSlots = [];
-                 if (response.success && response.disabledtimeslotes && Array.isArray(response.disabledtimeslotes)) {
-                     bookedSlots = response.disabledtimeslotes;
-                     console.log('Booked time slots for', apiDate, ':', bookedSlots);
-                 }
-                 
-                 // Generate time slots with booked slots marked as unavailable
-                 const timeSlots = generateTimeSlots(bookedSlots);
-                 
-                 const timeSlotsHtml = timeSlots.map(slot => `
-                     <div class="time-slot ${!slot.available ? 'unavailable' : ''}" 
-                          data-time="${slot.time}" 
-                          ${!slot.available ? 'disabled' : ''}>
-                         ${slot.time}
-                     </div>
-                 `).join('');
-                 
-                 $('#timeSlotsGrid').html(timeSlotsHtml);
+                 const localSlots = (response.success && Array.isArray(response.disabledtimeslotes))
+                     ? response.disabledtimeslotes : [];
+                 $('#timeSlotsGrid').html(renderTimeSlotsHtml(localSlots));
+
+                 // --- Phase 2: fetch CRM booked slots in background and overlay ---
+                 // timeout: 7000ms safety cap so browser never waits indefinitely.
+                 // If CRM is slow/down, this call fails silently — local slots remain visible.
+                 $.ajax({
+                     url: window.bansalAppUrl + '/getdisableddatetime',
+                     method: 'POST',
+                     data: { sel_date: apiDate, service_id: serviceId, include_crm: 1, _token: csrfToken },
+                     dataType: 'json',
+                     timeout: 7000,
+                     success: function(crmResponse) {
+                         if (crmResponse.success && Array.isArray(crmResponse.disabledtimeslotes)) {
+                             // Only disable the extra CRM slots; don't re-render (avoids flicker)
+                             const allSlots = crmResponse.disabledtimeslotes;
+                             const newSlots = allSlots.filter(s =>
+                                 !localSlots.some(l => l.trim().toLowerCase() === s.trim().toLowerCase())
+                             );
+                             overlayCrmSlots(newSlots);
+                         }
+                     },
+                     error: function() {
+                         // CRM is slow or down — local slots already shown, nothing to do.
+                     }
+                 });
              },
-             error: function(xhr, status, error) {
-                 console.error('Error fetching booked time slots:', error);
-                 // On error, show all slots as available (fallback)
-                 const timeSlots = generateTimeSlots([]);
-                 const timeSlotsHtml = timeSlots.map(slot => `
-                     <div class="time-slot ${!slot.available ? 'unavailable' : ''}" 
-                          data-time="${slot.time}" 
-                          ${!slot.available ? 'disabled' : ''}>
-                         ${slot.time}
-                     </div>
-                 `).join('');
-                 
-                 $('#timeSlotsGrid').html(timeSlotsHtml);
+             error: function() {
+                 // Phase 1 failed — fall back to showing all slots available
+                 $('#timeSlotsGrid').html(renderTimeSlotsHtml([]));
              }
          });
      }

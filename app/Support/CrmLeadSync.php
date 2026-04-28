@@ -104,14 +104,14 @@ final class CrmLeadSync
 
         $addr = in_array($inpersonAddress, [1, 2], true) ? $inpersonAddress : 2;
 
-        $timeoutSeconds = (float) config('services.crm_lead.disabled_time_slots_timeout', 2);
+        $timeoutSeconds = (float) config('services.crm_lead.disabled_time_slots_timeout', 5);
         if ($timeoutSeconds < 1.0) {
-            $timeoutSeconds = 2.0;
+            $timeoutSeconds = 5.0;
         }
 
         try {
             $response = self::httpClientForDisabledTimeSlots()
-                ->connectTimeout(min(2.0, $timeoutSeconds))
+                ->connectTimeout(min(5.0, $timeoutSeconds))
                 ->timeout($timeoutSeconds)
                 ->asJson()
                 ->post($url, [
@@ -120,9 +120,9 @@ final class CrmLeadSync
                 ]);
 
             if (! $response->successful()) {
-                Log::warning('CRM get-booked-disabled-time-slots returned non-success status', [
+                // Non-2xx from CRM is non-critical — log at debug to keep logs clean.
+                Log::debug('CRM get-booked-disabled-time-slots returned non-success status (skipped)', [
                     'status' => $response->status(),
-                    'body' => $response->body(),
                 ]);
 
                 return [];
@@ -158,7 +158,9 @@ final class CrmLeadSync
 
             return array_values(array_unique($normalized));
         } catch (\Throwable $e) {
-            Log::warning('CRM get-booked-disabled-time-slots request failed', [
+            // CRM being unreachable / slow is expected and non-critical.
+            // Log at debug so it never appears in production logs.
+            Log::debug('CRM get-booked-disabled-time-slots unavailable (skipped)', [
                 'message' => $e->getMessage(),
             ]);
 
