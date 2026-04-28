@@ -14,37 +14,9 @@ return [
     |
     */
 
-    'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
-        'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
-    ],
-
-    'ses' => [
-        'key' => env('SES_KEY'),
-        'secret' => env('SES_SECRET'),
-        'region' => env('SES_REGION', 'us-east-1'),
-    ],
-
-    'sparkpost' => [
-        'secret' => env('SPARKPOST_SECRET'),
-    ],
-
     'stripe' => [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
-    ],
-    
-    'facebook' => [
-        'client_id'     => env('FB_ID'),
-        'client_secret' => env('FB_SECRET'),
-        'redirect'      => env('FB_URL'),
-    ],
-
-    'google' => [
-        'client_id'     => env('GOOGLE_ID'),
-        'client_secret' => env('GOOGLE_SECRET'),
-        'redirect'      => env('GOOGLE_URL'),
     ],
     
     //Add these Configurations
@@ -78,27 +50,22 @@ return [
     | Optional CRM_API_TOKEN sends Authorization: Bearer on both CRM requests.
     */
     'crm_lead' => [
-        'url' => env('CRM_LEAD_POST_URL', 'https://legal.bansalcrm.com/api/leads'),
-        'booking_url' => env('CRM_BOOKING_POST_URL', 'https://legal.bansalcrm.com/api/booking-appointments'),
-        /** POST; same as CRM /api/appointments/get-booked-disabled-time-slots. Empty URL skips merge. */
-        'disabled_time_slots_url' => env('CRM_DISABLED_TIME_SLOTS_URL', 'https://legal.bansalcrm.com/api/appointments/get-booked-disabled-time-slots'),
-        /** Max seconds for CRM disabled-slots HTTP call (booking UI); avoids blocking page when CRM is slow. */
+        'url' => env('CRM_LEAD_POST_URL'),
+        'booking_url' => env('CRM_BOOKING_POST_URL'),
+        'disabled_time_slots_url' => env('CRM_DISABLED_TIME_SLOTS_URL'),
         'disabled_time_slots_timeout' => max(1.0, (float) env('CRM_DISABLED_TIME_SLOTS_TIMEOUT', 5)),
-        /** Public CRM route: false avoids sending CRM_API_TOKEN (some servers return 401 for wrong Bearer). */
-        'disabled_time_slots_use_token' => filter_var(env('CRM_DISABLED_TIME_SLOTS_USE_TOKEN', false), FILTER_VALIDATE_BOOL),
-        /** Set false on dev machines with broken PHP CA bundle (SSL errors in laravel.log). */
-        'verify_ssl' => filter_var(env('CRM_HTTP_VERIFY_SSL', true), FILTER_VALIDATE_BOOL),
+        'disabled_time_slots_use_token' => filter_var(env('CRM_DISABLED_TIME_SLOTS_USE_TOKEN'), FILTER_VALIDATE_BOOL),
+        'verify_ssl' => filter_var(env('CRM_HTTP_VERIFY_SSL'), FILTER_VALIDATE_BOOL),
         'api_token' => env('CRM_API_TOKEN'),
-        'country_code' => env('CRM_LEAD_COUNTRY_CODE', '+61'),
-        'source' => env('CRM_LEAD_SOURCE', 'Website form'),
-        'lead_status' => env('CRM_LEAD_LEAD_STATUS', 'new'),
-        'location' => env('CRM_BOOKING_LOCATION', 'melbourne'),
-        /** Website bookings default to consultant 2; override with CRM_BOOKING_CONSULTANT_ID. */
-        'consultant_id' => env('CRM_BOOKING_CONSULTANT_ID', 2),
-        'crm_service_id' => env('CRM_BOOKING_CRM_SERVICE_ID', 2),
-        'meeting_type' => env('CRM_BOOKING_MEETING_TYPE', 'in_person'),
-        'default_timezone' => env('CRM_BOOKING_TIMEZONE', 'Australia/Sydney'),
-        'default_duration' => env('CRM_BOOKING_DEFAULT_DURATION', 30),
-        ],
+        'country_code' => env('CRM_LEAD_COUNTRY_CODE'),
+        'source' => env('CRM_LEAD_SOURCE'),
+        'lead_status' => env('CRM_LEAD_LEAD_STATUS'),
+        'location' => env('CRM_BOOKING_LOCATION'),
+        'consultant_id' => env('CRM_BOOKING_CONSULTANT_ID'),
+        'crm_service_id' => env('CRM_BOOKING_CRM_SERVICE_ID'),
+        'meeting_type' => env('CRM_BOOKING_MEETING_TYPE'),
+        'default_timezone' => env('CRM_BOOKING_TIMEZONE'),
+        'default_duration' => env('CRM_BOOKING_DEFAULT_DURATION'),
+    ],
 
 ];
