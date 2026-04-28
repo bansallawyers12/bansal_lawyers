@@ -56,6 +56,12 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
+        ],
+        "optimize-production": [
+            "@php artisan optimize"
+        ],
+        "optimize-clear": [
+            "@php artisan optimize:clear"
         ]
     },
     "config": {
