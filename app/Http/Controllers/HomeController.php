@@ -78,7 +78,6 @@ class HomeController extends Controller
 			$fgColor = imagecolorallocate($image, $textColor[0], $textColor[1], $textColor[2]);
 			
 			if ($bgColor === false || $fgColor === false) {
-				imagedestroy($image);
 				throw new \RuntimeException('Failed to allocate colors');
 			}
 			
@@ -93,9 +92,6 @@ class HomeController extends Controller
 			ob_start();
 			$success = imagepng($image);
 			$imageData = ob_get_clean();
-			
-			// Clean up
-			imagedestroy($image);
 			
 			if (!$success || empty($imageData)) {
 				throw new \RuntimeException('Failed to generate image data');
@@ -1483,7 +1479,7 @@ class HomeController extends Controller
     /**
      * Validate reCAPTCHA response
      */
-    private function validateRecaptcha(Request $request): bool|\Illuminate\Http\RedirectResponse
+    private function validateRecaptcha(Request $request): bool|\Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
     {
         $recaptcha_response = $request->input('g-recaptcha-response');
         
