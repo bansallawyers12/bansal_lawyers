@@ -117,6 +117,12 @@ class HomeController extends Controller
 
 	public function Page(Request $request, $slug= null)
     {
+		// Reject slugs with path separators or non-ASCII characters — these are bot probes
+		// (e.g. scanners hitting /config/initializers/secret_token.rb)
+		if (!$slug || !preg_match('/^[a-z0-9\-]+$/i', $slug)) {
+			abort(404);
+		}
+
 		// Optimized: Single query to find the page type instead of multiple exists() checks
 		
 		// Check RecentCase first
