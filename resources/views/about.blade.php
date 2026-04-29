@@ -478,6 +478,102 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+/* Team Member Section */
+.team-member-section {
+    background: var(--neutral-bg);
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.team-member-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+.team-member-image {
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-large);
+}
+
+.team-member-image img {
+    width: 100%;
+    height: 580px;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 0.3s ease;
+}
+
+.team-member-image:hover img {
+    transform: scale(1.02);
+}
+
+.team-member-info {
+    padding-left: 2rem;
+}
+
+.team-member-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-navy);
+    margin-bottom: 1rem;
+}
+
+.team-member-title {
+    font-size: 1.3rem;
+    color: var(--accent-gold);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.team-member-description {
+    font-size: 1.1rem;
+    color: var(--neutral-medium);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.team-member-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-navy) 100%);
+    color: var(--white);
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 992px) {
+    .team-member-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .team-member-info {
+        padding-left: 0;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .team-member-name {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .team-member-name {
+        font-size: 1.8rem;
+    }
+}
+
 /* Contact CTA Section */
 .contact-cta {
     background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-orange) 100%);
@@ -699,6 +795,37 @@ h1, h2, h3, h4, h5, h6 {
                 </p>
                 <p class="director-description">
                     Ajay's philosophy centers on providing clear, practical legal advice that empowers clients to make informed decisions. His track record of successful outcomes and satisfied clients speaks to his commitment to excellence in legal practice.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Member: Michael Saleh -->
+<section class="section team-member-section" id="michael-saleh">
+    <div class="container">
+        <h2 class="section-title">Meet Our Solicitor</h2>
+        <div class="section-divider"></div>
+
+        <div class="team-member-grid" data-aos="fade-up" data-aos-duration="1000">
+            <div class="team-member-image" data-aos="fade-right" data-aos-duration="1000">
+                <img src="{{ asset('images/michael-saleh.png') }}" alt="Michael Saleh - Solicitor at Bansal Lawyers">
+            </div>
+            <div class="team-member-info" data-aos="fade-left" data-aos-duration="1000">
+                <h3 class="team-member-name">Michael Saleh</h3>
+                <div class="team-member-title">Solicitor</div>
+                <span class="team-member-badge">
+                    <i class="fa fa-certificate"></i>
+                    Admitted &ndash; Supreme Court of Victoria
+                </span>
+                <p class="team-member-description">
+                    Michael Saleh is a dedicated solicitor at Bansal Lawyers, admitted to the Supreme Court of Victoria and holding a Bachelor of Laws and Graduate Diploma of Legal Practice.
+                </p>
+                <p class="team-member-description">
+                    He brings hands-on experience across criminal law, family law, civil litigation, and commercial matters, with appearances in the Magistrates' Court, Federal Circuit and Family Court of Australia, and VCAT.
+                </p>
+                <p class="team-member-description">
+                    Michael is also bilingual in Arabic, allowing him to serve a broader range of clients with clarity and cultural sensitivity.
                 </p>
             </div>
         </div>
