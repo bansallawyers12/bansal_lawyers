@@ -704,10 +704,16 @@ class HomeController extends Controller
 
             if ($includeCrm) {
                 $inpersonForCrm = (int) $request->input('inperson_address', 2);
-                $crmSlots = CrmLeadSync::fetchCrmBookedDisabledTimeSlots(
-                    $dateForCrmPost,
-                    in_array($inpersonForCrm, [1, 2], true) ? $inpersonForCrm : 2
-                );
+                $normalizedInperson = in_array($inpersonForCrm, [1, 2], true) ? $inpersonForCrm : 2;
+
+                // Cache CRM results for 60 seconds per date+type to avoid hammering the CRM API
+                // on repeated date selections. Booking validation is enforced server-side at store
+                // time, so a 60-second stale window carries no double-booking risk.
+                $crmCacheKey = 'crm_disabled_slots_' . $datey . '_' . $normalizedInperson;
+                $crmSlots = Cache::remember($crmCacheKey, 60, function () use ($dateForCrmPost, $normalizedInperson) {
+                    return CrmLeadSync::fetchCrmBookedDisabledTimeSlots($dateForCrmPost, $normalizedInperson);
+                });
+
                 if ($crmSlots !== []) {
                     $disabledtimeslotes = array_values(array_unique(array_merge($disabledtimeslotes, $crmSlots)));
                 }

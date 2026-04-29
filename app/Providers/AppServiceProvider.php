@@ -24,6 +24,23 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+
+        // Frontend page rate limiter — 60 req/min per IP
+        RateLimiter::for('web-pages', function (Request $request) {
+            return Limit::perMinute(60)->by($request->ip());
+        });
+
+        // Booking page rate limiter — stricter, 30 req/min per IP
+        // This page was responsible for ~52 GiB of bot bandwidth
+        RateLimiter::for('web-booking', function (Request $request) {
+            return Limit::perMinute(30)->by($request->ip());
+        });
+
+        // AJAX endpoints rate limiter — 60 req/min per IP
+        // Higher headroom so real users can click through calendar dates quickly
+        RateLimiter::for('web-ajax', function (Request $request) {
+            return Limit::perMinute(60)->by($request->ip());
+        });
     }
 
     /**

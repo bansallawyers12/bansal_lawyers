@@ -20,6 +20,8 @@ $app = Application::configure(basePath: __DIR__.'/../')
             \App\Http\Middleware\TrimStrings::class,
             \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
             \App\Http\Middleware\TrustProxies::class,
+            \App\Http\Middleware\BlockBots::class,
+            \App\Http\Middleware\SecurityHeaders::class,
         ]);
 
         $middleware->group('web', [

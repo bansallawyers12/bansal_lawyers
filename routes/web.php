@@ -31,36 +31,37 @@ Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
 
 /*********************Frontend Routes ***********************/
 //Home Page
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->middleware('throttle:web-pages')->name('home');
+Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->middleware('throttle:web-pages')->name('index');
 // Simplified blog routes with /blog prefix
-Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->name('blog.index');
-Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->name('blog.category');
-Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogdetail'])->name('blog.detail');
+Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->middleware('throttle:web-pages')->name('blog.index');
+Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->middleware('throttle:web-pages')->name('blog.category');
+Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogdetail'])->middleware('throttle:web-pages')->name('blog.detail');
 
-Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus']);
+Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus'])->middleware('throttle:web-pages');
 Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'contact']);
 
 // Unified contact form routes
 Route::post('/contact/submit', [App\Http\Controllers\HomeController::class, 'contactSubmit'])->name('contact.submit');
 Route::get('/contact/thank-you', [App\Http\Controllers\HomeController::class, 'contactThankYou'])->name('contact.thankyou');
 
-Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
+Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->middleware(['throttle:web-pages', 'cache.headers:etag'])->name('about');
 
 Route::get('stripe/{appointmentId}', [App\Http\Controllers\HomeController::class, 'stripe']);
 Route::post('stripe', [App\Http\Controllers\HomeController::class, 'stripePost'])->name('stripe.post1');
 Route::get('payment-thankyou/{appointmentId?}', [App\Http\Controllers\HomeController::class, 'paymentThankYou'])->name('payment.thankyou');
 
-Route::get('/book-an-appointment', [App\Http\Controllers\HomeController::class, 'bookappointment'])->name('bookappointment');
-Route::get('/book-an-appointment1', [App\Http\Controllers\HomeController::class, 'bookappointment1'])->name('bookappointment1');
+// Booking page — stricter throttle (was 52 GiB bot bandwidth in recent logs)
+Route::get('/book-an-appointment', [App\Http\Controllers\HomeController::class, 'bookappointment'])->middleware('throttle:web-booking')->name('bookappointment');
+Route::get('/book-an-appointment1', [App\Http\Controllers\HomeController::class, 'bookappointment1'])->middleware('throttle:web-booking')->name('bookappointment1');
 Route::post('/book-an-appointment/store', [App\Http\Controllers\AppointmentBookController::class, 'store']);
 Route::post('/book-an-appointment/storepaid', [App\Http\Controllers\AppointmentBookController::class, 'storepaid'])->name('stripe.post');
 // Promo code validation for booking
 Route::post('/promo-code/check', [App\Http\Controllers\AppointmentBookController::class, 'checkpromocode']);
-Route::match(['get', 'post'], '/getdatetime', [App\Http\Controllers\HomeController::class, 'getdatetime']);
-Route::post('/getdisableddatetime', [App\Http\Controllers\HomeController::class, 'getdisableddatetime']);
+Route::match(['get', 'post'], '/getdatetime', [App\Http\Controllers\HomeController::class, 'getdatetime'])->middleware('throttle:web-ajax');
+Route::post('/getdisableddatetime', [App\Http\Controllers\HomeController::class, 'getdisableddatetime'])->middleware('throttle:web-ajax');
 Route::get('/refresh-captcha', [App\Http\Controllers\HomeController::class, 'refresh_captcha']);
-Route::get('page/{slug}', [App\Http\Controllers\HomeController::class, 'Page'])->name('page.slug');
+Route::get('page/{slug}', [App\Http\Controllers\HomeController::class, 'Page'])->middleware('throttle:web-pages')->name('page.slug');
 Route::get('sicaptcha', [App\Http\Controllers\HomeController::class, 'sicaptcha'])->name('sicaptcha');
 
 /*********************Admin Panel Routes ***********************/
@@ -164,51 +165,54 @@ Route::prefix('admin')->group(function() {
 });
 
 
-Route::get('/practice-areas', [\App\Http\Controllers\HomeController::class, 'practiceareas'])->name('practice-areas');
-Route::get('/case', [\App\Http\Controllers\HomeController::class, 'case'])->name('case');
+// Static informational pages — rate limited + ETag for repeat-visitor caching
+Route::middleware(['throttle:web-pages', 'cache.headers:etag'])->group(function () {
+    Route::get('/practice-areas', [\App\Http\Controllers\HomeController::class, 'practiceareas'])->name('practice-areas');
+    Route::get('/case', [\App\Http\Controllers\HomeController::class, 'case'])->name('case');
 
-//Practice area main Page
-Route::get('/family-law', [\App\Http\Controllers\HomeController::class, 'familylawExperiment'])->name('family-law');
-Route::get('/migration-law', [\App\Http\Controllers\HomeController::class, 'migrationlawExperiment'])->name('migration-law');
-Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'criminallawExperiment'])->name('criminal-law');
-Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallawExperiment'])->name('commercial-law');
-Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylawExperiment'])->name('property-law');
+    //Practice area main Page
+    Route::get('/family-law', [\App\Http\Controllers\HomeController::class, 'familylawExperiment'])->name('family-law');
+    Route::get('/migration-law', [\App\Http\Controllers\HomeController::class, 'migrationlawExperiment'])->name('migration-law');
+    Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'criminallawExperiment'])->name('criminal-law');
+    Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallawExperiment'])->name('commercial-law');
+    Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylawExperiment'])->name('property-law');
 
+    /*********************Practice Area Inner Pages ***********************/
+    Route::get('/divorce', [\App\Http\Controllers\HomeController::class, 'divorce'])->name('divorce');
+    Route::get('/landing', [\App\Http\Controllers\HomeController::class, 'divorceFamilyLawLanding'])->name('divorce-family-law-landing');
+    Route::get('/child-custody', [\App\Http\Controllers\HomeController::class, 'childcustody'])->name('child-custody');
+    Route::get('/family-violence', [\App\Http\Controllers\HomeController::class, 'familyviolence'])->name('family-violence');
+    Route::get('/property-settlement', [\App\Http\Controllers\HomeController::class, 'propertysettlement'])->name('property-settlement');
+    Route::get('/family-violence-orders', [\App\Http\Controllers\HomeController::class, 'familyviolenceorders'])->name('family-violence-orders');
 
-/*********************Practice Area Inner Pages ***********************/
-Route::get('/divorce', [\App\Http\Controllers\HomeController::class, 'divorce'])->name('divorce');
-Route::get('/landing', [\App\Http\Controllers\HomeController::class, 'divorceFamilyLawLanding'])->name('divorce-family-law-landing');
-Route::get('/child-custody', [\App\Http\Controllers\HomeController::class, 'childcustody'])->name('child-custody');
-Route::get('/family-violence', [\App\Http\Controllers\HomeController::class, 'familyviolence'])->name('family-violence');
-Route::get('/property-settlement', [\App\Http\Controllers\HomeController::class, 'propertysettlement'])->name('property-settlement');
-Route::get('/family-violence-orders', [\App\Http\Controllers\HomeController::class, 'familyviolenceorders'])->name('family-violence-orders');
+    /*********************Migration Law ***********************/
+    Route::get('/juridicational-error-federal-circuit-court-application', [\App\Http\Controllers\HomeController::class, 'juridicationalerrorfederalcircuitcourtapplication'])->name('juridicational-error-federal-circuit-court-application');
+    Route::get('/art-application', [\App\Http\Controllers\HomeController::class, 'artapplication'])->name('art-application');
+    Route::get('/visa-refusals-visa-cancellation', [\App\Http\Controllers\HomeController::class, 'visarefusalsvisacancellation'])->name('visa-refusals-visa-cancellation');
+    Route::get('/federal-court-application', [\App\Http\Controllers\HomeController::class, 'federalcourtapplication'])->name('federal-court-application');
 
-/*********************Migration Law ***********************/
-Route::get('/juridicational-error-federal-circuit-court-application', [\App\Http\Controllers\HomeController::class, 'juridicationalerrorfederalcircuitcourtapplication'])->name('juridicational-error-federal-circuit-court-application');
-Route::get('/art-application', [\App\Http\Controllers\HomeController::class, 'artapplication'])->name('art-application');
-Route::get('/visa-refusals-visa-cancellation', [\App\Http\Controllers\HomeController::class, 'visarefusalsvisacancellation'])->name('visa-refusals-visa-cancellation');
-Route::get('/federal-court-application', [\App\Http\Controllers\HomeController::class, 'federalcourtapplication'])->name('federal-court-application');
+    /*********************Criminal Law ***********************/
+    Route::get('/intervenition-orders', [\App\Http\Controllers\HomeController::class, 'intervenitionorders'])->name('intervenition-orders');
+    Route::get('/trafic-offences', [\App\Http\Controllers\HomeController::class, 'traficoffences'])->name('trafic-offences');
+    Route::get('/drink-driving-offences', [\App\Http\Controllers\HomeController::class, 'drinkdrivingoffences'])->name('drink-driving-offences');
+    Route::get('/assualt-charges', [\App\Http\Controllers\HomeController::class, 'assualtcharges'])->name('assualt-charges');
 
-/*********************Criminal Law ***********************/
-Route::get('/intervenition-orders', [\App\Http\Controllers\HomeController::class, 'intervenitionorders'])->name('intervenition-orders');
-Route::get('/trafic-offences', [\App\Http\Controllers\HomeController::class, 'traficoffences'])->name('trafic-offences');
-Route::get('/drink-driving-offences', [\App\Http\Controllers\HomeController::class, 'drinkdrivingoffences'])->name('drink-driving-offences');
-Route::get('/assualt-charges', [\App\Http\Controllers\HomeController::class, 'assualtcharges'])->name('assualt-charges');
+    /*********************Commercial Law ***********************/
+    Route::get('/business-law', [\App\Http\Controllers\HomeController::class, 'businesslaw'])->name('business-law');
+    Route::get('/leasing-or-selling-a-business', [\App\Http\Controllers\HomeController::class, 'leasingorsellingabusiness'])->name('leasing-or-selling-a-business');
+    Route::get('/contracts-or-business-agreements', [\App\Http\Controllers\HomeController::class, 'contractsorbusinessagreements'])->name('contracts-or-business-agreements');
+    Route::get('/loan-agreement', [\App\Http\Controllers\HomeController::class, 'loanagreement'])->name('loan-agreement');
 
-/*********************Commercial Law ***********************/
-Route::get('/business-law', [\App\Http\Controllers\HomeController::class, 'businesslaw'])->name('business-law');
-Route::get('/leasing-or-selling-a-business', [\App\Http\Controllers\HomeController::class, 'leasingorsellingabusiness'])->name('leasing-or-selling-a-business');
-Route::get('/contracts-or-business-agreements', [\App\Http\Controllers\HomeController::class, 'contractsorbusinessagreements'])->name('contracts-or-business-agreements');
-Route::get('/loan-agreement', [\App\Http\Controllers\HomeController::class, 'loanagreement'])->name('loan-agreement');
-
-/*********************Property Law ***********************/
-Route::get('/conveyancing', [\App\Http\Controllers\HomeController::class, 'conveyancing'])->name('conveyancing');
-Route::get('/building-and-construction-disputes', [\App\Http\Controllers\HomeController::class, 'buildingandconstructiondisputes'])->name('building-and-construction-disputes');
-Route::get('/caveats-disputs-and-removal', [\App\Http\Controllers\HomeController::class, 'caveatsdisputsandremoval'])->name('caveats-disputs-and-removal');
+    /*********************Property Law ***********************/
+    Route::get('/conveyancing', [\App\Http\Controllers\HomeController::class, 'conveyancing'])->name('conveyancing');
+    Route::get('/building-and-construction-disputes', [\App\Http\Controllers\HomeController::class, 'buildingandconstructiondisputes'])->name('building-and-construction-disputes');
+    Route::get('/caveats-disputs-and-removal', [\App\Http\Controllers\HomeController::class, 'caveatsdisputsandremoval'])->name('caveats-disputs-and-removal');
+});
 
 /*********************New Unified Blog and CMS Route ***********************/
 // This handles CMS pages and recent cases at /{slug}
 // IMPORTANT: This route must come after /blog routes to avoid conflicts
 Route::get('/{slug}', [\App\Http\Controllers\HomeController::class, 'unifiedSlugHandler'])
+	->middleware('throttle:web-pages')
 	->where('slug', '^(?!admin\/|api\/|login$|register$|home$|invoice$|profile$|clear-cache$|js\/|css\/|images\/|img\/|assets\/|fonts\/|storage\/|blog$|blog\/).*$')
 	->name('cms.slug');

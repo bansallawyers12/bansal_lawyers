@@ -110,7 +110,7 @@
     
     <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
     <!-- Font Awesome now loaded via Vite in vendor-frontend.css -->
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v=1.0">
 
     <!-- Essential custom CSS only -->
     <!-- Critical CSS - needed for initial render -->

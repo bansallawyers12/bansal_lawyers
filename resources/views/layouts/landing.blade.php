@@ -52,7 +52,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     
     <!-- Icon fonts - Font Awesome loaded via Vite in vendor-frontend.css -->
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v=1.0">
     
     <!-- Magnific Popup CSS for lightbox functionality -->
     <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}">
@@ -111,7 +111,7 @@
     @vite(['resources/js/frontend.js'])
     
     <!-- Main script -->
-    <script src="{{ asset('js/main.js') }}?v={{ time() }}" defer></script>
+    <script src="{{ asset('js/main.js') }}?v=1.0" defer></script>
     
     @yield('scripts')
 </body>
