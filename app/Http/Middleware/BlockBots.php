@@ -229,6 +229,10 @@ class BlockBots
 
     /**
      * Returns true if the given IPv4 address falls within any blocked CIDR range.
+     *
+     * The subnet/mask pairs are compiled from string CIDRs exactly once per PHP
+     * worker process (static variable), so every subsequent request in that worker
+     * runs only bitwise integer comparisons — no string parsing, no ip2long calls.
      */
     private function isIpInBlockedRange(string $ip): bool
     {
@@ -239,11 +243,21 @@ class BlockBots
             return false;
         }
 
-        foreach (self::BLOCKED_CIDR_RANGES as $cidr) {
-            [$subnet, $bits] = explode('/', $cidr);
-            $mask    = $bits == 0 ? 0 : (~0 << (32 - (int) $bits));
-            $netLong = ip2long($subnet);
+        // Compiled once per process; reused for every subsequent request
+        static $compiled = null;
 
+        if ($compiled === null) {
+            $compiled = [];
+            foreach (self::BLOCKED_CIDR_RANGES as $cidr) {
+                [$subnet, $bits] = explode('/', $cidr);
+                $compiled[] = [
+                    ip2long($subnet),
+                    $bits == 0 ? 0 : (~0 << (32 - (int) $bits)),
+                ];
+            }
+        }
+
+        foreach ($compiled as [$netLong, $mask]) {
             if (($ipLong & $mask) === ($netLong & $mask)) {
                 return true;
             }
