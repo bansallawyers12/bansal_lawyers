@@ -37,6 +37,7 @@ Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->mid
 Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->middleware('throttle:web-pages')->name('blog.index');
 Route::get('/blog/category/{categorySlug}', [App\Http\Controllers\HomeController::class, 'blogCategoryExperimental'])->middleware('throttle:web-pages')->name('blog.category');
 Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogdetail'])->middleware('throttle:web-pages')->name('blog.detail');
+Route::get('/blogs/list', [App\Http\Controllers\Api\BlogController::class, 'list'])->middleware('throttle:web-pages')->name('blogs.list');
 
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus'])->middleware('throttle:web-pages');
 Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'contact']);
