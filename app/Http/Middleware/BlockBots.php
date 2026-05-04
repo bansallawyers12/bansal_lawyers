@@ -80,7 +80,12 @@ class BlockBots
     {
         $userAgent = $request->header('User-Agent', '');
 
-        // Empty user-agents pass through (some legitimate minimal HTTP clients)
+        // Block empty/missing User-Agent on any write method — no real browser omits it
+        if (empty($userAgent) && $request->isMethod('post')) {
+            abort(403);
+        }
+
+        // Allow empty UA on safe read-only methods (some minimal HTTP clients are benign)
         if (empty($userAgent)) {
             return $next($request);
         }
