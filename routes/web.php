@@ -18,6 +18,13 @@ use Illuminate\Support\Facades\Route;
 // CSP violation reporting endpoint (CSRF excluded in VerifyCsrfToken middleware)
 Route::post('/csp-report', [App\Http\Controllers\SecurityController::class, 'cspReport']);
 
+// Cloudflare Email Address Obfuscation: /cdn-cgi/l/email-protection#<hex> — the #fragment is never sent to the server, so return a minimal page that decodes the hash (CF algorithm) and opens mailto:, or falls back to /contact.
+Route::get('/cdn-cgi/l/email-protection', function () {
+	return response()
+		->view('cf-email-protection-fallback')
+		->header('X-Robots-Tag', 'noindex, nofollow');
+});
+
 Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
 	Route::post('/clear-cache', function() {
 
