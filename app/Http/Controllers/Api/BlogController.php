@@ -7,7 +7,6 @@ use App\Models\Blog;
 use App\Models\BlogCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
@@ -20,9 +19,7 @@ class BlogController extends Controller
     {
         $perPage = min(max((int) $request->query('per_page', 9), 1), 50);
 
-        $blogCategories = Cache::remember('blog_categories', 3600, function () {
-            return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
-        });
+        $blogCategories = BlogCategory::cachedForListing();
 
         $query = Blog::where('status', 1)->with(['categorydetail']);
 

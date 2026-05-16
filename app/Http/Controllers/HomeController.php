@@ -403,11 +403,9 @@ class HomeController extends Controller
                 ->get();
         });
         
-        // Get all categories for sidebar
-        $blogCategories = Cache::remember('blog_categories', 3600, function () {
-            return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
-        });
-        
+        // Get all categories for sidebar (same safe cache as blog listing)
+        $blogCategories = BlogCategory::cachedForListing();
+
         return view('blogdetail', compact('blogdetailists', 'latestbloglists', 'blogCategories'));
     }
   
@@ -1583,18 +1581,10 @@ class HomeController extends Controller
         }
     }
 
-    /**
-     * Blog Listing Page
-     * Uses query parameters for pagination and filtering
-     * URLs: /blog, /blog?page=2, /blog?category=slug
-     */
     public function blogExperimental(Request $request)
     {
-        // Optimized: Cache blog categories as they rarely change
-        $blogCategories = Cache::remember('blog_categories', 3600, function () {
-            return BlogCategory::where('status', 1)->orderBy('name', 'asc')->get();
-        });
-        
+        $blogCategories = BlogCategory::cachedForListing();
+
         $blogquery = Blog::where('status', '=', 1)->with(['categorydetail']);
         
         // Filter by category if provided - using query parameter

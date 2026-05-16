@@ -16,6 +16,7 @@ class CacheOptimizationService
         'latest_blogs_homepage' => 'latest_blogs_homepage',
         'blog_data' => 'blog_data',
         'blog_categories' => 'blog_categories',
+        'blog_categories_v2' => 'blog_categories_v2',
     ];
 
     /**
@@ -50,6 +51,7 @@ class CacheOptimizationService
             case 'blog':
                 Cache::forget('latest_blogs_homepage');
                 Cache::forget('blog_categories');
+                Cache::forget('blog_categories_v2');
                 // Clear paginated blog caches
                 for ($i = 1; $i <= 10; $i++) {
                     Cache::forget("homepage_data_{$i}");
@@ -79,13 +81,7 @@ class CacheOptimizationService
      */
     public function warmUpCaches(): void
     {
-        // Warm up blog categories
-        Cache::remember('blog_categories', 3600, function() {
-            return \App\Models\BlogCategory::where('status', 1)
-                ->select(['id', 'name', 'slug'])
-                ->orderBy('name', 'asc')
-                ->get();
-        });
+        \App\Models\BlogCategory::cachedForListing();
         
     }
 

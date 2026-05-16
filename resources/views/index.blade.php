@@ -861,7 +861,7 @@
                         </div>
                     @endif
                     
-                    @if ($errors->any())
+                    @if ($errors instanceof \Illuminate\Support\ViewErrorBag && $errors->any())
                         <div class="alert alert-danger" style="margin-bottom: 15px; border-radius: 8px; border: none; background: #dc3545; color: white; padding: 8px 12px; font-size: 0.85rem;">
                             <i class="fa fa-exclamation-triangle" style="margin-right: 6px;"></i>
                             <strong>Please correct the following errors:</strong>

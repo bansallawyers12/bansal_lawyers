@@ -317,7 +317,7 @@
     </div>
     @endif
 
-    @if ($errors->any())
+    @if ($errors instanceof \Illuminate\Support\ViewErrorBag && $errors->any())
     <div class="modern-flash-alert error" role="alert" data-auto-dismiss="8000">
         <div class="modern-flash-icon">
             <i class="fas fa-exclamation-circle"></i>
