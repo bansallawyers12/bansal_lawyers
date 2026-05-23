@@ -334,7 +334,7 @@
         font-size: 1.2rem !important;
     }
     
-    .experimental-section[style*="background: #f8f9fa"] .g-recaptcha {
+    .experimental-section[style*="background: #f8f9fa"] .turnstile-container {
         transform: scale(0.85);
         transform-origin: center;
     }
@@ -382,68 +382,15 @@
     font-style: italic !important;
 }
 
-.home-contact-form-container .g-recaptcha {
+.home-contact-form-container .turnstile-container {
     display: flex !important;
     justify-content: center !important;
-    transform: scale(0.8) !important;
     margin: 10px 0 !important;
 }
 
-/* Custom reCAPTCHA styling for better integration */
-.home-contact-form-container .g-recaptcha > div {
-    background: #fff !important;
-    border: 1px solid #ddd !important;
+.home-contact-form-container .turnstile-container .cf-turnstile {
     border-radius: 8px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-    transition: all 0.3s ease !important;
-}
-
-.home-contact-form-container .g-recaptcha > div:hover {
-    border-color: #1B4D89 !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
-}
-
-/* Style the reCAPTCHA iframe */
-.home-contact-form-container .g-recaptcha iframe {
-    border-radius: 6px !important;
-    background: transparent !important;
-}
-
-/* Style the reCAPTCHA checkbox area */
-.home-contact-form-container .g-recaptcha .recaptcha-checkbox-border {
-    border-radius: 6px !important;
-    background: #fff !important;
-    border: 1px solid #ddd !important;
-}
-
-.home-contact-form-container .g-recaptcha .recaptcha-checkbox-checkmark {
-    background: #1B4D89 !important;
-}
-
-/* Style the reCAPTCHA text */
-.home-contact-form-container .g-recaptcha .recaptcha-checkbox-text {
-    color: #333 !important;
-    font-weight: 500 !important;
-}
-
-/* Alternative: Hide reCAPTCHA and show custom message */
-.home-contact-form-container .g-recaptcha-custom {
-    background: rgba(255,255,255,0.1) !important;
-    border: 2px solid rgba(255,255,255,0.3) !important;
-    border-radius: 8px !important;
-    padding: 15px !important;
-    text-align: center !important;
-    color: white !important;
-    font-size: 0.9rem !important;
-    backdrop-filter: blur(10px) !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
-    margin: 10px 0 !important;
-}
-
-.home-contact-form-container .g-recaptcha-custom i {
-    font-size: 1.2rem !important;
-    margin-right: 8px !important;
-    color: #1B4D89 !important;
+    overflow: hidden !important;
 }
 
 .home-contact-form-container .btn-experimental-cta {
@@ -898,7 +845,7 @@
 @endsection
 
 @section('scripts')
-{{-- reCAPTCHA is already loaded by the global frontend layout --}}
+{{-- Turnstile is loaded by the global frontend layout --}}
 
 <!-- Video Modal Functions -->
 <script>
@@ -952,80 +899,7 @@ style.textContent = `
         border-color: #dc3545 !important;
         background-color: rgba(220, 53, 69, 0.1) !important;
     }
-    
-    /* Enhanced reCAPTCHA styling */
-    .home-contact-form-container .g-recaptcha {
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .home-contact-form-container .g-recaptcha::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-        border-radius: 8px;
-        pointer-events: none;
-        z-index: 1;
-    }
-    
-    .home-contact-form-container .g-recaptcha > div {
-        position: relative;
-        z-index: 2;
-    }
 `;
 document.head.appendChild(style);
-
-// Enhanced reCAPTCHA styling and interaction
-document.addEventListener('DOMContentLoaded', function() {
-    // Wait for reCAPTCHA to load
-    const checkRecaptcha = setInterval(function() {
-        const recaptchaElement = document.querySelector('.home-contact-form-container .g-recaptcha > div');
-        if (recaptchaElement) {
-            clearInterval(checkRecaptcha);
-            
-            // Add custom styling classes
-            recaptchaElement.classList.add('recaptcha-styled');
-            
-            // Add hover effects
-            recaptchaElement.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.02)';
-                this.style.transition = 'all 0.3s ease';
-            });
-            
-            recaptchaElement.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1)';
-            });
-            
-            // Add focus effects
-            const iframe = recaptchaElement.querySelector('iframe');
-            if (iframe) {
-                iframe.addEventListener('load', function() {
-                    // Add subtle animation when reCAPTCHA loads
-                    recaptchaElement.style.animation = 'fadeInUp 0.5s ease-out';
-                });
-            }
-        }
-    }, 100);
-    
-    // Add fadeInUp animation
-    const animationStyle = document.createElement('style');
-    animationStyle.textContent = `
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    `;
-    document.head.appendChild(animationStyle);
-});
 </script>
 @endsection

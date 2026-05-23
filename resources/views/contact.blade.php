@@ -619,31 +619,15 @@
     box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
 }
 
-.contact-form-overlay .recaptcha-container {
+.contact-form-overlay .turnstile-container {
     display: flex;
     justify-content: center;
     margin: 15px 0;
 }
 
-.contact-form-overlay .recaptcha-container > div {
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+.contact-form-overlay .turnstile-container .cf-turnstile {
     border-radius: 8px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
     overflow: hidden;
-}
-
-.contact-form-overlay .recaptcha-container > div:hover {
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-}
-
-.contact-form-overlay .recaptcha-container iframe {
-    border-radius: 6px;
-    background: transparent;
 }
 
 /* Floating Contact Form */
@@ -869,7 +853,7 @@
     box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
 }
 
-.floating-form-content .recaptcha-container {
+.floating-form-content .turnstile-container {
     display: flex;
     justify-content: center;
     margin: 15px 0;

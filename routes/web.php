@@ -67,9 +67,7 @@ Route::post('/book-an-appointment/storepaid', [App\Http\Controllers\AppointmentB
 Route::post('/promo-code/check', [App\Http\Controllers\AppointmentBookController::class, 'checkpromocode'])->middleware('throttle:web-promo');
 Route::match(['get', 'post'], '/getdatetime', [App\Http\Controllers\HomeController::class, 'getdatetime'])->middleware('throttle:web-ajax');
 Route::post('/getdisableddatetime', [App\Http\Controllers\HomeController::class, 'getdisableddatetime'])->middleware('throttle:web-ajax');
-Route::get('/refresh-captcha', [App\Http\Controllers\HomeController::class, 'refresh_captcha']);
 Route::get('page/{slug}', [App\Http\Controllers\HomeController::class, 'Page'])->middleware('throttle:web-pages')->name('page.slug');
-Route::get('sicaptcha', [App\Http\Controllers\HomeController::class, 'sicaptcha'])->name('sicaptcha');
 
 /*********************Admin Panel Routes ***********************/
 Route::prefix('admin')->group(function() {

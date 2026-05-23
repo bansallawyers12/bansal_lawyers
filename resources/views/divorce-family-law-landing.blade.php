@@ -1818,8 +1818,8 @@ body {
         margin-bottom: 20px !important;
     }
     
-    /* reCAPTCHA Mobile */
-    .cover-visual-content .g-recaptcha {
+    /* Turnstile mobile */
+    .cover-visual-content .cf-turnstile {
         margin-bottom: 15px !important;
         transform: scale(0.85);
         transform-origin: 0 0;
@@ -2671,8 +2671,8 @@ body {
         margin-bottom: 15px !important;
     }
     
-    /* reCAPTCHA Extra Small Mobile */
-    .cover-visual-content .g-recaptcha {
+    /* Turnstile extra small mobile */
+    .cover-visual-content .cf-turnstile {
         transform: scale(0.8);
         margin-bottom: 12px !important;
     }

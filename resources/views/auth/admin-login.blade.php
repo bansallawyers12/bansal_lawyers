@@ -92,7 +92,7 @@
 				</div>
 				
 				<!-- Cloudflare Turnstile -->
-				<div class="modern-recaptcha">
+				<div class="modern-turnstile">
 					<div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}"></div>
 				</div>
 				

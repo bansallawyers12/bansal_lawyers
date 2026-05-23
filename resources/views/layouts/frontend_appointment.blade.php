@@ -295,33 +295,6 @@
 			var redirecturl = "<?php echo URL::to('/thanks'); ?>";
 		</script>
 
-	<script>
-	// Wait for jQuery to load
-	(function() {
-		function initWhenJQueryReady() {
-			if (typeof jQuery !== 'undefined' && typeof jQuery.fn !== 'undefined') {
-				jQuery(document).ready(function($){
-					$('.refresh').on('click', function(){
-						$.ajax({
-							url: '<?php echo URL::to('/'); ?>/refresh-captcha',
-							type: 'GET',
-							success: function(html){
-								$('.code_verify .image').html(html);
-							}
-						});
-					});
-				});
-			} else {
-				setTimeout(initWhenJQueryReady, 50);
-			}
-		}
-		if (document.readyState === 'loading') {
-			document.addEventListener('DOMContentLoaded', initWhenJQueryReady);
-		} else {
-			initWhenJQueryReady();
-		}
-	})();
-	</script>
 		@yield('scripts')
 </body>
 

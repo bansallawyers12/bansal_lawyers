@@ -34,87 +34,6 @@ use App\Support\CrmLeadSync;
 class HomeController extends Controller
 {
     use \App\Traits\ValidatesTurnstile;
-	/**
-	 * Generate CAPTCHA image
-	 * Modernized GD library implementation with improved error handling and structure
-	 * 
-	 * Note: While functional, consider migrating to modern CAPTCHA solutions like Google reCAPTCHA
-	 * which is already used elsewhere in this application.
-	 * 
-	 * @param Request $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function sicaptcha(Request $request)
-    {
-		$request->validate([
-			'code' => 'required|string|max:10'
-		]);
-		
-		// Check if GD extension is available
-		if (!extension_loaded('gd')) {
-			Log::error('GD extension not available for CAPTCHA generation');
-			abort(500, 'Image generation service unavailable');
-		}
-		
-		$code = $request->input('code');
-		
-		// Image dimensions
-		$width = 50;
-		$height = 24;
-		
-		// Color definitions (RGB)
-		$backgroundColor = [37, 37, 37];   // Dark gray background
-		$textColor = [255, 241, 70];        // Yellow text
-		
-		try {
-			// Create image resource
-			$image = imagecreatetruecolor($width, $height);
-			
-			if ($image === false) {
-				throw new \RuntimeException('Failed to create image resource');
-			}
-			
-			// Allocate colors
-			$bgColor = imagecolorallocate($image, $backgroundColor[0], $backgroundColor[1], $backgroundColor[2]);
-			$fgColor = imagecolorallocate($image, $textColor[0], $textColor[1], $textColor[2]);
-			
-			if ($bgColor === false || $fgColor === false) {
-				throw new \RuntimeException('Failed to allocate colors');
-			}
-			
-			// Fill background
-			imagefill($image, 0, 0, $bgColor);
-			
-			// Add text using built-in font (font size 5)
-			// imagestring($image, font, x, y, string, color)
-			imagestring($image, 5, 5, 5, $code, $fgColor);
-			
-			// Capture image output
-			ob_start();
-			$success = imagepng($image);
-			$imageData = ob_get_clean();
-			
-			if (!$success || empty($imageData)) {
-				throw new \RuntimeException('Failed to generate image data');
-			}
-			
-			// Return response with proper headers
-			return response($imageData, 200)
-				->header('Content-Type', 'image/png')
-				->header('Cache-Control', 'no-cache, must-revalidate, max-age=0')
-				->header('Pragma', 'no-cache')
-				->header('Expires', '0');
-				
-		} catch (\Exception $e) {
-			Log::error('CAPTCHA generation failed: ' . $e->getMessage(), [
-				'code' => $code,
-				'trace' => $e->getTraceAsString()
-			]);
-			
-			// Return a simple error image or abort
-			abort(500, 'Failed to generate CAPTCHA image');
-		}
-    }
 
 	public function Page(Request $request, $slug= null)
     {
@@ -209,12 +128,6 @@ class HomeController extends Controller
     {
 		return view('contact');
     }
-
-	public function refresh_captcha() {
-		// This method is no longer needed with Google reCAPTCHA
-		// Keeping for backward compatibility but returning empty response
-		return response('', 200);
-	}
 
 	public function contact(Request $request){
         // Honeypot check

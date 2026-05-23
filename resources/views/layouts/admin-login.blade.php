@@ -293,8 +293,8 @@ body::before {
     font-weight: 700;
 }
 
-/* reCAPTCHA Styling */
-.modern-recaptcha {
+/* Turnstile styling */
+.modern-turnstile {
     margin: 24px 0;
     display: flex;
     justify-content: center;

@@ -44,8 +44,7 @@ class ContentSecurityPolicy
     {
         return $request->is('admin*') || 
                $request->is('contact*') || 
-               $request->is('appointment*') ||
-               $request->is('*recaptcha*');
+               $request->is('appointment*');
     }
     
     private function buildCSP(Request $request, string $nonce): string
