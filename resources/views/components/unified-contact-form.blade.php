@@ -70,6 +70,7 @@
                    id="{{ $formId }}-name" 
                    name="name" 
                    placeholder="Enter your full name" 
+                   autocomplete="name"
                    required
                    value="{{ old('name') }}">
             <div class="invalid-feedback" id="{{ $formId }}-name-error"></div>
@@ -82,6 +83,7 @@
                    id="{{ $formId }}-email" 
                    name="email" 
                    placeholder="Enter your email address" 
+                   autocomplete="email"
                    required
                    value="{{ old('email') }}">
             <div class="invalid-feedback" id="{{ $formId }}-email-error"></div>
@@ -94,6 +96,7 @@
                    id="{{ $formId }}-phone" 
                    name="phone" 
                    placeholder="Enter your phone number" 
+                   autocomplete="tel"
                    required
                    value="{{ old('phone') }}">
             <div class="invalid-feedback" id="{{ $formId }}-phone-error"></div>
@@ -106,6 +109,7 @@
                    id="{{ $formId }}-subject" 
                    name="subject" 
                    placeholder="What is this about?" 
+                   autocomplete="off"
                    required
                    value="{{ old('subject') }}">
             <div class="invalid-feedback" id="{{ $formId }}-subject-error"></div>
@@ -118,6 +122,7 @@
                       name="message" 
                       rows="4" 
                       placeholder="Tell us about your legal needs and how we can help you..." 
+                      autocomplete="off"
                       required>{{ old('message') }}</textarea>
             <div class="invalid-feedback" id="{{ $formId }}-message-error"></div>
         </div>

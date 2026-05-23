@@ -18,7 +18,7 @@ class ContentSecurityPolicy
         $response = $next($request);
         
         // Only apply CSP to routes that need external resources
-        if ($this->shouldApplyCSP($request)) {
+        if (config('security.csp.enabled', true) && $this->shouldApplyCSP($request)) {
             // Use the same nonce that was shared with views
             $csp = $this->buildCSP($request, $nonce);
             
@@ -73,14 +73,23 @@ class ContentSecurityPolicy
             ];
         } else {
             // More permissive CSP for frontend routes (contact, etc.)
+            $scriptSrc = "'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://connect.facebook.net https://www.google-analytics.com https://challenges.cloudflare.com";
+            $connectSrc = "'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://challenges.cloudflare.com";
+
+            // Vite dev server (npm run dev) uses eval for HMR and loads scripts from :5173
+            if (App::environment('local')) {
+                $scriptSrc .= " 'unsafe-eval' http://127.0.0.1:5173 http://localhost:5173";
+                $connectSrc .= " http://127.0.0.1:5173 http://localhost:5173 ws://127.0.0.1:5173 ws://localhost:5173";
+            }
+
             $policies = [
                 "default-src 'self'",
-                "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://connect.facebook.net https://www.google-analytics.com https://challenges.cloudflare.com",
-                "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+                "script-src {$scriptSrc}",
+                "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com" . (App::environment('local') ? ' http://127.0.0.1:5173 http://localhost:5173' : ''),
                 "font-src 'self' https://cdnjs.cloudflare.com data:",
                 "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com",
-                "connect-src 'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://challenges.cloudflare.com",
-                "frame-src 'self' https://www.google.com https://www.facebook.com https://challenges.cloudflare.com",
+                "connect-src {$connectSrc}",
+                "frame-src 'self' https://www.google.com https://maps.google.com https://www.facebook.com https://challenges.cloudflare.com",
                 "object-src 'none'",
                 "base-uri 'self'",
                 "form-action 'self'",

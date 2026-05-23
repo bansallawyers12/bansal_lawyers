@@ -1044,8 +1044,8 @@
                         <i class="fa fa-phone"></i>
                     </div>
                     <h4>Call Us Now</h4>
-                    <p><a href="tel://(+61) 0422905860">(+61) 0422905860</a><br>
-                    <a href="tel://1300226725">1300 BANSAL<br>(1300 226 725)</a></p>
+                    <p><a href="tel:+61422905860">(+61) 0422905860</a><br>
+                    <a href="tel:1300226725">1300 BANSAL<br>(1300 226 725)</a></p>
                 </div>
                 <div class="modern-contact-item" data-aos="fade-up" data-aos-delay="300">
                     <div class="icon">
@@ -1090,7 +1090,10 @@
                             <div class="map-overlay-card" data-aos="fade-left" data-aos-duration="1000">
                                 <div class="map-container">
                                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.645409146537!2d144.9631536153164!3d-37.81664617975151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43c60387b1%3A0xd9be68c8b39a6074!2sLevel%208%2F278%20Collins%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sus!4v1696731567597!5m2!1sen!2sus"
-                                        allowfullscreen="" loading="lazy"></iframe>
+                                        title="Bansal Lawyers office location on Google Maps"
+                                        allow="fullscreen"
+                                        loading="lazy"
+                                        referrerpolicy="no-referrer-when-downgrade"></iframe>
                                 </div>
                             </div>
                         </div>

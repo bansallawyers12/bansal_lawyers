@@ -22,6 +22,7 @@ $app = Application::configure(basePath: __DIR__.'/../')
             \App\Http\Middleware\TrustProxies::class,
             \App\Http\Middleware\BlockBots::class,
             \App\Http\Middleware\SecurityHeaders::class,
+            \App\Http\Middleware\ContentSecurityPolicy::class,
         ]);
 
         $middleware->group('web', [
