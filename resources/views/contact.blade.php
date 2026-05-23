@@ -1101,120 +1101,18 @@
     </div>
 </section>
 
-<!-- Floating Contact Form -->
-<div class="floating-form-container">
-    <button class="floating-form-toggle" id="floatingFormToggle">
-        <i class="fa fa-comments"></i>
-    </button>
-    
-    <div class="floating-form-panel" id="floatingFormPanel">
-        <div class="floating-form-header">
-            <h4>
-                <i class="fa fa-paper-plane"></i>
-                Quick Contact
-            </h4>
-            <button class="close-btn" id="closeFloatingForm">
-                <i class="fa fa-times"></i>
-            </button>
-        </div>
-        
-        <div class="floating-form-body">
-            <div class="floating-form-alert" id="floatingFormAlert">
-                <i class="fa fa-check-circle"></i>
-                <span id="floatingFormMessage"></span>
-            </div>
-            
-            @include('components.unified-contact-form', [
-                'variant' => 'floating',
-                'showTitle' => false,
-                'buttonText' => 'Send Message',
-                'buttonClass' => 'btn-primary',
-                'formId' => 'floating-contact-form',
-                'containerClass' => 'floating-form-content',
-                'source' => 'contact-page-floating',
-                'showPhoto' => false
-            ])
-        </div>
-    </div>
-</div>
-
 <script>
-// Initialize AOS (Animate On Scroll)
+// AOS is initialized by frontend.js / main.js when aos.min.js is loaded by the layout
 document.addEventListener('DOMContentLoaded', function() {
-    AOS.init({
-        duration: 1000,
-        easing: 'ease-in-out',
-        once: true,
-        offset: 100
-    });
-    
-    // Initialize floating form
-    initFloatingForm();
-});
-
-// Floating Form Functionality
-function initFloatingForm() {
-    const toggleBtn = document.getElementById('floatingFormToggle');
-    const formPanel = document.getElementById('floatingFormPanel');
-    const closeBtn = document.getElementById('closeFloatingForm');
-    const alert = document.getElementById('floatingFormAlert');
-    const alertMessage = document.getElementById('floatingFormMessage');
-    
-    let isFormOpen = false;
-    let pulseInterval;
-    
-    // Add pulse animation after 3 seconds
-    setTimeout(() => {
-        if (!isFormOpen) {
-            toggleBtn.classList.add('pulse');
-        }
-    }, 3000);
-    
-    // Toggle form
-    toggleBtn.addEventListener('click', function() {
-        isFormOpen = !isFormOpen;
-        
-        if (isFormOpen) {
-            formPanel.classList.add('active');
-            toggleBtn.classList.add('active');
-            toggleBtn.classList.remove('pulse');
-            clearInterval(pulseInterval);
-        } else {
-            formPanel.classList.remove('active');
-            toggleBtn.classList.remove('active');
-        }
-    });
-    
-    // Close form
-    closeBtn.addEventListener('click', function() {
-        isFormOpen = false;
-        formPanel.classList.remove('active');
-        toggleBtn.classList.remove('active');
-    });
-    
-    // Close form when clicking outside
-    document.addEventListener('click', function(e) {
-        if (isFormOpen && !formPanel.contains(e.target) && !toggleBtn.contains(e.target)) {
-            isFormOpen = false;
-            formPanel.classList.remove('active');
-            toggleBtn.classList.remove('active');
-        }
-    });
-    
-    // Auto-close form after successful submission
-    const floatingForm = document.getElementById('floating-contact-form');
-    if (floatingForm) {
-        floatingForm.addEventListener('submit', function() {
-            setTimeout(() => {
-                if (alert.classList.contains('show')) {
-                    isFormOpen = false;
-                    formPanel.classList.remove('active');
-                    toggleBtn.classList.remove('active');
-                }
-            }, 3000);
+    if (typeof AOS !== 'undefined' && document.querySelector('[data-aos]')) {
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
         });
     }
-}
+});
 
 // Smooth scrolling for CTA buttons
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1229,9 +1127,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-
-
-
 </script>
 
 @endsection

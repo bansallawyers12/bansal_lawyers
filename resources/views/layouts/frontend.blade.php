@@ -228,20 +228,13 @@ function toggleFAQ(index) {
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
     <!-- Vite CSS - Modern optimized CSS bundle -->
-    @vite(['resources/css/frontend.css'])
+    @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
 
     <!-- Bootstrap CSS - Primary framework for frontend -->
-    <!-- Critical CSS - Load immediately -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     
     <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
-    <!-- Font Awesome now loaded via Vite in vendor-frontend.css -->
     <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v=1.0.0">
-
-    <!-- Essential custom CSS only -->
-    <!-- Critical CSS - needed for initial render -->
-    <!-- Vendor bundles (Swiper) loaded via Vite -->
-    @vite(['resources/css/vendor-frontend.css'])
     
     <!-- AOS CSS - only on pages that use AOS animations -->
     @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
@@ -1171,8 +1164,10 @@ function toggleFAQ(index) {
     <!--Footer-->
     @include('Elements.Frontend.footer')
 
-    <!-- Floating Contact Button -->
+    <!-- Floating Contact Button (hidden on contact page — dedicated form is already on-page) -->
+    @if(!Request::is('contact'))
     @include('components.floating-contact-button')
+    @endif
 
     <!-- END: Footer Section -->
 
@@ -1221,8 +1216,6 @@ function toggleFAQ(index) {
     <script src="{{ asset('js/jquery.stellar.min.js')}}" defer></script>
     <script src="{{ asset('js/scrollax.min.js')}}" defer></script>
     @endif
-    <!-- Vendor bundles (Swiper) loaded via Vite -->
-    @vite(['resources/js/vendor-frontend.js'])
     @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*') || Request::is('case*'))
     <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
     @endif
@@ -1265,11 +1258,8 @@ function toggleFAQ(index) {
     <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     
-    <!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
-    @vite(['resources/js/frontend.js'])
-    
-    <!-- Main script - loads last with defer (legacy support) -->
-    @vite(['public/js/main.js'])
+    <!-- Vendor + app JS bundles (single vite call reduces duplicate modulepreload tags) -->
+    @vite(['resources/js/vendor-frontend.js', 'resources/js/frontend.js', 'public/js/main.js'])
 
     <!-- Meta Pixel Code — deferred to end of body so it doesn't block HTML parsing -->
     <script>

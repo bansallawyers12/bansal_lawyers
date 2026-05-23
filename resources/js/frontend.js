@@ -30,25 +30,42 @@ const loadNonCriticalLibraries = async () => {
     return { MagnificPopup };
 };
 
-// Load external scripts that aren't available as npm packages
+// Load external scripts only when the page needs them and they are not already in the layout
+const scriptAlreadyLoaded = (filename) =>
+    Boolean(document.querySelector(`script[src*="${filename}"]`));
+
+const loadScript = (src) =>
+    new Promise((resolve, reject) => {
+        const filename = src.split('/').pop();
+        if (scriptAlreadyLoaded(filename)) {
+            resolve();
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = src;
+        script.defer = true;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+
 const loadExternalScripts = () => {
-    const scripts = [
-        '/js/jquery.easing.1.3.min.js',
-        '/js/jquery.waypoints.min.js',
-        '/js/jquery.stellar.min.js',
-        '/js/jquery.animateNumber.min.js',
-        '/js/scrollax.min.js'
-    ];
-    
-    return Promise.all(scripts.map(src => {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = src;
-            script.onload = resolve;
-            script.onerror = reject;
-            document.head.appendChild(script);
-        });
-    }));
+    const scripts = [];
+    const hasStellarElements = document.querySelector('[data-stellar-background-ratio], [data-stellar-ratio]');
+
+    if (hasStellarElements) {
+        if (!scriptAlreadyLoaded('jquery.waypoints.min.js')) {
+            scripts.push('/js/jquery.waypoints.min.js');
+        }
+        if (!scriptAlreadyLoaded('jquery.stellar.min.js')) {
+            scripts.push('/js/jquery.stellar.min.js');
+        }
+        if (!scriptAlreadyLoaded('scrollax.min.js')) {
+            scripts.push('/js/scrollax.min.js');
+        }
+    }
+
+    return Promise.all(scripts.map(loadScript));
 };
 
 // Performance optimizations
@@ -113,31 +130,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Scroll handling logic here
         }, 16); // ~60fps
     });
-    
-    // Preload critical resources only if they exist and are needed
-    const criticalImages = [
-        '/images/logo/Bansal_Lawyers.png',
-        '/images/logo/Bansal_Lawyers_scroll.png'
-    ];
-    
-    // Only preload if we're not in development mode to avoid warnings
-    if (import.meta.env.MODE !== 'development') {
-        criticalImages.forEach(src => {
-            // Check if image exists before preloading
-            const img = new Image();
-            img.onload = () => {
-                const link = document.createElement('link');
-                link.rel = 'preload';
-                link.as = 'image';
-                link.href = src;
-                document.head.appendChild(link);
-            };
-            img.onerror = () => {
-                // Image doesn't exist, skip preloading
-            };
-            img.src = src;
-        });
-    }
 });
 
 // Export for global access if needed
