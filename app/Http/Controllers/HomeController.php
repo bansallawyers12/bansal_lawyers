@@ -215,13 +215,9 @@ class HomeController extends Controller
                 'form_variant' => 'nullable|string'
             ]);
 
-            // Validate reCAPTCHA for all form sources except the floating button
-            // (floating button has no widget; it relies on the web-contact rate limiter instead)
-            if (!$isFloatingButton) {
-                $turnstileResult = $this->validateTurnstile($request);
-                if ($turnstileResult !== true) {
-                    return $turnstileResult;
-                }
+            $turnstileResult = $this->validateTurnstile($request);
+            if ($turnstileResult !== true) {
+                return $turnstileResult;
             }
 
             // Prepare response FIRST (before any database operations)

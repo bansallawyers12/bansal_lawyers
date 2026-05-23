@@ -71,6 +71,7 @@
                             </span>
                         </button>
                     </div>
+                    <div id="floating-turnstile" class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}" data-size="invisible" data-callback="onFloatingTurnstileSuccess" data-error-callback="onFloatingTurnstileError"></div>
                 </form>
             </div>
         </div>
@@ -560,93 +561,114 @@ document.addEventListener('DOMContentLoaded', function() {
                 showError('message', 'Please enter your message');
                 return;
             }
-            
-            // Show loading state
-            submitBtn.disabled = true;
-            submitBtn.classList.add('loading');
-            
-            // Get CSRF token
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-            
-            // Prepare form data
-            const formData = new FormData();
-            formData.append('phone', countryCode + ' ' + phoneNumber);
-            formData.append('message', message);
-            formData.append('subject', 'Quick Contact Request - Floating Contact Button');
-            formData.append('form_source', 'floating_contact_button');
-            formData.append('form_variant', 'quick_contact');
-            formData.append('website_url', ''); // honeypot — must stay empty
-            formData.append('_token', csrfToken);
-            
-            // Submit to backend
-            fetch('{{ route("contact.submit") }}', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                credentials: 'same-origin'
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(text => {
-                        try {
-                            const json = JSON.parse(text);
-                            return Promise.reject({ json: json, status: response.status });
-                        } catch (e) {
-                            return Promise.reject({ 
-                                message: `Server error (${response.status}): ${response.statusText}`, 
-                                status: response.status 
-                            });
-                        }
-                    });
-                }
-                
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    return response.json();
-                } else {
-                    return response.text().then(text => {
-                        try {
-                            return JSON.parse(text);
-                        } catch (e) {
-                            throw new Error('Server returned non-JSON response');
-                        }
-                    });
-                }
-            })
-            .then(data => {
-                if (data.success) {
-                    alert('Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.');
-                    closeContactModal();
-                    contactForm.reset();
-                } else {
-                    // Handle validation errors
-                    if (data.errors) {
-                        if (data.errors.phone) {
-                            showError('phone', data.errors.phone[0]);
-                        }
-                        if (data.errors.message) {
-                            showError('message', data.errors.message[0]);
-                        }
-                    } else {
-                        alert(data.message || 'There was an error sending your message. Please try again.');
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Floating contact form error:', error);
-                const errorMsg = error.json?.message || error.message || 'There was an error sending your message. Please try again or call us directly.';
-                alert(errorMsg);
-            })
-            .finally(() => {
-                // Remove loading state
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('loading');
-            });
+
+            if (typeof turnstile === 'undefined') {
+                alert('Security verification is not loaded. Please refresh the page.');
+                return;
+            }
+
+            turnstile.execute('#floating-turnstile');
         });
     }
+
+    window.onFloatingTurnstileSuccess = function(turnstileToken) {
+        const phoneNumber = document.getElementById('phone-number').value.trim();
+        const countryCode = document.getElementById('country-code').value;
+        const message = document.getElementById('message-content').value.trim();
+        const submitBtn = document.getElementById('submit-btn');
+        const contactForm = document.getElementById('contact-form');
+
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+
+        const formData = new FormData();
+        formData.append('phone', countryCode + ' ' + phoneNumber);
+        formData.append('message', message);
+        formData.append('subject', 'Quick Contact Request - Floating Contact Button');
+        formData.append('form_source', 'floating_contact_button');
+        formData.append('form_variant', 'quick_contact');
+        formData.append('website_url', '');
+        formData.append('cf-turnstile-response', turnstileToken);
+        formData.append('_token', csrfToken);
+
+        fetch('{{ route("contact.submit") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    try {
+                        const json = JSON.parse(text);
+                        return Promise.reject({ json: json, status: response.status });
+                    } catch (e) {
+                        return Promise.reject({
+                            message: `Server error (${response.status}): ${response.statusText}`,
+                            status: response.status
+                        });
+                    }
+                });
+            }
+
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return response.json();
+            }
+
+            return response.text().then(text => {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    throw new Error('Server returned non-JSON response');
+                }
+            });
+        })
+        .then(data => {
+            if (data.success) {
+                alert('Thank you! Your message has been sent successfully. We\'ll get back to you within 24 hours.');
+                closeContactModal();
+                contactForm.reset();
+            } else if (data.errors) {
+                if (data.errors.phone) {
+                    showError('phone', data.errors.phone[0]);
+                }
+                if (data.errors.message) {
+                    showError('message', data.errors.message[0]);
+                }
+                if (data.errors['cf-turnstile-response']) {
+                    alert(data.errors['cf-turnstile-response'][0]);
+                }
+            } else {
+                alert(data.message || 'There was an error sending your message. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Floating contact form error:', error);
+            const errorMsg = error.json?.message || error.message || 'There was an error sending your message. Please try again or call us directly.';
+            alert(errorMsg);
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+            if (typeof turnstile !== 'undefined') {
+                turnstile.reset('#floating-turnstile');
+            }
+        });
+    };
+
+    window.onFloatingTurnstileError = function() {
+        alert('Security verification failed. Please try again.');
+        if (typeof turnstile !== 'undefined') {
+            turnstile.reset('#floating-turnstile');
+        }
+    };
     
     // Track mobile call button clicks
     const mobileCallBtn = document.getElementById('mobile-call-btn');

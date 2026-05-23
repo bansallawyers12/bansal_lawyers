@@ -1,8 +1,6 @@
 @extends('layouts.frontend')
 
 @section('head')
-    <!-- Cloudflare Turnstile -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <!-- AOS Animation Library - Already loaded conditionally in layout for this page -->
 @endsection
 

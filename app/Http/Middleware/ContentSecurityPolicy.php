@@ -42,9 +42,11 @@ class ContentSecurityPolicy
     
     private function shouldApplyCSP(Request $request): bool
     {
-        return $request->is('admin*') || 
-               $request->is('contact*') || 
-               $request->is('appointment*');
+        return $request->is('admin*') ||
+               $request->is('contact*') ||
+               $request->is('appointment*') ||
+               $request->is('book-an-appointment*') ||
+               $request->is('landing*');
     }
     
     private function buildCSP(Request $request, string $nonce): string

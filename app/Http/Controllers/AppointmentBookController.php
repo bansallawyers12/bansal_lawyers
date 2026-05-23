@@ -303,7 +303,7 @@ class AppointmentBookController extends Controller {
                 return response()->json(['success' => true, 'message' => 'Appointment booked successfully.']);
             }
 
-            // Validate reCAPTCHA before any DB or email work
+            // Validate Turnstile before any DB or email work
             $turnstileResult = $this->validateTurnstile($request);
             if ($turnstileResult !== true) {
                 return $turnstileResult;

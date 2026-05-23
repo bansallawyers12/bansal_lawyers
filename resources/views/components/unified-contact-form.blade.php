@@ -610,6 +610,12 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = false;
             btnText.style.display = 'inline-block';
             btnLoading.style.display = 'none';
+            if (typeof turnstile !== 'undefined') {
+                const turnstileWidget = form.querySelector('.cf-turnstile');
+                if (turnstileWidget) {
+                    turnstile.reset(turnstileWidget);
+                }
+            }
         });
     });
 });

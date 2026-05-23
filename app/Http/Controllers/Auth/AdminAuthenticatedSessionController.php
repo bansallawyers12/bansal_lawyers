@@ -26,7 +26,7 @@ class AdminAuthenticatedSessionController extends Controller
      */
     public function store(AdminLoginRequest $request): RedirectResponse
     {
-        // Validate reCAPTCHA before authentication
+        // Validate Turnstile before authentication
         $turnstileResponse = $this->validateTurnstile($request);
         if ($turnstileResponse !== true) {
             return $turnstileResponse;

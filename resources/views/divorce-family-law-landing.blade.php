@@ -2830,7 +2830,7 @@ body {
                     
                     <!-- Cloudflare Turnstile -->
                     <div style="margin-bottom: 25px; display: flex; justify-content: center; flex-wrap: wrap;">
-                        <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}"></div>
+                        <div id="cover-consultation-turnstile" class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}"></div>
                         <div id="cover-consultation-turnstile-error" style="display: none; color: #dc3545; font-size: 0.85rem; margin-top: 10px; text-align: center; width: 100%;"></div>
                     </div>
                     
@@ -3593,7 +3593,7 @@ body {
 @endsection
 
 @section('scripts')
-<!-- Google reCAPTCHA -->
+<!-- Cloudflare Turnstile -->
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
@@ -3871,7 +3871,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Reset form
                 form.reset();
                 if (typeof turnstile !== 'undefined') {
-                    turnstile.reset();
+                    turnstile.reset('#cover-consultation-turnstile');
                 }
                 
                 // Redirect to thank you page after a brief delay to show success message
@@ -3924,7 +3924,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showSuccess('Your form may have been submitted successfully. If you don\'t receive a confirmation, please contact us at 1300 BANSAL or try again.');
                 form.reset();
                 if (typeof turnstile !== 'undefined') {
-                    turnstile.reset();
+                    turnstile.reset('#cover-consultation-turnstile');
                 }
                 // Don't show error - assume it worked
             } else {
@@ -4108,7 +4108,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     coverForm.reset();
                     if (typeof turnstile !== 'undefined') {
-                        turnstile.reset();
+                        turnstile.reset('#cover-consultation-turnstile');
                     }
                     
                     const redirectUrl = data.redirect || '{{ route("contact.thankyou") }}';
@@ -4150,7 +4150,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     showCoverSuccess('Your form may have been submitted successfully. If you don\'t receive a confirmation, please contact us at 1300 BANSAL or try again.');
                     coverForm.reset();
                     if (typeof turnstile !== 'undefined') {
-                        turnstile.reset();
+                        turnstile.reset('#cover-consultation-turnstile');
                     }
                 } else {
                     showCoverError('Sorry, there was an error sending your request. Please check your connection and try again, or call us at 1300 BANSAL.');
