@@ -81,8 +81,9 @@ class ContentSecurityPolicy
                 'https://connect.facebook.net',
                 'https://www.google-analytics.com',
                 'https://challenges.cloudflare.com',
-                // Hotjar (frontend.blade.php)
+                // Hotjar (frontend.blade.php) — loader + module scripts
                 'https://static.hotjar.com',
+                'https://script.hotjar.com',
                 // Google Ads conversion tags loaded via GTM/gtag
                 'https://googleads.g.doubleclick.net',
                 // Cloudflare Web Analytics beacon (injected by Cloudflare CDN)
