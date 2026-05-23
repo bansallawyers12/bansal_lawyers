@@ -1273,8 +1273,8 @@ function toggleFAQ(index) {
         })();
     </script>
     
-    <!-- Google reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     
     <!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
     @vite(['resources/js/frontend.js'])

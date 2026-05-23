@@ -14,7 +14,7 @@ use Helper;
 
 class AppointmentBookController extends Controller {
 
-    use \App\Traits\ValidatesRecaptcha;
+    use \App\Traits\ValidatesTurnstile;
 
     /**
      * Create a new controller instance.
@@ -304,9 +304,9 @@ class AppointmentBookController extends Controller {
             }
 
             // Validate reCAPTCHA before any DB or email work
-            $recaptchaResult = $this->validateRecaptcha($request);
-            if ($recaptchaResult !== true) {
-                return $recaptchaResult;
+            $turnstileResult = $this->validateTurnstile($request);
+            if ($turnstileResult !== true) {
+                return $turnstileResult;
             }
 
             // SECURITY FIX: Extract only allowed fields instead of using $request->all()

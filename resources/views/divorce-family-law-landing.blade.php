@@ -2828,10 +2828,10 @@ body {
                         <div id="cover-consultation-message-error" style="display: none; color: #dc3545; font-size: 0.9rem; margin-top: 6px;"></div>
                     </div>
                     
-                    <!-- Google reCAPTCHA -->
-                    <div style="margin-bottom: 25px; display: flex; justify-content: center;">
-                        <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') }}"></div>
-                        <div id="cover-consultation-recaptcha-error" style="display: none; color: #dc3545; font-size: 0.85rem; margin-top: 10px; text-align: center; width: 100%;"></div>
+                    <!-- Cloudflare Turnstile -->
+                    <div style="margin-bottom: 25px; display: flex; justify-content: center; flex-wrap: wrap;">
+                        <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}"></div>
+                        <div id="cover-consultation-turnstile-error" style="display: none; color: #dc3545; font-size: 0.85rem; margin-top: 10px; text-align: center; width: 100%;"></div>
                     </div>
                     
                     <button type="submit" 
@@ -3594,7 +3594,7 @@ body {
 
 @section('scripts')
 <!-- Google reCAPTCHA -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
 // Phone validation helpers - defined immediately so inline onblur/oninput handlers can use them
@@ -3788,17 +3788,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 1500); // Faster updates every 1.5 seconds
         
-        // Skip reCAPTCHA validation on frontend for speed (backend will handle if needed)
-        // Just check if reCAPTCHA element exists, don't validate
-        const recaptchaElement = document.querySelector('.g-recaptcha');
-        if (recaptchaElement && typeof grecaptcha !== 'undefined') {
-            // reCAPTCHA exists but we don't wait for validation
-            try {
-                grecaptcha.getResponse(); // Just to ensure it's loaded, don't block
-            } catch(e) {
-                // Ignore errors - proceed anyway
+        const turnstileToken = form.querySelector('[name="cf-turnstile-response"]')?.value || '';
+        if (!turnstileToken) {
+            clearInterval(loadingInterval);
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline-block';
+            btnLoading.style.display = 'none';
+            const turnstileError = document.getElementById('cover-consultation-turnstile-error');
+            if (turnstileError) {
+                turnstileError.textContent = 'Please complete the security verification.';
+                turnstileError.style.display = 'block';
             }
+            return;
         }
+        const turnstileErrorEl = document.getElementById('cover-consultation-turnstile-error');
+        if (turnstileErrorEl) turnstileErrorEl.style.display = 'none';
         
         // Get form data - ensure form exists
         if (!form || !(form instanceof HTMLFormElement)) {
@@ -3866,8 +3870,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Reset form
                 form.reset();
-                if (typeof grecaptcha !== 'undefined') {
-                    grecaptcha.reset();
+                if (typeof turnstile !== 'undefined') {
+                    turnstile.reset();
                 }
                 
                 // Redirect to thank you page after a brief delay to show success message
@@ -3892,7 +3896,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.errors) {
                     // Handle validation errors
                     Object.keys(data.errors).forEach(field => {
-                        const fieldName = field.replace('g-recaptcha-response', 'recaptcha');
+                        const fieldName = field.replace('cf-turnstile-response', 'turnstile');
                         showFieldError(fieldName, data.errors[field][0]);
                     });
                 } else {
@@ -3919,8 +3923,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // On timeout, assume success (data might have been saved)
                 showSuccess('Your form may have been submitted successfully. If you don\'t receive a confirmation, please contact us at 1300 BANSAL or try again.');
                 form.reset();
-                if (typeof grecaptcha !== 'undefined') {
-                    grecaptcha.reset();
+                if (typeof turnstile !== 'undefined') {
+                    turnstile.reset();
                 }
                 // Don't show error - assume it worked
             } else {
@@ -4103,8 +4107,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     showCoverSuccess(data.message || 'Thank you! Your consultation request has been sent successfully.');
                     
                     coverForm.reset();
-                    if (typeof grecaptcha !== 'undefined') {
-                        grecaptcha.reset();
+                    if (typeof turnstile !== 'undefined') {
+                        turnstile.reset();
                     }
                     
                     const redirectUrl = data.redirect || '{{ route("contact.thankyou") }}';
@@ -4122,7 +4126,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     if (data.errors) {
                         Object.keys(data.errors).forEach(field => {
-                            const fieldName = field.replace('g-recaptcha-response', 'recaptcha');
+                            const fieldName = field.replace('cf-turnstile-response', 'turnstile');
                             showCoverFieldError(fieldName, data.errors[field][0]);
                         });
                     } else {
@@ -4145,8 +4149,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (error.name === 'AbortError' || (error.message && (error.message.includes('timeout') || error.message.includes('aborted')))) {
                     showCoverSuccess('Your form may have been submitted successfully. If you don\'t receive a confirmation, please contact us at 1300 BANSAL or try again.');
                     coverForm.reset();
-                    if (typeof grecaptcha !== 'undefined') {
-                        grecaptcha.reset();
+                    if (typeof turnstile !== 'undefined') {
+                        turnstile.reset();
                     }
                 } else {
                     showCoverError('Sorry, there was an error sending your request. Please check your connection and try again, or call us at 1300 BANSAL.');

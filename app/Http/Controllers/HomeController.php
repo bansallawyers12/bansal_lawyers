@@ -33,7 +33,7 @@ use App\Support\CrmLeadSync;
 
 class HomeController extends Controller
 {
-    use \App\Traits\ValidatesRecaptcha;
+    use \App\Traits\ValidatesTurnstile;
 	/**
 	 * Generate CAPTCHA image
 	 * Modernized GD library implementation with improved error handling and structure
@@ -229,13 +229,13 @@ class HomeController extends Controller
             'phone' => 'required|string|max:20',
             'subject' => 'required|string|max:255',
             'message' => 'required|string|max:2000',
-            'g-recaptcha-response' => 'required'
+            'cf-turnstile-response' => 'required'
         ]);
 
-        // Validate reCAPTCHA
-        $recaptchaResponse = $this->validateRecaptcha($request);
-        if ($recaptchaResponse !== true) {
-            return $recaptchaResponse;
+        // Validate Turnstile
+        $turnstileResponse = $this->validateTurnstile($request);
+        if ($turnstileResponse !== true) {
+            return $turnstileResponse;
         }
 
 		$obj = new Contact;
@@ -305,9 +305,9 @@ class HomeController extends Controller
             // Validate reCAPTCHA for all form sources except the floating button
             // (floating button has no widget; it relies on the web-contact rate limiter instead)
             if (!$isFloatingButton) {
-                $recaptchaResult = $this->validateRecaptcha($request);
-                if ($recaptchaResult !== true) {
-                    return $recaptchaResult;
+                $turnstileResult = $this->validateTurnstile($request);
+                if ($turnstileResult !== true) {
+                    return $turnstileResult;
                 }
             }
 

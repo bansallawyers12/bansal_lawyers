@@ -55,12 +55,12 @@ class ContentSecurityPolicy
             // Strict CSP for admin routes with nonce support
             $policies = [
                 "default-src 'self'",
-                "script-src 'self' 'nonce-{$nonce}' https://www.google.com https://www.gstatic.com https://maps.googleapis.com",
+                "script-src 'self' 'nonce-{$nonce}' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://challenges.cloudflare.com",
                 "style-src 'self' 'nonce-{$nonce}' https://cdnjs.cloudflare.com",
                 "font-src 'self' https://cdnjs.cloudflare.com",
                 "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com",
-                "connect-src 'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com",
-                "frame-src 'self' https://www.google.com",
+                "connect-src 'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://challenges.cloudflare.com",
+                "frame-src 'self' https://www.google.com https://challenges.cloudflare.com",
                 "object-src 'none'",
                 "base-uri 'self'",
                 "form-action 'self'",
@@ -74,12 +74,12 @@ class ContentSecurityPolicy
             // More permissive CSP for frontend routes (contact, etc.)
             $policies = [
                 "default-src 'self'",
-                "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://connect.facebook.net https://www.google-analytics.com",
+                "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://connect.facebook.net https://www.google-analytics.com https://challenges.cloudflare.com",
                 "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
                 "font-src 'self' https://cdnjs.cloudflare.com data:",
-                "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com https://www.google.com/recaptcha",
-                "connect-src 'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://www.google.com/recaptcha",
-                "frame-src 'self' https://www.google.com https://www.facebook.com https://www.google.com/recaptcha",
+                "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com",
+                "connect-src 'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://challenges.cloudflare.com",
+                "frame-src 'self' https://www.google.com https://www.facebook.com https://challenges.cloudflare.com",
                 "object-src 'none'",
                 "base-uri 'self'",
                 "form-action 'self'",

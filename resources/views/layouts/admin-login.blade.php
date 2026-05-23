@@ -29,7 +29,7 @@
 	<link href="{{ asset('css/components.css')}}" rel="stylesheet">
 	<link href="{{ asset('css/custom.css')}}" rel="stylesheet">
 
-	<script async src="https://www.google.com/recaptcha/api.js"></script>
+	<script async src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
 </head>
 
 <style>

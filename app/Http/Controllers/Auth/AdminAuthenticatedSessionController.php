@@ -12,7 +12,7 @@ use Illuminate\View\View;
 
 class AdminAuthenticatedSessionController extends Controller
 {
-    use \App\Traits\ValidatesRecaptcha;
+    use \App\Traits\ValidatesTurnstile;
     /**
      * Display the admin login view.
      */
@@ -27,9 +27,9 @@ class AdminAuthenticatedSessionController extends Controller
     public function store(AdminLoginRequest $request): RedirectResponse
     {
         // Validate reCAPTCHA before authentication
-        $recaptchaResponse = $this->validateRecaptcha($request);
-        if ($recaptchaResponse !== true) {
-            return $recaptchaResponse;
+        $turnstileResponse = $this->validateTurnstile($request);
+        if ($turnstileResponse !== true) {
+            return $turnstileResponse;
         }
 
         $request->authenticate();

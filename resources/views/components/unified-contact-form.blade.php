@@ -122,10 +122,10 @@
             <div class="invalid-feedback" id="{{ $formId }}-message-error"></div>
         </div>
 
-        <!-- Google reCAPTCHA -->
+        <!-- Cloudflare Turnstile -->
         <div class="mb-3">
-            <div class="g-recaptcha recaptcha-container" data-sitekey="{{ config('services.recaptcha.key', '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') }}"></div>
-            <div class="invalid-feedback" id="{{ $formId }}-recaptcha-error"></div>
+            <div class="cf-turnstile turnstile-container" data-sitekey="{{ config('services.turnstile.key') }}"></div>
+            <div class="invalid-feedback" id="{{ $formId }}-turnstile-error"></div>
         </div>
 
         <div class="mb-3">
@@ -478,18 +478,10 @@ document.addEventListener('DOMContentLoaded', function() {
         btnText.style.display = 'none';
         btnLoading.style.display = 'inline-block';
         
-        // Validate reCAPTCHA
-        if (typeof grecaptcha === 'undefined') {
-            showError('reCAPTCHA is not loaded. Please refresh the page and try again.');
-            submitBtn.disabled = false;
-            btnText.style.display = 'inline-block';
-            btnLoading.style.display = 'none';
-            return;
-        }
-        
-        const recaptchaResponse = grecaptcha.getResponse();
-        if (!recaptchaResponse) {
-            showFieldError('recaptcha', 'Please complete the reCAPTCHA verification.');
+        // Validate Turnstile (token injected as hidden input when challenge completes)
+        const turnstileToken = form.querySelector('[name="cf-turnstile-response"]')?.value || '';
+        if (!turnstileToken) {
+            showFieldError('turnstile', 'Please complete the security verification.');
             submitBtn.disabled = false;
             btnText.style.display = 'inline-block';
             btnLoading.style.display = 'none';
@@ -599,7 +591,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.errors) {
                     // Handle validation errors
                     Object.keys(data.errors).forEach(field => {
-                        const fieldName = field.replace('g-recaptcha-response', 'recaptcha');
+                        const fieldName = field.replace('cf-turnstile-response', 'turnstile');
                         showFieldError(fieldName, data.errors[field][0]);
                     });
                 } else {
@@ -624,7 +616,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Server returned JSON error response
                 if (error.json.errors) {
                     Object.keys(error.json.errors).forEach(field => {
-                        const fieldName = field.replace('g-recaptcha-response', 'recaptcha');
+                        const fieldName = field.replace('cf-turnstile-response', 'turnstile');
                         showFieldError(fieldName, error.json.errors[field][0]);
                     });
                 } else {

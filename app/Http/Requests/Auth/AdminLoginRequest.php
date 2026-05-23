@@ -29,7 +29,7 @@ class AdminLoginRequest extends FormRequest
         return [
             'email' => ['required', 'string'],
             'password' => ['required', 'string'],
-            'g-recaptcha-response' => ['required'],
+            'cf-turnstile-response' => ['required'],
         ];
     }
 

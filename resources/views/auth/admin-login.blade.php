@@ -91,12 +91,12 @@
 					@enderror
 				</div>
 				
-				<!-- reCAPTCHA -->
+				<!-- Cloudflare Turnstile -->
 				<div class="modern-recaptcha">
-					<div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key') }}"></div>
+					<div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}"></div>
 				</div>
 				
-				@error('g-recaptcha-response')
+				@error('cf-turnstile-response')
 					<div class="modern-error-message" style="justify-content: center; margin-top: 12px;">
 						<i class="fas fa-exclamation-circle"></i>
 						Captcha verification is required.

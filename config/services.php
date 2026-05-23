@@ -19,10 +19,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
     
-    //Add these Configurations
-    'recaptcha' => [
-        'key' => env('RECAPTCHA_SITE_KEY'),
-        'secret' => env('RECAPTCHA_SITE_SECRET'),
+    'turnstile' => [
+        'key' => env('TURNSTILE_SITE_KEY'),
+        'secret' => env('TURNSTILE_SECRET_KEY'),
     ],
 
     'google_analytics' => [

@@ -2706,12 +2706,7 @@
                             <p>Complete your booking now and take the first step towards resolving your legal matter with confidence. Our expert team is ready to help you succeed.</p>
                         </div>
                         
-                        <!-- reCAPTCHA verification required before booking -->
-                        <!-- Widget is rendered explicitly via renderBookingRecaptcha() when this tab becomes visible -->
-                        <div class="mb-3 text-center" id="booking-recaptcha-container">
-                            <div id="booking-recaptcha-widget"></div>
-                            <div id="booking-recaptcha-error" style="display:none; color:#dc3545; font-size:0.875rem; margin-top:6px;">Please complete the reCAPTCHA verification.</div>
-                        </div>
+                        <div id="booking-turnstile-error" style="display:none; color:#dc3545; font-size:0.875rem; margin-top:6px; text-align:center;">Please complete the security verification.</div>
 
                         <div class="final-cta-buttons">
                             <button type="button" class="experimental-btn btn-back" data-prev="info">
@@ -2740,6 +2735,8 @@
                         </div>
                     </div>
                 </div>
+                {{-- Invisible Turnstile — runs on submit via turnstile.execute() --}}
+                <div id="booking-turnstile" class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}" data-size="invisible" data-callback="onBookingTurnstileSuccess" data-error-callback="onBookingTurnstileError"></div>
             </form>
         </div>
     </div>
@@ -2923,13 +2920,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 restoreCalendarState();
             }
 
-            // Render reCAPTCHA on first visit to confirm tab
-            // The widget cannot render inside a display:none container, so we render it
-            // explicitly once the tab is visible.
-            if (tabId === 'confirm') {
-                renderBookingRecaptcha();
-            }
-            
             // Update floating navigation
             updateFloatingNavigation();
             
@@ -3159,31 +3149,30 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Timeslot selection complete');
     });
     
-    // Form submission with Stripe integration
+    // Form submission — Turnstile invisible challenge runs on click, then AJAX submit
     $('.submitappointment_paid').off('click').on('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        // Verify reCAPTCHA completed before allowing submission
-        // Use widget ID when available (explicit render), fall back to getResponse() for safety
-        var recaptchaToken = '';
-        if (typeof grecaptcha !== 'undefined') {
-            recaptchaToken = (bookingRecaptchaWidgetId !== null)
-                ? grecaptcha.getResponse(bookingRecaptchaWidgetId)
-                : grecaptcha.getResponse();
-        }
-        if (!recaptchaToken) {
-            $('#booking-recaptcha-error').show();
+        if (!validateForm()) return;
+
+        $('#booking-turnstile-error').hide();
+
+        if (typeof turnstile === 'undefined') {
+            $('#booking-turnstile-error').text('Security verification is not loaded. Please refresh the page.').show();
             return;
         }
-        $('#booking-recaptcha-error').hide();
-        
-        if (validateForm()) {
+
+        window._bookingSubmitBtn = $(this);
+        turnstile.execute('#booking-turnstile');
+    });
+
+    function submitBookingWithTurnstile(turnstileToken) {
             // Show loading state
             $('#loading').addClass('show');
             
             // Disable submit button
-            var $submitBtn = $('.submitappointment_paid');
+            var $submitBtn = window._bookingSubmitBtn || $('.submitappointment_paid');
             $submitBtn.prop('disabled', true);
             var originalText = $submitBtn.find('.btn-text').text();
             $submitBtn.find('.btn-text').text('Processing...');
@@ -3205,7 +3194,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 discount_percentage: $('input[name="discount_percentage"]').val(),
                 cardName: $('input[name="fullname"]').val(),
                 stripeToken: 'experimental_' + Date.now(),
-                'g-recaptcha-response': recaptchaToken,
+                'cf-turnstile-response': turnstileToken,
                 website_url: '' // honeypot — must stay empty
             };
             
@@ -3276,6 +3265,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else {
                         // Backend validation error
                         showErrorMessage(response.message || 'An error occurred while booking your appointment.');
+                        if (typeof turnstile !== 'undefined') {
+                            turnstile.reset('#booking-turnstile');
+                        }
                     }
                 },
                 error: function(xhr) {
@@ -3285,9 +3277,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     $submitBtn.prop('disabled', false);
                     $submitBtn.find('.btn-text').text(originalText);
 
-                    // Reset reCAPTCHA so user can try again
-                    if (typeof grecaptcha !== 'undefined' && bookingRecaptchaWidgetId !== null) {
-                        grecaptcha.reset(bookingRecaptchaWidgetId);
+                    if (typeof turnstile !== 'undefined') {
+                        turnstile.reset('#booking-turnstile');
                     }
                     
                     var errorMessage = 'An error occurred while booking your appointment.';
@@ -3311,8 +3302,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             });
-        }
-    });
+    }
     
     function validateCurrentTab(tabId) {
         switch(tabId) {
@@ -4216,35 +4206,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('Confirmation details updated - Date:', finalDate, 'Time:', finalTime);
     }
+
+    window.onBookingTurnstileSuccess = function(token) {
+        submitBookingWithTurnstile(token);
+    };
+    window.onBookingTurnstileError = function() {
+        $('#booking-turnstile-error').text('Security verification failed. Please try again.').show();
+    };
 });
-</script>
-
-<script>
-var bookingRecaptchaWidgetId = null;
-
-// Called once when the confirm tab first becomes visible.
-// Explicit render avoids the blank-widget bug caused by rendering inside display:none.
-function renderBookingRecaptcha() {
-    if (typeof grecaptcha === 'undefined') return;
-    var container = document.getElementById('booking-recaptcha-widget');
-    if (!container) return;
-
-    if (bookingRecaptchaWidgetId !== null) {
-        // Already rendered — just reset it so the token is fresh
-        grecaptcha.reset(bookingRecaptchaWidgetId);
-        return;
-    }
-
-    bookingRecaptchaWidgetId = grecaptcha.render('booking-recaptcha-widget', {
-        sitekey: '{{ config('services.recaptcha.key') }}',
-        callback: onBookingRecaptcha
-    });
-}
-
-// Hide stale error once the user solves the CAPTCHA
-function onBookingRecaptcha(token) {
-    document.getElementById('booking-recaptcha-error').style.display = 'none';
-}
 </script>
 
 @endsection
