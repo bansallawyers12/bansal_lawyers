@@ -20,12 +20,12 @@ $app = Application::configure(basePath: __DIR__.'/../')
             \App\Http\Middleware\TrimStrings::class,
             \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
             \App\Http\Middleware\TrustProxies::class,
-            \App\Http\Middleware\RedirectToWww::class,
             \App\Http\Middleware\BlockBots::class,
             \App\Http\Middleware\SecurityHeaders::class,
         ]);
 
         $middleware->group('web', [
+            \App\Http\Middleware\RedirectToWww::class,
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,

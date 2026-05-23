@@ -9,7 +9,9 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'AW-17598989873');
+      gtag('config', 'AW-17598989873', {
+        cookie_domain: 'bansallawyers.com.au'
+      });
       
       // Track thank you page view
       gtag('event', 'thank_you_page_view', {

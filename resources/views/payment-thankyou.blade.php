@@ -8,7 +8,9 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', 'AW-17598989873');
+      gtag('config', 'AW-17598989873', {
+        cookie_domain: 'bansallawyers.com.au'
+      });
     </script>
     <!-- End Google Tag Manager -->
     <title>Payment Successful - Bansal Lawyers</title>
