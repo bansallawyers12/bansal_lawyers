@@ -617,7 +617,8 @@ document.addEventListener('DOMContentLoaded', function() {
             btnLoading.style.display = 'none';
             if (typeof turnstile !== 'undefined') {
                 const turnstileWidget = form.querySelector('.cf-turnstile');
-                if (turnstileWidget) {
+                // Only reset after a successful render (avoids error loops when widget failed to init)
+                if (turnstileWidget && turnstileWidget.querySelector('iframe, input[name="cf-turnstile-response"]')) {
                     turnstile.reset(turnstileWidget);
                 }
             }

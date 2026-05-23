@@ -20,9 +20,14 @@ return [
     ],
     
     'turnstile' => [
-        // Cloudflare dummy keys (always pass) used in local when real keys are not set
-        'key' => env('TURNSTILE_SITE_KEY') ?: (env('APP_ENV') === 'local' ? '1x00000000000000000000AA' : null),
-        'secret' => env('TURNSTILE_SECRET_KEY') ?: (env('APP_ENV') === 'local' ? '1x0000000000000000000000000000000AA' : null),
+        // Production keys are domain-locked; on local use Cloudflare test keys (always pass on any host).
+        // Set TURNSTILE_USE_PRODUCTION_KEYS=true to test real keys locally (add 127.0.0.1 in Cloudflare dashboard).
+        'key' => (env('APP_ENV') === 'local' && ! filter_var(env('TURNSTILE_USE_PRODUCTION_KEYS'), FILTER_VALIDATE_BOOL))
+            ? '1x00000000000000000000AA'
+            : env('TURNSTILE_SITE_KEY'),
+        'secret' => (env('APP_ENV') === 'local' && ! filter_var(env('TURNSTILE_USE_PRODUCTION_KEYS'), FILTER_VALIDATE_BOOL))
+            ? '1x0000000000000000000000000000000AA'
+            : env('TURNSTILE_SECRET_KEY'),
     ],
 
     'google_analytics' => [

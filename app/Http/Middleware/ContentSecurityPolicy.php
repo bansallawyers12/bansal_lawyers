@@ -97,9 +97,12 @@ class ContentSecurityPolicy
                 'https://www.googletagmanager.com',
                 'https://connect.facebook.net',
                 'https://challenges.cloudflare.com',
-                // Hotjar session recording / analytics API
+                // Hotjar session recording / analytics API (.com + .io — different TLDs)
                 'https://*.hotjar.com',
                 'wss://*.hotjar.com',
+                'https://content.hotjar.io',
+                'https://*.hotjar.io',
+                'wss://*.hotjar.io',
                 // Google Ads / conversion tracking
                 'https://googleads.g.doubleclick.net',
                 'https://www.googleadservices.com',
@@ -116,19 +119,19 @@ class ContentSecurityPolicy
                 'https://td.doubleclick.net',
             ];
 
-            $scriptSrc = "'self' 'unsafe-inline' " . implode(' ', $scriptHosts);
+            // unsafe-eval required by Hotjar modules, GTM, and Google Ads on frontend pages
+            $scriptSrc = "'self' 'unsafe-inline' 'unsafe-eval' " . implode(' ', $scriptHosts);
             $connectSrc = "'self' " . implode(' ', $connectHosts);
+            $styleSrc = "'self' 'unsafe-inline' https://cdnjs.cloudflare.com";
 
-            // Vite dev server (npm run dev) uses eval for HMR and loads scripts from :5173
             if (App::environment('local')) {
-                $scriptSrc .= " 'unsafe-eval' http://127.0.0.1:5173 http://localhost:5173";
-                $connectSrc .= " http://127.0.0.1:5173 http://localhost:5173 ws://127.0.0.1:5173 ws://localhost:5173";
+                [$scriptSrc, $connectSrc, $styleSrc] = $this->appendViteDevOrigins($scriptSrc, $connectSrc, $styleSrc);
             }
 
             $policies = [
                 "default-src 'self'",
                 "script-src {$scriptSrc}",
-                "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com" . (App::environment('local') ? ' http://127.0.0.1:5173 http://localhost:5173' : ''),
+                "style-src {$styleSrc}",
                 "font-src 'self' https://cdnjs.cloudflare.com data:",
                 "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com https://googleads.g.doubleclick.net",
                 "connect-src {$connectSrc}",
@@ -157,6 +160,58 @@ class ContentSecurityPolicy
         return implode('; ', $policies);
     }
     
+    private function appendViteDevOrigins(string $scriptSrc, string $connectSrc, string $styleSrc): array
+    {
+        $httpOrigins = [];
+        $wsOrigins = [];
+
+        foreach ($this->getViteDevOrigins() as $origin) {
+            if (str_starts_with($origin, 'http://')) {
+                $httpOrigins[] = $origin;
+                $wsOrigins[] = 'ws://' . substr($origin, 7);
+            } elseif (str_starts_with($origin, 'ws://')) {
+                $wsOrigins[] = $origin;
+            }
+        }
+
+        $httpOrigins = array_unique($httpOrigins);
+        $wsOrigins = array_unique($wsOrigins);
+
+        if ($httpOrigins !== []) {
+            $scriptSrc .= ' ' . implode(' ', $httpOrigins);
+            $styleSrc .= ' ' . implode(' ', $httpOrigins);
+            $connectSrc .= ' ' . implode(' ', array_merge($httpOrigins, $wsOrigins));
+        }
+
+        return [$scriptSrc, $connectSrc, $styleSrc];
+    }
+
+    /**
+     * Vite writes its dev-server URL to public/hot; port may differ from 5173 if already in use.
+     *
+     * @return list<string>
+     */
+    private function getViteDevOrigins(): array
+    {
+        $origins = [];
+
+        $hotFile = public_path('hot');
+        if (is_readable($hotFile)) {
+            $hotUrl = trim((string) file_get_contents($hotFile));
+            if ($hotUrl !== '' && str_starts_with($hotUrl, 'http://')) {
+                $origins[] = rtrim($hotUrl, '/');
+            }
+        }
+
+        // Fallback: Vite increments port (5174, 5175, …) when the default is busy
+        for ($port = 5173; $port <= 5185; $port++) {
+            $origins[] = "http://127.0.0.1:{$port}";
+            $origins[] = "http://localhost:{$port}";
+        }
+
+        return array_values(array_unique($origins));
+    }
+
     private function generateNonce(): string
     {
         return base64_encode(random_bytes(16));

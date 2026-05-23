@@ -501,7 +501,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 	// magnific popup — only when the plugin is loaded (conditional in layout)
-	if ($.fn.magnificPopup) {
+	if (typeof $.fn.magnificPopup === 'function') {
 		if ($('.image-popup').length) {
 			$('.image-popup').magnificPopup({
 				type: 'image',
