@@ -10,7 +10,9 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-Y5R6G1TRVV');
+  gtag('config', 'G-Y5R6G1TRVV', {
+    cookie_domain: 'bansallawyers.com.au'
+  });
 </script>
 <!-- End Google Tag Manager -->
 

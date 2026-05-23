@@ -71,7 +71,7 @@
                             </span>
                         </button>
                     </div>
-                    <div id="floating-turnstile" class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}" data-size="invisible" data-callback="onFloatingTurnstileSuccess" data-error-callback="onFloatingTurnstileError"></div>
+                    <div id="floating-turnstile" class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}" data-execution="execute" data-appearance="interaction-only" data-callback="onFloatingTurnstileSuccess" data-error-callback="onFloatingTurnstileError"></div>
                 </form>
             </div>
         </div>

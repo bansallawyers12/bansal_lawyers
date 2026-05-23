@@ -48,10 +48,10 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perHour(5)->by($request->ip());
         });
 
-        // Appointment booking POST rate limiter — 5 attempts/hour per IP
+        // Appointment booking POST rate limiter — 20 attempts/hour per IP
         // Covers /book-an-appointment/storepaid and /stripe (high-value actions)
         RateLimiter::for('web-booking-post', function (Request $request) {
-            return Limit::perHour(5)->by($request->ip());
+            return Limit::perHour(20)->by($request->ip());
         });
 
         // Promo code check rate limiter — 20 attempts/hour per IP (separate bucket so

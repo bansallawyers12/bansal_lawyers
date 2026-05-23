@@ -2735,8 +2735,8 @@
                         </div>
                     </div>
                 </div>
-                {{-- Invisible Turnstile — runs on submit via turnstile.execute() --}}
-                <div id="booking-turnstile" class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}" data-size="invisible" data-callback="onBookingTurnstileSuccess" data-error-callback="onBookingTurnstileError"></div>
+                {{-- Turnstile — challenge runs on submit via turnstile.execute() --}}
+                <div id="booking-turnstile" class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}" data-execution="execute" data-appearance="interaction-only" data-callback="onBookingTurnstileSuccess" data-error-callback="onBookingTurnstileError"></div>
             </form>
         </div>
     </div>
@@ -3149,7 +3149,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Timeslot selection complete');
     });
     
-    // Form submission — Turnstile invisible challenge runs on click, then AJAX submit
+    // Form submission — Turnstile challenge runs on click, then AJAX submit
     $('.submitappointment_paid').off('click').on('click', function(e) {
         e.preventDefault();
         e.stopPropagation();

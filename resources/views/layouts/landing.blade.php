@@ -8,7 +8,9 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'AW-17598989873');
+      gtag('config', 'AW-17598989873', {
+        cookie_domain: 'bansallawyers.com.au'
+      });
     </script>
     <!-- End Google Tag Manager -->
 
@@ -22,6 +24,7 @@
       gtag('config', '{{ config("services.google_analytics.id") }}', {
         'send_page_view': true,
         'anonymize_ip': true,
+        'cookie_domain': 'bansallawyers.com.au',
         'cookie_flags': 'SameSite=None;Secure'
       });
     </script>
