@@ -47,25 +47,24 @@ Route::get('/blog/{slug}', [App\Http\Controllers\HomeController::class, 'blogdet
 Route::get('/blogs/list', [App\Http\Controllers\Api\BlogController::class, 'list'])->middleware('throttle:web-pages')->name('blogs.list');
 
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contactus'])->middleware('throttle:web-pages');
-Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'contact']);
+Route::post('/contact_lawyer', [App\Http\Controllers\HomeController::class, 'contact'])->middleware('throttle:web-contact');
 
 // Unified contact form routes
-Route::post('/contact/submit', [App\Http\Controllers\HomeController::class, 'contactSubmit'])->name('contact.submit');
+Route::post('/contact/submit', [App\Http\Controllers\HomeController::class, 'contactSubmit'])->name('contact.submit')->middleware('throttle:web-contact');
 Route::get('/contact/thank-you', [App\Http\Controllers\HomeController::class, 'contactThankYou'])->name('contact.thankyou');
 
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->middleware(['throttle:web-pages', 'cache.headers:etag'])->name('about');
 
 Route::get('stripe/{appointmentId}', [App\Http\Controllers\HomeController::class, 'stripe']);
-Route::post('stripe', [App\Http\Controllers\HomeController::class, 'stripePost'])->name('stripe.post1');
+Route::post('stripe', [App\Http\Controllers\HomeController::class, 'stripePost'])->name('stripe.post1')->middleware('throttle:web-booking-post');
 Route::get('payment-thankyou/{appointmentId?}', [App\Http\Controllers\HomeController::class, 'paymentThankYou'])->name('payment.thankyou');
 
 // Booking page — stricter throttle (was 52 GiB bot bandwidth in recent logs)
 Route::get('/book-an-appointment', [App\Http\Controllers\HomeController::class, 'bookappointment'])->middleware('throttle:web-booking')->name('bookappointment');
 Route::get('/book-an-appointment1', [App\Http\Controllers\HomeController::class, 'bookappointment1'])->middleware('throttle:web-booking')->name('bookappointment1');
-Route::post('/book-an-appointment/store', [App\Http\Controllers\AppointmentBookController::class, 'store']);
-Route::post('/book-an-appointment/storepaid', [App\Http\Controllers\AppointmentBookController::class, 'storepaid'])->name('stripe.post');
+Route::post('/book-an-appointment/storepaid', [App\Http\Controllers\AppointmentBookController::class, 'storepaid'])->name('stripe.post')->middleware('throttle:web-booking-post');
 // Promo code validation for booking
-Route::post('/promo-code/check', [App\Http\Controllers\AppointmentBookController::class, 'checkpromocode']);
+Route::post('/promo-code/check', [App\Http\Controllers\AppointmentBookController::class, 'checkpromocode'])->middleware('throttle:web-promo');
 Route::match(['get', 'post'], '/getdatetime', [App\Http\Controllers\HomeController::class, 'getdatetime'])->middleware('throttle:web-ajax');
 Route::post('/getdisableddatetime', [App\Http\Controllers\HomeController::class, 'getdisableddatetime'])->middleware('throttle:web-ajax');
 Route::get('/refresh-captcha', [App\Http\Controllers\HomeController::class, 'refresh_captcha']);

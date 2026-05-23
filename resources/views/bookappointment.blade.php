@@ -2396,6 +2396,10 @@
         <!-- Appointment Form -->
         <div class="experimental-form-section">
             <form class="experimental-appointment-form" id="appintment_form" action="<?php echo URL::to('/'); ?>/book-an-appointment/storepaid" method="post" enctype="multipart/form-data">
+                {{-- Honeypot: visually off-screen but not display:none so smarter bots don't skip it --}}
+                <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden;" aria-hidden="true">
+                    <input type="text" name="website_url" tabindex="-1" autocomplete="off" value="">
+                </div>
                 <!-- Tab Navigation -->
                 <div class="experimental-form-tabs">
                     <ul class="experimental-tab-nav">
@@ -2702,11 +2706,18 @@
                             <p>Complete your booking now and take the first step towards resolving your legal matter with confidence. Our expert team is ready to help you succeed.</p>
                         </div>
                         
+                        <!-- reCAPTCHA verification required before booking -->
+                        <!-- Widget is rendered explicitly via renderBookingRecaptcha() when this tab becomes visible -->
+                        <div class="mb-3 text-center" id="booking-recaptcha-container">
+                            <div id="booking-recaptcha-widget"></div>
+                            <div id="booking-recaptcha-error" style="display:none; color:#dc3545; font-size:0.875rem; margin-top:6px;">Please complete the reCAPTCHA verification.</div>
+                        </div>
+
                         <div class="final-cta-buttons">
                             <button type="button" class="experimental-btn btn-back" data-prev="info">
                                 <i class="fa fa-arrow-left"></i> Back
                             </button>
-                            <button type="button" class="experimental-btn submitappointment_paid final-submit-btn">
+                            <button type="button" class="experimental-btn submitappointment_paid final-submit-btn" id="booking-submit-btn">
                                 <i class="fa fa-credit-card"></i>
                                 <span class="btn-text">Complete Booking</span>
                                 <span class="btn-price">$150.00 AUD</span>
@@ -2910,6 +2921,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (tabId === 'appointment_details') {
                 console.log('Restoring calendar state...');
                 restoreCalendarState();
+            }
+
+            // Render reCAPTCHA on first visit to confirm tab
+            // The widget cannot render inside a display:none container, so we render it
+            // explicitly once the tab is visible.
+            if (tabId === 'confirm') {
+                renderBookingRecaptcha();
             }
             
             // Update floating navigation
@@ -3145,6 +3163,20 @@ document.addEventListener('DOMContentLoaded', function() {
     $('.submitappointment_paid').off('click').on('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
+
+        // Verify reCAPTCHA completed before allowing submission
+        // Use widget ID when available (explicit render), fall back to getResponse() for safety
+        var recaptchaToken = '';
+        if (typeof grecaptcha !== 'undefined') {
+            recaptchaToken = (bookingRecaptchaWidgetId !== null)
+                ? grecaptcha.getResponse(bookingRecaptchaWidgetId)
+                : grecaptcha.getResponse();
+        }
+        if (!recaptchaToken) {
+            $('#booking-recaptcha-error').show();
+            return;
+        }
+        $('#booking-recaptcha-error').hide();
         
         if (validateForm()) {
             // Show loading state
@@ -3172,7 +3204,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 discount_amount: $('input[name="discount_amount"]').val(),
                 discount_percentage: $('input[name="discount_percentage"]').val(),
                 cardName: $('input[name="fullname"]').val(),
-                stripeToken: 'experimental_' + Date.now()
+                stripeToken: 'experimental_' + Date.now(),
+                'g-recaptcha-response': recaptchaToken,
+                website_url: '' // honeypot — must stay empty
             };
             
             // Add CSRF token
@@ -3250,10 +3284,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Re-enable submit button
                     $submitBtn.prop('disabled', false);
                     $submitBtn.find('.btn-text').text(originalText);
+
+                    // Reset reCAPTCHA so user can try again
+                    if (typeof grecaptcha !== 'undefined' && bookingRecaptchaWidgetId !== null) {
+                        grecaptcha.reset(bookingRecaptchaWidgetId);
+                    }
                     
                     var errorMessage = 'An error occurred while booking your appointment.';
                     
-                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                    if (xhr.status === 429) {
+                        errorMessage = 'Too many booking attempts. Please wait a moment before trying again.';
+                    } else if (xhr.responseJSON && xhr.responseJSON.message) {
                         errorMessage = xhr.responseJSON.message;
                     } else if (xhr.status === 422) {
                         errorMessage = 'Please check all required fields and try again.';
@@ -3966,56 +4007,66 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Coupon code functionality
+    // Coupon code functionality — validated server-side only (no valid codes in client JS)
     $('#apply_coupon').click(function() {
         var couponCode = $('#coupon_code').val().trim();
-        var $message = $('#coupon_message');
-        
+
         if (!couponCode) {
             showCouponMessage('Please enter a promo code', 'error');
             return;
         }
-        
-        // Validate promo codes: FREE100 (100% off) and HALF50 (50% off)
-        var validCoupons = {
-            'FREE100': { discount: 100, type: 'percentage', description: 'Free consultation' },
-            'HALF50': { discount: 50, type: 'percentage', description: '50% off consultation' }
-        };
-        
-        if (validCoupons[couponCode.toUpperCase()]) {
-            var coupon = validCoupons[couponCode.toUpperCase()];
-            var consultationFee = 150; // Base consultation fee
-            var discountAmount = (consultationFee * coupon.discount) / 100;
-            var finalAmount = Math.max(0, consultationFee - discountAmount);
-            
-            // Update payment summary
-            $('.discount-item').show();
-            $('.discount-amount').text('-$' + discountAmount.toFixed(2) + ' AUD');
-            $('.total-amount').html('<strong>$' + finalAmount.toFixed(2) + ' AUD</strong>');
-            $('.final-amount').text('$' + finalAmount.toFixed(2) + ' AUD');
-            
-            // Show success message with savings
-            var savingsText = coupon.discount === 100 ? 'Free consultation!' : 'You saved $' + discountAmount.toFixed(2);
-            showCouponMessage('Promo code applied successfully! ' + savingsText, 'success');
-            
-            // Store coupon info for form submission
-            $('input[name="coupon_code"]').val(couponCode);
-            $('input[name="promo_code"]').val(couponCode); // Also update promo_code field for backend
-            $('input[name="discount_amount"]').val(discountAmount);
-            $('input[name="discount_percentage"]').val(coupon.discount);
-            
-            // Disable coupon input after successful application
-            $('#coupon_code').prop('disabled', true);
-            $('#apply_coupon').prop('disabled', true).text('Applied');
-            
-            // Add reset button
-            if (!$('#reset_coupon').length) {
-                $('#apply_coupon').after('<button type="button" class="experimental-btn btn-reset-coupon" id="reset_coupon" style="background: #6c757d; margin-left: 10px;"><i class="fa fa-refresh me-2"></i>Reset</button>');
+
+        var $btn = $(this);
+        $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-1"></i>Checking...');
+
+        $.ajax({
+            url: window.bansalAppUrl + '/promo-code/check',
+            method: 'POST',
+            data: {
+                promo_code: couponCode,
+                service_id: $('input[name="service_id"]').val(),
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    var discountAmount = (150 * response.discount_percentage) / 100;
+                    var finalAmount = Math.max(0, 150 - discountAmount);
+
+                    $('.discount-item').show();
+                    $('.discount-amount').text('-$' + discountAmount.toFixed(2) + ' AUD');
+                    $('.total-amount').html('<strong>$' + finalAmount.toFixed(2) + ' AUD</strong>');
+                    $('.final-amount').text('$' + finalAmount.toFixed(2) + ' AUD');
+
+                    var savingsText = finalAmount <= 0 ? 'Free consultation!' : 'You saved $' + discountAmount.toFixed(2);
+                    showCouponMessage('Promo code applied! ' + savingsText, 'success');
+
+                    $('input[name="promo_code"]').val(couponCode);
+                    $('input[name="discount_amount"]').val(discountAmount);
+                    $('input[name="discount_percentage"]').val(response.discount_percentage);
+
+                    $('#coupon_code').prop('disabled', true);
+                    $btn.prop('disabled', true).html('<i class="fa fa-check me-1"></i>Applied');
+
+                    if (!$('#reset_coupon').length) {
+                        $btn.after('<button type="button" class="experimental-btn btn-reset-coupon" id="reset_coupon" style="background: #6c757d; margin-left: 10px;"><i class="fa fa-refresh me-2"></i>Reset</button>');
+                    }
+                } else {
+                    showCouponMessage(response.msg || 'Invalid promo code.', 'error');
+                    $btn.prop('disabled', false).html('<i class="fa fa-tag me-1"></i>Apply');
+                }
+            },
+            error: function(xhr) {
+                var msg;
+                if (xhr.status === 429) {
+                    msg = 'Too many attempts. Please wait before trying again.';
+                } else {
+                    msg = (xhr.responseJSON && xhr.responseJSON.msg) ? xhr.responseJSON.msg : 'Invalid promo code.';
+                }
+                showCouponMessage(msg, 'error');
+                $btn.prop('disabled', false).html('<i class="fa fa-tag me-1"></i>Apply');
             }
-            
-        } else {
-            showCouponMessage('Invalid promo code. Valid codes: FREE100 or HALF50', 'error');
-        }
+        });
     });
     
     function showCouponMessage(message, type) {
@@ -4166,6 +4217,34 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Confirmation details updated - Date:', finalDate, 'Time:', finalTime);
     }
 });
+</script>
+
+<script>
+var bookingRecaptchaWidgetId = null;
+
+// Called once when the confirm tab first becomes visible.
+// Explicit render avoids the blank-widget bug caused by rendering inside display:none.
+function renderBookingRecaptcha() {
+    if (typeof grecaptcha === 'undefined') return;
+    var container = document.getElementById('booking-recaptcha-widget');
+    if (!container) return;
+
+    if (bookingRecaptchaWidgetId !== null) {
+        // Already rendered — just reset it so the token is fresh
+        grecaptcha.reset(bookingRecaptchaWidgetId);
+        return;
+    }
+
+    bookingRecaptchaWidgetId = grecaptcha.render('booking-recaptcha-widget', {
+        sitekey: '{{ config('services.recaptcha.key') }}',
+        callback: onBookingRecaptcha
+    });
+}
+
+// Hide stale error once the user solves the CAPTCHA
+function onBookingRecaptcha(token) {
+    document.getElementById('booking-recaptcha-error').style.display = 'none';
+}
 </script>
 
 @endsection

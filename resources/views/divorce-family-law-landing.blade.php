@@ -2749,6 +2749,10 @@ body {
                 <form id="cover-consultation-form-element" action="{{ route('contact.submit') }}" method="POST">
                     @csrf
                     <input type="hidden" name="form_source" value="divorce-family-law-landing-cover">
+                    {{-- Honeypot: visually off-screen but not display:none so smarter bots don't skip it --}}
+                    <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden;" aria-hidden="true">
+                        <input type="text" name="website_url" tabindex="-1" autocomplete="off" value="">
+                    </div>
                     <input type="hidden" name="form_variant" value="consultation">
                     <input type="hidden" name="subject" value="Free Consultation Request - Divorce & Family Law">
                     

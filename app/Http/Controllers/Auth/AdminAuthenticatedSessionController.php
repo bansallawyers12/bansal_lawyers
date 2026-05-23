@@ -7,13 +7,12 @@ use App\Http\Requests\Auth\AdminLoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\View\View;
-use Symfony\Component\HttpFoundation\IpUtils;
 
 class AdminAuthenticatedSessionController extends Controller
 {
+    use \App\Traits\ValidatesRecaptcha;
     /**
      * Display the admin login view.
      */
@@ -55,36 +54,6 @@ class AdminAuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/admin');
-    }
-
-    /**
-     * Validate reCAPTCHA response
-     */
-    private function validateRecaptcha(Request $request): bool|RedirectResponse
-    {
-        $recaptcha_response = $request->input('g-recaptcha-response');
-        
-        if (is_null($recaptcha_response)) {
-            $errors = ['g-recaptcha-response' => 'Please Complete the Recaptcha to proceed'];
-            return redirect()->back()->withErrors($errors);
-        }
-
-        $url = "https://www.google.com/recaptcha/api/siteverify";
-        $body = [
-            'secret' => config('services.recaptcha.secret'),
-            'response' => $recaptcha_response,
-            'remoteip' => IpUtils::anonymize($request->ip())
-        ];
-
-        $response = Http::get($url, $body);
-        $result = json_decode($response);
-
-        if ($response->successful() && $result->success == true) {
-            return true;
-        } else {
-            $errors = ['g-recaptcha-response' => 'Please Complete the Recaptcha Again to proceed'];
-            return redirect()->back()->withErrors($errors);
-        }
     }
 
     /**

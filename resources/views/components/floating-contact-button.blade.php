@@ -575,7 +575,7 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('subject', 'Quick Contact Request - Floating Contact Button');
             formData.append('form_source', 'floating_contact_button');
             formData.append('form_variant', 'quick_contact');
-            formData.append('g-recaptcha-response', 'floating-button-bypass');
+            formData.append('website_url', ''); // honeypot — must stay empty
             formData.append('_token', csrfToken);
             
             // Submit to backend

@@ -33,6 +33,7 @@ use App\Support\CrmLeadSync;
 
 class HomeController extends Controller
 {
+    use \App\Traits\ValidatesRecaptcha;
 	/**
 	 * Generate CAPTCHA image
 	 * Modernized GD library implementation with improved error handling and structure
@@ -216,6 +217,11 @@ class HomeController extends Controller
 	}
 
 	public function contact(Request $request){
+        // Honeypot check
+        if ($request->filled('website_url')) {
+            return back()->with('success', 'Thanks for sharing your interest. our team will respond to you with in 24 hours.');
+        }
+
         $fromAddress = config('mail.from.address');
         $request->validate([
             'name' => 'required|string|max:255',
@@ -276,6 +282,13 @@ class HomeController extends Controller
         $startTime = microtime(true);
         
         try {
+            // Honeypot check — bots fill this field, real browsers leave it empty
+            if ($request->filled('website_url')) {
+                return $request->ajax()
+                    ? response()->json(['success' => true, 'message' => 'Thank you! Your message has been sent successfully.'])
+                    : redirect()->route('contact.thankyou');
+            }
+
             // Check if it's floating contact button form
             $isFloatingButton = $request->form_source === 'floating_contact_button';
             
@@ -285,10 +298,18 @@ class HomeController extends Controller
                 'phone' => 'required|string|max:20',
                 'subject' => 'required|string|max:255',
                 'message' => 'required|string|max:2000',
-                // 'g-recaptcha-response' => 'required', // REMOVED - too slow
                 'form_source' => 'nullable|string',
                 'form_variant' => 'nullable|string'
             ]);
+
+            // Validate reCAPTCHA for all form sources except the floating button
+            // (floating button has no widget; it relies on the web-contact rate limiter instead)
+            if (!$isFloatingButton) {
+                $recaptchaResult = $this->validateRecaptcha($request);
+                if ($recaptchaResult !== true) {
+                    return $recaptchaResult;
+                }
+            }
 
             // Prepare response FIRST (before any database operations)
             $responseData = [
@@ -773,8 +794,19 @@ class HomeController extends Controller
             $order_date = date("Y-m-d H:i:s");
             $amount = 150;
 
-            // Fetch appointment data early for use in failure scenarios
+            // Ownership check — verify the appointment belongs to the submitted email
             $appointment = Appointment::find($appointment_id);
+            if (!$appointment) {
+                return response()->json(['success' => false, 'message' => 'Appointment not found.'], 404);
+            }
+            if (strtolower(trim($appointment->email)) !== strtolower(trim($email))) {
+                Log::warning('stripePost ownership mismatch', [
+                    'appointment_id' => $appointment_id,
+                    'submitted_email' => $email,
+                    'ip' => $request->ip(),
+                ]);
+                return response()->json(['success' => false, 'message' => 'Payment request could not be verified. Please try again.'], 403);
+            }
 
             Stripe\Stripe::setApiKey(config('services.stripe.secret') ?? env('STRIPE_SECRET'));
 
@@ -1510,75 +1542,6 @@ class HomeController extends Controller
             return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
-    }
-
-    /**
-     * Validate reCAPTCHA response
-     */
-    private function validateRecaptcha(Request $request): bool|\Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
-    {
-        $recaptcha_response = $request->input('g-recaptcha-response');
-        
-        // Allow bypass for floating contact button
-        if ($recaptcha_response === 'floating-button-bypass' && 
-            $request->input('form_source') === 'floating_contact_button') {
-            return true;
-        }
-        
-        if (is_null($recaptcha_response)) {
-            $errors = ['g-recaptcha-response' => 'Please complete the reCAPTCHA to proceed'];
-            return redirect()->back()->withErrors($errors)->withInput();
-        }
-
-        $url = "https://www.google.com/recaptcha/api/siteverify";
-        $body = [
-            'secret' => config('services.recaptcha.secret'),
-            'response' => $recaptcha_response,
-            'remoteip' => $request->ip()
-        ];
-
-        try {
-            // Add timeout to prevent hanging (1 second max for ultra-fast response)
-            $response = \Illuminate\Support\Facades\Http::timeout(1)->get($url, $body);
-            $result = json_decode($response->body());
-
-            if ($response->successful() && isset($result->success) && $result->success == true) {
-                return true;
-            } else {
-                $errors = ['g-recaptcha-response' => 'Please complete the reCAPTCHA again to proceed'];
-                if (request()->ajax()) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'reCAPTCHA validation failed',
-                        'errors' => ['g-recaptcha-response' => ['Please complete the reCAPTCHA verification.']]
-                    ], 422);
-                }
-                return redirect()->back()->withErrors($errors)->withInput();
-            }
-        } catch (\Illuminate\Http\Client\ConnectionException $e) {
-            // reCAPTCHA timeout - return error quickly
-            Log::warning('reCAPTCHA validation timeout: ' . $e->getMessage());
-            $errors = ['g-recaptcha-response' => 'reCAPTCHA validation timed out. Please try again.'];
-            if (request()->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'reCAPTCHA validation timeout. Please try again.',
-                    'errors' => ['g-recaptcha-response' => ['reCAPTCHA validation timed out. Please try again.']]
-                ], 422);
-            }
-            return redirect()->back()->withErrors($errors)->withInput();
-        } catch (\Exception $e) {
-            Log::error('reCAPTCHA validation error: ' . $e->getMessage());
-            $errors = ['g-recaptcha-response' => 'reCAPTCHA validation error. Please try again.'];
-            if (request()->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'reCAPTCHA validation error',
-                    'errors' => ['g-recaptcha-response' => ['reCAPTCHA validation error. Please try again.']]
-                ], 422);
-            }
-            return redirect()->back()->withErrors($errors)->withInput();
-        }
     }
 
     public function blogExperimental(Request $request)

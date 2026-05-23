@@ -13,6 +13,9 @@ use App\Support\CrmLeadSync;
 use Helper;
 
 class AppointmentBookController extends Controller {
+
+    use \App\Traits\ValidatesRecaptcha;
+
     /**
      * Create a new controller instance.
      *
@@ -270,7 +273,7 @@ class AppointmentBookController extends Controller {
         ];
         
         if(!isset($promoCodes[$promoCodeUpper])){
-            return response()->json(['success'=>false,'msg'=>'Invalid promo code. Valid codes: FREE100 or HALF50'], 400);
+            return response()->json(['success'=>false,'msg'=>'Invalid promo code.'], 400);
         }
 
         $service = \App\Models\BookService::find($serviceId);
@@ -295,12 +298,23 @@ class AppointmentBookController extends Controller {
     public function storepaid(Request $request)
     {
         try {
+            // Honeypot check — silent fake-success so bots get no signal
+            if ($request->filled('website_url')) {
+                return response()->json(['success' => true, 'message' => 'Appointment booked successfully.']);
+            }
+
+            // Validate reCAPTCHA before any DB or email work
+            $recaptchaResult = $this->validateRecaptcha($request);
+            if ($recaptchaResult !== true) {
+                return $recaptchaResult;
+            }
+
             // SECURITY FIX: Extract only allowed fields instead of using $request->all()
             $allowedFields = [
-                'service_id', 'noe_id', 'fullname', 'description', 'email', 'phone', 
+                'service_id', 'noe_id', 'fullname', 'description', 'email', 'phone',
                 'date', 'time', 'appointment_details', 'promo_code', 'cardName', 'stripeToken'
             ];
-            
+
             $requestData = $request->only($allowedFields);
             
             // Log request for debugging in development only
@@ -391,8 +405,8 @@ class AppointmentBookController extends Controller {
             if(!isset($promoCodes[$promoCodeUpper])){
                 \Log::warning('Invalid promo code attempted: ' . $promoCode);
                 return response()->json([
-                    'success' => false, 
-                    'message' => 'Invalid promo code. Valid codes: FREE100 or HALF50'
+                    'success' => false,
+                    'message' => 'Invalid promo code.'
                 ], 400);
             }
             
