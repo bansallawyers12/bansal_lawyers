@@ -73,8 +73,50 @@ class ContentSecurityPolicy
             ];
         } else {
             // More permissive CSP for frontend routes (contact, etc.)
-            $scriptSrc = "'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://connect.facebook.net https://www.google-analytics.com https://challenges.cloudflare.com";
-            $connectSrc = "'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://challenges.cloudflare.com";
+            $scriptHosts = [
+                'https://www.google.com',
+                'https://www.gstatic.com',
+                'https://maps.googleapis.com',
+                'https://www.googletagmanager.com',
+                'https://connect.facebook.net',
+                'https://www.google-analytics.com',
+                'https://challenges.cloudflare.com',
+                // Hotjar (frontend.blade.php)
+                'https://static.hotjar.com',
+                // Google Ads conversion tags loaded via GTM/gtag
+                'https://googleads.g.doubleclick.net',
+                // Cloudflare Web Analytics beacon (injected by Cloudflare CDN)
+                'https://static.cloudflareinsights.com',
+            ];
+
+            $connectHosts = [
+                'https://www.google.com',
+                'https://maps.googleapis.com',
+                'https://www.google-analytics.com',
+                'https://www.googletagmanager.com',
+                'https://connect.facebook.net',
+                'https://challenges.cloudflare.com',
+                // Hotjar session recording / analytics API
+                'https://*.hotjar.com',
+                'wss://*.hotjar.com',
+                // Google Ads / conversion tracking
+                'https://googleads.g.doubleclick.net',
+                'https://www.googleadservices.com',
+                // Cloudflare Web Analytics
+                'https://cloudflareinsights.com',
+            ];
+
+            $frameHosts = [
+                'https://www.google.com',
+                'https://maps.google.com',
+                'https://www.facebook.com',
+                'https://challenges.cloudflare.com',
+                'https://googleads.g.doubleclick.net',
+                'https://td.doubleclick.net',
+            ];
+
+            $scriptSrc = "'self' 'unsafe-inline' " . implode(' ', $scriptHosts);
+            $connectSrc = "'self' " . implode(' ', $connectHosts);
 
             // Vite dev server (npm run dev) uses eval for HMR and loads scripts from :5173
             if (App::environment('local')) {
@@ -87,9 +129,9 @@ class ContentSecurityPolicy
                 "script-src {$scriptSrc}",
                 "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com" . (App::environment('local') ? ' http://127.0.0.1:5173 http://localhost:5173' : ''),
                 "font-src 'self' https://cdnjs.cloudflare.com data:",
-                "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com",
+                "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com https://googleads.g.doubleclick.net",
                 "connect-src {$connectSrc}",
-                "frame-src 'self' https://www.google.com https://maps.google.com https://www.facebook.com https://challenges.cloudflare.com",
+                "frame-src 'self' " . implode(' ', $frameHosts),
                 "object-src 'none'",
                 "base-uri 'self'",
                 "form-action 'self'",
