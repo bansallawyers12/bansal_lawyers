@@ -88,6 +88,8 @@ class ContentSecurityPolicy
                 'https://googleads.g.doubleclick.net',
                 // Cloudflare Web Analytics beacon (injected by Cloudflare CDN)
                 'https://static.cloudflareinsights.com',
+                // Stripe (book appointment + payment pages)
+                'https://js.stripe.com',
             ];
 
             $connectHosts = [
@@ -108,6 +110,8 @@ class ContentSecurityPolicy
                 'https://www.googleadservices.com',
                 // Cloudflare Web Analytics
                 'https://cloudflareinsights.com',
+                // Stripe payment API
+                'https://api.stripe.com',
             ];
 
             $frameHosts = [
@@ -117,6 +121,9 @@ class ContentSecurityPolicy
                 'https://challenges.cloudflare.com',
                 'https://googleads.g.doubleclick.net',
                 'https://td.doubleclick.net',
+                // Stripe Elements / 3D Secure
+                'https://js.stripe.com',
+                'https://hooks.stripe.com',
             ];
 
             // unsafe-eval required by Hotjar modules, GTM, and Google Ads on frontend pages
