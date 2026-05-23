@@ -222,20 +222,10 @@ function toggleFAQ(index) {
     <!-- Preconnect to other external resources -->
     <link rel="preconnect" href="https://maps.googleapis.com">
     <link rel="preconnect" href="https://www.google.com">
+    <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
     
-    <!-- Preload critical Poppins font files for faster rendering -->
-    <link rel="preload" href="{{ asset('fonts/poppins/poppins-regular.woff2') }}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
-    
-    <!-- Self-hosted Poppins fonts -->
-    <!-- Load as static asset to avoid Vite path resolution issues with font files -->
+    <!-- Self-hosted Poppins fonts (fonts.css declares @font-face; no separate preload needed) -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
-    
-    <!-- Preload critical font files for faster rendering (Flaticon only; Font Awesome 6 loads via Vite build) -->
-    <link rel="preload" href="{{ asset('fonts/flaticon/font/Flaticon.woff') }}" as="font" type="font/woff" crossorigin>
-    
-    <!-- Preload logo - imagesrcset ensures correct variant (1x/2x) is preloaded and consumed by header img -->
-    <link rel="preload" as="image" href="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }}" imagesrcset="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }} 1x, {{ asset('images/logo/Bansal_Lawyers_origional@2x.webp') }} 2x">
 
     <!-- Vite CSS - Modern optimized CSS bundle -->
     @vite(['resources/css/frontend.css'])
@@ -253,28 +243,22 @@ function toggleFAQ(index) {
     <!-- Vendor bundles (Swiper) loaded via Vite -->
     @vite(['resources/css/vendor-frontend.css'])
     
-    <!-- AOS CSS - Only load on pages that use AOS animations (about, contact) -->
+    <!-- AOS CSS - only on pages that use AOS animations -->
     @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
     <link rel="stylesheet" href="{{ asset('css/aos.min.css')}}">
-    @else
-    <!-- Defer AOS CSS for pages that don't use it -->
-    <link rel="preload" href="{{ asset('css/aos.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('css/aos.min.css') }}"></noscript>
     @endif
     
     <!-- Main custom styles - Keep as normal stylesheet to avoid FOUC -->
     <!-- Note: High unused percentage reported, but needed for layout structure -->
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
     
-    <!-- Non-critical CSS - deferred for performance -->
-    <!-- animate.min.css - Only load if actually needed (check for ftco-animate class usage) -->
+    <!-- Non-critical CSS - only on pages that use these features -->
     @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*'))
-    <link rel="preload" href="{{ asset('css/animate.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('css/animate.min.css') }}"></noscript>
+    <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
     @endif
-    
-    <link rel="preload" href="{{ asset('css/magnific-popup.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}"></noscript>
+    @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*') || Request::is('case*'))
+    <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}">
+    @endif
   
     {{-- Facebook Pixel moved to end of body to avoid blocking HTML parsing --}}
   
@@ -1239,7 +1223,9 @@ function toggleFAQ(index) {
     @endif
     <!-- Vendor bundles (Swiper) loaded via Vite -->
     @vite(['resources/js/vendor-frontend.js'])
+    @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*') || Request::is('case*'))
     <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
+    @endif
     
     <!-- AOS JS - Only load on pages that use AOS animations -->
     @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
@@ -1276,6 +1262,7 @@ function toggleFAQ(index) {
     </script>
     
     <!-- Cloudflare Turnstile -->
+    <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     
     <!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->

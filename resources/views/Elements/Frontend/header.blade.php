@@ -70,8 +70,7 @@
                      style="height: 55px; display: block; max-width: 100%;" 
                      width="261" 
                      height="69"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" 
-                     onload="console.log('Logo loaded successfully');">
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <div style="display: none; color: #1B4D89; font-weight: bold; font-size: 18px; text-align: center; line-height: 55px;">
                     BANSAL<br><span style="font-size: 14px;">LAWYERS</span>
                 </div>

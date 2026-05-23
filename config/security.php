@@ -51,7 +51,7 @@ return [
         'x_frame_options' => 'DENY',
         'x_xss_protection' => '1; mode=block',
         'referrer_policy' => 'strict-origin-when-cross-origin',
-        'permissions_policy' => 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(self), accelerometer=(self), autoplay=(self), encrypted-media=(self), picture-in-picture=(self)',
+        'permissions_policy' => 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(self), accelerometer=(self), autoplay=(self), encrypted-media=(self), picture-in-picture=(self "https://challenges.cloudflare.com")',
         'x_permitted_cross_domain_policies' => 'none',
         'strict_transport_security' => env('APP_ENV') === 'production' ? 'max-age=31536000; includeSubDomains; preload' : 'max-age=0'
     ],

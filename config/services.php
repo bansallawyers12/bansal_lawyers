@@ -20,8 +20,9 @@ return [
     ],
     
     'turnstile' => [
-        'key' => env('TURNSTILE_SITE_KEY'),
-        'secret' => env('TURNSTILE_SECRET_KEY'),
+        // Cloudflare dummy keys (always pass) used in local when real keys are not set
+        'key' => env('TURNSTILE_SITE_KEY') ?: (env('APP_ENV') === 'local' ? '1x00000000000000000000AA' : null),
+        'secret' => env('TURNSTILE_SECRET_KEY') ?: (env('APP_ENV') === 'local' ? '1x0000000000000000000000000000000AA' : null),
     ],
 
     'google_analytics' => [
