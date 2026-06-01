@@ -31,6 +31,9 @@ class BlockBots
         'Applebot',
         'ia_archiver',      // Wayback Machine / Archive.org
         'Stripe',
+        // SEO audit tools (Site Audit uses SiteAuditBot; also crawls as Googlebot from fixed IPs)
+        'SiteAuditBot',
+        'SemrushBot',
     ];
 
     /**
@@ -40,7 +43,6 @@ class BlockBots
     private const BLOCKED_BOTS = [
         // SEO tool scrapers
         'AhrefsBot',
-        'SemrushBot',
         'MJ12bot',
         'DotBot',
         'BLEXBot',
