@@ -555,7 +555,7 @@
                     </div>
                     <h3>Family Law</h3>
                     <p>Divorce, separation, children, property and other family law matters. Expert guidance for complex family situations.</p>
-                    <a href="/family-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn More</a>
+                    <a href="/family-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn more about Family Law</a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
@@ -565,7 +565,7 @@
                     </div>
                     <h3>Migration Law</h3>
                     <p>Visa applications, appeals, permanent residency, and citizenship matters. Your pathway to Australia.</p>
-                    <a href="/migration-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn More</a>
+                    <a href="/migration-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn more about Migration Law</a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
@@ -575,7 +575,7 @@
                     </div>
                     <h3>Criminal Law</h3>
                     <p>Assault charges, traffic offenses, and criminal defense. Protecting your rights and future in Australia.</p>
-                    <a href="/criminal-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn More</a>
+                    <a href="/criminal-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn more about Criminal Law</a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
@@ -585,7 +585,7 @@
                     </div>
                     <h3>Commercial Law</h3>
                     <p>Business formation, contracts, corporate governance, and commercial disputes. Supporting your business growth.</p>
-                    <a href="/commercial-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn More</a>
+                    <a href="/commercial-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn more about Commercial Law</a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
@@ -595,7 +595,7 @@
                     </div>
                     <h3>Property Law</h3>
                     <p>Property transactions, leasing, development, and property disputes. Securing your property interests.</p>
-                    <a href="/property-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn More</a>
+                    <a href="/property-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn more about Property Law</a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-4">

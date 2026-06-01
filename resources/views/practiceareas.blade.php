@@ -491,7 +491,7 @@
                 <li>Family Violence Orders</li>
                 <li>De Facto Relationships</li>
             </ul>
-            <a href="/family-law" class="card-button">Learn More</a>
+            <a href="/family-law" class="card-button">Learn more about Family Law</a>
         </div>
 
         <!-- Migration Law Card -->
@@ -508,7 +508,7 @@
                 <li>Citizenship</li>
                 <li>Visa Compliance</li>
             </ul>
-            <a href="/migration-law" class="card-button">Learn More</a>
+            <a href="/migration-law" class="card-button">Learn more about Migration Law</a>
         </div>
 
         <!-- Criminal Law Card -->
@@ -525,7 +525,7 @@
                 <li>Drug Offences</li>
                 <li>Court Representation</li>
             </ul>
-            <a href="/criminal-law" class="card-button">Learn More</a>
+            <a href="/criminal-law" class="card-button">Learn more about Criminal Law</a>
         </div>
 
         <!-- Commercial Law Card -->
@@ -542,7 +542,7 @@
                 <li>Intellectual Property</li>
                 <li>Dispute Resolution</li>
             </ul>
-            <a href="/commercial-law" class="card-button">Learn More</a>
+            <a href="/commercial-law" class="card-button">Learn more about Commercial Law</a>
         </div>
 
         <!-- Property Law Card -->
@@ -559,7 +559,7 @@
                 <li>Strata & Community Titles</li>
                 <li>Property Disputes</li>
             </ul>
-            <a href="/property-law" class="card-button">Learn More</a>
+            <a href="/property-law" class="card-button">Learn more about Property Law</a>
         </div>
     </div>
 
