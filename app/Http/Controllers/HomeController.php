@@ -51,19 +51,10 @@ class HomeController extends Controller
 			return view('casedetail', compact('casedetailists'));
 		}
 		
-		// Check Blog
-		$blogdetailists = Blog::where('slug', '=', $slug)->where('status', '=', 1)->with(['categorydetail'])->first();
-		if($blogdetailists) {
-			// Cache latest blogs for better performance (exclude current blog)
-			$cacheKey = 'latest_blogs_exclude_' . $slug;
-			$latestbloglists = Cache::remember($cacheKey, 1800, function () use ($slug) {
-				return Blog::where('status', 1)
-					->where('slug', '!=', $slug)
-					->latest()
-					->take(5)
-					->get();
-			});
-			return view('blogdetail', compact('blogdetailists', 'latestbloglists'));
+		// Check Blog — redirect legacy /{slug} URLs to canonical /blog/{slug}
+		$blogExists = Blog::where('slug', '=', $slug)->where('status', '=', 1)->exists();
+		if ($blogExists) {
+			return redirect()->route('blog.detail', $slug, 301);
 		}
 		
 		// Check CmsPage

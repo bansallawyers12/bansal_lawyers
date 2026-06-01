@@ -1,0 +1,76 @@
+# -------------------------------------------------------
+# Bansal Lawyers — robots.txt
+# -------------------------------------------------------
+
+# === All crawlers — general rules ===
+User-agent: *
+Allow: /
+
+# Cloudflare internal paths — never valid URLs for crawlers
+Disallow: /cdn-cgi/
+
+# Laravel / admin internals
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /profile
+Disallow: /invoice
+Disallow: /clear-cache
+Disallow: /csp-report
+Disallow: /api/
+
+# Static asset directories (no SEO value, wastes crawl budget)
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+
+Sitemap: https://www.bansallawyers.com.au/sitemap.xml
+
+# -------------------------------------------------------
+# AI training crawlers — allow search indexing, block training
+# -------------------------------------------------------
+
+# OpenAI
+User-agent: GPTBot
+Disallow: /
+
+# OpenAI search preview (keep for search, block training)
+User-agent: OAI-SearchBot
+Allow: /
+
+# Google Extended — blocks Gemini/Bard training
+User-agent: Google-Extended
+Disallow: /
+
+# Common Crawl (used for AI training datasets)
+User-agent: CCBot
+Disallow: /
+
+# Anthropic
+User-agent: anthropic-ai
+Disallow: /
+
+# Meta / Facebook AI
+User-agent: FacebookBot
+Disallow: /
+
+# Amazon Alexa
+User-agent: Amazonbot
+Disallow: /
+
+# Bytedance
+User-agent: Bytespider
+Disallow: /
+
+# Diffbot
+User-agent: Diffbot
+Disallow: /
+
+# -------------------------------------------------------
+# Security / nuisance bots
+# -------------------------------------------------------
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /

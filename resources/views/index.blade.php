@@ -752,10 +752,10 @@
                         </div>
                     @endif
                     <h4 style="color: #1B4D89; font-weight: 600; margin-bottom: 15px; line-height: 1.4;">
-                        <a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" style="color: inherit; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#2c5aa0'" onmouseout="this.style.color='#1B4D89'">{{@$list->title}}</a>
+                        <a href="{{ route('blog.detail', $list->slug) }}" style="color: inherit; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#2c5aa0'" onmouseout="this.style.color='#1B4D89'">{{@$list->title}}</a>
                     </h4>
                     <p style="color: #666; margin-bottom: 20px; line-height: 1.5; font-size: 0.95rem;">{{@$list->title}}</p>
-                    <a href="<?php echo URL::to('/'); ?>/{{@$list->slug}}" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;">
+                    <a href="{{ route('blog.detail', $list->slug) }}" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;">
                         Read More <i class="fa fa-arrow-right" style="font-size: 0.8rem;"></i>
                     </a>
                 </div>
