@@ -314,15 +314,8 @@ class HomeController extends Controller
             abort(404, 'Blog post not found');
         }
         
-        // Optimized: Cache latest blogs with exclusion key
-        $cacheKey = 'latest_blogs_exclude_' . $slug;
-        $latestbloglists = Cache::remember($cacheKey, 1800, function () use ($slug) {
-            return Blog::where('status', 1)
-                ->where('slug', '!=', $slug)
-                ->latest()
-                ->take(5)
-                ->get();
-        });
+        // Cached as plain rows (see Blog::cachedLatestExcluding) — safe with Redis + serializable_classes=false
+        $latestbloglists = Blog::cachedLatestExcluding($slug);
         
         // Get all categories for sidebar (same safe cache as blog listing)
         $blogCategories = BlogCategory::cachedForListing();
