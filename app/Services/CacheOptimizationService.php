@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Blog;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Artisan;
 
@@ -52,6 +53,7 @@ class CacheOptimizationService
                 Cache::forget('latest_blogs_homepage');
                 Cache::forget('blog_categories');
                 Cache::forget('blog_categories_v2');
+                Blog::forgetLatestExcludingCache($identifier);
                 // Clear paginated blog caches
                 for ($i = 1; $i <= 10; $i++) {
                     Cache::forget("homepage_data_{$i}");
