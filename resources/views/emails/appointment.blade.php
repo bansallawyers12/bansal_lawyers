@@ -3,7 +3,7 @@
 @section('content')
     <h1>Appointment Confirmation</h1>
     
-    <p>Dear {{ $details['fullname'] ?? 'Valued Client' }},</p>
+    <p>Dear {{ $details['recipient_name'] ?? $details['fullname'] ?? 'Valued Client' }},</p>
     
     @if(isset($details['payment_status']) && $details['payment_status'] == 'pending')
         <div class="highlight-box" style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0;">
