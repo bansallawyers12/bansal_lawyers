@@ -2766,7 +2766,6 @@
 
 @section('scripts')
 
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
 window.bansalAppUrl = <?php echo json_encode(rtrim(url('/'), '/')); ?>;
 document.addEventListener('DOMContentLoaded', function() {

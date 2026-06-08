@@ -17,6 +17,7 @@ return [
     'stripe' => [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+        'api_version' => env('STRIPE_API_VERSION', '2024-09-30.acacia'),
     ],
     
     'turnstile' => [

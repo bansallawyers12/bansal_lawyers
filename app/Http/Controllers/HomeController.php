@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 
-use Stripe;
 use App\Models\Enquiry;
 use App\Models\RecentCase;
 use App\Models\Appointment;
@@ -662,35 +661,34 @@ class HomeController extends Controller
 	public function stripe($appointmentId)
     {
         $appointmentInfo = Appointment::find($appointmentId);
-        if($appointmentInfo){
-            $adminInfo = Admin::find($appointmentInfo->client_id);
-        } else {
-            $adminInfo = [];
+        if (!$appointmentInfo) {
+            abort(404);
         }
-        return view('stripe', compact('appointmentId', 'appointmentInfo', 'adminInfo'));
+
+        $paymentAmount = $this->resolveAppointmentPaymentAmount($appointmentInfo);
+
+        return view('stripe', compact('appointmentId', 'appointmentInfo', 'paymentAmount'));
     }
 
    public function stripePost(Request $request)
     {
-        // Fetch appointment data early so it's available for failure scenarios
         $appointment = null;
         $appointment_id = null;
-        
+
         try {
             $requestData = $request->all();
-            $appointment_id = $requestData['appointment_id'];
-            $email = $requestData['customerEmail'];
-            $cardName = $requestData['cardName'];
-            $stripeToken = $requestData['stripeToken']; // This is now a PaymentMethod ID
-            $currency = "aud";
-            $payment_type = "stripe";
-            $order_date = date("Y-m-d H:i:s");
-            $amount = 150;
+            $appointment_id = $requestData['appointment_id'] ?? null;
+            $email = $requestData['customerEmail'] ?? '';
+            $cardName = $requestData['cardName'] ?? '';
+            $stripeToken = $requestData['stripeToken'] ?? null;
+            $paymentIntentId = $requestData['payment_intent_id'] ?? null;
+            $currency = 'aud';
+            $payment_type = 'stripe';
+            $order_date = date('Y-m-d H:i:s');
 
-            // Ownership check — verify the appointment belongs to the submitted email
             $appointment = Appointment::find($appointment_id);
             if (!$appointment) {
-                return response()->json(['success' => false, 'message' => 'Appointment not found.'], 404);
+                return $this->stripePaymentResponse($request, ['error' => 'Appointment not found.'], 404);
             }
             if (strtolower(trim($appointment->email)) !== strtolower(trim($email))) {
                 Log::warning('stripePost ownership mismatch', [
@@ -698,224 +696,149 @@ class HomeController extends Controller
                     'submitted_email' => $email,
                     'ip' => $request->ip(),
                 ]);
-                return response()->json(['success' => false, 'message' => 'Payment request could not be verified. Please try again.'], 403);
+                return $this->stripePaymentResponse($request, ['error' => 'Payment request could not be verified. Please try again.'], 403);
             }
 
-            Stripe\Stripe::setApiKey(config('services.stripe.secret') ?? env('STRIPE_SECRET'));
+            $amount = $this->resolveAppointmentPaymentAmount($appointment);
+            $this->configureStripe();
 
-            // Create or retrieve customer
+            if ($paymentIntentId) {
+                $payment_intent = Stripe\PaymentIntent::retrieve($paymentIntentId);
+
+                if (($payment_intent->metadata['appointment_id'] ?? null) != (string) $appointment_id) {
+                    return $this->stripePaymentResponse($request, ['error' => 'Payment could not be verified.'], 403);
+                }
+
+                $expectedCents = (int) round($amount * 100);
+                if ((int) $payment_intent->amount !== $expectedCents) {
+                    Log::warning('stripePost amount mismatch', [
+                        'appointment_id' => $appointment_id,
+                        'expected_cents' => $expectedCents,
+                        'actual_cents' => $payment_intent->amount,
+                    ]);
+                    return $this->stripePaymentResponse($request, ['error' => 'Payment amount mismatch.'], 400);
+                }
+
+                if ($payment_intent->status !== 'succeeded') {
+                    return $this->stripePaymentResponse($request, ['error' => 'Payment was not completed. Please try again.'], 400);
+                }
+
+                return $this->completeSuccessfulStripePayment(
+                    $request,
+                    $appointment,
+                    (int) $appointment_id,
+                    $payment_intent,
+                    $email,
+                    $cardName,
+                    $amount,
+                    $currency,
+                    $payment_type,
+                    $order_date
+                );
+            }
+
+            if (empty($stripeToken)) {
+                return $this->stripePaymentResponse($request, ['error' => 'Payment method is required.'], 422);
+            }
+
             $customer = Stripe\Customer::create([
                 'email' => $email,
                 'name' => $cardName,
             ]);
 
-            // Create Payment Intent
             $payment_intent = Stripe\PaymentIntent::create([
-                'amount' => $amount * 100, // Amount in cents
+                'amount' => (int) round($amount * 100),
                 'currency' => $currency,
                 'customer' => $customer->id,
                 'payment_method' => $stripeToken,
-                'confirmation_method' => 'manual',
+                'confirmation_method' => 'automatic',
                 'confirm' => true,
                 'description' => "Appointment Payment - Bansal Lawyers - $cardName",
-                'return_url' => url('/book-an-appointment'),
+                'metadata' => [
+                    'appointment_id' => (string) $appointment_id,
+                ],
+            ], [
+                'idempotency_key' => 'appt_' . $appointment_id . '_' . $stripeToken,
             ]);
 
-            // Check if payment was successful
-            if ($payment_intent->status === 'succeeded') {
-                // Payment successful
-                $stripe_payment_intent_id = $payment_intent->id;
-                $payment_status = "Paid";
-                $order_status = "Completed";
-                $appointment_status = 10; // Pending Appointment With Payment Success
-                
-                // Get appointment to find the correct order_hash
-                $appointment = Appointment::find($appointment_id);
-                $appointmentOrderHash = $appointment ? $appointment->order_hash : null;
-                
-                // Find existing payment record by appointment's order_hash
-                $paymentRecord = null;
-                if ($appointmentOrderHash) {
-                    $paymentRecord = AppointmentPayment::where('order_hash', $appointmentOrderHash)->first();
-                }
-                
-                // If not found by order_hash, try to find by appointment_id if there's a relationship
-                // Otherwise create/update using the payment intent ID as order_hash
-                $finalOrderHash = $appointmentOrderHash ?: ($stripe_payment_intent_id . '_' . $appointment_id);
-                
-                if ($paymentRecord) {
-                    // Update existing payment record
-                    $paymentRecord->update([
-                        'stripe_payment_intent_id' => $stripe_payment_intent_id,
-                        'payment_status' => $payment_status,
-                        'order_status' => $order_status,
-                        'stripe_payment_status' => $payment_intent->status,
-                        'stripe_payment_response' => $payment_intent->toArray()
-                    ]);
-                    Log::info('Updated existing payment record ID: ' . $paymentRecord->id);
-                } else {
-                    // Create new payment record if not found
-                    $paymentRecord = AppointmentPayment::create([
-                        'order_hash' => $finalOrderHash,
-                        'payer_email' => $email,
-                        'amount' => $amount,
-                        'currency' => $currency,
-                        'payment_type' => $payment_type,
-                        'order_date' => $order_date,
-                        'name' => $cardName,
-                        'stripe_payment_intent_id' => $stripe_payment_intent_id,
-                        'payment_status' => $payment_status,
-                        'order_status' => $order_status,
-                        'stripe_payment_status' => $payment_intent->status,
-                        'stripe_payment_response' => $payment_intent->toArray()
-                    ]);
-                    Log::info('Created new payment record ID: ' . $paymentRecord->id);
-                }
-                
-                // Update appointment status and order_hash if needed
-                $updateData = ['status' => $appointment_status];
-                if (!$appointmentOrderHash) {
-                    $updateData['order_hash'] = $finalOrderHash;
-                }
-                DB::table('appointments')->where('id', $appointment_id)->update($updateData);
+            if ($payment_intent->status === 'requires_action') {
+                return $this->stripePaymentResponse($request, [
+                    'requires_action' => true,
+                    'client_secret' => $payment_intent->client_secret,
+                ]);
+            }
 
-                $appointment = Appointment::with('service')->find($appointment_id);
-                if ($appointment) {
-                    $serviceModel = $appointment->service;
-                    $listAmount = $serviceModel
-                        ? (float) str_replace(['aud', 'AUD', '$', ' '], '', (string) $serviceModel->price)
-                        : 0.0;
-                    $finalAmount = isset($payment_intent->amount) ? ((int) $payment_intent->amount) / 100 : (float) $amount;
-                    $discountAmount = round(max(0, $listAmount - $finalAmount), 2);
-                    $nowStr = now()->format('Y-m-d H:i:s');
-                    try {
-                        CrmLeadSync::syncAppointmentToCrm($appointment, [
-                            'is_paid' => true,
-                            'amount' => $listAmount,
-                            'discount_amount' => $discountAmount,
-                            'final_amount' => $finalAmount,
-                            'promo_code' => null,
-                            'payment_status' => 'completed',
-                            'payment_method' => 'stripe',
-                            'paid_at' => $nowStr,
-                            'confirmed_at' => $nowStr,
-                            'status' => (string) $appointment_status,
-                        ]);
-                    } catch (\Throwable $e) {
-                        Log::error('CRM sync during payment success failed', [
-                            'appointment_id' => $appointment->id,
-                            'message' => $e->getMessage(),
-                        ]);
-                    }
-                }
-                
-                // Send confirmation emails after successful payment
-                if ($appointment) {
-                    // Get service and NatureOfEnquiry data
-                    $service = BookService::find($appointment->service_id);
-                    $NatureOfEnquiry = NatureOfEnquiry::find($appointment->noe_id);
-                    
-                    // Prepare request data for email function
-                    $requestData = [
-                        'date' => $appointment->date,
-                        'time' => $appointment->timeslot_full ?? $appointment->time,
-                        'appointment_details' => $appointment->appointment_details ?? ''
-                    ];
-                    
-                    // Send confirmation emails after successful payment
-                    $appointmentController = new \App\Http\Controllers\AppointmentBookController();
-                    $emailResults = $appointmentController->sendAppointmentEmails(
-                        $appointment->full_name,
-                        $appointment->email,
-                        $appointment->phone,
-                        $requestData,
-                        $service,
-                        $NatureOfEnquiry,
-                        $appointment->description ?? '',
-                        $appointment->id
-                    );
-                    
-                    // Log email results
-                    if (!$emailResults['admin_email_sent']) {
-                        Log::error('Admin email failed to send after payment', [
-                            'appointment_id' => $appointment->id,
-                            'error' => $emailResults['admin_email_error']
-                        ]);
-                    }
-                    
-                    if (!$emailResults['customer_email_sent']) {
-                        Log::error('Customer confirmation email failed to send after payment', [
-                            'appointment_id' => $appointment->id,
-                            'customer_email' => $appointment->email,
-                            'error' => $emailResults['customer_email_error']
-                        ]);
-                    }
-                }
-                
-                // Redirect to Thank You page with appointment data
-                return redirect()->route('payment.thankyou', ['appointmentId' => $appointment_id]);
-            } else {
-                // Payment failed - send admin pending payment email
-                $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
-                
-                return back()->with('error', 'Payment failed. Please try again.');
+            if ($payment_intent->status === 'succeeded') {
+                return $this->completeSuccessfulStripePayment(
+                    $request,
+                    $appointment,
+                    (int) $appointment_id,
+                    $payment_intent,
+                    $email,
+                    $cardName,
+                    $amount,
+                    $currency,
+                    $payment_type,
+                    $order_date
+                );
             }
+
+            Log::warning('stripePost unexpected payment status', [
+                'appointment_id' => $appointment_id,
+                'status' => $payment_intent->status,
+            ]);
+            $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
+
+            return $this->stripePaymentResponse($request, ['error' => 'Payment failed. Please try again.'], 400);
         } catch (Stripe\Exception\CardException $e) {
-            // Card was declined - send admin pending payment email
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
-            
-            return back()->with('error', 'Your card was declined: ' . $e->getMessage());
+
+            return $this->stripePaymentResponse($request, ['error' => 'Your card was declined: ' . $e->getMessage()], 400);
         } catch (Stripe\Exception\RateLimitException $e) {
-            // Too many requests made to the API too quickly - send admin pending payment email
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
-            
-            return back()->with('error', 'Too many requests. Please try again later.');
+
+            return $this->stripePaymentResponse($request, ['error' => 'Too many requests. Please try again later.'], 429);
         } catch (Stripe\Exception\InvalidRequestException $e) {
-            // Invalid parameters were supplied to Stripe's API - send admin pending payment email
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
-            
-            return back()->with('error', 'Invalid request. Please try again.');
+
+            return $this->stripePaymentResponse($request, ['error' => 'Invalid request. Please try again.'], 400);
         } catch (Stripe\Exception\AuthenticationException $e) {
-            // Authentication with Stripe's API failed - send admin pending payment email
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
-            
-            return back()->with('error', 'Authentication failed. Please contact support.');
+
+            return $this->stripePaymentResponse($request, ['error' => 'Authentication failed. Please contact support.'], 500);
         } catch (Stripe\Exception\ApiConnectionException $e) {
-            // Network communication with Stripe failed - send admin pending payment email
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
-            
-            return back()->with('error', 'Network error. Please try again.');
+
+            return $this->stripePaymentResponse($request, ['error' => 'Network error. Please try again.'], 503);
         } catch (Stripe\Exception\ApiErrorException $e) {
-            // Generic Stripe error - send admin pending payment email
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
-            
-            return back()->with('error', 'Payment error: ' . $e->getMessage());
+
+            return $this->stripePaymentResponse($request, ['error' => 'Payment error: ' . $e->getMessage()], 400);
         } catch (\Exception $e) {
-            // Something else happened - send admin pending payment email
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
-            
-            return back()->with('error', 'An unexpected error occurred. Please try again.');
+
+            return $this->stripePaymentResponse($request, ['error' => 'An unexpected error occurred. Please try again.'], 500);
         }
     }
 
@@ -1493,6 +1416,185 @@ class HomeController extends Controller
 
         // Handle CMS pages only
         return $this->Page($request, $slug);
+    }
+
+    private function configureStripe(): void
+    {
+        Stripe\Stripe::setApiKey(config('services.stripe.secret') ?? env('STRIPE_SECRET'));
+
+        $apiVersion = config('services.stripe.api_version');
+        if ($apiVersion) {
+            Stripe\Stripe::setApiVersion($apiVersion);
+        }
+    }
+
+    private function resolveAppointmentPaymentAmount(Appointment $appointment): float
+    {
+        if ($appointment->order_hash) {
+            $recordAmount = AppointmentPayment::where('order_hash', $appointment->order_hash)->value('amount');
+            if ($recordAmount !== null && (float) $recordAmount > 0) {
+                return (float) $recordAmount;
+            }
+        }
+
+        return 150.0;
+    }
+
+    private function stripePaymentResponse(Request $request, array $payload, int $status = 200)
+    {
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json($payload, $status);
+        }
+
+        if (isset($payload['redirect'])) {
+            return redirect($payload['redirect']);
+        }
+
+        $message = $payload['error'] ?? $payload['message'] ?? 'Payment failed. Please try again.';
+
+        return back()->with('error', $message);
+    }
+
+    private function completeSuccessfulStripePayment(
+        Request $request,
+        Appointment $appointment,
+        int $appointment_id,
+        $payment_intent,
+        string $email,
+        string $cardName,
+        float $amount,
+        string $currency,
+        string $payment_type,
+        string $order_date
+    ) {
+        $stripe_payment_intent_id = $payment_intent->id;
+        $appointmentOrderHash = $appointment->order_hash;
+
+        if ($appointmentOrderHash) {
+            $existingPayment = AppointmentPayment::where('order_hash', $appointmentOrderHash)->first();
+            if (
+                $existingPayment
+                && $existingPayment->payment_status === 'Paid'
+                && $existingPayment->stripe_payment_intent_id === $stripe_payment_intent_id
+            ) {
+                return $this->stripePaymentResponse($request, [
+                    'redirect' => route('payment.thankyou', ['appointmentId' => $appointment_id]),
+                ]);
+            }
+        }
+
+        $payment_status = 'Paid';
+        $order_status = 'Completed';
+        $appointment_status = 10;
+
+        $paymentRecord = null;
+        if ($appointmentOrderHash) {
+            $paymentRecord = AppointmentPayment::where('order_hash', $appointmentOrderHash)->first();
+        }
+
+        $finalOrderHash = $appointmentOrderHash ?: ($stripe_payment_intent_id . '_' . $appointment_id);
+
+        if ($paymentRecord) {
+            $paymentRecord->update([
+                'stripe_payment_intent_id' => $stripe_payment_intent_id,
+                'payment_status' => $payment_status,
+                'order_status' => $order_status,
+                'stripe_payment_status' => $payment_intent->status,
+                'stripe_payment_response' => $payment_intent->toArray(),
+            ]);
+            Log::info('Updated existing payment record ID: ' . $paymentRecord->id);
+        } else {
+            AppointmentPayment::create([
+                'order_hash' => $finalOrderHash,
+                'payer_email' => $email,
+                'amount' => $amount,
+                'currency' => $currency,
+                'payment_type' => $payment_type,
+                'order_date' => $order_date,
+                'name' => $cardName,
+                'stripe_payment_intent_id' => $stripe_payment_intent_id,
+                'payment_status' => $payment_status,
+                'order_status' => $order_status,
+                'stripe_payment_status' => $payment_intent->status,
+                'stripe_payment_response' => $payment_intent->toArray(),
+            ]);
+            Log::info('Created new payment record for appointment ID: ' . $appointment_id);
+        }
+
+        $updateData = ['status' => $appointment_status];
+        if (!$appointmentOrderHash) {
+            $updateData['order_hash'] = $finalOrderHash;
+        }
+        DB::table('appointments')->where('id', $appointment_id)->update($updateData);
+
+        $appointment = Appointment::with('service')->find($appointment_id);
+        if ($appointment) {
+            $serviceModel = $appointment->service;
+            $listAmount = $serviceModel
+                ? (float) str_replace(['aud', 'AUD', '$', ' '], '', (string) $serviceModel->price)
+                : 0.0;
+            $finalAmount = isset($payment_intent->amount) ? ((int) $payment_intent->amount) / 100 : $amount;
+            $discountAmount = round(max(0, $listAmount - $finalAmount), 2);
+            $nowStr = now()->format('Y-m-d H:i:s');
+            try {
+                CrmLeadSync::syncAppointmentToCrm($appointment, [
+                    'is_paid' => true,
+                    'amount' => $listAmount,
+                    'discount_amount' => $discountAmount,
+                    'final_amount' => $finalAmount,
+                    'promo_code' => null,
+                    'payment_status' => 'completed',
+                    'payment_method' => 'stripe',
+                    'paid_at' => $nowStr,
+                    'confirmed_at' => $nowStr,
+                    'status' => (string) $appointment_status,
+                ]);
+            } catch (\Throwable $e) {
+                Log::error('CRM sync during payment success failed', [
+                    'appointment_id' => $appointment->id,
+                    'message' => $e->getMessage(),
+                ]);
+            }
+
+            $service = BookService::find($appointment->service_id);
+            $NatureOfEnquiry = NatureOfEnquiry::find($appointment->noe_id);
+            $requestData = [
+                'date' => $appointment->date,
+                'time' => $appointment->timeslot_full ?? $appointment->time,
+                'appointment_details' => $appointment->appointment_details ?? '',
+            ];
+
+            $appointmentController = new \App\Http\Controllers\AppointmentBookController();
+            $emailResults = $appointmentController->sendAppointmentEmails(
+                $appointment->full_name,
+                $appointment->email,
+                $appointment->phone,
+                $requestData,
+                $service,
+                $NatureOfEnquiry,
+                $appointment->description ?? '',
+                $appointment->id
+            );
+
+            if (!$emailResults['admin_email_sent']) {
+                Log::error('Admin email failed to send after payment', [
+                    'appointment_id' => $appointment->id,
+                    'error' => $emailResults['admin_email_error'],
+                ]);
+            }
+
+            if (!$emailResults['customer_email_sent']) {
+                Log::error('Customer confirmation email failed to send after payment', [
+                    'appointment_id' => $appointment->id,
+                    'customer_email' => $appointment->email,
+                    'error' => $emailResults['customer_email_error'],
+                ]);
+            }
+        }
+
+        return $this->stripePaymentResponse($request, [
+            'redirect' => route('payment.thankyou', ['appointmentId' => $appointment_id]),
+        ]);
     }
 
     /**
