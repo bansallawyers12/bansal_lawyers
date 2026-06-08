@@ -542,7 +542,7 @@
             @if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail)
                 <span>
                     <i class="fa fa-folder mr-2"></i>
-                    <a href="{{ route('blog.category', $blogdetailists->categorydetail->slug) }}" 
+                    <a href="{{ route('blog.index') }}" 
                        style="color: white; text-decoration: none;">
                         {{ $blogdetailists->categorydetail->name }}
                     </a>
@@ -802,7 +802,7 @@
                         <h4>Categories</h4>
                         <div style="display: flex; flex-direction: column; gap: 10px;">
                             @foreach($blogCategories as $cat)
-                                <a href="{{ route('blog.category', $cat->slug) }}" 
+                                <a href="{{ route('blog.index') }}" 
                                    style="color: #1B4D89; text-decoration: none; padding: 8px 12px; border-radius: 8px; background: #f8f9fa; transition: all 0.3s ease;"
                                    onmouseover="this.style.background='#1B4D89'; this.style.color='white'"
                                    onmouseout="this.style.background='#f8f9fa'; this.style.color='#1B4D89'">

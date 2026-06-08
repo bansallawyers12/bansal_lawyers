@@ -26,6 +26,7 @@
 @endsection
 
 @section('schema')
+@verbatim
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -92,7 +93,7 @@
           "name": "Do I have to go to court for a divorce?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Not always. For joint divorce applications with no children under 18, you typically do not need to attend court. If you are making a sole application or if there are children under 18 involved, court attendance may be required. Property and parenting matters can often be resolved through negotiation or consent orders without a contested court hearing."
+            "text": "Not always. For joint divorce applications with no children under 18, you typically do not need to attend court. If you are making a sole application or if there are children under 18 involved, court attendance may be required. Property and parenting matters can often be resolved through negotiation or Consent Orders without a contested court hearing."
           }
         },
         {
@@ -100,7 +101,7 @@
           "name": "What if my spouse and I agree on everything?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "If you and your spouse agree on property division and parenting arrangements, the process is much simpler. You can apply for divorce jointly, and agreed arrangements can be formalised as Consent Orders — legally binding documents approved by the court without the need for a contested hearing. A lawyer can help ensure your agreement is correctly documented and protects both parties."
+            "text": "If you and your spouse agree on property settlement and parenting arrangements, the process is much simpler. You can apply for divorce jointly, and agreed arrangements can be formalised as Consent Orders — legally binding documents approved by the court without the need for a contested hearing. A lawyer can help ensure your agreement is correctly documented and protects both parties."
           }
         },
         {
@@ -116,6 +117,7 @@
   ]
 }
 </script>
+@endverbatim
 @endsection
 
 @section('content')
@@ -127,8 +129,6 @@
     --light-blue: #E2E8F0; /* Light Blue-Gray - Clean & Fresh */
     --warm-coral: #1E40AF; /* Medium Dark Blue - Warm & Inviting */
     --white: #FFFFFF;
-    --gradient-primary: linear-gradient(135deg, #0F172A 0%, #0F172A 50%, #1E40AF 100%); /* Dark Navy to Blue Gradient */
-    --gradient-secondary: linear-gradient(135deg, #0F172A 0%, #1E40AF 50%, #1E3A8A 100%); /* Dark Navy Blue Gradient */
 }
 
 /* Typography System - Exact from PDF */
@@ -183,6 +183,16 @@ body {
     overflow-y: visible;
 }
 
+.cover-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('/images/divorce_landing_page/geralt-silhouette-10214011(1).webp') center/cover no-repeat;
+    opacity: 0.07;
+    z-index: 0;
+    pointer-events: none;
+}
+
 .cover-content {
     display: flex;
     flex-direction: column;
@@ -228,24 +238,21 @@ body {
     display: inline-block;
     background: var(--primary-teal);
     color: var(--white);
-    padding: 18px 40px;
-    border-radius: 50px;
+    padding: 16px 28px;
+    border-radius: 4px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.3);
+    transition: background 0.2s ease;
+    box-shadow: none;
     margin-top: 20px;
-    animation: fadeInUp 1.4s ease-out;
 }
 
 .cover-cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4);
+    background: #1e293b;
     color: var(--white);
     text-decoration: none;
-    background: var(--accent-teal);
 }
 
 .cover-image {
@@ -253,39 +260,13 @@ body {
     min-height: 100vh;
     height: auto;
     position: relative;
-    background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 50%, var(--light-blue) 100%);
+    background: #0F172A;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 40px 20px;
-}
-
-.cover-image::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 60%),
-        radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 60%),
-        radial-gradient(circle at 50% 50%, rgba(30, 64, 175, 0.1) 0%, transparent 70%);
-    opacity: 1;
-    animation: pulse 4s ease-in-out infinite;
-}
-
-.cover-image::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-    animation: rotate 20s linear infinite;
 }
 
 .cover-visual-content {
@@ -450,26 +431,19 @@ body {
 
 /* Limited Time Offer Banner */
 .limited-time-banner {
-    background: var(--gradient-primary);
+    background: #0F172A;
     color: var(--white);
-    padding: 18px 0;
+    padding: 14px 0;
     text-align: center;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.4);
-    animation: slideDown 0.5s ease-out;
-    border-bottom: 3px solid rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
+    border-bottom: 1px solid #1e293b;
     display: block;
 }
 
 .limited-time-banner:hover {
-    background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 50%, #0F172A 100%);
-    box-shadow: 0 6px 30px rgba(15, 23, 42, 0.6);
-    transform: translateY(-2px);
+    background: #0F172A;
     color: var(--white) !important;
 }
 
@@ -553,33 +527,26 @@ body {
 /* Permanent Floating CTA Button */
 .floating-cta-button {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 24px;
+    right: 24px;
     z-index: 999;
-    background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%);
+    background: #0F172A;
     color: var(--white);
-    padding: 22px 40px;
-    border-radius: 50px;
+    padding: 14px 20px;
+    border-radius: 4px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
     font-weight: 700;
-    font-size: 1.3rem;
+    font-size: 0.95rem;
     text-decoration: none;
-    box-shadow: 0 12px 45px rgba(15, 23, 42, 0.5);
+    border: 1px solid #334155;
     display: flex;
     align-items: center;
-    gap: 15px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 3px solid rgba(255, 255, 255, 0.4);
-    animation: floatButton 3s ease-in-out infinite;
-    backdrop-filter: blur(10px);
 }
 
 .floating-cta-button:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 50px rgba(15, 23, 42, 0.5);
+    background: #1e293b;
     color: var(--white);
     text-decoration: none;
-    background: linear-gradient(135deg, var(--accent-teal) 0%, var(--primary-teal) 100%);
 }
 
 .floating-cta-button:active {
@@ -655,9 +622,8 @@ body {
 }
 
 .trust-badge:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2) !important;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.25) 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
 }
 
 .form-input-enhanced::placeholder {
@@ -742,768 +708,6 @@ body {
     position: relative;
 }
 
-.section.about-section {
-    background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 50%, var(--light-blue) 100%);
-    position: relative;
-    overflow: hidden;
-}
-
-.section.about-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 10% 20%, rgba(15, 23, 42, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 90% 80%, rgba(30, 64, 175, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: 80px;
-    position: relative;
-    z-index: 1;
-}
-
-.section-title {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-    font-weight: 700;
-    font-size: 3.8rem;
-    color: var(--primary-teal);
-    margin-bottom: 25px;
-    position: relative;
-    display: inline-block;
-    animation: fadeInUp 0.8s ease-out;
-}
-
-.section-title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary-teal), var(--accent-teal), var(--warm-coral));
-    border-radius: 2px;
-}
-
-.section-subtitle {
-    font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
-    font-size: 1.6rem;
-    color: var(--accent-teal);
-    margin: 0;
-    font-weight: 500;
-    animation: fadeInUp 1s ease-out;
-}
-
-/* Card Styles - Enhanced */
-.info-card {
-    background: linear-gradient(135deg, var(--white) 0%, var(--light-blue) 100%);
-    border-radius: 20px;
-    padding: 45px 35px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 2px solid transparent;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.08);
-}
-
-.info-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, var(--primary-teal), var(--accent-teal), var(--warm-coral));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-}
-
-.info-card:hover::before {
-    transform: scaleX(1);
-}
-
-.info-card::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(15, 23, 42, 0.1) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.info-card:hover::after {
-    opacity: 1;
-}
-
-.info-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
-    border-color: var(--accent-teal);
-    background: linear-gradient(135deg, var(--white) 0%, rgba(237, 246, 249, 0.8) 100%);
-}
-
-.card-icon {
-    width: 90px;
-    height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    margin: 0 auto 20px;
-    background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%);
-    border-radius: 50%;
-    color: var(--white);
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
-    transition: all 0.4s ease;
-    position: relative;
-    z-index: 1;
-}
-
-.info-card:hover .card-icon {
-    transform: scale(1.1) rotate(5deg);
-    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.4);
-}
-
-.card-icon.heart-icon {
-    background: linear-gradient(135deg, var(--warm-coral) 0%, #ffb3a0 100%);
-}
-
-.card-icon.trophy-icon {
-    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-    color: var(--primary-teal);
-}
-
-.card-icon.shield-icon {
-    background: linear-gradient(135deg, var(--accent-teal) 0%, var(--primary-teal) 100%);
-}
-
-.card-header {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-    font-weight: 700;
-    font-size: 1.7rem;
-    color: var(--primary-teal);
-    text-align: center;
-    margin: 0;
-    position: relative;
-    z-index: 1;
-    transition: color 0.3s ease;
-}
-
-.info-card:hover .card-header {
-    color: var(--primary-teal);
-}
-
-.card-body {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: var(--primary-teal);
-    text-align: center;
-    margin: 0;
-    position: relative;
-    z-index: 1;
-    opacity: 0.9;
-    transition: opacity 0.3s ease;
-}
-
-.info-card:hover .card-body {
-    opacity: 1;
-}
-
-/* White text on dark blue backgrounds */
-.info-card[style*="background: var(--warm-coral)"],
-.info-card[style*="background: var(--primary-teal)"],
-.info-card[style*="background: linear-gradient"][style*="#0F172A"],
-.info-card[style*="background: linear-gradient"][style*="var(--primary-teal)"] {
-    color: var(--white);
-}
-
-.info-card[style*="background: var(--warm-coral)"] .card-header,
-.info-card[style*="background: var(--primary-teal)"] .card-header,
-.info-card[style*="background: linear-gradient"][style*="#0F172A"] .card-header,
-.info-card[style*="background: linear-gradient"][style*="var(--primary-teal)"] .card-header {
-    color: var(--white);
-}
-
-.info-card[style*="background: var(--warm-coral)"] .card-body,
-.info-card[style*="background: var(--primary-teal)"] .card-body,
-.info-card[style*="background: linear-gradient"][style*="#0F172A"] .card-body,
-.info-card[style*="background: linear-gradient"][style*="var(--primary-teal)"] .card-body {
-    color: rgba(255, 255, 255, 0.95);
-}
-
-.info-card[style*="background: var(--warm-coral)"] .card-icon,
-.info-card[style*="background: var(--primary-teal)"] .card-icon,
-.info-card[style*="background: linear-gradient"][style*="#0F172A"] .card-icon,
-.info-card[style*="background: linear-gradient"][style*="var(--primary-teal)"] .card-icon {
-    filter: brightness(0) invert(1);
-}
-
-/* Grid Layouts - Enhanced */
-.grid-2x2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
-    position: relative;
-    z-index: 1;
-}
-
-@media (max-width: 768px) {
-    .grid-2x2 {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-    
-    .requirement-card {
-        padding: 35px 25px;
-    }
-    
-    .requirement-card .card-icon {
-        width: 70px !important;
-        height: 70px !important;
-        font-size: 2rem !important;
-    }
-    
-    .req-number {
-        font-size: 3.5rem;
-        top: 15px;
-        right: 20px;
-    }
-    
-    .req-title {
-        font-size: 1.4rem;
-    }
-    
-    .req-description {
-        font-size: 1rem;
-    }
-}
-
-.grid-3x2 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-}
-
-.grid-4-columns {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-}
-
-/* Requirement Cards - Enhanced Attractive Design */
-.requirement-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(237, 246, 249, 0.9) 100%);
-    border-radius: 20px;
-    padding: 40px 35px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 2px solid rgba(15, 23, 42, 0.2);
-    animation: fadeInUp 0.8s ease-out backwards;
-}
-
-.requirement-card:nth-child(1) { animation-delay: 0.1s; }
-.requirement-card:nth-child(2) { animation-delay: 0.2s; }
-.requirement-card:nth-child(3) { animation-delay: 0.3s; }
-.requirement-card:nth-child(4) { animation-delay: 0.4s; }
-
-.requirement-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, var(--primary-teal) 0%, var(--accent-teal) 50%, var(--primary-teal) 100%);
-    background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
-    border-radius: 20px 20px 0 0;
-    z-index: 1;
-}
-
-.requirement-card[style*="border-top-color"]::before {
-    background: linear-gradient(90deg, 
-        var(--primary-teal) 0%, 
-        var(--accent-teal) 25%,
-        var(--primary-teal) 50%,
-        var(--accent-teal) 75%,
-        var(--primary-teal) 100%);
-}
-
-.requirement-card::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(15, 23, 42, 0.1) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.requirement-card:hover {
-    transform: translateY(-12px) scale(1.03);
-    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.3), 0 0 0 1px rgba(15, 23, 42, 0.2);
-    border-color: var(--accent-teal);
-    border-width: 3px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(237, 246, 249, 0.98) 100%);
-}
-
-.requirement-card:hover .req-note {
-    transform: translateX(5px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
-}
-
-.requirement-card:hover .panel-list li {
-    transform: translateX(5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-}
-
-.requirement-card:hover::after {
-    opacity: 1;
-}
-
-.requirement-card .card-icon {
-    font-size: 2.5rem;
-    margin-bottom: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
-    animation: floatIcon 3s ease-in-out infinite;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    z-index: 2;
-}
-
-.requirement-card:hover .card-icon {
-    transform: scale(1.2) rotate(8deg) translateY(-5px);
-    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25));
-}
-
-/* Icon container styling */
-.requirement-card .card-icon[style*="background"] {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.requirement-card:hover .card-icon[style*="background"] {
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2) !important;
-    transform: scale(1.15) rotate(8deg) translateY(-5px) !important;
-}
-
-.req-number {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-    font-weight: 800;
-    font-size: 4.5rem;
-    color: rgba(15, 23, 42, 0.08);
-    line-height: 1;
-    z-index: 0;
-    transition: all 0.3s ease;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.requirement-card:hover .req-number {
-    color: rgba(15, 23, 42, 0.12);
-    transform: scale(1.1);
-}
-
-.req-title {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: var(--primary-teal);
-    margin-bottom: 18px;
-    position: relative;
-    z-index: 1;
-    transition: color 0.3s ease;
-    line-height: 1.3;
-}
-
-.requirement-card:hover .req-title {
-    color: var(--accent-teal);
-}
-
-.req-description {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: var(--primary-teal);
-    margin-bottom: 12px;
-    position: relative;
-    z-index: 1;
-    font-weight: 500;
-}
-
-.req-note {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;
-    font-size: 0.9rem;
-    font-style: italic;
-    color: var(--primary-teal);
-    opacity: 0.8;
-}
-
-/* Process Flow Cards */
-.process-card {
-    background: var(--light-blue);
-    border-radius: 12px;
-    padding: 30px;
-    text-align: center;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-.process-number {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-    font-weight: 700;
-    font-size: 3rem;
-    color: var(--primary-teal);
-}
-
-.process-title {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: var(--primary-teal);
-}
-
-.process-description {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--primary-teal);
-}
-
-.process-flow {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.process-flow-enhanced {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    position: relative;
-}
-
-.process-card-enhanced {
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 40px 30px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 2px solid #f1f5f9;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-}
-
-.process-card-enhanced:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-    border-color: rgba(15, 23, 42, 0.2);
-}
-
-.process-arrow {
-    font-size: 2rem;
-    color: var(--accent-teal);
-    flex-shrink: 0;
-}
-
-/* Highlight Boxes - Enhanced */
-.highlight-box {
-    background: linear-gradient(135deg, var(--warm-coral) 0%, #ffb3a0 100%);
-    border-radius: 20px;
-    padding: 45px 35px;
-    margin: 20px 0;
-    box-shadow: 0 15px 45px rgba(30, 64, 175, 0.5);
-    border: 3px solid rgba(255, 255, 255, 0.5);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s ease;
-}
-
-.highlight-box::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-    animation: rotate 15s linear infinite;
-}
-
-.highlight-box:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 60px rgba(30, 64, 175, 0.6);
-    border-color: rgba(255, 255, 255, 0.8);
-}
-
-.highlight-box-content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-}
-
-.highlight-icon-wrapper {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, var(--white) 0%, rgba(255, 255, 255, 0.9) 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 25px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    animation: pulse-icon 2s ease-in-out infinite;
-    border: 3px solid rgba(255, 255, 255, 0.8);
-}
-
-.highlight-box:hover .highlight-icon-wrapper {
-    animation: none;
-    transform: scale(1.1) rotate(5deg);
-}
-
-.highlight-icon {
-    font-size: 2.5rem;
-    color: var(--primary-teal);
-}
-
-.highlight-title {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-    font-weight: 700;
-    font-size: 1.8rem;
-    color: var(--primary-teal);
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
-}
-
-.highlight-text {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;
-    font-size: 1.2rem;
-    line-height: 1.8;
-    color: var(--primary-teal);
-    margin-bottom: 15px;
-    font-weight: 500;
-}
-
-.highlight-text.emphasis {
-    font-weight: 700;
-    font-size: 1.4rem;
-    margin: 20px 0;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.8);
-}
-
-.highlight-subtext {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--primary-teal);
-    opacity: 0.9;
-    font-style: italic;
-}
-
-/* Explanation Panel - Enhanced */
-.explanation-panel {
-    background: linear-gradient(135deg, var(--white) 0%, var(--light-blue) 100%);
-    border-radius: 20px;
-    padding: 50px;
-    box-shadow: 0 10px 40px rgba(15, 23, 42, 0.15);
-    border: 2px solid rgba(15, 23, 42, 0.2);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s ease;
-}
-
-.explanation-panel::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, var(--primary-teal), var(--accent-teal));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-}
-
-.explanation-panel:hover::before {
-    transform: scaleX(1);
-}
-
-.explanation-panel:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 50px rgba(15, 23, 42, 0.2);
-    border-color: var(--accent-teal);
-}
-
-.panel-header {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-    font-weight: 700;
-    font-size: 2rem;
-    color: var(--primary-teal);
-    margin-bottom: 25px;
-    position: relative;
-    padding-bottom: 15px;
-}
-
-.panel-header::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary-teal), var(--accent-teal));
-    border-radius: 2px;
-}
-
-.panel-text {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;
-    font-size: 1.15rem;
-    line-height: 1.9;
-    color: var(--primary-teal);
-    margin-bottom: 20px;
-}
-
-.panel-list {
-    list-style: none;
-    padding-left: 0;
-    margin: 25px 0;
-}
-
-.panel-list li {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;
-    font-size: 1.15rem;
-    line-height: 2;
-    color: var(--primary-teal);
-    padding-left: 40px;
-    position: relative;
-    margin-bottom: 15px;
-    transition: all 0.3s ease;
-}
-
-.panel-list li:hover {
-    padding-left: 45px;
-    color: var(--accent-teal);
-}
-
-.panel-list li::before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: var(--white);
-    font-weight: bold;
-    font-size: 1.2rem;
-    width: 28px;
-    height: 28px;
-    background: linear-gradient(135deg, var(--primary-teal), var(--accent-teal));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.3);
-    transition: all 0.3s ease;
-}
-
-.panel-list li:hover::before {
-    transform: scale(1.15) rotate(5deg);
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.4);
-}
-
-/* Testimonial Cards */
-.testimonial-card {
-    background: var(--light-blue);
-    border-radius: 12px;
-    padding: 35px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    position: relative;
-}
-
-.testimonial-quote {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;
-    font-size: 1.2rem;
-    font-style: italic;
-    line-height: 1.7;
-    color: var(--primary-teal);
-    flex-grow: 1;
-}
-
-.testimonial-author {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--primary-teal);
-    margin-top: auto;
-}
-
-/* Service Summary Cards */
-.service-card {
-    background: var(--light-blue);
-    border-radius: 12px;
-    padding: 25px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.service-name {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--primary-teal);
-}
-
-.service-summary {
-    font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--primary-teal);
-}
-
-/* Contact Footer - Enhanced for Visibility */
-.contact-footer {
-    text-align: center;
-    padding: 50px 40px;
-    margin-top: 80px;
-    background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%);
-    border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.3);
-    position: relative;
-    overflow: hidden;
-}
 
 .contact-footer::before {
     content: '';
@@ -1798,6 +1002,53 @@ body {
     color: var(--primary-teal);
 }
 
+.content-photo-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 40px;
+    align-items: stretch;
+}
+
+.content-photo-grid--reverse {
+    grid-template-columns: 300px 1fr;
+}
+
+.section-photo {
+    margin: 0;
+    align-self: stretch;
+    display: flex;
+    min-height: 100%;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.landing-block--muted .section-photo {
+    background: #ffffff;
+}
+
+.section-photo img {
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.section-photo--court {
+    align-self: start;
+}
+
+.section-photo--court img {
+    height: 240px;
+    min-height: 0;
+    object-position: right center;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .cover-title {
@@ -2065,183 +1316,6 @@ body {
     
     .section-subtitle {
         font-size: 1.3rem;
-    }
-    
-    .info-card {
-        padding: 35px 25px;
-    }
-    
-    .card-icon {
-        width: 75px;
-        height: 75px;
-        font-size: 2.5rem;
-    }
-    
-    .card-header {
-        font-size: 1.5rem;
-    }
-    
-    .card-body {
-        font-size: 1.05rem;
-    }
-    
-    .section.about-section {
-        padding: 70px 30px;
-    }
-    
-    .grid-2x2,
-    .grid-3x2,
-    .grid-4-columns {
-        grid-template-columns: 1fr;
-    }
-    
-    /* Understanding Divorce Section Mobile */
-    section[style*="background: linear-gradient"] > div[style*="grid-template-columns: 2fr 1fr"] {
-        grid-template-columns: 1fr !important;
-        gap: 30px !important;
-    }
-    
-    .process-flow {
-        flex-direction: column;
-    }
-    
-    .process-flow-enhanced {
-        grid-template-columns: 1fr !important;
-        gap: 30px !important;
-    }
-    
-    .process-card-enhanced {
-        padding: 35px 25px !important;
-    }
-    
-    /* Why Choose Section Responsive */
-    section > div[style*="grid-template-columns: repeat(3, 1fr)"] {
-        grid-template-columns: 1fr !important;
-        gap: 25px !important;
-    }
-    
-    /* Property Settlement Responsive */
-    section > div[style*="grid-template-columns: 3fr 2fr"] {
-        grid-template-columns: 1fr !important;
-        gap: 25px !important;
-    }
-    
-    /* Property Settlement Section Mobile */
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"] {
-        padding: 30px 20px !important;
-        margin-bottom: 20px !important;
-    }
-    
-    /* Property Settlement Panel Header Mobile */
-    section > div[style*="grid-template-columns: 3fr 2fr"] h3.panel-header {
-        font-size: 1.5rem !important;
-        margin-bottom: 20px !important;
-    }
-    
-    /* Property Settlement Icon Mobile */
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"] > div[style*="display: flex"][style*="align-items: center"] > div[style*="width: 70px"] {
-        width: 50px !important;
-        height: 50px !important;
-    }
-    
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"] > div[style*="display: flex"][style*="align-items: center"] > div[style*="width: 70px"] span {
-        font-size: 1.6rem !important;
-    }
-    
-    /* What Can Be Divided Grid Mobile - Target all possible combinations */
-    section > div[style*="grid-template-columns: 1fr 1fr"][style*="gap: 12px"],
-    div[style*="display: grid"][style*="grid-template-columns: 1fr 1fr"][style*="gap: 12px"],
-    div[style*="grid-template-columns: 1fr 1fr"][style*="margin-bottom: 30px"],
-    div[style*="display: grid"][style*="grid-template-columns: 1fr 1fr"][style*="margin-bottom: 30px"],
-    div[style*="grid-template-columns: 1fr 1fr"] {
-        grid-template-columns: 1fr !important;
-        display: grid !important;
-        gap: 10px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-    }
-    
-    /* Force single column for all 2-column grids in Property Settlement section */
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div > div[style*="display: grid"][style*="grid-template-columns: 1fr 1fr"],
-    section > div[style*="grid-template-columns: 3fr 2fr"] div[style*="grid-template-columns: 1fr 1fr"],
-    section > div[style*="grid-template-columns: 3fr 2fr"] div[style*="display: grid"][style*="gap: 12px"] {
-        grid-template-columns: 1fr !important;
-        display: grid !important;
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-    
-    /* Ensure grid items don't overflow */
-    section > div[style*="grid-template-columns: 3fr 2fr"] div[style*="grid-template-columns: 1fr 1fr"] > div,
-    section > div[style*="grid-template-columns: 3fr 2fr"] div[style*="display: grid"] > div {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        min-width: 0 !important;
-        flex-shrink: 1 !important;
-    }
-    
-    /* Ensure text doesn't overflow in grid items */
-    section > div[style*="grid-template-columns: 3fr 2fr"] div[style*="display: grid"] > div span {
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        max-width: 100% !important;
-    }
-    
-    /* Property Settlement Items Mobile */
-    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] {
-        padding: 12px 14px !important;
-        gap: 10px !important;
-    }
-    
-    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] span[style*="color: #334155"] {
-        font-size: 0.85rem !important;
-    }
-    
-    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] > div[style*="width: 32px"] {
-        width: 28px !important;
-        height: 28px !important;
-    }
-    
-    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] > div[style*="width: 32px"] span {
-        font-size: 0.9rem !important;
-    }
-    
-    /* Property Settlement Text Mobile */
-    section > div[style*="grid-template-columns: 3fr 2fr"] p.panel-text {
-        font-size: 1rem !important;
-        margin-bottom: 20px !important;
-    }
-    
-    /* Property Settlement Warning Box Mobile */
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 20px 25px"] {
-        padding: 18px 20px !important;
-        margin-top: 20px !important;
-    }
-    
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 20px 25px"] p {
-        font-size: 0.9rem !important;
-    }
-    
-    /* Right Panel Mobile */
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 50px 40px"][style*="border: 2px solid #fed7aa"] {
-        padding: 30px 20px !important;
-    }
-    
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 50px 40px"][style*="border: 2px solid #fed7aa"] h3 {
-        font-size: 1.4rem !important;
-        margin-bottom: 25px !important;
-    }
-    
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 50px 40px"][style*="border: 2px solid #fed7aa"] > div[style*="width: 90px"] {
-        width: 70px !important;
-        height: 70px !important;
-        margin-bottom: 20px !important;
-    }
-    
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 50px 40px"][style*="border: 2px solid #fed7aa"] > div[style*="width: 90px"] span {
-        font-size: 2.2rem !important;
     }
     
     .feature-panel {
@@ -2545,6 +1619,42 @@ body {
     }
 }
 
+@media (max-width: 768px) {
+    .team-intro-grid {
+        grid-template-columns: 1fr !important;
+        gap: 28px !important;
+    }
+
+    .reviews-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .content-photo-grid {
+        grid-template-columns: 1fr !important;
+        gap: 28px !important;
+    }
+
+    .content-photo-grid--reverse {
+        grid-template-columns: 1fr !important;
+    }
+
+    .section-photo {
+        max-height: 280px;
+    }
+
+    .section-photo img {
+        min-height: 220px;
+    }
+
+    .req-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .landing-block {
+        padding: 50px 24px !important;
+    }
+}
+
 @media (max-width: 480px) {
     /* Ensure all 2-column grids stay single column on extra small mobile */
     div[style*="grid-template-columns: 1fr 1fr"] {
@@ -2567,27 +1677,6 @@ body {
     
     .section {
         padding: 40px 20px;
-    }
-    
-    /* Property Settlement Section Extra Small Mobile */
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"] {
-        padding: 25px 15px !important;
-    }
-    
-    section > div[style*="grid-template-columns: 3fr 2fr"] h3.panel-header {
-        font-size: 1.3rem !important;
-    }
-    
-    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] {
-        padding: 10px 12px !important;
-    }
-    
-    section > div[style*="grid-template-columns: 1fr 1fr"] > div[style*="background: #ffffff"] span[style*="color: #334155"] {
-        font-size: 0.8rem !important;
-    }
-    
-    section > div[style*="grid-template-columns: 3fr 2fr"] > div[style*="background: linear-gradient"][style*="padding: 50px 40px"][style*="border: 2px solid #fed7aa"] {
-        padding: 25px 15px !important;
     }
     
     /* Contact Panel Extra Small Mobile */
@@ -2775,9 +1864,9 @@ body {
 <!-- Trust Bar -->
 <div class="limited-time-banner" style="background: #0F172A; cursor: default;">
     <div class="limited-time-banner-content" style="gap: 30px;">
-        <span class="limited-time-text" style="font-size: 0.9rem; letter-spacing: 0.5px;">&#128205; Level 8/278 Collins St, Melbourne VIC 3000</span>
+        <span class="limited-time-text" style="font-size: 0.9rem;">Level 8/278 Collins St, Melbourne VIC 3000</span>
         <span class="limited-time-highlight" style="background: transparent; color: rgba(255,255,255,0.5);">|</span>
-        <a href="tel:1300226725" class="limited-time-text" style="font-size: 0.9rem; text-decoration: none; color: inherit;">&#128222; 1300 BANSAL (1300 226 725)</a>
+        <a href="tel:1300226725" class="limited-time-text" style="font-size: 0.9rem; text-decoration: none; color: inherit;">1300 226 725</a>
         <span class="limited-time-highlight" style="background: transparent; color: rgba(255,255,255,0.5);">|</span>
         <span class="limited-time-text" style="font-size: 0.9rem;">Mon &ndash; Fri &nbsp;9:30 AM &ndash; 6:00 PM</span>
         <span class="limited-time-highlight" style="background: transparent; color: rgba(255,255,255,0.5);">|</span>
@@ -2787,8 +1876,7 @@ body {
 
 <!-- Permanent Floating CTA Button -->
 <a href="tel:1300226725" class="floating-cta-button" title="Call 1300 BANSAL for Free Consultation">
-    <span class="floating-cta-icon">📞</span>
-    <span class="floating-cta-text">Call: 1300 BANSAL</span>
+    <span class="floating-cta-text">1300 226 725</span>
 </a>
 
 <!-- Slide 1: Cover Section -->
@@ -2803,9 +1891,9 @@ body {
                  onerror="this.onerror=null; this.src='{{ asset('images/logo/Bansal_Lawyers_origional.png') }}'; this.onerror=function(){this.style.display='none';}">
         </div>
         <h1 class="cover-title">Divorce Lawyers in Melbourne CBD</h1>
-        <h2 class="cover-subtitle">Clear, Honest Advice When You Need It Most</h2>
-        <p class="cover-tagline" style="font-style: normal; font-size: 1.15rem; line-height: 1.8; opacity: 1; max-width: 520px;">
-            Whether you're separating with children, dividing property, or working things out amicably — our Melbourne team handles the legal complexity so you can focus on moving forward. Call us or fill in the form and we'll respond same day.
+        <p class="cover-subtitle" style="font-size: 1.35rem; font-weight: 600; margin-bottom: 16px;">Separation, property settlement, and parenting orders</p>
+        <p class="cover-tagline" style="font-style: normal; font-size: 1.05rem; line-height: 1.75; opacity: 1; max-width: 520px; color: #475569;">
+            Most people who contact us aren't sure where to start — that's normal. Tell us what's happening (with or without children, amicable or not) and we'll explain your options on a first call. Initial consultation is free.
         </p>
         <div style="margin: 30px 0; display: flex; align-items: center; justify-content: flex-start; gap: 20px; flex-wrap: wrap;">
             <a href="#consultation-form" class="cover-cta-button" style="flex: 0 0 auto;">
@@ -2825,22 +1913,16 @@ body {
                 Book your free consultation
             </h3>
             
-            <div style="background: rgba(255, 255, 255, 0.98); border-radius: 25px; padding: 50px 45px 120px 45px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); position: relative; z-index: 2; margin-bottom: 50px;">
+            <div style="background: #ffffff; border-radius: 4px; padding: 36px 32px 80px; border: 1px solid rgba(255,255,255,0.15); position: relative; z-index: 2; margin-bottom: 30px;">
                 <!-- Success/Error Messages -->
                 <div id="cover-consultation-form-messages" style="display: none; margin-bottom: 20px;">
-                    <div id="cover-consultation-form-success" style="display: none; background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); color: #155724; padding: 15px 20px; border-radius: 12px; border-left: 5px solid #28a745; margin-bottom: 15px; display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 1.5rem;">✓</span>
-                        <div>
-                            <strong style="font-size: 1rem; display: block; margin-bottom: 5px;">Success!</strong>
-                            <span id="cover-consultation-form-success-text" style="font-size: 0.9rem;"></span>
-                        </div>
+                    <div id="cover-consultation-form-success" style="display: none; background: #d4edda; color: #155724; padding: 15px 20px; border-radius: 4px; border-left: 4px solid #28a745; margin-bottom: 15px;">
+                        <strong style="display: block; margin-bottom: 4px;">Thank you</strong>
+                        <span id="cover-consultation-form-success-text" style="font-size: 0.9rem;"></span>
                     </div>
-                    <div id="cover-consultation-form-error" style="display: none; background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%); color: #721c24; padding: 15px 20px; border-radius: 12px; border-left: 5px solid #dc3545; margin-bottom: 15px; display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 1.5rem;">✗</span>
-                        <div>
-                            <strong style="font-size: 1rem; display: block; margin-bottom: 5px;">Error:</strong>
-                            <span id="cover-consultation-form-error-text" style="font-size: 0.9rem;"></span>
-                        </div>
+                    <div id="cover-consultation-form-error" style="display: none; background: #f8d7da; color: #721c24; padding: 15px 20px; border-radius: 4px; border-left: 4px solid #dc3545; margin-bottom: 15px;">
+                        <strong style="display: block; margin-bottom: 4px;">Something went wrong</strong>
+                        <span id="cover-consultation-form-error-text" style="font-size: 0.9rem;"></span>
                     </div>
                 </div>
                 
@@ -2855,8 +1937,8 @@ body {
                     <input type="hidden" name="subject" value="Free Consultation Request - Divorce & Family Law">
                     
                     <div style="margin-bottom: 25px;">
-                        <label for="cover-consultation-name" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
-                            <span style="color: #1E40AF; font-size: 1.3rem;">👤</span> Full Name *
+                        <label for="cover-consultation-name" style="display: block; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
+                            Full name *
                         </label>
                         <input type="text" 
                                id="cover-consultation-name" 
@@ -2871,8 +1953,8 @@ body {
                     </div>
                     
                     <div style="margin-bottom: 25px;">
-                        <label for="cover-consultation-phone" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
-                            <span style="color: #1E40AF; font-size: 1.3rem;">📞</span> Phone Number *
+                        <label for="cover-consultation-phone" style="display: block; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
+                            Phone number *
                         </label>
                         <div style="display: flex; align-items: center; width: 100%; border: 2px solid #e8e8e8; border-radius: 12px; background: #fafafa; transition: all 0.3s ease;" 
                              id="cover-consultation-phone-wrapper"
@@ -2896,8 +1978,8 @@ body {
                     </div>
                     
                     <div style="margin-bottom: 25px;">
-                        <label for="cover-consultation-email" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
-                            <span style="color: #1E40AF; font-size: 1.3rem;">✉️</span> Email Address *
+                        <label for="cover-consultation-email" style="display: block; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
+                            Email address *
                         </label>
                         <input type="email" 
                                id="cover-consultation-email" 
@@ -2912,8 +1994,8 @@ body {
                     </div>
                     
                     <div style="margin-bottom: 25px;">
-                        <label for="cover-consultation-message" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
-                            <span style="color: #1E40AF; font-size: 1.3rem;">💬</span> Tell Us About Your Situation *
+                        <label for="cover-consultation-message" style="display: block; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; color: #0F172A; font-size: 1.05rem;">
+                            Briefly describe your situation *
                         </label>
                         <textarea id="cover-consultation-message" 
                                   name="message" 
@@ -2934,27 +2016,14 @@ body {
                     
                     <button type="submit" 
                             id="cover-consultation-form-submit"
-                            style="width: 100%; padding: 22px 35px; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); color: white; border: none; border-radius: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 800; font-size: 1.3rem; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4); display: flex !important; align-items: center; justify-content: center; gap: 15px; text-transform: uppercase; letter-spacing: 0.5px; position: relative; z-index: 10; margin-top: 15px; margin-bottom: 30px;"
-                            onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 18px 45px rgba(15, 23, 42, 0.5)'"
-                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 12px 35px rgba(15, 23, 42, 0.4)'">
-                        <span id="cover-consultation-btn-text" style="display: flex; align-items: center; gap: 12px;">
-                            <span>Send my enquiry</span>
-                            <span style="font-size: 1.2rem;">&rarr;</span>
-                        </span>
-                        <span id="cover-consultation-btn-loading" style="display: none;">
-                            <span style="display: inline-block; animation: spin 1s linear infinite; font-size: 1.3rem; margin-right: 12px;">⏳</span> 
-                            <span>Sending...</span>
-                        </span>
+                            style="width: 100%; padding: 18px 28px; background: #0F172A; color: white; border: none; border-radius: 4px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 1.05rem; cursor: pointer; margin-top: 15px; margin-bottom: 30px;">
+                        <span id="cover-consultation-btn-text">Send my enquiry &rarr;</span>
+                        <span id="cover-consultation-btn-loading" style="display: none;">Sending&hellip;</span>
                     </button>
                     
-                    <!-- GUARANTEE MESSAGE -->
-                    <div style="text-align: center; margin-top: 25px;">
-                        <p style="margin: 0; color: #64748b; font-size: 0.95rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; line-height: 1.6;">
-                            <span style="color: #0F172A; font-weight: 700;">✓ 100% Free</span> • 
-                            <span style="color: #0F172A; font-weight: 700;">✓ No Obligation</span> • 
-                            <span style="color: #0F172A; font-weight: 700;">✓ Confidential</span>
-                        </p>
-                    </div>
+                    <p style="margin: 0; color: #64748b; font-size: 0.9rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; line-height: 1.6; text-align: center;">
+                        Free initial consultation &nbsp;&middot;&nbsp; No obligation &nbsp;&middot;&nbsp; Confidential
+                    </p>
                 </form>
             </div>
         </div>
@@ -2962,576 +2031,229 @@ body {
 </section>
 
 
-<!-- Slide 3: Understanding Divorce in Australia -->
-<section class="section" style="background: linear-gradient(180deg, var(--light-blue) 0%, rgba(237, 246, 249, 0.5) 50%, var(--light-blue) 100%); position: relative; overflow: hidden;">
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 30%, rgba(15, 23, 42, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(30, 64, 175, 0.1) 0%, transparent 50%); pointer-events: none;"></div>
-    <div class="section-header" style="position: relative; z-index: 1;">
-        <h2 class="section-title">Understanding Divorce in Australia</h2>
-        <p class="section-subtitle">Australia's Family Law System Operates on a No-Fault Basis</p>
-    </div>
-    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px; align-items: start; position: relative; z-index: 1;">
-        <div class="explanation-panel">
-            <h3 class="panel-header">What Does No-Fault Mean?</h3>
-            <ul class="panel-list">
-                <li>The court does not require a reason for the marriage breakdown</li>
-                <li>No need to prove wrongdoing or assign blame to either party</li>
-                <li>The sole ground for divorce is the irretrievable breakdown of the marriage</li>
-                <li>This approach reduces conflict and simplifies the legal process</li>
+<!-- Divorce basics -->
+<section class="landing-block" style="background: #ffffff; padding: 70px 60px; border-top: 1px solid #e2e8f0;">
+    <div class="content-photo-grid">
+        <div>
+            <h2 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.75rem; font-weight: 700; color: #0F172A; margin: 0 0 16px; line-height: 1.3;">How divorce works in Australia</h2>
+            <p style="color: #475569; font-size: 1rem; line-height: 1.75; margin: 0 0 20px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+                Australia uses a no-fault system. You do not need to prove who was at fault — the only ground is that the marriage has broken down irretrievably. That usually means you have been separated for at least 12 months and one day before applying.
+            </p>
+            <ul style="margin: 0 0 22px; padding-left: 1.25rem; color: #334155; line-height: 1.85; font-size: 0.98rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+                <li>Divorce ends the marriage — it does not divide property or resolve parenting arrangements</li>
+                <li>Those are separate processes, each with their own deadlines</li>
+                <li>Many matters resolve by agreement without a contested hearing</li>
             </ul>
-            <p class="panel-text" style="font-style: italic; margin-top: 25px; padding: 20px; background: rgba(15, 23, 42, 0.1); border-radius: 12px; border-left: 4px solid var(--accent-teal);">
-                Divorce legally ends the marriage, but property division and parenting arrangements must be addressed separately
+            <p style="margin: 0; padding: 16px 18px; background: #f1f5f9; border-left: 3px solid #0F172A; color: #334155; font-size: 0.95rem; line-height: 1.65; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+                <strong>General information only.</strong> Your situation may differ — a short call with our team will clarify what applies to you.
             </p>
         </div>
-        <div class="highlight-box">
-            <div class="highlight-box-content">
-                <div class="highlight-icon-wrapper">
-                    <span class="highlight-icon">ℹ️</span>
-                </div>
-                <h3 class="highlight-title">Key Requirement</h3>
-                <p class="highlight-text emphasis">
-                    You must be separated for at least 12 months and 1 day
-                </p>
-                <p class="highlight-subtext">
-                    This is the primary legal requirement for divorce in Australia
-                </p>
+        <figure class="section-photo section-photo--court">
+            <img src="{{ asset('images/coart_1.webp') }}" alt="Federal Circuit and Family Court of Australia" width="300" height="240" loading="lazy">
+        </figure>
+    </div>
+</section>
+
+<!-- Legal requirements -->
+<section class="landing-block landing-block--muted" style="background: #f8fafc; padding: 70px 60px; border-top: 1px solid #e2e8f0;">
+    <div style="max-width: 1000px; margin: 0 auto;">
+        <h2 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.75rem; font-weight: 700; color: #0F172A; margin: 0 0 12px;">What you need before applying</h2>
+        <p style="color: #64748b; font-size: 1rem; margin: 0 0 32px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">The main criteria for a divorce application in Australia.</p>
+        <div class="content-photo-grid">
+        <div class="req-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div style="background: #fff; border: 1px solid #e2e8f0; padding: 24px 26px; border-radius: 4px;">
+                <p style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 0.8rem; font-weight: 700; color: #64748b; margin: 0 0 8px; letter-spacing: 0.05em;">01</p>
+                <h3 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.1rem; font-weight: 700; color: #0F172A; margin: 0 0 10px;">Separation period</h3>
+                <p style="margin: 0; color: #475569; font-size: 0.95rem; line-height: 1.65; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">At least <strong>12 months and one day</strong> of separation. Living under one roof is possible if you can show the relationship has ended.</p>
             </div>
+            <div style="background: #fff; border: 1px solid #e2e8f0; padding: 24px 26px; border-radius: 4px;">
+                <p style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 0.8rem; font-weight: 700; color: #64748b; margin: 0 0 8px; letter-spacing: 0.05em;">02</p>
+                <h3 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.1rem; font-weight: 700; color: #0F172A; margin: 0 0 10px;">Residency</h3>
+                <p style="margin: 0 0 10px; color: #475569; font-size: 0.95rem; line-height: 1.65; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">At least one party must be an Australian citizen, regard Australia as their permanent home, or have lived in Australia for at least 12 months immediately before applying.</p>
+            </div>
+            <div style="background: #fff; border: 1px solid #e2e8f0; padding: 24px 26px; border-radius: 4px;">
+                <p style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 0.8rem; font-weight: 700; color: #64748b; margin: 0 0 8px; letter-spacing: 0.05em;">03</p>
+                <h3 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.1rem; font-weight: 700; color: #0F172A; margin: 0 0 10px;">Marriage certificate</h3>
+                <p style="margin: 0; color: #475569; font-size: 0.95rem; line-height: 1.65; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">A valid certificate (original or certified copy) is filed with the application.</p>
+            </div>
+            <div style="background: #fff; border: 1px solid #e2e8f0; padding: 24px 26px; border-radius: 4px;">
+                <p style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 0.8rem; font-weight: 700; color: #64748b; margin: 0 0 8px; letter-spacing: 0.05em;">04</p>
+                <h3 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.1rem; font-weight: 700; color: #0F172A; margin: 0 0 10px;">Children under 18</h3>
+                <p style="margin: 0; color: #475569; font-size: 0.95rem; line-height: 1.65; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">If you have children under 18, the court must be satisfied that proper arrangements are in place for their care, welfare, and development. Attendance at a hearing may be required.</p>
+            </div>
+        </div>
+        <figure class="section-photo">
+            <img src="{{ asset('images/divorce_landing_page/golden-rings-divorce-concept.webp') }}"
+                 alt="Wedding rings on divorce application documents"
+                 width="300" height="400" loading="lazy">
+        </figure>
         </div>
     </div>
 </section>
 
-<!-- Slide 4: Legal Requirements for Divorce -->
-<section class="section" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, var(--light-blue) 30%, rgba(255, 255, 255, 0.5) 100%); position: relative; overflow: hidden;">
-    <!-- Decorative Background Elements -->
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: 
-        radial-gradient(circle at 10% 20%, rgba(15, 23, 42, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 90% 80%, rgba(30, 64, 175, 0.08) 0%, transparent 50%);
-        pointer-events: none;"></div>
-    
-    <div class="section-header" style="position: relative; z-index: 1;">
-        <h2 class="section-title">Legal Requirements for Divorce</h2>
-        <p class="section-subtitle" style="font-size: 1.3rem; margin-top: 15px;">Understanding the Essential Criteria for Filing a Divorce Application</p>
-    </div>
-    <div class="grid-2x2" style="position: relative; z-index: 1;">
-        <div class="requirement-card" style="background: linear-gradient(135deg, rgba(30, 58, 138, 0.08) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(237, 246, 249, 0.95) 100%); border-top-color: #1E3A8A;">
-            <div class="card-icon" style="background: linear-gradient(135deg, #1E3A8A 0%, #7c3aed 100%); width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(30, 58, 138, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.3); border: 3px solid rgba(255, 255, 255, 0.5); position: relative; z-index: 2;">
-                <span style="filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));">📅</span>
-            </div>
-            <div class="req-number">01</div>
-            <h3 class="req-title" style="color: #7c3aed;">Separation Period</h3>
-            <p class="req-description">Continuous separation for at least <strong style="color: #1E3A8A; font-weight: 700; font-size: 1.15rem;">12 months and 1 day</strong></p>
-            <p class="req-note" style="background: linear-gradient(135deg, rgba(30, 58, 138, 0.12) 0%, rgba(30, 58, 138, 0.08) 100%); padding: 14px 20px; border-radius: 12px; border-left: 4px solid #1E3A8A; margin-top: 18px; font-size: 0.95rem; font-style: italic; box-shadow: 0 4px 15px rgba(30, 58, 138, 0.15);">Separation under one roof is possible with additional evidence</p>
+<!-- Divorce process -->
+<section class="landing-block" style="background: #ffffff; padding: 70px 60px; border-top: 1px solid #e2e8f0;">
+    <div class="content-photo-grid">
+        <div>
+        <h2 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.75rem; font-weight: 700; color: #0F172A; margin: 0 0 12px;">The divorce process, step by step</h2>
+        <p style="color: #64748b; font-size: 1rem; margin: 0 0 32px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Most applications are finalised within three to four months after filing.</p>
+        <ol class="process-list" style="margin: 0; padding: 0; list-style: none; counter-reset: step;">
+            <li style="counter-increment: step; display: grid; grid-template-columns: 48px 1fr; gap: 20px; padding: 22px 0; border-bottom: 1px solid #e2e8f0;">
+                <span style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 1.25rem; color: #0F172A;">1</span>
+                <div>
+                    <h3 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.05rem; font-weight: 700; color: #0F172A; margin: 0 0 6px;">Application</h3>
+                    <p style="margin: 0; color: #475569; font-size: 0.95rem; line-height: 1.65; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">File with the Federal Circuit and Family Court — sole or joint application.</p>
+                </div>
+            </li>
+            <li style="counter-increment: step; display: grid; grid-template-columns: 48px 1fr; gap: 20px; padding: 22px 0; border-bottom: 1px solid #e2e8f0;">
+                <span style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 1.25rem; color: #0F172A;">2</span>
+                <div>
+                    <h3 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.05rem; font-weight: 700; color: #0F172A; margin: 0 0 6px;">Service</h3>
+                    <p style="margin: 0; color: #475569; font-size: 0.95rem; line-height: 1.65; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">For sole applications, papers must be formally served on the other spouse. Not required for joint applications.</p>
+                </div>
+            </li>
+            <li style="counter-increment: step; display: grid; grid-template-columns: 48px 1fr; gap: 20px; padding: 22px 0; border-bottom: 1px solid #e2e8f0;">
+                <span style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 1.25rem; color: #0F172A;">3</span>
+                <div>
+                    <h3 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.05rem; font-weight: 700; color: #0F172A; margin: 0 0 6px;">Court hearing</h3>
+                    <p style="margin: 0; color: #475569; font-size: 0.95rem; line-height: 1.65; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">The court checks legal requirements are met. May be required where children under 18 are involved.</p>
+                </div>
+            </li>
+            <li style="display: grid; grid-template-columns: 48px 1fr; gap: 20px; padding: 22px 0 0;">
+                <span style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 1.25rem; color: #0F172A;">4</span>
+                <div>
+                    <h3 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.05rem; font-weight: 700; color: #0F172A; margin: 0 0 6px;">Finalisation</h3>
+                    <p style="margin: 0; color: #475569; font-size: 0.95rem; line-height: 1.65; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">The divorce order becomes final one month and one day after the hearing. You are then legally divorced.</p>
+                </div>
+            </li>
+        </ol>
         </div>
-        <div class="requirement-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(237, 246, 249, 0.95) 100%); border-top-color: #10b981;">
-            <div class="card-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.3); border: 3px solid rgba(255, 255, 255, 0.5); position: relative; z-index: 2;">
-                <span style="filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));">🏠</span>
-            </div>
-            <div class="req-number">02</div>
-            <h3 class="req-title" style="color: #059669;">Residency Requirement</h3>
-            <p class="req-description">At least one spouse must meet <strong style="color: #10b981; font-weight: 700; font-size: 1.15rem;">ONE</strong> of these criteria:</p>
-            <ul class="panel-list" style="margin-top: 22px; position: relative; z-index: 1; list-style: none; padding-left: 0;">
-                <li style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%); padding: 12px 18px; border-radius: 10px; margin-bottom: 12px; border-left: 4px solid #10b981; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15); transition: all 0.3s ease; display: flex; align-items: center; gap: 10px;">
-                    <span style="color: #10b981; font-weight: 700; font-size: 1.1rem;">✓</span>
-                    <span>Australian citizen</span>
-                </li>
-                <li style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%); padding: 12px 18px; border-radius: 10px; margin-bottom: 12px; border-left: 4px solid #10b981; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15); transition: all 0.3s ease; display: flex; align-items: center; gap: 10px;">
-                    <span style="color: #10b981; font-weight: 700; font-size: 1.1rem;">✓</span>
-                    <span>Considers Australia their permanent home</span>
-                </li>
-                <li style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%); padding: 12px 18px; border-radius: 10px; margin-bottom: 12px; border-left: 4px solid #10b981; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15); transition: all 0.3s ease; display: flex; align-items: center; gap: 10px;">
-                    <span style="color: #10b981; font-weight: 700; font-size: 1.1rem;">✓</span>
-                    <span>Lived in Australia for 12 months before filing</span>
-                </li>
-            </ul>
-        </div>
-        <div class="requirement-card" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(237, 246, 249, 0.95) 100%); border-top-color: #06b6d4;">
-            <div class="card-icon" style="background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(6, 182, 212, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.3); border: 3px solid rgba(255, 255, 255, 0.5); position: relative; z-index: 2;">
-                <span style="filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));">📄</span>
-            </div>
-            <div class="req-number">03</div>
-            <h3 class="req-title" style="color: #0891b2;">Marriage Certificate</h3>
-            <p class="req-description">A valid marriage certificate must be provided with the divorce application</p>
-            <p class="req-note" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(6, 182, 212, 0.08) 100%); padding: 14px 20px; border-radius: 12px; border-left: 4px solid #06b6d4; margin-top: 18px; font-size: 0.95rem; font-style: italic; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.15);">Original or certified copy accepted</p>
-        </div>
-        <div class="requirement-card" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.08) 0%, rgba(255, 255, 255, 0.98) 50%, rgba(237, 246, 249, 0.95) 100%); border-top-color: #0F172A;">
-            <div class="card-icon" style="background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.3); border: 3px solid rgba(255, 255, 255, 0.5); position: relative; z-index: 2;">
-                <span style="filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));">👨‍👩‍👧‍👦</span>
-            </div>
-            <div class="req-number">04</div>
-            <h3 class="req-title" style="color: #0F172A;">Children Consideration</h3>
-            <p class="req-description">If there are children <strong style="color: #0F172A; font-weight: 700; font-size: 1.15rem;">under 18</strong>, court attendance may be required</p>
-            <p class="req-note" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.12) 0%, rgba(15, 23, 42, 0.08) 100%); padding: 14px 20px; border-radius: 12px; border-left: 4px solid #0F172A; margin-top: 18px; font-size: 0.95rem; font-style: italic; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);">The court ensures proper arrangements are in place for children's welfare</p>
-        </div>
+        <figure class="section-photo">
+            <img src="{{ asset('images/divorce_landing_page/stevepb-divorce-619195(1).webp') }}"
+                 alt="Marriage certificate and divorce application documents"
+                 width="300" height="400" loading="lazy">
+        </figure>
     </div>
 </section>
 
-<!-- Slide 5: The Divorce Process -->
-<section class="section" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafb 50%, #ffffff 100%); position: relative; overflow: hidden; padding: 120px 60px;">
-    <!-- Subtle Background Pattern -->
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: 
-        radial-gradient(circle at 20% 30%, rgba(15, 23, 42, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(15, 23, 42, 0.03) 0%, transparent 50%);
-        pointer-events: none;"></div>
-    
-    <div class="section-header" style="position: relative; z-index: 1; margin-bottom: 70px;">
-        <h2 class="section-title" style="color: var(--primary-teal); font-size: 3.5rem; margin-bottom: 15px; font-weight: 800;">The Divorce Process: Step by Step</h2>
-        <p class="section-subtitle" style="font-size: 1.5rem; color: #94A3B8; font-weight: 500;">A Structured Path from Application to Finalization</p>
-    </div>
-    
-    <div class="process-flow-enhanced" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; position: relative; z-index: 1; max-width: 1400px; margin: 0 auto;">
-        <!-- Step 1: Application -->
-        <div class="process-card-enhanced" style="background: #ffffff; border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #f1f5f9; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #0F172A 0%, #1E3A8A 100%);"></div>
-            
-            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3); position: relative;">
-                <span style="font-size: 2.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">📝</span>
-            </div>
-            
-            <h3 style="color: #0F172A; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Application</h3>
-            <p style="color: #94A3B8; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">File with Federal Circuit and Family Court of Australia (online or paper)</p>
-            <div style="background: #f8fafb; padding: 12px 16px; border-radius: 8px; border-left: 3px solid #0F172A; margin-top: 15px;">
-                <p style="font-size: 0.9rem; color: #0F172A; font-weight: 600; margin: 0; font-style: italic;">Sole or joint application</p>
-            </div>
-        </div>
-        
-        <!-- Step 2: Service -->
-        <div class="process-card-enhanced" style="background: #ffffff; border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #f1f5f9; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #1E40AF 0%, #06b6d4 100%);"></div>
-            
-            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #1E40AF 0%, #06b6d4 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 10px 30px rgba(30, 64, 175, 0.3); position: relative;">
-                <span style="font-size: 2.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">📤</span>
-            </div>
-            
-            <h3 style="color: #0F172A; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Service</h3>
-            <p style="color: #94A3B8; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">For sole applications, divorce papers must be formally served on the other spouse</p>
-            <div style="background: #f8fafb; padding: 12px 16px; border-radius: 8px; border-left: 3px solid #1E40AF; margin-top: 15px;">
-                <p style="font-size: 0.9rem; color: #1E40AF; font-weight: 600; margin: 0; font-style: italic;">Not required for joint applications</p>
-            </div>
-        </div>
-        
-        <!-- Step 3: Court Hearing -->
-        <div class="process-card-enhanced" style="background: #ffffff; border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #f1f5f9; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #1E3A8A 0%, #a855f7 100%);"></div>
-            
-            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #1E3A8A 0%, #a855f7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3); position: relative;">
-                <span style="font-size: 2.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">⚖️</span>
-            </div>
-            
-            <h3 style="color: #0F172A; font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Court Hearing</h3>
-            <p style="color: #94A3B8; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Court reviews the application to ensure all legal requirements are met</p>
-            <div style="background: #f8fafb; padding: 12px 16px; border-radius: 8px; border-left: 3px solid #1E3A8A; margin-top: 15px;">
-                <p style="font-size: 0.9rem; color: #1E3A8A; font-weight: 600; margin: 0;">May be required, especially with children under 18</p>
-            </div>
-        </div>
-        
-        <!-- Step 4: Finalization -->
-        <div class="process-card-enhanced" style="background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%); border-radius: 20px; padding: 40px 30px; text-align: center; position: relative; box-shadow: 0 8px 30px rgba(15, 23, 42, 0.15), 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #fed7aa; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #0F172A 0%, #1E40AF 100%);"></div>
-            
-            <div style="width: 90px; height: 90px; background: linear-gradient(135deg, #0F172A 0%, #1E40AF 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4); position: relative;">
-                <span style="font-size: 2.8rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">✅</span>
-            </div>
-            
-            <h3 style="color: #0F172A; font-size: 1.6rem; font-weight: 800; margin-bottom: 15px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Finalization</h3>
-            <p style="color: #94A3B8; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Divorce order becomes final one month and one day after the court hearing</p>
-            <div style="background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); padding: 14px 18px; border-radius: 10px; border: 2px solid #0F172A; margin-top: 15px; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.2);">
-                <p style="font-weight: 700; font-size: 1rem; color: #0F172A; margin: 0;">Your marriage is legally ended</p>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Connecting Lines -->
-    <div style="position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent 0%, #e2e8f0 20%, #e2e8f0 80%, transparent 100%); z-index: 0; max-width: 1400px; margin: 0 auto; transform: translateY(-50%);"></div>
-</section>
-
-<!-- Slide 6: Property Settlement -->
-<section class="section" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafb 50%, #ffffff 100%); position: relative; overflow: hidden; padding: 100px 60px;">
-    <!-- Subtle Background Pattern -->
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: 
-        radial-gradient(circle at 20% 30%, rgba(15, 23, 42, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(15, 23, 42, 0.03) 0%, transparent 50%);
-        pointer-events: none;"></div>
-    
-    <div class="section-header" style="position: relative; z-index: 1; margin-bottom: 60px;">
-        <h2 class="section-title" style="color: var(--primary-teal); font-size: 3.5rem; margin-bottom: 15px; font-weight: 800;">Property Settlement: Dividing Your Assets</h2>
-    </div>
-    
-    <div style="display: grid; grid-template-columns: 3fr 2fr; gap: 40px; position: relative; z-index: 1; max-width: 1400px; margin: 0 auto;">
-        <!-- Left Panel: What is Property Settlement -->
-        <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%); border-radius: 25px; padding: 50px 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); border: 2px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;">
-            <!-- Decorative Corner -->
-            <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.08) 0%, transparent 100%); border-radius: 50%; pointer-events: none;"></div>
-            
-            <!-- Icon Header -->
-            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 30px;">
-                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #006D77 0%, #83C5BE 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(15, 23, 42, 0.25);">
-                    <span style="font-size: 2.2rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">💰</span>
-                </div>
-                <h3 class="panel-header" style="color: var(--primary-teal); font-size: 2rem; font-weight: 800; margin: 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">What is Property Settlement?</h3>
-            </div>
-            
-            <p class="panel-text" style="color: #94A3B8; font-size: 1.1rem; line-height: 1.8; margin-bottom: 25px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
-                The process of dividing assets, liabilities, and financial resources after a relationship breakdown
+<!-- Property settlement -->
+<section class="landing-block landing-block--muted" style="background: #f8fafc; padding: 70px 60px; border-top: 1px solid #e2e8f0;">
+    <div class="content-photo-grid">
+        <div>
+            <h2 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.75rem; font-weight: 700; color: #0F172A; margin: 0 0 16px;">Property settlement is separate from divorce</h2>
+            <p style="color: #475569; font-size: 1rem; line-height: 1.75; margin: 0 0 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+                Ending the marriage does not automatically divide assets, superannuation, or debts. That requires a separate property settlement — by agreement or court order.
             </p>
-            
-            <div style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.08) 100%); padding: 18px 22px; border-radius: 12px; border-left: 4px solid var(--primary-teal); margin-bottom: 35px; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.1);">
-                <p class="panel-text" style="font-weight: 700; color: var(--primary-teal); font-size: 1.05rem; margin: 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">
-                    ✓ Applies to both married couples and de facto relationships
-                </p>
-            </div>
-            
-            <h3 class="panel-header" style="color: var(--primary-teal); font-size: 1.6rem; font-weight: 700; margin-top: 35px; margin-bottom: 20px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; display: flex; align-items: center; gap: 10px;">
-                <span style="width: 4px; height: 30px; background: linear-gradient(180deg, var(--primary-teal) 0%, var(--accent-teal) 100%); border-radius: 2px;"></span>
-                What Can Be Divided?
-            </h3>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px;">
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
-                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
-                        <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
-                    </div>
-                    <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">Family home & real estate</span>
+            <p style="color: #475569; font-size: 0.98rem; line-height: 1.75; margin: 0 0 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">The asset pool can include the family home, bank accounts, investments, business interests, super, vehicles, and liabilities.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+                <div style="background: #fff; border: 1px solid #e2e8f0; padding: 18px 20px; border-radius: 4px;">
+                    <p style="margin: 0 0 6px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 0.9rem; color: #0F172A;">Married couples</p>
+                    <p style="margin: 0; color: #475569; font-size: 0.92rem; line-height: 1.6; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Apply within <strong>12 months</strong> of the divorce order becoming final.</p>
                 </div>
-                
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
-                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
-                        <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
-                    </div>
-                    <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">Bank accounts & investments</span>
-                </div>
-                
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
-                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
-                        <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
-                    </div>
-                    <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">Business interests</span>
-                </div>
-                
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
-                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
-                        <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
-                    </div>
-                    <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">Superannuation funds</span>
-                </div>
-                
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
-                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
-                        <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
-                    </div>
-                    <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">Personal property & vehicles</span>
-                </div>
-                
-                <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 2px solid #e2e8f0; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--primary-teal)'; this.style.boxShadow='0 4px 12px rgba(15, 23, 42, 0.15)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
-                    <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);">
-                        <span style="color: white; font-size: 1rem; font-weight: 700;">✓</span>
-                    </div>
-                    <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">Debts & liabilities</span>
+                <div style="background: #fff; border: 1px solid #e2e8f0; padding: 18px 20px; border-radius: 4px;">
+                    <p style="margin: 0 0 6px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 0.9rem; color: #0F172A;">De facto couples</p>
+                    <p style="margin: 0; color: #475569; font-size: 0.92rem; line-height: 1.6; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Apply within <strong>2 years</strong> of separation.</p>
                 </div>
             </div>
-            
-            <div style="background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); padding: 20px 25px; border-radius: 15px; border: 2px solid #0F172A; margin-top: 25px; box-shadow: 0 8px 25px rgba(15, 23, 42, 0.15); position: relative; overflow: hidden;">
-                <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(15, 23, 42, 0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-                <p style="font-style: italic; color: #7c2d12; font-size: 1rem; font-weight: 600; margin: 0; position: relative; z-index: 1; line-height: 1.6;">
-                    ⚠️ Property settlement is separate from divorce. Both must be addressed for complete resolution.
-                </p>
-            </div>
+            <p style="margin: 0; padding: 14px 16px; background: #fff; border: 1px solid #cbd5e1; color: #334155; font-size: 0.92rem; line-height: 1.6; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+                Missing these deadlines can affect your right to make a claim. If you are approaching a deadline, call us promptly.
+            </p>
         </div>
-        
-        <!-- Right Panel: Critical Time Limits -->
-        <div style="background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 30%, #ffffff 100%); border-radius: 25px; padding: 50px 40px; box-shadow: 0 10px 40px rgba(15, 23, 42, 0.15), 0 4px 20px rgba(0, 0, 0, 0.08); border: 2px solid #fed7aa; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 50px rgba(15, 23, 42, 0.2), 0 6px 25px rgba(0, 0, 0, 0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 40px rgba(15, 23, 42, 0.15), 0 4px 20px rgba(0, 0, 0, 0.08)'">
-            <!-- Decorative Elements -->
-            <div style="position: absolute; top: -40px; right: -40px; width: 140px; height: 140px; background: radial-gradient(circle, rgba(15, 23, 42, 0.12) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-            <div style="position: absolute; bottom: -30px; left: -30px; width: 100px; height: 100px; background: radial-gradient(circle, rgba(30, 58, 138, 0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-            
-            <!-- Icon -->
-            <div style="width: 90px; height: 90px; background: linear-gradient(135deg, #0F172A 0%, #1E40AF 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; box-shadow: 0 12px 35px rgba(15, 23, 42, 0.4); position: relative; z-index: 1; animation: pulse-icon 2s ease-in-out infinite;">
-                <span style="font-size: 2.8rem; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));">⏰</span>
-            </div>
-            
-            <h3 style="text-align: center; color: #7c2d12; font-size: 1.8rem; font-weight: 800; margin-bottom: 35px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; position: relative; z-index: 1;">Critical Time Limits</h3>
-            
-            <!-- Married Couples -->
-            <div style="background: #ffffff; padding: 20px 22px; border-radius: 15px; border-left: 5px solid #0F172A; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.1); position: relative; z-index: 1;">
-                <p style="font-weight: 800; color: #0F172A; font-size: 1.05rem; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">
-                    💑 Married Couples:
-                </p>
-                <p style="color: #94A3B8; font-size: 1rem; margin: 0; line-height: 1.6; font-weight: 500;">
-                    Within <strong style="color: #0F172A; font-weight: 700;">12 months</strong> of divorce order becoming final
-                </p>
-            </div>
-            
-            <!-- De Facto Couples -->
-            <div style="background: #ffffff; padding: 20px 22px; border-radius: 15px; border-left: 5px solid #1E40AF; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(15, 23, 42, 0.1); position: relative; z-index: 1;">
-                <p style="font-weight: 800; color: #1E40AF; font-size: 1.05rem; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">
-                    👥 De Facto Couples:
-                </p>
-                <p style="color: #94A3B8; font-size: 1rem; margin: 0; line-height: 1.6; font-weight: 500;">
-                    Within <strong style="color: #1E40AF; font-weight: 700;">2 years</strong> of separation date
-                </p>
-            </div>
-            
-            <!-- Warning Box -->
-            <div style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); padding: 20px 22px; border-radius: 15px; border: 2px solid #ef4444; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(239, 68, 68, 0.15); position: relative; z-index: 1;">
-                <p style="font-weight: 700; color: #991b1b; font-size: 1rem; margin: 0; line-height: 1.6; display: flex; align-items: flex-start; gap: 10px;">
-                    <span style="font-size: 1.3rem; flex-shrink: 0;">⚠️</span>
-                    <span>Missing these deadlines may prevent you from making a property claim</span>
-                </p>
-            </div>
-            
-            <!-- Call to Action -->
-            <a href="#consultation-form" style="display: block; background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%); padding: 18px 22px; border-radius: 15px; box-shadow: 0 8px 25px rgba(15, 23, 42, 0.3); position: relative; z-index: 1; text-decoration: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 35px rgba(15, 23, 42, 0.4)'; this.style.background='linear-gradient(135deg, var(--accent-teal) 0%, var(--primary-teal) 100%)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(15, 23, 42, 0.3)'; this.style.background='linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%)'">
-                <p style="font-weight: 700; color: white; font-size: 1.05rem; margin: 0; text-align: center; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                    <span>💡</span>
-                    <span>Seek legal advice early to protect your rights</span>
-                    <span style="font-size: 1.2rem; transition: transform 0.3s ease;">→</span>
-                </p>
-            </a>
-        </div>
+        <figure class="section-photo">
+            <img src="{{ asset('images/Property_settlement.webp') }}" alt="Property settlement after separation" width="300" height="400" loading="lazy">
+        </figure>
     </div>
 </section>
 
-<!-- Slide 7: Property Settlement Process -->
-<section class="section" style="background: var(--light-blue);">
-    <div class="section-header">
-        <h2 class="section-title">The Property Settlement Process</h2>
-        <p class="section-subtitle">The Court's Four-Step Framework for 'Just and Equitable' Division</p>
-    </div>
-    <div class="grid-2x2">
-        <div class="info-card">
-            <div class="card-icon">📋</div>
-            <h3 class="card-header">Step 1: Identify and Value the Asset Pool</h3>
-            <p class="card-body">All assets and debts are identified and professionally valued</p>
-            <p class="card-body" style="font-size: 0.95rem; margin-top: 10px;">
-                Includes: Real estate, bank accounts, investments, business interests, superannuation, and all liabilities
+<!-- Parenting -->
+<section class="landing-block" style="background: #ffffff; padding: 70px 60px; border-top: 1px solid #e2e8f0;">
+    <div class="content-photo-grid content-photo-grid--reverse">
+        <figure class="section-photo">
+            <img src="{{ asset('images/Child_custody.webp') }}" alt="Parenting arrangements after separation" width="300" height="400" loading="lazy">
+        </figure>
+        <div>
+            <h2 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.75rem; font-weight: 700; color: #0F172A; margin: 0 0 16px;">Parenting arrangements</h2>
+            <p style="color: #475569; font-size: 1rem; line-height: 1.75; margin: 0 0 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+                The court's primary concern is the best interests of the child — not an automatic equal-time arrangement. Arrangements depend on the child's needs, safety, and what is practical.
             </p>
-        </div>
-        <div class="info-card">
-            <div class="card-icon">⚖️</div>
-            <h3 class="card-header">Step 2: Assess Contributions</h3>
-            <p class="card-body">The court considers both financial and non-financial contributions made by each party</p>
-            <ul class="panel-list" style="text-align: left; margin-top: 15px;">
-                <li>Wages and income</li>
-                <li>Inheritances and gifts</li>
-                <li>Homemaker role</li>
-                <li>Parenting responsibilities</li>
-            </ul>
-        </div>
-        <div class="info-card">
-            <div class="card-icon">👥</div>
-            <h3 class="card-header">Step 3: Evaluate Future Needs</h3>
-            <p class="card-body">Assessment of factors that may affect each party's future financial position</p>
-            <ul class="panel-list" style="text-align: left; margin-top: 15px;">
-                <li>Age and health</li>
-                <li>Income and earning capacity</li>
-                <li>Care of children</li>
-                <li>Financial resources and needs</li>
-            </ul>
-        </div>
-        <div class="info-card" style="background: var(--primary-teal);">
-            <div class="card-icon" style="background: #ffffff; border: 3px solid rgba(255, 255, 255, 0.5); color: #0F172A; font-size: 3.5rem; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); line-height: 1; display: flex; align-items: center; justify-content: center; filter: none !important;">⚖️</div>
-            <h3 class="card-header" style="color: var(--white);">Step 4: Make a Just and Equitable Order</h3>
-            <p class="card-body" style="color: rgba(255, 255, 255, 0.95);">The court makes a final decision on division to ensure fairness to both parties</p>
-            <p class="card-body" style="font-weight: 700; margin-top: 15px; color: rgba(255, 255, 255, 0.95);">
-                Binding court order that protects both parties' interests
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- Slide 8: Parenting Arrangements -->
-<section class="section">
-    <div class="section-header">
-        <h2 class="section-title">Parenting Arrangements After Separation</h2>
-    </div>
-    <div style="background: var(--light-blue); border-radius: 12px; padding: 40px; margin-bottom: 40px; text-align: center;">
-        <div class="card-icon" style="margin: 0 auto 20px;">❤️</div>
-        <h3 class="panel-header" style="font-size: 2rem; margin-bottom: 15px;">The Best Interests of the Child</h3>
-        <p class="panel-text" style="max-width: 900px; margin: 0 auto;">
-            This is the paramount consideration in all parenting matters. Australian law focuses on 'parental responsibility' and 'parenting time' rather than outdated terms like 'custody.'
-        </p>
-        <p class="panel-text" style="font-style: italic; margin-top: 15px;">
-            There is no automatic 50/50 split - arrangements are based on the child's needs and practical considerations.
-        </p>
-    </div>
-    <div class="grid-3x2" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="info-card">
-            <div class="card-icon">👥</div>
-            <h3 class="card-header">Parental Responsibility</h3>
-            <p class="card-body">The authority to make major long-term decisions about a child's life</p>
-            <ul class="panel-list" style="text-align: left; margin-top: 15px;">
-                <li>Education choices</li>
-                <li>Health and medical care</li>
-                <li>Religious upbringing</li>
-                <li>Living arrangements</li>
-            </ul>
-            <p class="card-body" style="font-size: 0.9rem; font-style: italic; margin-top: 15px;">
-                The court presumes equal shared parental responsibility is in the child's best interest
-            </p>
-        </div>
-        <div class="info-card">
-            <div class="card-icon">📅</div>
-            <h3 class="card-header">Parenting Time</h3>
-            <p class="card-body">The time a child spends living with or spending time with each parent</p>
-            <p class="card-body" style="font-weight: 700; margin-top: 15px;">
-                Arrangements are flexible and tailored to:
-            </p>
-            <ul class="panel-list" style="text-align: left; margin-top: 15px;">
-                <li>Child's age and needs</li>
-                <li>Parents' work schedules</li>
-                <li>Geographic distance</li>
-                <li>Child's preferences (if age-appropriate)</li>
-            </ul>
-        </div>
-        <div class="info-card">
-            <div class="card-icon">📄</div>
-            <h3 class="card-header">Formalizing Arrangements</h3>
-            <ul class="panel-list" style="text-align: left;">
-                <li><strong>Parenting Plans:</strong> Written agreements (not legally binding)</li>
-                <li><strong>Consent Orders:</strong> Court-approved agreements (legally binding)</li>
-                <li><strong>Court Orders:</strong> Issued after mediation if parents cannot agree</li>
-            </ul>
-            <p class="card-body" style="background: #0F172A; color: white; padding: 15px; border-radius: 8px; margin-top: 20px; font-weight: 700;">
-                Consent orders provide legal protection while maintaining cooperation
-            </p>
+            <p style="color: #475569; font-size: 0.98rem; line-height: 1.75; margin: 0 0 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;"><strong>Parental responsibility</strong> covers major long-term decisions (education, health, religion). <strong>Live with and spend time with</strong> arrangements cover where the child lives and the time they spend with each parent.</p>
+            <p style="color: #475569; font-size: 0.98rem; line-height: 1.75; margin: 0 0 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Agreements can be recorded as a parenting plan (not legally binding) or <strong>Consent Orders</strong> (court-approved and binding). We can advise which suits your situation.</p>
+            <a href="#consultation-form" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 0.95rem; color: #1E40AF; text-decoration: underline;">Discuss parenting arrangements &rarr;</a>
         </div>
     </div>
 </section>
 
 <!-- Why Choose Bansal Lawyers -->
-<section class="section" style="background: #f8fafc; padding: 80px 60px;">
-    <div style="max-width: 1100px; margin: 0 auto;">
-        <div class="section-header" style="margin-bottom: 50px;">
-            <h2 class="section-title" style="color: var(--primary-teal);">Why clients choose Bansal Lawyers</h2>
-            <p class="section-subtitle" style="color: #64748b;">We handle divorce and family law matters from our Melbourne CBD office, and we keep things straightforward.</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;">
-
-            <div style="background: #ffffff; border-radius: 14px; padding: 32px 30px; border-left: 4px solid #0F172A; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
-                <h3 style="color: #0F172A; font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Family law is our focus</h3>
-                <p style="color: #475569; font-size: 0.95rem; line-height: 1.75; margin: 0; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Divorce, property settlement, de facto separation, parenting orders, binding financial agreements — these are the matters we handle every day. You're not going to a generalist firm; family law is central to what we do.</p>
-            </div>
-
-            <div style="background: #ffffff; border-radius: 14px; padding: 32px 30px; border-left: 4px solid #1E40AF; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
-                <h3 style="color: #0F172A; font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Melbourne CBD, accessible by phone or in person</h3>
-                <p style="color: #475569; font-size: 0.95rem; line-height: 1.75; margin: 0; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">We're at Level 8, 278 Collins Street — accessible from the city and inner suburbs. Telephone appointments are also available if you'd prefer to speak from home.</p>
-            </div>
-
-            <div style="background: #ffffff; border-radius: 14px; padding: 32px 30px; border-left: 4px solid #0F172A; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
-                <h3 style="color: #0F172A; font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">We work for agreements, not conflict</h3>
-                <p style="color: #475569; font-size: 0.95rem; line-height: 1.75; margin: 0; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Contested court hearings are expensive and stressful for everyone — especially children. Where possible, we help clients reach negotiated property and parenting outcomes through Consent Orders, keeping costs and conflict lower.</p>
-            </div>
-
-            <div style="background: #ffffff; border-radius: 14px; padding: 32px 30px; border-left: 4px solid #1E40AF; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
-                <h3 style="color: #0F172A; font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Plain language, not legal jargon</h3>
-                <p style="color: #475569; font-size: 0.95rem; line-height: 1.75; margin: 0; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">We explain your options in plain terms, tell you what to expect at each stage, and make sure you understand the decisions you're making. You'll never be left wondering what's happening with your matter.</p>
-            </div>
-        </div>
-
-        <div style="background: #0F172A; border-radius: 14px; padding: 30px 35px; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap;">
+<section class="section" style="background: #ffffff; padding: 70px 60px; border-top: 1px solid #e2e8f0;">
+    <div style="max-width: 1000px; margin: 0 auto;">
+        <h2 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.65rem; font-weight: 700; color: #0F172A; margin: 0 0 10px; line-height: 1.3;">You're speaking with our Melbourne team — not a call centre</h2>
+        <p style="color: #475569; font-size: 1rem; line-height: 1.75; margin: 0 0 28px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; max-width: 680px;">
+            Divorce and family law work is handled from our Collins Street office by Ajay Bansal and solicitor Michael Saleh, who appears in the Federal Circuit and Family Court of Australia. If your matter needs to go to court, the same people you've been dealing with are the ones who represent you.
+        </p>
+        <div class="team-intro-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; max-width: 460px; margin-bottom: 28px;">
             <div>
-                <p style="color: #ffffff; font-size: 1.05rem; font-weight: 600; margin: 0 0 5px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Ready to talk through your situation?</p>
-                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin: 0; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Our initial consultation is free and carries no obligation.</p>
+                <img src="{{ asset('images/ajay-bansal2.webp') }}" alt="Ajay Bansal, Director of Bansal Lawyers" width="200" height="240" loading="lazy" style="width: 100%; height: auto; max-height: 260px; border-radius: 4px; object-fit: cover; display: block; object-position: top;">
+                <p style="margin: 10px 0 0; font-size: 0.88rem; line-height: 1.5; color: #334155; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">
+                    <strong>Ajay Bansal</strong><br>
+                    <span style="color: #64748b;">Director</span>
+                </p>
             </div>
-            <a href="#consultation-form" class="cover-cta-button" style="white-space: nowrap; background: #ffffff; color: #0F172A; flex-shrink: 0;">
-                Book a free consultation &rarr;
-            </a>
+            <div>
+                <img src="{{ asset('images/michael-saleh.png') }}" alt="Michael Saleh, Solicitor at Bansal Lawyers" width="200" height="240" loading="lazy" style="width: 100%; height: auto; max-height: 260px; border-radius: 4px; object-fit: cover; display: block; object-position: top;">
+                <p style="margin: 10px 0 0; font-size: 0.88rem; line-height: 1.5; color: #334155; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">
+                    <strong>Michael Saleh</strong><br>
+                    <span style="color: #64748b;">Solicitor</span>
+                </p>
+            </div>
         </div>
-
-        <p style="text-align: center; margin-top: 25px; color: #94A3B8; font-size: 0.9rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
-            For more detail on our family law services, visit our <a href="/divorce" style="color: #1E40AF; text-decoration: underline;">divorce &amp; family law practice page</a>.
+        <ul style="margin: 0 0 22px; padding-left: 1.25rem; color: #334155; line-height: 1.85; font-size: 0.98rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+            <li>Level 8, 278 Collins Street — in-person or phone appointments</li>
+            <li>Divorce applications, property settlement, parenting orders, de facto separation</li>
+            <li>We'll tell you early if court looks likely, and give you a realistic sense of cost</li>
+        </ul>
+        <p style="margin: 0; font-size: 0.95rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">
+            <a href="tel:1300226725" style="color: #0F172A; font-weight: 700; text-decoration: none;">1300 226 725</a>
+            <span style="color: #cbd5e1;"> &nbsp;|&nbsp; </span>
+            <a href="{{ url('/about') }}" style="color: #1E40AF; text-decoration: underline;">About our team</a>
+            <span style="color: #cbd5e1;"> &nbsp;|&nbsp; </span>
+            <a href="{{ url('/divorce') }}" style="color: #1E40AF; text-decoration: underline;">Family law services</a>
         </p>
     </div>
 </section>
-
-<!-- Slide 11: Testimonials -->
-<section class="section" style="background: var(--light-blue);">
-    <div class="section-header">
-        <h2 class="section-title">What Our Clients Say</h2>
-    </div>
-    <div class="grid-2x2">
-        <div class="testimonial-card">
-            <div style="width: 70px; height: 70px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border: 2px solid #e8e8e8;">
-                <img src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="Google" style="width: 50px; height: 50px; object-fit: contain;" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIyLjU2IDEyLjI1YzAtLjc4LS4wNy0xLjUzLS4yLTIuMjVIMTJ2NC4yNmg1LjkyYy0uMjYgMS4zNy0xLjA0IDIuNTMtMi4yMSAzLjMxdjIuNzdIMTguN2MyLjA4LTEuOTIgMy4yOC00Ljc0IDMuMjgtOC4wOXoiIGZpbGw9IiM0Mjg1RjQiLz4KPHBhdGggZD0iTTEyIDIzYzIuOTcgMCA1LjQ2LS45OCA3LjI4LTIuNjZsLTMuNTctMi43N2MtLjk4LjY2LTIuMjMgMS4wNi0zLjcxIDEuMDYtMi44NiAwLTUuMjktMS45My02LjE2LTQuNTNIMi4xOHYyLjg0QzMuOTkgMjAuNTMgNy43IDIzIDEyIDIzeiIgZmlsbD0iIzM0QTg1MyIvPgo8cGF0aCBkPSJNNS44NCAxNC4wOWMtLjIyLS42Ni0uMzUtMS4zNi0uMzUtMi4wOXMuMTMtMS40My4zNS0yLjA5VjcuMDdIMi4xOEMxLjQzIDguNTUgMSAxMC4yMiAxIDEycy40MyAzLjQ1IDEuMTggNC45M2wyLjg1LTIuMjIuODEtLjYyeiIgZmlsbD0iI0ZCQkMwNSIvPgo8cGF0aCBkPSJNMTIgNS4zOGMxLjYyIDAgMy4wNi41NiA0LjIxIDEuNjRsMy4xNS0zLjE1QzE3LjQ1IDIuMDkgMTQuOTcgMSAxMiAxIDcuNyAxIDMuOTkgMy40NyAyLjE4IDcuMDdsMy42NiAyLjg0Yy44Ny0yLjYgMy4zLTQuNTMgNi4xNi00LjUzeiIgZmlsbD0iI0VBNDMzNSIvPgo8L3N2Zz4K';">
-            </div>
-            <div style="display: flex; justify-content: center; gap: 4px; margin-bottom: 15px;">
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-            </div>
-            <p class="testimonial-quote">
-                The team at Bansal Lawyers made a daunting process manageable. Their professionalism and expertise are unmatched.
-            </p>
-            <p class="testimonial-author">— Sonu Choudhary</p>
-            <p style="font-size: 0.8rem; color: #94A3B8; margin: 6px 0 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Family law matter &nbsp;&middot;&nbsp; Google Review</p>
+<section class="section" style="background: #f1f5f9; padding: 70px 60px;">
+    <div style="max-width: 920px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
+            <h2 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.65rem; font-weight: 700; color: #0F172A; margin: 0;">Google reviews</h2>
+            <a href="https://g.co/kgs/Hw16bN8" target="_blank" rel="noopener noreferrer" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 0.9rem; color: #1E40AF; text-decoration: underline;">View all on Google</a>
         </div>
-        <div class="testimonial-card">
-            <div style="width: 70px; height: 70px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border: 2px solid #e8e8e8;">
-                <img src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="Google" style="width: 50px; height: 50px; object-fit: contain;" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIyLjU2IDEyLjI1YzAtLjc4LS4wNy0xLjUzLS4yLTIuMjVIMTJ2NC4yNmg1LjkyYy0uMjYgMS4zNy0xLjA0IDIuNTMtMi4yMSAzLjMxdjIuNzdIMTguN2MyLjA4LTEuOTIgMy4yOC00Ljc0IDMuMjgtOC4wOXoiIGZpbGw9IiM0Mjg1RjQiLz4KPHBhdGggZD0iTTEyIDIzYzIuOTcgMCA1LjQ2LS45OCA3LjI4LTIuNjZsLTMuNTctMi43N2MtLjk4LjY2LTIuMjMgMS4wNi0zLjcxIDEuMDYtMi44NiAwLTUuMjktMS45My02LjE2LTQuNTNIMi4xOHYyLjg0QzMuOTkgMjAuNTMgNy43IDIzIDEyIDIzeiIgZmlsbD0iIzM0QTg1MyIvPgo8cGF0aCBkPSJNNS44NCAxNC4wOWMtLjIyLS42Ni0uMzUtMS4zNi0uMzUtMi4wOXMuMTMtMS40My4zNS0yLjA5VjcuMDdIMi4xOEMxLjQzIDguNTUgMSAxMC4yMiAxIDEycy40MyAzLjQ1IDEuMTggNC45M2wyLjg1LTIuMjIuODEtLjYyeiIgZmlsbD0iI0ZCQkMwNSIvPgo8cGF0aCBkPSJNMTIgNS4zOGMxLjYyIDAgMy4wNi41NiA0LjIxIDEuNjlsMy4xNS0zLjE1QzE3LjQ1IDIuMDkgMTQuOTcgMSAxMiAxIDcuNyAxIDMuOTkgMy40NyAyLjE4IDcuMDdsMy42NiAyLjg0Yy44Ny0yLjYgMy4zLTQuNTMgNi4xNi00LjUzeiIgZmlsbD0iI0VBNDMzNSIvPgo8L3N2Zz4K';">
-            </div>
-            <div style="display: flex; justify-content: center; gap: 4px; margin-bottom: 15px;">
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-            </div>
-            <p class="testimonial-quote">
-                I was impressed by their honest advice and careful handling of my case. They transformed legal challenges into a seamless experience.
-            </p>
-            <p class="testimonial-author">— Ruhi Bagga</p>
-            <p style="font-size: 0.8rem; color: #94A3B8; margin: 6px 0 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Property settlement &nbsp;&middot;&nbsp; Google Review</p>
+        <div class="reviews-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <blockquote style="margin: 0; padding: 22px 24px; background: #fff; border-left: 3px solid #0F172A; border-radius: 0 6px 6px 0;">
+                <p style="margin: 0 0 14px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; font-size: 0.98rem; line-height: 1.7; color: #334155;">&ldquo;They turned a daunting process into a manageable one. Always available to answer questions.&rdquo;</p>
+                <footer style="font-size: 0.85rem; color: #64748b; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Sonu Choudhary</footer>
+            </blockquote>
+            <blockquote style="margin: 0; padding: 22px 24px; background: #fff; border-left: 3px solid #0F172A; border-radius: 0 6px 6px 0;">
+                <p style="margin: 0 0 14px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; font-size: 0.98rem; line-height: 1.7; color: #334155;">&ldquo;Honest advice from the first consultation. They handled my property matter with care.&rdquo;</p>
+                <footer style="font-size: 0.85rem; color: #64748b; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Ruhi Bagga &nbsp;&middot;&nbsp; property settlement</footer>
+            </blockquote>
+            <blockquote style="margin: 0; padding: 22px 24px; background: #fff; border-left: 3px solid #0F172A; border-radius: 0 6px 6px 0;">
+                <p style="margin: 0 0 14px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; font-size: 0.98rem; line-height: 1.7; color: #334155;">&ldquo;Attentive and thorough. They took time to understand my situation before advising.&rdquo;</p>
+                <footer style="font-size: 0.85rem; color: #64748b; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Prabhjot Kaur &nbsp;&middot;&nbsp; parenting arrangements</footer>
+            </blockquote>
+            <blockquote style="margin: 0; padding: 22px 24px; background: #fff; border-left: 3px solid #0F172A; border-radius: 0 6px 6px 0;">
+                <p style="margin: 0 0 14px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; font-size: 0.98rem; line-height: 1.7; color: #334155;">&ldquo;Listened to my concerns and explained the process clearly. That made the difference.&rdquo;</p>
+                <footer style="font-size: 0.85rem; color: #64748b; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Parminder Ghill &nbsp;&middot;&nbsp; divorce</footer>
+            </blockquote>
         </div>
-        <div class="testimonial-card">
-            <div style="width: 70px; height: 70px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border: 2px solid #e8e8e8;">
-                <img src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="Google" style="width: 50px; height: 50px; object-fit: contain;" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIyLjU2IDEyLjI1YzAtLjc4LS4wNy0xLjUzLS4yLTIuMjVIMTJ2NC4yNmg1LjkyYy0uMjYgMS4zNy0xLjA0IDIuNTMtMi4yMSAzLjMxdjIuNzdIMTguN2MyLjA4LTEuOTIgMy4yOC00Ljc0IDMuMjgtOC4wOXoiIGZpbGw9IiM0Mjg1RjQiLz4KPHBhdGggZD0iTTEyIDIzYzIuOTcgMCA1LjQ2LS45OCA3LjI4LTIuNjZsLTMuNTctMi43N2MtLjk4LjY2LTIuMjMgMS4wNi0zLjcxIDEuMDYtMi44NiAwLTUuMjktMS45My02LjE2LTQuNTNIMi4xOHYyLjg0QzMuOTkgMjAuNTMgNy43IDIzIDEyIDIzeiIgZmlsbD0iIzM0QTg1MyIvPgo8cGF0aCBkPSJNNS44NCAxNC4wOWMtLjIyLS42Ni0uMzUtMS4zNi0uMzUtMi4wOXMuMTMtMS40My4zNS0yLjA5VjcuMDdIMi4xOEMxLjQzIDguNTUgMSAxMC4yMiAxIDEycy40MyAzLjQ1IDEuMTggNC45M2wyLjg1LTIuMjIuODEtLjYyeiIgZmlsbD0iI0ZCQkMwNSIvPgo8cGF0aCBkPSJNMTIgNS4zOGMxLjYyIDAgMy4wNi41NiA0LjIxIDEuNjRsMy4xNS0zLjE1QzE3LjQ1IDIuMDkgMTQuOTcgMSAxMiAxIDcuNyAxIDMuOTkgMy40NyAyLjE4IDcuMDdsMy42NiAyLjg0Yy44Ny0yLjYgMy4zLTQuNTMgNi4xNi00LjUzeiIgZmlsbD0iI0VBNDMzNSIvPgo8L3N2Zz4K';">
-            </div>
-            <div style="display: flex; justify-content: center; gap: 4px; margin-bottom: 15px;">
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-            </div>
-            <p class="testimonial-quote">
-                The team was attentive, thorough, and committed to understanding my situation and delivering the best possible outcome.
-            </p>
-            <p class="testimonial-author">— Prabhjot Kaur</p>
-            <p style="font-size: 0.8rem; color: #94A3B8; margin: 6px 0 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Parenting arrangements &nbsp;&middot;&nbsp; Google Review</p>
-        </div>
-        <div class="testimonial-card">
-            <div style="width: 70px; height: 70px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border: 2px solid #e8e8e8;">
-                <img src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="Google" style="width: 50px; height: 50px; object-fit: contain;" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIyLjU2IDEyLjI1YzAtLjc4LS4wNy0xLjUzLS4yLTIuMjVIMTJ2NC4yNmg1LjkyYy0uMjYgMS4zNy0xLjA0IDIuNTMtMi4yMSAzLjMxdjIuNzdIMTguN2MyLjA4LTEuOTIgMy4yOC00Ljc0IDMuMjgtOC4wOXoiIGZpbGw9IiM0Mjg1RjQiLz4KPHBhdGggZD0iTTEyIDIzYzIuOTcgMCA1LjQ2LS45OCA3LjI4LTIuNjZsLTMuNTctMi43N2MtLjk4LjY2LTIuMjMgMS4wNi0zLjcxIDEuMDYtMi44NiAwLTUuMjktMS45My02LjE2LTQuNTNIMi4xOHYyLjg0QzMuOTkgMjAuNTMgNy43IDIzIDEyIDIzeiIgZmlsbD0iIzM0QTg1MyIvPgo8cGF0aCBkPSJNNS44NCAxNC4wOWMtLjIyLS42Ni0uMzUtMS4zNi0uMzUtMi4wOXMuMTMtMS40My4zNS0yLjA5VjcuMDdIMi4xOEMxLjQzIDguNTUgMSAxMC4yMiAxIDEycy40MyAzLjQ1IDEuMTggNC45M2wyLjg1LTIuMjIuODEtLjYyeiIgZmlsbD0iI0ZCQkMwNSIvPgo8cGF0aCBkPSJNMTIgNS4zOGMxLjYyIDAgMy4wNi41NiA0LjIxIDEuNjRsMy4xNS0zLjE1QzE3LjQ1IDIuMDkgMTQuOTcgMSAxMiAxIDcuNyAxIDMuOTkgMy40NyAyLjE4IDcuMDdsMy42NiAyLjg0Yy44Ny0yLjYgMy4zLTQuNTMgNi4xNi00LjUzeiIgZmlsbD0iI0VBNDMzNSIvPgo8L3N2Zz4K';">
-            </div>
-            <div style="display: flex; justify-content: center; gap: 4px; margin-bottom: 15px;">
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-                <span style="color: #FFD700; font-size: 1.3rem; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">⭐</span>
-            </div>
-            <p class="testimonial-quote">
-                Exceptional team who listened to my concerns, explained processes clearly, and delivered results that made a difference in my legal journey.
-            </p>
-            <p class="testimonial-author">— Parminder Ghill</p>
-            <p style="font-size: 0.8rem; color: #94A3B8; margin: 6px 0 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Divorce &amp; separation &nbsp;&middot;&nbsp; Google Review</p>
-        </div>
-    </div>
-    <div style="text-align: center; margin-top: 35px;">
-        <a href="https://g.co/kgs/Hw16bN8" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 10px; color: #0F172A; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 0.95rem; text-decoration: none; border: 2px solid #0F172A; padding: 12px 24px; border-radius: 50px; transition: all 0.3s ease;" onmouseover="this.style.background='#0F172A'; this.style.color='white'" onmouseout="this.style.background='transparent'; this.style.color='#0F172A'">
-            <img src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="Google" style="width: 18px; height: 18px; object-fit: contain;">
-            Read all our Google reviews &rarr;
-        </a>
     </div>
 </section>
+
 
 <!-- FAQ Section -->
 <section class="section" id="faq" style="background: #ffffff; padding: 100px 60px;">
     <div style="max-width: 860px; margin: 0 auto;">
-        <div class="section-header" style="margin-bottom: 50px;">
-            <h2 class="section-title" style="color: var(--primary-teal);">Frequently Asked Questions</h2>
-            <p class="section-subtitle" style="color: #64748b;">Answers to the questions we hear most often from people going through separation.</p>
+        <div style="margin-bottom: 40px;">
+            <h2 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.65rem; font-weight: 700; color: #0F172A; margin: 0 0 10px; text-align: left;">Common questions about divorce in Victoria</h2>
+            <p style="color: #64748b; font-size: 1rem; margin: 0; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; text-align: left;">What people usually ask on a first call — general information only, not legal advice.</p>
         </div>
 
         <style>
@@ -3595,7 +2317,7 @@ body {
             </button>
             <div class="faq-answer">
                 <div class="faq-answer-inner">
-                    <p>An amicable separation is the simplest path. If you agree on property division and parenting arrangements, you can apply for divorce <strong>jointly</strong>, and your agreed terms can be formalised as <strong>Consent Orders</strong> — a legally binding court-approved document that protects both parties.</p>
+                    <p>An amicable separation is the simplest path. If you agree on property settlement and parenting arrangements, you can apply for divorce <strong>jointly</strong>, and your agreed terms can be formalised as <strong>Consent Orders</strong> — a legally binding court-approved document that protects both parties.</p>
                     <p style="margin-top: 12px;">Even when things are agreed, having a lawyer review the terms before you sign protects you from unintended gaps or future disputes.</p>
                 </div>
             </div>
@@ -3626,104 +2348,44 @@ body {
     </div>
 </section>
 
-<!-- Slide 14: CTA Section -->
-<section class="cta-section" id="contact-form" style="background: linear-gradient(135deg, #0F172A 0%, #0F172A 50%, #E2E8F0 100%); position: relative; overflow: hidden; padding: 100px 60px; margin: 80px auto; max-width: 1400px; border-radius: 30px; box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3);">
-    <!-- Animated Background Elements -->
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: 
-        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-        pointer-events: none; animation: backgroundPulse 8s ease-in-out infinite;"></div>
-    
-    <!-- Floating Decorative Elements -->
-    <div style="position: absolute; top: 10%; left: 5%; width: 100px; height: 100px; background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%); border-radius: 50%; animation: floatIcon 6s ease-in-out infinite; pointer-events: none;"></div>
-    <div style="position: absolute; bottom: 15%; right: 8%; width: 80px; height: 80px; background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%); border-radius: 50%; animation: floatIcon 8s ease-in-out infinite 2s; pointer-events: none;"></div>
-    
-    <div style="position: relative; z-index: 1;">
-        <!-- Logo -->
-        <div style="margin-bottom: 30px; animation: fadeInDown 0.8s ease-out; text-align: center;">
-            <div style="display: inline-block; background: rgba(255, 255, 255, 0.95); padding: 15px 25px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);">
-                <img src="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }}" 
-                     srcset="{{ asset('images/logo/Bansal_Lawyers_origional.webp') }} 1x, {{ asset('images/logo/Bansal_Lawyers_origional@2x.webp') }} 2x"
-                     alt="Bansal Lawyers" 
-                     style="max-height: 80px; height: auto; width: auto; display: block;"
-                     onerror="this.onerror=null; this.src='{{ asset('images/logo/Bansal_Lawyers_origional.png') }}'; this.onerror=function(){this.style.display='none';}">
-            </div>
-        </div>
-        
-        <h2 class="cta-headline" style="color: white; font-size: 3.5rem; margin-bottom: 15px; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); font-weight: 800; animation: fadeInUp 0.8s ease-out;">
-            Ready to Take the Next Step?
-        </h2>
-        <p class="cta-subheadline" style="color: rgba(255, 255, 255, 0.95); font-size: 1.6rem; margin-bottom: 50px; font-weight: 600; animation: fadeInUp 1s ease-out;">
-            Schedule Your Consultation Today
+<!-- Contact / CTA -->
+<section class="cta-section" id="contact-form" style="background: #0F172A; padding: 70px 60px; border-top: 1px solid #1e293b;">
+    <div style="max-width: 920px; margin: 0 auto;">
+        <h2 style="color: #fff; font-size: 1.85rem; margin: 0 0 12px; font-weight: 700; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Ready to talk through your situation?</h2>
+        <p style="color: #cbd5e1; font-size: 1.05rem; margin: 0 0 36px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+            Level 8, 278 Collins Street &nbsp;&middot;&nbsp; <a href="tel:1300226725" style="color: #fff; text-decoration: underline;">1300 226 725</a> &nbsp;&middot;&nbsp; Mon–Fri 9:30 AM–6:00 PM
         </p>
-        
-        <div class="contact-panel" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%); border-radius: 25px; padding: 50px 45px; margin: 40px auto; max-width: 900px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); position: relative; overflow: hidden; animation: fadeInUp 1.2s ease-out;">
-            <!-- Decorative Corner -->
-            <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(15, 23, 42, 0.1) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-            
-            <p class="contact-intro" style="text-align: center; font-size: 1.2rem; color: var(--primary-teal); font-weight: 600; margin-bottom: 35px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; line-height: 1.6;">
-                Our expert team is ready to provide compassionate, professional guidance for your family law matter.
+
+        <div style="background: #fff; border-radius: 4px; padding: 36px 32px; margin-bottom: 32px; border: 1px solid #e2e8f0;">
+            <p style="text-align: left; font-size: 1.05rem; color: #334155; font-weight: 400; margin: 0 0 28px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; line-height: 1.7;">
+                Call, email, or visit our Collins Street office. If you're not ready to come in, we can arrange a phone appointment.
             </p>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px;">
-                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid var(--primary-teal); transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(15, 23, 42, 0.15)'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%)'">
-                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                        <div style="width: 45px; height: 45px; background: linear-gradient(135deg, #0F172A 0%, #1E40AF 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(15, 23, 42, 0.3); flex-shrink: 0;">
-                            <span style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">📞</span>
-                        </div>
-                        <span class="contact-label" style="font-weight: 700; color: var(--primary-teal); font-size: 1.05rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Call us</span>
-                    </div>
-                    <div style="padding-left: 57px;">
-                        <span class="contact-value" style="color: #0F172A; font-size: 1.1rem; font-weight: 600; display: block; margin-bottom: 5px;">1300 BANSAL</span>
-                        <span class="contact-value" style="color: #94A3B8; font-size: 0.95rem;">(1300 226 725)</span>
-                        <span class="contact-value" style="color: #94A3B8; font-size: 0.95rem; display: block; margin-top: 5px;">(+61) 0422 905 860</span>
-                    </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="background: #f8fafc; padding: 18px 20px; border-radius: 4px; border-left: 3px solid #0F172A;">
+                    <span style="font-weight: 700; color: #0F172A; font-size: 0.9rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; display: block; margin-bottom: 6px;">Phone</span>
+                    <a href="tel:1300226725" style="color: #0F172A; font-size: 1.05rem; font-weight: 600; text-decoration: none; display: block;">1300 226 725</a>
+                    <span style="color: #64748b; font-size: 0.88rem;">(+61) 0422 905 860</span>
                 </div>
-                
-                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid var(--accent-teal); transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(15, 23, 42, 0.15)'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%)'">
-                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                        <div style="width: 45px; height: 45px; background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-teal) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(15, 23, 42, 0.3); flex-shrink: 0;">
-                            <span style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">✉️</span>
-                        </div>
-                        <span class="contact-label" style="font-weight: 700; color: var(--primary-teal); font-size: 1.05rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Email us</span>
-                    </div>
-                    <div style="padding-left: 57px;">
-                        <span class="contact-value" style="color: #0F172A; font-size: 1rem; font-weight: 600;">info@bansallawyers.com.au</span>
-                    </div>
+                <div style="background: #f8fafc; padding: 18px 20px; border-radius: 4px; border-left: 3px solid #0F172A;">
+                    <span style="font-weight: 700; color: #0F172A; font-size: 0.9rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; display: block; margin-bottom: 6px;">Email</span>
+                    <a href="mailto:info@bansallawyers.com.au" style="color: #0F172A; font-size: 1rem; font-weight: 600; text-decoration: none;">info@bansallawyers.com.au</a>
                 </div>
-                
-                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid #10b981; transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(15, 23, 42, 0.15)'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%)'">
-                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                        <div style="width: 45px; height: 45px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3); flex-shrink: 0;">
-                            <span style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">📍</span>
-                        </div>
-                        <span class="contact-label" style="font-weight: 700; color: var(--primary-teal); font-size: 1.05rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Visit us</span>
-                    </div>
-                    <div style="padding-left: 57px;">
-                        <span class="contact-value" style="color: #0F172A; font-size: 0.95rem; font-weight: 500; line-height: 1.5;">Level 8/278 Collins St<br>Melbourne VIC 3000, Australia</span>
-                    </div>
+                <div style="background: #f8fafc; padding: 18px 20px; border-radius: 4px; border-left: 3px solid #0F172A;">
+                    <span style="font-weight: 700; color: #0F172A; font-size: 0.9rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; display: block; margin-bottom: 6px;">Office</span>
+                    <span style="color: #0F172A; font-size: 0.92rem; line-height: 1.5;">Level 8/278 Collins St<br>Melbourne VIC 3000</span>
                 </div>
-                
-                <div class="contact-item-enhanced" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%); padding: 20px 22px; border-radius: 15px; border-left: 4px solid #1E3A8A; transition: all 0.3s ease;" onmouseover="this.style.transform='translateX(5px)'; this.style.boxShadow='0 8px 25px rgba(15, 23, 42, 0.15)'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.1) 100%)'" onmouseout="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.background='linear-gradient(135deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.05) 100%)'">
-                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-                        <div style="width: 45px; height: 45px; background: linear-gradient(135deg, #1E3A8A 0%, #7c3aed 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(30, 58, 138, 0.3); flex-shrink: 0;">
-                            <span style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">🕐</span>
-                        </div>
-                        <span class="contact-label" style="font-weight: 700; color: var(--primary-teal); font-size: 1.05rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Business Hours</span>
-                    </div>
-                    <div style="padding-left: 57px;">
-                        <span class="contact-value" style="color: #0F172A; font-size: 0.95rem; font-weight: 500;">Monday – Friday<br>9:30 AM – 6:00 PM</span>
-                    </div>
+                <div style="background: #f8fafc; padding: 18px 20px; border-radius: 4px; border-left: 3px solid #0F172A;">
+                    <span style="font-weight: 700; color: #0F172A; font-size: 0.9rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; display: block; margin-bottom: 6px;">Hours</span>
+                    <span style="color: #0F172A; font-size: 0.92rem;">Monday – Friday<br>9:30 AM – 6:00 PM</span>
                 </div>
             </div>
         </div>
 
-        <!-- Google Map -->
-        <div style="margin: 35px auto; max-width: 900px; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.2); position: relative; z-index: 1;">
+        <div style="border-radius: 4px; overflow: hidden; border: 1px solid #334155; margin-bottom: 28px;">
             <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.645409146537!2d144.9631536153164!3d-37.81664617975151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43c60387b1%3A0xd9be68c8b39a6074!2sLevel%208%2F278%20Collins%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sau!4v1696731567597!5m2!1sen!2sau"
                 width="100%"
-                height="280"
+                height="260"
                 style="border: 0; display: block;"
                 allowfullscreen=""
                 loading="lazy"
@@ -3732,17 +2394,11 @@ body {
             </iframe>
         </div>
 
-        <div class="encouragement-note" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%); backdrop-filter: blur(15px); padding: 25px 35px; border-radius: 20px; margin: 35px auto; max-width: 800px; border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); position: relative; z-index: 1; animation: fadeInUp 1.4s ease-out;">
-            <p style="margin: 0; color: white; font-size: 1.1rem; font-weight: 500; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; line-height: 1.7;">
-                We understand how difficult this time can be. Our team will listen carefully, explain your options clearly, and help you make decisions you feel confident about.
-            </p>
-        </div>
-        
-        <div style="text-align: center; margin-top: 45px; position: relative; z-index: 1; animation: fadeInUp 1.6s ease-out;">
-            <a href="#consultation-form" class="cover-cta-button" style="display: inline-flex; align-items: center; gap: 12px; padding: 20px 45px; font-size: 1.2rem; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); color: white; border: none; border-radius: 50px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; text-decoration: none; box-shadow: 0 10px 35px rgba(15, 23, 42, 0.4); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 45px rgba(15, 23, 42, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 35px rgba(15, 23, 42, 0.4)'">
-                Request a free consultation &rarr;
-            </a>
-        </div>
+        <p style="margin: 0 0 28px; color: #cbd5e1; font-size: 1rem; line-height: 1.7; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+            We understand this is a difficult time. Our team will listen, explain your options in plain language, and help you decide your next step.
+        </p>
+
+        <a href="#consultation-form" class="cover-cta-button" style="display: inline-block; background: #fff; color: #0F172A; border-radius: 4px; padding: 16px 28px; font-size: 1rem; box-shadow: none;">Request a free consultation &rarr;</a>
     </div>
 </section>
 

@@ -20,7 +20,7 @@
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.7",
         "fakerphp/faker": "^1.9.1",
-        "laravel/breeze": "*",
+        "laravel/breeze": "^2.4",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.6",
@@ -74,6 +74,5 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "dev",
     "prefer-stable": true
 }

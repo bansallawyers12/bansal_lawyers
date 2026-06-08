@@ -376,7 +376,7 @@
                     <div class="experimental-category-buttons">
                         <a href="{{ route('blog.index') }}" class="experimental-category-btn {{ !request('category') && !isset($category) ? 'active' : '' }}">All Categories</a>
                         @foreach($blogCategories as $cat)
-                            <a href="{{ route('blog.category', $cat->slug) }}" 
+                            <a href="{{ route('blog.index') }}" 
                                class="experimental-category-btn {{ (isset($category) && $category->id == $cat->id) ? 'active' : '' }}">
                                 {{ $cat->name }}
                             </a>
@@ -409,7 +409,7 @@
                         </div>
                         <div class="experimental-blog-content">
                             @if(isset($list->categorydetail) && $list->categorydetail)
-                                <a href="{{ route('blog.category', $list->categorydetail->slug) }}" 
+                                <a href="{{ route('blog.index') }}" 
                                    class="experimental-blog-category">
                                     {{ $list->categorydetail->name }}
                                 </a>

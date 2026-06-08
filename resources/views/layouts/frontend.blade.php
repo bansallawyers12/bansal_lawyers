@@ -1249,7 +1249,7 @@ function toggleFAQ(index) {
             var mapScript = document.createElement('script');
             mapScript.async = true;
             mapScript.defer = true;
-            mapScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&loading=async&callback=initMap';
+            mapScript.src = 'https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&loading=async&callback=initMap';
             document.head.appendChild(mapScript);
         })();
     </script>

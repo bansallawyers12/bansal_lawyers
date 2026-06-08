@@ -748,7 +748,7 @@
                     </div>
                     @if(isset($list->categorydetail) && $list->categorydetail)
                         <div class="mb-3">
-                            <a href="{{ route('blog.category', $list->categorydetail->slug) }}" class="badge badge-primary">{{ $list->categorydetail->name }}</a>
+                            <a href="{{ route('blog.index') }}" class="badge badge-primary">{{ $list->categorydetail->name }}</a>
                         </div>
                     @endif
                     <h4 style="color: #1B4D89; font-weight: 600; margin-bottom: 15px; line-height: 1.4;">

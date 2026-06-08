@@ -35,6 +35,10 @@ return [
         'gtm_id' => env('GOOGLE_TAG_MANAGER_ID'),
     ],
 
+    'google_maps' => [
+        'key' => env('GOOGLE_MAPS_API_KEY'),
+    ],
+
     'twilio' => [
         'sid' => env('TWILIO_SID'),
         'token' => env('TWILIO_TOKEN'),

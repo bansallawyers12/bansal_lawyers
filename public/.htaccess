@@ -57,9 +57,6 @@
         Header set Pragma "no-cache"
         Header set Expires 0
     </FilesMatch>
-    # Security headers (bonus performance: prevents some redirect round-trips)
-    Header always set X-Content-Type-Options "nosniff"
-    Header always set X-Frame-Options "SAMEORIGIN"
 </IfModule>
 
 # -------------------------------------------------------

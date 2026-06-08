@@ -221,12 +221,11 @@ body {
 	<!-- DataTables removed - not used in admin panel (modern-table class used instead) -->
 	<!-- <script src="{{ asset('js/datatables.min.js')}}"></script> -->
 	<!-- <script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script> -->
-	<!-- Summernote JS removed - now using TinyMCE (CDN so themes/skins load correctly) -->
-	<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
+	<!-- TinyMCE v8 self-hosted from public/assets/tinymce (copied via npm run copy-tinymce) -->
+	<script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
 	<script type="text/javascript">
-		// Required when loading TinyMCE from CDN so themes/icons load from same origin (must run before any tinymce.init())
 		if (typeof tinymce !== 'undefined') {
-			tinymce.baseURL = 'https://cdn.jsdelivr.net/npm/tinymce@6';
+			tinymce.baseURL = '{{ asset('assets/tinymce') }}';
 			tinymce.suffix = '.min';
 		}
 	</script>
