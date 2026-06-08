@@ -15,7 +15,7 @@ class ImageService
     {
         // Check if GD extension is available
         if (extension_loaded('gd')) {
-            $this->manager = new ImageManager(new Driver());
+            $this->manager = ImageManager::usingDriver(Driver::class);
         }
     }
 
@@ -75,7 +75,7 @@ class ImageService
             }
 
             // Load the image
-            $image = $this->manager->read($sourcePath);
+            $image = $this->manager->decodePath($sourcePath);
             
             // Generate WebP path
             $webpFilename = $baseFilename . '.webp';
@@ -89,7 +89,7 @@ class ImageService
             }
             
             // Convert and save as WebP with quality 85
-            $image->toWebp(85)->save($webpFullPath);
+            $image->save($webpFullPath, quality: 85);
             
             return $webpPath;
             
@@ -162,7 +162,7 @@ class ImageService
             $webpPath = public_path($directory . '/' . $webpFilename);
             
             if (extension_loaded('gd')) {
-                $image = $this->manager->read($fullPath);
+                $image = $this->manager->decodePath($fullPath);
                 
                 // Create directory if needed
                 $webpDir = dirname($webpPath);
@@ -170,8 +170,7 @@ class ImageService
                     mkdir($webpDir, 0755, true);
                 }
                 
-                // Save WebP
-                $image->toWebp(85)->save($webpPath);
+                $image->save($webpPath, quality: 85);
                 $paths['webp'] = $directory . '/' . $webpFilename;
             }
             
@@ -241,10 +240,9 @@ class ImageService
                 return null;
             }
 
-            $image = $this->manager->read($imagePath);
+            $image = $this->manager->decodePath($imagePath);
             
-            // Convert to WebP format
-            $image->toWebp($quality)->save($webpPath);
+            $image->save($webpPath, quality: $quality);
 
             return $pathInfo['filename'] . '.webp';
         } catch (\Exception $e) {
@@ -275,9 +273,7 @@ class ImageService
             }
 
             $pathInfo = pathinfo($imagePath);
-            $img = $this->manager->read($imagePath);
-            $originalWidth = $img->width();
-            $originalHeight = $img->height();
+            $originalWidth = $this->manager->decodePath($imagePath)->width();
 
             // Default sizes if not provided
             if (empty($sizes)) {
@@ -294,13 +290,11 @@ class ImageService
                     continue;
                 }
 
-                $height = (int) ($originalHeight * ($width / $originalWidth));
                 $resizedPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '_' . $name . '.webp';
 
-                // Resize and save as WebP
-                $img->scale(width: $width, height: $height)
-                    ->toWebp(85)
-                    ->save($resizedPath);
+                $this->manager->decodePath($imagePath)
+                    ->scale(width: $width)
+                    ->save($resizedPath, quality: 85);
 
                 $generated[$name] = $pathInfo['filename'] . '_' . $name . '.webp';
             }
@@ -369,8 +363,8 @@ class ImageService
                 
                 if (!file_exists($webpPath)) {
                     if (extension_loaded('gd')) {
-                        $image = $this->manager->read($fullPath);
-                        $image->toWebp(85)->save($webpPath);
+                        $image = $this->manager->decodePath($fullPath);
+                        $image->save($webpPath, quality: 85);
                         $paths['webp'] = $baseFilename . '.webp';
                     }
                 } else {
