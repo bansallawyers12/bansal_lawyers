@@ -13,22 +13,9 @@ import { join } from 'path';
 const BUILD_DIR = 'public/build';
 const MANIFEST_FILE = join(BUILD_DIR, 'manifest.json');
 
-// Performance optimization settings
-// Note: Vite handles most of these optimizations natively
+// Build settings are defined in vite.config.js (Vite 8 / Rolldown).
 const OPTIMIZATION_SETTINGS = {
-    vite: {
-        minify: 'terser',
-        cssCodeSplit: true,
-        sourcemap: true,
-        rollupOptions: {
-            output: {
-                manualChunks: {
-                    'vendor': ['jquery', 'bootstrap', 'alpinejs'],
-                    'axios': ['axios']
-                }
-            }
-        }
-    },
+    vite: 'See vite.config.js',
     assets: {
         optimizeImages: true,
         generateWebp: true,
