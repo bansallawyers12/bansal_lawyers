@@ -20,12 +20,12 @@ class ImageService
     }
 
     /**
-     * Upload and convert image to WebP and AVIF formats
+     * Upload and convert image to WebP format
      * 
      * @param UploadedFile $file
      * @param string $directory
      * @param string $disk
-     * @return array ['original' => path, 'webp' => path, 'avif' => path]
+     * @return array ['original' => path, 'webp' => path|null]
      */
     public function uploadAndConvert(UploadedFile $file, string $directory, string $disk = 'public'): array
     {
@@ -53,14 +53,6 @@ class ImageService
                 $webpPath = $this->convertToWebP($fullPath, $directory, $baseFilename, $disk);
                 if ($webpPath) {
                     $paths['webp'] = $webpPath;
-                }
-            }
-            
-            // Generate AVIF version if supported and original isn't already AVIF
-            if ($extension !== 'avif') {
-                $avifPath = $this->convertToAvif($fullPath, $directory, $baseFilename, $disk);
-                if ($avifPath) {
-                    $paths['avif'] = $avifPath;
                 }
             }
             
@@ -108,66 +100,16 @@ class ImageService
     }
 
     /**
-     * Convert image to AVIF format
-     */
-    protected function convertToAvif(string $sourcePath, string $directory, string $baseFilename, string $disk): ?string
-    {
-        try {
-            // AVIF support requires imagick or specific GD version
-            // For now, we'll use a fallback approach
-            
-            // Check if imagick is available and supports AVIF
-            if (extension_loaded('imagick')) {
-                $imagick = new \Imagick($sourcePath);
-                
-                // Check if AVIF is supported
-                $formats = \Imagick::queryFormats('AVIF');
-                if (empty($formats)) {
-                    return null;
-                }
-                
-                $avifFilename = $baseFilename . '.avif';
-                $avifPath = $directory . '/' . $avifFilename;
-                $avifFullPath = Storage::disk($disk)->path($avifPath);
-                
-                // Ensure directory exists
-                $avifDir = dirname($avifFullPath);
-                if (!is_dir($avifDir)) {
-                    mkdir($avifDir, 0755, true);
-                }
-                
-                // Set format and quality
-                $imagick->setImageFormat('AVIF');
-                $imagick->setImageCompressionQuality(85);
-                
-                // Save AVIF
-                $imagick->writeImage($avifFullPath);
-                $imagick->clear();
-                $imagick->destroy();
-                
-                return $avifPath;
-            }
-            
-            return null;
-            
-        } catch (\Exception $e) {
-            \Log::warning('AVIF conversion failed: ' . $e->getMessage());
-            return null;
-        }
-    }
-
-    /**
-     * Convert existing image file to WebP and AVIF
+     * Convert existing image file to WebP
      * 
      * @param string $imagePath Relative path to the image in storage
      * @param string $disk Storage disk name
-     * @return array ['webp' => path|null, 'avif' => path|null]
+     * @return array ['webp' => path|null]
      */
     public function convertExisting(string $imagePath, string $disk = 'public'): array
     {
         $paths = [
             'webp' => null,
-            'avif' => null,
         ];
         
         try {
@@ -186,11 +128,6 @@ class ImageService
                 $paths['webp'] = $this->convertToWebP($fullPath, $directory, $filename, $disk);
             }
             
-            // Generate AVIF version
-            if ($extension !== 'avif') {
-                $paths['avif'] = $this->convertToAvif($fullPath, $directory, $filename, $disk);
-            }
-            
         } catch (\Exception $e) {
             \Log::error('Existing image conversion failed: ' . $e->getMessage());
         }
@@ -202,13 +139,12 @@ class ImageService
      * Convert image from public directory (not storage)
      * 
      * @param string $publicPath Relative path from public directory (e.g., 'images/blog/image.jpg')
-     * @return array ['webp' => path|null, 'avif' => path|null]
+     * @return array ['webp' => path|null]
      */
     public function convertPublicImage(string $publicPath): array
     {
         $paths = [
             'webp' => null,
-            'avif' => null,
         ];
         
         try {
@@ -239,24 +175,6 @@ class ImageService
                 $paths['webp'] = $directory . '/' . $webpFilename;
             }
             
-            // Try AVIF with imagick
-            if (extension_loaded('imagick')) {
-                $formats = \Imagick::queryFormats('AVIF');
-                if (!empty($formats)) {
-                    $imagick = new \Imagick($fullPath);
-                    $avifFilename = $filename . '.avif';
-                    $avifPath = public_path($directory . '/' . $avifFilename);
-                    
-                    $imagick->setImageFormat('AVIF');
-                    $imagick->setImageCompressionQuality(85);
-                    $imagick->writeImage($avifPath);
-                    $imagick->clear();
-                    $imagick->destroy();
-                    
-                    $paths['avif'] = $directory . '/' . $avifFilename;
-                }
-            }
-            
         } catch (\Exception $e) {
             \Log::error('Public image conversion failed: ' . $e->getMessage());
         }
@@ -279,10 +197,6 @@ class ImageService
             // Delete WebP version
             $webpPath = $this->getNextGenPath($imagePath, 'webp');
             Storage::disk($disk)->delete($webpPath);
-            
-            // Delete AVIF version
-            $avifPath = $this->getNextGenPath($imagePath, 'avif');
-            Storage::disk($disk)->delete($avifPath);
             
         } catch (\Exception $e) {
             \Log::warning('Image deletion failed: ' . $e->getMessage());
@@ -415,12 +329,6 @@ class ImageService
             @unlink($webpPath);
         }
 
-        // Delete AVIF version
-        $avifPath = $directory . '/' . $baseName . '.avif';
-        if (file_exists($avifPath)) {
-            @unlink($avifPath);
-        }
-
         // Delete responsive sizes
         $sizes = ['small', 'medium', 'large'];
         foreach ($sizes as $size) {
@@ -438,13 +346,12 @@ class ImageService
      * @param string $fullPath Full path to the uploaded file
      * @param string $directory Directory where file was saved
      * @param string $filename Filename of the uploaded file
-     * @return array ['webp' => path|null, 'avif' => path|null]
+     * @return array ['webp' => path|null]
      */
     public function convertUploadedFile(string $fullPath, string $directory, string $filename): array
     {
         $paths = [
             'webp' => null,
-            'avif' => null,
         ];
         
         try {
@@ -457,7 +364,7 @@ class ImageService
             $extension = strtolower($pathInfo['extension']);
             
             // Generate WebP version
-            if (!in_array($extension, ['webp', 'avif'])) {
+            if ($extension !== 'webp') {
                 $webpPath = $directory . '/' . $baseFilename . '.webp';
                 
                 if (!file_exists($webpPath)) {
@@ -468,28 +375,6 @@ class ImageService
                     }
                 } else {
                     $paths['webp'] = $baseFilename . '.webp';
-                }
-            }
-            
-            // Generate AVIF version
-            if (!in_array($extension, ['webp', 'avif'])) {
-                $avifPath = $directory . '/' . $baseFilename . '.avif';
-                
-                if (!file_exists($avifPath)) {
-                    if (extension_loaded('imagick')) {
-                        $formats = \Imagick::queryFormats('AVIF');
-                        if (!empty($formats)) {
-                            $imagick = new \Imagick($fullPath);
-                            $imagick->setImageFormat('AVIF');
-                            $imagick->setImageCompressionQuality(85);
-                            $imagick->writeImage($avifPath);
-                            $imagick->clear();
-                            $imagick->destroy();
-                            $paths['avif'] = $baseFilename . '.avif';
-                        }
-                    }
-                } else {
-                    $paths['avif'] = $baseFilename . '.avif';
                 }
             }
             

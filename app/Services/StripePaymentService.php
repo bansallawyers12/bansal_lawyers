@@ -103,7 +103,8 @@ class StripePaymentService
         string $paymentMethodId,
         float $amount,
         string $cardName,
-        string $currency = 'aud'
+        string $currency = 'aud',
+        string $returnUrl = ''
     ): PaymentIntent {
         return $this->client->paymentIntents->create([
             'amount' => (int) round($amount * 100),
@@ -112,6 +113,7 @@ class StripePaymentService
             'payment_method' => $paymentMethodId,
             'confirmation_method' => 'automatic',
             'confirm' => true,
+            'return_url' => $returnUrl ?: url('/book-an-appointment'),
             'description' => "Appointment Payment - Bansal Lawyers - $cardName",
             'metadata' => [
                 'appointment_id' => (string) $appointmentId,

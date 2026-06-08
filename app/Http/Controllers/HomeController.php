@@ -742,7 +742,8 @@ class HomeController extends Controller
                 $paymentMethodId,
                 $amount,
                 $cardName,
-                $currency
+                $currency,
+                url('/stripe/' . $appointment_id)
             );
 
             if ($payment_intent->status === 'requires_action') {
@@ -1412,9 +1413,15 @@ class HomeController extends Controller
             return redirect($payload['redirect']);
         }
 
-        $message = $payload['error'] ?? $payload['message'] ?? 'Payment failed. Please try again.';
+        if (!empty($payload['error'])) {
+            return back()->with('error', $payload['error']);
+        }
 
-        return back()->with('error', $message);
+        if (!empty($payload['message'])) {
+            return back()->with('error', $payload['message']);
+        }
+
+        return back()->with('error', 'An unexpected payment response was received. Please try again or contact support.');
     }
 
     private function completeSuccessfulStripePayment(
@@ -1432,27 +1439,23 @@ class HomeController extends Controller
         $stripe_payment_intent_id = $payment_intent->id;
         $appointmentOrderHash = $appointment->order_hash;
 
-        if ($appointmentOrderHash) {
-            $existingPayment = AppointmentPayment::where('order_hash', $appointmentOrderHash)->first();
-            if (
-                $existingPayment
-                && $existingPayment->payment_status === 'Paid'
-                && $existingPayment->stripe_payment_intent_id === $stripe_payment_intent_id
-            ) {
-                return $this->stripePaymentResponse($request, [
-                    'redirect' => route('payment.thankyou', ['appointmentId' => $appointment_id]),
-                ]);
-            }
+        $paymentRecord = $appointmentOrderHash
+            ? AppointmentPayment::where('order_hash', $appointmentOrderHash)->first()
+            : null;
+
+        if (
+            $paymentRecord
+            && $paymentRecord->payment_status === 'Paid'
+            && $paymentRecord->stripe_payment_intent_id === $stripe_payment_intent_id
+        ) {
+            return $this->stripePaymentResponse($request, [
+                'redirect' => route('payment.thankyou', ['appointmentId' => $appointment_id]),
+            ]);
         }
 
         $payment_status = 'Paid';
         $order_status = 'Completed';
         $appointment_status = 10;
-
-        $paymentRecord = null;
-        if ($appointmentOrderHash) {
-            $paymentRecord = AppointmentPayment::where('order_hash', $appointmentOrderHash)->first();
-        }
 
         $finalOrderHash = $appointmentOrderHash ?: ($stripe_payment_intent_id . '_' . $appointment_id);
 

@@ -216,7 +216,9 @@ form.addEventListener('submit', async (event) => {
         let data = await postPayment(formData);
 
         if (data.requires_action && data.client_secret) {
-            const result = await stripe.confirmCardPayment(data.client_secret);
+            const result = await stripe.confirmCardPayment(data.client_secret, {}, {
+                handleActions: true,
+            });
 
             if (result.error) {
                 showError(result.error.message);
@@ -229,6 +231,10 @@ form.addEventListener('submit', async (event) => {
                 completeData.append('payment_intent_id', result.paymentIntent.id);
 
                 data = await postPayment(completeData);
+            } else {
+                showError('Authentication did not complete. Please try again.');
+                setLoading(false);
+                return;
             }
         }
 
