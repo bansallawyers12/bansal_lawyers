@@ -1,4 +1,4 @@
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Flash Messages Design */
 :root {
     --success-color: #10b981;
@@ -144,6 +144,16 @@
     opacity: 0.9;
 }
 
+.modern-flash-error-list {
+    margin: 8px 0 0 0;
+    padding-left: 16px;
+    font-size: 12px;
+}
+
+.modern-flash-error-list li {
+    margin-bottom: 2px;
+}
+
 .modern-flash-close {
     position: absolute;
     top: 12px;
@@ -262,7 +272,7 @@
             <div class="modern-flash-title">Success!</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
-        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)" aria-label="Close notification">
+        <button type="button" class="modern-flash-close" aria-label="Close notification">
             <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
@@ -278,7 +288,7 @@
             <div class="modern-flash-title">Error!</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
-        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)" aria-label="Close notification">
+        <button type="button" class="modern-flash-close" aria-label="Close notification">
             <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
@@ -294,7 +304,7 @@
             <div class="modern-flash-title">Warning!</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
-        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)" aria-label="Close notification">
+        <button type="button" class="modern-flash-close" aria-label="Close notification">
             <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
@@ -310,7 +320,7 @@
             <div class="modern-flash-title">Information</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
-        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)" aria-label="Close notification">
+        <button type="button" class="modern-flash-close" aria-label="Close notification">
             <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
@@ -326,14 +336,14 @@
             <div class="modern-flash-title">Validation Errors</div>
             <div class="modern-flash-message">
                 Please check the form below for errors:
-                <ul style="margin: 8px 0 0 0; padding-left: 16px; font-size: 12px;">
+                <ul class="modern-flash-error-list">
                     @foreach ($errors->all() as $error)
-                        <li style="margin-bottom: 2px;">{{ $error }}</li>
+                        <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
         </div>
-        <button type="button" class="modern-flash-close" onclick="dismissAlert(this)" aria-label="Close notification">
+        <button type="button" class="modern-flash-close" aria-label="Close notification">
             <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
@@ -341,29 +351,38 @@
     @endif
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Auto-dismiss alerts
-    const alerts = document.querySelectorAll('.modern-flash-alert[data-auto-dismiss]');
-    alerts.forEach(alert => {
-        const dismissTime = parseInt(alert.dataset.autoDismiss);
-        if (dismissTime > 0) {
-            setTimeout(() => {
-                dismissAlert(alert.querySelector('.modern-flash-close'));
-            }, dismissTime);
-        }
-    });
-});
-
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 function dismissAlert(closeBtn) {
     const alert = closeBtn.closest('.modern-flash-alert');
     if (alert) {
         alert.classList.add('fade-out');
-        setTimeout(() => {
+        setTimeout(function() {
             alert.remove();
         }, 300);
     }
 }
+
+window.dismissAlert = dismissAlert;
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modern-flash-close').forEach(function(closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            dismissAlert(this);
+        });
+    });
+
+    document.querySelectorAll('.modern-flash-alert[data-auto-dismiss]').forEach(function(alert) {
+        const dismissTime = parseInt(alert.dataset.autoDismiss, 10);
+        if (dismissTime > 0) {
+            setTimeout(function() {
+                const closeBtn = alert.querySelector('.modern-flash-close');
+                if (closeBtn) {
+                    dismissAlert(closeBtn);
+                }
+            }, dismissTime);
+        }
+    });
+});
 
 // Add sound notification for success (optional)
 @if (Session::get('success'))

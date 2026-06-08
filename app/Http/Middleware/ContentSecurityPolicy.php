@@ -66,7 +66,10 @@ class ContentSecurityPolicy
                 "default-src 'self'",
                 "script-src {$scriptSrc}",
                 "style-src {$styleSrc}",
-                "font-src 'self' https://cdnjs.cloudflare.com",
+                // Allow libraries (FullCalendar, jQuery) to set element.style for layout
+                "style-src-elem {$styleSrc}",
+                "style-src-attr 'unsafe-inline'",
+                "font-src 'self' data: https://cdnjs.cloudflare.com",
                 "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com",
                 "connect-src {$connectSrc}",
                 "frame-src 'self' https://www.google.com https://challenges.cloudflare.com",

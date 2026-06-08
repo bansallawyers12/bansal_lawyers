@@ -204,13 +204,33 @@
     border-color: #1B4D89;
     box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
 }
+.calendar-timezone-alert {
+    padding: 8px 12px;
+    margin-top: 10px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.clienturl-status-col {
+    text-align: right;
+}
+
 /* Enhanced Edit Form Styling */
 #event-details-modal .if_edit_followup {
+    display: none;
     background: #f8f9fa;
     padding: 2rem;
     border-radius: 12px;
     margin-top: 2rem;
     border: 1px solid #e9ecef;
+}
+
+#event-details-modal .if_edit_followup.is-visible {
+    display: block;
+}
+
+#event-details-modal .editfollowupdate.is-hidden {
+    display: none;
 }
 #event-details-modal .if_edit_followup .form-group {
     margin-bottom: 1.5rem;
@@ -395,7 +415,7 @@ body.modal-open {
 					<div class="card">
 						<div class="card-header">
 						    <h4>{{ $type }} Calendar</h4>
-						    <div class="alert alert-info" style="padding: 8px 12px; margin-top: 10px; font-size: 12px; border-radius: 4px;">
+						    <div class="alert alert-info calendar-timezone-alert">
 						        <i class="fa fa-clock-o"></i> <strong>Timezone:</strong> All times are displayed in Melbourne, Australia time (AEST/AEDT)
 						    </div>
 						</div>
@@ -617,7 +637,7 @@ foreach($appointments as $appointment){
 <script {!! \App\Services\CspService::getNonceAttribute() !!}>
 jQuery(document).ready(function($){
     // Ensure modal is hidden on page load
-    $('#event-details-modal').removeClass('show').css('display', 'none');
+    $('#event-details-modal').removeClass('show');
     $('body').removeClass('modal-open');
     $('.modal-backdrop').remove();
     
@@ -631,8 +651,8 @@ jQuery(document).ready(function($){
     }
 
     $(document).delegate('.editfollowupdate', 'click', function(){
-        $('.if_edit_followup').show();
-        $('.editfollowupdate').hide();
+        $('.if_edit_followup').addClass('is-visible');
+        $('.editfollowupdate').addClass('is-hidden');
         
         // Scroll to the edit form
         setTimeout(function() {
@@ -643,8 +663,8 @@ jQuery(document).ready(function($){
         }, 100);
     });
     $(document).delegate('.cancelfollowupdate', 'click', function(){
-        $('.if_edit_followup').hide();
-        $('.editfollowupdate').show();
+        $('.if_edit_followup').removeClass('is-visible');
+        $('.editfollowupdate').removeClass('is-hidden');
     });
 
 	$(document).delegate('#updateappointmentstatus', 'change', function(){
@@ -675,19 +695,23 @@ jQuery(document).ready(function($){
             if (typeof $.fn.modal !== 'undefined') {
                 modal.modal('hide');
             } else {
-                // Manual close
-                modal.removeClass('show').css('display', 'none');
+                modal.removeClass('show');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
             }
         } catch (error) {
             console.error('Error closing modal:', error);
-            // Force close
-            modal.removeClass('show').css('display', 'none');
+            modal.removeClass('show');
             $('body').removeClass('modal-open');
             $('.modal-backdrop').remove();
         }
     };
+
+    $('#followup-save-btn').on('click', function() {
+        if (typeof customValidate === 'function') {
+            customValidate('updatefollowupschedule');
+        }
+    });
 
 });
 
@@ -753,8 +777,8 @@ document.addEventListener('fullcalendar-event-click', function(e) {
         $details.find('#start').html(scheds[id].start+' <a href="javascript:;" class="editfollowupdate"><i class="fa fa-edit"></i> Edit</a>');
         
         // Ensure edit form is hidden initially
-        $details.find('.if_edit_followup').hide();
-        $details.find('.editfollowupdate').show();
+        $details.find('.if_edit_followup').removeClass('is-visible');
+        $details.find('.editfollowupdate').removeClass('is-hidden');
         
         // Set selected status
         if(scheds[id].status == '1'){ csel1 = 'selected'; }
@@ -772,21 +796,10 @@ document.addEventListener('fullcalendar-event-click', function(e) {
         // Build client info and status dropdown
         var clientName = atob(scheds[id].name);
         
-        $details.find('.clienturl').html('<div class="row"><div class="col-md-6"><strong>'+clientName+' '+scheds[id].stitle+'</strong></div><div class="col-md-6" style="text-align: right;"><select class="form-control form-control-sm" id="updateappointmentstatus"><option value="0">Pending</option><option value="1" '+csel1+'>Approve</option><option value="2" '+csel2+'>Completed</option><option value="3" '+csel3+'>Rejected</option><option value="4" '+csel4+'>N/P</option><option value="5" '+csel5+'>Inrogress</option><option value="6" '+csel6+'>Did Not Come</option><option value="7" '+csel7+'>Cancelled</option><option value="8" '+csel8+'>Missed</option><option value="9" '+csel9+'>Pending With payment Pending</option><option value="10" '+csel10+'>Pending With payment Success</option><option value="11" '+csel11+'>Pending With payment Failed</option></select><input type="hidden" id="appid" value="'+id+'"></div></div>');
+        $details.find('.clienturl').html('<div class="row"><div class="col-md-6"><strong>'+clientName+' '+scheds[id].stitle+'</strong></div><div class="col-md-6 clienturl-status-col"><select class="form-control form-control-sm" id="updateappointmentstatus"><option value="0">Pending</option><option value="1" '+csel1+'>Approve</option><option value="2" '+csel2+'>Completed</option><option value="3" '+csel3+'>Rejected</option><option value="4" '+csel4+'>N/P</option><option value="5" '+csel5+'>Inrogress</option><option value="6" '+csel6+'>Did Not Come</option><option value="7" '+csel7+'>Cancelled</option><option value="8" '+csel8+'>Missed</option><option value="9" '+csel9+'>Pending With payment Pending</option><option value="10" '+csel10+'>Pending With payment Success</option><option value="11" '+csel11+'>Pending With payment Failed</option></select><input type="hidden" id="appid" value="'+id+'"></div></div>');
         
         // Enhanced modal display with multiple fallbacks
         try {
-            // First ensure modal is properly positioned
-            $details.css({
-                'position': 'fixed',
-                'z-index': '1050',
-                'top': '0',
-                'left': '0',
-                'width': '100%',
-                'height': '100%'
-            });
-            
-            // Try Bootstrap modal
             if (typeof $.fn.modal !== 'undefined') {
                 $details.modal({
                     backdrop: 'static',
@@ -794,27 +807,16 @@ document.addEventListener('fullcalendar-event-click', function(e) {
                     show: true
                 });
             } else {
-                // Manual modal display
-                $details.addClass('show').css('display', 'block');
+                $details.addClass('show');
                 $('body').addClass('modal-open');
                 
-                // Add backdrop if it doesn't exist
                 if ($('.modal-backdrop').length === 0) {
                     $('body').append('<div class="modal-backdrop fade show"></div>');
                 }
             }
         } catch (error) {
             console.error('Error showing modal:', error);
-            // Force manual display
-            $details.css({
-                'display': 'block',
-                'position': 'fixed',
-                'z-index': '1050',
-                'top': '0',
-                'left': '0',
-                'width': '100%',
-                'height': '100%'
-            });
+            $details.addClass('show');
             $('body').addClass('modal-open');
             if ($('.modal-backdrop').length === 0) {
                 $('body').append('<div class="modal-backdrop fade show"></div>');
@@ -835,7 +837,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="eventModalLabel">Appointment Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal(); return false;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fa fa-times"></i></span>
                     </button>
                 </div>
@@ -863,7 +865,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
                             <dd id="timeslot_full" class=""></dd>
 
                         </dl>
-                         <div class="if_edit_followup" style="display:none">
+                         <div class="if_edit_followup">
 							<form method="post" action="{{URL::to('/admin/updatefollowupschedule')}}" name="updatefollowupschedule" id="updatefollowupschedule" autocomplete="off" enctype="multipart/form-data">
 								@csrf
 								<input type="hidden" name="appointment_id" id="appointment_id">
@@ -887,7 +889,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
 									</div>
 
 									<div class="col-md-12">
-										<button type="button" class="btn btn-primary" onclick="customValidate('updatefollowupschedule')">Save</button>
+										<button type="button" class="btn btn-primary" id="followup-save-btn">Save</button>
 										<a href="javascript:;" class="btn btn-info cancelfollowupdate" >Cancel</a>
 									</div>
 								</div>
