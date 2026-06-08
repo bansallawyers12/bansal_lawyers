@@ -4154,10 +4154,26 @@ document.addEventListener('DOMContentLoaded', function() {
          return s.trim().replace(/\s+/g, ' ').toLowerCase();
      }
 
+     function buildDefaultBookingTimeSlotLabels() {
+         const slots = [];
+         const start = new Date('1970-01-01T10:30:00');
+         const end = new Date('1970-01-01T17:00:00');
+         const current = new Date(start);
+         while (current <= end) {
+             const hours = current.getHours();
+             const minutes = current.getMinutes();
+             const period = hours >= 12 ? 'PM' : 'AM';
+             const displayHour = hours % 12 === 0 ? 12 : hours % 12;
+             slots.push(displayHour + ':' + String(minutes).padStart(2, '0') + ' ' + period);
+             current.setMinutes(current.getMinutes() + 30);
+         }
+         return slots;
+     }
+
      function generateTimeSlots(bookedSlots = []) {
         const labels = (Array.isArray(BOOKING_TIME_SLOT_LABELS) && BOOKING_TIME_SLOT_LABELS.length)
             ? BOOKING_TIME_SLOT_LABELS
-            : ['9:30 AM', '11:00 AM', '11:30 AM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM', '5:00 PM'];
+            : buildDefaultBookingTimeSlotLabels();
         const slots = labels.map((time) => ({ time, available: true }));
         
         // Mark booked slots as unavailable
