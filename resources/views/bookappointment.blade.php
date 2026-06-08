@@ -2934,6 +2934,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Tab navigation
     document.querySelectorAll('.next-tab').forEach(function(btn) {
         btn.addEventListener('click', function() {
+        // Review & Confirm uses a dedicated handler with proper error display
+        if ($(this).data('next') === 'confirm') {
+            return;
+        }
+
         var nextTab = $(this).data('next');
         var currentTab = $('.experimental-tab-content.active').attr('id');
         
@@ -3269,6 +3274,23 @@ document.addEventListener('DOMContentLoaded', function() {
         return currentIndex > 0 ? tabOrder[currentIndex - 1] : null;
     }
     
+     var floatingNextBtnTemplates = {
+         next: '<span class="btn-text">Next</span><i class="fa fa-arrow-right"></i>',
+         review: '<span class="btn-text">Review & Confirm</span><i class="fa fa-arrow-right"></i>',
+         complete: '<i class="fa fa-check me-2"></i><span class="btn-text">Complete Booking</span>',
+         pay: '<i class="fa fa-credit-card me-2"></i><span class="btn-text">Pay &amp; Submit</span>'
+     };
+
+     // Only replace button markup when the mode actually changes (avoids cancelling clicks mid-press)
+     function setFloatingNextBtnMode($nextBtn, mode) {
+         if ($nextBtn.data('nav-mode') === mode) {
+             return;
+         }
+
+         $nextBtn.data('nav-mode', mode);
+         $nextBtn.html(floatingNextBtnTemplates[mode] || floatingNextBtnTemplates.next);
+     }
+
      function updateFloatingNavigation() {
          var currentTab = $('.experimental-tab-content.active').attr('id');
          var $floatingNav = $('#floatingNav');
@@ -3292,17 +3314,12 @@ document.addEventListener('DOMContentLoaded', function() {
          if (currentTab === 'info') {
              // Information page - show next button for form completion
              $nextBtn.show();
-             $nextBtn.find('.btn-text').text('Review & Confirm');
-             $nextBtn.html('<span class="btn-text">Review & Confirm</span><i class="fa fa-arrow-right"></i>');
+             setFloatingNextBtnMode($nextBtn, 'review');
              console.log('Showing next button for info page');
          } else if (currentTab === 'confirm') {
              var confirmTotal = getBaseConsultationFee() - (parseFloat($('input[name="discount_amount"]').val()) || 0);
              $nextBtn.show();
-             if (confirmTotal <= 0) {
-                 $nextBtn.html('<i class="fa fa-check me-2"></i><span class="btn-text">Complete Booking</span>');
-             } else {
-                 $nextBtn.html('<i class="fa fa-credit-card me-2"></i><span class="btn-text">Pay &amp; Submit</span>');
-             }
+             setFloatingNextBtnMode($nextBtn, confirmTotal <= 0 ? 'complete' : 'pay');
              console.log('Showing submit button for confirm page');
          } else if (currentTab && currentTab !== 'confirm') {
              // Other tabs - show next button only if valid
@@ -3310,24 +3327,19 @@ document.addEventListener('DOMContentLoaded', function() {
              console.log('Tab validation result for', currentTab, ':', isValid);
              if (isValid) {
                  $nextBtn.show();
-                 $nextBtn.find('.btn-text').text('Next');
-                 $nextBtn.html('<span class="btn-text">Next</span><i class="fa fa-arrow-right"></i>');
+                 setFloatingNextBtnMode($nextBtn, 'next');
                  console.log('Showing next button for', currentTab);
              } else {
                  $nextBtn.hide();
+                 $nextBtn.removeData('nav-mode');
                  console.log('Hiding next button - validation failed for', currentTab);
              }
          } else {
              $nextBtn.hide();
+             $nextBtn.removeData('nav-mode');
              console.log('Hiding next button - no tab or invalid tab');
          }
      }
-     
-     // Prevent default behavior for the Review & Confirm button to avoid conflicts
-     $('.next-tab[data-next="confirm"]').on('click', function(e) {
-         e.preventDefault();
-         e.stopPropagation();
-     });
     
     // Tab link clicks
     $('.experimental-tab-link').click(function(e) {
@@ -3750,9 +3762,18 @@ document.addEventListener('DOMContentLoaded', function() {
              valid = false;
          }
          
-         // Check date and time
-         var hasDate = $('#timeslot_col_date').val() !== '';
-         var hasTime = $('#timeslot_col_time').val() !== '';
+         // Check date and time (sync calendar state first; use same sources as other steps)
+         if (typeof updateFormInputs === 'function') {
+             updateFormInputs();
+         }
+         var hasDate = $('#timeslot_col_date').val() !== '' ||
+                      $('input[name="date"]').val() !== '' ||
+                      $('#date_input').val() !== '' ||
+                      (typeof selectedDate !== 'undefined' && selectedDate && !isNaN(selectedDate.getTime()));
+         var hasTime = $('#timeslot_col_time').val() !== '' ||
+                      $('input[name="time"]').val() !== '' ||
+                      $('#time_input').val() !== '' ||
+                      (typeof selectedTime !== 'undefined' && selectedTime !== null && selectedTime !== '');
          if (!hasDate || !hasTime) {
              console.log('Date/time missing');
              $('#bookingError').show();
@@ -4338,11 +4359,9 @@ document.addEventListener('DOMContentLoaded', function() {
      // Initialize calendar when document is ready
      initializeModernCalendar();
     
-    // Update confirmation details
+    // Update confirmation details (floating nav unchanged on info tab — avoids rebuilding the button mid-click)
     $('.infoFormFields').on('change input', function() {
         updateConfirmationDetails();
-        // Update floating navigation when form fields change
-        updateFloatingNavigation();
     });
     
     // Update confirmation when consultation type changes
@@ -4360,11 +4379,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     });
     
-    // Update floating navigation when any form field on info page changes
+    // Clear field error styling as the user completes the info form
     $(document).on('input change', '.infoFormFields, .enquiry_item', function() {
         if ($('#info').hasClass('active')) {
-            console.log('Form field changed, updating floating navigation...');
-            
             // Clear error styling when field is filled
             var $field = $(this);
             if ($field.val() && $field.val().trim() !== '') {
@@ -4377,17 +4394,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
             
-            setTimeout(function() {
-                updateFloatingNavigation();
-            }, 50);
-        }
-    });
-    
-    // Immediate trigger for legal matter selection
-    $(document).on('change', '.enquiry_item', function() {
-        console.log('Legal matter dropdown changed, immediate update...');
-        if ($('#info').hasClass('active')) {
-            updateFloatingNavigation();
         }
     });
     
