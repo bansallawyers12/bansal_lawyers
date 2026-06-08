@@ -142,7 +142,6 @@ class ProductionBuilder {
         this.log(`  Total size: ${report.performance.totalSizeKB}KB`);
         this.log(`  CSS files: ${report.performance.cssFiles}`);
         this.log(`  JS files: ${report.performance.jsFiles}`);
-        this.log(`  Compression ratio: ${report.performance.compressionRatio}%`);
     }
 }
 

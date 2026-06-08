@@ -111,6 +111,11 @@
             </div>
 
             <div class="form-group">
+                <label for="postcode">Postcode</label>
+                <input type="text" id="postcode" name="postcode" class="form-control" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="e.g. 3000" required>
+            </div>
+
+            <div class="form-group">
                 <label for="card-element">Card Details</label>
                 <div id="card-element" class="stripe-element">
                     <!-- Stripe Elements will create form elements here -->
@@ -128,8 +133,9 @@
 
 <script>
 const stripe = Stripe('{{ config('services.stripe.key') }}');
-const elements = stripe.elements();
+const elements = stripe.elements({ locale: 'en-AU' });
 const cardElement = elements.create('card', {
+    hidePostalCode: true,
     style: {
         base: {
             fontSize: '16px',
@@ -195,11 +201,23 @@ form.addEventListener('submit', async (event) => {
     showError('');
 
     const cardholderName = document.getElementById('cardholder-name').value;
+    const postcode = document.getElementById('postcode').value.trim();
+
+    if (!/^\d{4}$/.test(postcode)) {
+        showError('Please enter a valid 4-digit Australian postcode.');
+        setLoading(false);
+        return;
+    }
+
     const {error, paymentMethod} = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
         billing_details: {
             name: cardholderName,
+            address: {
+                country: 'AU',
+                postal_code: postcode,
+            },
         },
     });
 
