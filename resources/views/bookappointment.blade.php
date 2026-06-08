@@ -614,10 +614,12 @@
 
 .experimental-tab-content {
     display: none;
+    pointer-events: none;
 }
 
 .experimental-tab-content.active {
     display: block;
+    pointer-events: auto;
 }
 
 .experimental-form-group {
@@ -763,12 +765,21 @@
     background: white;
     border: 3px solid #e9ecef;
     border-radius: 15px;
-    padding: 18px;
+    padding: 0;
     margin-bottom: 0;
     transition: all 0.3s ease;
     cursor: pointer;
     position: relative;
     overflow: hidden;
+}
+
+.experimental-service-item label {
+    display: block;
+    position: relative;
+    padding: 18px;
+    margin: 0;
+    cursor: pointer;
+    width: 100%;
 }
 
 .experimental-service-item::before {
@@ -805,8 +816,14 @@
 
 .experimental-service-item input[type="radio"] {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
     opacity: 0;
-    pointer-events: none;
+    cursor: pointer;
+    z-index: 2;
 }
 
 .service-header {
@@ -2014,9 +2031,16 @@
     
     /* Mobile consultation type selection improvements */
     .experimental-service-item {
-        padding: 15px;
         margin-bottom: 10px;
         border-radius: 12px;
+    }
+
+    .experimental-service-item label {
+        padding: 15px;
+    }
+
+    #consultation_duration {
+        padding-bottom: 90px;
     }
     
     .service-header {
@@ -2165,8 +2189,11 @@
     }
     
     .experimental-service-item {
-        padding: 20px;
         margin-bottom: 12px;
+    }
+
+    .experimental-service-item label {
+        padding: 20px;
     }
     
     .experimental-service-title {
@@ -2268,13 +2295,11 @@
     /* Mobile touch improvements */
     .experimental-service-item {
         min-height: 60px;
-        display: flex;
-        align-items: center;
     }
     
     .experimental-service-item label {
         width: 100%;
-        padding: 10px;
+        padding: 15px;
         margin: 0;
     }
     
@@ -2504,7 +2529,7 @@
                         @foreach($consultationServices ?? [] as $svc)
                         <div class="experimental-service-item consultation-duration-item" data-service-id="{{ $svc['id'] }}">
                             <input type="radio" class="consultation_duration" name="consultation_duration" value="{{ $svc['id'] }}" id="duration_{{ $svc['id'] }}" data-price="{{ $svc['price_aud'] }}" data-allows-promo="{{ $svc['allows_promo'] ? '1' : '0' }}" data-is-free="{{ $svc['is_free'] ? '1' : '0' }}">
-                            <label for="duration_{{ $svc['id'] }}" style="cursor: pointer; width: 100%;">
+                            <label for="duration_{{ $svc['id'] }}">
                                 <div class="service-header">
                                     <div class="service-icon">
                                         <i class="fa fa-{{ $svc['is_free'] ? 'gift' : ($svc['duration'] >= 60 ? 'hourglass-half' : 'clock-o') }}"></i>
@@ -2512,11 +2537,11 @@
                                     <div class="service-title-section">
                                         <div class="experimental-service-title">{{ $svc['duration_label'] }} Consultation</div>
                                         @if($svc['is_free'])
-                                            <div class="service-badge consultation-duration-badge-free">Most Popular · First time only</div>
+                                            <div class="service-badge consultation-duration-badge-free">Standard</div>
                                         @elseif($svc['duration'] >= 60)
                                             <div class="service-badge">Extended Session</div>
                                         @else
-                                            <div class="service-badge">Standard</div>
+                                            <div class="service-badge">Most popular</div>
                                         @endif
                                     </div>
                                     <div class="experimental-service-price"><strong>{{ $svc['price_label'] }}</strong></div>
@@ -3040,44 +3065,34 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function switchTab(tabId) {
         console.log('Switching to tab:', tabId);
-        
-        // Hide current tab with fade effect
-        $('.experimental-tab-content').fadeOut(300, function() {
-            $('.experimental-tab-content').removeClass('active');
-            $('.experimental-tab-link').removeClass('active').addClass('disabled');
-            
-            // Show target tab
-            $('#' + tabId).addClass('active');
-            $('[data-tab="' + tabId + '"]').removeClass('disabled').addClass('active');
 
-            var tabOrder = getTabOrder();
-            var currentIndex = tabOrder.indexOf(tabId);
-            tabOrder.forEach(function(tId, idx) {
-                if (idx <= currentIndex) {
-                    $('[data-tab="' + tId + '"]').removeClass('disabled');
-                }
-            });
-            
-            if (tabId === 'confirm') {
-                updateConfirmationDetails();
-                var discountAmount = parseFloat($('input[name="discount_amount"]').val()) || 0;
-                updatePricingDisplay(Math.max(0, getBaseConsultationFee() - discountAmount));
-            }
-            
-            // Special handling for appointment_details tab
-            if (tabId === 'appointment_details') {
-                console.log('Restoring calendar state...');
-                restoreCalendarState();
-            }
+        $('.experimental-tab-content').stop(true, true).hide().removeClass('active');
+        $('.experimental-tab-link').removeClass('active').addClass('disabled');
 
-            // Update floating navigation
-            updateFloatingNavigation();
-            
-            // Fade in new tab
-            $('#' + tabId).fadeIn(300);
-            
-            // Removed scroll behavior - keep user in place
+        $('#' + tabId).addClass('active');
+        $('[data-tab="' + tabId + '"]').removeClass('disabled').addClass('active');
+
+        var tabOrder = getTabOrder();
+        var currentIndex = tabOrder.indexOf(tabId);
+        tabOrder.forEach(function(tId, idx) {
+            if (idx <= currentIndex) {
+                $('[data-tab="' + tId + '"]').removeClass('disabled');
+            }
         });
+
+        if (tabId === 'confirm') {
+            updateConfirmationDetails();
+            var discountAmount = parseFloat($('input[name="discount_amount"]').val()) || 0;
+            updatePricingDisplay(Math.max(0, getBaseConsultationFee() - discountAmount));
+        }
+
+        if (tabId === 'appointment_details') {
+            console.log('Restoring calendar state...');
+            restoreCalendarState();
+        }
+
+        updateFloatingNavigation();
+        $('#' + tabId).fadeIn(300);
     }
     
     function getTabOrder() {
@@ -3317,13 +3332,19 @@ document.addEventListener('DOMContentLoaded', function() {
     $('.experimental-tab-link').click(function(e) {
         e.preventDefault();
         var tab = $(this).data('tab');
-        
+
         if (!$(this).hasClass('disabled')) {
-            $('.experimental-tab-content').removeClass('active');
-            $('.experimental-tab-link').removeClass('active');
-            
-            $('#' + tab).addClass('active');
-            $(this).addClass('active');
+            switchTab(tab);
+        }
+    });
+
+    $(document).on('click', '.consultation-duration-item', function(e) {
+        if ($(e.target).closest('a, button').length) {
+            return;
+        }
+        var $radio = $(this).find('input.consultation_duration');
+        if ($radio.length && !$radio.prop('checked')) {
+            $radio.prop('checked', true).trigger('change');
         }
     });
     
