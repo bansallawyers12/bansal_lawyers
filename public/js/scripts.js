@@ -4,7 +4,9 @@ $(window).on("load", function () {
   $(".loader").fadeOut("slow");
 });
 
-feather.replace();
+if (typeof feather !== 'undefined') {
+  feather.replace();
+}
 // Global
 document.addEventListener('DOMContentLoaded', function () {
   let sidebar_nicescroll_opts = {

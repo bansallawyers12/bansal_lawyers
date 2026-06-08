@@ -2,7 +2,7 @@
 @section('title', 'Admin Users')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Admin Users Design System */
 :root {
     --primary-color: #1B4D89;
@@ -674,7 +674,7 @@
 @endsection
 
 @section('scripts')
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 // Reuse existing updateAction and archiveAction functions from your system
 function updateAction(id, currentStatus, table, column) {
     if (confirm('Are you sure you want to change the status?')) {

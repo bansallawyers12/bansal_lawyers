@@ -2,7 +2,7 @@
 @section('title', 'Create Admin User')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Create Admin User Design System */
 :root {
     --primary-color: #1B4D89;
@@ -490,7 +490,7 @@
 @endsection
 
 @section('scripts')
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 // Form validation using your existing customValidate function
 function customValidate(formName) {
     var form = document.forms[formName];

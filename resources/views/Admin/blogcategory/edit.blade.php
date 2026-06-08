@@ -2,7 +2,7 @@
 @section('title', 'Edit Blog Category')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Blog Category Form Design */
 :root {
     --primary-color: #1B4D89;
@@ -421,7 +421,7 @@ input:checked + .modern-checkbox-slider:before {
 	</section>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 document.addEventListener('DOMContentLoaded', function() {
     // Auto-generate slug from name (but allow user to override)
     const nameInput = document.querySelector('input[name="name"]');

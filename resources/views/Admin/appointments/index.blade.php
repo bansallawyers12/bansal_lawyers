@@ -2,7 +2,7 @@
 @section('title', 'Appointments')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Appointments Design System */
 :root {
     --primary-color: #1B4D89;
@@ -886,7 +886,7 @@
 	</div>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 // Enhanced appointments management functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Add loading states to action buttons

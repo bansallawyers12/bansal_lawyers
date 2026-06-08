@@ -2,7 +2,7 @@
 @section('title', 'Booking Blocks')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Booking Blocks Design System */
 :root {
     --primary-color: #1B4D89;
@@ -667,7 +667,7 @@
 	</section>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 // Enhanced booking blocks functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Add loading states to action buttons

@@ -54,13 +54,21 @@ class ContentSecurityPolicy
         // Different CSP policies for different route types
         if ($request->is('admin*')) {
             // Strict CSP for admin routes with nonce support
+            $scriptSrc = "'self' 'nonce-{$nonce}' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://challenges.cloudflare.com";
+            $styleSrc = "'self' 'nonce-{$nonce}' https://cdnjs.cloudflare.com";
+            $connectSrc = "'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://challenges.cloudflare.com";
+
+            if (App::environment('local')) {
+                [$scriptSrc, $connectSrc, $styleSrc] = $this->appendViteDevOrigins($scriptSrc, $connectSrc, $styleSrc);
+            }
+
             $policies = [
                 "default-src 'self'",
-                "script-src 'self' 'nonce-{$nonce}' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://challenges.cloudflare.com",
-                "style-src 'self' 'nonce-{$nonce}' https://cdnjs.cloudflare.com",
+                "script-src {$scriptSrc}",
+                "style-src {$styleSrc}",
                 "font-src 'self' https://cdnjs.cloudflare.com",
                 "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com",
-                "connect-src 'self' https://www.google.com https://maps.googleapis.com https://www.google-analytics.com https://challenges.cloudflare.com",
+                "connect-src {$connectSrc}",
                 "frame-src 'self' https://www.google.com https://challenges.cloudflare.com",
                 "object-src 'none'",
                 "base-uri 'self'",

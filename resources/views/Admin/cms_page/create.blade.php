@@ -2,7 +2,7 @@
 @section('title', 'Create CMS Page')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern CMS Page Create Form Design */
 :root {
     --primary-color: #1B4D89;
@@ -670,7 +670,7 @@ input:checked + .modern-checkbox-slider:before {
 	</section>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 document.addEventListener('DOMContentLoaded', function() {
     // Auto-generate slug from title
     const titleInput = document.querySelector('input[name="title"]');
@@ -787,7 +787,7 @@ function validateAndSubmitCMS() {
 @endsection
 
 @section('scripts')
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 // Wait for DOM to be ready before initializing TinyMCE
 document.addEventListener('DOMContentLoaded', function() {
     // Check if TinyMCE is loaded and description element exists

@@ -2,7 +2,7 @@
 @section('title', 'Appointment Details')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Appointment Details Design System */
 :root {
     --primary-color: #1B4D89;
@@ -601,7 +601,7 @@
 	</section>
 </div>
 
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 .modern-summary-item {
     display: flex;
     justify-content: space-between;
@@ -671,7 +671,7 @@
 }
 </style>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 // Enhanced appointment details functionality
 function copyAppointmentDetails() {
     let appointmentDetails = 'Appointment Details:\n';

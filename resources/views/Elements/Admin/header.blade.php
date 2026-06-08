@@ -1,4 +1,4 @@
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 .ui.label {
     display: inline-block;
     line-height: 1;

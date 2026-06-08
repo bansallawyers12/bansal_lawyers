@@ -2,7 +2,7 @@
 @section('title', 'Contact Details')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Contact Details Design System */
 :root {
     --primary-color: #1B4D89;
@@ -671,7 +671,7 @@
 	</section>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 // Enhanced contact details functionality
 function toggleStatusDropdown() {
     const dropdown = document.getElementById('statusDropdown');

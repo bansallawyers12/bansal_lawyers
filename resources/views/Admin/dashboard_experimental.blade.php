@@ -18,7 +18,7 @@
     <link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     
-    <style>
+    <style {!! \App\Services\CspService::getNonceAttribute() !!}>
     * {
         margin: 0;
         padding: 0;
@@ -28,6 +28,18 @@
     body {
         font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         background: #f8fafc;
+    }
+
+    .header-logo {
+        height: 40px;
+    }
+
+    .primary-action.contacts-action {
+        background: linear-gradient(135deg, #ec4899, #be185d);
+    }
+
+    .hidden-form {
+        display: none;
     }
     
     .header-bar {
@@ -90,7 +102,7 @@
         font-weight: 600;
         font-size: 0.9rem;
     }
-<style>
+
     .navigation-container {
         background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         min-height: 100vh;
@@ -293,12 +305,14 @@
     }
 }
 </style>
+</head>
+<body>
 
 <!-- Header Bar -->
 <div class="header-bar">
     <div class="header-left">
         <div class="logo-section">
-            <img src="{{ asset('images/logo/Bansal_Lawyers.png') }}" alt="Bansal Lawyers" style="height: 40px;">
+            <img src="{{ asset('images/logo/Bansal_Lawyers.png') }}" alt="Bansal Lawyers" class="header-logo">
         </div>
     </div>
     <div class="user-info">
@@ -431,7 +445,7 @@
                 </a>
 						</div>
             
-            <a href="{{ route('admin.contacts.index') }}" class="primary-action" style="background: linear-gradient(135deg, #ec4899, #be185d);">
+            <a href="{{ route('admin.contacts.index') }}" class="primary-action contacts-action">
                 <i class="fas fa-arrow-right"></i>
                 Manage Contacts
             </a>
@@ -472,12 +486,12 @@
             
             <a href="{{ route('admin.logout') }}" 
                class="primary-action"
-               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+               id="dashboard-logout-btn">
                 <i class="fas fa-sign-out-alt"></i>
                 Logout Now
             </a>
             
-            <form action="{{ route('admin.logout') }}" name="admin_login" id="logout-form" method="post" style="display: none;">
+            <form action="{{ route('admin.logout') }}" name="admin_login" id="logout-form" method="post" class="hidden-form">
                 @csrf
                 <input type="hidden" name="id" value="{{ Auth::user()->id }}">
             </form>
@@ -485,18 +499,24 @@
 		</div>
 </div>
 
-<script>
-// Add some interactive functionality
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 document.addEventListener('DOMContentLoaded', function() {
-    // Add click tracking for analytics (optional)
     const navLinks = document.querySelectorAll('.nav-link, .primary-action');
     navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function() {
             console.log('Navigation clicked:', this.textContent.trim());
         });
     });
-    
-    // Add smooth scrolling for better UX
+
+    const logoutBtn = document.getElementById('dashboard-logout-btn');
+    const logoutForm = document.getElementById('logout-form');
+    if (logoutBtn && logoutForm) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutForm.submit();
+        });
+    }
+
     document.documentElement.style.scrollBehavior = 'smooth';
 });
 </script>

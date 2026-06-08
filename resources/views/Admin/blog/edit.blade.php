@@ -2,7 +2,7 @@
 @section('title', 'Edit Blog Post')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Blog Edit Form Design */
 :root {
     --primary-color: #1B4D89;
@@ -756,7 +756,7 @@ input:checked + .modern-checkbox-slider:before {
 	</section>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 document.addEventListener('DOMContentLoaded', function() {
     // Auto-generate slug from title (but allow user to override)
     const titleInput = document.querySelector('input[name="title"]');
@@ -838,7 +838,7 @@ function validateAndUpdateBlog() {
 @endsection
 
 @section('scripts')
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
     // Initialize TinyMCE
     tinymce.init({
         selector: '#description',
