@@ -165,12 +165,20 @@ body {
 .btn-primary:hover {
     background: linear-gradient(135deg, #2563eb, #1d4ed8);
 }
+
+.hidden-loader {
+    display: none;
+}
+
+.footer-brand-link {
+    text-transform: none;
+}
 </style>
  
 </head>
 <body >
 	<div class="loader"></div>
-		<div class="popuploader" style="display: none;"></div>
+		<div class="popuploader hidden-loader"></div>
 	<div id="app">
 		<div class="main-wrapper main-wrapper-1">
 			<div class="navbar-bg"></div>
@@ -222,7 +230,7 @@ body {
 	<!-- <script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script> -->
 	<!-- TinyMCE v8 self-hosted from public/assets/tinymce (copied via npm run copy-tinymce) -->
 	<script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" {!! \App\Services\CspService::getNonceAttribute() !!}>
 		if (typeof tinymce !== 'undefined') {
 			tinymce.baseURL = '{{ asset('assets/tinymce') }}';
 			tinymce.suffix = '.min';
@@ -234,8 +242,8 @@ body {
 	<script src="{{ asset('js/bootstrap-formhelpers.min.js')}}"></script>
 	<script src="{{ asset('js/intlTelInput.js')}}"></script>
 	
-	<!-- Icons Library required by scripts.js -->
-	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+	<!-- Icons Library required by scripts.js (self-hosted for CSP compliance) -->
+	<script src="{{ asset('js/feather.min.js') }}"></script>
 	<!-- jQuery plugins expected by scripts.js -->
 	<!-- NiceScroll removed - causing CORS/integrity errors, will replace with CSS scrollbar styling -->
 	<!-- Sticky Kit removed - not used (layout-2 class not found), will replace with CSS position: sticky -->

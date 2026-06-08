@@ -18,6 +18,7 @@ export default defineConfig({
                 'resources/js/frontend.js',
                 'resources/js/vendor-frontend.js',
                 'resources/js/admin.js',
+                'resources/js/vendor-admin.js',
                 'resources/js/admin-calendar-v6.js',
                 'public/js/main.js', // Add main.js to build pipeline
             ],

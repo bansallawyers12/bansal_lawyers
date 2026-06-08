@@ -2,7 +2,7 @@
 @section('title', 'Appointments')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Appointments calendar modern, light styling */
 .fc-event-container .fc-h-event{cursor:pointer;}
 
@@ -614,7 +614,7 @@ foreach($appointments as $appointment){
 @section('scripts')
 <!-- FullCalendar v6 loaded via Vite -->
 @vite(['resources/js/admin-calendar-v6.js'])
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 jQuery(document).ready(function($){
     // Ensure modal is hidden on page load
     $('#event-details-modal').removeClass('show').css('display', 'none');
@@ -823,7 +823,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
     }
 });
 </script>
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Align event text to the left in day and week views */
 .fc-time-grid-event .fc-content {
     text-align: left;
@@ -901,7 +901,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
         </div>
     </div>
 
-	<script>
+	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
     document.getElementById('followup_time').addEventListener('input', function () {
         let time = this.value.split(':');
         let hours = parseInt(time[0]);

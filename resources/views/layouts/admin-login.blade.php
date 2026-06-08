@@ -30,9 +30,8 @@
 	<link href="{{ asset('css/custom.css')}}" rel="stylesheet">
 
 	<script async src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
-</head>
 
-<style>
+	<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Admin Login Design System */
 :root {
     --primary-color: #1B4D89;
@@ -462,6 +461,7 @@ body::before {
     display: none !important;
 }
 </style>
+</head>
 
 <body>
 	<div class="loader"></div>
@@ -470,7 +470,7 @@ body::before {
 	</div>
 	
 	<!-- COMMON SCRIPTS -->
-	<script type="text/javascript">
+	<script type="text/javascript" {!! \App\Services\CspService::getNonceAttribute() !!}>
 		var site_url = "<?php echo URL::to('/'); ?>";
 	</script>
 	
@@ -478,15 +478,15 @@ body::before {
 	<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
 	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 	
-	<!-- Icons Library required by scripts.js -->
-	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+	<!-- Icons Library required by scripts.js (self-hosted for CSP compliance) -->
+	<script src="{{ asset('js/feather.min.js') }}"></script>
 	
 	<!-- Custom Scripts (load after jQuery and Bootstrap) -->
 	<script src="{{ asset('js/scripts.js')}}"></script>
 	<script src="{{ asset('js/custom.js')}}"></script>
 	
 	<!-- Modern Login Scripts -->
-	<script>
+	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 	document.addEventListener('DOMContentLoaded', function() {
 		// Form validation and modern interactions
 		const form = document.querySelector('form[name="admin_login"]');

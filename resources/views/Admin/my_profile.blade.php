@@ -110,7 +110,7 @@
 </div> 
 @endsection
 @section('scripts')
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
   var loadFile = function(event) {
     var output = document.getElementById('output');
     output.src = URL.createObjectURL(event.target.files[0]);

@@ -5,7 +5,7 @@
 <!-- Ensure Font Awesome is loaded -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Contact Management Design System */
 :root {
     --primary-color: #1B4D89;
@@ -1113,7 +1113,7 @@
 	</section>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 // Enhanced contact management functionality
 document.addEventListener('DOMContentLoaded', function() {
     const checkboxes = document.querySelectorAll('.contact-checkbox');

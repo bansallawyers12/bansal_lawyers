@@ -1,4 +1,4 @@
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 .modern-sidebar {
     width: 280px;
     background: white;
@@ -96,6 +96,15 @@
     margin: 0;
     margin-left: 1rem;
     border-left: 2px solid #e2e8f0;
+    display: none;
+}
+
+.submenu.is-open {
+    display: block;
+}
+
+.hidden-form {
+    display: none;
 }
 
 .submenu-item {
@@ -184,13 +193,13 @@
             
             <li class="menu-item">
                 <a href="#" 
-                   class="menu-link {{ in_array(Route::currentRouteName(), ['appointments.index', 'appointments-others']) || request()->routeIs('admin.feature.bookingblocks.*') ? 'active' : '' }}"
-                   onclick="toggleSubmenu('appointments')">
+                   class="menu-link submenu-toggle {{ in_array(Route::currentRouteName(), ['appointments.index', 'appointments-others']) || request()->routeIs('admin.feature.bookingblocks.*') ? 'active' : '' }}"
+                   data-submenu="appointments">
                     <i class="menu-icon fas fa-calendar-alt"></i>
                     <span>Appointments</span>
                     <i class="fas fa-chevron-down ml-auto" id="appointments-chevron"></i>
                 </a>
-                <ul class="submenu" id="appointments-submenu" style="display: {{ in_array(Route::currentRouteName(), ['appointments.index', 'appointments-others']) || request()->routeIs('admin.feature.bookingblocks.*') ? 'block' : 'none' }}">
+                <ul class="submenu {{ in_array(Route::currentRouteName(), ['appointments.index', 'appointments-others']) || request()->routeIs('admin.feature.bookingblocks.*') ? 'is-open' : '' }}" id="appointments-submenu">
                     <li class="submenu-item">
                         <a href="{{ route('appointments.index') }}" 
                            class="submenu-link {{ Route::currentRouteName() == 'appointments.index' ? 'active' : '' }}">
@@ -214,13 +223,13 @@
             
             <li class="menu-item">
                 <a href="#" 
-                   class="menu-link {{ in_array(Route::currentRouteName(), ['admin.blogcategory.index', 'admin.blog.index', 'admin.blog.edit', 'admin.blog.create']) ? 'active' : '' }}"
-                   onclick="toggleSubmenu('blogs')">
+                   class="menu-link submenu-toggle {{ in_array(Route::currentRouteName(), ['admin.blogcategory.index', 'admin.blog.index', 'admin.blog.edit', 'admin.blog.create']) ? 'active' : '' }}"
+                   data-submenu="blogs">
                     <i class="menu-icon fas fa-blog"></i>
                     <span>Blogs Section</span>
                     <i class="fas fa-chevron-down ml-auto" id="blogs-chevron"></i>
                 </a>
-                <ul class="submenu" id="blogs-submenu" style="display: {{ in_array(Route::currentRouteName(), ['admin.blogcategory.index', 'admin.blog.index', 'admin.blog.edit', 'admin.blog.create']) ? 'block' : 'none' }}">
+                <ul class="submenu {{ in_array(Route::currentRouteName(), ['admin.blogcategory.index', 'admin.blog.index', 'admin.blog.edit', 'admin.blog.create']) ? 'is-open' : '' }}" id="blogs-submenu">
                     <li class="submenu-item">
                         <a href="{{ route('admin.blogcategory.index') }}" 
                            class="submenu-link {{ Route::currentRouteName() == 'admin.blogcategory.index' ? 'active' : '' }}">
@@ -265,44 +274,64 @@
     <div class="logout-section">
         <a href="{{ route('admin.logout') }}" 
            class="logout-link"
-           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+           id="sidebar-logout-btn">
             <i class="menu-icon fas fa-sign-out-alt"></i>
             <span>Logout</span>
         </a>
-        <form action="{{ route('admin.logout') }}" name="admin_login" id="logout-form" method="post" style="display: none;">
+        <form action="{{ route('admin.logout') }}" name="admin_login" id="logout-form" method="post" class="hidden-form">
             @csrf
             <input type="hidden" name="id" value="{{ Auth::user()->id }}">
         </form>
     </div>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 function toggleSubmenu(menuId) {
     const submenu = document.getElementById(menuId + '-submenu');
     const chevron = document.getElementById(menuId + '-chevron');
-    
-    if (submenu.style.display === 'none' || submenu.style.display === '') {
-        submenu.style.display = 'block';
-        chevron.style.transform = 'rotate(180deg)';
-    } else {
-        submenu.style.display = 'none';
-        chevron.style.transform = 'rotate(0deg)';
+
+    if (!submenu || !chevron) {
+        return;
     }
+
+    submenu.classList.toggle('is-open');
+    chevron.style.transform = submenu.classList.contains('is-open') ? 'rotate(180deg)' : 'rotate(0deg)';
 }
 
-// Auto-expand submenus if current route is active
 document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.submenu-toggle').forEach(function(toggle) {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            toggleSubmenu(this.dataset.submenu);
+        });
+    });
+
+    const logoutBtn = document.getElementById('sidebar-logout-btn');
+    const logoutForm = document.getElementById('logout-form');
+    if (logoutBtn && logoutForm) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutForm.submit();
+        });
+    }
+
     const currentRoute = '{{ Route::currentRouteName() }}';
     const currentPath = window.location.pathname;
-    
+
     if (['appointments.index', 'appointments-others'].includes(currentRoute) || currentPath.includes('/booking-blocks')) {
-        document.getElementById('appointments-submenu').style.display = 'block';
-        document.getElementById('appointments-chevron').style.transform = 'rotate(180deg)';
+        document.getElementById('appointments-submenu')?.classList.add('is-open');
+        const chevron = document.getElementById('appointments-chevron');
+        if (chevron) {
+            chevron.style.transform = 'rotate(180deg)';
+        }
     }
-    
+
     if (['admin.blogcategory.index', 'admin.blog.index', 'admin.blog.edit', 'admin.blog.create'].includes(currentRoute)) {
-        document.getElementById('blogs-submenu').style.display = 'block';
-        document.getElementById('blogs-chevron').style.transform = 'rotate(180deg)';
+        document.getElementById('blogs-submenu')?.classList.add('is-open');
+        const chevron = document.getElementById('blogs-chevron');
+        if (chevron) {
+            chevron.style.transform = 'rotate(180deg)';
+        }
     }
 });
 </script>

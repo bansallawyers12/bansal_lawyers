@@ -2,7 +2,7 @@
 @section('title', 'Edit Appointment')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Appointment Edit Form Design */
 :root {
     --primary-color: #1B4D89;
@@ -510,7 +510,7 @@
 	</section>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 document.addEventListener('DOMContentLoaded', function() {
     // Enhanced form validation
     const form = document.getElementById('edit-appointment-form');
@@ -530,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
 @endsection
 
 @section('scripts')
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
     document.addEventListener('DOMContentLoaded', function () {
         // Initialize flatpickr
         if (typeof flatpickr !== 'undefined') {

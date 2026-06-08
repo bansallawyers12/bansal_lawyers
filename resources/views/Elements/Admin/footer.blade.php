@@ -1,6 +1,6 @@
 <footer class="main-footer">
 	<div class="footer-left">
-		<a style="text-transform:none;" href="#">Bansal Lawyers</a>
+		<a class="footer-brand-link" href="#">Bansal Lawyers</a>
 	</div>
 	<div class="footer-right">
 

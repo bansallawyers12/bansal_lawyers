@@ -2,7 +2,7 @@
 @section('title', 'CMS Pages')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern CMS Pages Design System */
 :root {
     --primary-color: #1B4D89;
@@ -731,7 +731,7 @@ input:checked + .modern-status-slider:before {
 	</section>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 // Enhanced status toggle functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Add smooth transitions to status toggles

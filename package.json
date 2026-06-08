@@ -3,12 +3,13 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build && npm run copy-manifest && npm run copy-tinymce",
+        "build": "vite build && npm run copy-manifest && npm run copy-tinymce && npm run copy-feather",
         "watch": "vite build --watch",
-        "prod": "vite build && npm run copy-manifest && npm run copy-tinymce",
-        "production": "vite build && npm run copy-manifest && npm run copy-tinymce",
+        "prod": "vite build && npm run copy-manifest && npm run copy-tinymce && npm run copy-feather",
+        "production": "vite build && npm run copy-manifest && npm run copy-tinymce && npm run copy-feather",
         "copy-manifest": "node -e \"const fs=require('fs');const path=require('path');const src=path.join('public','build','.vite','manifest.json');const dest=path.join('public','build','manifest.json');if(fs.existsSync(src)){fs.copyFileSync(src,dest);console.log('Manifest copied to public/build/manifest.json');}else{console.log('Source manifest not found');}\"",
         "copy-tinymce": "node scripts/copy-tinymce.js",
+        "copy-feather": "node scripts/copy-feather.js",
         "minify-assets": "node scripts/minify-assets.js"
     },
     "devDependencies": {

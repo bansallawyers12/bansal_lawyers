@@ -2,7 +2,7 @@
 @section('title', 'Create Blog Post')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Blog Create Form Design */
 :root {
     --primary-color: #1B4D89;
@@ -736,7 +736,7 @@ input:checked + .modern-checkbox-slider:before {
 	</section>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 document.addEventListener('DOMContentLoaded', function() {
     // Auto-generate slug from title
     const titleInput = document.querySelector('input[name="title"]');
@@ -855,7 +855,7 @@ function validateAndSubmitBlog() {
 @section('scripts')
 {{-- TinyMCE is now initialized via Alpine.js component (x-data="tinyMCE()") --}}
 {{-- Additional TinyMCE setup for validation and file picker --}}
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 document.addEventListener('DOMContentLoaded', function() {
     // Wait for TinyMCE to be initialized by Alpine.js
     setTimeout(function() {

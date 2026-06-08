@@ -2,7 +2,7 @@
 @section('title', 'Create Case Study')
 
 @section('content')
-<style>
+<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Recent Case Create Form Design */
 :root {
     --primary-color: #1B4D89;
@@ -633,7 +633,7 @@ input:checked + .modern-checkbox-slider:before {
 	</section>
 </div>
 
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 document.addEventListener('DOMContentLoaded', function() {
     // Auto-generate slug from title
     const titleInput = document.querySelector('input[name="title"]');
@@ -689,7 +689,7 @@ document.addEventListener('DOMContentLoaded', function() {
 @endsection
 
 @section('scripts')
-<script>
+<script {!! \App\Services\CspService::getNonceAttribute() !!}>
     // Initialize TinyMCE
     tinymce.init({
         selector: '#description',
