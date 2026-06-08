@@ -487,7 +487,7 @@ class HomeController extends Controller
 
     /**
      * API: /api/appointments/get-datetime-backend — same response as getdatetime with id=1&enquiry_item=1
-     * (defaults applied when id or enquiry_item are omitted). Includes timeslot_labels (e.g. from 9:30 AM).
+     * (defaults applied when id or enquiry_item are omitted). Includes timeslot_labels (e.g. from 10:30 AM).
      */
     public function appointmentsGetDatetimeBackend(Request $request)
     {
