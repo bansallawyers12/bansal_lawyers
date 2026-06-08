@@ -2944,10 +2944,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Back button navigation
-    $('.btn-back').click(function() {
+    // Back button navigation (exclude floating btn — it uses getPrevTab via #floatingBackBtn)
+    $('.btn-back').not('#floatingBackBtn').click(function() {
         var prevTab = $(this).data('prev');
-        switchTab(prevTab);
+        if (prevTab) {
+            switchTab(prevTab);
+        }
     });
     
      // Floating navigation
