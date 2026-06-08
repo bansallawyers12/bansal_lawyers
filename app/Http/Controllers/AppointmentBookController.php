@@ -336,7 +336,7 @@ class AppointmentBookController extends Controller {
             // Enhanced validation with proper rules
             $validationRules = [
                 'service_id' => 'required|integer|exists:book_services,id',
-                'noe_id' => 'required|integer|exists:nature_of_enquiry,id',
+                'noe_id' => 'required|integer|exists:nature_of_enquiry,id,status,1',
                 'fullname' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
                 'description' => 'required|string|max:1000',
                 'email' => 'required|email|max:255',
@@ -792,7 +792,7 @@ class AppointmentBookController extends Controller {
         try {
             $adminDetails = array_merge($appointmentData, [
                 'title' => 'New Appointment Booked - ' . $fullname . ' - ' . $service->title,
-                'fullname' => 'Admin',
+                'recipient_name' => 'Admin',
             ]);
             
             Mail::to('Info@bansallawyers.com.au')->send(new \App\Mail\AppointmentMail($adminDetails));
@@ -877,7 +877,7 @@ class AppointmentBookController extends Controller {
         try {
             $adminDetails = array_merge($appointmentData, [
                 'title' => 'New Appointment - Payment Pending - ' . $fullname . ' - ' . $service->title,
-                'fullname' => 'Admin',
+                'recipient_name' => 'Admin',
                 'email_subject' => 'New Appointment - Payment Pending - ' . $fullname . ' - ' . $service->title,
                 'payment_status' => 'pending', // Indicate payment is pending
             ]);

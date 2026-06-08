@@ -2749,7 +2749,7 @@
                         <label for="noe_id">Type of Legal Matter</label>
                         <select class="experimental-form-control enquiry_item" name="noe_id" required>
                             <option value="">Select the type of legal matter</option>
-                            @foreach(\App\Models\NatureOfEnquiry::where('status',1)->get() as $enquiry)
+                            @foreach(\App\Models\NatureOfEnquiry::active()->orderBy('id')->get() as $enquiry)
                                 <option value="{{$enquiry->id}}">{{$enquiry->title}}</option>
                             @endforeach
                         </select>
@@ -2886,7 +2886,7 @@
         <h3 id="freeConsultModalTitle"><i class="fa fa-info-circle"></i> Free 10-Minute Consultation</h3>
         <p style="color:#555; margin-bottom:16px;">Please read and confirm the following before continuing:</p>
         <ul>
-            <li><strong>First-time clients only</strong> — This free consultation is available once per client (one per email or phone number).</li>
+            <li><strong>First-time clients only</strong> — This free consultation is available once per client.</li>
             <li><strong>Eligibility review</strong> — We will review your enquiry and confirm we have sufficient information. Your matter must be suitable for discussion within 10 minutes.</li>
             <li><strong>Complete your details</strong> — Please provide thorough enquiry details so we can assess your matter before the appointment.</li>
             <li><strong>Overrun policy</strong> — Bansal Lawyers reserves the right to charge for time exceeding 10 minutes. You will be notified before any additional charges apply.</li>
