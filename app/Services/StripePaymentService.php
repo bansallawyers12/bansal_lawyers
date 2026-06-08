@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Appointment;
 use App\Models\AppointmentPayment;
+use App\Support\ConsultationServices;
 use Illuminate\Support\Facades\Log;
 use Stripe\Customer;
 use Stripe\PaymentIntent;
@@ -36,7 +37,9 @@ class StripePaymentService
             }
         }
 
-        return 150.0;
+        $appointment->loadMissing('service');
+
+        return ConsultationServices::parsePriceAud($appointment->service);
     }
 
     public function findOrCreateCustomer(string $email, string $name): Customer

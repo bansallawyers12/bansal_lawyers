@@ -327,6 +327,7 @@ class HomeController extends Controller
     {
         return view('bookappointment', [
             'bookingTimeSlotLabels' => BookingTimeSlots::labels(),
+            'consultationServices' => \App\Support\ConsultationServices::activeForBookingUi(),
         ]);
     }
 
@@ -350,15 +351,14 @@ class HomeController extends Controller
             $enquiry_item = $request->enquiry_item;
             $req_service_id = $request->id;
             
-            // Only handle paid appointments (service_id = 1) for Ajay Bansal
-            if ($req_service_id != 1) {
+            if (! \App\Support\ConsultationServices::isValidWebsiteServiceId((int) $req_service_id)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Only paid appointments are available',
+                    'message' => 'Invalid consultation type selected',
                     'timeslot_labels' => BookingTimeSlots::labels(),
                 ]);
             }
-            
+
             // Ajay Bansal's configuration (person_id = 1, service_type = 1)
             $person_id = 1; // Ajay Bansal
             $service_type = 1; // Paid service
@@ -537,8 +537,8 @@ class HomeController extends Controller
                 return response()->json(['success' => false, 'message' => 'Missing required parameters']);
             }
 
-            if ($request->service_id != 1) {
-                return response()->json(['success' => false, 'message' => 'Only paid appointments are available']);
+            if (! \App\Support\ConsultationServices::isValidWebsiteServiceId((int) $request->service_id)) {
+                return response()->json(['success' => false, 'message' => 'Invalid consultation type selected']);
             }
 
             $selDate = $requestData['sel_date'];
@@ -557,7 +557,7 @@ class HomeController extends Controller
             $servicelist = Appointment::select('id', 'date', 'time')
                 ->where('status', '!=', 7)
                 ->whereDate('date', $datey)
-                ->where('service_id', 1)
+                ->whereIn('service_id', \App\Support\ConsultationServices::websiteServiceIds())
                 ->whereHas('natureOfEnquiry', function ($query) {
                     $query->where('status', 1);
                 })

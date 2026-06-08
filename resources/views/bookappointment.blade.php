@@ -894,6 +894,66 @@
     font-size: 0.8rem;
 }
 
+.consultation-duration-badge-free {
+    background: #28a745;
+    color: #fff;
+}
+
+.free-consult-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.free-consult-modal-overlay.show {
+    display: flex;
+}
+
+.free-consult-modal {
+    background: #fff;
+    border-radius: 12px;
+    max-width: 560px;
+    width: 100%;
+    padding: 32px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.free-consult-modal h3 {
+    color: #1B4D89;
+    margin-bottom: 16px;
+}
+
+.free-consult-modal ul {
+    margin: 0 0 20px 18px;
+    color: #444;
+    line-height: 1.6;
+}
+
+.free-consult-modal .ack-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.free-consult-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.experimental-coupon-section.hidden-tier {
+    display: none !important;
+}
+
 /* Consultation CTA */
 .consultation-cta {
     text-align: center;
@@ -2307,8 +2367,8 @@
                     Our team provides comprehensive legal services across immigration, family, criminal, and business law matters.
                 </p>
                 <div class="hero-pricing">
-                    <span class="price-amount">$150 AUD</span>
-                    <span class="price-note">(incl. GST) - One-time payment, no hidden fees</span>
+                    <span class="price-amount">From Free</span>
+                    <span class="price-note">10 min free (first time) · 30 min $150 · 1 hr $220 AUD (incl. GST)</span>
                 </div>
             </div>
             
@@ -2400,17 +2460,24 @@
                 <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden;" aria-hidden="true">
                     <input type="text" name="website_url" tabindex="-1" autocomplete="off" value="">
                 </div>
+                <input type="hidden" name="service_id" id="service_id" value="">
+                <input type="hidden" name="free_consult_acknowledged" id="free_consult_acknowledged" value="0">
                 <!-- Tab Navigation -->
                 <div class="experimental-form-tabs">
                     <ul class="experimental-tab-nav">
                         <li>
-                            <a href="#consultation_type" class="experimental-tab-link active" data-tab="consultation_type">
+                            <a href="#consultation_duration" class="experimental-tab-link active" data-tab="consultation_duration">
+                                <i class="fa fa-clock-o me-2"></i>Duration
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#consultation_type" class="experimental-tab-link disabled" data-tab="consultation_type">
                                 <i class="fa fa-calendar me-2"></i>Consultation Type
                             </a>
                         </li>
                         <li>
                             <a href="#appointment_details" class="experimental-tab-link disabled" data-tab="appointment_details">
-                                <i class="fa fa-clock me-2"></i>Date & Time
+                                <i class="fa fa-calendar-check-o me-2"></i>Date & Time
                             </a>
                         </li>
                         <li>
@@ -2427,14 +2494,56 @@
                 </div>
 
                 <!-- Tab Content -->
-                <div class="experimental-tab-content active" id="consultation_type">
+                <div class="experimental-tab-content active" id="consultation_duration">
+                    <div class="consultation-header">
+                        <h3><i class="fa fa-clock-o"></i> Choose Your Consultation Duration</h3>
+                        <p class="consultation-subtitle">Select how much time you need. All options include expert legal advice from our Melbourne team.</p>
+                    </div>
+
+                    <div class="consultation-options consultation-duration-options">
+                        @foreach($consultationServices ?? [] as $svc)
+                        <div class="experimental-service-item consultation-duration-item" data-service-id="{{ $svc['id'] }}">
+                            <input type="radio" class="consultation_duration" name="consultation_duration" value="{{ $svc['id'] }}" id="duration_{{ $svc['id'] }}" data-price="{{ $svc['price_aud'] }}" data-allows-promo="{{ $svc['allows_promo'] ? '1' : '0' }}" data-is-free="{{ $svc['is_free'] ? '1' : '0' }}">
+                            <label for="duration_{{ $svc['id'] }}" style="cursor: pointer; width: 100%;">
+                                <div class="service-header">
+                                    <div class="service-icon">
+                                        <i class="fa fa-{{ $svc['is_free'] ? 'gift' : ($svc['duration'] >= 60 ? 'hourglass-half' : 'clock-o') }}"></i>
+                                    </div>
+                                    <div class="service-title-section">
+                                        <div class="experimental-service-title">{{ $svc['duration_label'] }} Consultation</div>
+                                        @if($svc['is_free'])
+                                            <div class="service-badge consultation-duration-badge-free">Most Popular · First time only</div>
+                                        @elseif($svc['duration'] >= 60)
+                                            <div class="service-badge">Extended Session</div>
+                                        @else
+                                            <div class="service-badge">Standard</div>
+                                        @endif
+                                    </div>
+                                    <div class="experimental-service-price"><strong>{{ $svc['price_label'] }}</strong></div>
+                                </div>
+                                <div class="experimental-service-description">
+                                    @if($svc['is_free'])
+                                        <strong>Perfect to get started</strong> — A complimentary 10-minute introduction for first-time clients. We'll review your enquiry and confirm your matter can be discussed within this time.
+                                    @elseif($svc['duration'] >= 60)
+                                        <strong>For complex matters</strong> — Up to one hour with an experienced lawyer for detailed advice, document review, and a clear action plan.
+                                    @else
+                                        <strong>Our standard consultation</strong> — 30 minutes of focused legal advice with a clear action plan. Ideal for most immigration, family, and business matters.
+                                    @endif
+                                </div>
+                            </label>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="experimental-tab-content" id="consultation_type">
                     <div class="consultation-header">
                         <h3><i class="fa fa-calendar-plus-o"></i> Choose Your Consultation Type</h3>
                         <p class="consultation-subtitle">Select the consultation method that works best for you. All consultations include expert legal advice and a clear action plan.</p>
                         <div class="consultation-price">
-                            <span class="price-label">One-time fee:</span>
-                            <span class="price-amount">$150 AUD</span>
-                            <span class="price-note">(incl. GST • No hidden fees)</span>
+                            <span class="price-label">Selected duration:</span>
+                            <span class="price-amount selected-duration-summary">Not selected</span>
+                            <span class="price-note selected-duration-fee-note"></span>
                         </div>
                     </div>
                         
@@ -2450,7 +2559,7 @@
                                             <div class="experimental-service-title">In-Person Consultation</div>
                                             <div class="service-badge">Most Popular</div>
                                         </div>
-                                        <div class="experimental-service-price"><strong>$150 AUD</strong></div>
+                                        <div class="experimental-service-price"><span class="method-fee-note">Same fee as selected duration</span></div>
                                     </div>
                                     <div class="experimental-service-description">
                                         <strong>Perfect for complex cases</strong> - Meet face-to-face with our experienced lawyers at our Melbourne office. Ideal for detailed document review, sensitive matters, and when you need the full personal touch.
@@ -2474,7 +2583,7 @@
                                             <div class="experimental-service-title">Phone Consultation</div>
                                             <div class="service-badge">Quick & Easy</div>
                                         </div>
-                                        <div class="experimental-service-price"><strong>$150 AUD</strong></div>
+                                        <div class="experimental-service-price"><span class="method-fee-note">Same fee as selected duration</span></div>
                                     </div>
                                     <div class="experimental-service-description">
                                         <strong>Convenient and accessible</strong> - Get expert legal advice from anywhere in Australia. Perfect for initial consultations, quick questions, and when you need immediate guidance.
@@ -2498,7 +2607,7 @@
                                             <div class="experimental-service-title">Video Consultation</div>
                                             <div class="service-badge">Modern Choice</div>
                                         </div>
-                                        <div class="experimental-service-price"><strong>$150 AUD</strong></div>
+                                        <div class="experimental-service-price"><span class="method-fee-note">Same fee as selected duration</span></div>
                                     </div>
                                     <div class="experimental-service-description">
                                         <strong>Best of both worlds</strong> - Secure video calls via Zoom or Google Meet. Enjoy face-to-face interaction from the comfort of your home with screen sharing capabilities.
@@ -2511,7 +2620,6 @@
                                 </label>
                             </div>
                         </div>
-                    </div>
                 </div>
 
                 <div class="experimental-tab-content" id="appointment_details">
@@ -2568,7 +2676,6 @@
                         <input type="hidden" name="discount_percentage" value="">
                         
                         <!-- Backend required fields -->
-                        <input type="hidden" name="service_id" value="1">
                         <input type="hidden" name="appointment_details" value="">
                         <input type="hidden" name="cardName" value="">
                         <input type="hidden" name="stripeToken" value="">
@@ -2598,6 +2705,10 @@
                     <div class="experimental-selection-summary">
                         <h4><i class="fa fa-check-circle me-2"></i>Your Selection Summary</h4>
                         <div class="summary-items">
+                            <div class="summary-item">
+                                <strong>Duration:</strong>
+                                <span class="duration-summary">Not selected</span>
+                            </div>
                             <div class="summary-item">
                                 <strong>Consultation Type:</strong>
                                 <span class="consultation-type-summary">Not selected</span>
@@ -2649,6 +2760,7 @@
                         <table>
                             <thead>
                                 <tr>
+                                    <th>Duration</th>
                                     <th>Consultation Type</th>
                                     <th>Full Name</th>
                                     <th>Email</th>
@@ -2660,6 +2772,7 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td class="duration_summary"></td>
                                     <td class="consultation_type"></td>
                                     <td class="full_name"></td>
                                     <td class="email"></td>
@@ -2688,7 +2801,7 @@
                     <div class="experimental-payment-summary">
                         <div class="payment-item">
                             <span>Consultation Fee:</span>
-                            <span class="consultation-fee">$150.00 AUD</span>
+                            <span class="consultation-fee">$0.00 AUD</span>
                         </div>
                         <div class="payment-item discount-item" style="display: none;">
                             <span>Discount:</span>
@@ -2696,7 +2809,7 @@
                         </div>
                         <div class="payment-item total-item">
                             <span><strong>Total:</strong></span>
-                            <span class="total-amount"><strong>$150.00 AUD</strong></span>
+                            <span class="total-amount"><strong>$0.00 AUD</strong></span>
                         </div>
                     </div>
                     
@@ -2715,7 +2828,7 @@
                             <button type="button" class="experimental-btn submitappointment_paid final-submit-btn" id="booking-submit-btn">
                                 <i class="fa fa-credit-card"></i>
                                 <span class="btn-text">Complete Booking</span>
-                                <span class="btn-price">$150.00 AUD</span>
+                                <span class="btn-price">$0.00 AUD</span>
                             </button>
                         </div>
                         
@@ -2741,6 +2854,29 @@
         </div>
     </div>
 </section>
+
+<!-- Free consultation terms modal -->
+<div class="free-consult-modal-overlay" id="freeConsultModal" role="dialog" aria-modal="true" aria-labelledby="freeConsultModalTitle">
+    <div class="free-consult-modal">
+        <h3 id="freeConsultModalTitle"><i class="fa fa-info-circle"></i> Free 10-Minute Consultation</h3>
+        <p style="color:#555; margin-bottom:16px;">Please read and confirm the following before continuing:</p>
+        <ul>
+            <li><strong>First-time clients only</strong> — This free consultation is available once per client (one per email or phone number).</li>
+            <li><strong>Eligibility review</strong> — We will review your enquiry and confirm we have sufficient information. Your matter must be suitable for discussion within 10 minutes.</li>
+            <li><strong>Complete your details</strong> — Please provide thorough enquiry details so we can assess your matter before the appointment.</li>
+            <li><strong>Overrun policy</strong> — Bansal Lawyers reserves the right to charge for time exceeding 10 minutes. You will be notified before any additional charges apply.</li>
+            <li><strong>Booking subject to confirmation</strong> — We may contact you if a longer paid consultation would better suit your matter.</li>
+        </ul>
+        <label class="ack-row">
+            <input type="checkbox" id="freeConsultAckCheckbox">
+            <span>I understand and accept these terms for the free 10-minute consultation.</span>
+        </label>
+        <div class="free-consult-modal-actions">
+            <button type="button" class="experimental-btn btn-back" id="freeConsultCancelBtn">Choose Another Option</button>
+            <button type="button" class="experimental-btn" id="freeConsultConfirmBtn" disabled>I Understand &amp; Continue</button>
+        </div>
+    </div>
+</div>
 
 <!-- Floating Navigation -->
 <div class="floating-nav" id="floatingNav">
@@ -2768,6 +2904,7 @@
 
 <script type="text/javascript">
 window.bansalAppUrl = <?php echo json_encode(rtrim(url('/'), '/')); ?>;
+window.CONSULTATION_SERVICES = @json(collect($consultationServices ?? [])->keyBy('id'));
 document.addEventListener('DOMContentLoaded', function() {
     // Tab navigation
     document.querySelectorAll('.next-tab').forEach(function(btn) {
@@ -2912,6 +3049,20 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show target tab
             $('#' + tabId).addClass('active');
             $('[data-tab="' + tabId + '"]').removeClass('disabled').addClass('active');
+
+            var tabOrder = getTabOrder();
+            var currentIndex = tabOrder.indexOf(tabId);
+            tabOrder.forEach(function(tId, idx) {
+                if (idx <= currentIndex) {
+                    $('[data-tab="' + tId + '"]').removeClass('disabled');
+                }
+            });
+            
+            if (tabId === 'confirm') {
+                updateConfirmationDetails();
+                var discountAmount = parseFloat($('input[name="discount_amount"]').val()) || 0;
+                updatePricingDisplay(Math.max(0, getBaseConsultationFee() - discountAmount));
+            }
             
             // Special handling for appointment_details tab
             if (tabId === 'appointment_details') {
@@ -2929,14 +3080,175 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    function getTabOrder() {
+        return ['consultation_duration', 'consultation_type', 'appointment_details', 'info', 'confirm'];
+    }
+
+    function getSelectedServiceId() {
+        var id = parseInt($('input[name="service_id"]').val(), 10);
+        return isNaN(id) ? null : id;
+    }
+
+    function getSelectedServiceMeta() {
+        var id = getSelectedServiceId();
+        if (!id || !window.CONSULTATION_SERVICES) {
+            return null;
+        }
+        return window.CONSULTATION_SERVICES[id] || window.CONSULTATION_SERVICES[String(id)] || null;
+    }
+
+    function formatAud(amount) {
+        return '$' + (parseFloat(amount) || 0).toFixed(2) + ' AUD';
+    }
+
+    function getBaseConsultationFee() {
+        var meta = getSelectedServiceMeta();
+        return meta ? (parseFloat(meta.price_aud) || 0) : 0;
+    }
+
+    function serviceAllowsPromo() {
+        var meta = getSelectedServiceMeta();
+        return !!(meta && meta.allows_promo);
+    }
+
+    function updatePricingDisplay(finalAmount) {
+        var baseFee = getBaseConsultationFee();
+        var amount = (typeof finalAmount === 'number') ? finalAmount : baseFee;
+        var discount = Math.max(0, baseFee - amount);
+        var feeText = formatAud(amount);
+
+        $('.consultation-fee').text(formatAud(baseFee));
+        $('.total-amount strong').text(feeText);
+        $('.btn-price').text(feeText);
+
+        if (discount > 0) {
+            $('.discount-item').show();
+            $('.discount-amount').text('-' + formatAud(discount));
+        } else {
+            $('.discount-item').hide();
+            $('.discount-amount').text('-$0.00 AUD');
+        }
+
+        var meta = getSelectedServiceMeta();
+        if (meta) {
+            $('.selected-duration-summary').text(meta.duration_label + ' — ' + meta.price_label);
+            $('.selected-duration-fee-note').text(meta.is_free ? '(first time only)' : '(incl. GST • No hidden fees)');
+            $('.duration-summary, .duration_summary').text(meta.duration_label + ' (' + meta.price_label + ')');
+        }
+
+        togglePromoSection();
+        updateSubmitButtonLabel(amount);
+    }
+
+    function togglePromoSection() {
+        if (serviceAllowsPromo()) {
+            $('.experimental-coupon-section').removeClass('hidden-tier');
+        } else {
+            $('.experimental-coupon-section').addClass('hidden-tier');
+            resetCouponFields(false);
+        }
+    }
+
+    function updateSubmitButtonLabel(amount) {
+        var $btn = $('#booking-submit-btn');
+        if (amount <= 0) {
+            $btn.find('i').attr('class', 'fa fa-check');
+            $btn.find('.btn-text').text('Complete Booking');
+        } else {
+            $btn.find('i').attr('class', 'fa fa-credit-card');
+            $btn.find('.btn-text').text('Complete Booking');
+        }
+    }
+
+    function resetCouponFields(showMessage) {
+        $('#coupon_code').val('').prop('disabled', false);
+        $('#apply_coupon').prop('disabled', false).html('<i class="fa fa-check me-2"></i>Apply');
+        $('input[name="coupon_code"]').val('');
+        $('input[name="promo_code"]').val('');
+        $('input[name="discount_amount"]').val('');
+        $('input[name="discount_percentage"]').val('');
+        $('#reset_coupon').remove();
+        if (showMessage) {
+            showCouponMessage('Promo code reset. You can enter a new code.', 'success');
+        }
+        updatePricingDisplay(getBaseConsultationFee());
+    }
+
+    function proceedAfterDurationSelection() {
+        var serviceId = getSelectedServiceId();
+        if (!serviceId) {
+            return;
+        }
+        $('[data-tab="consultation_type"]').removeClass('disabled');
+        updateSelectionSummary();
+        updateFloatingNavigation();
+        setTimeout(function() {
+            if (validateCurrentTab('consultation_duration')) {
+                switchTab('consultation_type');
+            }
+        }, 500);
+    }
+
+    function openFreeConsultModal() {
+        $('#freeConsultAckCheckbox').prop('checked', false);
+        $('#freeConsultConfirmBtn').prop('disabled', true);
+        $('#freeConsultModal').addClass('show');
+    }
+
+    function closeFreeConsultModal() {
+        $('#freeConsultModal').removeClass('show');
+    }
+
+    $('#freeConsultAckCheckbox').on('change', function() {
+        $('#freeConsultConfirmBtn').prop('disabled', !this.checked);
+    });
+
+    $('#freeConsultCancelBtn').on('click', function() {
+        closeFreeConsultModal();
+        $('.consultation_duration:checked').prop('checked', false);
+        $('.consultation-duration-item').removeClass('selected');
+        $('input[name="service_id"]').val('');
+        $('#free_consult_acknowledged').val('0');
+    });
+
+    $('#freeConsultConfirmBtn').on('click', function() {
+        if (!$('#freeConsultAckCheckbox').is(':checked')) {
+            return;
+        }
+        $('#free_consult_acknowledged').val('1');
+        closeFreeConsultModal();
+        proceedAfterDurationSelection();
+    });
+
+    $('.consultation_duration').on('change', function() {
+        var serviceId = parseInt($(this).val(), 10);
+        var isFree = $(this).data('is-free') === 1 || $(this).data('is-free') === '1';
+        var $selectedItem = $(this).closest('.consultation-duration-item');
+
+        $('.consultation-duration-item').removeClass('selected');
+        $selectedItem.addClass('selected');
+
+        $('input[name="service_id"]').val(serviceId);
+        $('#free_consult_acknowledged').val('0');
+        resetCouponFields(false);
+        updatePricingDisplay(getBaseConsultationFee());
+
+        if (isFree) {
+            openFreeConsultModal();
+            return;
+        }
+
+        proceedAfterDurationSelection();
+    });
+
     function getNextTab(currentTab) {
-        var tabOrder = ['consultation_type', 'appointment_details', 'info', 'confirm'];
+        var tabOrder = getTabOrder();
         var currentIndex = tabOrder.indexOf(currentTab);
         return currentIndex < tabOrder.length - 1 ? tabOrder[currentIndex + 1] : null;
     }
     
     function getPrevTab(currentTab) {
-        var tabOrder = ['consultation_type', 'appointment_details', 'info', 'confirm'];
+        var tabOrder = getTabOrder();
         var currentIndex = tabOrder.indexOf(currentTab);
         return currentIndex > 0 ? tabOrder[currentIndex - 1] : null;
     }
@@ -2950,7 +3262,7 @@ document.addEventListener('DOMContentLoaded', function() {
          console.log('Updating floating navigation for tab:', currentTab);
          
          // Show floating nav based on tab
-         if (currentTab !== 'consultation_type') {
+         if (currentTab !== 'consultation_duration') {
              $floatingNav.addClass('show');
              $backBtn.show();
              console.log('Showing back button');
@@ -2968,11 +3280,14 @@ document.addEventListener('DOMContentLoaded', function() {
              $nextBtn.html('<span class="btn-text">Review & Confirm</span><i class="fa fa-arrow-right"></i>');
              console.log('Showing next button for info page');
          } else if (currentTab === 'confirm') {
-             // Confirmation page - always show pay & submit button
+             var confirmTotal = getBaseConsultationFee() - (parseFloat($('input[name="discount_amount"]').val()) || 0);
              $nextBtn.show();
-             $nextBtn.find('.btn-text').text('Pay & Submit');
-             $nextBtn.html('<i class="fa fa-credit-card me-2"></i><span class="btn-text">Pay & Submit</span>');
-             console.log('Showing pay & submit button for confirm page (permanent)');
+             if (confirmTotal <= 0) {
+                 $nextBtn.html('<i class="fa fa-check me-2"></i><span class="btn-text">Complete Booking</span>');
+             } else {
+                 $nextBtn.html('<i class="fa fa-credit-card me-2"></i><span class="btn-text">Pay &amp; Submit</span>');
+             }
+             console.log('Showing submit button for confirm page');
          } else if (currentTab && currentTab !== 'confirm') {
              // Other tabs - show next button only if valid
              var isValid = validateCurrentTab(currentTab);
@@ -3107,7 +3422,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Enable services tab
             $('[data-tab="services"]').removeClass('disabled');
             $('.services_item').prop('checked', true);
-            $('#service_id').val(1);
         }
         
         // Update floating navigation immediately when enquiry changes
@@ -3167,6 +3481,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function submitBookingWithTurnstile(turnstileToken) {
+            if (!getSelectedServiceId()) {
+                showErrorMessage('Please select a consultation duration before submitting.');
+                return;
+            }
+
             // Show loading state
             $('#loading').addClass('show');
             
@@ -3191,6 +3510,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 promo_code: $('input[name="promo_code"]').val(),
                 discount_amount: $('input[name="discount_amount"]').val(),
                 discount_percentage: $('input[name="discount_percentage"]').val(),
+                free_consult_acknowledged: $('#free_consult_acknowledged').val(),
                 cardName: $('input[name="fullname"]').val(),
                 stripeToken: 'experimental_' + Date.now(),
                 'cf-turnstile-response': turnstileToken,
@@ -3217,8 +3537,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     if (response.success) {
                         // Check if final price is zero (due to coupon)
-                        var finalAmount = parseFloat($('.final-amount').text().replace(/[^0-9.]/g, '')) || 0;
-                        var consultationFee = 150; // Base consultation fee
+                        var finalAmount = parseFloat($('.total-amount strong').text().replace(/[^0-9.]/g, '')) || 0;
+                        var consultationFee = getBaseConsultationFee();
                         var discountAmount = parseFloat($('input[name="discount_amount"]').val()) || 0;
                         var calculatedFinal = Math.max(0, consultationFee - discountAmount);
                         
@@ -3305,8 +3625,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function validateCurrentTab(tabId) {
         switch(tabId) {
+            case 'consultation_duration':
+                return getSelectedServiceId() !== null;
             case 'consultation_type':
-                return $('.consultation_type:checked').length > 0;
+                return $('input.consultation_type:checked').length > 0;
              case 'appointment_details':
                  // Check multiple possible date/time field sources
                  var hasDate = $('#timeslot_col_date').val() !== '' || 
@@ -3393,8 +3715,14 @@ document.addEventListener('DOMContentLoaded', function() {
              valid = false;
          }
          
+         // Check consultation duration
+         if (!getSelectedServiceId()) {
+             missingFields.push('Consultation Duration');
+             valid = false;
+         }
+
          // Check consultation type
-         if (!$('.consultation_type:checked').val()) {
+         if (!$('input.consultation_type:checked').val()) {
              console.log('Consultation type not selected');
              missingFields.push('Consultation Type');
              valid = false;
@@ -3699,7 +4027,11 @@ document.addEventListener('DOMContentLoaded', function() {
          
          // Format date for API (DD/MM/YYYY format)
          const apiDate = formatDateForInput(date);
-         const serviceId = $('input[name="service_id"]').val() || 1;
+         const serviceId = getSelectedServiceId();
+         if (!serviceId) {
+             $('#timeSlotsGrid').html('<div class="text-center" style="padding: 20px;">Please select a consultation duration first.</div>');
+             return;
+         }
          const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
          // Helper: build the time-slots HTML from a disabled-slots array
@@ -3998,6 +4330,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Coupon code functionality — validated server-side only (no valid codes in client JS)
     $('#apply_coupon').click(function() {
+        if (!serviceAllowsPromo()) {
+            showCouponMessage('Promo codes are not available for this consultation type.', 'error');
+            return;
+        }
+
         var couponCode = $('#coupon_code').val().trim();
 
         if (!couponCode) {
@@ -4019,13 +4356,13 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    var discountAmount = (150 * response.discount_percentage) / 100;
-                    var finalAmount = Math.max(0, 150 - discountAmount);
+                    var listPrice = getBaseConsultationFee();
+                    var discountAmount = (listPrice * response.discount_percentage) / 100;
+                    var finalAmount = Math.max(0, listPrice - discountAmount);
 
                     $('.discount-item').show();
-                    $('.discount-amount').text('-$' + discountAmount.toFixed(2) + ' AUD');
-                    $('.total-amount').html('<strong>$' + finalAmount.toFixed(2) + ' AUD</strong>');
-                    $('.final-amount').text('$' + finalAmount.toFixed(2) + ' AUD');
+                    $('.discount-amount').text('-' + formatAud(discountAmount));
+                    updatePricingDisplay(finalAmount);
 
                     var savingsText = finalAmount <= 0 ? 'Free consultation!' : 'You saved $' + discountAmount.toFixed(2);
                     showCouponMessage('Promo code applied! ' + savingsText, 'success');
@@ -4095,34 +4432,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Reset coupon functionality
     $(document).on('click', '#reset_coupon', function() {
-        // Reset form fields
-        $('#coupon_code').val('').prop('disabled', false);
-        $('#apply_coupon').prop('disabled', false).text('Apply');
-        
-        // Reset payment summary
-        $('.discount-item').hide();
-        $('.discount-amount').text('-$0.00 AUD');
-        $('.total-amount').html('<strong>$150.00 AUD</strong>');
-        $('.final-amount').text('$150.00 AUD');
-        
-        // Clear hidden inputs
-        $('input[name="coupon_code"]').val('');
-        $('input[name="promo_code"]').val('');
-        $('input[name="discount_amount"]').val('');
-        $('input[name="discount_percentage"]').val('');
-        
-        // Remove reset button
-        $('#reset_coupon').remove();
-        
-        // Show reset message
-        showCouponMessage('Promo code reset. You can enter a new code.', 'success');
+        resetCouponFields(true);
     });
     
     function updateSelectionSummary() {
         console.log('Updating selection summary...');
+
+        var meta = getSelectedServiceMeta();
+        if (meta) {
+            $('.duration-summary').text(meta.duration_label + ' (' + meta.price_label + ')');
+        } else {
+            $('.duration-summary').text('Not selected');
+        }
         
         // Update consultation type summary
-        var consultationType = $('.consultation_type:checked').val();
+        var consultationType = $('input.consultation_type:checked').val();
         console.log('Consultation type:', consultationType);
         if (consultationType) {
             var typeText = '';
@@ -4174,7 +4498,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function updateConfirmationDetails() {
-        var consultationType = $('.consultation_type:checked').val();
+        var meta = getSelectedServiceMeta();
+        $('.duration_summary').text(meta ? (meta.duration_label + ' (' + meta.price_label + ')') : 'Not selected');
+
+        var consultationType = $('input.consultation_type:checked').val();
         var typeText = '';
         switch(consultationType) {
             case 'in_person':
@@ -4190,7 +4517,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 typeText = consultationType || '';
         }
         
-        $('.consultation_type').text(typeText);
+        $('td.consultation_type').text(typeText);
         $('.full_name').text($('.fullname').val());
         $('.email').text($('.email').val());
         $('.phone').text($('.phone').val());

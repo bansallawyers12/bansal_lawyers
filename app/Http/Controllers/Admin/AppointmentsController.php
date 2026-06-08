@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 use App\Models\Appointment;
+use App\Support\ConsultationServices;
 // use App\Models\AppointmentLog; // Removed
 // use App\Models\Notification; // Removed
 use Carbon\Carbon;
@@ -138,12 +139,12 @@ class AppointmentsController extends Controller
             $obj->date = $date[2].'-'.$date[1].'-'.$date[0];
         }
 
-        // Only paid appointments (service_id = 1) for Ajay with active nature of enquiry
+        // Website consultation appointments (all duration tiers) for Ajay with active nature of enquiry
         $appointExist = \App\Models\Appointment::where('id','!=',$requestData['id'])
         ->where('status', '!=', 7)
         ->whereDate('date', $datey)
         ->where('time', $request->time)
-        ->where('service_id', 1)
+        ->whereIn('service_id', ConsultationServices::websiteServiceIds())
         ->whereHas('natureOfEnquiry', function($query) {
             $query->where('status', 1);
         })
@@ -189,7 +190,7 @@ class AppointmentsController extends Controller
             $service_data = DB::table('book_services')->where('id', $obj->service_id)->first();
             if($service_data){
                 $service_title = $service_data->title;
-                $service_type = 'Paid'; // Only paid appointments for Ajay
+                $service_type = ConsultationServices::isFreeTier((int) $obj->service_id) ? 'Free' : 'Paid';
                 $service_title_text = $service_title.'-'.$service_type;
             } else {
                 $service_title = "";

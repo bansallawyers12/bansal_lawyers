@@ -414,8 +414,8 @@ body.modal-open {
 <?php
 $sched_res = [];
 
-// Only paid appointments (service_id = 1) for Ajay with active nature of enquiry
-$appointments = \App\Models\Appointment::where('service_id', 1)
+// Website consultation appointments (all duration tiers) for Ajay with active nature of enquiry
+$appointments = \App\Models\Appointment::whereIn('service_id', \App\Support\ConsultationServices::websiteServiceIds())
     ->whereHas('natureOfEnquiry', function($query) {
         $query->where('status', 1);
     })
@@ -547,7 +547,8 @@ foreach($appointments as $appointment){
             $BookService = \App\Models\BookService::select('title','price','duration')->where('id', $appointment->service_id)->first();
             $row['service_id'] = $appointment->service_id;
             if( !empty($BookService) ){
-                $row['service'] = $BookService->title.' - '."Paid";
+                $serviceLabel = \App\Support\ConsultationServices::isFreeTier((int) $appointment->service_id) ? 'Free' : 'Paid';
+                $row['service'] = $BookService->title.' - '.$serviceLabel;
             } else {
                 $row['service'] = "";
             }
@@ -598,7 +599,7 @@ foreach($appointments as $appointment){
         }
 
         // Build appointment_other with status information
-        if( isset($appointment->service_id) && $appointment->service_id == 1 ) { //Paid
+        if( isset($appointment->service_id) && ! \App\Support\ConsultationServices::isFreeTier((int) $appointment->service_id) ) { // Paid tier
             $service_type = "Paid";
             // Show status instead of just service type
             if(isset($appointment->appointment_details) && $appointment->appointment_details != "") {
