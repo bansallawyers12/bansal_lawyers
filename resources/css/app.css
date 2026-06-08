@@ -41,44 +41,42 @@
   
   /* Navbar Scroll Visibility Fix - Dark semi-transparent bg for white text */
   .ftco-navbar-light.scrolled {
-    background: rgba(31, 41, 55, 0.95) !important; /* Matches Tailwind bg-gray-900 with 95% opacity */
-    backdrop-filter: blur(10px); /* Optional: Modern frosted effect */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
+    background: rgba(31, 41, 55, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .ftco-navbar-light.scrolled .navbar-nav {
-    background: transparent !important; /* Keep nav items transparent but parent dark */
+    background: transparent !important;
   }
 
   .ftco-navbar-light.scrolled .nav-link {
-    color: white !important; /* Reinforce white text */
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* Optional: Boost contrast on blur */
+    color: white !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Media queries kept outside @layer to avoid PostCSS generating an empty selector */
+@media (max-width: 991.98px) {
+  .ftco-navbar-light.scrolled {
+    background: #000 !important;
+  }
+  
+  .ftco-navbar-light.scrolled .navbar-nav {
+    background: #000 !important;
+    padding: 10px 0 !important;
   }
 
-  /* Mobile: Solid dark bg on scroll (overrides theme transparency) */
-  @media (max-width: 991.98px) {
-    .ftco-navbar-light.scrolled {
-      background: #000 !important; /* Solid black for better mobile contrast */
-    }
-    
-    .ftco-navbar-light.scrolled .navbar-nav {
-      background: #000 !important; /* Ensure mobile menu bg is solid */
-      padding: 10px 0 !important;
-    }
+  /* Override Bootstrap rule that hides navbar on mobile */
+  .navbar {
+    display: block !important;
   }
-
-  /* CRITICAL FIX: Override Bootstrap rule that hides navbar on mobile */
-  @media (max-width: 991.98px) {
-    .navbar {
-      display: block !important; /* Override Bootstrap's display: none */
-    }
-    
-    .navbar-collapse {
-      display: none !important; /* Hide by default, show when toggled */
-    }
-    
-    .navbar-collapse.show {
-      display: block !important; /* Show when toggled */
-    }
+  
+  .navbar-collapse {
+    display: none !important;
+  }
+  
+  .navbar-collapse.show {
+    display: block !important;
   }
 }

@@ -12,7 +12,7 @@ export default defineConfig({
                 'resources/css/vendor-frontend.css',
                 'resources/css/vendor-admin.css',
                 // fonts.css removed - now loaded as static asset to avoid Vite path resolution issues
-                
+
                 // JS files
                 'resources/js/app.js',
                 'resources/js/frontend.js',
@@ -26,67 +26,16 @@ export default defineConfig({
             buildDirectory: 'build',
         }),
     ],
-    // Suppress CSS warnings globally
-    esbuild: {
-        logOverride: { 'css-syntax-error': 'silent' }
-    },
     build: {
         outDir: 'public/build',
         emptyOutDir: true,
         manifest: true,
-        // Use esbuild for faster builds (switches to terser only if needed)
-        minify: 'terser',
-        // CSS minification - esbuild handles CSS minification
-        // The warning is from vendor CSS (Font Awesome) and can be safely ignored
-        cssMinify: 'esbuild',
-        terserOptions: {
-            compress: {
-                // Aggressive optimizations for smaller bundle size
-                conditionals: true,
-                dead_code: true,
-                evaluate: true,
-                if_return: true,
-                join_vars: true,
-                loops: true,
-                sequences: true,
-                side_effects: true,
-                collapse_vars: true,
-                comparisons: true,
-                unused: true,
-                // Remove console in production for smaller bundles
-                drop_console: true,
-                drop_debugger: true,
-                pure_funcs: ['console.log', 'console.info', 'console.debug'],
-                passes: 2, // Multiple passes for better optimization
-            },
-            mangle: {
-                toplevel: true, // Mangle top-level names for smaller bundles
-                reserved: ['element', 'videoSection', 'welcomeText', 'Alpine', 'AOS'],
-            },
-            format: {
-                comments: false,
-                beautify: false,
-                ecma: 2020, // Modern ES2020 for better compression
-                ascii_only: false,
-            },
-        },
-        // Disable sourcemaps in production for smaller builds
         sourcemap: process.env.NODE_ENV === 'development',
-        // Enable CSS code splitting
         cssCodeSplit: true,
-        // Optimize chunk size
+        // Lightning CSS fails on vendor CSS (Font Awesome); esbuild is more lenient
+        cssMinify: 'esbuild',
         chunkSizeWarningLimit: 1000,
-        // Suppress CSS warnings from vendor files (Font Awesome, Flatpickr)
-        // The warning is non-fatal and doesn't affect functionality
-        onwarn(warning, warn) {
-            // Suppress CSS syntax warnings from vendor files
-            if (warning.message && warning.message.includes('css-syntax-error')) {
-                return;
-            }
-            // Show other warnings
-            warn(warning);
-        },
-        rollupOptions: {
+        rolldownOptions: {
             external: [
                 // External packages that are loaded dynamically or via CDN
                 // Note: Flatpickr is now bundled via npm (replaces bootstrap-datepicker)
@@ -100,36 +49,37 @@ export default defineConfig({
                 'magnific-popup',
                 'aos',
             ],
+            onwarn(warning, warn) {
+                if (
+                    warning.code === 'css-syntax-error' ||
+                    (warning.message && warning.message.includes('css-syntax-error'))
+                ) {
+                    return;
+                }
+                warn(warning);
+            },
             output: {
                 entryFileNames: 'assets/[name]-[hash].js',
                 chunkFileNames: 'assets/[name]-[hash].js',
                 assetFileNames: 'assets/[name]-[hash].[ext]',
-                // Manual code splitting for optimal loading
-                manualChunks: (id) => {
-                    // Vendor chunk for node_modules
-                    if (id.includes('node_modules')) {
-                        // Separate large libraries
-                        if (id.includes('jquery')) {
-                            return 'vendor-jquery';
-                        }
-                        if (id.includes('bootstrap')) {
-                            return 'vendor-bootstrap';
-                        }
-                        if (id.includes('alpinejs')) {
-                            return 'vendor-alpine';
-                        }
-                        if (id.includes('axios')) {
-                            return 'vendor-axios';
-                        }
-                        if (id.includes('lodash')) {
-                            return 'vendor-lodash';
-                        }
-                        // Other vendor libraries
-                        return 'vendor';
-                    }
+                codeSplitting: {
+                    groups: [
+                        { name: 'vendor-jquery', test: /node_modules[\\/]jquery/, priority: 20 },
+                        { name: 'vendor-bootstrap', test: /node_modules[\\/]bootstrap/, priority: 20 },
+                        { name: 'vendor-alpine', test: /node_modules[\\/]alpinejs/, priority: 20 },
+                        { name: 'vendor-axios', test: /node_modules[\\/]axios/, priority: 20 },
+                        { name: 'vendor-lodash', test: /node_modules[\\/]lodash/, priority: 20 },
+                        { name: 'vendor', test: /node_modules/, priority: 1 },
+                    ],
                 },
-            }
-        }
+                minify: {
+                    compress: {
+                        dropConsole: true,
+                        dropDebugger: true,
+                    },
+                },
+            },
+        },
     },
     server: {
         host: '127.0.0.1', // Use same IP as Laravel server to avoid CORS

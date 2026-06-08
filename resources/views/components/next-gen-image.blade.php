@@ -1,12 +1,6 @@
-@if($avifSrc || $webpSrc)
+@if($webpSrc)
 <picture {{ $attributes->merge(['class' => $class]) }}>
-    @if($avifSrc)
-    <source srcset="{!! $avifSrc !!}" type="image/avif" {!! $sizes ? 'sizes="' . $sizes . '"' : '' !!}>
-    @endif
-    
-    @if($webpSrc)
     <source srcset="{!! $webpSrc !!}" type="image/webp" {!! $sizes ? 'sizes="' . $sizes . '"' : '' !!}>
-    @endif
     
     <img 
         src="{!! asset($src) !!}" 

@@ -16,6 +16,9 @@ return [
     |
     */
 
+    'default' => env('MAIL_MAILER', env('MAIL_DRIVER', 'smtp')),
+
+    // Legacy key — kept for backward compatibility; prefer MAIL_MAILER in .env
     'driver' => env('MAIL_DRIVER', 'smtp'),
 
     /*

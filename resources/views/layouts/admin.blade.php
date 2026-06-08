@@ -211,8 +211,7 @@ body {
 				    </script>
 	<!--<script src="{{--asset('js/niceCountryInput.js')--}}"></script> -->
 	
-	<!-- Core Dependencies (load first) -->
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+	<!-- Core Dependencies (load first; jQuery already loaded in <head>) -->
 	<script src="{{ asset('js/moment.min.js')}}"></script>
 	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 	

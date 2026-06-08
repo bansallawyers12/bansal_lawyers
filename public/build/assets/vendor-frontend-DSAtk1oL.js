@@ -1,0 +1,1 @@
+import{o as e}from"./vendor-CuYOzbFR.js";window.Swiper=e;

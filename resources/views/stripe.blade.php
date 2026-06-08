@@ -80,7 +80,7 @@
     <div class="payment-container">
         <div class="payment-header">
             <h1>Appointment Payment</h1>
-            <div class="payment-amount">$150.00 AUD</div>
+            <div class="payment-amount">${{ number_format($paymentAmount, 2) }} AUD</div>
             <div class="alert alert-warning text-center" style="margin-top: 20px; background-color: #fff3cd; border-color: #ffc107; color: #856404;">
                 <strong>Your payment is Pending.</strong><br>
                 Please pay your payment by filling below stripe payment form.
@@ -103,11 +103,16 @@
         <form id="payment-form" role="form" action="{{ route('stripe.post1') }}" method="post">
             @csrf
             <input type="hidden" name="appointment_id" value="{{ $appointmentId }}">
-            <input type="hidden" name="customerEmail" value="{{ is_object($adminInfo) ? $adminInfo->email : '' }}">
-            
+            <input type="hidden" name="customerEmail" value="{{ $appointmentInfo->email ?? '' }}">
+
             <div class="form-group">
                 <label for="cardholder-name">Name on Card</label>
                 <input type="text" id="cardholder-name" name="cardName" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="postcode">Postcode</label>
+                <input type="text" id="postcode" name="postcode" class="form-control" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="e.g. 3000" required>
             </div>
 
             <div class="form-group">
@@ -118,8 +123,8 @@
                 <div id="card-errors" class="error-message"></div>
             </div>
 
-            <button id="submit-button" class="pay-button">
-                <span id="button-text">Pay $150.00 AUD</span>
+            <button id="submit-button" class="pay-button" type="submit">
+                <span id="button-text">Pay ${{ number_format($paymentAmount, 2) }} AUD</span>
                 <span id="spinner" style="display: none;">Processing...</span>
             </button>
         </form>
@@ -127,14 +132,10 @@
 </div>
 
 <script>
-// Set your publishable key
 const stripe = Stripe('{{ config('services.stripe.key') }}');
-
-// Create an instance of Elements
-const elements = stripe.elements();
-
-// Create an instance of the card Element
+const elements = stripe.elements({ locale: 'en-AU' });
 const cardElement = elements.create('card', {
+    hidePostalCode: true,
     style: {
         base: {
             fontSize: '16px',
@@ -149,10 +150,8 @@ const cardElement = elements.create('card', {
     },
 });
 
-// Mount the card Element
 cardElement.mount('#card-element');
 
-// Handle real-time validation errors from the card Element
 cardElement.on('change', function(event) {
     const displayError = document.getElementById('card-errors');
     if (event.error) {
@@ -162,51 +161,111 @@ cardElement.on('change', function(event) {
     }
 });
 
-// Handle form submission
 const form = document.getElementById('payment-form');
+const submitButton = document.getElementById('submit-button');
+const buttonText = document.getElementById('button-text');
+const spinner = document.getElementById('spinner');
+
+function setLoading(isLoading) {
+    submitButton.disabled = isLoading;
+    buttonText.style.display = isLoading ? 'none' : 'inline';
+    spinner.style.display = isLoading ? 'inline' : 'none';
+}
+
+function showError(message) {
+    document.getElementById('card-errors').textContent = message;
+}
+
+async function postPayment(formData) {
+    const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+        },
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        throw new Error(data.error || data.message || 'Payment failed. Please try again.');
+    }
+
+    return data;
+}
+
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    setLoading(true);
+    showError('');
 
-    const submitButton = document.getElementById('submit-button');
-    const buttonText = document.getElementById('button-text');
-    const spinner = document.getElementById('spinner');
-
-    // Disable the submit button
-    submitButton.disabled = true;
-    buttonText.style.display = 'none';
-    spinner.style.display = 'inline';
-
-    // Get the cardholder name
     const cardholderName = document.getElementById('cardholder-name').value;
+    const postcode = document.getElementById('postcode').value.trim();
 
-    // Create payment method
+    if (!/^\d{4}$/.test(postcode)) {
+        showError('Please enter a valid 4-digit Australian postcode.');
+        setLoading(false);
+        return;
+    }
+
     const {error, paymentMethod} = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
         billing_details: {
             name: cardholderName,
+            address: {
+                country: 'AU',
+                postal_code: postcode,
+            },
         },
     });
 
     if (error) {
-        // Show error to customer
-        const errorElement = document.getElementById('card-errors');
-        errorElement.textContent = error.message;
-        
-        // Re-enable the submit button
-        submitButton.disabled = false;
-        buttonText.style.display = 'inline';
-        spinner.style.display = 'none';
-    } else {
-        // Add the payment method ID to the form
-        const hiddenInput = document.createElement('input');
-        hiddenInput.setAttribute('type', 'hidden');
-        hiddenInput.setAttribute('name', 'stripeToken');
-        hiddenInput.setAttribute('value', paymentMethod.id);
-        form.appendChild(hiddenInput);
+        showError(error.message);
+        setLoading(false);
+        return;
+    }
 
-        // Submit the form
-        form.submit();
+    try {
+        const formData = new FormData(form);
+        formData.append('payment_method_id', paymentMethod.id);
+
+        let data = await postPayment(formData);
+
+        if (data.requires_action && data.client_secret) {
+            const result = await stripe.confirmCardPayment(data.client_secret, {}, {
+                handleActions: true,
+            });
+
+            if (result.error) {
+                showError(result.error.message);
+                setLoading(false);
+                return;
+            }
+
+            if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+                const completeData = new FormData(form);
+                completeData.append('payment_intent_id', result.paymentIntent.id);
+
+                data = await postPayment(completeData);
+            } else {
+                showError('Authentication did not complete. Please try again.');
+                setLoading(false);
+                return;
+            }
+        }
+
+        if (data.redirect) {
+            window.location.href = data.redirect;
+            return;
+        }
+
+        showError(data.error || 'Payment failed. Please try again.');
+        setLoading(false);
+    } catch (err) {
+        showError(err.message || 'An unexpected error occurred. Please try again.');
+        setLoading(false);
     }
 });
 </script>

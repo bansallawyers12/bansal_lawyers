@@ -475,7 +475,7 @@ body::before {
 	</script>
 	
 	<!-- Core Dependencies (load first) -->
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+	<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
 	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 	
 	<!-- Icons Library required by scripts.js -->

@@ -25,7 +25,7 @@ class ConvertImagesToNextGen extends Command
      *
      * @var string
      */
-    protected $description = 'Convert existing images to next-gen formats (WebP and AVIF)';
+    protected $description = 'Convert existing images to WebP format';
 
     protected ImageService $imageService;
 
@@ -44,7 +44,7 @@ class ConvertImagesToNextGen extends Command
             return 1;
         }
 
-        $this->info('Starting image conversion to next-gen formats...');
+        $this->info('Starting WebP conversion...');
         $this->newLine();
 
         $totalConverted = 0;
@@ -109,10 +109,9 @@ class ConvertImagesToNextGen extends Command
                 try {
                     $pathInfo = pathinfo($file);
                     $webpExists = Storage::disk('public')->exists($pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp');
-                    $avifExists = Storage::disk('public')->exists($pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.avif');
 
-                    if (!$this->option('force') && $webpExists && $avifExists) {
-                        $this->line("  Skipping {$file} (next-gen versions already exist)");
+                    if (!$this->option('force') && $webpExists) {
+                        $this->line("  Skipping {$file} (WebP already exists)");
                         $skipped++;
                         continue;
                     }
@@ -120,13 +119,12 @@ class ConvertImagesToNextGen extends Command
                     $this->line("  Converting {$file}...");
                     $result = $this->imageService->convertExisting($file, 'public');
                     
-                    if ($result['webp'] || $result['avif']) {
+                    if ($result['webp']) {
                         $converted++;
-                        $formats = array_filter([$result['webp'] ? 'WebP' : null, $result['avif'] ? 'AVIF' : null]);
-                        $this->info("    ✓ Created: " . implode(', ', $formats));
+                        $this->info("    ✓ Created WebP");
                     } else {
                         $skipped++;
-                        $this->warn("    ⚠ No next-gen versions created");
+                        $this->warn("    ⚠ No WebP version created");
                     }
                     
                 } catch (\Exception $e) {
@@ -170,10 +168,9 @@ class ConvertImagesToNextGen extends Command
                 $relativePath = str_replace('\\', '/', $relativePath);
                 
                 $webpPath = $file->getPath() . '/' . $file->getFilenameWithoutExtension() . '.webp';
-                $avifPath = $file->getPath() . '/' . $file->getFilenameWithoutExtension() . '.avif';
 
-                if (!$this->option('force') && file_exists($webpPath) && file_exists($avifPath)) {
-                    $this->line("  Skipping {$relativePath} (next-gen versions already exist)");
+                if (!$this->option('force') && file_exists($webpPath)) {
+                    $this->line("  Skipping {$relativePath} (WebP already exists)");
                     $skipped++;
                     continue;
                 }
@@ -181,13 +178,12 @@ class ConvertImagesToNextGen extends Command
                 $this->line("  Converting {$relativePath}...");
                 $result = $this->imageService->convertPublicImage($relativePath);
                 
-                if ($result['webp'] || $result['avif']) {
+                if ($result['webp']) {
                     $converted++;
-                    $formats = array_filter([$result['webp'] ? 'WebP' : null, $result['avif'] ? 'AVIF' : null]);
-                    $this->info("    ✓ Created: " . implode(', ', $formats));
+                    $this->info("    ✓ Created WebP");
                 } else {
                     $skipped++;
-                    $this->warn("    ⚠ No next-gen versions created");
+                    $this->warn("    ⚠ No WebP version created");
                 }
                 
             } catch (\Exception $e) {
