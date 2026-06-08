@@ -1,28 +1,121 @@
 @extends('layouts.landing')
 
 @section('seoinfo')
-<title>Divorce with Confidence | Expert Family Law Guidance in Australia | Bansal Lawyers</title>
-<meta name="description" content="Expert family law guidance in Melbourne, Australia. Bansal Lawyers provides compassionate legal support for divorce, property settlement, parenting arrangements, and family law matters. Free consultation available." />
-<meta name="keywords" content="divorce lawyer Melbourne, family law Melbourne, divorce attorney, child custody lawyer, property settlement, family law services, Melbourne divorce lawyer, Bansal Lawyers" />
+<title>Divorce Lawyers Melbourne CBD | Bansal Lawyers — Free Consultation</title>
+<meta name="description" content="Separating with children or property to divide? Bansal Lawyers' Melbourne divorce team guides you through every step — property settlement, parenting orders & more. Call 1300 226 725 for a free consultation." />
+<meta name="keywords" content="divorce lawyer Melbourne, divorce lawyers Melbourne CBD, family law Melbourne, property settlement lawyer Melbourne, parenting orders Melbourne, Bansal Lawyers" />
 
-<link rel="canonical" href="https://www.bansallawyers.com.au/landing" />
+<link rel="canonical" href="https://www.bansallawyers.com.au/divorce-lawyers-melbourne" />
 
 <!-- Facebook Meta Tags -->
-<meta property="og:url" content="<?php echo URL::to('/'); ?>/landing">
+<meta property="og:url" content="https://www.bansallawyers.com.au/divorce-lawyers-melbourne">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Divorce with Confidence | Expert Family Law Guidance in Australia | Bansal Lawyers">
-<meta property="og:description" content="Expert family law guidance in Melbourne, Australia. Compassionate legal support for divorce, property settlement, parenting arrangements, and family law matters.">
+<meta property="og:title" content="Divorce Lawyers Melbourne CBD | Bansal Lawyers — Free Consultation">
+<meta property="og:description" content="Separating with children or property to divide? Bansal Lawyers' Melbourne divorce team guides you through every step. Call 1300 226 725 for a free initial consultation.">
 <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
-<meta property="og:image:alt" content="Bansal Lawyers - Divorce & Family Law Services">
+<meta property="og:image:alt" content="Bansal Lawyers - Divorce & Family Law Services Melbourne">
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="bansallawyers.com.au">
-<meta property="twitter:url" content="<?php echo URL::to('/'); ?>/landing">
-<meta name="twitter:title" content="Divorce with Confidence | Expert Family Law Guidance in Australia | Bansal Lawyers">
-<meta name="twitter:description" content="Expert family law guidance in Melbourne, Australia. Compassionate legal support for divorce, property settlement, parenting arrangements, and family law matters.">
+<meta property="twitter:url" content="https://www.bansallawyers.com.au/divorce-lawyers-melbourne">
+<meta name="twitter:title" content="Divorce Lawyers Melbourne CBD | Bansal Lawyers — Free Consultation">
+<meta name="twitter:description" content="Separating with children or property to divide? Bansal Lawyers' Melbourne divorce team guides you through every step. Call 1300 226 725 for a free initial consultation.">
 <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
-<meta property="twitter:image:alt" content="Bansal Lawyers - Divorce & Family Law Services">
+<meta property="twitter:image:alt" content="Bansal Lawyers - Divorce & Family Law Services Melbourne">
+@endsection
+
+@section('schema')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LegalService",
+      "@id": "https://www.bansallawyers.com.au/#legalservice",
+      "name": "Bansal Lawyers",
+      "url": "https://www.bansallawyers.com.au/divorce-lawyers-melbourne",
+      "telephone": "1300226725",
+      "email": "info@bansallawyers.com.au",
+      "image": "https://www.bansallawyers.com.au/images/logo/Bansal_Lawyers.png",
+      "description": "Bansal Lawyers are divorce and family law specialists based in Melbourne CBD. We handle property settlement, parenting orders, de facto separation, and all family law matters.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Level 8/278 Collins St",
+        "addressLocality": "Melbourne",
+        "addressRegion": "VIC",
+        "postalCode": "3000",
+        "addressCountry": "AU"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "-37.8166",
+        "longitude": "144.9632"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "09:30",
+        "closes": "18:00"
+      },
+      "areaServed": [
+        {"@type": "City", "name": "Melbourne"},
+        {"@type": "AdministrativeArea", "name": "Victoria"}
+      ],
+      "sameAs": [
+        "https://www.facebook.com/profile.php?id=61562008576642",
+        "https://www.instagram.com/bansallawyers"
+      ],
+      "priceRange": "$$"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How long does divorce take in Australia?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Once you file, most divorce applications are finalised within 3–4 months. You must have been separated for at least 12 months and 1 day before you can apply. The divorce order then becomes final one month and one day after the court hearing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a divorce lawyer cost in Melbourne?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Legal costs vary depending on the complexity of your matter. Straightforward uncontested divorces are generally less expensive than matters involving disputed property or parenting arrangements. We offer a free initial consultation so you can understand your options and likely costs before committing. Please note: any estimates provided are general guidance only and not a quote."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to go to court for a divorce?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not always. For joint divorce applications with no children under 18, you typically do not need to attend court. If you are making a sole application or if there are children under 18 involved, court attendance may be required. Property and parenting matters can often be resolved through negotiation or consent orders without a contested court hearing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if my spouse and I agree on everything?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If you and your spouse agree on property division and parenting arrangements, the process is much simpler. You can apply for divorce jointly, and agreed arrangements can be formalised as Consent Orders — legally binding documents approved by the court without the need for a contested hearing. A lawyer can help ensure your agreement is correctly documented and protects both parties."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is property settlement separate from divorce?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Divorce legally ends the marriage, but it does not automatically divide your property. Property settlement is a separate legal process and has strict time limits: married couples must apply within 12 months of the divorce order becoming final, and de facto couples within 2 years of separation. Missing these deadlines can affect your right to make a claim."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 @endsection
 
 @section('content')
@@ -2679,15 +2772,18 @@ body {
 }
 </style>
 
-<!-- Limited Time Offer Banner - Sticky Top Bar -->
-<a href="#consultation-form" style="text-decoration: none; display: block;" class="limited-time-banner">
-    <div class="limited-time-banner-content">
-        <span class="limited-time-icon">⏰</span>
-        <span class="limited-time-text">FREE CONSULTATION - LIMITED TIME OFFER!</span>
-        <span class="limited-time-highlight">Ends After February 15, 2026</span>
-        <span class="limited-time-date">Don't miss out - Book your free consultation today!</span>
+<!-- Trust Bar -->
+<div class="limited-time-banner" style="background: #0F172A; cursor: default;">
+    <div class="limited-time-banner-content" style="gap: 30px;">
+        <span class="limited-time-text" style="font-size: 0.9rem; letter-spacing: 0.5px;">&#128205; Level 8/278 Collins St, Melbourne VIC 3000</span>
+        <span class="limited-time-highlight" style="background: transparent; color: rgba(255,255,255,0.5);">|</span>
+        <a href="tel:1300226725" class="limited-time-text" style="font-size: 0.9rem; text-decoration: none; color: inherit;">&#128222; 1300 BANSAL (1300 226 725)</a>
+        <span class="limited-time-highlight" style="background: transparent; color: rgba(255,255,255,0.5);">|</span>
+        <span class="limited-time-text" style="font-size: 0.9rem;">Mon &ndash; Fri &nbsp;9:30 AM &ndash; 6:00 PM</span>
+        <span class="limited-time-highlight" style="background: transparent; color: rgba(255,255,255,0.5);">|</span>
+        <a href="#consultation-form" class="limited-time-text" style="font-size: 0.9rem; text-decoration: underline; color: inherit;">Free initial consultation &rarr;</a>
     </div>
-</a>
+</div>
 
 <!-- Permanent Floating CTA Button -->
 <a href="tel:1300226725" class="floating-cta-button" title="Call 1300 BANSAL for Free Consultation">
@@ -2706,25 +2802,27 @@ body {
                  style="max-height: 100px; height: auto; width: auto; display: inline-block; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));"
                  onerror="this.onerror=null; this.src='{{ asset('images/logo/Bansal_Lawyers_origional.png') }}'; this.onerror=function(){this.style.display='none';}">
         </div>
-        <h1 class="cover-title">Expert Divorce Lawyers Protecting Your Rights</h1>
-        <h2 class="cover-subtitle">Compassionate Legal Support for Your Divorce Journey in Australia</h2>
-        <p class="cover-tagline">Trusted guidance for divorce, property settlement, child custody, and all family law matters</p>
-        <div style="margin: 30px 0; display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
+        <h1 class="cover-title">Divorce Lawyers in Melbourne CBD</h1>
+        <h2 class="cover-subtitle">Clear, Honest Advice When You Need It Most</h2>
+        <p class="cover-tagline" style="font-style: normal; font-size: 1.15rem; line-height: 1.8; opacity: 1; max-width: 520px;">
+            Whether you're separating with children, dividing property, or working things out amicably — our Melbourne team handles the legal complexity so you can focus on moving forward. Call us or fill in the form and we'll respond same day.
+        </p>
+        <div style="margin: 30px 0; display: flex; align-items: center; justify-content: flex-start; gap: 20px; flex-wrap: wrap;">
             <a href="#consultation-form" class="cover-cta-button" style="flex: 0 0 auto;">
-                Start Your Free Consultation →
+                Request a free consultation &rarr;
             </a>
             <a href="tel:1300226725" class="cover-cta-button" style="background: transparent; border: 2px solid var(--primary-teal); color: var(--primary-teal); flex: 0 0 auto;">
-                📞 Call 1300 BANSAL
+                Call 1300 226 725
             </a>
         </div>
-        <p style="margin-top: 20px; font-size: 0.9rem; color: var(--accent-teal); font-weight: 600; text-align: center;">
-            ✓ No obligation • ✓ Confidential • ✓ Expert advice
+        <p style="margin-top: 10px; font-size: 0.9rem; color: #64748b; font-weight: 500;">
+            Confidential &nbsp;&middot;&nbsp; No obligation &nbsp;&middot;&nbsp; Same-day response
         </p>
     </div>
-    <div class="cover-image">
+    <div class="cover-image" id="consultation-form">
         <div class="cover-visual-content" style="max-width: 750px; text-align: left;">
-            <h3 class="cover-visual-title" style="text-align: center; margin-bottom: 35px; font-size: 2.8rem;">
-                ⚡ GET YOUR FREE CONSULTATION NOW ⚡
+            <h3 class="cover-visual-title" style="text-align: center; margin-bottom: 35px; font-size: 2rem; font-weight: 700; letter-spacing: 0;">
+                Book your free consultation
             </h3>
             
             <div style="background: rgba(255, 255, 255, 0.98); border-radius: 25px; padding: 50px 45px 120px 45px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); position: relative; z-index: 2; margin-bottom: 50px;">
@@ -2840,9 +2938,8 @@ body {
                             onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 18px 45px rgba(15, 23, 42, 0.5)'"
                             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 12px 35px rgba(15, 23, 42, 0.4)'">
                         <span id="cover-consultation-btn-text" style="display: flex; align-items: center; gap: 12px;">
-                            <span style="font-size: 1.8rem;">📞</span>
-                            <span>CLAIM YOUR FREE CONSULTATION NOW</span>
-                            <span style="font-size: 1.5rem;">→</span>
+                            <span>Send my enquiry</span>
+                            <span style="font-size: 1.2rem;">&rarr;</span>
                         </span>
                         <span id="cover-consultation-btn-loading" style="display: none;">
                             <span style="display: inline-block; animation: spin 1s linear infinite; font-size: 1.3rem; margin-right: 12px;">⏳</span> 
@@ -2864,35 +2961,6 @@ body {
     </div>
 </section>
 
-<!-- Slide 2: About Bansal Lawyers -->
-<section class="section about-section">
-    <div class="section-header">
-        <h2 class="section-title" style="color: var(--white);">About Bansal Lawyers</h2>
-        <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.9);">Comprehensive Legal Practice Based in Melbourne, Australia</p>
-    </div>
-    <div class="grid-2x2">
-        <div class="info-card" style="animation: fadeInUp 0.6s ease-out;">
-            <div class="card-icon">⚖️</div>
-            <h3 class="card-header">Specialized Expertise</h3>
-            <p class="card-body">Strong reputation in Family Law, with services across Immigration, Criminal, Property, Commercial, and Civil Law</p>
-        </div>
-        <div class="info-card" style="animation: fadeInUp 0.8s ease-out;">
-            <div class="card-icon heart-icon">❤️</div>
-            <h3 class="card-header">Client-Centered Approach</h3>
-            <p class="card-body">Commitment to understanding each client's unique situation, providing tailored advice and dedicated support</p>
-        </div>
-        <div class="info-card" style="animation: fadeInUp 1s ease-out;">
-            <div class="card-icon trophy-icon">🏆</div>
-            <h3 class="card-header">Proven Track Record</h3>
-            <p class="card-body">Consistent client satisfaction through professionalism, responsiveness, and positive outcomes</p>
-        </div>
-        <div class="info-card" style="animation: fadeInUp 1.2s ease-out;">
-            <div class="card-icon shield-icon">🛡️</div>
-            <h3 class="card-header">Protecting Your Future</h3>
-            <p class="card-body">Navigating complex legal challenges with expertise, transforming daunting processes into manageable experiences</p>
-        </div>
-    </div>
-</section>
 
 <!-- Slide 3: Understanding Divorce in Australia -->
 <section class="section" style="background: linear-gradient(180deg, var(--light-blue) 0%, rgba(237, 246, 249, 0.5) 50%, var(--light-blue) 100%); position: relative; overflow: hidden;">
@@ -3328,82 +3396,50 @@ body {
     </div>
 </section>
 
-<!-- Slide 10: Why Choose Bansal Lawyers -->
-<section class="section" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafb 50%, #ffffff 100%); position: relative; overflow: hidden; padding: 80px 60px;">
-    <!-- Subtle Background Pattern -->
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: 
-        radial-gradient(circle at 20% 30%, rgba(15, 23, 42, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(15, 23, 42, 0.03) 0%, transparent 50%);
-        pointer-events: none;"></div>
-    
-    <div class="section-header" style="position: relative; z-index: 1; margin-bottom: 50px;">
-        <h2 class="section-title" style="color: var(--primary-teal); font-size: 3rem; margin-bottom: 12px; font-weight: 800;">Why Choose Bansal Lawyers?</h2>
-        <p class="section-subtitle" style="font-size: 1.3rem; color: #94A3B8; font-weight: 500;">Your Trusted Partner Through Life's Most Challenging Legal Matters</p>
-    </div>
-    
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;">
-        <!-- Card 1: Specialized Expertise -->
-        <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%); border-radius: 20px; padding: 35px 28px; box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08); border: 2px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 40px rgba(15, 23, 42, 0.15)'; this.style.borderColor='var(--primary-teal)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 25px rgba(0, 0, 0, 0.08)'; this.style.borderColor='#e2e8f0'">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #0F172A 0%, #1E3A8A 100%);"></div>
-            <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(15, 23, 42, 0.08) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-            
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-                <div style="width: 65px; height: 65px; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3); flex-shrink: 0;">
-                    <span style="font-size: 2rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">🏆</span>
-                </div>
-                <div style="width: 45px; height: 45px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(30, 58, 138, 0.1) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0F172A; font-weight: 800; font-size: 1.1rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">01</div>
+<!-- Why Choose Bansal Lawyers -->
+<section class="section" style="background: #f8fafc; padding: 80px 60px;">
+    <div style="max-width: 1100px; margin: 0 auto;">
+        <div class="section-header" style="margin-bottom: 50px;">
+            <h2 class="section-title" style="color: var(--primary-teal);">Why clients choose Bansal Lawyers</h2>
+            <p class="section-subtitle" style="color: #64748b;">We handle divorce and family law matters from our Melbourne CBD office, and we keep things straightforward.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;">
+
+            <div style="background: #ffffff; border-radius: 14px; padding: 32px 30px; border-left: 4px solid #0F172A; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+                <h3 style="color: #0F172A; font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Family law is our focus</h3>
+                <p style="color: #475569; font-size: 0.95rem; line-height: 1.75; margin: 0; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Divorce, property settlement, de facto separation, parenting orders, binding financial agreements — these are the matters we handle every day. You're not going to a generalist firm; family law is central to what we do.</p>
             </div>
-            
-            <h3 style="color: #0F172A; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Specialized Expertise</h3>
-            <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
-                Handling complex family law matters with empathy and skill. Expert handling of divorce, separation, parenting plans, and property settlements.
-            </p>
-            <a href="#consultation-form" style="display: inline-flex; align-items: center; gap: 8px; color: var(--primary-teal); font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: all 0.3s ease; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;" onmouseover="this.style.gap='12px'; this.style.color='var(--accent-teal)'" onmouseout="this.style.gap='8px'; this.style.color='var(--primary-teal)'">
-                <span>Deep knowledge across all aspects →</span>
+
+            <div style="background: #ffffff; border-radius: 14px; padding: 32px 30px; border-left: 4px solid #1E40AF; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+                <h3 style="color: #0F172A; font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Melbourne CBD, accessible by phone or in person</h3>
+                <p style="color: #475569; font-size: 0.95rem; line-height: 1.75; margin: 0; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">We're at Level 8, 278 Collins Street — accessible from the city and inner suburbs. Telephone appointments are also available if you'd prefer to speak from home.</p>
+            </div>
+
+            <div style="background: #ffffff; border-radius: 14px; padding: 32px 30px; border-left: 4px solid #0F172A; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+                <h3 style="color: #0F172A; font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">We work for agreements, not conflict</h3>
+                <p style="color: #475569; font-size: 0.95rem; line-height: 1.75; margin: 0; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Contested court hearings are expensive and stressful for everyone — especially children. Where possible, we help clients reach negotiated property and parenting outcomes through Consent Orders, keeping costs and conflict lower.</p>
+            </div>
+
+            <div style="background: #ffffff; border-radius: 14px; padding: 32px 30px; border-left: 4px solid #1E40AF; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+                <h3 style="color: #0F172A; font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Plain language, not legal jargon</h3>
+                <p style="color: #475569; font-size: 0.95rem; line-height: 1.75; margin: 0; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">We explain your options in plain terms, tell you what to expect at each stage, and make sure you understand the decisions you're making. You'll never be left wondering what's happening with your matter.</p>
+            </div>
+        </div>
+
+        <div style="background: #0F172A; border-radius: 14px; padding: 30px 35px; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap;">
+            <div>
+                <p style="color: #ffffff; font-size: 1.05rem; font-weight: 600; margin: 0 0 5px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Ready to talk through your situation?</p>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin: 0; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Our initial consultation is free and carries no obligation.</p>
+            </div>
+            <a href="#consultation-form" class="cover-cta-button" style="white-space: nowrap; background: #ffffff; color: #0F172A; flex-shrink: 0;">
+                Book a free consultation &rarr;
             </a>
         </div>
-        
-        <!-- Card 2: Client-Centered Approach -->
-        <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%); border-radius: 20px; padding: 35px 28px; box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08); border: 2px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 40px rgba(15, 23, 42, 0.15)'; this.style.borderColor='#0F172A'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 25px rgba(0, 0, 0, 0.08)'; this.style.borderColor='#e2e8f0'">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #0F172A 0%, #1E40AF 100%);"></div>
-            <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(15, 23, 42, 0.08) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-            
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-                <div style="width: 65px; height: 65px; background: linear-gradient(135deg, #0F172A 0%, #1E40AF 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3); flex-shrink: 0;">
-                    <span style="font-size: 2rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">❤️</span>
-                </div>
-                <div style="width: 45px; height: 45px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0F172A; font-weight: 800; font-size: 1.1rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">02</div>
-            </div>
-            
-            <h3 style="color: #0F172A; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Client-Centered Approach</h3>
-            <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
-                Committed to understanding each client's unique situation. Tailored advice and dedicated support to make the legal process manageable.
-            </p>
-            <a href="#consultation-form" style="display: inline-flex; align-items: center; gap: 8px; color: #0F172A; font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: all 0.3s ease; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;" onmouseover="this.style.gap='12px'; this.style.color='#1E40AF'" onmouseout="this.style.gap='8px'; this.style.color='#0F172A'">
-                <span>Personalized assistance at every step →</span>
-            </a>
-        </div>
-        
-        <!-- Card 3: Proven Track Record -->
-        <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%); border-radius: 20px; padding: 35px 28px; box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08); border: 2px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 40px rgba(16, 185, 129, 0.15)'; this.style.borderColor='#10b981'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 25px rgba(0, 0, 0, 0.08)'; this.style.borderColor='#e2e8f0'">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
-            <div style="position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
-            
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-                <div style="width: 65px; height: 65px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3); flex-shrink: 0;">
-                    <span style="font-size: 2rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));">📈</span>
-                </div>
-                <div style="width: 45px; height: 45px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #10b981; font-weight: 800; font-size: 1.1rem; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">03</div>
-            </div>
-            
-            <h3 style="color: #0F172A; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Proven Track Record</h3>
-            <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 18px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
-                Client testimonials highlight our professionalism and positive outcomes. We've helped countless families navigate separation with dignity.
-            </p>
-            <a href="#consultation-form" style="display: inline-flex; align-items: center; gap: 8px; color: #10b981; font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: all 0.3s ease; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;" onmouseover="this.style.gap='12px'; this.style.color='#059669'" onmouseout="this.style.gap='8px'; this.style.color='#10b981'">
-                <span>Results that protect your rights →</span>
-            </a>
-        </div>
+
+        <p style="text-align: center; margin-top: 25px; color: #94A3B8; font-size: 0.9rem; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
+            For more detail on our family law services, visit our <a href="/divorce" style="color: #1E40AF; text-decoration: underline;">divorce &amp; family law practice page</a>.
+        </p>
     </div>
 </section>
 
@@ -3428,6 +3464,7 @@ body {
                 The team at Bansal Lawyers made a daunting process manageable. Their professionalism and expertise are unmatched.
             </p>
             <p class="testimonial-author">— Sonu Choudhary</p>
+            <p style="font-size: 0.8rem; color: #94A3B8; margin: 6px 0 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Family law matter &nbsp;&middot;&nbsp; Google Review</p>
         </div>
         <div class="testimonial-card">
             <div style="width: 70px; height: 70px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border: 2px solid #e8e8e8;">
@@ -3444,6 +3481,7 @@ body {
                 I was impressed by their honest advice and careful handling of my case. They transformed legal challenges into a seamless experience.
             </p>
             <p class="testimonial-author">— Ruhi Bagga</p>
+            <p style="font-size: 0.8rem; color: #94A3B8; margin: 6px 0 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Property settlement &nbsp;&middot;&nbsp; Google Review</p>
         </div>
         <div class="testimonial-card">
             <div style="width: 70px; height: 70px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border: 2px solid #e8e8e8;">
@@ -3460,6 +3498,7 @@ body {
                 The team was attentive, thorough, and committed to understanding my situation and delivering the best possible outcome.
             </p>
             <p class="testimonial-author">— Prabhjot Kaur</p>
+            <p style="font-size: 0.8rem; color: #94A3B8; margin: 6px 0 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Parenting arrangements &nbsp;&middot;&nbsp; Google Review</p>
         </div>
         <div class="testimonial-card">
             <div style="width: 70px; height: 70px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border: 2px solid #e8e8e8;">
@@ -3476,6 +3515,113 @@ body {
                 Exceptional team who listened to my concerns, explained processes clearly, and delivered results that made a difference in my legal journey.
             </p>
             <p class="testimonial-author">— Parminder Ghill</p>
+            <p style="font-size: 0.8rem; color: #94A3B8; margin: 6px 0 0; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;">Divorce &amp; separation &nbsp;&middot;&nbsp; Google Review</p>
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 35px;">
+        <a href="https://g.co/kgs/Hw16bN8" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 10px; color: #0F172A; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 0.95rem; text-decoration: none; border: 2px solid #0F172A; padding: 12px 24px; border-radius: 50px; transition: all 0.3s ease;" onmouseover="this.style.background='#0F172A'; this.style.color='white'" onmouseout="this.style.background='transparent'; this.style.color='#0F172A'">
+            <img src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="Google" style="width: 18px; height: 18px; object-fit: contain;">
+            Read all our Google reviews &rarr;
+        </a>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="section" id="faq" style="background: #ffffff; padding: 100px 60px;">
+    <div style="max-width: 860px; margin: 0 auto;">
+        <div class="section-header" style="margin-bottom: 50px;">
+            <h2 class="section-title" style="color: var(--primary-teal);">Frequently Asked Questions</h2>
+            <p class="section-subtitle" style="color: #64748b;">Answers to the questions we hear most often from people going through separation.</p>
+        </div>
+
+        <style>
+            .faq-item { border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+            .faq-question { width: 100%; text-align: left; background: #f8fafc; border: none; padding: 22px 28px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-size: 1.1rem; font-weight: 700; color: #0F172A; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; transition: background 0.2s ease; }
+            .faq-question:hover { background: #EFF6FF; }
+            .faq-question[aria-expanded="true"] { background: #0F172A; color: #ffffff; }
+            .faq-icon { font-size: 1.3rem; font-weight: 400; flex-shrink: 0; transition: transform 0.3s ease; line-height: 1; }
+            .faq-question[aria-expanded="true"] .faq-icon { transform: rotate(45deg); }
+            .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.2s ease; }
+            .faq-answer.open { max-height: 600px; }
+            .faq-answer-inner { padding: 24px 28px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; font-size: 1rem; line-height: 1.8; color: #334155; border-top: 1px solid #e2e8f0; }
+            .faq-answer-inner a { color: #1E40AF; text-decoration: underline; }
+        </style>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+                <span>How long does divorce take in Australia?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <p>Once your application is filed, most divorces are finalised within <strong>3–4 months</strong>. Before you can apply, you must have been separated for at least <strong>12 months and 1 day</strong>.</p>
+                    <p style="margin-top: 12px;">After the court hearing, the divorce order becomes final one month and one day later — at which point you are legally divorced and free to remarry if you choose.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+                <span>What does a divorce lawyer cost?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <p>Costs vary significantly depending on complexity. An uncontested divorce with no property or parenting disputes is generally straightforward and less costly. Matters involving disputed assets, business interests, or contested parenting arrangements take more time and cost more.</p>
+                    <p style="margin-top: 12px;">We offer a <strong>free initial consultation</strong> so you can understand your situation and likely costs before making any commitment. <a href="#consultation-form">Book yours here.</a></p>
+                    <p style="margin-top: 12px; font-size: 0.9rem; color: #94A3B8;"><em>Disclaimer: Any cost indication provided is general guidance only and does not constitute a quote or fee agreement. Actual costs depend on the specific circumstances of your matter.</em></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+                <span>Do I have to go to court?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <p>Not necessarily. For a <strong>joint divorce application with no children under 18</strong>, you typically do not need to attend court in person.</p>
+                    <p style="margin-top: 12px;">If you are making a sole application or if there are children under 18 involved, court attendance may be required to satisfy the court that proper arrangements are in place.</p>
+                    <p style="margin-top: 12px;">Importantly, <strong>property and parenting matters</strong> can very often be resolved through negotiation or Consent Orders — without a contested court hearing — if both parties are willing to work toward an agreement.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+                <span>What if my spouse and I agree on everything?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <p>An amicable separation is the simplest path. If you agree on property division and parenting arrangements, you can apply for divorce <strong>jointly</strong>, and your agreed terms can be formalised as <strong>Consent Orders</strong> — a legally binding court-approved document that protects both parties.</p>
+                    <p style="margin-top: 12px;">Even when things are agreed, having a lawyer review the terms before you sign protects you from unintended gaps or future disputes.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false" onclick="toggleFaq(this)">
+                <span>Is property settlement separate from divorce?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <p>Yes — and this is one of the most important things to understand. <strong>Divorce legally ends the marriage</strong>, but it does not automatically divide your property or superannuation.</p>
+                    <p style="margin-top: 12px;">Property settlement is a separate process with strict time limits:</p>
+                    <ul style="margin-top: 10px; padding-left: 20px; line-height: 2;">
+                        <li><strong>Married couples:</strong> must apply within 12 months of the divorce order becoming final</li>
+                        <li><strong>De facto couples:</strong> must apply within 2 years of separation</li>
+                    </ul>
+                    <p style="margin-top: 12px;">Missing these deadlines can affect your right to make a property claim. Seek advice early.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="color: #64748b; font-size: 1rem; margin-bottom: 20px; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">Have a question not covered here? We're happy to talk it through.</p>
+            <a href="#consultation-form" class="cover-cta-button" style="display: inline-block;">Talk to our team &rarr;</a>
         </div>
     </div>
 </section>
@@ -3571,20 +3717,30 @@ body {
                 </div>
             </div>
         </div>
-        
+
+        <!-- Google Map -->
+        <div style="margin: 35px auto; max-width: 900px; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.2); position: relative; z-index: 1;">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.645409146537!2d144.9631536153164!3d-37.81664617975151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43c60387b1%3A0xd9be68c8b39a6074!2sLevel%208%2F278%20Collins%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sau!4v1696731567597!5m2!1sen!2sau"
+                width="100%"
+                height="280"
+                style="border: 0; display: block;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Bansal Lawyers — Level 8/278 Collins St Melbourne VIC 3000">
+            </iframe>
+        </div>
+
         <div class="encouragement-note" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%); backdrop-filter: blur(15px); padding: 25px 35px; border-radius: 20px; margin: 35px auto; max-width: 800px; border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); position: relative; z-index: 1; animation: fadeInUp 1.4s ease-out;">
-            <p style="margin: 0; color: white; font-size: 1.2rem; font-style: italic; font-weight: 600; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif;">
-                ✨ Take the first step toward resolution and peace of mind. We're here to help. ✨
+            <p style="margin: 0; color: white; font-size: 1.1rem; font-weight: 500; font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', serif; line-height: 1.7;">
+                We understand how difficult this time can be. Our team will listen carefully, explain your options clearly, and help you make decisions you feel confident about.
             </p>
         </div>
         
         <div style="text-align: center; margin-top: 45px; position: relative; z-index: 1; animation: fadeInUp 1.6s ease-out;">
-            <a href="#consultation-form" class="cover-cta-button" style="display: inline-flex; align-items: center; gap: 15px; padding: 22px 50px; font-size: 1.4rem; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 50%, #0F172A 100%); background-size: 200% 100%; color: white; border: none; border-radius: 50px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 800; text-decoration: none; box-shadow: 0 15px 50px rgba(15, 23, 42, 0.5), 0 0 0 0 rgba(15, 23, 42, 0.7); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); text-transform: uppercase; letter-spacing: 1px; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-6px) scale(1.05)'; this.style.boxShadow='0 20px 60px rgba(15, 23, 42, 0.6), 0 0 0 6px rgba(15, 23, 42, 0.3)'; this.style.backgroundPosition='100% 0'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 15px 50px rgba(15, 23, 42, 0.5), 0 0 0 0 rgba(15, 23, 42, 0.7)'; this.style.backgroundPosition='0% 0'">
-                <span style="font-size: 1.8rem; animation: pulse-icon 1.5s ease-in-out infinite; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));">📝</span>
-                <span style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);">Fill Out Consultation Form</span>
-                <span style="font-size: 1.6rem; animation: bounce 1s ease-in-out infinite;">→</span>
-                <!-- Shine effect -->
-                <span style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent); animation: shine 2.5s infinite;"></span>
+            <a href="#consultation-form" class="cover-cta-button" style="display: inline-flex; align-items: center; gap: 12px; padding: 20px 45px; font-size: 1.2rem; background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); color: white; border: none; border-radius: 50px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; text-decoration: none; box-shadow: 0 10px 35px rgba(15, 23, 42, 0.4); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 45px rgba(15, 23, 42, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 35px rgba(15, 23, 42, 0.4)'">
+                Request a free consultation &rarr;
             </a>
         </div>
     </div>
@@ -4164,5 +4320,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// FAQ accordion
+window.toggleFaq = function(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+    // Close all
+    document.querySelectorAll('.faq-question').forEach(function(q) {
+        q.setAttribute('aria-expanded', 'false');
+        q.nextElementSibling.classList.remove('open');
+    });
+
+    // Open clicked (unless it was already open)
+    if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        answer.classList.add('open');
+    }
+};
 </script>
 @endsection

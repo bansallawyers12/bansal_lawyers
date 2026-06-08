@@ -36,6 +36,8 @@
     <meta name="google-site-verification" content="v3RcCNNqLVXDQoEWlV1SzP3SHNvhWws-YuzpLxWuk8A" />
     
     @yield('seoinfo')
+
+    @yield('schema')
   
     <!-- Favicons-->
     <link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">

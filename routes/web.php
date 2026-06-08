@@ -184,7 +184,10 @@ Route::middleware(['throttle:web-pages', 'cache.headers:etag'])->group(function 
 
     /*********************Practice Area Inner Pages ***********************/
     Route::get('/divorce', [\App\Http\Controllers\HomeController::class, 'divorce'])->name('divorce');
-    Route::get('/landing', [\App\Http\Controllers\HomeController::class, 'divorceFamilyLawLanding'])->name('divorce-family-law-landing');
+    Route::get('/divorce-lawyers-melbourne', [\App\Http\Controllers\HomeController::class, 'divorceFamilyLawLanding'])->name('divorce-family-law-landing');
+    Route::get('/landing', function () {
+        return redirect('/divorce-lawyers-melbourne', 301);
+    });
     Route::get('/child-custody', [\App\Http\Controllers\HomeController::class, 'childcustody'])->name('child-custody');
     Route::get('/family-violence', [\App\Http\Controllers\HomeController::class, 'familyviolence'])->name('family-violence');
     Route::get('/property-settlement', [\App\Http\Controllers\HomeController::class, 'propertysettlement'])->name('property-settlement');
