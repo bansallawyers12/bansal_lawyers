@@ -17,8 +17,22 @@
     
     <p>Thank you for choosing Bansal Lawyers for your legal needs. We are pleased to confirm your appointment with us.</p>
     
+    @php
+        $appointmentType = strtolower($details['appointment_details'] ?? '');
+        $isVideoConsultation = str_contains($appointmentType, 'zoom') || str_contains($appointmentType, 'google meeting');
+        $isPhoneConsultation = str_contains($appointmentType, 'phone');
+    @endphp
+
     <div class="highlight-box">
-        <p><strong>Important:</strong> Please arrive 10 minutes before your scheduled appointment time. If you need to reschedule or cancel, please contact us at least 24 hours in advance.</p>
+        <p><strong>Important:</strong>
+            @if($isVideoConsultation)
+                Please be ready to join your video consultation 5 minutes before your scheduled appointment time. A Zoom or Google Meet link will be sent to you separately. If you need to reschedule or cancel, please contact us at least 24 hours in advance.
+            @elseif($isPhoneConsultation)
+                Please be available at your provided phone number at the scheduled appointment time. We will call you at the booked time, so keep your phone nearby and charged. If you need to reschedule or cancel, please contact us at least 24 hours in advance.
+            @else
+                Please arrive 10 minutes before your scheduled appointment time. If you need to reschedule or cancel, please contact us at least 24 hours in advance.
+            @endif
+        </p>
     </div>
     
     <div class="appointment-details">
@@ -65,25 +79,61 @@
         </div>
     </div>
     
-    <h2>What to Bring</h2>
-    <p>To make the most of your consultation, please bring:</p>
-    <ul>
-        <li>Valid photo identification</li>
-        <li>Any relevant documents related to your case</li>
-        <li>List of questions you'd like to discuss</li>
-        <li>Any correspondence or legal documents you've received</li>
-    </ul>
-    
-    <h2>Location & Directions</h2>
-    <p>Our office is conveniently located in Melbourne. Detailed directions and parking information will be sent separately.</p>
-    
-    <div style="text-align: center; margin: 30px 0;">
-        <a href="{{ URL::to('/contact') }}" class="button">View Office Location</a>
-    </div>
+    @if($isVideoConsultation)
+        <h2>What to Prepare</h2>
+        <p>To make the most of your video consultation, please have the following ready:</p>
+        <ul>
+            <li>A stable internet connection and a quiet, private space</li>
+            <li>A device with a working camera and microphone (laptop, tablet, or smartphone)</li>
+            <li>Any relevant documents related to your case (ready to share on screen if needed)</li>
+            <li>A list of questions you'd like to discuss</li>
+            <li>Valid photo identification, if requested during the consultation</li>
+        </ul>
+
+        <h2>Video Consultation Details</h2>
+        <p>Your consultation will take place via Zoom or Google Meet. A meeting link will be sent to you separately before your appointment. Please test your camera and microphone ahead of time and join the meeting 5 minutes early.</p>
+    @elseif($isPhoneConsultation)
+        <h2>What to Prepare</h2>
+        <p>To make the most of your phone consultation, please have the following ready:</p>
+        <ul>
+            <li>Your phone charged and available at the scheduled time</li>
+            <li>A quiet location with good mobile reception</li>
+            <li>Any relevant documents related to your case</li>
+            <li>A list of questions you'd like to discuss</li>
+            <li>Any correspondence or legal documents you've received</li>
+        </ul>
+
+        <h2>Phone Consultation Details</h2>
+        <p>We will call you at <strong>{{ $details['phone'] ?? 'the phone number you provided' }}</strong> at your scheduled appointment time. Please ensure you are available to answer at the booked time.</p>
+    @else
+        <h2>What to Bring</h2>
+        <p>To make the most of your consultation, please bring:</p>
+        <ul>
+            <li>Valid photo identification</li>
+            <li>Any relevant documents related to your case</li>
+            <li>List of questions you'd like to discuss</li>
+            <li>Any correspondence or legal documents you've received</li>
+        </ul>
+
+        <h2>Location & Directions</h2>
+        <p>Our office is conveniently located in Melbourne. Detailed directions and parking information will be sent separately.</p>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ URL::to('/contact') }}" class="button">View Office Location</a>
+        </div>
+    @endif
     
     <p>If you have any questions or need to make changes to your appointment, please don't hesitate to contact us.</p>
     
-    <p>We look forward to meeting with you and providing you with the professional legal assistance you need.</p>
+    <p>
+        @if($isVideoConsultation)
+            We look forward to speaking with you online and providing you with the professional legal assistance you need.
+        @elseif($isPhoneConsultation)
+            We look forward to speaking with you by phone and providing you with the professional legal assistance you need.
+        @else
+            We look forward to meeting with you and providing you with the professional legal assistance you need.
+        @endif
+    </p>
     
     <p>Best regards,<br>
     <strong>The Bansal Lawyers Team</strong></p>
