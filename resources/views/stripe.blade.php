@@ -211,7 +211,7 @@ form.addEventListener('submit', async (event) => {
 
     try {
         const formData = new FormData(form);
-        formData.append('stripeToken', paymentMethod.id);
+        formData.append('payment_method_id', paymentMethod.id);
 
         let data = await postPayment(formData);
 

@@ -29,6 +29,7 @@ use App\Models\Admin;
 use App\Models\NatureOfEnquiry;
 use App\Support\BookingTimeSlots;
 use App\Support\CrmLeadSync;
+use App\Services\StripePaymentService;
 
 class HomeController extends Controller
 {
@@ -658,19 +659,19 @@ class HomeController extends Controller
 
 	
 
-	public function stripe($appointmentId)
+	public function stripe($appointmentId, StripePaymentService $stripePaymentService)
     {
         $appointmentInfo = Appointment::find($appointmentId);
         if (!$appointmentInfo) {
             abort(404);
         }
 
-        $paymentAmount = $this->resolveAppointmentPaymentAmount($appointmentInfo);
+        $paymentAmount = $stripePaymentService->getAppointmentPaymentAmount($appointmentInfo);
 
         return view('stripe', compact('appointmentId', 'appointmentInfo', 'paymentAmount'));
     }
 
-   public function stripePost(Request $request)
+   public function stripePost(Request $request, StripePaymentService $stripePaymentService)
     {
         $appointment = null;
         $appointment_id = null;
@@ -680,7 +681,7 @@ class HomeController extends Controller
             $appointment_id = $requestData['appointment_id'] ?? null;
             $email = $requestData['customerEmail'] ?? '';
             $cardName = $requestData['cardName'] ?? '';
-            $stripeToken = $requestData['stripeToken'] ?? null;
+            $paymentMethodId = $requestData['payment_method_id'] ?? $requestData['stripeToken'] ?? null;
             $paymentIntentId = $requestData['payment_intent_id'] ?? null;
             $currency = 'aud';
             $payment_type = 'stripe';
@@ -699,28 +700,20 @@ class HomeController extends Controller
                 return $this->stripePaymentResponse($request, ['error' => 'Payment request could not be verified. Please try again.'], 403);
             }
 
-            $amount = $this->resolveAppointmentPaymentAmount($appointment);
-            $this->configureStripe();
+            $amount = $stripePaymentService->getAppointmentPaymentAmount($appointment);
 
             if ($paymentIntentId) {
-                $payment_intent = Stripe\PaymentIntent::retrieve($paymentIntentId);
+                $payment_intent = $stripePaymentService->retrievePaymentIntent($paymentIntentId);
+                $validationError = $stripePaymentService->validatePaymentIntentForAppointment(
+                    $payment_intent,
+                    (int) $appointment_id,
+                    $amount
+                );
 
-                if (($payment_intent->metadata['appointment_id'] ?? null) != (string) $appointment_id) {
-                    return $this->stripePaymentResponse($request, ['error' => 'Payment could not be verified.'], 403);
-                }
+                if ($validationError) {
+                    $status = $validationError === 'Payment could not be verified.' ? 403 : 400;
 
-                $expectedCents = (int) round($amount * 100);
-                if ((int) $payment_intent->amount !== $expectedCents) {
-                    Log::warning('stripePost amount mismatch', [
-                        'appointment_id' => $appointment_id,
-                        'expected_cents' => $expectedCents,
-                        'actual_cents' => $payment_intent->amount,
-                    ]);
-                    return $this->stripePaymentResponse($request, ['error' => 'Payment amount mismatch.'], 400);
-                }
-
-                if ($payment_intent->status !== 'succeeded') {
-                    return $this->stripePaymentResponse($request, ['error' => 'Payment was not completed. Please try again.'], 400);
+                    return $this->stripePaymentResponse($request, ['error' => $validationError], $status);
                 }
 
                 return $this->completeSuccessfulStripePayment(
@@ -737,29 +730,20 @@ class HomeController extends Controller
                 );
             }
 
-            if (empty($stripeToken)) {
+            if (empty($paymentMethodId)) {
                 return $this->stripePaymentResponse($request, ['error' => 'Payment method is required.'], 422);
             }
 
-            $customer = Stripe\Customer::create([
-                'email' => $email,
-                'name' => $cardName,
-            ]);
+            $customer = $stripePaymentService->findOrCreateCustomer($email, $cardName);
 
-            $payment_intent = Stripe\PaymentIntent::create([
-                'amount' => (int) round($amount * 100),
-                'currency' => $currency,
-                'customer' => $customer->id,
-                'payment_method' => $stripeToken,
-                'confirmation_method' => 'automatic',
-                'confirm' => true,
-                'description' => "Appointment Payment - Bansal Lawyers - $cardName",
-                'metadata' => [
-                    'appointment_id' => (string) $appointment_id,
-                ],
-            ], [
-                'idempotency_key' => 'appt_' . $appointment_id . '_' . $stripeToken,
-            ]);
+            $payment_intent = $stripePaymentService->createAppointmentPaymentIntent(
+                (int) $appointment_id,
+                $customer->id,
+                $paymentMethodId,
+                $amount,
+                $cardName,
+                $currency
+            );
 
             if ($payment_intent->status === 'requires_action') {
                 return $this->stripePaymentResponse($request, [
@@ -790,42 +774,42 @@ class HomeController extends Controller
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
 
             return $this->stripePaymentResponse($request, ['error' => 'Payment failed. Please try again.'], 400);
-        } catch (Stripe\Exception\CardException $e) {
+        } catch (\Stripe\Exception\CardException $e) {
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
 
             return $this->stripePaymentResponse($request, ['error' => 'Your card was declined: ' . $e->getMessage()], 400);
-        } catch (Stripe\Exception\RateLimitException $e) {
+        } catch (\Stripe\Exception\RateLimitException $e) {
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
 
             return $this->stripePaymentResponse($request, ['error' => 'Too many requests. Please try again later.'], 429);
-        } catch (Stripe\Exception\InvalidRequestException $e) {
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
 
             return $this->stripePaymentResponse($request, ['error' => 'Invalid request. Please try again.'], 400);
-        } catch (Stripe\Exception\AuthenticationException $e) {
+        } catch (\Stripe\Exception\AuthenticationException $e) {
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
 
             return $this->stripePaymentResponse($request, ['error' => 'Authentication failed. Please contact support.'], 500);
-        } catch (Stripe\Exception\ApiConnectionException $e) {
+        } catch (\Stripe\Exception\ApiConnectionException $e) {
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
             $this->sendAdminPendingPaymentEmailOnFailure($appointment, $appointment_id);
 
             return $this->stripePaymentResponse($request, ['error' => 'Network error. Please try again.'], 503);
-        } catch (Stripe\Exception\ApiErrorException $e) {
+        } catch (\Stripe\Exception\ApiErrorException $e) {
             if (!$appointment_id) {
                 $appointment_id = $request->input('appointment_id');
             }
@@ -1416,28 +1400,6 @@ class HomeController extends Controller
 
         // Handle CMS pages only
         return $this->Page($request, $slug);
-    }
-
-    private function configureStripe(): void
-    {
-        Stripe\Stripe::setApiKey(config('services.stripe.secret') ?? env('STRIPE_SECRET'));
-
-        $apiVersion = config('services.stripe.api_version');
-        if ($apiVersion) {
-            Stripe\Stripe::setApiVersion($apiVersion);
-        }
-    }
-
-    private function resolveAppointmentPaymentAmount(Appointment $appointment): float
-    {
-        if ($appointment->order_hash) {
-            $recordAmount = AppointmentPayment::where('order_hash', $appointment->order_hash)->value('amount');
-            if ($recordAmount !== null && (float) $recordAmount > 0) {
-                return (float) $recordAmount;
-            }
-        }
-
-        return 150.0;
     }
 
     private function stripePaymentResponse(Request $request, array $payload, int $status = 200)
