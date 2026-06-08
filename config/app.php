@@ -156,7 +156,6 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-		Maatwebsite\Excel\ExcelServiceProvider::class,
 		
 		// Removed: Yajra\DataTables\DataTablesServiceProvider::class,
 		
@@ -209,7 +208,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-		'Excel' =>  Maatwebsite\Excel\Facades\Excel::class,
 		'Settings' => App\Helpers\Settings::class,
         'Helper' => App\Helpers\Helper::class,
          // 'Socialite' => Laravel\Socialite\Facades\Socialite::class,
