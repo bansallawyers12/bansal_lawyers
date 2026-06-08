@@ -3186,7 +3186,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (showMessage) {
             showCouponMessage('Promo code reset. You can enter a new code.', 'success');
         }
-        updatePricingDisplay(getBaseConsultationFee());
     }
 
     function proceedAfterDurationSelection() {
@@ -4479,6 +4478,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Reset coupon functionality
     $(document).on('click', '#reset_coupon', function() {
         resetCouponFields(true);
+        updatePricingDisplay(getBaseConsultationFee());
     });
     
     function updateSelectionSummary() {
