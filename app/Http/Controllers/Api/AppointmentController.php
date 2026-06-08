@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\AppointmentPayment;
+use App\Support\ConsultationServices;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -162,11 +163,13 @@ class AppointmentController extends Controller
     }
 
     /**
-     * Paid vs free from bookable service: service_id 1 is the paid consultation product in this app.
+     * Paid vs free from list price on the booked consultation product.
      */
     private function appointmentPaidOrFreeType(Appointment $a): string
     {
-        return (int) $a->service_id === 1 ? 'paid' : 'free';
+        $price = ConsultationServices::parsePriceAud($a->service);
+
+        return $price > 0 ? 'paid' : 'free';
     }
 
     private function appointmentStatusLabel(int $status): string

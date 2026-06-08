@@ -10,6 +10,7 @@ use App\Models\Appointment;
 use App\Models\Admin;
 use App\Models\AppointmentPayment;
 use App\Support\CrmLeadSync;
+use App\Support\ConsultationServices;
 use Helper;
 
 class AppointmentBookController extends Controller {
@@ -228,7 +229,7 @@ class AppointmentBookController extends Controller {
             $conflictCount = \App\Models\Appointment::where('status', '!=', 7) // Exclude cancelled
                 ->whereDate('date', $date)
                 ->where('time', $time24)
-                ->where('service_id', $serviceId)
+                ->whereIn('service_id', ConsultationServices::websiteServiceIds())
                 ->whereIn('noe_id', [1, 2, 3, 4, 5, 6, 7]) // Valid nature of enquiry IDs
                 ->count();
             
@@ -263,6 +264,20 @@ class AppointmentBookController extends Controller {
             return response()->json(['success'=>false,'msg'=>'Please enter a promo code.'], 400);
         }
 
+        $serviceId = (int) $serviceId;
+        if (! ConsultationServices::isValidWebsiteServiceId((int) $serviceId)) {
+            return response()->json(['success' => false, 'msg' => 'Invalid consultation type selected.'], 400);
+        }
+
+        $service = \App\Models\BookService::find($serviceId);
+        if (! $service || ! $service->status) {
+            return response()->json(['success' => false, 'msg' => 'Selected consultation is not available.'], 404);
+        }
+
+        if (! ConsultationServices::allowsPromoCode($serviceId)) {
+            return response()->json(['success' => false, 'msg' => 'Promo codes are not available for this consultation type.'], 400);
+        }
+
         // Normalize promo code to uppercase for consistent comparison
         $promoCodeUpper = strtoupper($promoCode);
         
@@ -276,12 +291,7 @@ class AppointmentBookController extends Controller {
             return response()->json(['success'=>false,'msg'=>'Invalid promo code.'], 400);
         }
 
-        $service = \App\Models\BookService::find($serviceId);
-        if(!$service){
-            return response()->json(['success'=>false,'msg'=>'Service not found.'], 404);
-        }
-
-        $price = (float) str_replace(["aud","AUD","$"," "], "", $service->price);
+        $price = ConsultationServices::parsePriceAud($service);
         $discountPercentage = (float) $promoCodes[$promoCodeUpper];
         $discountAmount = round(($price * $discountPercentage)/100, 2);
         $payable = max(0, round($price - $discountAmount, 2));
@@ -312,7 +322,8 @@ class AppointmentBookController extends Controller {
             // SECURITY FIX: Extract only allowed fields instead of using $request->all()
             $allowedFields = [
                 'service_id', 'noe_id', 'fullname', 'description', 'email', 'phone',
-                'date', 'time', 'appointment_details', 'promo_code', 'cardName', 'stripeToken'
+                'date', 'time', 'appointment_details', 'promo_code', 'cardName', 'stripeToken',
+                'free_consult_acknowledged',
             ];
 
             $requestData = $request->only($allowedFields);
@@ -348,13 +359,49 @@ class AppointmentBookController extends Controller {
                     'errors' => $validator->errors()
                 ], 400);
             }
-            
-            // Only handle paid appointments (service_id = 1) for Ajay Bansal
-            if ($requestData['service_id'] != 1) {
-                return response()->json(['success' => false, 'message' => 'Only paid appointments are available'], 400);
+
+            $service_id = (int) $requestData['service_id'];
+
+            if (! ConsultationServices::isValidWebsiteServiceId($service_id)) {
+                return response()->json(['success' => false, 'message' => 'Invalid consultation type selected'], 400);
+            }
+
+            $service = \App\Models\BookService::find($service_id);
+            if (! $service || ! $service->status) {
+                return response()->json(['success' => false, 'message' => 'Selected consultation is not available'], 400);
+            }
+
+            if (ConsultationServices::isFreeTier($service_id)) {
+                if (! filter_var($requestData['free_consult_acknowledged'] ?? false, FILTER_VALIDATE_BOOL)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Please acknowledge the free consultation terms before continuing.',
+                    ], 400);
+                }
+
+                $alreadyUsedFree = Appointment::where('service_id', ConsultationServices::FREE_10)
+                    ->where('status', '!=', 7)
+                    ->where(function ($query) use ($requestData) {
+                        $query->where('email', $requestData['email'])
+                            ->orWhere('phone', $requestData['phone']);
+                    })
+                    ->exists();
+
+                if ($alreadyUsedFree) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'The free 10-minute consultation is available for first-time clients only. Please select a paid consultation option.',
+                    ], 400);
+                }
+            }
+
+            if (! ConsultationServices::allowsPromoCode($service_id) && ! empty($requestData['promo_code'])) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Promo codes are not available for this consultation type.',
+                ], 400);
             }
             
-            $service_id = $requestData['service_id'];
             $noe_id = $requestData['noe_id'];
             $fullname = $requestData['fullname'];
             $description = $requestData['description'];
@@ -380,17 +427,12 @@ class AppointmentBookController extends Controller {
                     'message' => $timeConflict['message']
                 ], 409); // 409 Conflict status code
             }
-		$service = \App\Models\BookService::find($requestData['service_id']); //dd($service);
-        if(!empty($service)){
-            $amount =  (float) str_replace(["aud","AUD","$"," "], "", $service['price']);
-        } else {
-            $amount = 0;
-        }
+		$amount = ConsultationServices::parsePriceAud($service);
         $listPrice = $amount;
 
-        // Apply promo code discount if provided
+        // Apply promo code discount if provided (30-minute tier only)
         $appliedPromo = null;
-        if(!empty($requestData['promo_code'])){
+        if(!empty($requestData['promo_code']) && ConsultationServices::allowsPromoCode($service_id)){
             $promoCode = trim($requestData['promo_code']);
             
             // Normalize promo code to uppercase for consistent comparison
@@ -456,13 +498,13 @@ class AppointmentBookController extends Controller {
                     \Log::info('Created pending payment record with ID: ' . $paymentRecord->id);
                 }
             } else {
-                // For free appointments (promo code), create a completed payment record
+                // For free appointments (free tier or promo code), create a completed payment record
                 $paymentRecord = AppointmentPayment::create([
                     'order_hash' => $stripeToken,
                     'payer_email' => $email,
                     'amount' => 0,
                     'currency' => $currency,
-                    'payment_type' => 'promo_free',
+                    'payment_type' => ConsultationServices::isFreeTier($service_id) ? 'free_consultation' : 'promo_free',
                     'order_date' => $order_date,
                     'name' => $cardName,
                     'stripe_payment_intent_id' => 'promo_free_' . time(),
@@ -536,7 +578,7 @@ class AppointmentBookController extends Controller {
         $service_data = DB::table('book_services')->where('id', $request->service_id)->first();
         if($service_data){
             $service_title = $service_data->title;
-            $service_type = 'Paid'; // Only paid appointments for Ajay
+            $service_type = ConsultationServices::isFreeTier($service_id) ? 'Free' : 'Paid';
             $service_title_text = $service_title.'-'.$service_type;
         } else {
             $service_title = "";
@@ -601,7 +643,7 @@ class AppointmentBookController extends Controller {
                             'final_amount' => (float) $amount,
                             'promo_code' => ($appliedPromo ?? [])['code'] ?? null,
                             'payment_status' => 'completed',
-                            'payment_method' => 'promo_free',
+                            'payment_method' => ConsultationServices::isFreeTier($service_id) ? 'free_consultation' : 'promo_free',
                             'paid_at' => $order_date,
                             'confirmed_at' => $order_date,
                             'status' => '10',
