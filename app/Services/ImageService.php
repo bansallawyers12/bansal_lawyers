@@ -9,7 +9,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class ImageService
 {
-    protected ImageManager $manager;
+    protected ?ImageManager $manager = null;
 
     public function __construct()
     {
