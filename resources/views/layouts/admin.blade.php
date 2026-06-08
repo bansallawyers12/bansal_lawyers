@@ -11,6 +11,9 @@
 	<meta name="author" content="">
 	<meta name="keyword" content="Bansal Lawyers">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
+	@if($nonce = \App\Services\CspService::getNonce())
+	<meta name="csp-nonce" content="{{ $nonce }}">
+	@endif
 	<title>Bansal Lawyers | @yield('title')</title>
 	<!--<link rel="icon" type="image/png" href="{{ asset('images/favicon.png')}}">-->
 	

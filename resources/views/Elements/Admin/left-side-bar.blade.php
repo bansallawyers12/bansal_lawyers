@@ -103,6 +103,10 @@
     display: block;
 }
 
+.submenu-chevron.is-rotated {
+    transform: rotate(180deg);
+}
+
 .hidden-form {
     display: none;
 }
@@ -295,7 +299,7 @@ function toggleSubmenu(menuId) {
     }
 
     submenu.classList.toggle('is-open');
-    chevron.style.transform = submenu.classList.contains('is-open') ? 'rotate(180deg)' : 'rotate(0deg)';
+    chevron.classList.toggle('is-rotated', submenu.classList.contains('is-open'));
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -320,18 +324,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (['appointments.index', 'appointments-others'].includes(currentRoute) || currentPath.includes('/booking-blocks')) {
         document.getElementById('appointments-submenu')?.classList.add('is-open');
-        const chevron = document.getElementById('appointments-chevron');
-        if (chevron) {
-            chevron.style.transform = 'rotate(180deg)';
-        }
+        document.getElementById('appointments-chevron')?.classList.add('is-rotated');
     }
 
     if (['admin.blogcategory.index', 'admin.blog.index', 'admin.blog.edit', 'admin.blog.create'].includes(currentRoute)) {
         document.getElementById('blogs-submenu')?.classList.add('is-open');
-        const chevron = document.getElementById('blogs-chevron');
-        if (chevron) {
-            chevron.style.transform = 'rotate(180deg)';
-        }
+        document.getElementById('blogs-chevron')?.classList.add('is-rotated');
     }
 });
 </script>
