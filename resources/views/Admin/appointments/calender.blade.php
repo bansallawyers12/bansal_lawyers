@@ -477,17 +477,7 @@ foreach($appointments as $appointment){
 		$row['status'] = $appointment->status;
 		$row['url'] = URL::to('/admin/clients/detail/'.base64_encode(convert_uuencode($appointment->client_id)));
 
-        /*if($appointment->status == 1 || $appointment->status == 2 ){ //1=>Approved,2=>Completed
-			$row['backgroundColor'] = "#54ca68"; //Green
-		} else if( $appointment->status == 4 ){ //4=>N/P
-			$row['backgroundColor'] = "#ff33da"; //pink
-		} else {
-            if( $appointment->service_id == 1){ //Paid service
-                $row['backgroundColor'] = "#6777ef"; //Blue
-            } else { //Free service
-                $row['backgroundColor'] = "#ff5722"; //Saffron
-            }
-		}*/
+        /* Calendar colour by status (see active block below). */
 
         /*
         0=>Pending Appointment With Free Type,

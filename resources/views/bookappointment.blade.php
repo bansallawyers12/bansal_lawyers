@@ -3754,7 +3754,32 @@ document.addEventListener('DOMContentLoaded', function() {
      }
     
     function validateForm() {
-        return validateInfoTab();
+        var errors = [];
+
+        if (!getSelectedServiceId()) {
+            errors.push('Please select a consultation duration.');
+        }
+
+        if (!$('input.consultation_type:checked').val()) {
+            errors.push('Please select a consultation type (In-person / Phone / Video).');
+        }
+
+        var hasDate = $('#timeslot_col_date').val() !== '' || $('input[name="date"]').val() !== '';
+        var hasTime = $('#timeslot_col_time').val() !== '' || $('input[name="time"]').val() !== '';
+        if (!hasDate || !hasTime) {
+            errors.push('Please select a date and time for your appointment.');
+        }
+
+        if (!validateInfoTab()) {
+            errors.push('Please complete all required fields in the Your Information section.');
+        }
+
+        if (errors.length > 0) {
+            showErrorMessage(errors.join('<br>'));
+            return false;
+        }
+
+        return true;
     }
     
     function showError(field, message) {
