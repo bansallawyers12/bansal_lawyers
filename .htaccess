@@ -18,7 +18,7 @@
     RewriteRule ^about\.html$ about [R=301,L]
     RewriteRule ^serve-pdf\.php$ / [R=301,L]
     RewriteRule ^blog\.html$ blog [R=301,L]
-    RewriteRule ^index\.html$ / [R=301,L]
+    RewriteRule ^index\.html/?$ / [R=301,L]
     RewriteRule ^immigration-law/?$ migration-law [R=301,L]
 
     # --------------------------------------------------------
