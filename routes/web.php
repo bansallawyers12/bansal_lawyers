@@ -178,6 +178,9 @@ Route::middleware(['throttle:web-pages', 'cache.headers:etag'])->group(function 
     //Practice area main Page
     Route::get('/family-law', [\App\Http\Controllers\HomeController::class, 'familylawExperiment'])->name('family-law');
     Route::get('/migration-law', [\App\Http\Controllers\HomeController::class, 'migrationlawExperiment'])->name('migration-law');
+    Route::get('/immigration-law', function () {
+        return redirect()->route('migration-law', [], 301);
+    });
     Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'criminallawExperiment'])->name('criminal-law');
     Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallawExperiment'])->name('commercial-law');
     Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylawExperiment'])->name('property-law');
