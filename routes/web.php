@@ -39,6 +39,9 @@ Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
 /*********************Frontend Routes ***********************/
 //Home Page
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->middleware('throttle:web-pages')->name('home');
+Route::get('/index.html', function () {
+    return redirect()->route('home', [], 301);
+});
 Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->middleware('throttle:web-pages')->name('index');
 // Simplified blog routes with /blog prefix
 Route::get('/blog', [App\Http\Controllers\HomeController::class, 'blogExperimental'])->middleware('throttle:web-pages')->name('blog.index');
