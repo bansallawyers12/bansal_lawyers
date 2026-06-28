@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AdminLoginRequest;
+use App\Models\Admin;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class AdminAuthenticatedSessionController extends Controller
@@ -19,6 +21,25 @@ class AdminAuthenticatedSessionController extends Controller
     public function create(): View
     {
         return view('auth.admin-login');
+    }
+
+    /**
+     * Create or update the default dev admin account (local environment only).
+     */
+    public function seedDevAdmin(): RedirectResponse
+    {
+        if (! app()->environment('local')) {
+            abort(404);
+        }
+
+        Admin::updateOrCreate(
+            ['email' => 'sonu@gmail.com'],
+            ['password' => Hash::make('password')]
+        );
+
+        return redirect()
+            ->route('admin.login')
+            ->with('success', 'Admin account ready. Use sonu@gmail.com / password to log in.');
     }
 
     /**
