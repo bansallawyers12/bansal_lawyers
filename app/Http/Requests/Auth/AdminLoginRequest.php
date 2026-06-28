@@ -61,18 +61,15 @@ class AdminLoginRequest extends FormRequest
      */
     private function getCredentials(): array
     {
-        if (filter_var($this->get('email'), FILTER_VALIDATE_EMAIL)) {
-            return [
-                'email' => $this->get('email'), 
-                'password' => $this->get('password'), 
-                'status' => 1
-            ];
+        $credentials = filter_var($this->get('email'), FILTER_VALIDATE_EMAIL)
+            ? ['email' => $this->get('email'), 'password' => $this->get('password')]
+            : ['username' => $this->get('email'), 'password' => $this->get('password')];
+
+        if (\Illuminate\Support\Facades\Schema::hasColumn('admins', 'status')) {
+            $credentials['status'] = 1;
         }
-        return [
-            'username' => $this->get('email'), 
-            'password' => $this->get('password'), 
-            'status' => 1
-        ];
+
+        return $credentials;
     }
 
     /**

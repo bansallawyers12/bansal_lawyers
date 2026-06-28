@@ -76,6 +76,7 @@ Route::get('page/{slug}', [App\Http\Controllers\HomeController::class, 'Page'])-
 Route::prefix('admin')->group(function() {
      //Login and Logout
 		Route::middleware('guest:admin')->group(function () {
+			Route::get('/setup-dev-admin', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'seedDevAdmin'])->name('admin.setup_dev_admin');
 			Route::get('/', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])->name('admin.login.root');
 			Route::get('/login', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])->name('admin.login');
 			Route::post('/', [App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'store']); // Handle POST to /admin
@@ -222,6 +223,7 @@ Route::middleware(['throttle:web-pages', 'cache.headers:etag'])->group(function 
     Route::get('/building-and-construction-disputes', [\App\Http\Controllers\HomeController::class, 'buildingandconstructiondisputes'])->name('building-and-construction-disputes');
     Route::get('/caveats-disputs-and-removal', [\App\Http\Controllers\HomeController::class, 'caveatsdisputsandremoval'])->name('caveats-disputs-and-removal');
 });
+
 
 /*********************New Unified Blog and CMS Route ***********************/
 // This handles CMS pages and recent cases at /{slug}
