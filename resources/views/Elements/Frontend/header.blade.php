@@ -1,5 +1,25 @@
 <!-- Step 4: Responsive Navigation with Mobile Menu -->
 <style>
+.nav-menu-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+.nav-menu-link:hover {
+    color: #ffd700;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.nav-menu-link.active {
+    color: #ffd700;
+    background-color: rgba(255, 255, 255, 0.15);
+    font-weight: 600;
+    box-shadow: inset 0 -2px 0 #ffd700;
+}
+
 @media (max-width: 768px) {
     .desktop-menu {
         display: none !important;
@@ -32,12 +52,22 @@
         background-color: rgba(255,255,255,0.1);
         color: #ffd700;
     }
+    .mobile-menu a.active {
+        color: #ffd700;
+        background-color: rgba(255, 255, 255, 0.15);
+        font-weight: 600;
+        border-left: 3px solid #ffd700;
+    }
     .mobile-menu .cta-mobile {
         background-color: #007bff;
         text-align: center;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+    }
+    .mobile-menu .cta-mobile.active {
+        background-color: #0056b3;
+        border-left: none;
     }
     /* Mobile logo adjustments */
     .logo-container {
@@ -84,23 +114,23 @@
         
         <!-- Desktop Menu Items -->
         <div class="desktop-menu" style="display: flex; gap: 25px; align-items: center;">
-            <a href="{{ url('/about') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">About</a>
-            <a href="{{ url('/practice-areas') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Practice Areas</a>
-            <a href="{{ url('/case') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Recent Cases</a>
-            <a href="{{ url('/blog') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Blog</a>
-            <a href="{{ url('/contact') }}" style="color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.color='#ffd700'; this.style.backgroundColor='rgba(255,255,255,0.1)'" onmouseout="this.style.color='white'; this.style.backgroundColor='transparent'">Contact</a>
+            <a href="{{ url('/about') }}" class="nav-menu-link{{ \App\Helpers\Helper::isNavActive('about') ? ' active' : '' }}" aria-current="{{ \App\Helpers\Helper::isNavActive('about') ? 'page' : 'false' }}">About</a>
+            <a href="{{ url('/practice-areas') }}" class="nav-menu-link{{ \App\Helpers\Helper::isNavActive('practice') ? ' active' : '' }}" aria-current="{{ \App\Helpers\Helper::isNavActive('practice') ? 'page' : 'false' }}">Practice Areas</a>
+            <a href="{{ url('/case') }}" class="nav-menu-link{{ \App\Helpers\Helper::isNavActive('case') ? ' active' : '' }}" aria-current="{{ \App\Helpers\Helper::isNavActive('case') ? 'page' : 'false' }}">Recent Cases</a>
+            <a href="{{ url('/blog') }}" class="nav-menu-link{{ \App\Helpers\Helper::isNavActive('blog') ? ' active' : '' }}" aria-current="{{ \App\Helpers\Helper::isNavActive('blog') ? 'page' : 'false' }}">Blog</a>
+            <a href="{{ url('/contact') }}" class="nav-menu-link{{ \App\Helpers\Helper::isNavActive('contact') ? ' active' : '' }}" aria-current="{{ \App\Helpers\Helper::isNavActive('contact') ? 'page' : 'false' }}">Contact</a>
             <a href="{{ url('/book-an-appointment') }}" style="background-color: #007bff; color: white; text-decoration: none; padding: 12px 20px; border-radius: 25px; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#0056b3'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='#007bff'; this.style.transform='translateY(0)'">Schedule Consultation</a>
         </div>
     </div>
     
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="{{ url('/about') }}">About</a>
-        <a href="{{ url('/practice-areas') }}">Practice Areas</a>
-        <a href="{{ url('/case') }}">Recent Cases</a>
-        <a href="{{ url('/blog') }}">Blog</a>
-        <a href="{{ url('/contact') }}">Contact</a>
-        <a href="{{ url('/book-an-appointment') }}" class="cta-mobile">Schedule Consultation</a>
+        <a href="{{ url('/about') }}" class="{{ \App\Helpers\Helper::isNavActive('about') ? 'active' : '' }}" aria-current="{{ \App\Helpers\Helper::isNavActive('about') ? 'page' : 'false' }}">About</a>
+        <a href="{{ url('/practice-areas') }}" class="{{ \App\Helpers\Helper::isNavActive('practice') ? 'active' : '' }}" aria-current="{{ \App\Helpers\Helper::isNavActive('practice') ? 'page' : 'false' }}">Practice Areas</a>
+        <a href="{{ url('/case') }}" class="{{ \App\Helpers\Helper::isNavActive('case') ? 'active' : '' }}" aria-current="{{ \App\Helpers\Helper::isNavActive('case') ? 'page' : 'false' }}">Recent Cases</a>
+        <a href="{{ url('/blog') }}" class="{{ \App\Helpers\Helper::isNavActive('blog') ? 'active' : '' }}" aria-current="{{ \App\Helpers\Helper::isNavActive('blog') ? 'page' : 'false' }}">Blog</a>
+        <a href="{{ url('/contact') }}" class="{{ \App\Helpers\Helper::isNavActive('contact') ? 'active' : '' }}" aria-current="{{ \App\Helpers\Helper::isNavActive('contact') ? 'page' : 'false' }}">Contact</a>
+        <a href="{{ url('/book-an-appointment') }}" class="cta-mobile{{ request()->is('book-an-appointment*') ? ' active' : '' }}">Schedule Consultation</a>
     </div>
 </nav>
 
