@@ -35,14 +35,26 @@
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
     # --------------------------------------------------------
-    # 5. LARAVEL ROUTING: Front Controller
+    # 5. STATIC ASSETS: Serve from public/ when missing at root
+    # Document root is the project folder (not public/), so /images/,
+    # /css/, /build/, etc. must map to public/ for Laravel asset() URLs.
+    # --------------------------------------------------------
+    RewriteCond %{REQUEST_URI} ^/(build|css|js|fonts|assets|images|storage)(/|$) [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -d
+    RewriteRule ^ public%{REQUEST_URI} [L]
+
+    # --------------------------------------------------------
+    # 6. LARAVEL ROUTING: Front Controller
     # --------------------------------------------------------
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
     # --------------------------------------------------------
-    # 6. OPTIMIZATION: Disable MultiViews
+    # 7. OPTIMIZATION: Disable MultiViews
     # --------------------------------------------------------
     <IfModule mod_negotiation.c>
         Options -MultiViews
@@ -51,14 +63,14 @@
 </IfModule>
 
 # --------------------------------------------------------
-# 7. SECURITY: HSTS (HTTP Strict Transport Security)
+# 8. SECURITY: HSTS (HTTP Strict Transport Security)
 # --------------------------------------------------------
 <IfModule mod_headers.c>
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 </IfModule>
 
 # --------------------------------------------------------
-# 8. CACHING (Optional but Recommended)
+# 9. CACHING (Optional but Recommended)
 # --------------------------------------------------------
 # Speeds up your site and helps SEMrush see faster loads
 <IfModule mod_expires.c>
@@ -67,6 +79,7 @@
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType text/javascript "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
