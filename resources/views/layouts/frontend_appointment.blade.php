@@ -122,6 +122,8 @@
     <!-- Main custom styles - Keep as normal stylesheet to avoid FOUC -->
     <!-- Note: High unused percentage reported, but needed for layout structure -->
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/layout-global.css') }}?v=1.0">
+    <link rel="stylesheet" href="{{ asset('css/footer-modern.css') }}?v=1.0">
     
     <!-- Non-critical CSS - only on pages that use these features -->
     @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*'))
@@ -288,6 +290,8 @@
 		</script>
 
 		@yield('scripts')
+
+    <script src="{{ asset('js/footer-animations.js') }}?v=1.0" defer></script>
 </body>
 
 </html>

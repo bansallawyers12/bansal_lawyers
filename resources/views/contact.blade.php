@@ -1024,6 +1024,14 @@
     </div>
 </section>
 
+<section class="container py-4">
+    <article>
+        <h2>Contact Our Melbourne Lawyers</h2>
+        <p>Bansal Lawyers provides expert legal services from our Collins Street office in the Melbourne CBD. Our team assists clients across Victoria and Australia with migration and visa matters, family law, criminal defence, commercial and business law, and property and conveyancing.</p>
+        <p>When you contact us, we listen to your situation, explain your legal options in plain language, and outline sensible next steps. You can reach us by phone, email, or the form below — we aim to respond promptly during business hours, Monday to Friday.</p>
+        <p>If your matter is urgent, call <a href="tel:+61422905860">0422 905 860</a> or our national line <a href="tel:1300226725">1300 BANSAL (1300 226 725)</a>. For a paid consultation with a lawyer, you can also <a href="/book-an-appointment">book an appointment online</a>.</p>
+    </article>
+</section>
 
 <!-- Modern Contact Section -->
 <section class="modern-contact-section">
