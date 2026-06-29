@@ -25,6 +25,8 @@ Route::get('/cdn-cgi/l/email-protection', function () {
 		->header('X-Robots-Tag', 'noindex, nofollow');
 });
 
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+
 Route::middleware(['auth', 'verified', 'throttle:6,1'])->group(function () {
 	Route::post('/clear-cache', function() {
 
@@ -230,5 +232,5 @@ Route::middleware(['throttle:web-pages', 'cache.headers:etag'])->group(function 
 // IMPORTANT: This route must come after /blog routes to avoid conflicts
 Route::get('/{slug}', [\App\Http\Controllers\HomeController::class, 'unifiedSlugHandler'])
 	->middleware('throttle:web-pages')
-	->where('slug', '^(?!admin\/|api\/|login$|register$|home$|invoice$|profile$|clear-cache$|js\/|css\/|images\/|img\/|assets\/|fonts\/|storage\/|blog$|blog\/).*$')
+	->where('slug', '^(?!admin\/|api\/|login$|register$|home$|invoice$|profile$|clear-cache$|js\/|css\/|images\/|img\/|assets\/|fonts\/|storage\/|blog$|blog\/|sitemap\.xml$).*$')
 	->name('cms.slug');
