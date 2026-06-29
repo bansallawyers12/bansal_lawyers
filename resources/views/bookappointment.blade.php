@@ -23,17 +23,6 @@
     <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
-<!-- Hotjar Tracking Code for https://www.bansallawyers.com.au/migration-law -->
-<script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:6499398,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-</script>
 @endsection
 
 @section('content')
@@ -2388,8 +2377,7 @@
                 <h1>Expert Legal Consultation</h1>
                 <h2>Specializing in Your Area of Need</h2>
                 <p class="hero-description">
-                    Get professional legal guidance from experienced lawyers who understand Australian law. 
-                    Our team provides comprehensive legal services across immigration, family, criminal, and business law matters.
+                    Book a consultation with Bansal Lawyers at our Melbourne CBD office or by phone or video. Our experienced team provides clear, practical advice across immigration and visa refusals, family law and divorce, criminal matters, commercial contracts, and property law. First-time clients may be eligible for a short free introductory call; paid sessions are available in 30-minute and one-hour blocks.
                 </p>
                 <div class="hero-pricing">
                     <span class="price-amount">From Free</span>

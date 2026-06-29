@@ -1347,6 +1347,13 @@ class HomeController extends Controller
 
     public function blogExperimental(Request $request)
     {
+        if ($request->query('page') === '1' || $request->query('page') === 1) {
+            $query = $request->except('page');
+            $url = '/blog' . (count($query) ? '?' . http_build_query($query) : '');
+
+            return redirect($url, 301);
+        }
+
         $blogCategories = BlogCategory::cachedForListing();
 
         $blogquery = Blog::where('status', '=', 1)->with(['categorydetail']);

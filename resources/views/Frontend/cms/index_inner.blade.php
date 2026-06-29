@@ -38,79 +38,12 @@
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 @endsection
 
-@section('content')
-<style>
-        /* General Body Styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-
-        /* Content Section */
-        .content-section {
-            width: 100%;
-            max-width: 1200px;
-            margin: 30px auto;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .content-section h1 {
-            font-size: 3rem;
-            color: #002247;
-            /* Main heading color */
-            text-align: center;
-            /* Center-aligned heading */
-            margin-bottom: 20px;
-        }
-
-        .content-section h2 {
-            font-size: 2rem;
-            color: #333;
-            /* Subheading color */
-            margin-bottom: 15px;
-            text-align: left;
-            /* Align subheadings to the left */
-        }
-
-        .content-section p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            text-align: left;
-            /* Align paragraphs to the left */
-            color: #333;
-            /* Paragraph color */
-        }
-
-        .content-section ul {
-            margin: 20px 0;
-            padding-left: 40px;
-            /* Add space for the bullets */
-        }
-
-        .content-section ul li {
-            list-style-type: disc;
-            margin-bottom: 10px;
-            color: #002247;
-            /* Bullet point text color */
-            text-align: left;
-            /* Align bullet points to the left */
-        }
-
-        .content-section h3 {
-            color: #333;
-            margin-top: 20px;
-            font-size: 1.5rem;
-            text-align: left;
-            /* Align subheadings to the left */
-        }
-    </style>
-<?php echo $pagedata->content; ?>
+@section('head')
+<link rel="stylesheet" href="{{ asset('css/cms-inner.css') }}?v=1.0">
 @endsection
 
+@section('content')
+<article class="content-section">
+<?php echo $pagedata->content; ?>
+</article>
+@endsection
