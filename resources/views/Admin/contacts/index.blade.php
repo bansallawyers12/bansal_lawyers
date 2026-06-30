@@ -2,8 +2,7 @@
 @section('title', 'Contact Management')
 
 @section('content')
-<!-- Ensure Font Awesome is loaded -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@include('Elements.flash-message')
 
 <style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Contact Management Design System */
@@ -537,22 +536,15 @@
     font-weight: 900 !important;
 }
 
-/* Ensure Font Awesome icons are visible */
-.modern-actions .modern-btn i.fas,
-.modern-actions .modern-btn i.far,
-.modern-actions .modern-btn i.fal,
-.modern-actions .modern-btn i.fab {
-    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "FontAwesome" !important;
-    font-weight: 900 !important;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    speak: none;
-    font-style: normal;
-    font-variant: normal;
-    text-transform: none;
+/* Ensure Lucide icons in action buttons render correctly */
+.modern-actions .modern-btn i,
+.modern-actions .modern-btn svg {
+    display: inline-block !important;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
 }
 
-/* Screen reader only text */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -737,7 +729,70 @@
 .modern-bulk-actions {
     display: none;
     gap: 0.5rem;
-    margin-left: auto;
+    align-items: center;
+}
+
+.modern-bulk-bar {
+    display: none;
+    margin-bottom: 1.5rem;
+    padding: 0.875rem 1.25rem;
+    background: linear-gradient(135deg, #ede9fe 0%, #f5f3ff 100%);
+    border: 1px solid #c4b5fd;
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-sm);
+}
+
+.modern-bulk-bar.is-visible {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.modern-bulk-bar-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--contact-secondary);
+}
+
+.modern-bulk-bar-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.modern-results-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+.modern-table tbody tr.contact-row {
+    cursor: pointer;
+}
+
+.modern-table tbody tr.contact-row td:first-child,
+.modern-table tbody tr.contact-row td:last-child {
+    cursor: default;
+}
+
+.modern-contact-name {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.modern-contact-subject {
+    color: var(--text-light);
+    font-size: 0.8125rem;
+    margin-top: 0.15rem;
 }
 
 .modern-bulk-actions.show {
@@ -848,16 +903,6 @@
 										<i data-lucide="download"></i>
 										Export CSV
 									</button>
-									<div class="modern-bulk-actions" id="bulkActions">
-										<button type="button" class="modern-btn modern-btn-info modern-btn-sm" data-bulk-send-bansal id="bulkSendToBansalBtn">
-											<i data-lucide="send"></i>
-											Send to Bansal Email
-										</button>
-										<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" data-bulk-delete-contacts id="bulkDeleteBtn">
-											<i data-lucide="trash-2"></i>
-											Delete Selected
-										</button>
-									</div>
 								</div>
 							</div>
 							
@@ -878,33 +923,33 @@
 									<div class="modern-stat-card today">
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
-												<h5>Today</h5>
-												<h3>{{ $stats['today'] }}</h3>
+												<h5>Unread</h5>
+												<h3>{{ $stats['unread'] }}</h3>
 											</div>
 											<div class="modern-stat-icon today">
-												<i data-lucide="calendar-days"></i>
+												<i data-lucide="circle-alert"></i>
 											</div>
 										</div>
 									</div>
 									<div class="modern-stat-card week">
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
-												<h5>This Week</h5>
-												<h3>{{ $stats['this_week'] }}</h3>
+												<h5>Forwarded</h5>
+												<h3>{{ $stats['forwarded'] }}</h3>
 											</div>
 											<div class="modern-stat-icon week">
-												<i data-lucide="calendar-range"></i>
+												<i data-lucide="send"></i>
 											</div>
 										</div>
 									</div>
 									<div class="modern-stat-card month">
 										<div class="modern-stat-content">
 											<div class="modern-stat-info">
-												<h5>This Month</h5>
-												<h3>{{ $stats['this_month'] }}</h3>
+												<h5>Today</h5>
+												<h3>{{ $stats['today'] }}</h3>
 											</div>
 											<div class="modern-stat-icon month">
-												<i data-lucide="calendar"></i>
+												<i data-lucide="calendar-days"></i>
 											</div>
 										</div>
 									</div>
@@ -942,6 +987,7 @@
 														<option value="read" {{ request('status') == 'read' ? 'selected' : '' }}>Read</option>
 														<option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>Resolved</option>
 														<option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archived</option>
+														<option value="forwarded" {{ request('status') == 'forwarded' ? 'selected' : '' }}>Forwarded</option>
 													</select>
 												</div>
 												<div class="modern-form-group">
@@ -961,14 +1007,42 @@
 									</div>
 								</div>
 
-								<!-- Table -->
-								@if(count($contacts) > 0)
+								<div class="modern-bulk-bar" id="bulkBar" aria-hidden="true">
+									<div class="modern-bulk-bar-summary">
+										<i data-lucide="check-square"></i>
+										<span><strong id="selectedCount">0</strong> contact(s) selected</span>
+									</div>
+									<div class="modern-bulk-bar-actions">
+										<button type="button" class="modern-btn modern-btn-info modern-btn-sm" data-bulk-send-bansal id="bulkSendToBansalBtn">
+											<i data-lucide="send"></i>
+											Send to Bansal Email
+										</button>
+										<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" data-bulk-delete-contacts id="bulkDeleteBtn">
+											<i data-lucide="trash-2"></i>
+											Delete Selected
+										</button>
+										<button type="button" class="modern-btn modern-btn-secondary modern-btn-sm" id="clearSelectionBtn">
+											<i data-lucide="x"></i>
+											Clear
+										</button>
+									</div>
+								</div>
+
+								<div class="modern-results-meta">
+									<span>
+										Showing {{ $contacts->firstItem() ?? 0 }}–{{ $contacts->lastItem() ?? 0 }} of {{ $contacts->total() }} contact(s)
+										@if(request()->hasAny(['search', 'date_from', 'date_to', 'status']))
+											(filtered)
+										@endif
+									</span>
+								</div>
+
 								<div class="modern-table-container">
 									<table class="modern-table">
 										<thead>
 											<tr>
 												<th width="30">
-													<input type="checkbox" id="selectAll" class="modern-checkbox" onchange="toggleSelectAll()">
+													<input type="checkbox" id="selectAll" class="modern-checkbox" aria-label="Select all contacts">
 												</th>
 												<th>Name</th>
 												<th>Email</th>
@@ -981,12 +1055,14 @@
 										</thead>
 										<tbody>
 											@forelse($contacts as $contact)
-											<tr class="{{ $contact->status == 'unread' ? 'unread' : '' }}" id="contact-{{ $contact->id }}">
+											<tr class="contact-row {{ ($contact->status ?? 'unread') === 'unread' ? 'unread' : '' }}"
+												id="contact-{{ $contact->id }}"
+												data-view-url="{{ route('admin.contacts.show', $contact->id) }}">
 												<td>
-													<input type="checkbox" class="modern-checkbox contact-checkbox" value="{{ $contact->id }}">
+													<input type="checkbox" class="modern-checkbox contact-checkbox" value="{{ $contact->id }}" aria-label="Select {{ $contact->name }}">
 												</td>
 												<td>
-													<div class="font-weight-bold">{{ $contact->name }}</div>
+													<div class="modern-contact-name">{{ $contact->name }}</div>
 												</td>
 												<td>
 													<a href="mailto:{{ $contact->contact_email }}" class="text-decoration-none">
@@ -1003,9 +1079,8 @@
 													@endif
 												</td>
 												<td>
-													<div class="font-weight-500">
-														{{ \Illuminate\Support\Str::limit($contact->subject, 50) }}
-													</div>
+													<div class="font-weight-500">{{ \Illuminate\Support\Str::limit($contact->subject, 50) }}</div>
+													<div class="modern-contact-subject">{{ \Illuminate\Support\Str::limit(strip_tags($contact->message), 60) }}</div>
 												</td>
 												<td>
 													@if($contact->status === 'forwarded')
@@ -1082,13 +1157,25 @@
 											</tr>
 											@empty
 											<tr>
-												<td colspan="8" class="text-center py-4">
+												<td colspan="8">
 													<div class="modern-empty-state">
 														<div class="modern-empty-icon">
 															<i data-lucide="mail-open"></i>
 														</div>
 														<h3 class="modern-empty-title">No contacts found</h3>
-														<p class="modern-empty-description">No contact submissions match your current filters</p>
+														<p class="modern-empty-description">
+															@if(request()->hasAny(['search', 'date_from', 'date_to', 'status']))
+																No submissions match your current filters. Try adjusting your search.
+															@else
+																Contact form submissions will appear here when visitors reach out.
+															@endif
+														</p>
+														@if(request()->hasAny(['search', 'date_from', 'date_to', 'status']))
+															<a href="{{ route('admin.contacts.index') }}" class="modern-btn modern-btn-primary">
+																<i data-lucide="x"></i>
+																Clear Filters
+															</a>
+														@endif
 													</div>
 												</td>
 											</tr>
@@ -1096,13 +1183,11 @@
 										</tbody>
 									</table>
 								</div>
-								
-								<!-- Pagination -->
+
 								@if($contacts->hasPages())
 								<div class="modern-pagination">
-									{{ $contacts->links() }}
+									{!! $contacts->appends(request()->except('page'))->links() !!}
 								</div>
-								@endif
 								@endif
 							</div>
 						</div>
@@ -1114,64 +1199,136 @@
 </div>
 
 <script {!! \App\Services\CspService::getNonceAttribute() !!}>
-// Enhanced contact management functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const checkboxes = document.querySelectorAll('.contact-checkbox');
-    const bulkActions = document.getElementById('bulkActions');
-    
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const checkedBoxes = document.querySelectorAll('.contact-checkbox:checked');
-            if (checkedBoxes.length > 0) {
-                bulkActions.classList.add('show');
-            } else {
-                bulkActions.classList.remove('show');
+function showContactFlash(type, message) {
+    if (typeof window.dismissAlert === 'function') {
+        document.querySelectorAll('.modern-flash-alert').forEach(function (alert) {
+            window.dismissAlert(alert.querySelector('.modern-flash-close') || alert);
+        });
+    }
+
+    var container = document.querySelector('.modern-flash-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'modern-flash-container';
+        document.body.appendChild(container);
+    }
+
+    var icons = { success: 'check', error: 'circle-alert', warning: 'triangle-alert', info: 'info' };
+    var titles = { success: 'Success!', error: 'Error!', warning: 'Warning!', info: 'Information' };
+    var alert = document.createElement('div');
+    alert.className = 'modern-flash-alert ' + type;
+    alert.setAttribute('role', 'alert');
+    alert.setAttribute('data-auto-dismiss', type === 'error' ? '8000' : '5000');
+    alert.innerHTML = '<div class="modern-flash-icon"><i data-lucide="' + (icons[type] || 'info') + '"></i></div>' +
+        '<div class="modern-flash-content"><div class="modern-flash-title">' + (titles[type] || 'Notice') + '</div>' +
+        '<div class="modern-flash-message">' + message + '</div></div>' +
+        '<button type="button" class="modern-flash-close" aria-label="Close notification"><i data-lucide="x" aria-hidden="true"></i></button>' +
+        '<div class="modern-flash-progress"></div>';
+    container.appendChild(alert);
+
+    if (typeof window.refreshLucideIcons === 'function') {
+        window.refreshLucideIcons(alert);
+    }
+
+    alert.querySelector('.modern-flash-close').addEventListener('click', function () {
+        window.dismissAlert(this);
+    });
+
+    setTimeout(function () {
+        var closeBtn = alert.querySelector('.modern-flash-close');
+        if (closeBtn) {
+            window.dismissAlert(closeBtn);
+        }
+    }, type === 'error' ? 8000 : 5000);
+}
+
+function updateBulkSelectionUi() {
+    var checkedBoxes = document.querySelectorAll('.contact-checkbox:checked');
+    var bulkBar = document.getElementById('bulkBar');
+    var selectedCount = document.getElementById('selectedCount');
+    var selectAll = document.getElementById('selectAll');
+    var allBoxes = document.querySelectorAll('.contact-checkbox');
+
+    if (selectedCount) {
+        selectedCount.textContent = String(checkedBoxes.length);
+    }
+
+    if (bulkBar) {
+        bulkBar.classList.toggle('is-visible', checkedBoxes.length > 0);
+        bulkBar.setAttribute('aria-hidden', checkedBoxes.length > 0 ? 'false' : 'true');
+    }
+
+    if (selectAll && allBoxes.length) {
+        selectAll.checked = checkedBoxes.length === allBoxes.length;
+        selectAll.indeterminate = checkedBoxes.length > 0 && checkedBoxes.length < allBoxes.length;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    var selectAll = document.getElementById('selectAll');
+    var clearSelectionBtn = document.getElementById('clearSelectionBtn');
+
+    document.querySelectorAll('.contact-checkbox').forEach(function (checkbox) {
+        checkbox.addEventListener('change', updateBulkSelectionUi);
+    });
+
+    if (selectAll) {
+        selectAll.addEventListener('change', function () {
+            document.querySelectorAll('.contact-checkbox').forEach(function (checkbox) {
+                checkbox.checked = selectAll.checked;
+            });
+            updateBulkSelectionUi();
+        });
+    }
+
+    if (clearSelectionBtn) {
+        clearSelectionBtn.addEventListener('click', function () {
+            document.querySelectorAll('.contact-checkbox').forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+            if (selectAll) {
+                selectAll.checked = false;
+                selectAll.indeterminate = false;
+            }
+            updateBulkSelectionUi();
+        });
+    }
+
+    document.querySelectorAll('.contact-row').forEach(function (row) {
+        row.addEventListener('click', function (event) {
+            if (event.target.closest('a, button, input, .modern-dropdown, .modern-dropdown-menu')) {
+                return;
+            }
+            var url = row.getAttribute('data-view-url');
+            if (url) {
+                window.location.href = url;
             }
         });
     });
 });
 
-function toggleSelectAll() {
-    const selectAll = document.getElementById('selectAll');
-    const checkboxes = document.querySelectorAll('.contact-checkbox');
-    const bulkActions = document.getElementById('bulkActions');
-    
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = selectAll.checked;
+function toggleDropdown(contactId) {
+    var dropdown = document.getElementById('dropdown-' + contactId);
+    document.querySelectorAll('.modern-dropdown-menu').forEach(function (menu) {
+        if (menu !== dropdown) {
+            menu.classList.remove('show');
+        }
     });
-    
-    if (selectAll.checked) {
-        bulkActions.classList.add('show');
-    } else {
-        bulkActions.classList.remove('show');
+    if (dropdown) {
+        dropdown.classList.toggle('show');
     }
 }
 
-function toggleDropdown(contactId) {
-    const dropdown = document.getElementById(`dropdown-${contactId}`);
-    const allDropdowns = document.querySelectorAll('.modern-dropdown-menu');
-    
-    // Close all other dropdowns
-    allDropdowns.forEach(d => {
-        if (d !== dropdown) {
-            d.classList.remove('show');
-        }
-    });
-    
-    dropdown.classList.toggle('show');
-}
-
-// Close dropdowns when clicking outside
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     if (!event.target.closest('.modern-dropdown')) {
-        document.querySelectorAll('.modern-dropdown-menu').forEach(dropdown => {
+        document.querySelectorAll('.modern-dropdown-menu').forEach(function (dropdown) {
             dropdown.classList.remove('show');
         });
     }
 });
 
-function updateStatus(contactId, status) {
-    fetch(`/admin/contacts/${contactId}/status`, {
+function updateContactStatus(contactId, status) {
+    fetch('/admin/contacts/' + contactId + '/status', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -1179,16 +1336,17 @@ function updateStatus(contactId, status) {
         },
         body: JSON.stringify({ status: status })
     })
-    .then(response => response.json())
-    .then(data => {
+    .then(function (response) { return response.json(); })
+    .then(function (data) {
         if (data.success) {
-            location.reload();
+            showContactFlash('success', data.message || 'Contact status updated successfully');
+            setTimeout(function () { location.reload(); }, 700);
         } else {
-            alert('Error: ' + data.message);
+            showContactFlash('error', data.message || 'Failed to update status');
         }
     })
-    .catch(error => {
-        alert('Error updating status: ' + error.message);
+    .catch(function (error) {
+        showContactFlash('error', 'Error updating status: ' + error.message);
     });
 }
 
@@ -1203,32 +1361,33 @@ function deleteContact(contactId) {
         if (!confirmed) {
             return;
         }
-        fetch(`/admin/contacts/${contactId}`, {
+        fetch('/admin/contacts/' + contactId, {
             method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         })
-        .then(response => response.json())
-        .then(data => {
+        .then(function (response) { return response.json(); })
+        .then(function (data) {
             if (data.success) {
-                location.reload();
+                showContactFlash('success', data.message || 'Contact deleted successfully');
+                setTimeout(function () { location.reload(); }, 700);
             } else {
-                alert('Error: ' + data.message);
+                showContactFlash('error', data.message || 'Failed to delete contact');
             }
         })
-        .catch(error => {
-            alert('Error deleting contact: ' + error.message);
+        .catch(function (error) {
+            showContactFlash('error', 'Error deleting contact: ' + error.message);
         });
     });
 }
 
 function bulkDelete() {
-    const checkedBoxes = document.querySelectorAll('.contact-checkbox:checked');
-    const contactIds = Array.from(checkedBoxes).map(cb => cb.value);
-    
+    var checkedBoxes = document.querySelectorAll('.contact-checkbox:checked');
+    var contactIds = Array.from(checkedBoxes).map(function (cb) { return cb.value; });
+
     if (contactIds.length === 0) {
-        alert('Please select contacts to delete.');
+        showContactFlash('warning', 'Please select contacts to delete.');
         return;
     }
 
@@ -1250,103 +1409,129 @@ function bulkDelete() {
             },
             body: JSON.stringify({ contact_ids: contactIds })
         })
-        .then(response => response.json())
-        .then(data => {
+        .then(function (response) { return response.json(); })
+        .then(function (data) {
             if (data.success) {
-                location.reload();
+                showContactFlash('success', data.message || 'Contacts deleted successfully');
+                setTimeout(function () { location.reload(); }, 700);
             } else {
-                alert('Error: ' + data.message);
+                showContactFlash('error', data.message || 'Failed to delete contacts');
             }
         })
-        .catch(error => {
-            alert('Error deleting contacts: ' + error.message);
+        .catch(function (error) {
+            showContactFlash('error', 'Error deleting contacts: ' + error.message);
         });
     });
 }
 
 function exportContacts() {
-    const params = new URLSearchParams(window.location.search);
+    var params = new URLSearchParams(window.location.search);
     window.location.href = '/admin/contacts/export?' + params.toString();
 }
 
 function sendToBansalEmail(contactId) {
-    // Check if already processing
-    const button = document.querySelector(`[data-send-bansal-email][data-contact-id="${contactId}"]`);
+    var button = document.querySelector('[data-send-bansal-email][data-contact-id="' + contactId + '"]');
     if (button && button.disabled) {
-        return; // Already processing
+        return;
     }
-    
-    if (confirm('Send this contact query to info@bansallawyers.com.au for further processing?')) {
-        // Disable button and show loading
+
+    window.adminConfirm({
+        title: 'Forward to Bansal Email?',
+        message: 'Send this contact query to info@bansallawyers.com.au for further processing?',
+        confirmText: 'Send Email',
+        variant: 'info',
+        icon: 'send'
+    }).then(function (confirmed) {
+        if (!confirmed) {
+            return;
+        }
+
         if (button) {
             button.disabled = true;
-            button.innerHTML = '<i data-lucide="loader-2" class="lucide-spin"></i>';
+            button.innerHTML = '<i data-lucide="loader-2" class="lucide-spin" aria-hidden="true"></i><span class="sr-only">Sending</span>';
+            if (typeof window.refreshLucideIcons === 'function') {
+                window.refreshLucideIcons(button);
+            }
             button.classList.add('loading');
         }
-        
-        fetch(`/admin/contacts/${contactId}/send-to-bansal-email`, {
+
+        fetch('/admin/contacts/' + contactId + '/send-to-bansal-email', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         })
-        .then(response => {
+        .then(function (response) {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                return response.json().then(function (data) {
+                    throw new Error(data.message || 'Network response was not ok');
+                });
             }
             return response.json();
         })
-        .then(data => {
+        .then(function (data) {
             if (data.success) {
-                alert('Contact query sent to info@bansallawyers.com.au successfully!');
-                location.reload();
+                showContactFlash('success', data.message || 'Contact forwarded successfully');
+                setTimeout(function () { location.reload(); }, 700);
             } else {
-                alert('Error: ' + data.message);
-                // Re-enable button on error
-                if (button) {
-                    button.disabled = false;
-                    button.innerHTML = '<i data-lucide="send"></i>';
-                    button.classList.remove('loading');
-                }
+                showContactFlash('error', data.message || 'Failed to send email');
+                restoreSendButton(button);
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error sending to Bansal email. Please try again.');
-            // Re-enable button on error
-            if (button) {
-                button.disabled = false;
-                button.innerHTML = '<i data-lucide="send"></i>';
-                button.classList.remove('loading');
-            }
+        .catch(function (error) {
+            showContactFlash('error', error.message || 'Error sending to Bansal email. Please try again.');
+            restoreSendButton(button);
         });
+    });
+}
+
+function restoreSendButton(button) {
+    if (!button) {
+        return;
+    }
+    button.disabled = false;
+    button.innerHTML = '<i data-lucide="send" aria-hidden="true"></i><span class="sr-only">Send Email</span>';
+    button.classList.remove('loading');
+    if (typeof window.refreshLucideIcons === 'function') {
+        window.refreshLucideIcons(button);
     }
 }
 
 function bulkSendToBansalEmail() {
-    const checkedBoxes = document.querySelectorAll('.contact-checkbox:checked');
-    const contactIds = Array.from(checkedBoxes).map(cb => cb.value);
-    const button = document.getElementById('bulkSendToBansalBtn');
-    
+    var checkedBoxes = document.querySelectorAll('.contact-checkbox:checked');
+    var contactIds = Array.from(checkedBoxes).map(function (cb) { return cb.value; });
+    var button = document.getElementById('bulkSendToBansalBtn');
+
     if (contactIds.length === 0) {
-        alert('Please select contacts to send to Bansal email.');
+        showContactFlash('warning', 'Please select contacts to send to Bansal email.');
         return;
     }
-    
-    // Check if already processing
+
     if (button && button.disabled) {
-        return; // Already processing
+        return;
     }
-    
-    if (confirm(`Send ${contactIds.length} contact(s) to info@bansallawyers.com.au for further processing?`)) {
-        // Disable button and show loading
+
+    window.adminConfirm({
+        title: 'Forward Selected Contacts?',
+        message: 'Send ' + contactIds.length + ' contact submission(s) to info@bansallawyers.com.au for further processing?',
+        confirmText: 'Send ' + contactIds.length + ' Email(s)',
+        variant: 'info',
+        icon: 'send'
+    }).then(function (confirmed) {
+        if (!confirmed) {
+            return;
+        }
+
         if (button) {
             button.disabled = true;
             button.innerHTML = '<i data-lucide="loader-2" class="lucide-spin"></i> Sending...';
             button.classList.add('loading');
+            if (typeof window.refreshLucideIcons === 'function') {
+                window.refreshLucideIcons(button);
+            }
         }
-        
+
         fetch('/admin/contacts/bulk-send-to-bansal-email', {
             method: 'POST',
             headers: {
@@ -1355,31 +1540,41 @@ function bulkSendToBansalEmail() {
             },
             body: JSON.stringify({ contact_ids: contactIds })
         })
-        .then(response => response.json())
-        .then(data => {
+        .then(function (response) { return response.json(); })
+        .then(function (data) {
             if (data.success) {
-                alert(`${data.count} contact(s) sent to info@bansallawyers.com.au successfully!`);
-                location.reload();
+                showContactFlash('success', data.message || (data.count + ' contact(s) forwarded successfully'));
+                setTimeout(function () { location.reload(); }, 700);
             } else {
-                alert('Error: ' + data.message);
-                // Re-enable button on error
-                if (button) {
-                    button.disabled = false;
-                    button.innerHTML = '<i data-lucide="send"></i> Send to Bansal Email';
-                    button.classList.remove('loading');
-                }
+                showContactFlash('error', data.message || 'Failed to send contacts');
+                restoreBulkSendButton(button);
             }
         })
-        .catch(error => {
-            alert('Error sending contacts to Bansal email: ' + error.message);
-            // Re-enable button on error
-            if (button) {
-                button.disabled = false;
-                button.innerHTML = '<i data-lucide="send"></i> Send to Bansal Email';
-                button.classList.remove('loading');
-            }
+        .catch(function (error) {
+            showContactFlash('error', 'Error sending contacts: ' + error.message);
+            restoreBulkSendButton(button);
         });
+    });
+}
+
+function restoreBulkSendButton(button) {
+    if (!button) {
+        return;
+    }
+    button.disabled = false;
+    button.innerHTML = '<i data-lucide="send"></i> Send to Bansal Email';
+    button.classList.remove('loading');
+    if (typeof window.refreshLucideIcons === 'function') {
+        window.refreshLucideIcons(button);
     }
 }
+
+window.updateContactStatus = updateContactStatus;
+window.deleteContact = deleteContact;
+window.bulkDelete = bulkDelete;
+window.exportContacts = exportContacts;
+window.sendToBansalEmail = sendToBansalEmail;
+window.bulkSendToBansalEmail = bulkSendToBansalEmail;
+window.toggleDropdown = toggleDropdown;
 </script>
 @endsection

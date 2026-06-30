@@ -2,6 +2,8 @@
 @section('title', 'Contact Details')
 
 @section('content')
+@include('Elements.flash-message')
+
 <style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Contact Details Design System */
 :root {
@@ -467,7 +469,7 @@
 										Back to List
 									</a>
 									@if($contact->status !== 'forwarded')
-									<button type="button" class="modern-btn modern-btn-primary" data-send-bansal-email>
+									<button type="button" class="modern-btn modern-btn-primary" data-send-bansal-email data-contact-id="{{ $contact->id }}">
 										<i data-lucide="send"></i>
 										Send to Bansal Email
 									</button>
@@ -479,18 +481,18 @@
 											Change Status
 										</button>
 										<div class="modern-dropdown-menu" id="statusDropdown">
-											<a class="modern-dropdown-item" href="#" data-contact-status-action data-status="read">
+											<a class="modern-dropdown-item" href="#" data-contact-status-action data-contact-id="{{ $contact->id }}" data-status="read">
 												<i data-lucide="eye"></i> Mark as Read
 											</a>
-											<a class="modern-dropdown-item" href="#" data-contact-status-action data-status="resolved">
+											<a class="modern-dropdown-item" href="#" data-contact-status-action data-contact-id="{{ $contact->id }}" data-status="resolved">
 												<i data-lucide="circle-check"></i> Mark as Resolved
 											</a>
-											<a class="modern-dropdown-item" href="#" data-contact-status-action data-status="archived">
+											<a class="modern-dropdown-item" href="#" data-contact-status-action data-contact-id="{{ $contact->id }}" data-status="archived">
 												<i data-lucide="archive"></i> Archive
 											</a>
 										</div>
 									</div>
-									<button type="button" class="modern-btn modern-btn-danger" data-delete-contact>
+									<button type="button" class="modern-btn modern-btn-danger" data-delete-contact data-contact-id="{{ $contact->id }}">
 										<i data-lucide="trash-2"></i>
 										Delete
 									</button>
@@ -620,7 +622,7 @@
 													</a>
 													
 													@if($contact->status !== 'forwarded')
-													<button type="button" class="modern-btn modern-btn-info modern-btn-block" data-send-bansal-email>
+													<button type="button" class="modern-btn modern-btn-info modern-btn-block" data-send-bansal-email data-contact-id="{{ $contact->id }}">
 														<i data-lucide="send"></i>
 														Send to Bansal Email
 													</button>
@@ -672,25 +674,70 @@
 </div>
 
 <script {!! \App\Services\CspService::getNonceAttribute() !!}>
-// Enhanced contact details functionality
-function toggleStatusDropdown() {
-    const dropdown = document.getElementById('statusDropdown');
-    dropdown.classList.toggle('show');
+var pageContactId = {{ $contact->id }};
+
+function showContactFlash(type, message) {
+    if (typeof window.dismissAlert === 'function') {
+        document.querySelectorAll('.modern-flash-alert').forEach(function (alert) {
+            window.dismissAlert(alert.querySelector('.modern-flash-close') || alert);
+        });
+    }
+
+    var container = document.querySelector('.modern-flash-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'modern-flash-container';
+        document.body.appendChild(container);
+    }
+
+    var icons = { success: 'check', error: 'circle-alert', warning: 'triangle-alert', info: 'info' };
+    var titles = { success: 'Success!', error: 'Error!', warning: 'Warning!', info: 'Information' };
+    var alert = document.createElement('div');
+    alert.className = 'modern-flash-alert ' + type;
+    alert.setAttribute('role', 'alert');
+    alert.setAttribute('data-auto-dismiss', type === 'error' ? '8000' : '5000');
+    alert.innerHTML = '<div class="modern-flash-icon"><i data-lucide="' + (icons[type] || 'info') + '"></i></div>' +
+        '<div class="modern-flash-content"><div class="modern-flash-title">' + (titles[type] || 'Notice') + '</div>' +
+        '<div class="modern-flash-message">' + message + '</div></div>' +
+        '<button type="button" class="modern-flash-close" aria-label="Close notification"><i data-lucide="x" aria-hidden="true"></i></button>' +
+        '<div class="modern-flash-progress"></div>';
+    container.appendChild(alert);
+
+    if (typeof window.refreshLucideIcons === 'function') {
+        window.refreshLucideIcons(alert);
+    }
+
+    alert.querySelector('.modern-flash-close').addEventListener('click', function () {
+        window.dismissAlert(this);
+    });
+
+    setTimeout(function () {
+        var closeBtn = alert.querySelector('.modern-flash-close');
+        if (closeBtn) {
+            window.dismissAlert(closeBtn);
+        }
+    }, type === 'error' ? 8000 : 5000);
 }
 
-// Close dropdown when clicking outside
-document.addEventListener('click', function(event) {
+function toggleStatusDropdown() {
+    var dropdown = document.getElementById('statusDropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('show');
+    }
+}
+
+document.addEventListener('click', function (event) {
     if (!event.target.closest('.modern-dropdown')) {
-        document.querySelectorAll('.modern-dropdown-menu').forEach(dropdown => {
+        document.querySelectorAll('.modern-dropdown-menu').forEach(function (dropdown) {
             dropdown.classList.remove('show');
         });
     }
 });
 
-function updateStatus(status) {
-    const contactId = {{ $contact->id }};
-    
-    fetch(`/admin/contacts/${contactId}/status`, {
+function updateContactStatus(contactId, status) {
+    var id = contactId || pageContactId;
+
+    fetch('/admin/contacts/' + id + '/status', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -698,20 +745,23 @@ function updateStatus(status) {
         },
         body: JSON.stringify({ status: status })
     })
-    .then(response => response.json())
-    .then(data => {
+    .then(function (response) { return response.json(); })
+    .then(function (data) {
         if (data.success) {
-            location.reload();
+            showContactFlash('success', data.message || 'Contact status updated successfully');
+            setTimeout(function () { location.reload(); }, 700);
         } else {
-            alert('Error: ' + data.message);
+            showContactFlash('error', data.message || 'Failed to update status');
         }
     })
-    .catch(error => {
-        alert('Error updating status: ' + error.message);
+    .catch(function (error) {
+        showContactFlash('error', 'Error updating status: ' + error.message);
     });
 }
 
-function deleteContact() {
+function deleteContact(contactId) {
+    var id = contactId || pageContactId;
+
     window.adminConfirm({
         title: 'Delete Contact?',
         message: 'This contact submission will be permanently removed. This action cannot be undone.',
@@ -722,115 +772,152 @@ function deleteContact() {
         if (!confirmed) {
             return;
         }
-        const contactId = {{ $contact->id }};
 
-        fetch(`/admin/contacts/${contactId}`, {
+        fetch('/admin/contacts/' + id, {
             method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         })
-        .then(response => response.json())
-        .then(data => {
+        .then(function (response) { return response.json(); })
+        .then(function (data) {
             if (data.success) {
-                alert('Contact deleted successfully!');
-                window.location.href = '{{ route("admin.contacts.index") }}';
+                showContactFlash('success', data.message || 'Contact deleted successfully');
+                setTimeout(function () {
+                    window.location.href = '{{ route("admin.contacts.index") }}';
+                }, 700);
             } else {
-                alert('Error: ' + data.message);
+                showContactFlash('error', data.message || 'Failed to delete contact');
             }
         })
-        .catch(error => {
-            alert('Error deleting contact: ' + error.message);
+        .catch(function (error) {
+            showContactFlash('error', 'Error deleting contact: ' + error.message);
         });
     });
 }
 
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(function() {
-        // Show temporary success message
-        const btn = event.target.closest('button');
-        const originalText = btn.innerHTML;
+function copyToClipboard(text, sourceEl) {
+    var btn = sourceEl && sourceEl.closest ? sourceEl.closest('button') : null;
+
+    navigator.clipboard.writeText(text).then(function () {
+        if (!btn) {
+            showContactFlash('success', 'Copied to clipboard');
+            return;
+        }
+
+        var originalHtml = btn.innerHTML;
         btn.innerHTML = '<i data-lucide="check"></i> Copied!';
         btn.classList.add('modern-success-feedback');
-        
-        setTimeout(() => {
-            btn.innerHTML = originalText;
+        if (typeof window.refreshLucideIcons === 'function') {
+            window.refreshLucideIcons(btn);
+        }
+
+        setTimeout(function () {
+            btn.innerHTML = originalHtml;
             btn.classList.remove('modern-success-feedback');
+            if (typeof window.refreshLucideIcons === 'function') {
+                window.refreshLucideIcons(btn);
+            }
         }, 2000);
-    }).catch(function(err) {
-        alert('Failed to copy to clipboard: ' + err);
+    }).catch(function (err) {
+        showContactFlash('error', 'Failed to copy to clipboard: ' + err);
     });
 }
 
 function copyContactDetails() {
-    const contactDetails = `
-Contact Details:
-Name: {{ $contact->name }}
-Email: {{ $contact->contact_email }}
-@if($contact->contact_phone)
-Phone: {{ $contact->contact_phone }}
-@endif
-Subject: {{ $contact->subject }}
-Submitted: {{ $contact->created_at->format('d/m/Y H:i:s') }}
+    var contactDetails = @json(
+        "Contact Details:\n" .
+        "Name: {$contact->name}\n" .
+        "Email: {$contact->contact_email}\n" .
+        ($contact->contact_phone ? "Phone: {$contact->contact_phone}\n" : '') .
+        "Subject: {$contact->subject}\n" .
+        "Submitted: {$contact->created_at->format('d/m/Y H:i:s')}\n\n" .
+        "Message:\n{$contact->message}"
+    );
 
-Message:
-{{ $contact->message }}
-    `.trim();
-    
-    copyToClipboard(contactDetails);
+    var btn = document.querySelector('[data-copy-contact-details]');
+    copyToClipboard(contactDetails, btn);
 }
 
-function sendToBansalEmail() {
-    const button = event.target.closest('button');
-    
-    if (confirm('Send this contact query to info@bansallawyers.com.au for further processing?')) {
-        // Disable button and show loading
-        if (button) {
-            button.disabled = true;
-            button.innerHTML = '<i data-lucide="loader-2" class="lucide-spin"></i> Sending...';
-            button.classList.add('loading');
+function sendToBansalEmail(contactId) {
+    var id = contactId || pageContactId;
+    var button = document.querySelector('[data-send-bansal-email][data-contact-id="' + id + '"]');
+
+    if (button && button.disabled) {
+        return;
+    }
+
+    window.adminConfirm({
+        title: 'Forward to Bansal Email?',
+        message: 'Send this contact query to info@bansallawyers.com.au for further processing?',
+        confirmText: 'Send Email',
+        variant: 'info',
+        icon: 'send'
+    }).then(function (confirmed) {
+        if (!confirmed) {
+            return;
         }
-        
-        const contactId = {{ $contact->id }};
-        
-        fetch(`/admin/contacts/${contactId}/send-to-bansal-email`, {
+
+        document.querySelectorAll('[data-send-bansal-email][data-contact-id="' + id + '"]').forEach(function (el) {
+            el.disabled = true;
+            el.innerHTML = '<i data-lucide="loader-2" class="lucide-spin"></i> Sending...';
+            el.classList.add('loading');
+            if (typeof window.refreshLucideIcons === 'function') {
+                window.refreshLucideIcons(el);
+            }
+        });
+
+        fetch('/admin/contacts/' + id + '/send-to-bansal-email', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         })
-        .then(response => {
+        .then(function (response) {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                return response.json().then(function (data) {
+                    throw new Error(data.message || 'Network response was not ok');
+                });
             }
             return response.json();
         })
-        .then(data => {
+        .then(function (data) {
             if (data.success) {
-                alert('Contact query sent to info@bansallawyers.com.au successfully!');
-                location.reload();
+                showContactFlash('success', data.message || 'Contact forwarded successfully');
+                setTimeout(function () { location.reload(); }, 700);
             } else {
-                alert('Error: ' + data.message);
-                // Re-enable button on error
-                if (button) {
-                    button.disabled = false;
-                    button.innerHTML = '<i data-lucide="send"></i> Send to Bansal Email';
-                    button.classList.remove('loading');
-                }
+                showContactFlash('error', data.message || 'Failed to send email');
+                restoreShowSendButtons(id);
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error sending to Bansal email. Please try again.');
-            // Re-enable button on error
-            if (button) {
-                button.disabled = false;
-                button.innerHTML = '<i data-lucide="send"></i> Send to Bansal Email';
-                button.classList.remove('loading');
-            }
+        .catch(function (error) {
+            showContactFlash('error', error.message || 'Error sending to Bansal email. Please try again.');
+            restoreShowSendButtons(id);
         });
-    }
+    });
 }
+
+function restoreShowSendButtons(contactId) {
+    document.querySelectorAll('[data-send-bansal-email][data-contact-id="' + contactId + '"]').forEach(function (button) {
+        button.disabled = false;
+        button.classList.remove('loading');
+        if (button.classList.contains('modern-btn-block')) {
+            button.innerHTML = '<i data-lucide="send"></i> Send to Bansal Email';
+        } else {
+            button.innerHTML = '<i data-lucide="send"></i> Send to Bansal Email';
+        }
+        if (typeof window.refreshLucideIcons === 'function') {
+            window.refreshLucideIcons(button);
+        }
+    });
+}
+
+window.updateContactStatus = updateContactStatus;
+window.deleteContact = deleteContact;
+window.copyToClipboard = copyToClipboard;
+window.copyContactDetails = copyContactDetails;
+window.sendToBansalEmail = sendToBansalEmail;
+window.toggleStatusDropdown = toggleStatusDropdown;
 </script>
 @endsection

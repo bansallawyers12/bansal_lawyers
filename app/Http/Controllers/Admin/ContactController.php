@@ -41,19 +41,27 @@ class ContactController extends Controller
             $query->where('created_at', '<=', $request->date_to . ' 23:59:59');
         }
         
-        // Status filter (we'll add a status field if needed)
+        // Status filter
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            if ($request->status === 'unread') {
+                $query->where(function ($q) {
+                    $q->whereNull('status')->orWhere('status', 'unread');
+                });
+            } else {
+                $query->where('status', $request->status);
+            }
         }
         
         $contacts = $query->paginate(20)->appends($request->all());
         
-        // Get statistics
+        // Get statistics for dashboard cards
         $stats = [
             'total' => Contact::count(),
+            'unread' => Contact::where(function ($q) {
+                $q->whereNull('status')->orWhere('status', 'unread');
+            })->count(),
+            'forwarded' => Contact::where('status', 'forwarded')->count(),
             'today' => Contact::whereDate('created_at', today())->count(),
-            'this_week' => Contact::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count(),
-            'this_month' => Contact::whereMonth('created_at', now()->month)->count(),
         ];
         
         return view('Admin.contacts.index', compact('contacts', 'stats'));
@@ -271,7 +279,8 @@ class ContactController extends Controller
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('contact_email', 'like', "%{$search}%")
                   ->orWhere('contact_phone', 'like', "%{$search}%")
-                  ->orWhere('subject', 'like', "%{$search}%");
+                  ->orWhere('subject', 'like', "%{$search}%")
+                  ->orWhere('message', 'like', "%{$search}%");
             });
         }
         
@@ -282,8 +291,16 @@ class ContactController extends Controller
         if ($request->filled('date_to')) {
             $query->where('created_at', '<=', $request->date_to . ' 23:59:59');
         }
-        
-        $contacts = $query->get();
+
+        if ($request->filled('status')) {
+            if ($request->status === 'unread') {
+                $query->where(function ($q) {
+                    $q->whereNull('status')->orWhere('status', 'unread');
+                });
+            } else {
+                $query->where('status', $request->status);
+            }
+        }
         
         $filename = 'contacts_' . date('Y-m-d_H-i-s') . '.csv';
         

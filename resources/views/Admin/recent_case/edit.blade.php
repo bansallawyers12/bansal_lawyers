@@ -440,7 +440,7 @@ input:checked + .modern-checkbox-slider:before {
 								</div>
 							</div>
 							
-							<form action="{{ route('admin.recent_case.update') }}" autocomplete="off" method="post" enctype="multipart/form-data" id="edit-case-form">
+							<form action="{{ route('admin.recent_case.update') }}" autocomplete="off" method="post" enctype="multipart/form-data" name="edit-case" id="edit-case-form">
 								@csrf
 								<input type="hidden" name="id" value="{{ $fetchedData->id }}">
 								
@@ -706,7 +706,7 @@ input:checked + .modern-checkbox-slider:before {
 										<i data-lucide="x"></i>
 										Cancel
 									</a>
-									<button type="button" class="modern-btn modern-btn-primary" data-custom-validate="edit-case">
+									<button type="button" class="modern-btn modern-btn-primary" id="recent-case-edit-submit" data-custom-validate="edit-case">
 										<i data-lucide="save"></i>
 										Update Case Study
 									</button>
@@ -760,13 +760,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Enhanced form validation
     const form = document.getElementById('edit-case-form');
-    const submitBtn = document.querySelector('.modern-btn-primary');
-    
+    const submitBtn = document.getElementById('recent-case-edit-submit');
+
     if (form && submitBtn) {
-        submitBtn.addEventListener('click', function(e) {
+        submitBtn.addEventListener('click', function () {
             this.classList.add('loading');
             const icon = this.querySelector('i');
-            if (icon) {
+            if (icon && typeof window.setLucideIcon === 'function') {
                 window.setLucideIcon(icon, 'loader-2', { spin: true });
             }
         });
