@@ -604,10 +604,10 @@ input:checked + .modern-status-slider:before {
 															<i data-lucide="pencil"></i>
 															Edit
 														</a>
-														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction({{$list->id}}, 'recent_cases')">
+														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" data-delete-action data-id="{{ $list->id }}" data-table="recent_cases">
 															<i data-lucide="trash-2"></i>
 															Delete
-														</a>
+														</button>
 													</div>
                                                         </td>
 								                    </tr>

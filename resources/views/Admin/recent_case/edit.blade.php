@@ -706,7 +706,7 @@ input:checked + .modern-checkbox-slider:before {
 										<i data-lucide="x"></i>
 										Cancel
 									</a>
-									<button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('edit-case')">
+									<button type="button" class="modern-btn modern-btn-primary" data-custom-validate="edit-case">
 										<i data-lucide="save"></i>
 										Update Case Study
 									</button>

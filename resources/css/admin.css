@@ -8,6 +8,7 @@
 @import './components/cards.css';
 @import './layouts/admin.css';
 @import './components/admin-shell.css';
+@import './components/admin-confirm.css';
 
 /* Performance Optimizations */
 /* Optimize for reduced motion */

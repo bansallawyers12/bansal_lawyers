@@ -650,7 +650,8 @@ jQuery(document).ready(function($){
         });
     }
 
-    $(document).delegate('.editfollowupdate', 'click', function(){
+    $(document).delegate('.editfollowupdate', 'click', function(e){
+        e.preventDefault();
         $('.if_edit_followup').addClass('is-visible');
         $('.editfollowupdate').addClass('is-hidden');
         
@@ -662,7 +663,8 @@ jQuery(document).ready(function($){
             }
         }, 100);
     });
-    $(document).delegate('.cancelfollowupdate', 'click', function(){
+    $(document).delegate('.cancelfollowupdate', 'click', function(e){
+        e.preventDefault();
         $('.if_edit_followup').removeClass('is-visible');
         $('.editfollowupdate').removeClass('is-hidden');
     });
@@ -774,7 +776,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
         $details.find('#followup_date').val(scheds[id].appointdate || '');
         $details.find('#followup_time').val(scheds[id].appointtime || '');
         
-        $details.find('#start').html(scheds[id].start+' <a href="javascript:;" class="editfollowupdate"><i data-lucide="pencil"></i> Edit</a>');
+        $details.find('#start').html(scheds[id].start+' <a href="#" class="editfollowupdate"><i data-lucide="pencil"></i> Edit</a>');
         
         // Ensure edit form is hidden initially
         $details.find('.if_edit_followup').removeClass('is-visible');
@@ -890,7 +892,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
 
 									<div class="col-md-12">
 										<button type="button" class="btn btn-primary" id="followup-save-btn">Save</button>
-										<a href="javascript:;" class="btn btn-info cancelfollowupdate" >Cancel</a>
+										<a href="#" class="btn btn-info cancelfollowupdate">Cancel</a>
 									</div>
 								</div>
 						</form>

@@ -26,3 +26,7 @@ _ide_helper_models.php
 /bootstrap/cache/services.php
 *.sql
 bansalla_lawyers.sql
+
+# Local-only dummy/test data — never commit to main or production
+/database/seeders/DummyDataSeeder.php
+/storage/cms_edit_test.html

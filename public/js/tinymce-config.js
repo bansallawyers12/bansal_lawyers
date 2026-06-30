@@ -32,12 +32,23 @@
         input.click();
     }
 
+    function getCspNonce() {
+        var meta = document.querySelector('meta[name="csp-nonce"]');
+        return meta ? meta.getAttribute('content') : '';
+    }
+
+    var cspNonce = getCspNonce();
+
     var tinymceDefaults = {
         promotion: false,
         branding: false,
         license_key: 'gpl',
         file_picker_callback: filePickerCallback
     };
+
+    if (cspNonce) {
+        tinymceDefaults.csp_nonce = cspNonce;
+    }
 
     window.tinymceDefaults = tinymceDefaults;
 

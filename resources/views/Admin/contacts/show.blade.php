@@ -467,30 +467,30 @@
 										Back to List
 									</a>
 									@if($contact->status !== 'forwarded')
-									<button type="button" class="modern-btn modern-btn-primary" onclick="sendToBansalEmail()">
+									<button type="button" class="modern-btn modern-btn-primary" data-send-bansal-email>
 										<i data-lucide="send"></i>
 										Send to Bansal Email
 									</button>
 									@endif
 									<div class="modern-dropdown">
 										<button type="button" class="modern-btn modern-btn-warning modern-dropdown-toggle" 
-												onclick="toggleStatusDropdown()">
+												data-toggle-status-dropdown>
 											<i data-lucide="pencil"></i>
 											Change Status
 										</button>
 										<div class="modern-dropdown-menu" id="statusDropdown">
-											<a class="modern-dropdown-item" href="#" onclick="updateStatus('read')">
+											<a class="modern-dropdown-item" href="#" data-contact-status-action data-status="read">
 												<i data-lucide="eye"></i> Mark as Read
 											</a>
-											<a class="modern-dropdown-item" href="#" onclick="updateStatus('resolved')">
+											<a class="modern-dropdown-item" href="#" data-contact-status-action data-status="resolved">
 												<i data-lucide="circle-check"></i> Mark as Resolved
 											</a>
-											<a class="modern-dropdown-item" href="#" onclick="updateStatus('archived')">
+											<a class="modern-dropdown-item" href="#" data-contact-status-action data-status="archived">
 												<i data-lucide="archive"></i> Archive
 											</a>
 										</div>
 									</div>
-									<button type="button" class="modern-btn modern-btn-danger" onclick="deleteContact()">
+									<button type="button" class="modern-btn modern-btn-danger" data-delete-contact>
 										<i data-lucide="trash-2"></i>
 										Delete
 									</button>
@@ -620,18 +620,18 @@
 													</a>
 													
 													@if($contact->status !== 'forwarded')
-													<button type="button" class="modern-btn modern-btn-info modern-btn-block" onclick="sendToBansalEmail()">
+													<button type="button" class="modern-btn modern-btn-info modern-btn-block" data-send-bansal-email>
 														<i data-lucide="send"></i>
 														Send to Bansal Email
 													</button>
 													@endif
 													
-													<button type="button" class="modern-btn modern-btn-success modern-btn-block" onclick="copyToClipboard('{{ $contact->contact_email }}')">
+													<button type="button" class="modern-btn modern-btn-success modern-btn-block" data-copy-clipboard data-copy-text="{{ $contact->contact_email }}">
 														<i data-lucide="copy"></i>
 														Copy Email Address
 													</button>
 													
-													<button type="button" class="modern-btn modern-btn-secondary modern-btn-block" onclick="copyContactDetails()">
+													<button type="button" class="modern-btn modern-btn-secondary modern-btn-block" data-copy-contact-details>
 														<i data-lucide="clipboard"></i>
 														Copy All Details
 													</button>
@@ -712,9 +712,18 @@ function updateStatus(status) {
 }
 
 function deleteContact() {
-    if (confirm('Are you sure you want to delete this contact? This action cannot be undone.')) {
+    window.adminConfirm({
+        title: 'Delete Contact?',
+        message: 'This contact submission will be permanently removed. This action cannot be undone.',
+        confirmText: 'Delete Contact',
+        variant: 'danger',
+        icon: 'trash-2'
+    }).then(function (confirmed) {
+        if (!confirmed) {
+            return;
+        }
         const contactId = {{ $contact->id }};
-        
+
         fetch(`/admin/contacts/${contactId}`, {
             method: 'DELETE',
             headers: {
@@ -733,7 +742,7 @@ function deleteContact() {
         .catch(error => {
             alert('Error deleting contact: ' + error.message);
         });
-    }
+    });
 }
 
 function copyToClipboard(text) {

@@ -62,12 +62,15 @@ class ContentSecurityPolicy
                 [$scriptSrc, $connectSrc, $styleSrc] = $this->appendViteDevOrigins($scriptSrc, $connectSrc, $styleSrc);
             }
 
+            // TinyMCE injects <style> elements at runtime; official docs require 'unsafe-inline' on style-src/style-src-elem
+            $styleSrcElem = "{$styleSrc} 'unsafe-inline'";
+
             $policies = [
                 "default-src 'self'",
                 "script-src {$scriptSrc}",
-                "style-src {$styleSrc}",
+                "style-src {$styleSrc} 'unsafe-inline'",
                 // Allow libraries (FullCalendar, jQuery) to set element.style for layout
-                "style-src-elem {$styleSrc}",
+                "style-src-elem {$styleSrcElem}",
                 "style-src-attr 'unsafe-inline'",
                 "font-src 'self' data: https://cdnjs.cloudflare.com",
                 "img-src 'self' data: https: blob: https://www.google.com https://www.gstatic.com https://www.google-analytics.com",

@@ -842,7 +842,7 @@
 															
 															@csrf
 															@method('DELETE')
-															<button type="submit" class="modern-btn modern-btn-danger modern-btn-sm" onclick="return confirm('Are you sure you want to delete this appointment?')">
+															<button type="submit" class="modern-btn modern-btn-danger modern-btn-sm" data-confirm-title="Delete Appointment?" data-confirm-submit="This appointment will be permanently removed." data-confirm-ok="Delete Appointment">
 																<i data-lucide="trash-2"></i> Delete
 															</button>
 														</form>

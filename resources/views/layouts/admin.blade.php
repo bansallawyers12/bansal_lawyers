@@ -206,6 +206,8 @@ body.admin-sidebar-collapsed .main-wrapper {
 		</div>
 	</div>
 
+	@include('Elements.Admin.confirm-dialog')
+
 
 
 		<?php if(@Settings::sitedata('date_format') != 'none'){
@@ -261,6 +263,8 @@ body.admin-sidebar-collapsed .main-wrapper {
 	<script src="{{ asset('js/custom-form-validation.js')}}"></script>
 	<script src="{{ asset('js/scripts.js')}}"></script>
 	<script src="{{ asset('js/custom.js')}}"></script>
+	<script src="{{ asset('js/admin-confirm.js')}}"></script>
+	<script src="{{ asset('js/admin-csp-actions.js')}}"></script>
 	
 	<!-- Page Specific JS File -->
 	<!--<script src="{{ asset('js/index.js')}}"></script> -->
