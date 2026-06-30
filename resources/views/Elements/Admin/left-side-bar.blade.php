@@ -190,7 +190,7 @@
             <li class="menu-item">
                 <a href="{{ route('admin.dashboard') }}" 
                    class="menu-link {{ Route::currentRouteName() == 'admin.dashboard' ? 'active' : '' }}">
-                    <i class="menu-icon fas fa-home"></i>
+                    <i data-lucide="house" class="menu-icon"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
@@ -199,9 +199,9 @@
                 <a href="#" 
                    class="menu-link submenu-toggle {{ in_array(Route::currentRouteName(), ['appointments.index', 'appointments-others']) || request()->routeIs('admin.feature.bookingblocks.*') ? 'active' : '' }}"
                    data-submenu="appointments">
-                    <i class="menu-icon fas fa-calendar-alt"></i>
+                    <i data-lucide="calendar" class="menu-icon"></i>
                     <span>Appointments</span>
-                    <i class="fas fa-chevron-down ml-auto" id="appointments-chevron"></i>
+                    <i data-lucide="chevron-down" class="ml-auto" id="appointments-chevron"></i>
                 </a>
                 <ul class="submenu {{ in_array(Route::currentRouteName(), ['appointments.index', 'appointments-others']) || request()->routeIs('admin.feature.bookingblocks.*') ? 'is-open' : '' }}" id="appointments-submenu">
                     <li class="submenu-item">
@@ -229,9 +229,9 @@
                 <a href="#" 
                    class="menu-link submenu-toggle {{ in_array(Route::currentRouteName(), ['admin.blogcategory.index', 'admin.blog.index', 'admin.blog.edit', 'admin.blog.create']) ? 'active' : '' }}"
                    data-submenu="blogs">
-                    <i class="menu-icon fas fa-blog"></i>
+                    <i data-lucide="newspaper" class="menu-icon"></i>
                     <span>Blogs Section</span>
-                    <i class="fas fa-chevron-down ml-auto" id="blogs-chevron"></i>
+                    <i data-lucide="chevron-down" class="ml-auto" id="blogs-chevron"></i>
                 </a>
                 <ul class="submenu {{ in_array(Route::currentRouteName(), ['admin.blogcategory.index', 'admin.blog.index', 'admin.blog.edit', 'admin.blog.create']) ? 'is-open' : '' }}" id="blogs-submenu">
                     <li class="submenu-item">
@@ -252,7 +252,7 @@
             <li class="menu-item">
                 <a href="{{ route('admin.cms_pages.index') }}" 
                    class="menu-link {{ in_array(Route::currentRouteName(), ['admin.cms_pages.index', 'admin.cms_pages.create', 'admin.cms_pages.edit']) ? 'active' : '' }}">
-                    <i class="menu-icon fas fa-file-code"></i>
+                    <i data-lucide="file-code" class="menu-icon"></i>
                     <span>CMS Pages</span>
                 </a>
             </li>
@@ -260,7 +260,7 @@
             <li class="menu-item">
                 <a href="{{ route('admin.recent_case.index') }}" 
                    class="menu-link {{ in_array(Route::currentRouteName(), ['admin.recent_case.index', 'admin.recent_case.create', 'admin.recent_case.edit']) ? 'active' : '' }}">
-                    <i class="menu-icon fas fa-gavel"></i>
+                    <i data-lucide="gavel" class="menu-icon"></i>
                     <span>Case Studies</span>
                 </a>
             </li>
@@ -268,7 +268,7 @@
             <li class="menu-item">
                 <a href="{{ route('admin.contacts.index') }}" 
                    class="menu-link {{ in_array(Route::currentRouteName(), ['admin.contacts.index', 'admin.contacts.show']) ? 'active' : '' }}">
-                    <i class="menu-icon fas fa-envelope"></i>
+                    <i data-lucide="mail" class="menu-icon"></i>
                     <span>Contact Management</span>
                 </a>
             </li>
@@ -279,7 +279,7 @@
         <a href="{{ route('admin.logout') }}" 
            class="logout-link"
            id="sidebar-logout-btn">
-            <i class="menu-icon fas fa-sign-out-alt"></i>
+            <i data-lucide="log-out" class="menu-icon"></i>
             <span>Logout</span>
         </a>
         <form action="{{ route('admin.logout') }}" name="admin_login" id="logout-form" method="post" class="hidden-form">

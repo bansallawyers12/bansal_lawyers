@@ -333,16 +333,16 @@
 						<div class="modern-card modern-main-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-calendar-check"></i>
+									<i data-lucide="calendar-check"></i>
 									Appointment Details
 								</h4>
 								<div class="modern-header-actions">
 									<a href="{{route('appointments.index')}}" class="modern-btn modern-btn-secondary">
-										<i class="fas fa-arrow-left"></i>
+										<i data-lucide="arrow-left"></i>
 										Back to Appointments
 									</a>
 									<a href="{{route('appointments.edit', $appointment->id)}}" class="modern-btn modern-btn-primary">
-										<i class="fas fa-edit"></i>
+										<i data-lucide="pencil"></i>
 										Edit Appointment
 									</a>
 								</div>
@@ -354,7 +354,7 @@
 										<!-- Client Information -->
 										<div class="modern-card">
 											<div class="modern-section-header">
-												<i class="fas fa-user"></i>
+												<i data-lucide="user"></i>
 												Client Information
 											</div>
 											<div class="modern-card-body">
@@ -394,14 +394,14 @@
 										<!-- Appointment Details -->
 										<div class="modern-card">
 											<div class="modern-section-header">
-												<i class="fas fa-calendar-alt"></i>
+												<i data-lucide="calendar"></i>
 												Appointment Details
 											</div>
 											<div class="modern-card-body">
 												<!-- Date & Time Display -->
 												<div class="modern-datetime-display">
 													<div class="modern-datetime-icon">
-														<i class="fas fa-clock"></i>
+														<i data-lucide="clock"></i>
 													</div>
 													<div class="modern-datetime-info">
 														<h4>{{ date('l, F j, Y', strtotime($appointment->date)) }}</h4>
@@ -451,7 +451,7 @@
 										<!-- Status Information -->
 										<div class="modern-card">
 											<div class="modern-section-header">
-												<i class="fas fa-info-circle"></i>
+												<i data-lucide="info"></i>
 												Status Information
 											</div>
 											<div class="modern-card-body">
@@ -460,51 +460,51 @@
 													<div class="modern-info-value">
 														@if($appointment->status == 0)
 															<span class="modern-status-display pending">
-																<i class="fas fa-clock"></i> Pending
+																<i data-lucide="clock"></i> Pending
 															</span>
 														@elseif($appointment->status == 1)
 															<span class="modern-status-display approved">
-																<i class="fas fa-check-circle"></i> Approved
+																<i data-lucide="circle-check"></i> Approved
 															</span>
 														@elseif($appointment->status == 2)
 															<span class="modern-status-display completed">
-																<i class="fas fa-check-double"></i> Completed
+																<i data-lucide="check-check"></i> Completed
 															</span>
 														@elseif($appointment->status == 3)
 															<span class="modern-status-display rejected">
-																<i class="fas fa-times-circle"></i> Rejected
+																<i data-lucide="circle-x"></i> Rejected
 															</span>
 														@elseif($appointment->status == 4)
 															<span class="modern-status-display inprogress">
-																<i class="fas fa-spinner"></i> N/P
+																<i data-lucide="loader-2"></i> N/P
 															</span>
 														@elseif($appointment->status == 5)
 															<span class="modern-status-display inprogress">
-																<i class="fas fa-play-circle"></i> In Progress
+																<i data-lucide="circle-play"></i> In Progress
 															</span>
 														@elseif($appointment->status == 6)
 															<span class="modern-status-display cancelled">
-																<i class="fas fa-user-times"></i> Did Not Come
+																<i data-lucide="user-x"></i> Did Not Come
 															</span>
 														@elseif($appointment->status == 7)
 															<span class="modern-status-display cancelled">
-																<i class="fas fa-ban"></i> Cancelled
+																<i data-lucide="ban"></i> Cancelled
 															</span>
 														@elseif($appointment->status == 8)
 															<span class="modern-status-display cancelled">
-																<i class="fas fa-exclamation-triangle"></i> Missed
+																<i data-lucide="triangle-alert"></i> Missed
 															</span>
 														@elseif($appointment->status == 9)
 															<span class="modern-status-display pending">
-																<i class="fas fa-credit-card"></i> Payment Pending
+																<i data-lucide="credit-card"></i> Payment Pending
 															</span>
 														@elseif($appointment->status == 10)
 															<span class="modern-status-display approved">
-																<i class="fas fa-check-circle"></i> Payment Success
+																<i data-lucide="circle-check"></i> Payment Success
 															</span>
 														@elseif($appointment->status == 11)
 															<span class="modern-status-display rejected">
-																<i class="fas fa-times-circle"></i> Payment Failed
+																<i data-lucide="circle-x"></i> Payment Failed
 															</span>
 														@endif
 													</div>
@@ -533,26 +533,26 @@
 										<!-- Quick Actions -->
 										<div class="modern-card">
 											<div class="modern-section-header">
-												<i class="fas fa-bolt"></i>
+												<i data-lucide="zap"></i>
 												Quick Actions
 											</div>
 											<div class="modern-card-body">
 												<div class="d-grid gap-3">
 													<a href="{{route('appointments.edit', $appointment->id)}}" class="modern-btn modern-btn-primary" style="width: 100%; justify-content: center;">
-														<i class="fas fa-edit"></i>
+														<i data-lucide="pencil"></i>
 														Edit Appointment
 													</a>
 													
 													@if($appointment->clients && $appointment->clients->email)
 													<a href="mailto:{{ $appointment->clients->email }}?subject=Regarding your appointment on {{ date('d/m/Y', strtotime($appointment->date)) }}" 
 													   class="modern-btn modern-btn-info" style="width: 100%; justify-content: center;">
-														<i class="fas fa-envelope"></i>
+														<i data-lucide="mail"></i>
 														Email Client
 													</a>
 													@endif
 													
 													<button type="button" class="modern-btn modern-btn-success" style="width: 100%; justify-content: center;" onclick="copyAppointmentDetails()">
-														<i class="fas fa-copy"></i>
+														<i data-lucide="copy"></i>
 														Copy Details
 													</button>
 													
@@ -560,7 +560,7 @@
 														@csrf
 														@method('DELETE')
 														<button type="submit" class="modern-btn modern-btn-danger" style="width: 100%; justify-content: center;" onclick="return confirm('Are you sure you want to delete this appointment?')">
-															<i class="fas fa-trash"></i>
+															<i data-lucide="trash-2"></i>
 															Delete Appointment
 														</button>
 													</form>
@@ -571,7 +571,7 @@
 										<!-- Appointment Summary -->
 										<div class="modern-card">
 											<div class="modern-section-header">
-												<i class="fas fa-chart-bar"></i>
+												<i data-lucide="chart-column"></i>
 												Summary
 											</div>
 											<div class="modern-card-body">
@@ -720,7 +720,7 @@ function copyAppointmentDetails() {
         // Show temporary success message
         const btn = event.target.closest('button');
         const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.innerHTML = '<i data-lucide="check"></i> Copied!';
         btn.style.background = 'var(--success-color)';
         
         setTimeout(() => {
@@ -740,8 +740,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (this.href && !this.href.includes('javascript:')) {
                 this.classList.add('loading');
                 const icon = this.querySelector('i');
-                if (icon && !icon.classList.contains('fa-spinner')) {
-                    icon.className = 'fas fa-spinner fa-spin';
+                if (icon && !icon.classList.contains('lucide-spin')) {
+                    window.setLucideIcon(icon, 'loader-2', { spin: true });
                 }
             }
         });

@@ -416,7 +416,7 @@ body.modal-open {
 						<div class="card-header">
 						    <h4>{{ $type }} Calendar</h4>
 						    <div class="alert alert-info calendar-timezone-alert">
-						        <i class="fa fa-clock-o"></i> <strong>Timezone:</strong> All times are displayed in Melbourne, Australia time (AEST/AEDT)
+						        <i data-lucide="clock"></i> <strong>Timezone:</strong> All times are displayed in Melbourne, Australia time (AEST/AEDT)
 						    </div>
 						</div>
 						<div class="card-body">
@@ -774,7 +774,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
         $details.find('#followup_date').val(scheds[id].appointdate || '');
         $details.find('#followup_time').val(scheds[id].appointtime || '');
         
-        $details.find('#start').html(scheds[id].start+' <a href="javascript:;" class="editfollowupdate"><i class="fa fa-edit"></i> Edit</a>');
+        $details.find('#start').html(scheds[id].start+' <a href="javascript:;" class="editfollowupdate"><i data-lucide="pencil"></i> Edit</a>');
         
         // Ensure edit form is hidden initially
         $details.find('.if_edit_followup').removeClass('is-visible');
@@ -838,7 +838,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
                 <div class="modal-header">
                     <h5 class="modal-title" id="eventModalLabel">Appointment Details</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fa fa-times"></i></span>
+                        <span aria-hidden="true"><i data-lucide="x"></i></span>
                     </button>
                 </div>
                 <div class="modal-body">

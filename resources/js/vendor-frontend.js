@@ -1,11 +1,15 @@
 // Frontend vendor bundle
-// Swiper - Carousel/Slider library
+import './lucide-init.js';
+
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 
-// Make Swiper available globally for use in blade templates
 window.Swiper = Swiper;
 
-// Export for ES modules if needed
-export default Swiper;
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof window.refreshLucideIcons === 'function') {
+        window.refreshLucideIcons();
+    }
+});
 
+export default Swiper;

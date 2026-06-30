@@ -1,8 +1,7 @@
 /* Admin vendor styles */
 
-/* Font Awesome Icons */
-@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import './lucide.css';
 
 /* Flatpickr CSS (modern datepicker) */
 @import 'flatpickr/dist/flatpickr.min.css';
-

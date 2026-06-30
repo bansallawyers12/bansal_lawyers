@@ -29,8 +29,6 @@
 	<link href="{{ asset('css/components.css')}}" rel="stylesheet">
 	<link href="{{ asset('css/custom.css')}}" rel="stylesheet">
 
-	<script async src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
-
 	<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Modern Admin Login Design System */
 :root {
@@ -478,22 +476,61 @@ body::before {
 	<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
 	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 	
-	<!-- Icons Library required by scripts.js (self-hosted for CSP compliance) -->
-	<script src="{{ asset('js/feather.min.js') }}"></script>
-	
 	<!-- Custom Scripts (load after jQuery and Bootstrap) -->
+	@vite(['resources/js/vendor-admin.js'])
 	<script src="{{ asset('js/scripts.js')}}"></script>
 	<script src="{{ asset('js/custom.js')}}"></script>
 	
 	<!-- Modern Login Scripts -->
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
+	window.onAdminTurnstileSuccess = function(token) {
+		const field = document.getElementById('admin-turnstile-response');
+		if (field) {
+			field.value = token;
+		}
+		const turnstileError = document.getElementById('admin-turnstile-error');
+		if (turnstileError) {
+			turnstileError.style.display = 'none';
+		}
+	};
+
+	window.onAdminTurnstileExpired = function() {
+		const field = document.getElementById('admin-turnstile-response');
+		if (field) {
+			field.value = '';
+		}
+	};
+
+	function syncAdminTurnstileToken(form) {
+		const turnstileField = document.getElementById('admin-turnstile-response');
+		if (!turnstileField || turnstileField.value.trim() !== '') {
+			return turnstileField ? turnstileField.value.trim() : '';
+		}
+
+		if (typeof turnstile === 'undefined') {
+			return '';
+		}
+
+		const widget = form ? form.querySelector('.cf-turnstile') : null;
+		if (!widget) {
+			return '';
+		}
+
+		const response = turnstile.getResponse(widget);
+		if (response) {
+			turnstileField.value = response;
+		}
+
+		return response || '';
+	}
+
 	document.addEventListener('DOMContentLoaded', function() {
-		// Form validation and modern interactions
 		const form = document.querySelector('form[name="admin_login"]');
 		const submitBtn = document.querySelector('.modern-submit-btn');
 		const inputs = document.querySelectorAll('.modern-form-input');
+		const turnstileField = document.getElementById('admin-turnstile-response');
+		const turnstileError = document.getElementById('admin-turnstile-error');
 		
-		// Add modern input focus effects
 		inputs.forEach(input => {
 			input.addEventListener('focus', function() {
 				this.parentElement.classList.add('focused');
@@ -504,15 +541,33 @@ body::before {
 			});
 		});
 		
-		// Form submission with loading state
 		if (form && submitBtn) {
 			form.addEventListener('submit', function(e) {
+				const token = syncAdminTurnstileToken(form);
+				if (!token) {
+					e.preventDefault();
+					if (turnstileError) {
+						turnstileError.style.display = 'flex';
+					}
+					submitBtn.classList.remove('loading');
+					submitBtn.disabled = false;
+					if (typeof turnstile !== 'undefined') {
+						const widget = form.querySelector('.cf-turnstile');
+						if (widget) {
+							turnstile.reset(widget);
+						}
+					}
+					return;
+				}
+
+				if (turnstileError) {
+					turnstileError.style.display = 'none';
+				}
 				submitBtn.classList.add('loading');
 				submitBtn.disabled = true;
 			});
 		}
 		
-		// Auto-hide flash messages
 		const alerts = document.querySelectorAll('.modern-alert');
 		alerts.forEach(alert => {
 			setTimeout(() => {
@@ -523,5 +578,6 @@ body::before {
 		});
 	});
 	</script>
+	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </body>
 </html>

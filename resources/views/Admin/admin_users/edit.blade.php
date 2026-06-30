@@ -346,7 +346,7 @@
                 <div class="modern-card">
                     <div class="modern-card-header">
                         <h1 class="modern-card-title">
-                            <i class="fas fa-user-edit"></i>
+                            <i data-lucide="user-pen"></i>
                             Edit Admin User
                         </h1>
                         
@@ -364,7 +364,7 @@
                         <!-- Breadcrumb -->
                         <div class="modern-breadcrumb">
                             <a href="{{ route('admin.admin_users.index') }}" class="modern-breadcrumb-item">
-                                <i class="fas fa-users-cog me-1"></i> Admin Users
+                                <i data-lucide="users" class="me-1"></i> Admin Users
                             </a>
                             <span class="mx-2">/</span>
                             <span class="modern-breadcrumb-item active">Edit User #{{ $admin->id }}</span>
@@ -373,7 +373,7 @@
                         <div class="modern-header-actions">
                             <div></div>
                             <a href="{{ route('admin.admin_users.index') }}" class="modern-btn modern-btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Back to List
+                                <i data-lucide="arrow-left"></i> Back to List
                             </a>
                         </div>
                     </div>
@@ -382,7 +382,7 @@
                 <!-- Admin Information Card -->
                 <div class="modern-info-card">
                     <div class="modern-info-card-content">
-                        <h6><i class="fas fa-info-circle"></i> Admin Information</h6>
+                        <h6><i data-lucide="info"></i> Admin Information</h6>
                         <div class="row">
                             <div class="col-md-4">
                                 <p><strong>User ID:</strong> #{{ $admin->id }}</p>
@@ -409,13 +409,13 @@
                             <!-- Personal Information Section -->
                             <div class="mb-4">
                                 <h3 class="text-primary mb-3">
-                                    <i class="fas fa-user me-2"></i>Personal Information
+                                    <i data-lucide="user" class="me-2"></i>Personal Information
                                 </h3>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="modern-form-group">
                                             <label class="modern-form-label">
-                                                <i class="fas fa-user me-1"></i>First Name
+                                                <i data-lucide="user" class="me-1"></i>First Name
                                                 <span class="required">*</span>
                                             </label>
                                             <input name="first_name" type="text" 
@@ -425,7 +425,7 @@
                                                    placeholder="Enter first name">
                                             @error('first_name')
                                                 <div class="modern-invalid-feedback">
-                                                    <i class="fas fa-exclamation-circle"></i>
+                                                    <i data-lucide="circle-alert"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -435,7 +435,7 @@
                                     <div class="col-md-6">
                                         <div class="modern-form-group">
                                             <label class="modern-form-label">
-                                                <i class="fas fa-user me-1"></i>Last Name
+                                                <i data-lucide="user" class="me-1"></i>Last Name
                                             </label>
                                             <input name="last_name" type="text" 
                                                    class="modern-form-control @error('last_name') is-invalid @enderror" 
@@ -443,7 +443,7 @@
                                                    placeholder="Enter last name">
                                             @error('last_name')
                                                 <div class="modern-invalid-feedback">
-                                                    <i class="fas fa-exclamation-circle"></i>
+                                                    <i data-lucide="circle-alert"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -455,13 +455,13 @@
                             <!-- Contact Information Section -->
                             <div class="mb-4">
                                 <h3 class="text-primary mb-3">
-                                    <i class="fas fa-address-book me-2"></i>Contact Information
+                                    <i data-lucide="book-user" class="me-2"></i>Contact Information
                                 </h3>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="modern-form-group">
                                             <label class="modern-form-label">
-                                                <i class="fas fa-envelope me-1"></i>Email Address
+                                                <i data-lucide="mail" class="me-1"></i>Email Address
                                                 <span class="required">*</span>
                                             </label>
                                             <input name="email" type="email" 
@@ -471,7 +471,7 @@
                                                    placeholder="Enter email address">
                                             @error('email')
                                                 <div class="modern-invalid-feedback">
-                                                    <i class="fas fa-exclamation-circle"></i>
+                                                    <i data-lucide="circle-alert"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -481,7 +481,7 @@
                                     <div class="col-md-6">
                                         <div class="modern-form-group">
                                             <label class="modern-form-label">
-                                                <i class="fas fa-phone me-1"></i>Phone Number
+                                                <i data-lucide="phone" class="me-1"></i>Phone Number
                                             </label>
                                             <input name="phone" type="text" 
                                                    class="modern-form-control @error('phone') is-invalid @enderror" 
@@ -489,7 +489,7 @@
                                                    placeholder="Enter phone number">
                                             @error('phone')
                                                 <div class="modern-invalid-feedback">
-                                                    <i class="fas fa-exclamation-circle"></i>
+                                                    <i data-lucide="circle-alert"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -501,13 +501,13 @@
                             <!-- Company & Status Section -->
                             <div class="mb-4">
                                 <h3 class="text-primary mb-3">
-                                    <i class="fas fa-building me-2"></i>Company & Status
+                                    <i data-lucide="building-2" class="me-2"></i>Company & Status
                                 </h3>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="modern-form-group">
                                             <label class="modern-form-label">
-                                                <i class="fas fa-building me-1"></i>Company Name
+                                                <i data-lucide="building-2" class="me-1"></i>Company Name
                                             </label>
                                             <input name="company_name" type="text" 
                                                    class="modern-form-control @error('company_name') is-invalid @enderror" 
@@ -515,7 +515,7 @@
                                                    placeholder="Enter company name">
                                             @error('company_name')
                                                 <div class="modern-invalid-feedback">
-                                                    <i class="fas fa-exclamation-circle"></i>
+                                                    <i data-lucide="circle-alert"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -525,7 +525,7 @@
                                     <div class="col-md-6">
                                         <div class="modern-form-group">
                                             <label class="modern-form-label">
-                                                <i class="fas fa-toggle-on me-1"></i>Status
+                                                <i data-lucide="toggle-right" class="me-1"></i>Status
                                                 <span class="required">*</span>
                                             </label>
                                             <select name="status" 
@@ -541,7 +541,7 @@
                                             </select>
                                             @error('status')
                                                 <div class="modern-invalid-feedback">
-                                                    <i class="fas fa-exclamation-circle"></i>
+                                                    <i data-lucide="circle-alert"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -553,24 +553,24 @@
                             <!-- Security Section -->
                             <div class="mb-4">
                                 <h3 class="text-primary mb-3">
-                                    <i class="fas fa-shield-alt me-2"></i>Security Settings
+                                    <i data-lucide="shield" class="me-2"></i>Security Settings
                                 </h3>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="modern-form-group">
                                             <label class="modern-form-label">
-                                                <i class="fas fa-lock me-1"></i>New Password
+                                                <i data-lucide="lock" class="me-1"></i>New Password
                                             </label>
                                             <input name="password" type="password" 
                                                    class="modern-form-control @error('password') is-invalid @enderror" 
                                                    placeholder="Enter new password">
                                             <div class="modern-form-help">
-                                                <i class="fas fa-info-circle"></i>
+                                                <i data-lucide="info"></i>
                                                 Leave blank to keep current password
                                             </div>
                                             @error('password')
                                                 <div class="modern-invalid-feedback">
-                                                    <i class="fas fa-exclamation-circle"></i>
+                                                    <i data-lucide="circle-alert"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -580,14 +580,14 @@
                                     <div class="col-md-6">
                                         <div class="modern-form-group">
                                             <label class="modern-form-label">
-                                                <i class="fas fa-lock me-1"></i>Confirm New Password
+                                                <i data-lucide="lock" class="me-1"></i>Confirm New Password
                                             </label>
                                             <input name="password_confirmation" type="password" 
                                                    class="modern-form-control @error('password_confirmation') is-invalid @enderror" 
                                                    placeholder="Confirm new password">
                                             @error('password_confirmation')
                                                 <div class="modern-invalid-feedback">
-                                                    <i class="fas fa-exclamation-circle"></i>
+                                                    <i data-lucide="circle-alert"></i>
                                                     {{ $message }}
                                                 </div>
                                             @enderror
@@ -599,10 +599,10 @@
                             <!-- Form Actions -->
                             <div class="modern-form-actions">
                                 <a href="{{ route('admin.admin_users.index') }}" class="modern-btn modern-btn-secondary">
-                                    <i class="fas fa-times"></i> Cancel
+                                    <i data-lucide="x"></i> Cancel
                                 </a>
                                 <button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('edit_admin_user')">
-                                    <i class="fas fa-save"></i> Update Admin User
+                                    <i data-lucide="save"></i> Update Admin User
                                 </button>
                             </div>
                         </form>

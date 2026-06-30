@@ -106,7 +106,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     
     <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
-    <!-- Font Awesome now loaded via Vite in vendor-frontend.css -->
+    <!-- Lucide icons loaded via Vite in vendor-frontend.css / vendor-frontend.js -->
     <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v=1.0">
 
     <!-- Essential custom CSS only -->

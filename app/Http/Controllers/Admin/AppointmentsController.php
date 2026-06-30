@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class AppointmentsController extends Controller
 {
@@ -64,7 +65,8 @@ class AppointmentsController extends Controller
      */
     public function create()
     {
-        return view('appointment.create');
+        return redirect()->route('appointments.index')
+            ->with('error', 'Manual appointment creation is disabled. Appointments are created via the public booking form.');
     }
 
     /**
@@ -238,7 +240,18 @@ class AppointmentsController extends Controller
 
 
     public function assignedetail(Request $request){
+        if (! $request->filled('id')) {
+            echo '<div class="modal-body"><p class="text-danger">Appointment not found.</p></div>';
+            return;
+        }
+
         $appointmentdetail = Appointment::with(['user','clients','service','assignee_user','natureOfEnquiry'])->where('id',$request->id)->first();
+        if (! $appointmentdetail) {
+            echo '<div class="modal-body"><p class="text-danger">Appointment not found.</p></div>';
+            return;
+        }
+
+        $serviceTitle = $appointmentdetail->title ?? ($appointmentdetail->service->title ?? 'Appointment');
         // dd($appointmentdetail->assignee_user->id);
     // $admin = \App\Models\Admin::where('id', $notedetail->assignee)->first();
     // $noe = \App\Models\NatureOfEnquiry::where('id', @$appointmentdetail->noeid)->first();
@@ -246,7 +259,7 @@ class AppointmentsController extends Controller
     // $client = \App\Models\Admin::where('id', $appointmentdetail->client_id)->first();
     // ?>
     <div class="modal-header">
-            <h5 class="modal-title" id="taskModalLabel"><i class="fa fa-bag"></i> <?php echo $appointmentdetail->title ?? $appointmentdetail->service->title; ?></h5>
+            <h5 class="modal-title" id="taskModalLabel"><i data-lucide="shopping-bag"></i> <?php echo $serviceTitle; ?></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -274,7 +287,7 @@ class AppointmentsController extends Controller
 
                     <ul class="navbar-nav navbar-right">
                         <li class="dropdown dropdown-list-toggle">
-                            <a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle updatedstatus"><?php echo $status ?? 'Pending'; ?> <i class="fa fa-angle-down"></i></a>
+                            <a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle updatedstatus"><?php echo $status ?? 'Pending'; ?> <i data-lucide="chevron-down"></i></a>
                             <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                                 <a data-status="0" data-id="<?php echo $appointmentdetail->id; ?>" data-status-name="Pending" href="javascript:;" class="dropdown-item changestatus">
                                     Pending
@@ -301,7 +314,7 @@ class AppointmentsController extends Controller
                     <label for="title">Priority:</label>
                     <ul class="navbar-nav navbar-right">
                         <li class="dropdown dropdown-list-toggle">
-                            <a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle updatedpriority"><?php echo $appointmentdetail->priority ?? 'Low'; ?><i class="fa fa-angle-down"></i></a>
+                            <a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle updatedpriority"><?php echo $appointmentdetail->priority ?? 'Low'; ?><i data-lucide="chevron-down"></i></a>
                              <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
                                 <a data-status="Low" data-id="<?php echo $appointmentdetail->id; ?>" href="javascript:;" class="dropdown-item changepriority">
                                     Low
@@ -349,7 +362,11 @@ class AppointmentsController extends Controller
                     <div class="col-md-8">
                         <select class="form-control select2" id="changeassignee" name="changeassignee">
                             <?php
-                                foreach(\App\Models\Admin::where('role','!=',7)->orderby('first_name','ASC')->get() as $admin){
+                                $adminList = \App\Models\Admin::query()->orderBy('first_name', 'ASC');
+                                if (Schema::hasColumn('admins', 'status')) {
+                                    $adminList->where('status', 1);
+                                }
+                                foreach ($adminList->get() as $admin) {
                             ?>
                                     <option value="<?php echo $admin->id; ?>"><?php echo $admin->first_name.' '.$admin->last_name; ?></option>
                             <?php } ?>
@@ -359,7 +376,7 @@ class AppointmentsController extends Controller
                         <a class="saveassignee btn btn-success" data-id="<?php echo $appointmentdetail->id; ?>" href="javascript:;">Save</a>
                     </div>
                     <div class="col-md-2">
-                        <a class="closeassignee" href="javascript:;"><i class="fa fa-times"></i></a>
+                        <a class="closeassignee" href="javascript:;"><i data-lucide="x"></i></a>
                     </div>
                 </div>
             </div>
@@ -469,6 +486,11 @@ public function update_appointment_priority(Request $request){
 public function change_assignee(Request $request){
     $objs = Appointment::find($request->id);
 
+    if (! $objs) {
+        echo json_encode(['status' => false, 'message' => 'Appointment not found']);
+        return;
+    }
+
     $objs->assignee = $request->assinee;
 
     $saved = $objs->save();
@@ -500,6 +522,11 @@ public function update_apppointment_comment(Request $request){
 
 public function update_apppointment_description(Request $request){
     $objs = Appointment::find($request->id);
+    if (! $objs) {
+        echo json_encode(['status' => false, 'message' => 'Appointment not found']);
+        return;
+    }
+
     $objs->description = $request->visit_purpose;
     $saved = $objs->save();
     if($saved){

@@ -266,14 +266,14 @@
     @if ($message = Session::get('success'))
     <div class="modern-flash-alert success" role="alert" data-auto-dismiss="5000">
         <div class="modern-flash-icon">
-            <i class="fas fa-check"></i>
+            <i data-lucide="check"></i>
         </div>
         <div class="modern-flash-content">
             <div class="modern-flash-title">Success!</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
         <button type="button" class="modern-flash-close" aria-label="Close notification">
-            <i class="fas fa-times" aria-hidden="true"></i>
+            <i data-lucide="x" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
     </div>
@@ -282,14 +282,14 @@
     @if ($message = Session::get('error'))
     <div class="modern-flash-alert error" role="alert" data-auto-dismiss="7000">
         <div class="modern-flash-icon">
-            <i class="fas fa-exclamation"></i>
+            <i data-lucide="circle-alert"></i>
         </div>
         <div class="modern-flash-content">
             <div class="modern-flash-title">Error!</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
         <button type="button" class="modern-flash-close" aria-label="Close notification">
-            <i class="fas fa-times" aria-hidden="true"></i>
+            <i data-lucide="x" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
     </div>
@@ -298,14 +298,14 @@
     @if ($message = Session::get('warning'))
     <div class="modern-flash-alert warning" role="alert" data-auto-dismiss="6000">
         <div class="modern-flash-icon">
-            <i class="fas fa-exclamation-triangle"></i>
+            <i data-lucide="triangle-alert"></i>
         </div>
         <div class="modern-flash-content">
             <div class="modern-flash-title">Warning!</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
         <button type="button" class="modern-flash-close" aria-label="Close notification">
-            <i class="fas fa-times" aria-hidden="true"></i>
+            <i data-lucide="x" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
     </div>
@@ -314,14 +314,14 @@
     @if ($message = Session::get('info'))
     <div class="modern-flash-alert info" role="alert" data-auto-dismiss="5000">
         <div class="modern-flash-icon">
-            <i class="fas fa-info"></i>
+            <i data-lucide="info"></i>
         </div>
         <div class="modern-flash-content">
             <div class="modern-flash-title">Information</div>
             <div class="modern-flash-message">{{ $message }}</div>
         </div>
         <button type="button" class="modern-flash-close" aria-label="Close notification">
-            <i class="fas fa-times" aria-hidden="true"></i>
+            <i data-lucide="x" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
     </div>
@@ -330,7 +330,7 @@
     @if ($errors instanceof \Illuminate\Support\ViewErrorBag && $errors->any())
     <div class="modern-flash-alert error" role="alert" data-auto-dismiss="8000">
         <div class="modern-flash-icon">
-            <i class="fas fa-exclamation-circle"></i>
+            <i data-lucide="circle-alert"></i>
         </div>
         <div class="modern-flash-content">
             <div class="modern-flash-title">Validation Errors</div>
@@ -344,7 +344,7 @@
             </div>
         </div>
         <button type="button" class="modern-flash-close" aria-label="Close notification">
-            <i class="fas fa-times" aria-hidden="true"></i>
+            <i data-lucide="x" aria-hidden="true"></i>
         </button>
         <div class="modern-flash-progress"></div>
     </div>

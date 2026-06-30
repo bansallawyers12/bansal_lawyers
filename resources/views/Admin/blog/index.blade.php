@@ -507,18 +507,18 @@ input:checked + .modern-status-slider:before {
 						<div class="modern-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-blog"></i>
+									<i data-lucide="newspaper"></i>
 									Blog Posts Management
 								</h4>
 								<div class="modern-header-actions">
 									<a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
-										<i class="fas fa-plus"></i>
+										<i data-lucide="plus"></i>
 										Create New Post
 									</a>
 									<form action="{{route('admin.blog.index')}}" method="get" class="modern-search-form">
 										<input type="text" name="search_term" class="modern-search-input" value="{{ request('search_term') }}" placeholder="Search posts...">
 										<button type="submit" class="modern-search-btn">
-											<i class="fas fa-search"></i>
+											<i data-lucide="search"></i>
 										</button>
 									</form>
 								</div>
@@ -529,21 +529,21 @@ input:checked + .modern-status-slider:before {
 								<div class="modern-stats-grid">
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon posts">
-											<i class="fas fa-blog"></i>
+											<i data-lucide="newspaper"></i>
 										</div>
 										<div class="modern-stat-value">{{ count($lists) }}</div>
 										<div class="modern-stat-label">Total Posts</div>
 									</div>
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon published">
-											<i class="fas fa-check-circle"></i>
+											<i data-lucide="circle-check"></i>
 										</div>
 										<div class="modern-stat-value">{{ $lists->where('status', 1)->count() }}</div>
 										<div class="modern-stat-label">Published Posts</div>
 									</div>
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon draft">
-											<i class="fas fa-pause-circle"></i>
+											<i data-lucide="circle-pause"></i>
 										</div>
 										<div class="modern-stat-value">{{ $lists->where('status', 0)->count() }}</div>
 										<div class="modern-stat-label">Draft Posts</div>
@@ -578,18 +578,18 @@ input:checked + .modern-status-slider:before {
 													@if($hasImage)
 														@if(strtolower($extension) == 'mp4')
 															<div class="modern-media-icon video">
-																<i class="fas fa-video"></i>
+																<i data-lucide="video"></i>
 															</div>
 														@elseif(strtolower($extension) == 'pdf')
 															<div class="modern-media-icon pdf">
-																<i class="fas fa-file-pdf"></i>
+																<i data-lucide="file-text"></i>
 															</div>
 														@else
 															<img src="{!! asset('images/blog/' . $list->image) !!}" alt="{{ $list->title }}" class="modern-blog-image">
 														@endif
 													@else
 														<div class="modern-media-icon image">
-															<i class="fas fa-image"></i>
+															<i data-lucide="image"></i>
 														</div>
 													@endif
 												</td>
@@ -604,7 +604,7 @@ input:checked + .modern-status-slider:before {
 												<td>
 													@if($list->categorydetail)
 														<span class="modern-blog-category">
-															<i class="fas fa-folder"></i>
+															<i data-lucide="folder"></i>
 															{{ $list->categorydetail->name }}
 														</span>
 													@else
@@ -620,11 +620,11 @@ input:checked + .modern-status-slider:before {
 												<td>
 													<div class="modern-actions">
 														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{URL::to('/admin/blog/edit/'.base64_encode(convert_uuencode($list->id)))}}">
-															<i class="fas fa-edit"></i>
+															<i data-lucide="pencil"></i>
 															Edit
 														</a>
 														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction({{$list->id}}, 'blogs')">
-															<i class="fas fa-trash"></i>
+															<i data-lucide="trash-2"></i>
 															Delete
 														</a>
 													</div>
@@ -637,12 +637,12 @@ input:checked + .modern-status-slider:before {
 								@else
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
-										<i class="fas fa-blog"></i>
+										<i data-lucide="newspaper"></i>
 									</div>
 									<h3 class="modern-empty-title">No Blog Posts Found</h3>
 									<p class="modern-empty-description">Get started by creating your first blog post</p>
 									<a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
-										<i class="fas fa-plus"></i>
+										<i data-lucide="plus"></i>
 										Create First Post
 									</a>
 								</div>
@@ -679,7 +679,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.add('loading');
                 const icon = this.querySelector('i');
                 if (icon) {
-                    icon.className = 'fas fa-spinner fa-spin';
+                    window.setLucideIcon(icon, 'loader-2', { spin: true });
                 }
             }
         });
@@ -726,7 +726,8 @@ function modernDeleteBlog(id, table) {
         deleteBtn.addClass('loading');
         const icon = deleteBtn.find('i');
         if (icon.length) {
-            icon.removeClass('fa-trash').addClass('fa-spinner fa-spin');
+            icon.attr('data-lucide', 'loader-2').addClass('lucide-spin');
+            window.refreshLucideIcons && window.refreshLucideIcons(deleteBtn[0]);
         }
         
         $.ajax({
@@ -758,12 +759,12 @@ function modernDeleteBlog(id, table) {
                                 $(this).replaceWith(`
                                     <div class="modern-empty-state">
                                         <div class="modern-empty-icon">
-                                            <i class="fas fa-blog"></i>
+                                            <i data-lucide="newspaper"></i>
                                         </div>
                                         <h3 class="modern-empty-title">No Blog Posts Found</h3>
                                         <p class="modern-empty-description">All blog posts have been deleted. Create a new one to get started.</p>
                                         <a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
-                                            <i class="fas fa-plus"></i>
+                                            <i data-lucide="plus"></i>
                                             Create First Post
                                         </a>
                                     </div>
@@ -779,7 +780,8 @@ function modernDeleteBlog(id, table) {
                     // Restore button state
                     deleteBtn.removeClass('loading');
                     if (icon.length) {
-                        icon.removeClass('fa-spinner fa-spin').addClass('fa-trash');
+                        icon.attr('data-lucide', 'trash-2').removeClass('lucide-spin');
+                        window.refreshLucideIcons && window.refreshLucideIcons(deleteBtn[0]);
                     }
                 }
             },
@@ -804,7 +806,8 @@ function modernDeleteBlog(id, table) {
                 // Restore button state
                 deleteBtn.removeClass('loading');
                 if (icon.length) {
-                    icon.removeClass('fa-spinner fa-spin').addClass('fa-trash');
+                    icon.attr('data-lucide', 'trash-2').removeClass('lucide-spin');
+                    window.refreshLucideIcons && window.refreshLucideIcons(deleteBtn[0]);
                 }
             }
         });
@@ -902,10 +905,10 @@ function showModernFlashMessage(type, message) {
     
     // Create the flash message HTML using the same structure as flash-message.blade.php
     const iconMap = {
-        'success': 'fas fa-check',
-        'error': 'fas fa-exclamation',
-        'warning': 'fas fa-exclamation-triangle',
-        'info': 'fas fa-info'
+        'success': 'check',
+        'error': 'circle-alert',
+        'warning': 'triangle-alert',
+        'info': 'info'
     };
     
     const titleMap = {
@@ -920,14 +923,14 @@ function showModernFlashMessage(type, message) {
     const flashHtml = `
         <div class="modern-flash-alert ${type}" role="alert" data-auto-dismiss="${autoDismissTime}">
             <div class="modern-flash-icon">
-                <i class="${iconMap[type]}"></i>
+                <i data-lucide="${iconMap[type]}" aria-hidden="true"></i>
             </div>
             <div class="modern-flash-content">
                 <div class="modern-flash-title">${titleMap[type]}</div>
                 <div class="modern-flash-message">${message}</div>
             </div>
             <button type="button" class="modern-flash-close" onclick="dismissAlert(this)">
-                <i class="fas fa-times"></i>
+                <i data-lucide="x"></i>
             </button>
             <div class="modern-flash-progress"></div>
         </div>
@@ -943,6 +946,9 @@ function showModernFlashMessage(type, message) {
     
     // Add the new message
     container.append(flashHtml);
+    if (window.refreshLucideIcons) {
+        window.refreshLucideIcons(container[0]);
+    }
     
     // Auto-dismiss functionality (same as flash-message.blade.php)
     setTimeout(() => {

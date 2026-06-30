@@ -1,0 +1,1 @@
+import{s as e}from"./vendor-FiLWM1J_.js";import"./lucide-init-DeMZFZsq.js";window.Swiper=e,document.addEventListener(`DOMContentLoaded`,function(){typeof window.refreshLucideIcons==`function`&&window.refreshLucideIcons()});

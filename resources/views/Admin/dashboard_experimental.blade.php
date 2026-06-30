@@ -10,7 +10,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Bansal Lawyers | Navigation Dashboard</title>
     
-    <!-- Font Awesome (bundled via Vite) -->
+    <!-- Lucide icons (bundled via Vite) -->
     @vite(['resources/css/vendor-admin.css'])
     
     <!-- Self-hosted Poppins fonts -->
@@ -333,28 +333,28 @@
         <!-- Appointments Card -->
         <div class="nav-card">
             <div class="nav-icon appointments">
-                <i class="fas fa-calendar-alt"></i>
+                <i data-lucide="calendar"></i>
             </div>
             <h3 class="nav-title">Appointments</h3>
             <p class="nav-description">Manage client appointments, calendar bookings, and scheduling</p>
             
             <div class="nav-links">
                 <a href="{{ route('appointments.index') }}" class="nav-link">
-                    <i class="nav-link-icon fas fa-list"></i>
+                    <i data-lucide="list" class="nav-link-icon"></i>
                     <span>Appointment Listings</span>
                 </a>
                 <a href="{{ URL::to('/admin/appointments-others') }}" class="nav-link">
-                    <i class="nav-link-icon fas fa-calendar"></i>
+                    <i data-lucide="calendar" class="nav-link-icon"></i>
                     <span>Ajay Calendar</span>
                 </a>
                 <a href="{{ route('admin.feature.bookingblocks.index') }}" class="nav-link">
-                    <i class="nav-link-icon fas fa-ban"></i>
+                    <i data-lucide="ban" class="nav-link-icon"></i>
                     <span>Block Time Slots</span>
                 </a>
             </div>
             
             <a href="{{ route('appointments.index') }}" class="primary-action">
-                <i class="fas fa-arrow-right"></i>
+                <i data-lucide="arrow-right"></i>
                 Manage Appointments
             </a>
         </div>
@@ -362,24 +362,24 @@
         <!-- Blogs Card -->
         <div class="nav-card">
             <div class="nav-icon blogs">
-                <i class="fas fa-blog"></i>
+                <i data-lucide="newspaper"></i>
             </div>
             <h3 class="nav-title">Blogs Section</h3>
             <p class="nav-description">Create and manage blog content, categories, and publications</p>
             
             <div class="nav-links">
                 <a href="{{ route('admin.blogcategory.index') }}" class="nav-link">
-                    <i class="nav-link-icon fas fa-tags"></i>
+                    <i data-lucide="tags" class="nav-link-icon"></i>
                     <span>Blog Categories</span>
                 </a>
                 <a href="{{ route('admin.blog.index') }}" class="nav-link">
-                    <i class="nav-link-icon fas fa-file-alt"></i>
+                    <i data-lucide="file-text" class="nav-link-icon"></i>
                     <span>Blog Posts</span>
                 </a>
             </div>
             
             <a href="{{ route('admin.blog.index') }}" class="primary-action">
-                <i class="fas fa-arrow-right"></i>
+                <i data-lucide="arrow-right"></i>
                 Manage Blogs
             </a>
         </div>
@@ -387,20 +387,20 @@
         <!-- CMS Pages Card -->
         <div class="nav-card">
             <div class="nav-icon cms">
-                <i class="fas fa-file-code"></i>
+                <i data-lucide="file-code"></i>
 								</div>
             <h3 class="nav-title">CMS Pages</h3>
             <p class="nav-description">Manage website content, pages, and static information</p>
             
             <div class="nav-links">
                 <a href="{{ route('admin.cms_pages.index') }}" class="nav-link">
-                    <i class="nav-link-icon fas fa-globe"></i>
+                    <i data-lucide="globe" class="nav-link-icon"></i>
                     <span>All CMS Pages</span>
                 </a>
 							</div>
             
             <a href="{{ route('admin.cms_pages.index') }}" class="primary-action">
-                <i class="fas fa-arrow-right"></i>
+                <i data-lucide="arrow-right"></i>
                 Manage CMS Pages
             </a>
 						</div>
@@ -408,20 +408,20 @@
         <!-- Recent Case Studies Card -->
         <div class="nav-card">
             <div class="nav-icon cases">
-                <i class="fas fa-gavel"></i>
+                <i data-lucide="gavel"></i>
             </div>
             <h3 class="nav-title">Case Studies</h3>
             <p class="nav-description">Manage recent case studies and legal precedents</p>
             
             <div class="nav-links">
                 <a href="{{ route('admin.recent_case.index') }}" class="nav-link">
-                    <i class="nav-link-icon fas fa-briefcase"></i>
+                    <i data-lucide="briefcase" class="nav-link-icon"></i>
                     <span>Recent Case Studies</span>
                 </a>
 						</div>
             
             <a href="{{ route('admin.recent_case.index') }}" class="primary-action">
-                <i class="fas fa-arrow-right"></i>
+                <i data-lucide="arrow-right"></i>
                 Manage Cases
             </a>
 					</div>
@@ -429,24 +429,24 @@
         <!-- Contact Management Card -->
         <div class="nav-card">
             <div class="nav-icon contacts">
-                <i class="fas fa-envelope"></i>
+                <i data-lucide="mail"></i>
             </div>
             <h3 class="nav-title">Contact Management</h3>
             <p class="nav-description">View and manage client consultation queries, contact form submissions, and lead inquiries</p>
             
             <div class="nav-links">
                 <a href="{{ route('admin.contacts.index') }}" class="nav-link">
-                    <i class="nav-link-icon fas fa-list"></i>
+                    <i data-lucide="list" class="nav-link-icon"></i>
                     <span>All Contact Submissions</span>
                 </a>
                 <a href="{{ route('admin.contacts.index') }}?status=unread" class="nav-link">
-                    <i class="nav-link-icon fas fa-envelope-open"></i>
+                    <i data-lucide="mail-open" class="nav-link-icon"></i>
                     <span>Unread Messages</span>
                 </a>
 						</div>
             
             <a href="{{ route('admin.contacts.index') }}" class="primary-action contacts-action">
-                <i class="fas fa-arrow-right"></i>
+                <i data-lucide="arrow-right"></i>
                 Manage Contacts
             </a>
 					</div>
@@ -454,24 +454,24 @@
         <!-- Admin Users Management Card -->
         <div class="nav-card">
             <div class="nav-icon users">
-                <i class="fas fa-users-cog"></i>
+                <i data-lucide="users"></i>
             </div>
             <h3 class="nav-title">Admin Users</h3>
             <p class="nav-description">Manage admin accounts and user permissions</p>
             
             <div class="nav-links">
                 <a href="{{ route('admin.admin_users.index') }}" class="nav-link">
-                    <i class="nav-link-icon fas fa-list"></i>
+                    <i data-lucide="list" class="nav-link-icon"></i>
                     <span>All Admin Users</span>
                 </a>
                 <a href="{{ route('admin.admin_users.create') }}" class="nav-link">
-                    <i class="nav-link-icon fas fa-user-plus"></i>
+                    <i data-lucide="user-plus" class="nav-link-icon"></i>
                     <span>Add New Admin</span>
                 </a>
 						</div>
             
             <a href="{{ route('admin.admin_users.index') }}" class="primary-action">
-                <i class="fas fa-arrow-right"></i>
+                <i data-lucide="arrow-right"></i>
                 Manage Users
             </a>
 					</div>
@@ -479,7 +479,7 @@
         <!-- Logout Card -->
         <div class="nav-card logout-card">
             <div class="nav-icon logout">
-                <i class="fas fa-sign-out-alt"></i>
+                <i data-lucide="log-out"></i>
 				</div>
             <h3 class="nav-title">Logout</h3>
             <p class="nav-description">Safely exit the admin portal and end your session</p>
@@ -487,7 +487,7 @@
             <a href="{{ route('admin.logout') }}" 
                class="primary-action"
                id="dashboard-logout-btn">
-                <i class="fas fa-sign-out-alt"></i>
+                <i data-lucide="log-out"></i>
                 Logout Now
             </a>
             
@@ -498,6 +498,8 @@
 			</div>
 		</div>
 </div>
+
+@vite(['resources/js/vendor-admin.js'])
 
 <script {!! \App\Services\CspService::getNonceAttribute() !!}>
 document.addEventListener('DOMContentLoaded', function() {

@@ -1012,11 +1012,11 @@
             <p class="subtitle">Get expert legal assistance from Melbourne's most trusted law firm. We're here to help you navigate complex legal matters with confidence and clarity.</p>
             <div class="modern-cta-buttons">
                 <a href="#contact-form" class="modern-cta-primary">
-                    <i class="fa fa-paper-plane"></i>
+                    <i data-lucide="send"></i>
                     Send Message Now
                 </a>
                 <a href="tel:+61422905860" class="modern-cta-secondary">
-                    <i class="fa fa-phone"></i>
+                    <i data-lucide="phone"></i>
                     Call Us Directly
                 </a>
             </div>
@@ -1042,14 +1042,14 @@
             <div class="modern-contact-grid">
                 <div class="modern-contact-item" data-aos="fade-up" data-aos-delay="100">
                     <div class="icon">
-                        <i class="fa fa-map-marker"></i>
+                        <i data-lucide="map-pin"></i>
                     </div>
                     <h4>Visit Our Office</h4>
                     <p><a href="https://g.co/kgs/Hw16bN8" target="_blank" rel="noopener noreferrer">Level 8/278 Collins St,<br>Melbourne VIC 3000,<br>Australia</a></p>
                 </div>
                 <div class="modern-contact-item" data-aos="fade-up" data-aos-delay="200">
                     <div class="icon">
-                        <i class="fa fa-phone"></i>
+                        <i data-lucide="phone"></i>
                     </div>
                     <h4>Call Us Now</h4>
                     <p><a href="tel:+61422905860">(+61) 0422905860</a><br>
@@ -1057,7 +1057,7 @@
                 </div>
                 <div class="modern-contact-item" data-aos="fade-up" data-aos-delay="300">
                     <div class="icon">
-                        <i class="fa fa-envelope"></i>
+                        <i data-lucide="mail"></i>
                     </div>
                     <h4>Email Us</h4>
                     <p><a href="mailto:Info@bansallawyers.com.au">Info@bansallawyers.com.au</a></p>

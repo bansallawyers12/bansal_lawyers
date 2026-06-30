@@ -382,24 +382,24 @@ input:checked + .modern-checkbox-slider:before {
 						<div class="modern-form-card">
 							<div class="modern-form-header">
 								<h3 class="modern-form-title">
-									<i class="fas fa-plus-circle"></i>
+									<i data-lucide="circle-plus"></i>
 									Create New Case Study
 								</h3>
 								<div class="modern-form-actions">
 									<a href="{{route('admin.recent_case.index')}}" class="modern-btn modern-btn-secondary">
-										<i class="fas fa-arrow-left"></i>
+										<i data-lucide="arrow-left"></i>
 										Back to Case Studies
 									</a>
 								</div>
 							</div>
 							
-							<form action="admin/recent_case/store" autocomplete="off" method="post" enctype="multipart/form-data" id="create-case-form">
+							<form action="{{ route('admin.recent_case.store') }}" autocomplete="off" method="post" enctype="multipart/form-data" id="create-case-form">
 								@csrf
 								
 								<div class="modern-form-body">
 									<!-- Basic Information Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-briefcase"></i>
+										<i data-lucide="briefcase"></i>
 										Case Information
 									</div>
 									
@@ -441,7 +441,7 @@ input:checked + .modern-checkbox-slider:before {
 											<div class="modern-file-upload">
 												<input type="file" id="image" name="image" class="modern-file-input" accept="image/*,video/*">
 												<label for="image" class="modern-file-label">
-													<i class="fas fa-cloud-upload-alt modern-file-icon"></i>
+													<i data-lucide="cloud-upload" class="modern-file-icon"></i>
 													<span>Choose featured image or video</span>
 												</label>
 											</div>
@@ -471,7 +471,7 @@ input:checked + .modern-checkbox-slider:before {
 
 									<!-- Content Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-align-left"></i>
+										<i data-lucide="align-left"></i>
 										Case Content
 									</div>
 
@@ -508,7 +508,7 @@ input:checked + .modern-checkbox-slider:before {
 
 									<!-- Media Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-video"></i>
+										<i data-lucide="video"></i>
 										Additional Media
 									</div>
 
@@ -531,7 +531,7 @@ input:checked + .modern-checkbox-slider:before {
 											<div class="modern-file-upload">
 												<input type="file" id="pdf_doc" name="pdf_doc" class="modern-file-input" accept=".pdf,video/*">
 												<label for="pdf_doc" class="modern-file-label">
-													<i class="fas fa-file-upload modern-file-icon"></i>
+													<i data-lucide="upload" class="modern-file-icon"></i>
 													<span>Choose PDF or video file</span>
 												</label>
 											</div>
@@ -548,7 +548,7 @@ input:checked + .modern-checkbox-slider:before {
 
 									<!-- SEO Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-search"></i>
+										<i data-lucide="search"></i>
 										SEO Settings
 									</div>
 
@@ -595,7 +595,7 @@ input:checked + .modern-checkbox-slider:before {
 
 									<!-- Status Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-toggle-on"></i>
+										<i data-lucide="toggle-right"></i>
 										Publication Status
 									</div>
 
@@ -616,11 +616,11 @@ input:checked + .modern-checkbox-slider:before {
 
 								<div class="modern-form-footer">
 									<a href="{{route('admin.recent_case.index')}}" class="modern-btn modern-btn-secondary">
-										<i class="fas fa-times"></i>
+										<i data-lucide="x"></i>
 										Cancel
 									</a>
 									<button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('add-case')">
-										<i class="fas fa-save"></i>
+										<i data-lucide="save"></i>
 										Create Case Study
 									</button>
 								</div>
@@ -680,7 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('loading');
             const icon = this.querySelector('i');
             if (icon) {
-                icon.className = 'fas fa-spinner fa-spin';
+                window.setLucideIcon(icon, 'loader-2', { spin: true });
             }
         });
     }

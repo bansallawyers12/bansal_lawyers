@@ -758,11 +758,11 @@ h1, h2, h3, h4, h5, h6 {
             <p class="hero-subtitle">Your trusted legal partner in Melbourne, Australia. Led by Director Ajay Bansal, we provide exceptional legal services with integrity, expertise, and unwavering commitment to our clients' success.</p>
             <div class="hero-cta">
                 <a href="#director" class="btn-primary">
-                    <i class="fa fa-user"></i>
+                    <i data-lucide="user"></i>
                     Meet Our Director
                 </a>
                 <a href="/book-an-appointment" class="btn-secondary">
-                    <i class="fa fa-phone"></i>
+                    <i data-lucide="phone"></i>
                     Schedule Consultation
                 </a>
             </div>
@@ -811,7 +811,7 @@ h1, h2, h3, h4, h5, h6 {
                 <h3 class="team-member-name">Michael Saleh</h3>
                 <div class="team-member-title">Solicitor</div>
                 <span class="team-member-badge">
-                    <i class="fa fa-certificate"></i>
+                    <i data-lucide="badge-check"></i>
                     Admitted &ndash; Supreme Court of Victoria
                 </span>
                 <p class="team-member-description">
@@ -838,7 +838,7 @@ h1, h2, h3, h4, h5, h6 {
         <div class="practice-grid" data-aos="fade-up" data-aos-duration="1000">
             <div class="practice-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="practice-icon">
-                    <i class="fa fa-globe"></i>
+                    <i data-lucide="globe"></i>
                 </div>
                 <h3 class="practice-title">Immigration Law</h3>
                 <p class="practice-description">Expert guidance on visa applications, citizenship, deportation matters, and all immigration-related legal issues in Australia.</p>
@@ -846,7 +846,7 @@ h1, h2, h3, h4, h5, h6 {
             
             <div class="practice-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="practice-icon">
-                    <i class="fa fa-users"></i>
+                    <i data-lucide="users"></i>
                 </div>
                 <h3 class="practice-title">Family Law</h3>
                 <p class="practice-description">Compassionate support for divorce, child custody, property settlements, and all family-related legal matters.</p>
@@ -854,7 +854,7 @@ h1, h2, h3, h4, h5, h6 {
             
             <div class="practice-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="practice-icon">
-                    <i class="fa fa-building"></i>
+                    <i data-lucide="building-2"></i>
                 </div>
                 <h3 class="practice-title">Property Law</h3>
                 <p class="practice-description">Professional assistance with property transactions, disputes, conveyancing, and real estate legal matters.</p>
@@ -862,7 +862,7 @@ h1, h2, h3, h4, h5, h6 {
             
             <div class="practice-card" data-aos="fade-up" data-aos-delay="400">
                 <div class="practice-icon">
-                    <i class="fa fa-briefcase"></i>
+                    <i data-lucide="briefcase"></i>
                 </div>
                 <h3 class="practice-title">Commercial Law</h3>
                 <p class="practice-description">Strategic legal advice for business formation, contracts, partnerships, and commercial transactions.</p>
@@ -870,7 +870,7 @@ h1, h2, h3, h4, h5, h6 {
             
             <div class="practice-card" data-aos="fade-up" data-aos-delay="500">
                 <div class="practice-icon">
-                    <i class="fa fa-gavel"></i>
+                    <i data-lucide="gavel"></i>
                 </div>
                 <h3 class="practice-title">Criminal Law</h3>
                 <p class="practice-description">Strong defense representation for criminal charges, traffic offenses, and criminal law matters.</p>
@@ -878,7 +878,7 @@ h1, h2, h3, h4, h5, h6 {
             
             <div class="practice-card" data-aos="fade-up" data-aos-delay="600">
                 <div class="practice-icon">
-                    <i class="fa fa-suitcase"></i>
+                    <i data-lucide="briefcase"></i>
                 </div>
                 <h3 class="practice-title">Business Law</h3>
                 <p class="practice-description">Comprehensive legal services for business operations, compliance, and corporate legal matters.</p>
@@ -930,7 +930,7 @@ h1, h2, h3, h4, h5, h6 {
         <div class="values-grid" data-aos="fade-up" data-aos-duration="1000">
             <div class="value-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="value-icon">
-                    <i class="fa fa-balance-scale"></i>
+                    <i data-lucide="scale"></i>
                 </div>
                 <h3 class="value-title">Integrity</h3>
                 <p class="value-description">We uphold the highest ethical standards in all our legal practice, ensuring transparency and honesty in every client interaction.</p>
@@ -938,7 +938,7 @@ h1, h2, h3, h4, h5, h6 {
             
             <div class="value-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="value-icon">
-                    <i class="fa fa-star"></i>
+                    <i data-lucide="star"></i>
                 </div>
                 <h3 class="value-title">Excellence</h3>
                 <p class="value-description">We are committed to delivering exceptional legal services with meticulous attention to detail and unwavering dedication to quality.</p>
@@ -946,7 +946,7 @@ h1, h2, h3, h4, h5, h6 {
             
             <div class="value-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="value-icon">
-                    <i class="fa fa-users"></i>
+                    <i data-lucide="users"></i>
                 </div>
                 <h3 class="value-title">Client Focus</h3>
                 <p class="value-description">Your success is our priority. We provide personalized attention and tailored legal solutions to meet your unique needs and goals.</p>
@@ -964,11 +964,11 @@ h1, h2, h3, h4, h5, h6 {
         
         <div class="contact-buttons" data-aos="fade-up" data-aos-duration="1000">
             <a href="/contact" class="btn-white">
-                <i class="fa fa-envelope"></i>
+                <i data-lucide="mail"></i>
                 Contact Us Today
             </a>
             <a href="/book-an-appointment" class="btn-white">
-                <i class="fa fa-calendar"></i>
+                <i data-lucide="calendar"></i>
                 Book Appointment
             </a>
         </div>

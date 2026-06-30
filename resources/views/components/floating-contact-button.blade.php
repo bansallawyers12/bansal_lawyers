@@ -3,14 +3,14 @@
     <!-- Main floating button -->
     <button class="floating-btn-main" onclick="toggleFloatingContact()" aria-label="Open contact modal" type="button">
         <div class="floating-btn-icon">
-            <i class="fa fa-phone" aria-hidden="true"></i>
+            <i data-lucide="phone" aria-hidden="true"></i>
         </div>
         <div class="floating-btn-pulse"></div>
     </button>
     
     <!-- Mobile call button (visible only on mobile) -->
     <a href="tel:+61422905860" class="floating-btn-mobile-call" id="mobile-call-btn">
-        <i class="fa fa-phone" aria-hidden="true"></i>
+        <i data-lucide="phone" aria-hidden="true"></i>
         <span>Call Now</span>
     </a>
 </div>
@@ -21,7 +21,7 @@
         <div class="contact-modal-header">
             <h3 class="modal-title">Contact Us</h3>
             <button class="modal-close" onclick="closeContactModal()" aria-label="Close contact modal" type="button">
-                <i class="fa fa-times" aria-hidden="true"></i>
+                <i data-lucide="x" aria-hidden="true"></i>
             </button>
         </div>
         
@@ -67,7 +67,7 @@
                         <button type="submit" class="btn-primary" id="submit-btn">
                             <span class="btn-text">SEND MESSAGE</span>
                             <span class="btn-spinner" style="display: none;">
-                                <i class="fa fa-spinner fa-spin"></i> Sending...
+                                <i data-lucide="loader-2" class="lucide-spin"></i> Sending...
                             </span>
                         </button>
                     </div>

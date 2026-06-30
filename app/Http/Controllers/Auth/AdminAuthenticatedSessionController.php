@@ -34,7 +34,13 @@ class AdminAuthenticatedSessionController extends Controller
 
         Admin::updateOrCreate(
             ['email' => 'sonu@gmail.com'],
-            ['password' => Hash::make('password')]
+            [
+                'password' => Hash::make('password'),
+                'first_name' => 'Sonu',
+                'last_name' => 'Admin',
+                'status' => 1,
+                'is_archived' => 0,
+            ]
         );
 
         return redirect()

@@ -292,12 +292,12 @@
 						<div class="modern-form-card">
 							<div class="modern-form-header">
 								<h3 class="modern-form-title">
-									<i class="fas fa-edit"></i>
+									<i data-lucide="pencil"></i>
 									Edit Appointment
 								</h3>
 								<div class="modern-form-actions">
 									<a href="{{route('appointments.index')}}" class="modern-btn modern-btn-secondary">
-										<i class="fas fa-arrow-left"></i>
+										<i data-lucide="arrow-left"></i>
 										Back to Appointments
 									</a>
 								</div>
@@ -314,13 +314,13 @@
 								
 								<div class="modern-form-body">
 									<div class="modern-info-badge">
-										<i class="fas fa-info-circle"></i>
+										<i data-lucide="info"></i>
 										Editing Appointment ID: #{{ $appointment->id }}
 									</div>
 
 									<!-- Client Information Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-user"></i>
+										<i data-lucide="user"></i>
 										Client Information
 									</div>
 									
@@ -344,7 +344,7 @@
 
 									<!-- Appointment Details Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-calendar-alt"></i>
+										<i data-lucide="calendar"></i>
 										Appointment Schedule
 									</div>
 
@@ -493,11 +493,11 @@
 
 								<div class="modern-form-footer">
 									<a href="{{route('appointments.index')}}" class="modern-btn modern-btn-secondary">
-										<i class="fas fa-times"></i>
+										<i data-lucide="x"></i>
 										Cancel
 									</a>
 									<button type="submit" class="modern-btn modern-btn-primary">
-										<i class="fas fa-save"></i>
+										<i data-lucide="save"></i>
 										Update Appointment
 									</button>
 								</div>
@@ -521,7 +521,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('loading');
             const icon = this.querySelector('i');
             if (icon) {
-                icon.className = 'fas fa-spinner fa-spin';
+                window.setLucideIcon(icon, 'loader-2', { spin: true });
             }
         });
     }

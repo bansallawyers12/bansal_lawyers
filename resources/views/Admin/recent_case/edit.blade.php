@@ -429,30 +429,30 @@ input:checked + .modern-checkbox-slider:before {
 						<div class="modern-form-card">
 							<div class="modern-form-header">
 								<h3 class="modern-form-title">
-									<i class="fas fa-edit"></i>
+									<i data-lucide="pencil"></i>
 									Edit Case Study
 								</h3>
 								<div class="modern-form-actions">
 									<a href="{{route('admin.recent_case.index')}}" class="modern-btn modern-btn-secondary">
-										<i class="fas fa-arrow-left"></i>
+										<i data-lucide="arrow-left"></i>
 										Back to Case Studies
 									</a>
 								</div>
 							</div>
 							
-							<form action="admin/recent_case/edit" autocomplete="off" method="post" enctype="multipart/form-data" id="edit-case-form">
+							<form action="{{ route('admin.recent_case.update') }}" autocomplete="off" method="post" enctype="multipart/form-data" id="edit-case-form">
 								@csrf
 								<input type="hidden" name="id" value="{{ $fetchedData->id }}">
 								
 								<div class="modern-form-body">
 									<div class="modern-info-badge">
-										<i class="fas fa-info-circle"></i>
+										<i data-lucide="info"></i>
 										Editing Case Study ID: #{{ $fetchedData->id }}
 									</div>
 
 									<!-- Basic Information Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-briefcase"></i>
+										<i data-lucide="briefcase"></i>
 										Case Information
 									</div>
 									
@@ -495,7 +495,7 @@ input:checked + .modern-checkbox-slider:before {
 												<input type="hidden" name="old_image" value="{{ $fetchedData->image }}">
 												<input type="file" id="image" name="image" class="modern-file-input" accept="image/*,video/*">
 												<label for="image" class="modern-file-label">
-													<i class="fas fa-cloud-upload-alt modern-file-icon"></i>
+													<i data-lucide="cloud-upload" class="modern-file-icon"></i>
 													<span>Choose new featured image or video</span>
 												</label>
 											</div>
@@ -516,7 +516,7 @@ input:checked + .modern-checkbox-slider:before {
 														<iframe width="200" height="100" src="{!! asset('images/blog/' . $fetchedData->image) !!}?autoplay=1&mute=1"></iframe>
 													@elseif(strtolower($extension) == 'pdf')
 														<a href="{!! asset('images/blog/' . $fetchedData->image) !!}" target="_blank">
-															<i class="fas fa-file-pdf"></i>
+															<i data-lucide="file-text"></i>
 															View PDF Document
 														</a>
 													@else
@@ -546,7 +546,7 @@ input:checked + .modern-checkbox-slider:before {
 
 									<!-- Content Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-align-left"></i>
+										<i data-lucide="align-left"></i>
 										Case Content
 									</div>
 
@@ -583,7 +583,7 @@ input:checked + .modern-checkbox-slider:before {
 
 									<!-- Media Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-video"></i>
+										<i data-lucide="video"></i>
 										Additional Media
 									</div>
 
@@ -607,7 +607,7 @@ input:checked + .modern-checkbox-slider:before {
 												<input type="hidden" name="old_pdf" value="{{ $fetchedData->pdf_doc }}">
 												<input type="file" id="pdf_doc" name="pdf_doc" class="modern-file-input" accept=".pdf,video/*">
 												<label for="pdf_doc" class="modern-file-label">
-													<i class="fas fa-file-upload modern-file-icon"></i>
+													<i data-lucide="upload" class="modern-file-icon"></i>
 													<span>Choose new PDF or video file</span>
 												</label>
 											</div>
@@ -621,7 +621,7 @@ input:checked + .modern-checkbox-slider:before {
 												<div class="modern-media-preview">
 													<strong>Current File:</strong><br>
 													<a href="{!! asset('images/blog/' . $fetchedData->pdf_doc) !!}" target="_blank">
-														<i class="fas fa-external-link-alt"></i>
+														<i data-lucide="external-link"></i>
 														Open PDF/Video File
 													</a>
 												</div>
@@ -635,7 +635,7 @@ input:checked + .modern-checkbox-slider:before {
 
 									<!-- SEO Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-search"></i>
+										<i data-lucide="search"></i>
 										SEO Settings
 									</div>
 
@@ -682,7 +682,7 @@ input:checked + .modern-checkbox-slider:before {
 
 									<!-- Status Section -->
 									<div class="modern-section-title">
-										<i class="fas fa-toggle-on"></i>
+										<i data-lucide="toggle-right"></i>
 										Publication Status
 									</div>
 
@@ -703,11 +703,11 @@ input:checked + .modern-checkbox-slider:before {
 
 								<div class="modern-form-footer">
 									<a href="{{route('admin.recent_case.index')}}" class="modern-btn modern-btn-secondary">
-										<i class="fas fa-times"></i>
+										<i data-lucide="x"></i>
 										Cancel
 									</a>
 									<button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('edit-case')">
-										<i class="fas fa-save"></i>
+										<i data-lucide="save"></i>
 										Update Case Study
 									</button>
 								</div>
@@ -767,7 +767,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('loading');
             const icon = this.querySelector('i');
             if (icon) {
-                icon.className = 'fas fa-spinner fa-spin';
+                window.setLucideIcon(icon, 'loader-2', { spin: true });
             }
         });
     }

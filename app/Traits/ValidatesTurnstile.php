@@ -44,8 +44,20 @@ trait ValidatesTurnstile
             return redirect()->back()->withErrors($errors)->withInput();
         }
 
+        // Cloudflare "always pass" test secret — skip remote verify (common on local XAMPP).
+        if ($secret === '1x0000000000000000000000000000000AA') {
+            return true;
+        }
+
         try {
-            $response = Http::timeout(2)->asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+            $http = Http::timeout(5);
+
+            // Local Windows/XAMPP often lacks a CA bundle for Guzzle; allow verify only in production.
+            if (app()->environment('local')) {
+                $http = $http->withOptions(['verify' => false]);
+            }
+
+            $response = $http->asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
                 'secret'   => $secret,
                 'response' => $token,
                 'remoteip' => $request->ip(),

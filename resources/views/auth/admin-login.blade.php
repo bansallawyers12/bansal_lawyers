@@ -20,21 +20,21 @@
 			<div class="modern-flash-messages">
 				@if(session('success'))
 					<div class="modern-alert success">
-						<i class="fas fa-check-circle"></i>
+						<i data-lucide="circle-check"></i>
 						{{ session('success') }}
 					</div>
 				@endif
 				
 				@if(session('error'))
 					<div class="modern-alert error">
-						<i class="fas fa-exclamation-circle"></i>
+						<i data-lucide="circle-alert"></i>
 						{{ session('error') }}
 					</div>
 				@endif
 				
 				@if(session('warning'))
 					<div class="modern-alert warning">
-						<i class="fas fa-exclamation-triangle"></i>
+						<i data-lucide="triangle-alert"></i>
 						{{ session('warning') }}
 					</div>
 				@endif
@@ -47,7 +47,7 @@
 				<!-- Email Field -->
 				<div class="modern-form-group">
 					<label for="email" class="modern-form-label">
-						<i class="fas fa-envelope"></i> Email Address
+						<i data-lucide="mail"></i> Email Address
 					</label>
 					<input 
 						id="email" 
@@ -62,7 +62,7 @@
 					>
 					@error('email')
 						<div class="modern-error-message">
-							<i class="fas fa-exclamation-circle"></i>
+							<i data-lucide="circle-alert"></i>
 							{{ $message }}
 						</div>
 					@enderror
@@ -71,7 +71,7 @@
 				<!-- Password Field -->
 				<div class="modern-form-group">
 					<label for="password" class="modern-form-label">
-						<i class="fas fa-lock"></i> Password
+						<i data-lucide="lock"></i> Password
 					</label>
 					<input 
 						id="password" 
@@ -85,21 +85,33 @@
 					>
 					@error('password')
 						<div class="modern-error-message">
-							<i class="fas fa-exclamation-circle"></i>
+							<i data-lucide="circle-alert"></i>
 							{{ $message }}
 						</div>
 					@enderror
 				</div>
 				
 				<!-- Cloudflare Turnstile -->
+				<input type="hidden" name="cf-turnstile-response" id="admin-turnstile-response" value="">
 				<div class="modern-turnstile">
-					<div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.key') }}"></div>
+					<div
+						class="cf-turnstile"
+						data-sitekey="{{ config('services.turnstile.key') }}"
+						data-callback="onAdminTurnstileSuccess"
+						data-expired-callback="onAdminTurnstileExpired"
+						data-error-callback="onAdminTurnstileExpired"
+						data-response-field="false"
+					></div>
+				</div>
+				<div class="modern-error-message" id="admin-turnstile-error" style="display: none; justify-content: center; margin-top: 12px;">
+					<i data-lucide="circle-alert"></i>
+					Please complete the security verification.
 				</div>
 				
 				@error('cf-turnstile-response')
 					<div class="modern-error-message" style="justify-content: center; margin-top: 12px;">
-						<i class="fas fa-exclamation-circle"></i>
-						Captcha verification is required.
+						<i data-lucide="circle-alert"></i>
+						{{ $message }}
 					</div>
 				@enderror
 				
@@ -122,7 +134,7 @@
 				
 				<!-- Submit Button -->
 				<button type="submit" class="modern-submit-btn" tabindex="4">
-					<i class="fas fa-sign-in-alt"></i>
+					<i data-lucide="log-in"></i>
 					Sign In to Dashboard
 				</button>
 			</form>
@@ -132,7 +144,7 @@
 	<!-- Footer Link -->
 	<div class="modern-footer-link">
 		<p class="modern-footer-text">
-			<i class="fas fa-shield-alt"></i>
+			<i data-lucide="shield"></i>
 			Secure Admin Access Only
 		</p>
 	</div>

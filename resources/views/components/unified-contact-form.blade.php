@@ -45,11 +45,11 @@
     <!-- Success/Error Messages -->
     <div class="contact-form-messages" id="{{ $formId }}-messages" style="display: none;">
         <div class="alert alert-success" id="{{ $formId }}-success" style="display: none;">
-            <i class="fa fa-check-circle"></i>
+            <i data-lucide="circle-check"></i>
             <span id="{{ $formId }}-success-text"></span>
         </div>
         <div class="alert alert-danger" id="{{ $formId }}-error" style="display: none;">
-            <i class="fa fa-exclamation-circle"></i>
+            <i data-lucide="circle-alert"></i>
             <span id="{{ $formId }}-error-text"></span>
         </div>
     </div>
@@ -135,10 +135,10 @@
 
         <div class="mb-3">
             <button type="submit" class="btn {{ $buttonClass }} contact-form-submit" id="{{ $formId }}-submit">
-                <i class="fa fa-paper-plane"></i>
+                <i data-lucide="send"></i>
                 <span class="btn-text">{{ $buttonText }}</span>
                 <span class="btn-loading" style="display: none;">
-                    <i class="fa fa-spinner fa-spin"></i> Sending...
+                    <i data-lucide="loader-2" class="lucide-spin"></i> Sending...
                 </span>
             </button>
         </div>

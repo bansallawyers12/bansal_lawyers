@@ -412,17 +412,17 @@ function customValidate(formName, savetype = '')
                                             var trRows = "";
                                             $.each(reqData, function(index, subArray) {
                                                 if(awsUrl != ""){
-                                                    var awsLink = '<a target="_blank" class="link-primary" href="'+awsUrl+'"><i class="fas fa-file-pdf"></i></a>';
+                                                    var awsLink = '<a target="_blank" class="link-primary" href="'+awsUrl+'"><i data-lucide="file-text"></i></a>';
                                                 } else {
                                                     var awsLink = '';
                                                 }
 
                                                 if(printUrl != ""){
-                                                    var printLink = '<a target="_blank" class="link-primary" href="'+printUrl+'"><i class="fa fa-print" aria-hidden="true"></i></a>';
+                                                    var printLink = '<a target="_blank" class="link-primary" href="'+printUrl+'"><i data-lucide="printer" aria-hidden="true"></i></a>';
                                                 } else {
                                                     var printLink = '';
                                                 }
-                                                var editLink = '<a class="link-primary updateclientreceipt" href="javascript:;" data-id="'+lastInsertedId+'"><i class="fas fa-pencil-alt"></i></a>';
+                                                var editLink = '<a class="link-primary updateclientreceipt" href="javascript:;" data-id="'+lastInsertedId+'"><i data-lucide="pencil" aria-hidden="true"></i></a>';
 
                                                 trRows += "<tr><td>"+subArray.trans_date+" "+awsLink+"</td><td>"+subArray.entry_date+"</td><td>"+subArray.trans_no+"</td><td>"+subArray.payment_method+"</td><td>"+subArray.description+"</td><td>$"+subArray.deposit_amount+" "+printLink+" "+editLink+"</td></tr>";
                                             });
@@ -444,17 +444,17 @@ function customValidate(formName, savetype = '')
 											$.each(reqData, function(index, subArray) {
 												$('#TrRow_'+subArray.id).empty();
 												if(awsUrl != ""){
-                                                    var awsLink = '<a target="_blank" class="link-primary" href="'+awsUrl+'"><i class="fas fa-file-pdf"></i></a>';
+                                                    var awsLink = '<a target="_blank" class="link-primary" href="'+awsUrl+'"><i data-lucide="file-text"></i></a>';
                                                 } else {
                                                     var awsLink = '';
                                                 }
 
                                                 if(printUrl != ""){
-                                                    var printLink = '<a target="_blank" class="link-primary" href="'+printUrl+'"><i class="fa fa-print" aria-hidden="true"></i></a>';
+                                                    var printLink = '<a target="_blank" class="link-primary" href="'+printUrl+'"><i data-lucide="printer" aria-hidden="true"></i></a>';
                                                 } else {
                                                     var printLink = '';
                                                 }
-                                                var editLink = '<a class="link-primary updateclientreceipt" href="javascript:;" data-id="'+lastInsertedId+'"><i class="fas fa-pencil-alt"></i></a>';
+                                                var editLink = '<a class="link-primary updateclientreceipt" href="javascript:;" data-id="'+lastInsertedId+'"><i data-lucide="pencil" aria-hidden="true"></i></a>';
 
                                                 var trRows = "<td>"+subArray.trans_date+" "+awsLink+"</td><td>"+subArray.entry_date+"</td><td>"+subArray.trans_no+"</td><td>"+subArray.payment_method+"</td><td>"+subArray.description+"</td><td>$"+subArray.deposit_amount+" "+printLink+" "+editLink+"</td>";
 

@@ -1,6 +1,9 @@
 // Admin JS Bundle - Optimized for Performance
 // Admin functionality with modern ES6+ features
 
+import './lucide-init.js';
+import './vendor-admin.js';
+
 // Import Alpine.js utilities
 import './alpine-utils.js';
 
@@ -112,8 +115,30 @@ const loadExternalAdminScripts = (scripts = []) => {
     }));
 };
 
+function initAdminSidebarToggle() {
+    const sidebar = document.querySelector('.modern-sidebar');
+    const toggleButtons = document.querySelectorAll('[data-toggle="sidebar"]');
+
+    if (!sidebar || !toggleButtons.length) {
+        return;
+    }
+
+    toggleButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('open');
+            } else {
+                document.body.classList.toggle('admin-sidebar-collapsed');
+            }
+        });
+    });
+}
+
 // Performance optimizations
 document.addEventListener('DOMContentLoaded', async function() {
+    initAdminSidebarToggle();
     // Detect what libraries are needed based on page content
     const neededLibraries = [];
     

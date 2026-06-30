@@ -16,7 +16,7 @@
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
                 <span class="pagination-btn pagination-btn-disabled" aria-disabled="true" aria-label="Previous page">
-                    <i class="fa fa-arrow-left"></i>
+                    <i data-lucide="arrow-left"></i>
                     <span class="btn-text">Previous</span>
                 </span>
             @else
@@ -28,7 +28,7 @@
                    class="pagination-btn pagination-btn-prev" 
                    rel="prev" 
                    aria-label="Previous page">
-                    <i class="fa fa-arrow-left"></i>
+                    <i data-lucide="arrow-left"></i>
                     <span class="btn-text">Previous</span>
                 </a>
             @endif
@@ -76,12 +76,12 @@
                    rel="next" 
                    aria-label="Next page">
                     <span class="btn-text">Next</span>
-                    <i class="fa fa-arrow-right"></i>
+                    <i data-lucide="arrow-right"></i>
                 </a>
             @else
                 <span class="pagination-btn pagination-btn-disabled" aria-disabled="true" aria-label="Next page">
                     <span class="btn-text">Next</span>
-                    <i class="fa fa-arrow-right"></i>
+                    <i data-lucide="arrow-right"></i>
                 </span>
             @endif
         </div>

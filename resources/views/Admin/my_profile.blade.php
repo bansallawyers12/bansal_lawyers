@@ -33,11 +33,11 @@
 											<div class="profile_upload">
 												<div class="upload_content">
 													@if($fetchedData->profile_img != '')
-														<img src="{{ @smartasset('images/profile_imgs/' . $fetchedData->profile_img) }}" style="width:100px;height:100px;" id="output"/>
+														<img src="{{ asset('images/profile_imgs/' . $fetchedData->profile_img) }}" style="width:100px;height:100px;" id="output"/>
 													@else
-														<img id="output" src="{{ @smartasset('images/avatars/no_image.jpeg')}}"/> 
+														<img id="output" src="{{ asset('images/avatars/no_image.jpeg') }}"/> 
 													@endif
-													<i class="fa fa-camera if_image" @if($fetchedData->profile_img != '') style="display:none;" @endif></i>
+													<i data-lucide="camera" class="if_image" @if($fetchedData->profile_img != '') style="display:none;" @endif></i>
 													<span class="if_image" @if($fetchedData->profile_img != '') style="display:none;" @endif>Upload Profile Image</span>
 												</div>
 												<input onchange="loadFile(event)" type="file" id="profile_img" name="profile_img" class="form-control" autocomplete="off" accept="image/*" />
@@ -97,7 +97,7 @@
 								
 								<div class="form-group text-right">
 									<button type="button" class="btn btn-primary px-4" onclick="customValidate('my-profile')">
-										<i class="fa fa-save"></i> Update Profile
+										<i data-lucide="save"></i> Update Profile
 									</button>
 								</div>
 							</div>

@@ -1,6 +1,9 @@
 // Frontend JS Bundle - Optimized for Performance
 // Core functionality with modern ES6+ features
 
+import './lucide-init.js';
+import './vendor-frontend.js';
+
 // Import Alpine.js utilities
 import './alpine-utils.js';
 

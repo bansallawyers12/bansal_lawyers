@@ -18,7 +18,7 @@
 	<!--<link rel="icon" type="image/png" href="{{ asset('images/favicon.png')}}">-->
 	
 	<!-- Vite CSS - Modern optimized CSS bundle -->
-	@vite(['resources/css/admin.css'])
+	@vite(['resources/css/admin.css', 'resources/css/vendor-admin.css'])
 	
 	<!-- Legacy CSS files (will be migrated gradually) - app.min.css removed (file not present; Vite admin.css provides styles) -->
 	 <!-- FullCalendar v6 CSS - Auto-injected by JavaScript (no CSS files needed in v6) -->
@@ -43,7 +43,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/dataTables_min_latest.css')}}">
     
-    <!-- Font Awesome loaded via Vite vendor bundle -->
+    <!-- Lucide icons loaded via Vite (vendor-admin.css / admin.js) -->
 
 
 <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
@@ -129,6 +129,18 @@ body {
     background: #f8fafc;
 }
 
+.modern-sidebar {
+    transition: transform 0.3s ease;
+}
+
+body.admin-sidebar-collapsed .modern-sidebar {
+    transform: translateX(-100%);
+}
+
+body.admin-sidebar-collapsed .main-wrapper {
+    margin-left: 0 !important;
+}
+
 @media (max-width: 768px) {
     .main-wrapper {
         margin-left: 0 !important;
@@ -171,10 +183,6 @@ body {
 
 .hidden-loader {
     display: none;
-}
-
-.footer-brand-link {
-    text-transform: none;
 }
 </style>
  
@@ -244,12 +252,6 @@ body {
 	<!-- Select2 JS removed - now using Tom Select (loaded via Vite in admin.js) -->
 	<script src="{{ asset('js/bootstrap-formhelpers.min.js')}}"></script>
 	<script src="{{ asset('js/intlTelInput.js')}}"></script>
-	
-	<!-- Icons Library required by scripts.js (self-hosted for CSP compliance) -->
-	<script src="{{ asset('js/feather.min.js') }}"></script>
-	<!-- jQuery plugins expected by scripts.js -->
-	<!-- NiceScroll removed - causing CORS/integrity errors, will replace with CSS scrollbar styling -->
-	<!-- Sticky Kit removed - not used (layout-2 class not found), will replace with CSS position: sticky -->
 	
 	<!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
 	@vite(['resources/js/admin.js'])

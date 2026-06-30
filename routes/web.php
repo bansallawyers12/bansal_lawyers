@@ -108,21 +108,21 @@ Route::prefix('admin')->group(function() {
 			Route::get('/blog/create', [App\Http\Controllers\Admin\BlogController::class, 'create'])->name('admin.blog.create');
 			Route::post('/blog/store', [App\Http\Controllers\Admin\BlogController::class, 'store'])->name('admin.blog.store');
 			Route::get('/blog/edit/{id}', [App\Http\Controllers\Admin\BlogController::class, 'edit'])->name('admin.blog.edit');
-			Route::post('/blog/edit', [App\Http\Controllers\Admin\BlogController::class, 'edit']);
+			Route::post('/blog/edit', [App\Http\Controllers\Admin\BlogController::class, 'edit'])->name('admin.blog.update');
 
 		    //Blog Category
 			Route::get('/blogcategories', [App\Http\Controllers\Admin\BlogCategoryController::class, 'index'])->name('admin.blogcategory.index');
 			Route::get('/blogcategories/create', [App\Http\Controllers\Admin\BlogCategoryController::class, 'create'])->name('admin.blogcategory.create');
 			Route::post('/blogcategories/store', [App\Http\Controllers\Admin\BlogCategoryController::class, 'store'])->name('admin.blogcategory.store');
 			Route::get('/blogcategories/edit/{id}', [App\Http\Controllers\Admin\BlogCategoryController::class, 'edit'])->name('admin.blogcategory.edit');
-			Route::post('/blogcategories/edit', [App\Http\Controllers\Admin\BlogCategoryController::class, 'edit']);
+			Route::post('/blogcategories/edit', [App\Http\Controllers\Admin\BlogCategoryController::class, 'edit'])->name('admin.blogcategory.update');
 
 			//CMS Pages
 			Route::get('/cms_pages', [App\Http\Controllers\Admin\CmsPageController::class, 'index'])->name('admin.cms_pages.index');
 			Route::get('/cms_pages/create', [App\Http\Controllers\Admin\CmsPageController::class, 'create'])->name('admin.cms_pages.create');
 			Route::post('/cms_pages/store', [App\Http\Controllers\Admin\CmsPageController::class, 'store'])->name('admin.cms_pages.store');
 			Route::get('/cms_pages/edit/{id}', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage'])->name('admin.edit_cms_page');
-        Route::post('/cms_pages/edit', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage']);
+			Route::post('/cms_pages/edit', [App\Http\Controllers\Admin\CmsPageController::class, 'editCmsPage'])->name('admin.cms_pages.update');
 
         // Appointment Module
 			Route::get('/appointments-others', [App\Http\Controllers\Admin\AdminController::class, 'appointmentsOthers'])->name('appointments-others');
@@ -150,19 +150,19 @@ Route::prefix('admin')->group(function() {
 			Route::get('/recent_case/create', [App\Http\Controllers\Admin\RecentCaseController::class, 'create'])->name('admin.recent_case.create');
 			Route::post('/recent_case/store', [App\Http\Controllers\Admin\RecentCaseController::class, 'store'])->name('admin.recent_case.store');
 			Route::get('/recent_case/edit/{id}', [App\Http\Controllers\Admin\RecentCaseController::class, 'edit'])->name('admin.recent_case.edit');
-			Route::post('/recent_case/edit', [App\Http\Controllers\Admin\RecentCaseController::class, 'edit']);
+			Route::post('/recent_case/edit', [App\Http\Controllers\Admin\RecentCaseController::class, 'edit'])->name('admin.recent_case.update');
 
         Route::post('/delete_slot_action', [App\Http\Controllers\Admin\AdminController::class, 'deleteSlotAction']);
 
         // Contact Management
         Route::get('/contacts', [App\Http\Controllers\Admin\ContactController::class, 'index'])->name('admin.contacts.index');
+        Route::get('/contacts/export', [App\Http\Controllers\Admin\ContactController::class, 'export'])->name('admin.contacts.export');
+        Route::post('/contacts/bulk-delete', [App\Http\Controllers\Admin\ContactController::class, 'bulkDelete'])->name('admin.contacts.bulk-delete');
+        Route::post('/contacts/bulk-send-to-bansal-email', [App\Http\Controllers\Admin\ContactController::class, 'bulkSendToBansalEmail'])->name('admin.contacts.bulk-send-to-bansal-email');
         Route::get('/contacts/{id}', [App\Http\Controllers\Admin\ContactController::class, 'show'])->name('admin.contacts.show');
         Route::post('/contacts/{id}/send-to-bansal-email', [App\Http\Controllers\Admin\ContactController::class, 'sendToBansalEmail'])->name('admin.contacts.send-to-bansal-email');
         Route::post('/contacts/{id}/status', [App\Http\Controllers\Admin\ContactController::class, 'updateStatus'])->name('admin.contacts.update-status');
         Route::delete('/contacts/{id}', [App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('admin.contacts.destroy');
-        Route::post('/contacts/bulk-delete', [App\Http\Controllers\Admin\ContactController::class, 'bulkDelete'])->name('admin.contacts.bulk-delete');
-        Route::post('/contacts/bulk-send-to-bansal-email', [App\Http\Controllers\Admin\ContactController::class, 'bulkSendToBansalEmail'])->name('admin.contacts.bulk-send-to-bansal-email');
-        Route::get('/contacts/export', [App\Http\Controllers\Admin\ContactController::class, 'export'])->name('admin.contacts.export');
 
         // Admin Users Management
         Route::get('/admin-users', [App\Http\Controllers\Admin\AdminController::class, 'adminUsers'])->name('admin.admin_users.index');
