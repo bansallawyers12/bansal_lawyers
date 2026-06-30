@@ -589,7 +589,7 @@ input:checked + .modern-checkbox-slider:before {
 											<span class="required">*</span>
 										</label>
 										<div class="modern-editor-container">
-											<textarea class="modern-textarea" id="description" placeholder="Write your page content here..." rows="10" name="description" data-valid="required">{!! old('description', $fetchedData->content ?? '') !!}</textarea>
+											<textarea class="modern-textarea" id="description" placeholder="Write your page content here..." rows="10" name="description" data-valid="required">{{ old('description', $fetchedData->content ?? '') }}</textarea>
 										</div>
 										@if ($errors->has('description'))
 											<span class="modern-error">
@@ -726,7 +726,7 @@ input:checked + .modern-checkbox-slider:before {
 										<i data-lucide="x"></i>
 										Cancel
 									</a>
-									<button type="button" class="modern-btn modern-btn-primary" onClick="validateAndUpdateCMS()">
+									<button type="button" class="modern-btn modern-btn-primary" id="cms-edit-submit-btn">
 										<i data-lucide="save"></i>
 										Update Page
 									</button>
@@ -780,15 +780,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Enhanced form validation
     const form = document.getElementById('edit-template');
-    const submitBtn = document.querySelector('.modern-btn-primary');
-    
+    const submitBtn = document.getElementById('cms-edit-submit-btn');
+
     if (form && submitBtn) {
-        submitBtn.addEventListener('click', function(e) {
+        submitBtn.addEventListener('click', function () {
             this.classList.add('loading');
             const icon = this.querySelector('i');
-            if (icon) {
+            if (icon && typeof window.setLucideIcon === 'function') {
                 window.setLucideIcon(icon, 'loader-2', { spin: true });
             }
+            validateAndUpdateCMS();
         });
     }
     
@@ -830,28 +831,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Custom validation function that handles TinyMCE for CMS page edit
 function validateAndUpdateCMS() {
-    // First, sync TinyMCE content to textarea
-    if (typeof tinymce !== 'undefined' && tinymce.get('description')) {
-        var content = tinymce.get('description').getContent();
-        document.getElementById('description').value = content;
-        
-        // Remove error styling if content exists
-        if (content.trim() !== '') {
-            const textarea = document.getElementById('description');
-            const editorContainer = textarea.closest('.modern-editor-container');
-            const errorMsg = textarea.parentNode.querySelector('.modern-error');
-            
-            if (editorContainer) {
-                editorContainer.classList.remove('error');
-            }
-            if (errorMsg) {
-                errorMsg.style.opacity = '0.5';
-            }
+    const form = document.getElementById('edit-template');
+    if (!form) {
+        return;
+    }
+
+    if (typeof tinymce !== 'undefined') {
+        if (typeof tinymce.triggerSave === 'function') {
+            tinymce.triggerSave();
+        }
+
+        const editor = tinymce.get('description');
+        if (editor) {
+            document.getElementById('description').value = editor.getContent();
         }
     }
-    
-    // Now call the standard validation
-    customValidate('edit-template');
+
+    const title = (form.querySelector('[name="title"]')?.value || '').trim();
+    const slug = (form.querySelector('[name="slug"]')?.value || '').trim();
+    const descriptionField = form.querySelector('[name="description"]');
+    const description = (descriptionField?.value || '').trim();
+    const plainContent = description.replace(/<[^>]*>/g, '').replace(/&nbsp;/gi, ' ').trim();
+
+    document.querySelectorAll('#edit-template .modern-error').forEach(function (error) {
+        error.style.opacity = '1';
+    });
+
+    if (!title || !slug || !plainContent) {
+        if (typeof customValidate === 'function') {
+            customValidate('edit-template');
+        }
+        return;
+    }
+
+    if (typeof form.requestSubmit === 'function') {
+        form.requestSubmit();
+    } else {
+        form.submit();
+    }
 }
 </script>
 @endsection
@@ -873,7 +890,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                     'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount',
-                    'emoticons', 'pagebreak', 'nonbreaking', 'template'
+                    'emoticons', 'pagebreak', 'nonbreaking'
                 ],
                 toolbar: 'undo redo | blocks | ' +
                     'bold italic underline strikethrough | forecolor backcolor | ' +

@@ -551,7 +551,7 @@
 													</a>
 													@endif
 													
-													<button type="button" class="modern-btn modern-btn-success" style="width: 100%; justify-content: center;" onclick="copyAppointmentDetails()">
+													<button type="button" class="modern-btn modern-btn-success" style="width: 100%; justify-content: center;" data-copy-appointment>
 														<i data-lucide="copy"></i>
 														Copy Details
 													</button>
@@ -559,7 +559,7 @@
 													<form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" style="width: 100%;">
 														@csrf
 														@method('DELETE')
-														<button type="submit" class="modern-btn modern-btn-danger" style="width: 100%; justify-content: center;" onclick="return confirm('Are you sure you want to delete this appointment?')">
+														<button type="submit" class="modern-btn modern-btn-danger" style="width: 100%; justify-content: center;" data-confirm-title="Delete Appointment?" data-confirm-submit="This appointment will be permanently removed." data-confirm-ok="Delete Appointment">
 															<i data-lucide="trash-2"></i>
 															Delete Appointment
 														</button>

@@ -475,7 +475,7 @@
                                 <a href="{{ route('admin.admin_users.index') }}" class="modern-btn modern-btn-secondary">
                                     <i data-lucide="x"></i> Cancel
                                 </a>
-                                <button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('create_admin_user')">
+                                <button type="button" class="modern-btn modern-btn-primary" data-custom-validate="create_admin_user">
                                     <i data-lucide="save"></i> Create Admin User
                                 </button>
                             </div>

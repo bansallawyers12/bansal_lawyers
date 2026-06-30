@@ -742,7 +742,7 @@ input:checked + .modern-checkbox-slider:before {
 										<i data-lucide="x"></i>
 										Cancel
 									</a>
-									<button type="button" class="modern-btn modern-btn-primary" onClick="validateAndUpdateBlog()">
+									<button type="button" class="modern-btn modern-btn-primary" data-form-submit="validateAndUpdateBlog">
 										<i data-lucide="save"></i>
 										Update Blog Post
 									</button>

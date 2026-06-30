@@ -531,7 +531,7 @@ input:checked + .modern-checkbox-slider:before {
 											<span class="required">*</span>
 										</label>
 										<div class="modern-editor-container">
-											<textarea class="modern-textarea" id="description" placeholder="Write your page content here..." rows="10" name="description" data-valid="required">{!! old('description') !!}</textarea>
+											<textarea class="modern-textarea" id="description" placeholder="Write your page content here..." rows="10" name="description" data-valid="required">{{ old('description') }}</textarea>
 										</div>
 										@if ($errors->has('description'))
 											<span class="modern-error">
@@ -656,7 +656,7 @@ input:checked + .modern-checkbox-slider:before {
 										<i data-lucide="x"></i>
 										Cancel
 									</a>
-									<button type="button" class="modern-btn modern-btn-primary" onClick="validateAndSubmitCMS()">
+									<button type="button" class="modern-btn modern-btn-primary" id="cms-create-submit-btn">
 										<i data-lucide="save"></i>
 										Create Page
 									</button>
@@ -710,15 +710,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Enhanced form validation
     const form = document.getElementById('add-template');
-    const submitBtn = document.querySelector('.modern-btn-primary');
-    
+    const submitBtn = document.getElementById('cms-create-submit-btn');
+
     if (form && submitBtn) {
-        submitBtn.addEventListener('click', function(e) {
+        submitBtn.addEventListener('click', function () {
             this.classList.add('loading');
             const icon = this.querySelector('i');
-            if (icon) {
+            if (icon && typeof window.setLucideIcon === 'function') {
                 window.setLucideIcon(icon, 'loader-2', { spin: true });
             }
+            validateAndSubmitCMS();
         });
     }
     
@@ -803,7 +804,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                     'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount',
-                    'emoticons', 'pagebreak', 'nonbreaking', 'template'
+                    'emoticons', 'pagebreak', 'nonbreaking'
                 ],
                 toolbar: 'undo redo | blocks | ' +
                     'bold italic underline strikethrough | forecolor backcolor | ' +

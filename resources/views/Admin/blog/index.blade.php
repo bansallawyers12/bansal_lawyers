@@ -623,10 +623,10 @@ input:checked + .modern-status-slider:before {
 															<i data-lucide="pencil"></i>
 															Edit
 														</a>
-														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction({{$list->id}}, 'blogs')">
+														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" data-delete-action data-id="{{ $list->id }}" data-table="blogs">
 															<i data-lucide="trash-2"></i>
 															Delete
-														</a>
+														</button>
 													</div>
 												</td>
 											</tr>
@@ -718,11 +718,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Modern delete function with flash messages and confirmation
 function modernDeleteBlog(id, table) {
-    // Show modern confirmation dialog
-    if (confirm('⚠️ Are you sure you want to delete this blog post?\n\nThis action cannot be undone and will permanently remove:\n• The blog post content\n• Associated images and files\n• All related data\n\nClick OK to confirm deletion.')) {
-        
-        // Show loading state on the delete button
-        const deleteBtn = $(`.modern-btn-danger[onclick*="deleteAction(${id}"]`);
+    window.adminConfirmForDelete(table).then(function (confirmed) {
+        if (!confirmed) {
+            return;
+        }
+
+        const deleteBtn = $(`[data-delete-action][data-id="${id}"]`);
         deleteBtn.addClass('loading');
         const icon = deleteBtn.find('i');
         if (icon.length) {
@@ -811,7 +812,7 @@ function modernDeleteBlog(id, table) {
                 }
             }
         });
-    }
+    });
 }
 
 // Modern status update function with flash messages
@@ -929,7 +930,7 @@ function showModernFlashMessage(type, message) {
                 <div class="modern-flash-title">${titleMap[type]}</div>
                 <div class="modern-flash-message">${message}</div>
             </div>
-            <button type="button" class="modern-flash-close" onclick="dismissAlert(this)">
+            <button type="button" class="modern-flash-close" aria-label="Close notification">
                 <i data-lucide="x"></i>
             </button>
             <div class="modern-flash-progress"></div>

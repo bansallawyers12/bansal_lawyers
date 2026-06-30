@@ -844,16 +844,16 @@
 									Contact Form Submissions
 								</h4>
 								<div class="modern-header-actions">
-									<button type="button" class="modern-btn modern-btn-secondary" onclick="exportContacts()">
+									<button type="button" class="modern-btn modern-btn-secondary" data-export-contacts>
 										<i data-lucide="download"></i>
 										Export CSV
 									</button>
 									<div class="modern-bulk-actions" id="bulkActions">
-										<button type="button" class="modern-btn modern-btn-info modern-btn-sm" onclick="bulkSendToBansalEmail()" id="bulkSendToBansalBtn">
+										<button type="button" class="modern-btn modern-btn-info modern-btn-sm" data-bulk-send-bansal id="bulkSendToBansalBtn">
 											<i data-lucide="send"></i>
 											Send to Bansal Email
 										</button>
-										<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" onclick="bulkDelete()" id="bulkDeleteBtn">
+										<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" data-bulk-delete-contacts id="bulkDeleteBtn">
 											<i data-lucide="trash-2"></i>
 											Delete Selected
 										</button>
@@ -1049,31 +1049,31 @@
 															</button>
 														@else
 															<button type="button" class="modern-btn modern-btn-primary modern-btn-sm icon-only" 
-																	onclick="sendToBansalEmail({{ $contact->id }})" title="Send to Bansal Email">
+																	data-send-bansal-email data-contact-id="{{ $contact->id }}" title="Send to Bansal Email">
 																<i data-lucide="send" aria-hidden="true"></i>
 																<span class="sr-only">Send Email</span>
 															</button>
 														@endif
 														<div class="modern-dropdown">
 															<button type="button" class="modern-btn modern-btn-warning modern-btn-sm modern-dropdown-toggle icon-only" 
-																	onclick="toggleDropdown({{ $contact->id }})" title="Change Status">
+																	data-toggle-dropdown data-contact-id="{{ $contact->id }}" title="Change Status">
 																<i data-lucide="pencil" aria-hidden="true"></i>
 																<span class="sr-only">Change Status</span>
 															</button>
 															<div class="modern-dropdown-menu" id="dropdown-{{ $contact->id }}">
-																<a class="modern-dropdown-item" href="#" onclick="updateStatus({{ $contact->id }}, 'read')">
+																<a class="modern-dropdown-item" href="#" data-contact-status-action data-contact-id="{{ $contact->id }}" data-status="read">
 																	<i data-lucide="eye"></i> Mark as Read
 																</a>
-																<a class="modern-dropdown-item" href="#" onclick="updateStatus({{ $contact->id }}, 'resolved')">
+																<a class="modern-dropdown-item" href="#" data-contact-status-action data-contact-id="{{ $contact->id }}" data-status="resolved">
 																	<i data-lucide="circle-check"></i> Mark as Resolved
 																</a>
-																<a class="modern-dropdown-item" href="#" onclick="updateStatus({{ $contact->id }}, 'archived')">
+																<a class="modern-dropdown-item" href="#" data-contact-status-action data-contact-id="{{ $contact->id }}" data-status="archived">
 																	<i data-lucide="archive"></i> Archive
 																</a>
 															</div>
 														</div>
 														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm icon-only" 
-																onclick="deleteContact({{ $contact->id }})" title="Delete">
+																data-delete-contact data-contact-id="{{ $contact->id }}" title="Delete">
 															<i data-lucide="trash-2" aria-hidden="true"></i>
 															<span class="sr-only">Delete</span>
 														</button>
@@ -1193,7 +1193,16 @@ function updateStatus(contactId, status) {
 }
 
 function deleteContact(contactId) {
-    if (confirm('Are you sure you want to delete this contact?')) {
+    window.adminConfirm({
+        title: 'Delete Contact?',
+        message: 'This contact submission will be permanently removed. This action cannot be undone.',
+        confirmText: 'Delete Contact',
+        variant: 'danger',
+        icon: 'trash-2'
+    }).then(function (confirmed) {
+        if (!confirmed) {
+            return;
+        }
         fetch(`/admin/contacts/${contactId}`, {
             method: 'DELETE',
             headers: {
@@ -1211,7 +1220,7 @@ function deleteContact(contactId) {
         .catch(error => {
             alert('Error deleting contact: ' + error.message);
         });
-    }
+    });
 }
 
 function bulkDelete() {
@@ -1222,8 +1231,17 @@ function bulkDelete() {
         alert('Please select contacts to delete.');
         return;
     }
-    
-    if (confirm(`Are you sure you want to delete ${contactIds.length} contact(s)?`)) {
+
+    window.adminConfirm({
+        title: 'Delete Selected Contacts?',
+        message: 'You are about to permanently delete ' + contactIds.length + ' contact submission(s). This action cannot be undone.',
+        confirmText: 'Delete ' + contactIds.length + ' Contact(s)',
+        variant: 'danger',
+        icon: 'trash-2'
+    }).then(function (confirmed) {
+        if (!confirmed) {
+            return;
+        }
         fetch('/admin/contacts/bulk-delete', {
             method: 'POST',
             headers: {
@@ -1243,7 +1261,7 @@ function bulkDelete() {
         .catch(error => {
             alert('Error deleting contacts: ' + error.message);
         });
-    }
+    });
 }
 
 function exportContacts() {
@@ -1253,7 +1271,7 @@ function exportContacts() {
 
 function sendToBansalEmail(contactId) {
     // Check if already processing
-    const button = document.querySelector(`button[onclick="sendToBansalEmail(${contactId})"]`);
+    const button = document.querySelector(`[data-send-bansal-email][data-contact-id="${contactId}"]`);
     if (button && button.disabled) {
         return; // Already processing
     }

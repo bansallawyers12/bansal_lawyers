@@ -11,6 +11,8 @@ use App\Models\CmsPage;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CmsPageController extends Controller
 {
@@ -89,17 +91,26 @@ class CmsPageController extends Controller
 	}
 
     function getYoutubeEmbedUrl($url){
-        $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_]+)\??/i';
-        $longUrlRegex = '/youtube.com\/((?:embed)|(?:watch))((?:\?v\=)|(?:\/))(\w+)/i';
+        if (empty($url)) {
+            return null;
+        }
+
+        if (preg_match('#youtube\.com/embed/([a-zA-Z0-9_-]+)#i', $url, $matches)) {
+            return 'https://www.youtube.com/embed/' . $matches[1];
+        }
+
+        $shortUrlRegex = '/youtu\.be\/([a-zA-Z0-9_-]+)/i';
+        $longUrlRegex = '/youtube\.com\/(?:watch\?v=|embed\/|v\/)([a-zA-Z0-9_-]+)/i';
 
         if (preg_match($longUrlRegex, $url, $matches)) {
-            $youtube_id = $matches[count($matches) - 1];
+            return 'https://www.youtube.com/embed/' . $matches[1];
         }
 
         if (preg_match($shortUrlRegex, $url, $matches)) {
-            $youtube_id = $matches[count($matches) - 1];
+            return 'https://www.youtube.com/embed/' . $matches[1];
         }
-        return 'https://www.youtube.com/embed/' . $youtube_id ;
+
+        return null;
     }
 
 	public function store(Request $request)
@@ -177,22 +188,38 @@ class CmsPageController extends Controller
 
 		if ($request->isMethod('post'))
 		{
-			$requestData 		= 	$request->all();
+			$requestData = $request->all();
+			$pageId = $requestData['id'] ?? null;
 
-			$this->validate($request, [
-    			'title' => 'required|max:255|unique:cms_pages,title,'.($requestData['id'] ?? ''),
-    			'slug' => 'required|max:255|unique:cms_pages,slug,'.($requestData['id'] ?? ''),
-    			'description' => 'required'
+			$validator = Validator::make($request->all(), [
+    			'id' => 'required|integer|exists:cms_pages,id',
+    			'title' => ['required', 'max:255', Rule::unique('cms_pages', 'title')->ignore($pageId)],
+    			'slug' => ['required', 'max:255', Rule::unique('cms_pages', 'slug')->ignore($pageId)],
+    			'description' => 'required',
 		    ]);
+
+			if ($validator->fails()) {
+				if ($pageId) {
+					return redirect()
+						->route('admin.edit_cms_page', $this->encodeString($pageId))
+						->withErrors($validator)
+						->withInput();
+				}
+
+				return redirect()
+					->route('admin.cms_pages.index')
+					->withErrors($validator)
+					->withInput();
+			}
+
+			$obj = CmsPage::findOrFail($pageId);
 
 			if($request->hasfile('image'))
 			{
-				/* Unlink File Function Start */
-				if(!empty($requestData['image']))
+				if(!empty($requestData['old_image']))
 				{
-					$this->unlinkFile($requestData['old_image'] ?? null, Config::get('constants.cmspage'));
+					$this->unlinkFile($requestData['old_image'], Config::get('constants.cmspage'));
 				}
-				/* Unlink File Function End */
 
 				$topinclu_image = $this->uploadFile($request->file('image'), Config::get('constants.cmspage'));
 			}
@@ -200,7 +227,6 @@ class CmsPageController extends Controller
 			{
 				$topinclu_image = $requestData['old_image'] ?? null;
 			}
-			$obj				= 	CmsPage::find($requestData['id']);
 			$obj->title			= 	$requestData['title'];
 			$obj->image			= 	$topinclu_image;
             $obj->image_alt		= 	$requestData['image_alt'] ?? null;
@@ -226,9 +252,9 @@ class CmsPageController extends Controller
 
             if($request->hasfile('pdf_doc'))  {
 				/* Unlink File Function Start */
-				if(!empty($requestData['pdf_doc']))
+				if(!empty($requestData['old_pdf']))
 				{
-					$this->unlinkFile($requestData['old_pdf'] ?? null, Config::get('constants.blog'));
+					$this->unlinkFile($requestData['old_pdf'], Config::get('constants.blog'));
 				}
 				/* Unlink File Function End */
 

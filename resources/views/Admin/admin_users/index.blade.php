@@ -603,14 +603,22 @@
                                                     @if($list->status == 1)
                                                         <button type="button" 
                                                                 class="modern-action-btn modern-action-btn-disable" 
-                                                                onclick="updateAction({{ $list->id }}, 1, 'admins', 'status')" 
+                                                                data-update-action
+                                                                data-id="{{ $list->id }}"
+                                                                data-status="1"
+                                                                data-table="admins"
+                                                                data-col="status"
                                                                 title="Disable User">
                                                             <i data-lucide="ban"></i>
                                                         </button>
                                                     @else
                                                         <button type="button" 
                                                                 class="modern-action-btn modern-action-btn-enable" 
-                                                                onclick="updateAction({{ $list->id }}, 0, 'admins', 'status')" 
+                                                                data-update-action
+                                                                data-id="{{ $list->id }}"
+                                                                data-status="0"
+                                                                data-table="admins"
+                                                                data-col="status"
                                                                 title="Enable User">
                                                             <i data-lucide="check"></i>
                                                         </button>
@@ -619,14 +627,18 @@
                                                     @if($list->is_archived == 0)
                                                         <button type="button" 
                                                                 class="modern-action-btn modern-action-btn-archive" 
-                                                                onclick="archiveAction({{ $list->id }}, 'admins')" 
+                                                                data-archive-action
+                                                                data-id="{{ $list->id }}"
+                                                                data-table="admins"
                                                                 title="Archive User">
                                                             <i data-lucide="archive"></i>
                                                         </button>
                                                     @else
                                                         <button type="button" 
                                                                 class="modern-action-btn modern-action-btn-restore" 
-                                                                onclick="archiveAction({{ $list->id }}, 'admins')" 
+                                                                data-archive-action
+                                                                data-id="{{ $list->id }}"
+                                                                data-table="admins"
                                                                 title="Restore User">
                                                             <i data-lucide="undo-2"></i>
                                                         </button>

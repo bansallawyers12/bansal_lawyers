@@ -220,59 +220,51 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	function deleteAction( id, table ) {
-		var conf = confirm('Are you sure, you would like to delete this record. Remember all Related data would be deleted.');
-		if(conf){	 
+		window.adminConfirmForDelete(table).then(function(confirmed) {
+			if (!confirmed) {
+				return;
+			}
+
 			if(id == '') {
 				alert('Please select ID to delete the record.');
 				return false;	
-			} else {
-				$('.popuploader').show();
-				$(".server-error").html(''); //remove server error.
-				$(".custom-error-msg").html(''); //remove custom error.
-				$.ajax({
-					type:'post',
-					headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-					url:site_url+'/admin/delete_action',
-					data:{'id': id, 'table' : table},
-					success:function(resp) {
-						$('.popuploader').hide();
-						var obj = $.parseJSON(resp);
-						if(obj.status == 1) {
-							$("#id_"+id).remove();
-							$("#quid_"+id).remove();
-							//show success msg 
-								var html = successMessage(obj.message);
-								$(".custom-error-msg").html(html);
-							
-							//show count
-								var old_count = $(".count").text();
-								var new_count = old_count - 1;
-								$(".count").text(new_count);
-							
-							//when all data has been deleted
-								if(new_count == 0){
-									$(".tdata").html('<tr><td colspan="6">There are no data in this table.</td></tr>');
-								}
-							
-								location.reload();
-								// setTimeout(function(){
-								// 	location.reload();
-								// }, 3000);
-						} else{
-							var html = errorMessage(obj.message);
-							$(".custom-error-msg").html(html);
-						}
-						$("#loader").hide();
-					},
-					beforeSend: function() {
-						$("#loader").show();
-					}
-				});
-				$('html, body').animate({scrollTop:0}, 'slow');
 			}
-		} else{
-			$("#loader").hide();
-		}
+
+			$('.popuploader').show();
+			$(".server-error").html('');
+			$(".custom-error-msg").html('');
+			$.ajax({
+				type:'post',
+				headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				url:site_url+'/admin/delete_action',
+				data:{'id': id, 'table' : table},
+				success:function(resp) {
+					$('.popuploader').hide();
+					var obj = $.parseJSON(resp);
+					if(obj.status == 1) {
+						$("#id_"+id).remove();
+						$("#quid_"+id).remove();
+						var html = successMessage(obj.message);
+						$(".custom-error-msg").html(html);
+						var old_count = $(".count").text();
+						var new_count = old_count - 1;
+						$(".count").text(new_count);
+						if(new_count == 0){
+							$(".tdata").html('<tr><td colspan="6">There are no data in this table.</td></tr>');
+						}
+						location.reload();
+					} else{
+						var html = errorMessage(obj.message);
+						$(".custom-error-msg").html(html);
+					}
+					$("#loader").hide();
+				},
+				beforeSend: function() {
+					$("#loader").show();
+				}
+			});
+			$('html, body').animate({scrollTop:0}, 'slow');
+		});
 	}
 	
 	

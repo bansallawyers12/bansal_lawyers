@@ -627,7 +627,7 @@
 															<i data-lucide="pencil"></i>
 															Edit
 														</a>
-														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" onClick="deleteSlotAction({{$list->id}}, 'book_service_disable_slots')">
+														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" data-delete-slot-action data-id="{{ $list->id }}" data-table="book_service_disable_slots">
 															<i data-lucide="trash-2"></i>
 															Delete
 														</button>
@@ -687,40 +687,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Original functionality preserved
 function deleteSlotAction( id, table ) {
-    var conf = confirm('Are you sure, you want to delete the slot.');
-    if(conf){
+    window.adminConfirmForDelete(table).then(function(confirmed) {
+        if (!confirmed) {
+            return;
+        }
         if(id == '') {
             alert('Please select ID to delete the record.');
             return false;
-        } else {
-            $('.popuploader').show();
-            $(".server-error").html('');
-            $(".custom-error-msg").html('');
-            $.ajax({
-                type:'post',
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url:site_url+'/admin/delete_slot_action',
-                data:{'id': id, 'table' : table},
-                success:function(resp) {
-                    $('.popuploader').hide();
-                    var obj = $.parseJSON(resp);
-                    if(obj.status == 1) {
-                        $("#id_"+id).remove();
-                        var html = successMessage(obj.message);
-                        $(".custom-error-msg").html(html);
-                    } else {
-                        var html = errorMessage(obj.message);
-                        $(".custom-error-msg").html(html);
-                    }
-                },
-                error:function(resp) {
-                    $('.popuploader').hide();
-                    var html = errorMessage('Something went wrong. Please try again.');
+        }
+        $('.popuploader').show();
+        $(".server-error").html('');
+        $(".custom-error-msg").html('');
+        $.ajax({
+            type:'post',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url:site_url+'/admin/delete_slot_action',
+            data:{'id': id, 'table' : table},
+            success:function(resp) {
+                $('.popuploader').hide();
+                var obj = $.parseJSON(resp);
+                if(obj.status == 1) {
+                    $("#id_"+id).remove();
+                    var html = successMessage(obj.message);
+                    $(".custom-error-msg").html(html);
+                } else {
+                    var html = errorMessage(obj.message);
                     $(".custom-error-msg").html(html);
                 }
-            });
-        }
-    }
+            },
+            error:function(resp) {
+                $('.popuploader').hide();
+                var html = errorMessage('Something went wrong. Please try again.');
+                $(".custom-error-msg").html(html);
+            }
+        });
+    });
 }
 </script>
 @endsection

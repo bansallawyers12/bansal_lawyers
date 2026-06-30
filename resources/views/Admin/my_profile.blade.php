@@ -96,7 +96,7 @@
 								</div>
 								
 								<div class="form-group text-right">
-									<button type="button" class="btn btn-primary px-4" onclick="customValidate('my-profile')">
+									<button type="button" class="btn btn-primary px-4" data-custom-validate="my-profile">
 										<i data-lucide="save"></i> Update Profile
 									</button>
 								</div>

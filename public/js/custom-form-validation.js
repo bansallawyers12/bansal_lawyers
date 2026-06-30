@@ -38,7 +38,7 @@ function customValidate(formName, savetype = '')
 			$(".popuploader").show(); //all form submit
 			
 			// Check if form exists
-			var form = $("form[name="+formName+"]");
+			var form = $("form[name='"+formName+"']");
 			if (form.length === 0) {
 				console.error('Form with name "' + formName + '" not found');
 				$(".popuploader").hide();
@@ -48,7 +48,7 @@ function customValidate(formName, savetype = '')
 			var i = 0;	
 			$(".custom-error").remove(); //remove all errors when submit the button
 		
-		$("form[name="+formName+"] :input[data-valid]").each(function(){
+		$("form[name='"+formName+"'] :input[data-valid]").each(function(){
 			var dataValidation = $(this).attr('data-valid');
 			var splitDataValidation = dataValidation.split(' ');
 			
@@ -153,7 +153,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -177,7 +177,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -199,7 +199,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -223,7 +223,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -248,7 +248,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -280,7 +280,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -315,7 +315,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -348,7 +348,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -393,7 +393,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -422,7 +422,7 @@ function customValidate(formName, savetype = '')
                                                 } else {
                                                     var printLink = '';
                                                 }
-                                                var editLink = '<a class="link-primary updateclientreceipt" href="javascript:;" data-id="'+lastInsertedId+'"><i data-lucide="pencil" aria-hidden="true"></i></a>';
+                                                var editLink = '<a class="link-primary updateclientreceipt" href="#" data-id="'+lastInsertedId+'"><i data-lucide="pencil" aria-hidden="true"></i></a>';
 
                                                 trRows += "<tr><td>"+subArray.trans_date+" "+awsLink+"</td><td>"+subArray.entry_date+"</td><td>"+subArray.trans_no+"</td><td>"+subArray.payment_method+"</td><td>"+subArray.description+"</td><td>$"+subArray.deposit_amount+" "+printLink+" "+editLink+"</td></tr>";
                                             });
@@ -454,7 +454,7 @@ function customValidate(formName, savetype = '')
                                                 } else {
                                                     var printLink = '';
                                                 }
-                                                var editLink = '<a class="link-primary updateclientreceipt" href="javascript:;" data-id="'+lastInsertedId+'"><i data-lucide="pencil" aria-hidden="true"></i></a>';
+                                                var editLink = '<a class="link-primary updateclientreceipt" href="#" data-id="'+lastInsertedId+'"><i data-lucide="pencil" aria-hidden="true"></i></a>';
 
                                                 var trRows = "<td>"+subArray.trans_date+" "+awsLink+"</td><td>"+subArray.entry_date+"</td><td>"+subArray.trans_no+"</td><td>"+subArray.payment_method+"</td><td>"+subArray.description+"</td><td>$"+subArray.deposit_amount+" "+printLink+" "+editLink+"</td>";
 
@@ -480,7 +480,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -530,7 +530,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -565,7 +565,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -601,7 +601,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -625,7 +625,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -668,7 +668,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -694,7 +694,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -728,7 +728,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -759,7 +759,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -792,7 +792,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -825,7 +825,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -858,7 +858,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -891,7 +891,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -920,7 +920,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -970,7 +970,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1011,7 +1011,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1032,7 +1032,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1055,7 +1055,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1078,7 +1078,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1107,7 +1107,7 @@ function customValidate(formName, savetype = '')
 						
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1152,7 +1152,7 @@ function customValidate(formName, savetype = '')
 						
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1180,7 +1180,7 @@ function customValidate(formName, savetype = '')
 						
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1230,7 +1230,7 @@ function customValidate(formName, savetype = '')
 						
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1256,7 +1256,7 @@ function customValidate(formName, savetype = '')
 						
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1287,7 +1287,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1328,7 +1328,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1377,7 +1377,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1402,7 +1402,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1461,7 +1461,7 @@ function customValidate(formName, savetype = '')
 							var fd = new FormData(myform);	
                             $.ajax({
                                 type:'post',
-                                url:$("form[name="+formName+"]").attr('action'),
+                                url:$("form[name='"+formName+"']").attr('action'),
                                 processData: false,
                                 contentType: false,
                                 data: fd,
@@ -1516,7 +1516,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1560,7 +1560,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1603,7 +1603,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);	
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1655,7 +1655,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1708,7 +1708,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1779,7 +1779,7 @@ function customValidate(formName, savetype = '')
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1803,7 +1803,7 @@ $('#add_application').modal('hide');
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1831,7 +1831,7 @@ $('#add_application').modal('hide');
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -1892,7 +1892,7 @@ $('#add_application').modal('hide');
 								}
 							else
 								{
-									$("form[name="+formName+"]").submit();
+									$("form[name='"+formName+"']").submit();
 									return true;
 								}	
 						});	
@@ -1903,7 +1903,7 @@ $('#add_application').modal('hide');
 						{
 							$('input[name="btn"]').val(savetype);
 						}
-						$("form[name="+formName+"]").submit();
+						$("form[name='"+formName+"']").submit();
 						return true;	
 					} 
 			}	
@@ -1923,7 +1923,7 @@ function customInvoiceValidate(formName, savetype)
 		var i = 0;	
 		$(".custom-error").remove(); //remove all errors when submit the button
 		$("#save_type").val(savetype);
-		$("form[name="+formName+"] :input[data-valid]").each(function(){
+		$("form[name='"+formName+"'] :input[data-valid]").each(function(){
 			var dataValidation = $(this).attr('data-valid');
 			var splitDataValidation = dataValidation.split(' ');
 			
@@ -2027,7 +2027,7 @@ function customInvoiceValidate(formName, savetype)
 						var fd = new FormData(myform);
 						$.ajax({
 							type:'post',
-							url:$("form[name="+formName+"]").attr('action'),
+							url:$("form[name='"+formName+"']").attr('action'),
 							processData: false,
 							contentType: false,
 							data: fd,
@@ -2047,7 +2047,7 @@ function customInvoiceValidate(formName, savetype)
 					else
 					{	
 				
-						$("form[name="+formName+"]").submit();
+						$("form[name='"+formName+"']").submit();
 						return true;	
 					} 
 			}	
