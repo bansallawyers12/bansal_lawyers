@@ -62,8 +62,12 @@ class ContentSecurityPolicy
                 [$scriptSrc, $connectSrc, $styleSrc] = $this->appendViteDevOrigins($scriptSrc, $connectSrc, $styleSrc);
             }
 
-            // TinyMCE injects <style> elements at runtime; official docs require 'unsafe-inline' on style-src/style-src-elem
-            $styleSrcElem = "{$styleSrc} 'unsafe-inline'";
+            // style-src-elem must not use a nonce: CSP3 ignores 'unsafe-inline' when nonce is present,
+            // which blocks TinyMCE and Vite dev client from injecting <style> elements at runtime.
+            $styleSrcElem = "'self' 'unsafe-inline' https://cdnjs.cloudflare.com";
+            if (App::environment('local')) {
+                $styleSrcElem = $this->appendHttpOrigins($styleSrcElem);
+            }
 
             $policies = [
                 "default-src 'self'",
@@ -205,6 +209,25 @@ class ContentSecurityPolicy
         }
 
         return [$scriptSrc, $connectSrc, $styleSrc];
+    }
+
+    private function appendHttpOrigins(string $directive): string
+    {
+        $httpOrigins = [];
+
+        foreach ($this->getViteDevOrigins() as $origin) {
+            if (str_starts_with($origin, 'http://')) {
+                $httpOrigins[] = $origin;
+            }
+        }
+
+        $httpOrigins = array_unique($httpOrigins);
+
+        if ($httpOrigins !== []) {
+            $directive .= ' ' . implode(' ', $httpOrigins);
+        }
+
+        return $directive;
     }
 
     /**

@@ -37,12 +37,25 @@ function customValidate(formName, savetype = '')
 		try {
 			$(".popuploader").show(); //all form submit
 			
-			// Check if form exists
+			// Check if form exists (by name, then common id patterns)
 			var form = $("form[name='"+formName+"']");
+			if (form.length === 0) {
+				form = $('#' + formName + '-form');
+			}
+			if (form.length === 0) {
+				form = $('#' + formName);
+			}
 			if (form.length === 0) {
 				console.error('Form with name "' + formName + '" not found');
 				$(".popuploader").hide();
 				return false;
+			}
+
+			// Sync TinyMCE editors into their textareas before validation/submit
+			if (typeof tinymce !== 'undefined') {
+				if (typeof tinymce.triggerSave === 'function') {
+					tinymce.triggerSave();
+				}
 			}
 			
 			var i = 0;	

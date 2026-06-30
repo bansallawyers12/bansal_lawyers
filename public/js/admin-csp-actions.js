@@ -106,8 +106,8 @@
             event.preventDefault();
             var statusContactId = contactStatusEl.getAttribute('data-contact-id');
             var statusValue = contactStatusEl.getAttribute('data-status');
-            if (typeof window.updateStatus === 'function') {
-                window.updateStatus(
+            if (typeof window.updateContactStatus === 'function') {
+                window.updateContactStatus(
                     statusContactId ? parseInt(statusContactId, 10) : undefined,
                     statusValue
                 );
@@ -153,7 +153,10 @@
         if (copyClipboardEl) {
             event.preventDefault();
             if (typeof window.copyToClipboard === 'function') {
-                window.copyToClipboard(copyClipboardEl.getAttribute('data-copy-text'));
+                window.copyToClipboard(
+                    copyClipboardEl.getAttribute('data-copy-text'),
+                    copyClipboardEl
+                );
             }
             return;
         }

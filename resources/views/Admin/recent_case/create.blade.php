@@ -393,7 +393,7 @@ input:checked + .modern-checkbox-slider:before {
 								</div>
 							</div>
 							
-							<form action="{{ route('admin.recent_case.store') }}" autocomplete="off" method="post" enctype="multipart/form-data" id="create-case-form">
+							<form action="{{ route('admin.recent_case.store') }}" autocomplete="off" method="post" enctype="multipart/form-data" name="add-case" id="create-case-form">
 								@csrf
 								
 								<div class="modern-form-body">
