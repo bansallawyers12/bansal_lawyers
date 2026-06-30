@@ -601,18 +601,18 @@ input:checked + .modern-status-slider:before {
 						<div class="modern-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-file-code"></i>
+									<i data-lucide="file-code"></i>
 									CMS Pages Management
 								</h4>
 								<div class="modern-header-actions">
 									<a href="{{route('admin.cms_pages.create')}}" class="modern-btn modern-btn-primary">
-										<i class="fas fa-plus"></i>
+										<i data-lucide="plus"></i>
 										Create New Page
 									</a>
 									<form action="{{route('admin.cms_pages.index')}}" method="get" class="modern-search-form">
 										<input type="text" name="search_term" class="modern-search-input" value="{{ request('search_term') }}" placeholder="Search pages...">
 										<button type="submit" class="modern-search-btn">
-											<i class="fas fa-search"></i>
+											<i data-lucide="search"></i>
 										</button>
 									</form>
 						</div>
@@ -623,21 +623,21 @@ input:checked + .modern-status-slider:before {
 								<div class="modern-stats-grid">
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon pages">
-											<i class="fas fa-file-code"></i>
+											<i data-lucide="file-code"></i>
                 </div>
 										<div class="modern-stat-value">{{ count($lists) }}</div>
 										<div class="modern-stat-label">Total Pages</div>
                                 </div> 
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon published">
-											<i class="fas fa-check-circle"></i>
+											<i data-lucide="circle-check"></i>
                             </div>
 										<div class="modern-stat-value">{{ $lists->where('status', 1)->count() }}</div>
 										<div class="modern-stat-label">Published Pages</div>
                                             </div>
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon draft">
-											<i class="fas fa-pause-circle"></i>
+											<i data-lucide="circle-pause"></i>
                                         </div>
 										<div class="modern-stat-value">{{ $lists->where('status', 0)->count() }}</div>
 										<div class="modern-stat-label">Draft Pages</div>
@@ -688,11 +688,11 @@ input:checked + .modern-status-slider:before {
 												<td>
 													<div class="modern-actions">
 														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{URL::to('/admin/cms_pages/edit/'.base64_encode(convert_uuencode($list->id)))}}">
-															<i class="fas fa-edit"></i>
+															<i data-lucide="pencil"></i>
 															Edit
 														</a>
 														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction({{$list->id}}, 'cms_pages')">
-															<i class="fas fa-trash"></i>
+															<i data-lucide="trash-2"></i>
 															Delete
 														</a>
 													</div>
@@ -712,12 +712,12 @@ input:checked + .modern-status-slider:before {
 								@else
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
-										<i class="fas fa-file-code"></i>
+										<i data-lucide="file-code"></i>
 									</div>
 									<h3 class="modern-empty-title">No CMS Pages Found</h3>
 									<p class="modern-empty-description">Get started by creating your first CMS page</p>
 									<a href="{{route('admin.cms_pages.create')}}" class="modern-btn modern-btn-primary">
-										<i class="fas fa-plus"></i>
+										<i data-lucide="plus"></i>
 										Create First Page
 									</a>
 								</div>
@@ -754,7 +754,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.add('loading');
                 const icon = this.querySelector('i');
                 if (icon) {
-                    icon.className = 'fas fa-spinner fa-spin';
+                    window.setLucideIcon(icon, 'loader-2', { spin: true });
                 }
             }
         });
@@ -796,7 +796,8 @@ function modernDeleteCMS(id, table) {
         deleteBtn.addClass('loading');
         const icon = deleteBtn.find('i');
         if (icon.length) {
-            icon.removeClass('fa-trash').addClass('fa-spinner fa-spin');
+            icon.attr('data-lucide', 'loader-2').addClass('lucide-spin');
+            window.refreshLucideIcons && window.refreshLucideIcons(deleteBtn[0]);
         }
         
         $.ajax({
@@ -823,12 +824,12 @@ function modernDeleteCMS(id, table) {
                                 $(this).replaceWith(`
                                     <div class="modern-empty-state">
                                         <div class="modern-empty-icon">
-                                            <i class="fas fa-file-code"></i>
+                                            <i data-lucide="file-code"></i>
                                         </div>
                                         <h3 class="modern-empty-title">No CMS Pages Found</h3>
                                         <p class="modern-empty-description">All pages have been deleted. Create a new one to get started.</p>
                                         <a href="{{route('admin.cms_pages.create')}}" class="modern-btn modern-btn-primary">
-                                            <i class="fas fa-plus"></i>
+                                            <i data-lucide="plus"></i>
                                             Create First Page
                                         </a>
                                     </div>
@@ -841,7 +842,8 @@ function modernDeleteCMS(id, table) {
                     showModernFlashMessage('error', resp && resp.message ? resp.message : 'Failed to delete CMS page');
                     deleteBtn.removeClass('loading');
                     if (icon.length) {
-                        icon.removeClass('fa-spinner fa-spin').addClass('fa-trash');
+                        icon.attr('data-lucide', 'trash-2').removeClass('lucide-spin');
+                        window.refreshLucideIcons && window.refreshLucideIcons(deleteBtn[0]);
                     }
                 }
             },
@@ -863,7 +865,8 @@ function modernDeleteCMS(id, table) {
                 showModernFlashMessage('error', errorMessage);
                 deleteBtn.removeClass('loading');
                 if (icon.length) {
-                    icon.removeClass('fa-spinner fa-spin').addClass('fa-trash');
+                    icon.attr('data-lucide', 'trash-2').removeClass('lucide-spin');
+                    window.refreshLucideIcons && window.refreshLucideIcons(deleteBtn[0]);
                 }
             }
         });
@@ -944,10 +947,10 @@ function showModernFlashMessage(type, message) {
     $('.modern-flash-container .modern-flash-alert').remove();
     
     const iconMap = {
-        'success': 'fas fa-check',
-        'error': 'fas fa-exclamation',
-        'warning': 'fas fa-exclamation-triangle',
-        'info': 'fas fa-info'
+        'success': 'check',
+        'error': 'circle-alert',
+        'warning': 'triangle-alert',
+        'info': 'info'
     };
     
     const titleMap = {
@@ -962,14 +965,14 @@ function showModernFlashMessage(type, message) {
     const flashHtml = `
         <div class="modern-flash-alert ${type}" role="alert" data-auto-dismiss="${autoDismissTime}">
             <div class="modern-flash-icon">
-                <i class="${iconMap[type]}"></i>
+                <i data-lucide="${iconMap[type]}" aria-hidden="true"></i>
             </div>
             <div class="modern-flash-content">
                 <div class="modern-flash-title">${titleMap[type]}</div>
                 <div class="modern-flash-message">${message}</div>
             </div>
             <button type="button" class="modern-flash-close" onclick="dismissAlert(this)">
-                <i class="fas fa-times"></i>
+                <i data-lucide="x"></i>
             </button>
             <div class="modern-flash-progress"></div>
         </div>
@@ -982,6 +985,9 @@ function showModernFlashMessage(type, message) {
     }
     
     container.append(flashHtml);
+    if (window.refreshLucideIcons) {
+        window.refreshLucideIcons(container[0]);
+    }
     
     setTimeout(() => {
         const alert = container.find('.modern-flash-alert[data-auto-dismiss="' + autoDismissTime + '"]').last();

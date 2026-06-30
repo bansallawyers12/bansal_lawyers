@@ -315,24 +315,24 @@ input:checked + .modern-checkbox-slider:before {
 						<div class="modern-form-card">
 							<div class="modern-form-header">
 								<h3 class="modern-form-title">
-									<i class="fas fa-edit"></i>
+									<i data-lucide="pencil"></i>
 									Edit Blog Category
 								</h3>
 								<div class="modern-form-actions">
 									<a href="{{route('admin.blogcategory.index')}}" class="modern-btn modern-btn-secondary">
-										<i class="fas fa-arrow-left"></i>
+										<i data-lucide="arrow-left"></i>
 										Back to Categories
 									</a>
 								</div>
 							</div>
 							
-							<form action="admin/blogcategories/edit" autocomplete="off" method="post" id="edit-category-form">
+							<form action="{{ route('admin.blogcategory.update') }}" autocomplete="off" method="post" id="edit-category-form">
 								@csrf
 								<input type="hidden" name="id" value="{{$fetchedData->id}}">
 								
 								<div class="modern-form-body">
 									<div class="modern-info-badge">
-										<i class="fas fa-info-circle"></i>
+										<i data-lucide="info"></i>
 										Editing Category ID: #{{$fetchedData->id}}
 									</div>
 
@@ -404,11 +404,11 @@ input:checked + .modern-checkbox-slider:before {
 
 								<div class="modern-form-footer">
 									<a href="{{route('admin.blogcategory.index')}}" class="modern-btn modern-btn-secondary">
-										<i class="fas fa-times"></i>
+										<i data-lucide="x"></i>
 										Cancel
 									</a>
 									<button type="button" class="modern-btn modern-btn-primary" onClick="customValidate('edit-blogcategory')">
-										<i class="fas fa-save"></i>
+										<i data-lucide="save"></i>
 										Update Category
 									</button>
 								</div>
@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('loading');
             const icon = this.querySelector('i');
             if (icon) {
-                icon.className = 'fas fa-spinner fa-spin';
+                window.setLucideIcon(icon, 'loader-2', { spin: true });
             }
         });
     }

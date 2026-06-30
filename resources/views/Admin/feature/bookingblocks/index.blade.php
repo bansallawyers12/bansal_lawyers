@@ -529,12 +529,12 @@
 						<div class="modern-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-calendar-times"></i>
+									<i data-lucide="calendar-x"></i>
 									Booking Blocks Management
 								</h4>
 								<div class="modern-header-actions">
 									<a href="{{ route('admin.feature.bookingblocks.create') }}" class="modern-btn modern-btn-primary">
-										<i class="fas fa-plus"></i>
+										<i data-lucide="plus"></i>
 										Create Booking Block
 									</a>
 								</div>
@@ -550,7 +550,7 @@
 												<h3>{{ $totalData }}</h3>
 											</div>
 											<div class="modern-stat-icon total">
-												<i class="fas fa-cog"></i>
+												<i data-lucide="settings"></i>
 											</div>
 										</div>
 									</div>
@@ -561,7 +561,7 @@
 												<h3>{{ $lists->sum(function($item) { return count($item->disabledSlots); }) }}</h3>
 											</div>
 											<div class="modern-stat-icon blocked">
-												<i class="fas fa-calendar-times"></i>
+												<i data-lucide="calendar-x"></i>
 											</div>
 										</div>
 									</div>
@@ -583,7 +583,7 @@
 											<tr id="id_{{$list->id}}">
 												<td>
 													<span class="modern-person-badge">
-														<i class="fas fa-user"></i>
+														<i data-lucide="user"></i>
 														Ajay
 													</span>
 												</td>
@@ -594,9 +594,9 @@
 															<li class="modern-block-item">
 																<div class="modern-block-icon">
 																	@if(isset($slotVal->block_all) && $slotVal->block_all == 1)
-																		<i class="fas fa-ban"></i>
+																		<i data-lucide="ban"></i>
 																	@else
-																		<i class="fas fa-clock"></i>
+																		<i data-lucide="clock"></i>
 																	@endif
 																</div>
 																<div class="modern-block-info">
@@ -616,7 +616,7 @@
 														</ul>
 													@else
 														<div class="text-muted">
-															<i class="fas fa-info-circle"></i>
+															<i data-lucide="info"></i>
 															No blocked dates configured
 														</div>
 													@endif
@@ -624,11 +624,11 @@
 												<td>
 													<div class="modern-actions">
 														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{ route('admin.feature.bookingblocks.edit', $list->id) }}">
-															<i class="fas fa-edit"></i>
+															<i data-lucide="pencil"></i>
 															Edit
 														</a>
 														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" onClick="deleteSlotAction({{$list->id}}, 'book_service_disable_slots')">
-															<i class="fas fa-trash"></i>
+															<i data-lucide="trash-2"></i>
 															Delete
 														</button>
 													</div>
@@ -648,12 +648,12 @@
 								@else
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
-										<i class="fas fa-calendar-times"></i>
+										<i data-lucide="calendar-x"></i>
 									</div>
 									<h3 class="modern-empty-title">No Booking Blocks Found</h3>
 									<p class="modern-empty-description">Create your first booking block to manage slot availability</p>
 									<a href="{{ route('admin.feature.bookingblocks.create') }}" class="modern-btn modern-btn-primary">
-										<i class="fas fa-plus"></i>
+										<i data-lucide="plus"></i>
 										Create First Block
 									</a>
 								</div>
@@ -678,7 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.add('loading');
                 const icon = this.querySelector('i');
                 if (icon) {
-                    icon.className = 'fas fa-spinner fa-spin';
+                    window.setLucideIcon(icon, 'loader-2', { spin: true });
                 }
             }
         });

@@ -840,21 +840,21 @@
 						<div class="modern-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-envelope"></i>
+									<i data-lucide="mail"></i>
 									Contact Form Submissions
 								</h4>
 								<div class="modern-header-actions">
 									<button type="button" class="modern-btn modern-btn-secondary" onclick="exportContacts()">
-										<i class="fas fa-download"></i>
+										<i data-lucide="download"></i>
 										Export CSV
 									</button>
 									<div class="modern-bulk-actions" id="bulkActions">
 										<button type="button" class="modern-btn modern-btn-info modern-btn-sm" onclick="bulkSendToBansalEmail()" id="bulkSendToBansalBtn">
-											<i class="fas fa-paper-plane"></i>
+											<i data-lucide="send"></i>
 											Send to Bansal Email
 										</button>
 										<button type="button" class="modern-btn modern-btn-danger modern-btn-sm" onclick="bulkDelete()" id="bulkDeleteBtn">
-											<i class="fas fa-trash"></i>
+											<i data-lucide="trash-2"></i>
 											Delete Selected
 										</button>
 									</div>
@@ -871,7 +871,7 @@
 												<h3>{{ $stats['total'] }}</h3>
 											</div>
 											<div class="modern-stat-icon total">
-												<i class="fas fa-envelope"></i>
+												<i data-lucide="mail"></i>
 											</div>
 										</div>
 									</div>
@@ -882,7 +882,7 @@
 												<h3>{{ $stats['today'] }}</h3>
 											</div>
 											<div class="modern-stat-icon today">
-												<i class="fas fa-calendar-day"></i>
+												<i data-lucide="calendar-days"></i>
 											</div>
 										</div>
 									</div>
@@ -893,7 +893,7 @@
 												<h3>{{ $stats['this_week'] }}</h3>
 											</div>
 											<div class="modern-stat-icon week">
-												<i class="fas fa-calendar-week"></i>
+												<i data-lucide="calendar-range"></i>
 											</div>
 										</div>
 									</div>
@@ -904,7 +904,7 @@
 												<h3>{{ $stats['this_month'] }}</h3>
 											</div>
 											<div class="modern-stat-icon month">
-												<i class="fas fa-calendar-alt"></i>
+												<i data-lucide="calendar"></i>
 											</div>
 										</div>
 									</div>
@@ -913,7 +913,7 @@
 								<!-- Filters -->
 								<div class="modern-filter-card">
 									<div class="modern-filter-header">
-										<i class="fas fa-filter"></i>
+										<i data-lucide="funnel"></i>
 										Filter & Search
 									</div>
 									<div class="modern-filter-body">
@@ -947,11 +947,11 @@
 												<div class="modern-form-group">
 													<div class="modern-filter-actions">
 														<button type="submit" class="modern-btn modern-btn-primary">
-															<i class="fas fa-search"></i>
+															<i data-lucide="search"></i>
 															Filter
 														</button>
 														<a href="{{ route('admin.contacts.index') }}" class="modern-btn modern-btn-secondary">
-															<i class="fas fa-times"></i>
+															<i data-lucide="x"></i>
 															Clear
 														</a>
 													</div>
@@ -1010,7 +1010,7 @@
 												<td>
 													@if($contact->status === 'forwarded')
 														<span class="modern-status-badge forwarded">
-															<i class="fas fa-paper-plane"></i>
+															<i data-lucide="send"></i>
 															Forwarded
 														</span>
 														@if($contact->forwarded_at)
@@ -1019,13 +1019,13 @@
 													@else
 														<span class="modern-status-badge {{ $contact->status ?? 'unread' }}">
 															@if(($contact->status ?? 'unread') == 'unread')
-																<i class="fas fa-exclamation-circle"></i>
+																<i data-lucide="circle-alert"></i>
 															@elseif($contact->status == 'read')
-																<i class="fas fa-eye"></i>
+																<i data-lucide="eye"></i>
 															@elseif($contact->status == 'resolved')
-																<i class="fas fa-check-circle"></i>
+																<i data-lucide="circle-check"></i>
 															@elseif($contact->status == 'archived')
-																<i class="fas fa-archive"></i>
+																<i data-lucide="archive"></i>
 															@endif
 															{{ ucfirst($contact->status ?? 'unread') }}
 														</span>
@@ -1039,42 +1039,42 @@
 													<div class="modern-actions">
 														<a href="{{ route('admin.contacts.show', $contact->id) }}" 
 														   class="modern-btn modern-btn-info modern-btn-sm icon-only" title="View Details">
-															<i class="fas fa-eye" aria-hidden="true"></i>
+															<i data-lucide="eye" aria-hidden="true"></i>
 															<span class="sr-only">View</span>
 														</a>
 														@if($contact->status === 'forwarded')
 															<button type="button" class="modern-btn modern-btn-secondary modern-btn-sm icon-only" disabled title="Already Forwarded">
-																<i class="fas fa-check" aria-hidden="true"></i>
+																<i data-lucide="check" aria-hidden="true"></i>
 																<span class="sr-only">Forwarded</span>
 															</button>
 														@else
 															<button type="button" class="modern-btn modern-btn-primary modern-btn-sm icon-only" 
 																	onclick="sendToBansalEmail({{ $contact->id }})" title="Send to Bansal Email">
-																<i class="fas fa-paper-plane" aria-hidden="true"></i>
+																<i data-lucide="send" aria-hidden="true"></i>
 																<span class="sr-only">Send Email</span>
 															</button>
 														@endif
 														<div class="modern-dropdown">
 															<button type="button" class="modern-btn modern-btn-warning modern-btn-sm modern-dropdown-toggle icon-only" 
 																	onclick="toggleDropdown({{ $contact->id }})" title="Change Status">
-																<i class="fas fa-edit" aria-hidden="true"></i>
+																<i data-lucide="pencil" aria-hidden="true"></i>
 																<span class="sr-only">Change Status</span>
 															</button>
 															<div class="modern-dropdown-menu" id="dropdown-{{ $contact->id }}">
 																<a class="modern-dropdown-item" href="#" onclick="updateStatus({{ $contact->id }}, 'read')">
-																	<i class="fas fa-eye"></i> Mark as Read
+																	<i data-lucide="eye"></i> Mark as Read
 																</a>
 																<a class="modern-dropdown-item" href="#" onclick="updateStatus({{ $contact->id }}, 'resolved')">
-																	<i class="fas fa-check-circle"></i> Mark as Resolved
+																	<i data-lucide="circle-check"></i> Mark as Resolved
 																</a>
 																<a class="modern-dropdown-item" href="#" onclick="updateStatus({{ $contact->id }}, 'archived')">
-																	<i class="fas fa-archive"></i> Archive
+																	<i data-lucide="archive"></i> Archive
 																</a>
 															</div>
 														</div>
 														<button type="button" class="modern-btn modern-btn-danger modern-btn-sm icon-only" 
 																onclick="deleteContact({{ $contact->id }})" title="Delete">
-															<i class="fas fa-trash" aria-hidden="true"></i>
+															<i data-lucide="trash-2" aria-hidden="true"></i>
 															<span class="sr-only">Delete</span>
 														</button>
 													</div>
@@ -1085,7 +1085,7 @@
 												<td colspan="8" class="text-center py-4">
 													<div class="modern-empty-state">
 														<div class="modern-empty-icon">
-															<i class="fas fa-envelope-open"></i>
+															<i data-lucide="mail-open"></i>
 														</div>
 														<h3 class="modern-empty-title">No contacts found</h3>
 														<p class="modern-empty-description">No contact submissions match your current filters</p>
@@ -1262,7 +1262,7 @@ function sendToBansalEmail(contactId) {
         // Disable button and show loading
         if (button) {
             button.disabled = true;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            button.innerHTML = '<i data-lucide="loader-2" class="lucide-spin"></i>';
             button.classList.add('loading');
         }
         
@@ -1288,7 +1288,7 @@ function sendToBansalEmail(contactId) {
                 // Re-enable button on error
                 if (button) {
                     button.disabled = false;
-                    button.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                    button.innerHTML = '<i data-lucide="send"></i>';
                     button.classList.remove('loading');
                 }
             }
@@ -1299,7 +1299,7 @@ function sendToBansalEmail(contactId) {
             // Re-enable button on error
             if (button) {
                 button.disabled = false;
-                button.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                button.innerHTML = '<i data-lucide="send"></i>';
                 button.classList.remove('loading');
             }
         });
@@ -1325,7 +1325,7 @@ function bulkSendToBansalEmail() {
         // Disable button and show loading
         if (button) {
             button.disabled = true;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            button.innerHTML = '<i data-lucide="loader-2" class="lucide-spin"></i> Sending...';
             button.classList.add('loading');
         }
         
@@ -1347,7 +1347,7 @@ function bulkSendToBansalEmail() {
                 // Re-enable button on error
                 if (button) {
                     button.disabled = false;
-                    button.innerHTML = '<i class="fas fa-paper-plane"></i> Send to Bansal Email';
+                    button.innerHTML = '<i data-lucide="send"></i> Send to Bansal Email';
                     button.classList.remove('loading');
                 }
             }
@@ -1357,7 +1357,7 @@ function bulkSendToBansalEmail() {
             // Re-enable button on error
             if (button) {
                 button.disabled = false;
-                button.innerHTML = '<i class="fas fa-paper-plane"></i> Send to Bansal Email';
+                button.innerHTML = '<i data-lucide="send"></i> Send to Bansal Email';
                 button.classList.remove('loading');
             }
         });

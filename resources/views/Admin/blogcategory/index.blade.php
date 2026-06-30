@@ -409,12 +409,12 @@ input:checked + .modern-status-slider:before {
 						<div class="modern-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-folder-open"></i>
+									<i data-lucide="folder-open"></i>
 									Blog Categories Management
 								</h4>
 								<div class="modern-header-actions">
 									<a href="{{route('admin.blogcategory.create')}}" class="modern-btn modern-btn-primary">
-										<i class="fas fa-plus"></i>
+										<i data-lucide="plus"></i>
 										Create New Category
 									</a>
 								</div>
@@ -425,21 +425,21 @@ input:checked + .modern-status-slider:before {
 								<div class="modern-stats-grid">
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon categories">
-											<i class="fas fa-folder"></i>
+											<i data-lucide="folder"></i>
 										</div>
 										<div class="modern-stat-value">{{ count($lists) }}</div>
 										<div class="modern-stat-label">Total Categories</div>
 									</div>
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon active">
-											<i class="fas fa-check-circle"></i>
+											<i data-lucide="circle-check"></i>
 										</div>
 										<div class="modern-stat-value">{{ $lists->where('status', 1)->count() }}</div>
 										<div class="modern-stat-label">Active Categories</div>
 									</div>
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon inactive">
-											<i class="fas fa-pause-circle"></i>
+											<i data-lucide="circle-pause"></i>
 										</div>
 										<div class="modern-stat-value">{{ $lists->where('status', 0)->count() }}</div>
 										<div class="modern-stat-label">Inactive Categories</div>
@@ -477,10 +477,10 @@ input:checked + .modern-status-slider:before {
 												<td>
 													<div class="modern-parent-category">
 														@if($list->parent)
-															<i class="fas fa-folder text-muted"></i>
+															<i data-lucide="folder" class="text-muted"></i>
 															{{ $list->parent->name }}
 														@else
-															<i class="fas fa-minus text-muted"></i>
+															<i data-lucide="minus" class="text-muted"></i>
 															<span class="text-muted">Root Category</span>
 														@endif
 													</div>
@@ -494,11 +494,11 @@ input:checked + .modern-status-slider:before {
 												<td>
 													<div class="modern-actions">
 														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{URL::to('/admin/blogcategories/edit/'.base64_encode(convert_uuencode($list->id)))}}">
-															<i class="fas fa-edit"></i>
+															<i data-lucide="pencil"></i>
 															Edit
 														</a>
 														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction({{$list->id}}, 'blog_categories')">
-															<i class="fas fa-trash"></i>
+															<i data-lucide="trash-2"></i>
 															Delete
 														</a>
 													</div>
@@ -511,12 +511,12 @@ input:checked + .modern-status-slider:before {
 								@else
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
-										<i class="fas fa-folder-open"></i>
+										<i data-lucide="folder-open"></i>
 									</div>
 									<h3 class="modern-empty-title">No Categories Found</h3>
 									<p class="modern-empty-description">Get started by creating your first blog category</p>
 									<a href="{{route('admin.blogcategory.create')}}" class="modern-btn modern-btn-primary">
-										<i class="fas fa-plus"></i>
+										<i data-lucide="plus"></i>
 										Create First Category
 									</a>
 								</div>
@@ -553,7 +553,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.add('loading');
                 const icon = this.querySelector('i');
                 if (icon) {
-                    icon.className = 'fas fa-spinner fa-spin';
+                    window.setLucideIcon(icon, 'loader-2', { spin: true });
                 }
             }
         });

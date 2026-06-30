@@ -660,14 +660,14 @@
 						<div class="modern-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-calendar-check"></i>
+									<i data-lucide="calendar-check"></i>
 									Appointments Management
 								</h4>
 								<div class="modern-header-actions">
 									<form action="{{ route('appointments.index') }}" method="get" class="modern-search-form">
 										<input type="text" class="modern-search-input" placeholder="Search by client reference or description" name="q" value="{{ request('q') }}">
 										<button type="submit" class="modern-search-btn">
-											<i class="fas fa-search"></i>
+											<i data-lucide="search"></i>
 										</button>
 									</form>
 								</div>
@@ -683,7 +683,7 @@
 												<h3>{{ count($appointments) }}</h3>
 											</div>
 											<div class="modern-stat-icon total">
-												<i class="fas fa-calendar-check"></i>
+												<i data-lucide="calendar-check"></i>
 											</div>
 										</div>
 									</div>
@@ -694,7 +694,7 @@
 												<h3>{{ $appointments->where('status', 0)->count() }}</h3>
 											</div>
 											<div class="modern-stat-icon pending">
-												<i class="fas fa-clock"></i>
+												<i data-lucide="clock"></i>
 											</div>
 										</div>
 									</div>
@@ -705,7 +705,7 @@
 												<h3>{{ $appointments->where('status', 1)->count() }}</h3>
 											</div>
 											<div class="modern-stat-icon approved">
-												<i class="fas fa-check-circle"></i>
+												<i data-lucide="circle-check"></i>
 											</div>
 										</div>
 									</div>
@@ -716,7 +716,7 @@
 												<h3>{{ $appointments->where('status', 2)->count() }}</h3>
 											</div>
 											<div class="modern-stat-icon completed">
-												<i class="fas fa-check-double"></i>
+												<i data-lucide="check-check"></i>
 											</div>
 										</div>
 									</div>
@@ -782,51 +782,51 @@
 												<td>
 													@if($appointment->status == 0)
 														<span class="modern-status-badge pending">
-															<i class="fas fa-clock"></i> Pending
+															<i data-lucide="clock"></i> Pending
 														</span>
 													@elseif($appointment->status == 1)
 														<span class="modern-status-badge approved">
-															<i class="fas fa-check-circle"></i> Approved
+															<i data-lucide="circle-check"></i> Approved
 														</span>
 													@elseif($appointment->status == 2)
 														<span class="modern-status-badge completed">
-															<i class="fas fa-check-double"></i> Completed
+															<i data-lucide="check-check"></i> Completed
 														</span>
 													@elseif($appointment->status == 3)
 														<span class="modern-status-badge rejected">
-															<i class="fas fa-times-circle"></i> Rejected
+															<i data-lucide="circle-x"></i> Rejected
 														</span>
 													@elseif($appointment->status == 4)
 														<span class="modern-status-badge inprogress">
-															<i class="fas fa-spinner"></i> N/P
+															<i data-lucide="loader-2"></i> N/P
 														</span>
 													@elseif($appointment->status == 5)
 														<span class="modern-status-badge inprogress">
-															<i class="fas fa-play-circle"></i> In Progress
+															<i data-lucide="circle-play"></i> In Progress
 														</span>
 													@elseif($appointment->status == 6)
 														<span class="modern-status-badge cancelled">
-															<i class="fas fa-user-times"></i> Did Not Come
+															<i data-lucide="user-x"></i> Did Not Come
 														</span>
 													@elseif($appointment->status == 7)
 														<span class="modern-status-badge cancelled">
-															<i class="fas fa-ban"></i> Cancelled
+															<i data-lucide="ban"></i> Cancelled
 														</span>
 													@elseif($appointment->status == 8)
 														<span class="modern-status-badge cancelled">
-															<i class="fas fa-exclamation-triangle"></i> Missed
+															<i data-lucide="triangle-alert"></i> Missed
 														</span>
 													@elseif($appointment->status == 9)
 														<span class="modern-status-badge pending">
-															<i class="fas fa-credit-card"></i> Payment Pending
+															<i data-lucide="credit-card"></i> Payment Pending
 														</span>
 													@elseif($appointment->status == 10)
 														<span class="modern-status-badge approved">
-															<i class="fas fa-check-circle"></i> Payment Success
+															<i data-lucide="circle-check"></i> Payment Success
 														</span>
 													@elseif($appointment->status == 11)
 														<span class="modern-status-badge rejected">
-															<i class="fas fa-times-circle"></i> Payment Failed
+															<i data-lucide="circle-x"></i> Payment Failed
 														</span>
 													@endif
 												</td>
@@ -834,16 +834,16 @@
 													<div class="modern-actions">
 														<form action="{{ route('appointments.destroy',$appointment->id) }}" method="POST">
 															<a class="modern-btn modern-btn-info modern-btn-sm" href="{{ route('appointments.show',$appointment->id) }}">
-																<i class="fas fa-eye"></i> Show
+																<i data-lucide="eye"></i> Show
 															</a>
 															<a class="modern-btn modern-btn-primary modern-btn-sm" href="{{route('appointments.edit',$appointment->id)}}">
-																<i class="fas fa-edit"></i> Edit
+																<i data-lucide="pencil"></i> Edit
 															</a>
 															
 															@csrf
 															@method('DELETE')
 															<button type="submit" class="modern-btn modern-btn-danger modern-btn-sm" onclick="return confirm('Are you sure you want to delete this appointment?')">
-																<i class="fas fa-trash"></i> Delete
+																<i data-lucide="trash-2"></i> Delete
 															</button>
 														</form>
 													</div>
@@ -863,7 +863,7 @@
 								@else
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
-										<i class="fas fa-calendar-check"></i>
+										<i data-lucide="calendar-check"></i>
 									</div>
 									<h3 class="modern-empty-title">No Appointments Found</h3>
 									<p class="modern-empty-description">No appointments match your current search criteria</p>
@@ -897,7 +897,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.add('loading');
                 const icon = this.querySelector('i');
                 if (icon) {
-                    icon.className = 'fas fa-spinner fa-spin';
+                    window.setLucideIcon(icon, 'loader-2', { spin: true });
                 }
             }
         });

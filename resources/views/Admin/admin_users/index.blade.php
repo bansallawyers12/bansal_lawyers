@@ -450,7 +450,7 @@
                 <div class="modern-card">
                     <div class="modern-card-header">
                         <h1 class="modern-card-title">
-                            <i class="fas fa-users-cog"></i>
+                            <i data-lucide="users"></i>
                             Admin Users Management
                         </h1>
                         <div class="modern-header-actions">
@@ -472,7 +472,7 @@
                                 </div>
                                 <div class="button-container">
                                     <a href="{{ route('admin.admin_users.create') }}" class="modern-btn modern-btn-primary">
-                                        <i class="fas fa-plus"></i> Add New Admin
+                                        <i data-lucide="plus"></i> Add New Admin
                                     </a>
                                 </div>
                             </div>
@@ -500,10 +500,10 @@
                                 </div>
                                 <div class="filter-buttons">
                                     <button type="submit" class="modern-btn modern-btn-primary">
-                                        <i class="fas fa-search"></i> Filter
+                                        <i data-lucide="search"></i> Filter
                                     </button>
                                     <a href="{{ route('admin.admin_users.index') }}" class="modern-btn modern-btn-secondary">
-                                        <i class="fas fa-refresh"></i> Clear
+                                        <i data-lucide="refresh-cw"></i> Clear
                                     </a>
                                 </div>
                             </div>
@@ -518,14 +518,14 @@
                             <table class="modern-table">
                                 <thead>
                                     <tr>
-                                        <th><i class="fas fa-hashtag me-2"></i>ID</th>
-                                        <th><i class="fas fa-user me-2"></i>Name</th>
-                                        <th><i class="fas fa-envelope me-2"></i>Email</th>
-                                        <th><i class="fas fa-building me-2"></i>Company</th>
-                                        <th><i class="fas fa-phone me-2"></i>Phone</th>
-                                        <th><i class="fas fa-toggle-on me-2"></i>Status</th>
-                                        <th><i class="fas fa-calendar me-2"></i>Created</th>
-                                        <th><i class="fas fa-cog me-2"></i>Actions</th>
+                                        <th><i data-lucide="hash" class="me-2"></i>ID</th>
+                                        <th><i data-lucide="user" class="me-2"></i>Name</th>
+                                        <th><i data-lucide="mail" class="me-2"></i>Email</th>
+                                        <th><i data-lucide="building-2" class="me-2"></i>Company</th>
+                                        <th><i data-lucide="phone" class="me-2"></i>Phone</th>
+                                        <th><i data-lucide="toggle-right" class="me-2"></i>Status</th>
+                                        <th><i data-lucide="calendar" class="me-2"></i>Created</th>
+                                        <th><i data-lucide="settings" class="me-2"></i>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -549,19 +549,19 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <i class="fas fa-envelope text-muted me-2"></i>
+                                                    <i data-lucide="mail" class="text-muted me-2"></i>
                                                     <span>{{ $list->email }}</span>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <i class="fas fa-building text-muted me-2"></i>
+                                                    <i data-lucide="building-2" class="text-muted me-2"></i>
                                                     <span>{{ $list->company_name ?? 'N/A' }}</span>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <i class="fas fa-phone text-muted me-2"></i>
+                                                    <i data-lucide="phone" class="text-muted me-2"></i>
                                                     <span>{{ $list->phone ?? 'N/A' }}</span>
                                                 </div>
                                             </td>
@@ -569,23 +569,23 @@
                                                 <div class="d-flex flex-column gap-1">
                                                     @if($list->status == 1)
                                                         <span class="modern-badge modern-badge-success">
-                                                            <i class="fas fa-check-circle"></i> Active
+                                                            <i data-lucide="circle-check"></i> Active
                                                         </span>
                                                     @else
                                                         <span class="modern-badge modern-badge-danger">
-                                                            <i class="fas fa-times-circle"></i> Inactive
+                                                            <i data-lucide="circle-x"></i> Inactive
                                                         </span>
                                                     @endif
                                                     @if($list->is_archived == 1)
                                                         <span class="modern-badge modern-badge-warning">
-                                                            <i class="fas fa-archive"></i> Archived
+                                                            <i data-lucide="archive"></i> Archived
                                                         </span>
                                                     @endif
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <i class="fas fa-calendar text-muted me-2"></i>
+                                                    <i data-lucide="calendar" class="text-muted me-2"></i>
                                                     <div>
                                                         <div>{{ $list->created_at->format('M d, Y') }}</div>
                                                         <small class="text-muted">{{ $list->created_at->diffForHumans() }}</small>
@@ -597,7 +597,7 @@
                                                     <a href="{{ route('admin.admin_users.edit', $list->id) }}" 
                                                        class="modern-action-btn modern-action-btn-edit" 
                                                        title="Edit User">
-                                                        <i class="fas fa-edit"></i>
+                                                        <i data-lucide="pencil"></i>
                                                     </a>
                                                     
                                                     @if($list->status == 1)
@@ -605,14 +605,14 @@
                                                                 class="modern-action-btn modern-action-btn-disable" 
                                                                 onclick="updateAction({{ $list->id }}, 1, 'admins', 'status')" 
                                                                 title="Disable User">
-                                                            <i class="fas fa-ban"></i>
+                                                            <i data-lucide="ban"></i>
                                                         </button>
                                                     @else
                                                         <button type="button" 
                                                                 class="modern-action-btn modern-action-btn-enable" 
                                                                 onclick="updateAction({{ $list->id }}, 0, 'admins', 'status')" 
                                                                 title="Enable User">
-                                                            <i class="fas fa-check"></i>
+                                                            <i data-lucide="check"></i>
                                                         </button>
                                                     @endif
                                                     
@@ -621,14 +621,14 @@
                                                                 class="modern-action-btn modern-action-btn-archive" 
                                                                 onclick="archiveAction({{ $list->id }}, 'admins')" 
                                                                 title="Archive User">
-                                                            <i class="fas fa-archive"></i>
+                                                            <i data-lucide="archive"></i>
                                                         </button>
                                                     @else
                                                         <button type="button" 
                                                                 class="modern-action-btn modern-action-btn-restore" 
                                                                 onclick="archiveAction({{ $list->id }}, 'admins')" 
                                                                 title="Restore User">
-                                                            <i class="fas fa-undo"></i>
+                                                            <i data-lucide="undo-2"></i>
                                                         </button>
                                                     @endif
                                                 </div>
@@ -639,11 +639,11 @@
                             </table>
                         @else
                             <div class="modern-no-data">
-                                <i class="fas fa-users-slash"></i>
+                                <i data-lucide="users"></i>
                                 <h4>No Admin Users Found</h4>
                                 <p>No admin users match your current search criteria.</p>
                                 <a href="{{ route('admin.admin_users.create') }}" class="modern-btn modern-btn-primary mt-3">
-                                    <i class="fas fa-plus"></i> Add First Admin User
+                                    <i data-lucide="plus"></i> Add First Admin User
                                 </a>
                             </div>
                         @endif
@@ -655,8 +655,8 @@
                     <div class="modern-pagination">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <p class="text-muted mb-0">
-                                    <i class="fas fa-info-circle me-2"></i>
+                                <p class="modern-pagination-meta">
+                                    <i data-lucide="info" class="me-2"></i>
                                     Showing {{ $lists->firstItem() }} to {{ $lists->lastItem() }} of {{ $totalData }} results
                                 </p>
                             </div>

@@ -2371,7 +2371,7 @@
         <div class="hero-content">
             <div class="hero-text">
                 <div class="hero-badge">
-                    <i class="fa fa-gavel"></i>
+                    <i data-lucide="gavel"></i>
                     <span>Licensed Lawyers</span>
                 </div>
                 <h1>Expert Legal Consultation</h1>
@@ -2389,7 +2389,7 @@
                 <div class="feature-grid">
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fa fa-users"></i>
+                            <i data-lucide="users"></i>
                         </div>
                         <h3>Multiple Consultation Options</h3>
                         <p>In-person, phone, or video consultations - choose what works best for you.</p>
@@ -2397,7 +2397,7 @@
                     
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fa fa-shield"></i>
+                            <i data-lucide="shield"></i>
                         </div>
                         <h3>Confidential & Secure</h3>
                         <p>Your information is protected with the highest level of confidentiality.</p>
@@ -2405,7 +2405,7 @@
                     
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fa fa-map-signs"></i>
+                            <i data-lucide="map"></i>
                         </div>
                         <h3>Clear Next Steps</h3>
                         <p>Leave with a clear action plan tailored to your specific situation.</p>
@@ -2413,7 +2413,7 @@
                     
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fa fa-calendar"></i>
+                            <i data-lucide="calendar"></i>
                         </div>
                         <h3>Flexible Scheduling</h3>
                         <p>Book appointments that fit your schedule, including evenings and weekends.</p>
@@ -2421,7 +2421,7 @@
                     
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fa fa-refresh"></i>
+                            <i data-lucide="refresh-cw"></i>
                         </div>
                         <h3>Cancellation Policy</h3>
                         <p>Free cancellation/rescheduling up to 24 hours in advance.</p>
@@ -2429,7 +2429,7 @@
                     
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <i class="fa fa-phone"></i>
+                            <i data-lucide="phone"></i>
                         </div>
                         <h3>Emergency Support</h3>
                         <p>Urgent matters? Contact us directly for priority consultation.</p>
@@ -2439,26 +2439,26 @@
             
             <div class="trust-badges">
                 <div class="trust-badge">
-                    <i class="fa fa-gavel"></i>
+                    <i data-lucide="gavel"></i>
                     <span>Licensed Lawyers</span>
                 </div>
                 <div class="trust-badge">
-                    <i class="fa fa-shield"></i>
+                    <i data-lucide="shield"></i>
                     <span>Client Confidentiality</span>
                 </div>
                 <div class="trust-badge">
-                    <i class="fa fa-star"></i>
+                    <i data-lucide="star"></i>
                     <span>5-Star Rated</span>
                 </div>
                 <div class="trust-badge">
-                    <i class="fa fa-clock-o"></i>
+                    <i data-lucide="clock"></i>
                     <span>Quick Response</span>
                 </div>
             </div>
             
             <div class="hero-contact">
                 <div class="contact-content">
-                    <h3><i class="fa fa-phone"></i> Need Immediate Assistance?</h3>
+                    <h3><i data-lucide="phone"></i> Need Immediate Assistance?</h3>
                     <p>Call us at <strong>1300 BANSAL (1300 226 725)</strong> or email for personalized help with your booking.</p>
                 </div>
             </div>
@@ -2480,27 +2480,27 @@
                     <ul class="experimental-tab-nav">
                         <li>
                             <a href="#consultation_duration" class="experimental-tab-link active" data-tab="consultation_duration">
-                                <i class="fa fa-clock-o me-2"></i>Duration
+                                <i data-lucide="clock" class="me-2"></i>Duration
                             </a>
                         </li>
                         <li>
                             <a href="#consultation_type" class="experimental-tab-link disabled" data-tab="consultation_type">
-                                <i class="fa fa-calendar me-2"></i>Consultation Type
+                                <i data-lucide="calendar" class="me-2"></i>Consultation Type
                             </a>
                         </li>
                         <li>
                             <a href="#appointment_details" class="experimental-tab-link disabled" data-tab="appointment_details">
-                                <i class="fa fa-calendar-check-o me-2"></i>Date & Time
+                                <i data-lucide="calendar-check" class="me-2"></i>Date & Time
                             </a>
                         </li>
                         <li>
                             <a href="#info" class="experimental-tab-link disabled" data-tab="info">
-                                <i class="fa fa-user me-2"></i>Your Information
+                                <i data-lucide="user" class="me-2"></i>Your Information
                             </a>
                         </li>
                         <li>
                             <a href="#confirm" class="experimental-tab-link disabled" data-tab="confirm">
-                                <i class="fa fa-check-circle me-2"></i>Confirmation
+                                <i data-lucide="circle-check" class="me-2"></i>Confirmation
                             </a>
                         </li>
                     </ul>
@@ -2509,7 +2509,7 @@
                 <!-- Tab Content -->
                 <div class="experimental-tab-content active" id="consultation_duration">
                     <div class="consultation-header">
-                        <h3><i class="fa fa-clock-o"></i> Choose Your Consultation Duration</h3>
+                        <h3><i data-lucide="clock"></i> Choose Your Consultation Duration</h3>
                         <p class="consultation-subtitle">Select how much time you need. All options include expert legal advice from our Melbourne team.</p>
                     </div>
 
@@ -2520,7 +2520,10 @@
                             <label for="duration_{{ $svc['id'] }}">
                                 <div class="service-header">
                                     <div class="service-icon">
-                                        <i class="fa fa-{{ $svc['is_free'] ? 'gift' : ($svc['duration'] >= 60 ? 'hourglass-half' : 'clock-o') }}"></i>
+                                        @php
+                                            $durationIcon = $svc['is_free'] ? 'gift' : ($svc['duration'] >= 60 ? 'hourglass' : 'clock');
+                                        @endphp
+                                        <i data-lucide="{{ $durationIcon }}" aria-hidden="true"></i>
                                     </div>
                                     <div class="service-title-section">
                                         <div class="experimental-service-title">{{ $svc['duration_label'] }} Consultation</div>
@@ -2551,7 +2554,7 @@
 
                 <div class="experimental-tab-content" id="consultation_type">
                     <div class="consultation-header">
-                        <h3><i class="fa fa-calendar-plus-o"></i> Choose Your Consultation Type</h3>
+                        <h3><i data-lucide="calendar-plus"></i> Choose Your Consultation Type</h3>
                         <p class="consultation-subtitle">Select the consultation method that works best for you. All consultations include expert legal advice and a clear action plan.</p>
                         <div class="consultation-price">
                             <span class="price-label">Selected duration:</span>
@@ -2566,7 +2569,7 @@
                                 <label for="inperson" style="cursor: pointer; width: 100%;">
                                     <div class="service-header">
                                         <div class="service-icon">
-                                            <i class="fa fa-building"></i>
+                                            <i data-lucide="building-2"></i>
                                         </div>
                                         <div class="service-title-section">
                                             <div class="experimental-service-title">In-Person Consultation</div>
@@ -2578,9 +2581,9 @@
                                         <strong>Perfect for complex cases</strong> - Meet face-to-face with our experienced lawyers at our Melbourne office. Ideal for detailed document review, sensitive matters, and when you need the full personal touch.
                                     </div>
                                     <div class="service-benefits">
-                                        <span class="benefit-item"><i class="fa fa-check"></i> Document review</span>
-                                        <span class="benefit-item"><i class="fa fa-check"></i> Personal interaction</span>
-                                        <span class="benefit-item"><i class="fa fa-check"></i> Secure environment</span>
+                                        <span class="benefit-item"><i data-lucide="check"></i> Document review</span>
+                                        <span class="benefit-item"><i data-lucide="check"></i> Personal interaction</span>
+                                        <span class="benefit-item"><i data-lucide="check"></i> Secure environment</span>
                                     </div>
                                 </label>
                             </div>
@@ -2590,7 +2593,7 @@
                                 <label for="phone" style="cursor: pointer; width: 100%;">
                                     <div class="service-header">
                                         <div class="service-icon">
-                                            <i class="fa fa-phone"></i>
+                                            <i data-lucide="phone"></i>
                                         </div>
                                         <div class="service-title-section">
                                             <div class="experimental-service-title">Phone Consultation</div>
@@ -2602,9 +2605,9 @@
                                         <strong>Convenient and accessible</strong> - Get expert legal advice from anywhere in Australia. Perfect for initial consultations, quick questions, and when you need immediate guidance.
                                     </div>
                                     <div class="service-benefits">
-                                        <span class="benefit-item"><i class="fa fa-check"></i> From anywhere</span>
-                                        <span class="benefit-item"><i class="fa fa-check"></i> Immediate advice</span>
-                                        <span class="benefit-item"><i class="fa fa-check"></i> Flexible timing</span>
+                                        <span class="benefit-item"><i data-lucide="check"></i> From anywhere</span>
+                                        <span class="benefit-item"><i data-lucide="check"></i> Immediate advice</span>
+                                        <span class="benefit-item"><i data-lucide="check"></i> Flexible timing</span>
                                     </div>
                                 </label>
                             </div>
@@ -2614,7 +2617,7 @@
                                 <label for="video" style="cursor: pointer; width: 100%;">
                                     <div class="service-header">
                                         <div class="service-icon">
-                                            <i class="fa fa-video-camera"></i>
+                                            <i data-lucide="video"></i>
                                         </div>
                                         <div class="service-title-section">
                                             <div class="experimental-service-title">Video Consultation</div>
@@ -2626,9 +2629,9 @@
                                         <strong>Best of both worlds</strong> - Secure video calls via Zoom or Google Meet. Enjoy face-to-face interaction from the comfort of your home with screen sharing capabilities.
                                     </div>
                                     <div class="service-benefits">
-                                        <span class="benefit-item"><i class="fa fa-check"></i> Visual interaction</span>
-                                        <span class="benefit-item"><i class="fa fa-check"></i> Screen sharing</span>
-                                        <span class="benefit-item"><i class="fa fa-check"></i> Home comfort</span>
+                                        <span class="benefit-item"><i data-lucide="check"></i> Visual interaction</span>
+                                        <span class="benefit-item"><i data-lucide="check"></i> Screen sharing</span>
+                                        <span class="benefit-item"><i data-lucide="check"></i> Home comfort</span>
                                     </div>
                                 </label>
                             </div>
@@ -2638,10 +2641,10 @@
                 <div class="experimental-tab-content" id="appointment_details">
                     <div class="modern-booking-section">
                         <div class="booking-header">
-                            <h3><i class="fa fa-calendar"></i> Select Date & Time</h3>
+                            <h3><i data-lucide="calendar"></i> Select Date & Time</h3>
                             <p class="booking-subtitle">Choose your preferred consultation time from the available slots</p>
                             <div class="timezone-info">
-                                <i class="fa fa-clock-o"></i> 
+                                <i data-lucide="clock"></i> 
                                 <span>All times are in Melbourne, Australia time (AEST/AEDT)</span>
                             </div>
                         </div>
@@ -2650,13 +2653,13 @@
                             <!-- Date Navigation -->
                             <div class="date-navigation">
                                 <button type="button" class="nav-btn prev-week" id="prevWeek">
-                                    <i class="fa fa-chevron-left"></i>
+                                    <i data-lucide="chevron-left"></i>
                                 </button>
                                 <div class="current-week" id="currentWeek">
                                     <!-- Week dates will be populated here -->
                                 </div>
                                 <button type="button" class="nav-btn next-week" id="nextWeek">
-                                    <i class="fa fa-chevron-right"></i>
+                                    <i data-lucide="chevron-right"></i>
                                 </button>
                             </div>
                             
@@ -2696,13 +2699,13 @@
                         
                         <!-- Error message -->
                         <div class="booking-error" id="bookingError" style="display: none;">
-                            <i class="fa fa-exclamation-triangle"></i>
+                            <i data-lucide="triangle-alert"></i>
                             <span>Please select both a date and time for your consultation</span>
                         </div>
                         
                         <!-- Urgency notice at bottom -->
                         <div class="urgency-notice" style="margin-top: 30px;">
-                            <i class="fa fa-clock-o"></i>
+                            <i data-lucide="clock"></i>
                             <span>Limited spots available this week - Book now to secure your preferred time</span>
                         </div>
                     </div>
@@ -2716,7 +2719,7 @@
                 <div class="experimental-tab-content" id="info">
                     <!-- Selection Summary -->
                     <div class="experimental-selection-summary">
-                        <h4><i class="fa fa-check-circle me-2"></i>Your Selection Summary</h4>
+                        <h4><i data-lucide="circle-check" class="me-2"></i>Your Selection Summary</h4>
                         <div class="summary-items">
                             <div class="summary-item">
                                 <strong>Duration:</strong>
@@ -2800,11 +2803,11 @@
                     
                     <!-- Coupon Code Section -->
                     <div class="experimental-coupon-section">
-                        <h4><i class="fa fa-ticket me-2"></i>Have a Promo Code?</h4>
+                        <h4><i data-lucide="ticket" class="me-2"></i>Have a Promo Code?</h4>
                         <div class="coupon-input-group">
                             <input type="text" class="experimental-form-control coupon-code" placeholder="Enter your promo code" name="coupon_code" id="coupon_code">
                             <button type="button" class="experimental-btn btn-apply-coupon" id="apply_coupon">
-                                <i class="fa fa-check me-2"></i>Apply
+                                <i data-lucide="check" class="me-2"></i>Apply
                             </button>
                         </div>
                         <div class="coupon-message" id="coupon_message" style="display: none;"></div>
@@ -2828,7 +2831,7 @@
                     
                     <div class="final-cta-section">
                         <div class="final-motivation">
-                            <h4><i class="fa fa-star"></i> You're Almost There!</h4>
+                            <h4><i data-lucide="star"></i> You're Almost There!</h4>
                             <p>Complete your booking now and take the first step towards resolving your legal matter with confidence. Our expert team is ready to help you succeed.</p>
                         </div>
                         
@@ -2836,10 +2839,10 @@
 
                         <div class="final-cta-buttons">
                             <button type="button" class="experimental-btn btn-back" data-prev="info">
-                                <i class="fa fa-arrow-left"></i> Back
+                                <i data-lucide="arrow-left"></i> Back
                             </button>
                             <button type="button" class="experimental-btn submitappointment_paid final-submit-btn" id="booking-submit-btn">
-                                <i class="fa fa-credit-card"></i>
+                                <i data-lucide="credit-card"></i>
                                 <span class="btn-text">Complete Booking</span>
                                 <span class="btn-price">$0.00 AUD</span>
                             </button>
@@ -2847,15 +2850,15 @@
                         
                         <div class="final-guarantees">
                             <div class="guarantee-item">
-                                <i class="fa fa-shield"></i>
+                                <i data-lucide="shield"></i>
                                 <span>Secure Payment</span>
                             </div>
                             <div class="guarantee-item">
-                                <i class="fa fa-clock-o"></i>
+                                <i data-lucide="clock"></i>
                                 <span>Instant Confirmation</span>
                             </div>
                             <div class="guarantee-item">
-                                <i class="fa fa-undo"></i>
+                                <i data-lucide="undo-2"></i>
                                 <span>Free Rescheduling</span>
                             </div>
                         </div>
@@ -2871,7 +2874,7 @@
 <!-- Free consultation terms modal -->
 <div class="free-consult-modal-overlay" id="freeConsultModal" role="dialog" aria-modal="true" aria-labelledby="freeConsultModalTitle">
     <div class="free-consult-modal">
-        <h3 id="freeConsultModalTitle"><i class="fa fa-info-circle"></i> Free 10-Minute Consultation</h3>
+        <h3 id="freeConsultModalTitle"><i data-lucide="info"></i> Free 10-Minute Consultation</h3>
         <p style="color:#555; margin-bottom:16px;">Please read and confirm the following before continuing:</p>
         <ul>
             <li><strong>First-time clients only</strong> — This free consultation is available once per client.</li>
@@ -2894,12 +2897,12 @@
 <!-- Floating Navigation -->
 <div class="floating-nav" id="floatingNav">
     <button type="button" class="floating-btn btn-back" id="floatingBackBtn" style="display: none;">
-        <i class="fa fa-arrow-left"></i>
+        <i data-lucide="arrow-left"></i>
         Back
     </button>
     <button type="button" class="floating-btn" id="floatingNextBtn" style="display: none;">
         <span class="btn-text">Next</span>
-        <i class="fa fa-arrow-right"></i>
+        <i data-lucide="arrow-right"></i>
     </button>
 </div>
 
@@ -3162,17 +3165,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateSubmitButtonLabel(amount) {
         var $btn = $('#booking-submit-btn');
         if (amount <= 0) {
-            $btn.find('i').attr('class', 'fa fa-check');
+            $btn.find('i').attr('data-lucide', 'check').removeAttr('class'); window.refreshLucideIcons && window.refreshLucideIcons($btn[0]);
             $btn.find('.btn-text').text('Complete Booking');
         } else {
-            $btn.find('i').attr('class', 'fa fa-credit-card');
+            $btn.find('i').attr('data-lucide', 'credit-card').removeAttr('class'); window.refreshLucideIcons && window.refreshLucideIcons($btn[0]);
             $btn.find('.btn-text').text('Complete Booking');
         }
     }
 
     function resetCouponFields(showMessage) {
         $('#coupon_code').val('').prop('disabled', false);
-        $('#apply_coupon').prop('disabled', false).html('<i class="fa fa-check me-2"></i>Apply');
+        $('#apply_coupon').prop('disabled', false).html('<i data-lucide="check" class="me-2"></i>Apply');
         $('input[name="coupon_code"]').val('');
         $('input[name="promo_code"]').val('');
         $('input[name="discount_amount"]').val('');
@@ -3263,10 +3266,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
      var floatingNextBtnTemplates = {
-         next: '<span class="btn-text">Next</span><i class="fa fa-arrow-right"></i>',
-         review: '<span class="btn-text">Review & Confirm</span><i class="fa fa-arrow-right"></i>',
-         complete: '<i class="fa fa-check me-2"></i><span class="btn-text">Complete Booking</span>',
-         pay: '<i class="fa fa-credit-card me-2"></i><span class="btn-text">Pay &amp; Submit</span>'
+         next: '<span class="btn-text">Next</span><i data-lucide="arrow-right"></i>',
+         review: '<span class="btn-text">Review & Confirm</span><i data-lucide="arrow-right"></i>',
+         complete: '<i data-lucide="check" class="me-2"></i><span class="btn-text">Complete Booking</span>',
+         pay: '<i data-lucide="credit-card" class="me-2"></i><span class="btn-text">Pay &amp; Submit</span>'
      };
 
      // Only replace button markup when the mode actually changes (avoids cancelling clicks mid-press)
@@ -4400,7 +4403,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         var $btn = $(this);
-        $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-1"></i>Checking...');
+        $btn.prop('disabled', true).html('<i data-lucide="loader-2" class="me-1 lucide-spin"></i>Checking...');
 
         $.ajax({
             url: window.bansalAppUrl + '/promo-code/check',
@@ -4429,14 +4432,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     $('input[name="discount_percentage"]').val(response.discount_percentage);
 
                     $('#coupon_code').prop('disabled', true);
-                    $btn.prop('disabled', true).html('<i class="fa fa-check me-1"></i>Applied');
+                    $btn.prop('disabled', true).html('<i data-lucide="check" class="me-1"></i>Applied');
 
                     if (!$('#reset_coupon').length) {
-                        $btn.after('<button type="button" class="experimental-btn btn-reset-coupon" id="reset_coupon" style="background: #6c757d; margin-left: 10px;"><i class="fa fa-refresh me-2"></i>Reset</button>');
+                        $btn.after('<button type="button" class="experimental-btn btn-reset-coupon" id="reset_coupon" style="background: #6c757d; margin-left: 10px;"><i data-lucide="refresh-cw" class="me-2"></i>Reset</button>');
                     }
                 } else {
                     showCouponMessage(response.msg || 'Invalid promo code.', 'error');
-                    $btn.prop('disabled', false).html('<i class="fa fa-tag me-1"></i>Apply');
+                    $btn.prop('disabled', false).html('<i data-lucide="tag" class="me-1"></i>Apply');
                 }
             },
             error: function(xhr) {
@@ -4447,7 +4450,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     msg = (xhr.responseJSON && xhr.responseJSON.msg) ? xhr.responseJSON.msg : 'Invalid promo code.';
                 }
                 showCouponMessage(msg, 'error');
-                $btn.prop('disabled', false).html('<i class="fa fa-tag me-1"></i>Apply');
+                $btn.prop('disabled', false).html('<i data-lucide="tag" class="me-1"></i>Apply');
             }
         });
     });
@@ -4465,7 +4468,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create success message overlay
         var $overlay = $('<div class="success-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center;">' +
             '<div style="background: white; padding: 40px; border-radius: 10px; text-align: center; max-width: 500px; margin: 20px;">' +
-            '<div style="color: #28a745; font-size: 48px; margin-bottom: 20px;"><i class="fa fa-check-circle"></i></div>' +
+            '<div style="color: #28a745; font-size: 48px; margin-bottom: 20px;"><i data-lucide="circle-check"></i></div>' +
             '<h3 style="color: #28a745; margin-bottom: 20px;">Success!</h3>' +
             '<p style="color: #333; margin-bottom: 30px; font-size: 16px;">' + message + '</p>' +
             '<button onclick="$(this).closest(\'.success-overlay\').remove()" style="background: #28a745; color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 16px;">OK</button>' +
@@ -4478,7 +4481,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create error message overlay
         var $overlay = $('<div class="error-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center;">' +
             '<div style="background: white; padding: 40px; border-radius: 10px; text-align: center; max-width: 500px; margin: 20px;">' +
-            '<div style="color: #dc3545; font-size: 48px; margin-bottom: 20px;"><i class="fa fa-exclamation-triangle"></i></div>' +
+            '<div style="color: #dc3545; font-size: 48px; margin-bottom: 20px;"><i data-lucide="triangle-alert"></i></div>' +
             '<h3 style="color: #dc3545; margin-bottom: 20px;">Error</h3>' +
             '<p style="color: #333; margin-bottom: 30px; font-size: 16px;">' + message + '</p>' +
             '<button onclick="$(this).closest(\'.error-overlay\').remove()" style="background: #dc3545; color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 16px;">OK</button>' +

@@ -458,40 +458,40 @@
 						<div class="modern-card modern-main-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-envelope-open"></i>
+									<i data-lucide="mail-open"></i>
 									Contact Details
 								</h4>
 								<div class="modern-header-actions">
 									<a href="{{ route('admin.contacts.index') }}" class="modern-btn modern-btn-secondary">
-										<i class="fas fa-arrow-left"></i>
+										<i data-lucide="arrow-left"></i>
 										Back to List
 									</a>
 									@if($contact->status !== 'forwarded')
 									<button type="button" class="modern-btn modern-btn-primary" onclick="sendToBansalEmail()">
-										<i class="fas fa-paper-plane"></i>
+										<i data-lucide="send"></i>
 										Send to Bansal Email
 									</button>
 									@endif
 									<div class="modern-dropdown">
 										<button type="button" class="modern-btn modern-btn-warning modern-dropdown-toggle" 
 												onclick="toggleStatusDropdown()">
-											<i class="fas fa-edit"></i>
+											<i data-lucide="pencil"></i>
 											Change Status
 										</button>
 										<div class="modern-dropdown-menu" id="statusDropdown">
 											<a class="modern-dropdown-item" href="#" onclick="updateStatus('read')">
-												<i class="fas fa-eye"></i> Mark as Read
+												<i data-lucide="eye"></i> Mark as Read
 											</a>
 											<a class="modern-dropdown-item" href="#" onclick="updateStatus('resolved')">
-												<i class="fas fa-check-circle"></i> Mark as Resolved
+												<i data-lucide="circle-check"></i> Mark as Resolved
 											</a>
 											<a class="modern-dropdown-item" href="#" onclick="updateStatus('archived')">
-												<i class="fas fa-archive"></i> Archive
+												<i data-lucide="archive"></i> Archive
 											</a>
 										</div>
 									</div>
 									<button type="button" class="modern-btn modern-btn-danger" onclick="deleteContact()">
-										<i class="fas fa-trash"></i>
+										<i data-lucide="trash-2"></i>
 										Delete
 									</button>
 								</div>
@@ -503,7 +503,7 @@
 										<!-- Contact Information -->
 										<div class="modern-card">
 											<div class="modern-section-header">
-												<i class="fas fa-user"></i>
+												<i data-lucide="user"></i>
 												Contact Information
 											</div>
 											<div class="modern-card-body">
@@ -541,7 +541,7 @@
 										<!-- Message -->
 										<div class="modern-card">
 											<div class="modern-section-header">
-												<i class="fas fa-comment-alt"></i>
+												<i data-lucide="message-square"></i>
 												Message Content
 											</div>
 											<div class="modern-card-body">
@@ -556,7 +556,7 @@
 										<!-- Status Information -->
 										<div class="modern-card">
 											<div class="modern-section-header">
-												<i class="fas fa-info-circle"></i>
+												<i data-lucide="info"></i>
 												Status Information
 											</div>
 											<div class="modern-card-body">
@@ -565,19 +565,19 @@
 													<div class="modern-info-value">
 														@if($contact->status === 'forwarded')
 															<span class="modern-status-badge forwarded">
-																<i class="fas fa-paper-plane"></i>
+																<i data-lucide="send"></i>
 																Forwarded
 															</span>
 														@else
 															<span class="modern-status-badge {{ $contact->status ?? 'unread' }}">
 																@if(($contact->status ?? 'unread') == 'unread')
-																	<i class="fas fa-exclamation-circle"></i>
+																	<i data-lucide="circle-alert"></i>
 																@elseif($contact->status == 'read')
-																	<i class="fas fa-eye"></i>
+																	<i data-lucide="eye"></i>
 																@elseif($contact->status == 'resolved')
-																	<i class="fas fa-check-circle"></i>
+																	<i data-lucide="circle-check"></i>
 																@elseif($contact->status == 'archived')
-																	<i class="fas fa-archive"></i>
+																	<i data-lucide="archive"></i>
 																@endif
 																{{ ucfirst($contact->status ?? 'unread') }}
 															</span>
@@ -608,31 +608,31 @@
 										<!-- Quick Actions -->
 										<div class="modern-card">
 											<div class="modern-section-header">
-												<i class="fas fa-bolt"></i>
+												<i data-lucide="zap"></i>
 												Quick Actions
 											</div>
 											<div class="modern-card-body">
 												<div class="modern-quick-actions">
 													<a href="mailto:{{ $contact->contact_email }}?subject=Re: {{ $contact->subject }}" 
 													   class="modern-btn modern-btn-primary modern-btn-block">
-														<i class="fas fa-reply"></i>
+														<i data-lucide="reply"></i>
 														Reply via Email Client
 													</a>
 													
 													@if($contact->status !== 'forwarded')
 													<button type="button" class="modern-btn modern-btn-info modern-btn-block" onclick="sendToBansalEmail()">
-														<i class="fas fa-paper-plane"></i>
+														<i data-lucide="send"></i>
 														Send to Bansal Email
 													</button>
 													@endif
 													
 													<button type="button" class="modern-btn modern-btn-success modern-btn-block" onclick="copyToClipboard('{{ $contact->contact_email }}')">
-														<i class="fas fa-copy"></i>
+														<i data-lucide="copy"></i>
 														Copy Email Address
 													</button>
 													
 													<button type="button" class="modern-btn modern-btn-secondary modern-btn-block" onclick="copyContactDetails()">
-														<i class="fas fa-clipboard"></i>
+														<i data-lucide="clipboard"></i>
 														Copy All Details
 													</button>
 												</div>
@@ -642,7 +642,7 @@
 										<!-- Contact Summary -->
 										<div class="modern-card">
 											<div class="modern-section-header">
-												<i class="fas fa-chart-bar"></i>
+												<i data-lucide="chart-column"></i>
 												Summary
 											</div>
 											<div class="modern-card-body">
@@ -741,7 +741,7 @@ function copyToClipboard(text) {
         // Show temporary success message
         const btn = event.target.closest('button');
         const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.innerHTML = '<i data-lucide="check"></i> Copied!';
         btn.classList.add('modern-success-feedback');
         
         setTimeout(() => {
@@ -778,7 +778,7 @@ function sendToBansalEmail() {
         // Disable button and show loading
         if (button) {
             button.disabled = true;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            button.innerHTML = '<i data-lucide="loader-2" class="lucide-spin"></i> Sending...';
             button.classList.add('loading');
         }
         
@@ -806,7 +806,7 @@ function sendToBansalEmail() {
                 // Re-enable button on error
                 if (button) {
                     button.disabled = false;
-                    button.innerHTML = '<i class="fas fa-paper-plane"></i> Send to Bansal Email';
+                    button.innerHTML = '<i data-lucide="send"></i> Send to Bansal Email';
                     button.classList.remove('loading');
                 }
             }
@@ -817,7 +817,7 @@ function sendToBansalEmail() {
             // Re-enable button on error
             if (button) {
                 button.disabled = false;
-                button.innerHTML = '<i class="fas fa-paper-plane"></i> Send to Bansal Email';
+                button.innerHTML = '<i data-lucide="send"></i> Send to Bansal Email';
                 button.classList.remove('loading');
             }
         });

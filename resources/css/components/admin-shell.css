@@ -1,0 +1,179 @@
+/* Admin shell: header, footer, pagination (shared across admin pages) */
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-wrapper main {
+    flex: 1 0 auto;
+}
+
+.navbar-bg {
+    display: none;
+}
+
+.main-navbar {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    padding: 0.5rem 1.5rem;
+    width: 100%;
+    z-index: 900;
+}
+
+.main-navbar .nav-link {
+    color: #475569;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+}
+
+.main-navbar .nav-link:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.main-footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    color: #64748b;
+    font-size: 0.875rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer-left,
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-brand-link {
+    color: #1b4d89;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: none;
+}
+
+.footer-brand-link:hover {
+    color: #2c5aa0;
+    text-decoration: none;
+}
+
+/* Bootstrap pagination inside admin list pages */
+.modern-pagination {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.modern-pagination .pagination {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+}
+
+.modern-pagination .page-item {
+    display: inline-block;
+    list-style: none;
+}
+
+.modern-pagination .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 2px solid #e2e8f0;
+    color: #1e293b;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+.modern-pagination .page-link:hover {
+    background: #1b4d89;
+    border-color: #1b4d89;
+    color: #ffffff;
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.modern-pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, #1b4d89, #2c5aa0);
+    border-color: #1b4d89;
+    color: #ffffff;
+}
+
+.modern-pagination .page-item.disabled .page-link {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.modern-pagination .page-item.disabled .page-link:hover {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #94a3b8;
+}
+
+.modern-pagination .page-link[rel="prev"],
+.modern-pagination .page-link[rel="next"] {
+    padding: 0.5rem 1rem;
+}
+
+.modern-pagination .page-item .page-link[aria-disabled="true"] {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    cursor: default;
+    box-shadow: none;
+    min-width: auto;
+}
+
+.modern-pagination-meta {
+    color: #64748b;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .main-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 1rem 1.25rem;
+    }
+
+    .modern-pagination .d-flex.justify-content-between {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 1rem;
+    }
+
+    .modern-pagination .pagination {
+        justify-content: center;
+    }
+}

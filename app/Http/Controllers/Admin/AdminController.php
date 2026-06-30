@@ -595,19 +595,32 @@ class AdminController extends Controller
 
 						if($recordExist)
 						{
-
+							if ($requestData['table'] === 'admins' && Schema::hasColumn('admins', 'is_archived')) {
+								$admin = Admin::find($requestData['id']);
+								$isArchived = (int) ($admin->is_archived ?? 0) === 1 ? 0 : 1;
+								$updateData = ['is_archived' => $isArchived];
+								if (Schema::hasColumn('admins', 'archived_on')) {
+                                    $updateData['archived_on'] = $isArchived ? date('Y-m-d') : null;
+                                }
+								$response = DB::table('admins')->where('id', $requestData['id'])->update($updateData);
+								$message = $isArchived
+                                    ? 'Record has been archived successfully.'
+                                    : 'Record has been unarchived successfully.';
+							} else {
 								$updated_status = 1;
 								$message = 'Record has been archived successfully.';
 
-							$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update(['is_archive' => $updated_status]);
-							$getarchive 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->first();
-							if($getarchive->status == 0){
-								$astatus = '<span title="draft" class="ui label uppercase">Draft</span><span> (Archived)</span>';
-							}else if($getarchive->status == 1){
-								$astatus = '<span title="draft" class="ui label uppercase yellow">Sent</span><span> (Archived)</span>';
-							}else if($getarchive->status == 2){
-								$astatus = '<span title="draft" class="ui label uppercase text-danger">Declined</span><span> (Archived)</span>';
+								$response 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->update(['is_archive' => $updated_status]);
+								$getarchive 	= 	DB::table($requestData['table'])->where('id', $requestData['id'])->first();
+								if($getarchive->status == 0){
+									$astatus = '<span title="draft" class="ui label uppercase">Draft</span><span> (Archived)</span>';
+								}else if($getarchive->status == 1){
+									$astatus = '<span title="draft" class="ui label uppercase yellow">Sent</span><span> (Archived)</span>';
+								}else if($getarchive->status == 2){
+									$astatus = '<span title="draft" class="ui label uppercase text-danger">Declined</span><span> (Archived)</span>';
+								}
 							}
+
 							if($response)
 							{
 								$status = 1;
@@ -800,7 +813,7 @@ class AdminController extends Controller
 
 	public function sessions(Request $request)
 	{
-		return view('Admin.sessions');
+		return view('Admin.archive.sessions_old');
 	}
 
 

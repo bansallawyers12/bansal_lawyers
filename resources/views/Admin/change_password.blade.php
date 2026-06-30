@@ -74,7 +74,7 @@
 									@endif
 								</div>
 								<div class="form-group">
-										<button type="submit" class="btn btn-primary px-4"><i class="fa fa-refresh"></i> Change Password</button>
+										<button type="submit" class="btn btn-primary px-4"><i data-lucide="refresh-cw"></i> Change Password</button>
 								</div>
 									</div>    
 							</form>

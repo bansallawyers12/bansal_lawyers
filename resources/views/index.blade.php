@@ -463,7 +463,7 @@
                 <h2>There is no legal puzzle that we can't solve</h2>
                 <p>Expert legal services in Melbourne, Australia. We handle your legal matters with professionalism and care, so you can focus on what matters most.</p>
                 <a href="/book-an-appointment" class="hero-cta">
-                    Start Your Legal Consultation <i class="fa fa-arrow-right ms-2"></i>
+                    Start Your Legal Consultation <i data-lucide="arrow-right" class="ms-2"></i>
                 </a>
             </div>
         </div>
@@ -756,7 +756,7 @@
                     </h4>
                     <p style="color: #666; margin-bottom: 20px; line-height: 1.5; font-size: 0.95rem;">{{@$list->title}}</p>
                     <a href="{{ route('blog.detail', $list->slug) }}" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;">
-                        Read More <i class="fa fa-arrow-right" style="font-size: 0.8rem;"></i>
+                        Read More <i data-lucide="arrow-right" style="font-size: 0.8rem;"></i>
                     </a>
                 </div>
             </div>
@@ -788,11 +788,11 @@
                         </p>
                         <div class="mt-4">
                             <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
-                                <i class="fa fa-phone" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
+                                <i data-lucide="phone" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
                                 <span style="font-size: 1.1rem; font-weight: 500; color: #fff;">1300 BANSAL (1300 226 725)</span>
                             </div>
                             <div style="display: flex; align-items: center; justify-content: center;">
-                                <i class="fa fa-envelope" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
+                                <i data-lucide="mail" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
                                 <span style="font-size: 1.1rem; font-weight: 500; color: #fff;">info@bansallawyers.com.au</span>
                             </div>
                         </div>
@@ -803,14 +803,14 @@
                 <div style="background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
                     @if ($message = Session::get('success'))
                         <div class="alert alert-success" style="margin-bottom: 15px; border-radius: 8px; border: none; background: #28a745; color: white; padding: 8px 12px; font-size: 0.85rem;">
-                            <i class="fa fa-check-circle" style="margin-right: 6px;"></i>
+                            <i data-lucide="circle-check" style="margin-right: 6px;"></i>
                             <strong>Success!</strong> {{ $message }}
                         </div>
                     @endif
                     
                     @if ($errors instanceof \Illuminate\Support\ViewErrorBag && $errors->any())
                         <div class="alert alert-danger" style="margin-bottom: 15px; border-radius: 8px; border: none; background: #dc3545; color: white; padding: 8px 12px; font-size: 0.85rem;">
-                            <i class="fa fa-exclamation-triangle" style="margin-right: 6px;"></i>
+                            <i data-lucide="triangle-alert" style="margin-right: 6px;"></i>
                             <strong>Please correct the following errors:</strong>
                             <ul style="margin: 6px 0 0 0; padding-left: 12px; font-size: 0.8rem;">
                                 @foreach ($errors->all() as $error)

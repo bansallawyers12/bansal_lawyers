@@ -523,16 +523,16 @@
                         <div class="modern-card">
                             <div class="modern-card-header">
                                 <h4 class="modern-card-title">
-                                    <i class="fas fa-edit"></i>
+                                    <i data-lucide="pencil"></i>
                                     Edit Booking Block
                                 </h4>
                                 <div class="modern-header-actions">
                                     <div class="modern-info-badge">
-                                        <i class="fas fa-info-circle"></i>
+                                        <i data-lucide="info"></i>
                                         Configuration ID: {{ $fetchedData->id }}
                                     </div>
                                     <a href="{{route('admin.feature.bookingblocks.index')}}" class="modern-btn modern-btn-back">
-                                        <i class="fas fa-arrow-left"></i>
+                                        <i data-lucide="arrow-left"></i>
                                         Back to Blocks
                                     </a>
                                 </div>
@@ -542,7 +542,7 @@
                                 <!-- Person Information -->
                                 <div class="modern-person-display">
                                     <div class="modern-person-icon">
-                                        <i class="fas fa-user"></i>
+                                        <i data-lucide="user"></i>
                                     </div>
                                     <div class="modern-person-info">
                                         <h4>Ajay</h4>
@@ -556,7 +556,7 @@
                                 @endphp
                                 <div class="modern-stats-summary">
                                     <div class="modern-stats-icon">
-                                        <i class="fas fa-chart-bar"></i>
+                                        <i data-lucide="chart-column"></i>
                                     </div>
                                     <div class="modern-stats-info">
                                         <h4>Current Block Configuration</h4>
@@ -571,7 +571,7 @@
                                     <!-- Blocks Container -->
                                     <div class="modern-form-section">
                                         <h3 class="modern-section-title">
-                                            <i class="fas fa-calendar-times"></i>
+                                            <i data-lucide="calendar-x"></i>
                                             Disabled Dates and Time Slots
                                         </h3>
                                         
@@ -607,7 +607,7 @@
                                                                 <label class="modern-form-label">Date</label>
                                                                 <input type="text" class="modern-form-input" name="date[{{$i}}]" value="{{ $displayDate }}" placeholder="DD/MM/YYYY">
                                                                 <div class="modern-help-text">
-                                                                    <i class="fas fa-calendar-alt"></i>
+                                                                    <i data-lucide="calendar"></i>
                                                                     Enter date in DD/MM/YYYY format
                                                                 </div>
                                                             </div>
@@ -615,7 +615,7 @@
                                                                 <label class="modern-form-label">Start Time</label>
                                                                 <input type="time" class="modern-form-input" name="start_time[{{$i}}]" value="{{ $start }}" @if($slot->block_all==1) disabled @endif>
                                                                 <div class="modern-help-text">
-                                                                    <i class="fas fa-clock"></i>
+                                                                    <i data-lucide="clock"></i>
                                                                     Block start time
                                                                 </div>
                                                             </div>
@@ -623,7 +623,7 @@
                                                                 <label class="modern-form-label">End Time</label>
                                                                 <input type="time" class="modern-form-input" name="end_time[{{$i}}]" value="{{ $end }}" @if($slot->block_all==1) disabled @endif>
                                                                 <div class="modern-help-text">
-                                                                    <i class="fas fa-clock"></i>
+                                                                    <i data-lucide="clock"></i>
                                                                     Block end time
                                                                 </div>
                                                             </div>
@@ -651,7 +651,7 @@
                                                             <label class="modern-form-label">Date</label>
                                                             <input type="text" class="modern-form-input" name="date[0]" placeholder="DD/MM/YYYY">
                                                             <div class="modern-help-text">
-                                                                <i class="fas fa-calendar-alt"></i>
+                                                                <i data-lucide="calendar"></i>
                                                                 Enter date in DD/MM/YYYY format
                                                             </div>
                                                         </div>
@@ -659,7 +659,7 @@
                                                             <label class="modern-form-label">Start Time</label>
                                                             <input type="time" class="modern-form-input" name="start_time[0]">
                                                             <div class="modern-help-text">
-                                                                <i class="fas fa-clock"></i>
+                                                                <i data-lucide="clock"></i>
                                                                 Block start time
                                                             </div>
                                                         </div>
@@ -667,7 +667,7 @@
                                                             <label class="modern-form-label">End Time</label>
                                                             <input type="time" class="modern-form-input" name="end_time[0]">
                                                             <div class="modern-help-text">
-                                                                <i class="fas fa-clock"></i>
+                                                                <i data-lucide="clock"></i>
                                                                 Block end time
                                                             </div>
                                                         </div>
@@ -681,13 +681,13 @@
                                     <div class="modern-form-actions">
                                         <div class="modern-form-actions-left">
                                             <button type="button" id="add_more" class="modern-add-block-btn">
-                                                <i class="fas fa-plus"></i>
+                                                <i data-lucide="plus"></i>
                                                 Add Another Block
                                             </button>
                                         </div>
                                         <div class="modern-form-actions-right">
                                             <button class="modern-btn modern-btn-primary" type="submit">
-                                                <i class="fas fa-save"></i>
+                                                <i data-lucide="save"></i>
                                                 Update Booking Blocks
                                             </button>
                                         </div>
@@ -776,7 +776,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('booking-edit-form').addEventListener('submit', function() {
         const submitBtn = this.querySelector('button[type="submit"]');
         submitBtn.classList.add('loading');
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+        submitBtn.innerHTML = '<i data-lucide="loader-2" class="lucide-spin"></i> Updating...';
         submitBtn.disabled = true;
     });
     
@@ -787,7 +787,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('loading');
             const icon = this.querySelector('i');
             if (icon) {
-                icon.className = 'fas fa-spinner fa-spin';
+                window.setLucideIcon(icon, 'loader-2', { spin: true });
             }
         });
     });

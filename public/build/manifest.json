@@ -7,19 +7,29 @@
       "_vendor-alpine-Dx9GzgU6.js"
     ]
   },
+  "_lucide-init-DeMZFZsq.js": {
+    "file": "assets/lucide-init-DeMZFZsq.js",
+    "name": "lucide-init",
+    "imports": [
+      "_vendor-FiLWM1J_.js"
+    ]
+  },
   "_rolldown-runtime-CacB07dV.js": {
     "file": "assets/rolldown-runtime-CacB07dV.js",
     "name": "rolldown-runtime"
   },
-  "_vendor-By9dwpI9.css": {
-    "file": "assets/vendor-By9dwpI9.css",
-    "src": "_vendor-By9dwpI9.css"
+  "_vendor-Bgws-ec0.css": {
+    "file": "assets/vendor-Bgws-ec0.css",
+    "src": "_vendor-Bgws-ec0.css"
   },
-  "_vendor-CuYOzbFR.js": {
-    "file": "assets/vendor-CuYOzbFR.js",
+  "_vendor-FiLWM1J_.js": {
+    "file": "assets/vendor-FiLWM1J_.js",
     "name": "vendor",
+    "imports": [
+      "_rolldown-runtime-CacB07dV.js"
+    ],
     "css": [
-      "assets/vendor-By9dwpI9.css"
+      "assets/vendor-Bgws-ec0.css"
     ]
   },
   "_vendor-alpine-Dx9GzgU6.js": {
@@ -57,38 +67,6 @@
       "_rolldown-runtime-CacB07dV.js"
     ]
   },
-  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
-    "file": "assets/fa-brands-400-D1LuMI3I.ttf",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf"
-  },
-  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2": {
-    "file": "assets/fa-brands-400-D_cYUPeE.woff2",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2"
-  },
-  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf": {
-    "file": "assets/fa-regular-400-DZaxPHgR.ttf",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf"
-  },
-  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2": {
-    "file": "assets/fa-regular-400-BjRzuEpd.woff2",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2"
-  },
-  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf": {
-    "file": "assets/fa-solid-900-D0aA9rwL.ttf",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf"
-  },
-  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2": {
-    "file": "assets/fa-solid-900-CTAAxXor.woff2",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2"
-  },
-  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf": {
-    "file": "assets/fa-v4compatibility-CCth-dXg.ttf",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf"
-  },
-  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2": {
-    "file": "assets/fa-v4compatibility-C9RhG_FT.woff2",
-    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
-  },
   "public/js/main.js": {
     "file": "assets/main-C_QeguaI.js",
     "name": "main",
@@ -96,7 +74,7 @@
     "isEntry": true
   },
   "resources/css/admin.css": {
-    "file": "assets/admin-Cxl9WbEC.css",
+    "file": "assets/admin-CN0U6fPQ.css",
     "name": "admin",
     "names": [
       "admin.css"
@@ -123,60 +101,43 @@
     "isEntry": true
   },
   "resources/css/vendor-admin.css": {
-    "file": "assets/vendor-admin-BLi9huwB.css",
+    "file": "assets/vendor-admin-BpgSxuJn.css",
     "name": "vendor-admin",
     "names": [
       "vendor-admin.css"
     ],
     "src": "resources/css/vendor-admin.css",
-    "isEntry": true,
-    "assets": [
-      "assets/fa-brands-400-D_cYUPeE.woff2",
-      "assets/fa-brands-400-D1LuMI3I.ttf",
-      "assets/fa-regular-400-BjRzuEpd.woff2",
-      "assets/fa-regular-400-DZaxPHgR.ttf",
-      "assets/fa-solid-900-CTAAxXor.woff2",
-      "assets/fa-solid-900-D0aA9rwL.ttf",
-      "assets/fa-v4compatibility-C9RhG_FT.woff2",
-      "assets/fa-v4compatibility-CCth-dXg.ttf"
-    ]
+    "isEntry": true
   },
   "resources/css/vendor-frontend.css": {
-    "file": "assets/vendor-frontend-DRirRUrj.css",
+    "file": "assets/vendor-frontend-D2DnQzq1.css",
     "name": "vendor-frontend",
     "names": [
       "vendor-frontend.css"
     ],
     "src": "resources/css/vendor-frontend.css",
-    "isEntry": true,
-    "assets": [
-      "assets/fa-brands-400-D_cYUPeE.woff2",
-      "assets/fa-brands-400-D1LuMI3I.ttf",
-      "assets/fa-regular-400-BjRzuEpd.woff2",
-      "assets/fa-regular-400-DZaxPHgR.ttf",
-      "assets/fa-solid-900-CTAAxXor.woff2",
-      "assets/fa-solid-900-D0aA9rwL.ttf",
-      "assets/fa-v4compatibility-C9RhG_FT.woff2",
-      "assets/fa-v4compatibility-CCth-dXg.ttf"
-    ]
+    "isEntry": true
   },
   "resources/js/admin-calendar-v6.js": {
-    "file": "assets/admin-calendar-v6-DP4MfJbT.js",
+    "file": "assets/admin-calendar-v6-DCls1Z7f.js",
     "name": "admin-calendar-v6",
     "src": "resources/js/admin-calendar-v6.js",
     "isEntry": true,
     "imports": [
-      "_vendor-CuYOzbFR.js"
+      "_vendor-FiLWM1J_.js"
     ]
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-Ck5YuX4A.js",
+    "file": "assets/admin-BZyGvUGq.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
       "_vendor-axios-DPJ5mLjw.js",
-      "_alpine-utils-BQjVz5oM.js"
+      "_alpine-utils-BQjVz5oM.js",
+      "_lucide-init-DeMZFZsq.js",
+      "resources/js/vendor-admin.js",
+      "resources/js/vendor-admin.js"
     ]
   },
   "resources/js/app.js": {
@@ -194,21 +155,35 @@
     ]
   },
   "resources/js/frontend.js": {
-    "file": "assets/frontend-DKzktll3.js",
+    "file": "assets/frontend-CwmY199g.js",
     "name": "frontend",
     "src": "resources/js/frontend.js",
     "isEntry": true,
     "imports": [
-      "_alpine-utils-BQjVz5oM.js"
+      "_alpine-utils-BQjVz5oM.js",
+      "_lucide-init-DeMZFZsq.js",
+      "resources/js/vendor-frontend.js",
+      "resources/js/vendor-frontend.js"
+    ]
+  },
+  "resources/js/vendor-admin.js": {
+    "file": "assets/vendor-admin-B4GSzkLU.js",
+    "name": "vendor-admin",
+    "src": "resources/js/vendor-admin.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor-FiLWM1J_.js",
+      "_lucide-init-DeMZFZsq.js"
     ]
   },
   "resources/js/vendor-frontend.js": {
-    "file": "assets/vendor-frontend-DSAtk1oL.js",
+    "file": "assets/vendor-frontend-CAkN0iq0.js",
     "name": "vendor-frontend",
     "src": "resources/js/vendor-frontend.js",
     "isEntry": true,
     "imports": [
-      "_vendor-CuYOzbFR.js"
+      "_vendor-FiLWM1J_.js",
+      "_lucide-init-DeMZFZsq.js"
     ]
   }
 }

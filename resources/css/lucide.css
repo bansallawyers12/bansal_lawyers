@@ -1,0 +1,51 @@
+/* Lucide icon base styles (replaces Font Awesome sizing behaviour) */
+.lucide,
+svg.lucide,
+[data-lucide] svg {
+    display: inline-block;
+    vertical-align: -0.125em;
+    width: 1em;
+    height: 1em;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    flex-shrink: 0;
+}
+
+.lucide-spin,
+.lucide.lucide-spin {
+    animation: lucide-spin 1s linear infinite;
+}
+
+@keyframes lucide-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Common layout hooks used across admin/frontend */
+.menu-icon.lucide,
+.menu-icon svg.lucide {
+    width: 20px;
+    height: 20px;
+}
+
+.modern-file-icon.lucide,
+.modern-file-icon svg.lucide {
+    width: 2rem;
+    height: 2rem;
+}
+
+.brand-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: -0.125em;
+}
+
+.brand-icon svg {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}

@@ -4,8 +4,8 @@ $(window).on("load", function () {
   $(".loader").fadeOut("slow");
 });
 
-if (typeof feather !== 'undefined') {
-  feather.replace();
+if (typeof window.refreshLucideIcons === 'function') {
+  window.refreshLucideIcons();
 }
 // Global
 document.addEventListener('DOMContentLoaded', function () {
@@ -154,9 +154,16 @@ document.addEventListener('DOMContentLoaded', function () {
     $activeAnchors.next().show();
   });
 
-  $("[data-toggle='sidebar']").click(function () {
+  $("[data-toggle='sidebar']").click(function (e) {
+    e.preventDefault();
+
     var body = $("body"),
-      w = $(window);
+      w = $(window),
+      modernSidebar = $(".modern-sidebar");
+
+    if (modernSidebar.length) {
+      return false;
+    }
 
     if (w.outerWidth() <= 1024) {
       body.removeClass("search-show search-gone");
@@ -412,10 +419,10 @@ document.addEventListener('DOMContentLoaded', function () {
     me.click(function () {
       $(target).collapse("toggle");
       $(target).on("shown.bs.collapse", function () {
-        me.html('<i class="fas fa-minus"></i>');
+        me.html('<i data-lucide="minus"></i>');
       });
       $(target).on("hidden.bs.collapse", function () {
-        me.html('<i class="fas fa-plus"></i>');
+        me.html('<i data-lucide="plus"></i>');
       });
       return false;
     });
@@ -694,8 +701,8 @@ document.addEventListener('DOMContentLoaded', function () {
   if (jQuery().timepicker && $(".timepicker").length) {
     $(".timepicker").timepicker({
       icons: {
-        up: "fas fa-chevron-up",
-        down: "fas fa-chevron-down"
+        up: "chevron-up",
+        down: "chevron-down"
       }
     });
   }

@@ -493,12 +493,12 @@
                         <div class="modern-card">
                             <div class="modern-card-header">
                                 <h4 class="modern-card-title">
-                                    <i class="fas fa-calendar-plus"></i>
+                                    <i data-lucide="calendar-plus"></i>
                                     Create Booking Block
                                 </h4>
                                 <div class="modern-header-actions">
                                     <a href="{{ route('admin.feature.bookingblocks.index') }}" class="modern-btn modern-btn-back">
-                                        <i class="fas fa-arrow-left"></i>
+                                        <i data-lucide="arrow-left"></i>
                                         Back to Blocks
                                     </a>
                                 </div>
@@ -508,7 +508,7 @@
                                 <!-- Person Information -->
                                 <div class="modern-person-display">
                                     <div class="modern-person-icon">
-                                        <i class="fas fa-user"></i>
+                                        <i data-lucide="user"></i>
                                     </div>
                                     <div class="modern-person-info">
                                         <h4>Ajay</h4>
@@ -523,7 +523,7 @@
                                     <!-- Blocks Container -->
                                     <div class="modern-form-section">
                                         <h3 class="modern-section-title">
-                                            <i class="fas fa-calendar-times"></i>
+                                            <i data-lucide="calendar-x"></i>
                                             Booking Blocks
                                         </h3>
                                         
@@ -550,7 +550,7 @@
                                                         </label>
                                                         <input type="text" class="modern-form-input" name="date[0]" placeholder="DD/MM/YYYY" required>
                                                         <div class="modern-help-text">
-                                                            <i class="fas fa-info-circle"></i>
+                                                            <i data-lucide="info"></i>
                                                             Enter date in DD/MM/YYYY format
                                                         </div>
                                                     </div>
@@ -558,7 +558,7 @@
                                                         <label class="modern-form-label">Start Time</label>
                                                         <input type="time" class="modern-form-input" name="start_time[0]">
                                                         <div class="modern-help-text">
-                                                            <i class="fas fa-clock"></i>
+                                                            <i data-lucide="clock"></i>
                                                             Block start time
                                                         </div>
                                                     </div>
@@ -566,7 +566,7 @@
                                                         <label class="modern-form-label">End Time</label>
                                                         <input type="time" class="modern-form-input" name="end_time[0]">
                                                         <div class="modern-help-text">
-                                                            <i class="fas fa-clock"></i>
+                                                            <i data-lucide="clock"></i>
                                                             Block end time
                                                         </div>
                                                     </div>
@@ -579,13 +579,13 @@
                                     <div class="modern-form-actions">
                                         <div class="modern-form-actions-left">
                                             <button type="button" id="add_more_create" class="modern-add-block-btn">
-                                                <i class="fas fa-plus"></i>
+                                                <i data-lucide="plus"></i>
                                                 Add Another Block
                                             </button>
                                         </div>
                                         <div class="modern-form-actions-right">
                                             <button class="modern-btn modern-btn-primary" type="submit">
-                                                <i class="fas fa-save"></i>
+                                                <i data-lucide="save"></i>
                                                 Save Booking Blocks
                                             </button>
                                         </div>
@@ -660,7 +660,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('booking-form').addEventListener('submit', function() {
         const submitBtn = this.querySelector('button[type="submit"]');
         submitBtn.classList.add('loading');
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        submitBtn.innerHTML = '<i data-lucide="loader-2" class="lucide-spin"></i> Saving...';
         submitBtn.disabled = true;
     });
     
@@ -671,7 +671,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('loading');
             const icon = this.querySelector('i');
             if (icon) {
-                icon.className = 'fas fa-spinner fa-spin';
+                window.setLucideIcon(icon, 'loader-2', { spin: true });
             }
         });
     });

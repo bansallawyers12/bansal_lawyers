@@ -499,18 +499,18 @@ input:checked + .modern-status-slider:before {
 						<div class="modern-card">
 							<div class="modern-card-header">
 								<h4 class="modern-card-title">
-									<i class="fas fa-briefcase"></i>
+									<i data-lucide="briefcase"></i>
 									Recent Case Studies Management
 								</h4>
 								<div class="modern-header-actions">
 									<a href="{{route('admin.recent_case.create')}}" class="modern-btn modern-btn-primary">
-										<i class="fas fa-plus"></i>
+										<i data-lucide="plus"></i>
 										Add New Case Study
 									</a>
 									<form action="{{route('admin.recent_case.index')}}" method="get" class="modern-search-form">
 										<input type="text" name="search_term" class="modern-search-input" value="{{ request('search_term') }}" placeholder="Search cases...">
 										<button type="submit" class="modern-search-btn">
-											<i class="fas fa-search"></i>
+											<i data-lucide="search"></i>
 										</button>
 									</form>
                     </div>
@@ -521,21 +521,21 @@ input:checked + .modern-status-slider:before {
 								<div class="modern-stats-grid">
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon cases">
-											<i class="fas fa-briefcase"></i>
+											<i data-lucide="briefcase"></i>
                                 </div>
 										<div class="modern-stat-value">{{ count($lists) }}</div>
 										<div class="modern-stat-label">Total Case Studies</div>
                             </div>
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon published">
-											<i class="fas fa-check-circle"></i>
+											<i data-lucide="circle-check"></i>
                                             </div>
 										<div class="modern-stat-value">{{ $lists->where('status', 1)->count() }}</div>
 										<div class="modern-stat-label">Published Cases</div>
                                         </div>
 									<div class="modern-stat-card">
 										<div class="modern-stat-icon draft">
-											<i class="fas fa-pause-circle"></i>
+											<i data-lucide="circle-pause"></i>
                                 </div>
 										<div class="modern-stat-value">{{ $lists->where('status', 0)->count() }}</div>
 										<div class="modern-stat-label">Draft Cases</div>
@@ -569,18 +569,18 @@ input:checked + .modern-status-slider:before {
 													@if($hasImage)
 														@if(strtolower($extension) == 'mp4')
 															<div class="modern-media-icon video">
-																<i class="fas fa-video"></i>
+																<i data-lucide="video"></i>
 															</div>
 														@elseif(strtolower($extension) == 'pdf')
 															<div class="modern-media-icon pdf">
-																<i class="fas fa-file-pdf"></i>
+																<i data-lucide="file-text"></i>
 															</div>
 														@else
 															<img src="{!! asset('images/blog/' . $list->image) !!}" alt="{{ $list->title }}" class="modern-case-image">
 														@endif
 													@else
 														<div class="modern-media-icon image">
-															<i class="fas fa-image"></i>
+															<i data-lucide="image"></i>
 														</div>
 													@endif
 												</td>
@@ -601,11 +601,11 @@ input:checked + .modern-status-slider:before {
 												<td>
 													<div class="modern-actions">
 														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{URL::to('/admin/recent_case/edit/'.base64_encode(convert_uuencode($list->id)))}}">
-															<i class="fas fa-edit"></i>
+															<i data-lucide="pencil"></i>
 															Edit
 														</a>
 														<a class="modern-btn modern-btn-danger modern-btn-sm" href="javascript:;" onClick="deleteAction({{$list->id}}, 'recent_cases')">
-															<i class="fas fa-trash"></i>
+															<i data-lucide="trash-2"></i>
 															Delete
 														</a>
 													</div>
@@ -618,12 +618,12 @@ input:checked + .modern-status-slider:before {
 								@else
 								<div class="modern-empty-state">
 									<div class="modern-empty-icon">
-										<i class="fas fa-briefcase"></i>
+										<i data-lucide="briefcase"></i>
                                     </div>
 									<h3 class="modern-empty-title">No Case Studies Found</h3>
 									<p class="modern-empty-description">Get started by creating your first case study</p>
 									<a href="{{route('admin.recent_case.create')}}" class="modern-btn modern-btn-primary">
-										<i class="fas fa-plus"></i>
+										<i data-lucide="plus"></i>
 										Create First Case Study
 									</a>
 						        </div>
@@ -660,7 +660,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.add('loading');
                 const icon = this.querySelector('i');
                 if (icon) {
-                    icon.className = 'fas fa-spinner fa-spin';
+                    window.setLucideIcon(icon, 'loader-2', { spin: true });
                 }
             }
         });
