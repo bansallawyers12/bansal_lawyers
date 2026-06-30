@@ -247,6 +247,7 @@ body.admin-sidebar-collapsed .main-wrapper {
 			tinymce.suffix = '.min';
 		}
 	</script>
+	<script src="{{ asset('js/tinymce-config.js') }}"></script>
 	<script src="{{ asset('js/daterangepicker.js')}}"></script>
 	<script src="{{ asset('js/bootstrap-timepicker.min.js')}}"></script>
 	<!-- Select2 JS removed - now using Tom Select (loaded via Vite in admin.js) -->

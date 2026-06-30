@@ -21,14 +21,21 @@ export function tinyMCE(options = {}) {
                 // Get initial content
                 this.content = this.$el.value || '';
                 
+                const defaults = typeof window.tinymceDefaults === 'object' ? window.tinymceDefaults : {
+                    promotion: false,
+                    branding: false,
+                    license_key: 'gpl',
+                };
+
                 const config = {
+                    ...defaults,
                     target: this.$el,
                     height: options.height || 500,
                     menubar: options.menubar !== false,
                     plugins: options.plugins || [
                         'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                         'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                        'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                        'insertdatetime', 'media', 'table', 'help', 'wordcount'
                     ],
                     toolbar: options.toolbar || 'undo redo | blocks | ' +
                         'bold italic underline strikethrough | forecolor backcolor | ' +
@@ -55,7 +62,7 @@ export function tinyMCE(options = {}) {
                             editor.setContent(this.content);
                         }
                     },
-                    // Include file_picker_callback and other options (will be set via editor.settings if needed)
+                    // Additional init options (file_picker_callback comes from tinymce-config.js)
                     ...Object.fromEntries(
                         Object.entries(options).filter(([key]) => 
                             !['height', 'menubar', 'plugins', 'toolbar', 'contentStyle'].includes(key)
