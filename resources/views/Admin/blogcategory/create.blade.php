@@ -313,7 +313,7 @@ input:checked + .modern-checkbox-slider:before {
 								</div>
 							</div>
 							
-							<form action="{{ route('admin.blogcategory.store') }}" autocomplete="off" method="post" id="create-category-form">
+							<form action="{{ route('admin.blogcategory.store') }}" name="add-blogcategory" autocomplete="off" method="post" id="create-category-form">
 								@csrf
 								<div class="modern-form-body">
 									<div class="modern-form-group">

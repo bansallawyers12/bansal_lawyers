@@ -326,7 +326,7 @@ input:checked + .modern-checkbox-slider:before {
 								</div>
 							</div>
 							
-							<form action="{{ route('admin.blogcategory.update') }}" autocomplete="off" method="post" id="edit-category-form">
+							<form action="{{ route('admin.blogcategory.update') }}" name="edit-blogcategory" autocomplete="off" method="post" id="edit-category-form">
 								@csrf
 								<input type="hidden" name="id" value="{{$fetchedData->id}}">
 								

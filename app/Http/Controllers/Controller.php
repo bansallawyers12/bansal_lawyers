@@ -46,14 +46,27 @@ class Controller extends BaseController
 		
 	public function decodeString($string = NULL)
 	{
-		if ( base64_encode(base64_decode($string, true)) === $string)
-		{
-			return convert_uudecode(base64_decode($string));
-		} 
-		else
-		{
+		if ($string === null || $string === '') {
 			return false;
-		}		
+		}
+
+		$string = rawurldecode((string) $string);
+		$decoded = base64_decode($string, true);
+
+		if ($decoded === false) {
+			$padding = strlen($string) % 4;
+			if ($padding > 0) {
+				$decoded = base64_decode($string.str_repeat('=', 4 - $padding), true);
+			}
+		}
+
+		if ($decoded === false) {
+			return false;
+		}
+
+		$result = convert_uudecode($decoded);
+
+		return ($result !== false && $result !== '') ? $result : false;
 	}
 	
 	public function uploadFile($file = NULL, $filePath = NULL, $generateWebP = true)
