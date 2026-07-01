@@ -261,6 +261,60 @@
     color: var(--info-color);
 }
 
+.modern-form-input.is-invalid {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.modern-field-error {
+    color: var(--danger-color);
+    font-size: 0.75rem;
+    margin-top: 0.35rem;
+    font-weight: 500;
+}
+
+.modern-validation-summary {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: var(--border-radius-sm);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    color: #991b1b;
+    font-size: 0.875rem;
+}
+
+.modern-validation-summary ul {
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+}
+
+.modern-validation-summary li {
+    margin-bottom: 0.25rem;
+}
+
+.modern-success-summary {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: var(--border-radius-sm);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    color: #065f46;
+    font-size: 0.875rem;
+}
+
+.modern-booking-hours-note {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: var(--border-radius-sm);
+    padding: 0.875rem 1rem;
+    margin-bottom: 1.25rem;
+    color: #1e40af;
+    font-size: 0.8125rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
 .modern-person-display {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: var(--white);
@@ -516,7 +570,26 @@
                                     </div>
                                 </div>
 
-                                <form method="post" action="{{ route('admin.feature.bookingblocks.store') }}" id="booking-form">
+                                @php
+                                    $serviceStart = $serviceConfig ? date('H:i', strtotime($serviceConfig->start_time ?? '09:00')) : '09:00';
+                                    $serviceEnd = $serviceConfig ? date('H:i', strtotime($serviceConfig->end_time ?? '17:00')) : '17:00';
+                                    $weekendLabel = $serviceConfig->weekend ?? 'Sun,Sat';
+                                    $oldDates = old('date', ['']);
+                                    if (! is_array($oldDates)) {
+                                        $oldDates = [0 => $oldDates];
+                                    }
+                                    $blockIndexes = array_keys($oldDates);
+                                    if ($blockIndexes === []) {
+                                        $blockIndexes = [0];
+                                    }
+                                @endphp
+
+                                <form method="post"
+                                      action="{{ route('admin.feature.bookingblocks.store') }}"
+                                      id="booking-form"
+                                      data-service-start="{{ $serviceStart }}"
+                                      data-service-end="{{ $serviceEnd }}"
+                                      data-weekends="{{ $weekendLabel }}">
                                     @csrf
                                     <input type="hidden" name="person_id" value="1">
 
@@ -526,19 +599,31 @@
                                             <i data-lucide="calendar-x"></i>
                                             Booking Blocks
                                         </h3>
+
+                                        <div class="modern-booking-hours-note">
+                                            <i data-lucide="info"></i>
+                                            <span>Partial blocks must use times within <strong>{{ $serviceStart }} – {{ $serviceEnd }}</strong>. Non-working days: <strong>{{ $weekendLabel }}</strong>. Dates use <strong>DD/MM/YYYY</strong>.</span>
+                                        </div>
+
+                                        <div id="ajax-feedback" hidden></div>
                                         
                                         <div class="modern-block-container" id="blocks_wrapper">
+                                            @foreach ($blockIndexes as $i)
+                                            @php
+                                                $fullDayValue = old('full_day.'.$i, '0');
+                                                $isFullDay = (string) $fullDayValue === '1';
+                                            @endphp
                                             <div class="modern-block-item block_item">
                                                 <div class="modern-block-header">
                                                     <div class="modern-block-title">
-                                                        <span class="modern-block-number">1</span>
+                                                        <span class="modern-block-number">{{ $loop->iteration }}</span>
                                                         Block Configuration
                                                     </div>
                                                     <div class="modern-time-toggle">
                                                         <span class="modern-toggle-label">Full Day:</span>
-                                                        <select name="full_day[0]" class="modern-form-select full-day" style="width: auto; padding: 0.25rem 0.5rem; font-size: 0.75rem;">
-                                                            <option value="0" selected>No</option>
-                                                            <option value="1">Yes</option>
+                                                        <select name="full_day[{{ $i }}]" class="modern-form-select full-day" style="width: auto; padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                                                            <option value="0" @selected(! $isFullDay)>No</option>
+                                                            <option value="1" @selected($isFullDay)>Yes</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -548,30 +633,57 @@
                                                         <label class="modern-form-label">
                                                             Date <span class="required">*</span>
                                                         </label>
-                                                        <input type="text" class="modern-form-input" name="date[0]" placeholder="DD/MM/YYYY" required>
+                                                        <input type="text"
+                                                               class="modern-form-input block-date @error('date.'.$i) is-invalid @enderror"
+                                                               name="date[{{ $i }}]"
+                                                               value="{{ old('date.'.$i) }}"
+                                                               placeholder="DD/MM/YYYY"
+                                                               autocomplete="off"
+                                                               required>
+                                                        @error('date.'.$i)
+                                                            <div class="modern-field-error">{{ $message }}</div>
+                                                        @else
                                                         <div class="modern-help-text">
-                                                            <i data-lucide="info"></i>
+                                                            <i data-lucide="calendar"></i>
                                                             Enter date in DD/MM/YYYY format
                                                         </div>
+                                                        @enderror
                                                     </div>
                                                     <div class="modern-form-group time-range">
                                                         <label class="modern-form-label">Start Time</label>
-                                                        <input type="time" class="modern-form-input" name="start_time[0]">
+                                                        <input type="time"
+                                                               class="modern-form-input @error('start_time.'.$i) is-invalid @enderror"
+                                                               name="start_time[{{ $i }}]"
+                                                               value="{{ old('start_time.'.$i) }}"
+                                                               @disabled($isFullDay)>
+                                                        @error('start_time.'.$i)
+                                                            <div class="modern-field-error">{{ $message }}</div>
+                                                        @else
                                                         <div class="modern-help-text">
                                                             <i data-lucide="clock"></i>
                                                             Block start time
                                                         </div>
+                                                        @enderror
                                                     </div>
                                                     <div class="modern-form-group time-range">
                                                         <label class="modern-form-label">End Time</label>
-                                                        <input type="time" class="modern-form-input" name="end_time[0]">
+                                                        <input type="time"
+                                                               class="modern-form-input @error('end_time.'.$i) is-invalid @enderror"
+                                                               name="end_time[{{ $i }}]"
+                                                               value="{{ old('end_time.'.$i) }}"
+                                                               @disabled($isFullDay)>
+                                                        @error('end_time.'.$i)
+                                                            <div class="modern-field-error">{{ $message }}</div>
+                                                        @else
                                                         <div class="modern-help-text">
                                                             <i data-lucide="clock"></i>
                                                             Block end time
                                                         </div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endforeach
                                         </div>
                                     </div>
 
@@ -584,7 +696,7 @@
                                             </button>
                                         </div>
                                         <div class="modern-form-actions-right">
-                                            <button class="modern-btn modern-btn-primary" type="submit">
+                                            <button class="modern-btn modern-btn-primary" type="submit" id="booking-submit-btn">
                                                 <i data-lucide="save"></i>
                                                 Save Booking Blocks
                                             </button>
@@ -602,16 +714,320 @@
 
 <script {!! \App\Services\CspService::getNonceAttribute() !!}>
 document.addEventListener('DOMContentLoaded', function() {
-    let idx = 1;
+    const form = document.getElementById('booking-form');
+    const submitBtn = document.getElementById('booking-submit-btn');
+    const feedbackEl = document.getElementById('ajax-feedback');
+    const submitBtnDefaultHtml = submitBtn.innerHTML;
+    let idx = document.querySelectorAll('.block_item').length;
+    const weekendMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+    function initBlockDatePicker(input) {
+        if (!input || input._flatpickr || typeof flatpickr === 'undefined') {
+            return;
+        }
+        flatpickr(input, {
+            dateFormat: 'd/m/Y',
+            allowInput: true,
+            clickOpens: true,
+            minDate: 'today'
+        });
+    }
+
+    function getWeekendDays() {
+        return (form.dataset.weekends || '')
+            .split(',')
+            .map(function(part) { return weekendMap[part.trim()]; })
+            .filter(function(day) { return day !== undefined; });
+    }
+
+    function parseDisplayDate(value) {
+        const match = String(value || '').trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+        if (!match) {
+            return null;
+        }
+
+        const day = parseInt(match[1], 10);
+        const month = parseInt(match[2], 10) - 1;
+        const year = parseInt(match[3], 10);
+        const date = new Date(year, month, day);
+
+        if (date.getFullYear() !== year || date.getMonth() !== month || date.getDate() !== day) {
+            return null;
+        }
+
+        date.setHours(0, 0, 0, 0);
+        return date;
+    }
+
+    function timeToMinutes(value) {
+        if (!value) {
+            return null;
+        }
+        const parts = value.split(':');
+        if (parts.length < 2) {
+            return null;
+        }
+        return (parseInt(parts[0], 10) * 60) + parseInt(parts[1], 10);
+    }
+
+    function blocksOverlap(blockA, blockB) {
+        if (blockA.fullDay || blockB.fullDay) {
+            return true;
+        }
+        return blockA.startMinutes < blockB.endMinutes && blockB.startMinutes < blockA.endMinutes;
+    }
+
+    function laravelKeyToFieldName(key) {
+        const match = key.match(/^(.+)\.(\d+)$/);
+        if (match) {
+            return match[1] + '[' + match[2] + ']';
+        }
+        return key;
+    }
+
+    function clearValidationErrors() {
+        form.querySelectorAll('.modern-field-error').forEach(function(el) { el.remove(); });
+        form.querySelectorAll('.is-invalid').forEach(function(el) { el.classList.remove('is-invalid'); });
+        form.querySelectorAll('.modern-help-text').forEach(function(el) { el.style.display = ''; });
+        feedbackEl.hidden = true;
+        feedbackEl.innerHTML = '';
+        feedbackEl.className = '';
+    }
+
+    function showFieldError(fieldName, messages) {
+        const input = form.querySelector('[name="' + fieldName + '"]');
+        if (!input) {
+            return;
+        }
+
+        input.classList.add('is-invalid');
+        const group = input.closest('.modern-form-group');
+        if (!group) {
+            return;
+        }
+
+        group.querySelectorAll('.modern-field-error').forEach(function(el) { el.remove(); });
+        const help = group.querySelector('.modern-help-text');
+        if (help) {
+            help.style.display = 'none';
+        }
+
+        messages.forEach(function(message) {
+            const div = document.createElement('div');
+            div.className = 'modern-field-error';
+            div.textContent = message;
+            input.insertAdjacentElement('afterend', div);
+        });
+    }
+
+    function showValidationFeedback(fieldErrors, blockErrors, isSuccess, message) {
+        clearValidationErrors();
+
+        Object.keys(fieldErrors || {}).forEach(function(key) {
+            const fieldName = laravelKeyToFieldName(key);
+            const messages = fieldErrors[key];
+            showFieldError(fieldName, Array.isArray(messages) ? messages : [messages]);
+        });
+
+        if (blockErrors && blockErrors.length) {
+            feedbackEl.hidden = false;
+            feedbackEl.className = 'modern-validation-summary';
+            feedbackEl.setAttribute('role', 'alert');
+            feedbackEl.innerHTML = '<strong>Please fix the following:</strong><ul>' +
+                blockErrors.map(function(error) { return '<li>' + error + '</li>'; }).join('') +
+                '</ul>';
+        } else if (isSuccess && message) {
+            feedbackEl.hidden = false;
+            feedbackEl.className = 'modern-success-summary';
+            feedbackEl.setAttribute('role', 'status');
+            feedbackEl.textContent = message;
+        } else if (!Object.keys(fieldErrors || {}).length && message) {
+            feedbackEl.hidden = false;
+            feedbackEl.className = 'modern-validation-summary';
+            feedbackEl.setAttribute('role', 'alert');
+            feedbackEl.textContent = message;
+        }
+
+        if (!isSuccess) {
+            const scrollTarget = feedbackEl.hidden
+                ? form.querySelector('.is-invalid') || form
+                : feedbackEl;
+            scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    function validateBookingBlocks() {
+        const fieldErrors = {};
+        const blockErrors = [];
+        const serviceStart = timeToMinutes(form.dataset.serviceStart || '09:00');
+        const serviceEnd = timeToMinutes(form.dataset.serviceEnd || '17:00');
+        const weekendDays = getWeekendDays();
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const parsedBlocks = [];
+
+        function addFieldError(fieldIndex, field, message) {
+            const key = field + '[' + fieldIndex + ']';
+            if (!fieldErrors[key]) {
+                fieldErrors[key] = [];
+            }
+            fieldErrors[key].push(message);
+        }
+
+        document.querySelectorAll('.block_item').forEach(function(row) {
+            const dateInput = row.querySelector('.block-date');
+            const fullDaySelect = row.querySelector('.full-day');
+            const startInput = row.querySelector('input[name^="start_time"]');
+            const endInput = row.querySelector('input[name^="end_time"]');
+            const indexMatch = dateInput ? dateInput.getAttribute('name').match(/\[(\d+)\]/) : null;
+            const fieldIndex = indexMatch ? indexMatch[1] : '0';
+            const blockNumber = row.querySelector('.modern-block-number');
+            const rowLabel = 'Block ' + (blockNumber ? blockNumber.textContent.trim() : fieldIndex);
+            const isFullDay = fullDaySelect && fullDaySelect.value === '1';
+            const dateValue = dateInput ? dateInput.value.trim() : '';
+
+            if (!dateValue) {
+                addFieldError(fieldIndex, 'date', rowLabel + ': Date is required.');
+                return;
+            }
+
+            const parsedDate = parseDisplayDate(dateValue);
+            if (!parsedDate) {
+                addFieldError(fieldIndex, 'date', rowLabel + ': Invalid date. Use DD/MM/YYYY format.');
+                return;
+            }
+
+            if (parsedDate < today) {
+                addFieldError(fieldIndex, 'date', rowLabel + ': Date cannot be in the past.');
+            }
+
+            if (weekendDays.indexOf(parsedDate.getDay()) !== -1) {
+                addFieldError(fieldIndex, 'date', rowLabel + ': Selected date is a non-working day and is already unavailable for bookings.');
+            }
+
+            let startMinutes = null;
+            let endMinutes = null;
+
+            if (!isFullDay) {
+                const startValue = startInput ? startInput.value.trim() : '';
+                const endValue = endInput ? endInput.value.trim() : '';
+
+                if (!startValue || !endValue) {
+                    addFieldError(fieldIndex, 'start_time', rowLabel + ': Start time and end time are required when Full Day is No.');
+                } else {
+                    startMinutes = timeToMinutes(startValue);
+                    endMinutes = timeToMinutes(endValue);
+
+                    if (startMinutes === null) {
+                        addFieldError(fieldIndex, 'start_time', rowLabel + ': Invalid start time.');
+                    }
+                    if (endMinutes === null) {
+                        addFieldError(fieldIndex, 'end_time', rowLabel + ': Invalid end time.');
+                    }
+                    if (startMinutes !== null && endMinutes !== null) {
+                        if (startMinutes >= endMinutes) {
+                            addFieldError(fieldIndex, 'end_time', rowLabel + ': End time must be after start time.');
+                        } else if ((endMinutes - startMinutes) < 30) {
+                            addFieldError(fieldIndex, 'end_time', rowLabel + ': Time range must be at least 30 minutes.');
+                        } else if (serviceStart !== null && serviceEnd !== null && (startMinutes < serviceStart || endMinutes > serviceEnd)) {
+                            addFieldError(fieldIndex, 'start_time', rowLabel + ': Time must be within booking hours (' + form.dataset.serviceStart + ' – ' + form.dataset.serviceEnd + ').');
+                        }
+                    }
+                }
+            }
+
+            parsedBlocks.push({
+                rowLabel: rowLabel,
+                dateKey: parsedDate.toISOString().slice(0, 10),
+                dateDisplay: dateValue,
+                fullDay: isFullDay,
+                startMinutes: startMinutes,
+                endMinutes: endMinutes
+            });
+        });
+
+        for (let i = 0; i < parsedBlocks.length; i++) {
+            for (let j = i + 1; j < parsedBlocks.length; j++) {
+                if (parsedBlocks[i].dateKey !== parsedBlocks[j].dateKey) {
+                    continue;
+                }
+                if (blocksOverlap(parsedBlocks[i], parsedBlocks[j])) {
+                    blockErrors.push(parsedBlocks[i].rowLabel + ' and ' + parsedBlocks[j].rowLabel + ' overlap on ' + parsedBlocks[i].dateDisplay + '.');
+                }
+            }
+        }
+
+        return { fieldErrors: fieldErrors, blockErrors: blockErrors };
+    }
+
+    function setSubmitLoading(isLoading) {
+        submitBtn.disabled = isLoading;
+        submitBtn.classList.toggle('loading', isLoading);
+        submitBtn.innerHTML = isLoading
+            ? '<i data-lucide="loader-2" class="lucide-spin"></i> Saving...'
+            : submitBtnDefaultHtml;
+        if (!isLoading && window.lucide && typeof window.lucide.createIcons === 'function') {
+            window.lucide.createIcons();
+        }
+    }
+
+    function submitBookingForm() {
+        setSubmitLoading(true);
+
+        fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: new FormData(form)
+        })
+        .then(function(response) {
+            return response.json()
+                .catch(function() {
+                    return {
+                        success: false,
+                        message: 'Unexpected server response. Please try again.',
+                        errors: {}
+                    };
+                })
+                .then(function(data) {
+                    return { ok: response.ok, data: data };
+                });
+        })
+        .then(function(result) {
+            if (result.ok && result.data.success) {
+                showValidationFeedback({}, [], true, result.data.message);
+                window.setTimeout(function() {
+                    window.location.href = result.data.redirect;
+                }, 800);
+                return;
+            }
+
+            const errors = result.data.errors || {};
+            const blockErrors = errors.blocks || [];
+            const fieldErrors = Object.assign({}, errors);
+            delete fieldErrors.blocks;
+
+            showValidationFeedback(fieldErrors, blockErrors, false, result.data.message);
+            setSubmitLoading(false);
+        })
+        .catch(function() {
+            showValidationFeedback({}, ['Something went wrong. Please try again.'], false);
+            setSubmitLoading(false);
+        });
+    }
+
+    document.querySelectorAll('.block-date').forEach(initBlockDatePicker);
     
-    // Handle full day toggle
     document.addEventListener('change', function(e) {
         if (e.target.classList.contains('full-day')) {
             const isFull = e.target.value === '1';
             const row = e.target.closest('.block_item');
             const timeInputs = row.querySelectorAll('.time-range input');
             
-            timeInputs.forEach(input => {
+            timeInputs.forEach(function(input) {
                 input.disabled = isFull;
                 if (isFull) {
                     input.value = '';
@@ -620,57 +1036,72 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Add more blocks
     document.getElementById('add_more_create').addEventListener('click', function() {
+        clearValidationErrors();
+
         const firstBlock = document.querySelector('.block_item');
         const newBlock = firstBlock.cloneNode(true);
         
-        // Update block number
         const blockNumber = newBlock.querySelector('.modern-block-number');
         blockNumber.textContent = idx + 1;
         
-        // Update input names and reset values
         const inputs = newBlock.querySelectorAll('input, select');
-        inputs.forEach(input => {
+        inputs.forEach(function(input) {
             const name = input.getAttribute('name');
             if (name) {
-                const newName = name.replace('[0]', '[' + idx + ']');
-                input.setAttribute('name', newName);
+                input.setAttribute('name', name.replace(/\[\d+\]/, '[' + idx + ']'));
                 if (input.type !== 'hidden') {
                     input.value = '';
+                    input.classList.remove('is-invalid');
                 }
             }
         });
+
+        newBlock.querySelectorAll('.modern-field-error').forEach(function(el) { el.remove(); });
+        newBlock.querySelectorAll('.modern-help-text').forEach(function(el) { el.style.display = ''; });
         
-        // Reset full day to "No"
         const fullDaySelect = newBlock.querySelector('.full-day');
         fullDaySelect.value = '0';
         
-        // Enable time inputs
         const timeInputs = newBlock.querySelectorAll('.time-range input');
-        timeInputs.forEach(input => {
+        timeInputs.forEach(function(input) {
             input.disabled = false;
         });
         
         document.getElementById('blocks_wrapper').appendChild(newBlock);
+
+        const dateInput = newBlock.querySelector('.block-date');
+        if (dateInput) {
+            if (dateInput._flatpickr) {
+                dateInput._flatpickr.destroy();
+            }
+            initBlockDatePicker(dateInput);
+        }
+
         idx++;
     });
     
-    // Form submission loading state
-    document.getElementById('booking-form').addEventListener('submit', function() {
-        const submitBtn = this.querySelector('button[type="submit"]');
-        submitBtn.classList.add('loading');
-        submitBtn.innerHTML = '<i data-lucide="loader-2" class="lucide-spin"></i> Saving...';
-        submitBtn.disabled = true;
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        clearValidationErrors();
+
+        const validation = validateBookingBlocks();
+        const hasFieldErrors = Object.keys(validation.fieldErrors).length > 0;
+        const hasBlockErrors = validation.blockErrors.length > 0;
+
+        if (hasFieldErrors || hasBlockErrors) {
+            showValidationFeedback(validation.fieldErrors, validation.blockErrors, false);
+            return;
+        }
+
+        submitBookingForm();
     });
     
-    // Add loading states to navigation buttons
-    const navButtons = document.querySelectorAll('.modern-btn[href]');
-    navButtons.forEach(button => {
+    document.querySelectorAll('.modern-btn[href]').forEach(function(button) {
         button.addEventListener('click', function() {
             this.classList.add('loading');
             const icon = this.querySelector('i');
-            if (icon) {
+            if (icon && window.setLucideIcon) {
                 window.setLucideIcon(icon, 'loader-2', { spin: true });
             }
         });

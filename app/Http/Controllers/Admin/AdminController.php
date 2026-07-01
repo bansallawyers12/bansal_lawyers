@@ -715,6 +715,8 @@ class AdminController extends Controller
 											$message = 'Blog post has been deleted successfully.';
 										} elseif($requestData['table'] == 'cms_pages') {
 											$message = 'CMS page has been deleted successfully.';
+										} elseif($requestData['table'] == 'blog_categories') {
+											$message = 'Blog category has been deleted successfully.';
 										} else {
 											$message = 'Record has been deleted successfully.';
 										}
@@ -725,6 +727,8 @@ class AdminController extends Controller
 											$message = 'Failed to delete blog post.';
 										} elseif($requestData['table'] == 'cms_pages') {
 											$message = 'Failed to delete CMS page.';
+										} elseif($requestData['table'] == 'blog_categories') {
+											$message = 'Failed to delete blog category.';
 										} else {
 											$message = 'Failed to delete record.';
 										}
@@ -734,6 +738,8 @@ class AdminController extends Controller
 										$message = 'Error deleting blog post: ' . $e->getMessage();
 									} elseif($requestData['table'] == 'cms_pages') {
 										$message = 'Error deleting CMS page: ' . $e->getMessage();
+									} elseif($requestData['table'] == 'blog_categories') {
+										$message = 'Error deleting blog category: ' . $e->getMessage();
 									} else {
 										$message = 'Database error: ' . $e->getMessage();
 									}

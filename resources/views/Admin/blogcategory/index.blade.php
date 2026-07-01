@@ -493,7 +493,7 @@ input:checked + .modern-status-slider:before {
 												</td>
 												<td>
 													<div class="modern-actions">
-														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{URL::to('/admin/blogcategories/edit/'.base64_encode(convert_uuencode($list->id)))}}">
+														<a class="modern-btn modern-btn-success modern-btn-sm" href="{{ route('admin.blogcategory.edit', ['id' => base64_encode(convert_uuencode($list->id))]) }}">
 															<i data-lucide="pencil"></i>
 															Edit
 														</a>
@@ -531,28 +531,157 @@ input:checked + .modern-status-slider:before {
 </div>
 
 <script {!! \App\Services\CspService::getNonceAttribute() !!}>
-// Enhanced status toggle functionality
+function showModernFlashMessage(type, message) {
+    document.querySelectorAll('.modern-flash-container .modern-flash-alert').forEach(function(el) {
+        el.remove();
+    });
+
+    const iconMap = { success: 'check', error: 'circle-alert', warning: 'triangle-alert', info: 'info' };
+    const titleMap = { success: 'Success!', error: 'Error!', warning: 'Warning!', info: 'Information' };
+    const autoDismissTime = type === 'error' ? '7000' : '5000';
+
+    const flashHtml = `
+        <div class="modern-flash-alert ${type}" role="alert" data-auto-dismiss="${autoDismissTime}">
+            <div class="modern-flash-icon">
+                <i data-lucide="${iconMap[type]}" aria-hidden="true"></i>
+            </div>
+            <div class="modern-flash-content">
+                <div class="modern-flash-title">${titleMap[type]}</div>
+                <div class="modern-flash-message">${message}</div>
+            </div>
+            <button type="button" class="modern-flash-close" aria-label="Close notification">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modern-flash-progress"></div>
+        </div>
+    `;
+
+    let container = document.querySelector('.modern-flash-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'modern-flash-container';
+        document.body.appendChild(container);
+    }
+
+    container.insertAdjacentHTML('beforeend', flashHtml);
+
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+    }
+
+    window.setTimeout(function() {
+        const closeBtn = container.querySelector('.modern-flash-alert:last-child .modern-flash-close');
+        if (closeBtn && typeof window.dismissAlert === 'function') {
+            window.dismissAlert(closeBtn);
+        }
+    }, parseInt(autoDismissTime, 10));
+}
+
+function modernDeleteBlogCategory(id, table) {
+    window.adminConfirmForDelete(table).then(function(confirmed) {
+        if (!confirmed) {
+            return;
+        }
+
+        const deleteBtn = document.querySelector('[data-delete-action][data-id="' + id + '"]');
+        if (deleteBtn) {
+            deleteBtn.classList.add('loading');
+            deleteBtn.disabled = true;
+            const icon = deleteBtn.querySelector('i');
+            if (icon && window.setLucideIcon) {
+                window.setLucideIcon(icon, 'loader-2', { spin: true });
+            }
+        }
+
+        fetch('{{ route("admin.delete_action") }}', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: new URLSearchParams({
+                id: String(id),
+                table: table,
+                _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            })
+        })
+        .then(function(response) {
+            return response.json().catch(function() {
+                return { status: 0, message: 'Unexpected server response. Please try again.' };
+            }).then(function(data) {
+                return { ok: response.ok, data: data };
+            });
+        })
+        .then(function(result) {
+            if (result.ok && result.data && result.data.status == 1) {
+                sessionStorage.setItem('blogCategoryFlash', JSON.stringify({
+                    type: 'success',
+                    message: result.data.message || 'Blog category has been deleted successfully.'
+                }));
+                window.location.reload();
+                return;
+            }
+
+            showModernFlashMessage('error', (result.data && result.data.message) ? result.data.message : 'Failed to delete blog category.');
+            if (deleteBtn) {
+                deleteBtn.classList.remove('loading');
+                deleteBtn.disabled = false;
+                const icon = deleteBtn.querySelector('i');
+                if (icon && window.setLucideIcon) {
+                    window.setLucideIcon(icon, 'trash-2');
+                }
+            }
+        })
+        .catch(function() {
+            showModernFlashMessage('error', 'An error occurred while deleting the category. Please try again.');
+            if (deleteBtn) {
+                deleteBtn.classList.remove('loading');
+                deleteBtn.disabled = false;
+                const icon = deleteBtn.querySelector('i');
+                if (icon && window.setLucideIcon) {
+                    window.setLucideIcon(icon, 'trash-2');
+                }
+            }
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Add smooth transitions to status toggles
-    const statusToggles = document.querySelectorAll('.modern-status-toggle input');
-    statusToggles.forEach(toggle => {
+    window.deleteAction = function(id, table) {
+        modernDeleteBlogCategory(id, table);
+    };
+
+    const storedFlash = sessionStorage.getItem('blogCategoryFlash');
+    if (storedFlash) {
+        sessionStorage.removeItem('blogCategoryFlash');
+        try {
+            const flash = JSON.parse(storedFlash);
+            showModernFlashMessage(flash.type || 'success', flash.message || 'Blog category has been deleted successfully.');
+        } catch (e) {
+            showModernFlashMessage('success', 'Blog category has been deleted successfully.');
+        }
+    }
+
+    document.querySelectorAll('.modern-status-toggle input').forEach(function(toggle) {
         toggle.addEventListener('change', function() {
             const slider = this.nextElementSibling;
+            if (!slider) {
+                return;
+            }
             slider.style.transform = 'scale(0.95)';
-            setTimeout(() => {
+            window.setTimeout(function() {
                 slider.style.transform = 'scale(1)';
             }, 100);
         });
     });
 
-    // Add loading states to action buttons
-    const actionButtons = document.querySelectorAll('.modern-btn');
-    actionButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+    document.querySelectorAll('.modern-btn[href]').forEach(function(button) {
+        button.addEventListener('click', function() {
             if (this.href && !this.href.includes('javascript:')) {
                 this.classList.add('loading');
                 const icon = this.querySelector('i');
-                if (icon) {
+                if (icon && window.setLucideIcon) {
                     window.setLucideIcon(icon, 'loader-2', { spin: true });
                 }
             }

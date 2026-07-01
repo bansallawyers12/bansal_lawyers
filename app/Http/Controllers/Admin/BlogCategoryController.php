@@ -135,6 +135,9 @@ class BlogCategoryController extends Controller {
 										
 									  ]);
 			$obj				= 	BlogCategory::find(@$requestData['id']);
+			if (!$obj) {
+				return redirect()->back()->with('error', 'Blog Category'.Config::get('constants.not_exist'));
+			}
 			$obj->name			=	@$requestData['name'];
 			$obj->status		=	@$requestData['status'];
 			$obj->parent_id		=	@$requestData['parent_id'];
@@ -154,17 +157,15 @@ class BlogCategoryController extends Controller {
 		{	
 			if(isset($id) && !empty($id))
 			{
-				$id = $this->decodeString($id);	
-				if(BlogCategory::where('id', '=', $id)->exists()) 
-				{
-					$fetchedData = BlogCategory::find($id);
-					$categories = BlogCategory::where('parent_id', null)->orderby('name', 'asc')->get();	
-				return view('Admin.blogcategory.edit', compact('fetchedData', 'categories'));
-				}
-				else
+				$id = $this->decodeString($id);
+				if ($id === false || ! BlogCategory::where('id', '=', $id)->exists())
 				{
 					return Redirect::to('/admin/blogcategories')->with('error', 'Blog Category'.Config::get('constants.not_exist'));
-				}	
+				}
+
+				$fetchedData = BlogCategory::find($id);
+				$categories = BlogCategory::where('parent_id', null)->orderby('name', 'asc')->get();
+				return view('Admin.blogcategory.edit', compact('fetchedData', 'categories'));
 			}
 			else
 			{

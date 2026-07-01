@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\BookServiceSlotPerPerson;
 use App\Models\BookServiceDisableSlot;
+use App\Services\BookingBlockValidator;
+use Illuminate\Validation\ValidationException;
 
 class BookingBlockController extends Controller
 {
@@ -24,66 +26,191 @@ class BookingBlockController extends Controller
         $lists = $query->sortable(['id' => 'asc'])->paginate(config('constants.limit'));
 
         foreach ($lists as $list) {
-            $list->disabledSlots = BookServiceDisableSlot::select('id','book_service_slot_per_person_id','disabledates','slots','block_all')
+            $list->disabledSlots = BookServiceDisableSlot::select('id', 'book_service_slot_per_person_id', 'disabledates', 'slots', 'block_all')
                 ->where('book_service_slot_per_person_id', $list->id)
+                ->orderBy('disabledates')
+                ->orderBy('id')
                 ->get();
+
+            $list->groupedBlocks = $this->groupBlocksByDate($list->disabledSlots);
         }
 
         return view('Admin.feature.bookingblocks.index', compact('lists', 'totalData'));
     }
 
-    public function create(Request $request)
+    /**
+     * @param  \Illuminate\Support\Collection<int, BookServiceDisableSlot>  $slots
+     * @return list<array<string, mixed>>
+     */
+    private function groupBlocksByDate($slots): array
     {
-        return view('Admin.feature.bookingblocks.create');
+        $grouped = [];
+
+        foreach ($slots as $slot) {
+            if (! $slot->disabledates) {
+                continue;
+            }
+
+            $date = $slot->disabledates instanceof \Carbon\Carbon
+                ? $slot->disabledates->copy()->startOfDay()
+                : \Carbon\Carbon::parse($slot->disabledates)->startOfDay();
+
+            $dateKey = $date->format('Y-m-d');
+
+            if (! isset($grouped[$dateKey])) {
+                $grouped[$dateKey] = [
+                    'date_iso' => $dateKey,
+                    'date_display' => $date->format('d/m/Y'),
+                    'date_friendly' => $date->format('d M Y'),
+                    'day_name' => $date->format('D'),
+                    'month_short' => $date->format('M'),
+                    'day_number' => $date->format('d'),
+                    'year' => $date->format('Y'),
+                    'slot_count' => 0,
+                    'has_full_day' => false,
+                    'slots' => [],
+                    'search_terms' => strtolower($date->format('d/m/Y').' '.$date->format('d M Y')),
+                ];
+            }
+
+            $isFullDay = (int) $slot->block_all === 1;
+            $timeLabel = 'Full day';
+            $timeSort = '00:00';
+
+            if (! $isFullDay && ! empty($slot->slots)) {
+                $parts = explode('-', $slot->slots, 2);
+                if (count($parts) === 2) {
+                    $start = trim($parts[0]);
+                    $end = trim($parts[1]);
+                    $timeLabel = $start.' – '.$end;
+                    $timeSort = $start;
+                } else {
+                    $timeLabel = $slot->slots;
+                }
+            }
+
+            $grouped[$dateKey]['slots'][] = [
+                'id' => $slot->id,
+                'type' => $isFullDay ? 'full-day' : 'partial',
+                'label' => $timeLabel,
+                'sort' => $timeSort,
+            ];
+
+            $grouped[$dateKey]['slot_count']++;
+            $grouped[$dateKey]['has_full_day'] = $grouped[$dateKey]['has_full_day'] || $isFullDay;
+            $grouped[$dateKey]['search_terms'] .= ' '.strtolower($timeLabel);
+        }
+
+        ksort($grouped);
+
+        foreach ($grouped as &$group) {
+            usort($group['slots'], function ($a, $b) {
+                if ($a['type'] === 'full-day' && $b['type'] !== 'full-day') {
+                    return -1;
+                }
+                if ($b['type'] === 'full-day' && $a['type'] !== 'full-day') {
+                    return 1;
+                }
+
+                return strcmp($a['sort'], $b['sort']);
+            });
+        }
+        unset($group);
+
+        return array_values($grouped);
     }
 
-    public function store(Request $request)
+    public function create(Request $request)
     {
-        $this->validate($request, [
-            'person_id' => 'required|integer',
-            'date' => 'required',
-        ]);
+        $serviceConfig = BookServiceSlotPerPerson::where('person_id', 1)
+            ->where('service_type', 1)
+            ->first();
 
-        // Ensure there is a base slot config for Ajay if not already (optional)
+        return view('Admin.feature.bookingblocks.create', compact('serviceConfig'));
+    }
+
+    public function store(Request $request, BookingBlockValidator $validator)
+    {
+        try {
+            $request->validate([
+                'person_id' => 'required|integer',
+                'date' => 'required|array|min:1',
+            ]);
+        } catch (ValidationException $e) {
+            return $this->storeResponse($request, false, $e->errors());
+        }
+
+        $dates = (array) $request->input('date', []);
+        $fullDays = (array) $request->input('full_day', []);
+        $startTimes = (array) $request->input('start_time', []);
+        $endTimes = (array) $request->input('end_time', []);
+
+        $result = $validator->validate($dates, $fullDays, $startTimes, $endTimes, 1);
+
+        if (! $result['valid']) {
+            return $this->storeResponse($request, false, $result['errors']);
+        }
+
         BookServiceSlotPerPerson::firstOrCreate([
-            'id' => 1
+            'id' => 1,
         ], [
             'person_id' => 1,
             'service_type' => 1,
-            'start_time' => $request->start_time ?? '00:00',
-            'end_time' => $request->end_time ?? '23:59',
+            'start_time' => '09:00',
+            'end_time' => '17:00',
         ]);
 
-        // Create disabled slots for each submitted row
-        $dates = (array)$request->input('date');
         $saved = false;
-        foreach($dates as $i => $dateVal){
-            $parts = explode('/', $dateVal ?? '');
-            if (count($parts) === 3) {
-                $dateIso = $parts[2] . '-' . $parts[1] . '-' . $parts[0];
+        foreach ($result['blocks'] as $block) {
+            $disable = new BookServiceDisableSlot();
+            $disable->book_service_slot_per_person_id = 1;
+            $disable->disabledates = $block['date_iso'];
+            $disable->block_all = $block['full_day'] ? 1 : 0;
+
+            if ($block['full_day']) {
+                $disable->slots = '';
             } else {
-                $dateIso = $dateVal; // fallback if already ISO
+                $disable->slots = $block['start'].'-'.$block['end'];
             }
 
-            $disable = new BookServiceDisableSlot();
-            $disable->book_service_slot_per_person_id = 1; // Ajay only
-            $disable->disabledates = $dateIso;
-            $fullDay = (int)($request->input('full_day.'.$i) ?? 0);
-            $disable->block_all = $fullDay;
-            if (!$fullDay) {
-                $start = trim($request->input('start_time.'.$i) ?? '');
-                $end = trim($request->input('end_time.'.$i) ?? '');
-                $disable->slots = ($start && $end) ? ($start . '-' . $end) : '';
-            } else {
-                $disable->slots = '';
-            }
             $saved = $disable->save() || $saved;
         }
 
-        if(!$saved){
-            return redirect()->back()->with('error', Config::get('constants.server_error'));
+        if (! $saved) {
+            return $this->storeResponse($request, false, [
+                'blocks' => [Config::get('constants.server_error')],
+            ]);
         }
-        return Redirect::route('admin.feature.bookingblocks.index')->with('success','Block date added successfully');
+
+        return $this->storeResponse($request, true, [], 'Block date added successfully');
+    }
+
+    /**
+     * @param  array<string, list<string>>  $errors
+     */
+    private function storeResponse(Request $request, bool $success, array $errors = [], string $message = '')
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            if ($success) {
+                return response()->json([
+                    'success' => true,
+                    'message' => $message,
+                    'redirect' => route('admin.feature.bookingblocks.index'),
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => $message ?: 'Please fix the validation errors below.',
+                'errors' => $errors,
+            ], 422);
+        }
+
+        if ($success) {
+            return Redirect::route('admin.feature.bookingblocks.index')->with('success', $message);
+        }
+
+        return redirect()->back()->withInput()->withErrors($errors);
     }
 
     public function edit(Request $request, $id = null)
