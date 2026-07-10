@@ -360,7 +360,7 @@ class AppointmentsController extends Controller
                 <div class="assignee" style="display:none;">
                 <div class="row">
                     <div class="col-md-8">
-                        <select class="form-control select2" id="changeassignee" name="changeassignee">
+                        <select class="form-control js-tom-select" id="changeassignee" name="changeassignee">
                             <?php
                                 $adminList = \App\Models\Admin::query()->orderBy('first_name', 'ASC');
                                 if (Schema::hasColumn('admins', 'status')) {

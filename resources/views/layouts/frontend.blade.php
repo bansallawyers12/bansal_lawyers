@@ -117,13 +117,9 @@
     <!-- Bootstrap CSS - Primary framework for frontend -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     
-    <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v=1.0.0">
+    <!-- Lucide icons loaded via Vite (vendor-frontend.css / vendor-frontend.js) -->
     
-    <!-- AOS CSS - only on pages that use AOS animations -->
-    @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
-    <link rel="stylesheet" href="{{ asset('css/aos.min.css')}}">
-    @endif
+    <!-- AOS animations bundled via Vite (vendor-frontend.css / vendor-frontend.js) -->
     
     <!-- Main custom styles - Keep as normal stylesheet to avoid FOUC -->
     <!-- Note: High unused percentage reported, but needed for layout structure -->
@@ -132,9 +128,6 @@
     <!-- Non-critical CSS - only on pages that use these features -->
     @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*'))
     <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
-    @endif
-    @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*') || Request::is('case*'))
-    <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}">
     @endif
   
     {{-- Facebook Pixel moved to end of body to avoid blocking HTML parsing --}}
@@ -483,14 +476,6 @@
     <script src="{{ asset('js/jquery.waypoints.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.stellar.min.js')}}" defer></script>
     <script src="{{ asset('js/scrollax.min.js')}}" defer></script>
-    @endif
-    @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*') || Request::is('case*'))
-    <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
-    @endif
-    
-    <!-- AOS JS - Only load on pages that use AOS animations -->
-    @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
-    <script src="{{ asset('js/aos.min.js')}}" defer></script>
     @endif
     
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}" defer></script>

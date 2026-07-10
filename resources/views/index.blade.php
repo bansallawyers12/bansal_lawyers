@@ -223,6 +223,12 @@
     color: white;
 }
 
+.experimental-card .icon svg {
+    width: 2rem;
+    height: 2rem;
+    stroke: white;
+}
+
 .experimental-card h3 {
     color: #1B4D89;
     font-size: 1.5rem;
@@ -507,7 +513,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="experimental-card">
                             <div class="icon">
-                                <span class="flaticon-auction"></span>
+                                <i data-lucide="gavel" aria-hidden="true"></i>
                             </div>
                             <h3>Your Success is Our Mission</h3>
                             <p>We don't just handle cases – we build relationships. Every client's story matters to us, and we fight passionately for the outcomes that will change your life for the better. Your victory is our greatest reward.</p>
@@ -516,7 +522,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="experimental-card">
                             <div class="icon">
-                                <span class="flaticon-lawyer"></span>
+                                <i data-lucide="briefcase" aria-hidden="true"></i>
                             </div>
                             <h3>We Speak Your Language</h3>
                             <p>Understanding your unique situation is our first priority. We take time to listen, explain everything in plain English, and create a personalized strategy that fits your specific needs and goals.</p>
@@ -525,7 +531,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="experimental-card">
                             <div class="icon">
-                                <span class="flaticon-lawyer"></span>
+                                <i data-lucide="briefcase" aria-hidden="true"></i>
                             </div>
                             <h3>Proven Track Record</h3>
                             <p>With years of experience helping families and individuals in Australia, we've successfully guided hundreds of clients through complex legal challenges. Your case is in capable, caring hands.</p>
@@ -551,7 +557,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center;">
                     <div class="icon">
-                        <span class="flaticon-family"></span>
+                        <i data-lucide="users" aria-hidden="true"></i>
                     </div>
                     <h3>Family Law</h3>
                     <p>Divorce, separation, children, property and other family law matters. Expert guidance for complex family situations.</p>
@@ -561,7 +567,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center;">
                     <div class="icon">
-                        <span class="flaticon-handshake"></span>
+                        <i data-lucide="handshake" aria-hidden="true"></i>
                     </div>
                     <h3>Migration Law</h3>
                     <p>Visa applications, appeals, permanent residency, and citizenship matters. Your pathway to Australia.</p>
@@ -571,7 +577,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center;">
                     <div class="icon">
-                        <span class="flaticon-auction"></span>
+                        <i data-lucide="gavel" aria-hidden="true"></i>
                     </div>
                     <h3>Criminal Law</h3>
                     <p>Assault charges, traffic offenses, and criminal defense. Protecting your rights and future in Australia.</p>
@@ -581,7 +587,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center;">
                     <div class="icon">
-                        <span class="flaticon-lawyer"></span>
+                        <i data-lucide="briefcase" aria-hidden="true"></i>
                     </div>
                     <h3>Commercial Law</h3>
                     <p>Business formation, contracts, corporate governance, and commercial disputes. Supporting your business growth.</p>
@@ -591,7 +597,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center;">
                     <div class="icon">
-                        <span class="flaticon-house"></span>
+                        <i data-lucide="house" aria-hidden="true"></i>
                     </div>
                     <h3>Property Law</h3>
                     <p>Property transactions, leasing, development, and property disputes. Securing your property interests.</p>
@@ -601,7 +607,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center; background: linear-gradient(135deg, #1B4D89, #2c5aa0); color: white;">
                     <div class="icon" style="background: rgba(255,255,255,0.2);">
-                        <span class="flaticon-auction"></span>
+                        <i data-lucide="gavel" aria-hidden="true"></i>
                     </div>
                     <h3 style="color: white;">All Practice Areas</h3>
                     <p style="color: rgba(255,255,255,0.9);">View our complete range of legal services and find the right solution for your needs.</p>

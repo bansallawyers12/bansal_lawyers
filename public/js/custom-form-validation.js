@@ -377,18 +377,7 @@ function customValidate(formName, savetype = '')
 										type:'GET',
 										data:{clientid:client_id},
 										success: function(responses){
-											// $('#my-datatable').DataTable().destroy();
 											$('.taskdata').html(responses);
-											$('#my-datatable').DataTable({
-												"searching": false,
-												"lengthChange": false,
-											  "columnDefs": [
-												{ "sortable": false, "targets": [0, 2, 3] }
-											  ],
-											  order: [[1, "desc"]] //column indexes is zero based
-
-												
-											}).draw();
 											
 										}
 									});
@@ -1135,18 +1124,7 @@ function customValidate(formName, savetype = '')
 										type:'GET',
 										data:{clientid:client_id},
 										success: function(responses){
-												 $('.invoicetable').DataTable().destroy();
 													$('.invoicedatalist').html(responses);
-												$('.invoicetable').DataTable({
-													"searching": false,
-													"lengthChange": false,
-												  "columnDefs": [
-													{ "sortable": false, "targets": [0, 2, 3] }
-												  ],
-												  order: [[1, "desc"]] //column indexes is zero based
-
-													
-												}).draw();
 											
 										}
 									}); 

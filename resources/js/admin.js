@@ -13,6 +13,7 @@ import { ajaxUtils } from './components/ajax-utils.js';
 import { formValidation } from './components/form-validation.js';
 import { tomSelect } from './components/alpine-select.js';
 import { tinyMCE } from './components/alpine-tinymce.js';
+import { initAdminFlatpickr } from './components/flatpickr-init.js';
 
 // Register Alpine.js data components globally
 if (window.Alpine) {
@@ -20,33 +21,13 @@ if (window.Alpine) {
     window.Alpine.data('tinyMCE', tinyMCE);
 }
 
-// Note: TinyMCE is loaded via script tag in blade templates for better performance
-// Only pages that need TinyMCE load it (blog, cms, recent case forms)
-// This keeps the admin bundle small and fast for all other admin pages
-
-// Note: CSS files should be imported in CSS entry points (resources/css/admin.css)
-// or loaded via Vite's CSS handling. The app.min.css is loaded via asset() helper
-// in Blade templates, so we don't import it here.
-
-// Lazy load admin libraries based on page needs
-// Note: These libraries are loaded via CDN/asset() in Blade templates and marked as external in vite.config.js
-// This function detects what's needed and initializes them if they're already loaded
 const loadAdminLibraries = async (libraries = []) => {
     const loadedLibraries = {};
-    
+
     for (const lib of libraries) {
         try {
             switch (lib) {
-                case 'datatables':
-                    // DataTables is loaded via asset() in admin.blade.php
-                    if (window.$ && window.$.fn && window.$.fn.DataTable) {
-                        loadedLibraries.datatables = { DataTables: window.$.fn.DataTable };
-                    }
-                    break;
-                    
                 case 'tom-select':
-                    // Tom Select is loaded via npm and initialized via Alpine.js components
-                    // Also make it globally available for legacy code
                     try {
                         const TomSelectModule = await import('tom-select');
                         window.TomSelect = TomSelectModule.default;
@@ -55,24 +36,14 @@ const loadAdminLibraries = async (libraries = []) => {
                         console.warn('Tom Select not available:', error);
                     }
                     break;
-                    
+
                 case 'tinymce':
-                    // TinyMCE is loaded via npm and initialized via Alpine.js components
-                    // Check if TinyMCE is globally available
                     if (typeof tinymce !== 'undefined') {
                         loadedLibraries.tinymce = tinymce;
                     }
                     break;
-                    
-                case 'fullcalendar':
-                    // FullCalendar is loaded via asset() in admin.blade.php
-                    if (window.FullCalendar) {
-                        loadedLibraries.fullcalendar = window.FullCalendar;
-                    }
-                    break;
-                    
+
                 case 'datepicker':
-                    // Flatpickr is loaded via npm
                     if (window.flatpickr) {
                         loadedLibraries.datepicker = window.flatpickr;
                     }
@@ -82,37 +53,8 @@ const loadAdminLibraries = async (libraries = []) => {
             console.warn(`Failed to initialize ${lib}:`, error);
         }
     }
-    
-    return loadedLibraries;
-};
 
-// Load external scripts that aren't available as npm packages
-// Note: app.min.js removed - it's a Node.js bundle incompatible with browsers
-// All its dependencies (Alpine.js, axios, lodash, jQuery, Bootstrap) are already loaded via Vite/npm
-const loadExternalAdminScripts = (scripts = []) => {
-    const externalScripts = [
-        // '/js/app.min.js', // REMOVED: Contains CommonJS require() - incompatible with browser
-        // Dependencies already available: Alpine.js (via alpine-utils.js), axios (via ajax-utils.js), 
-        // lodash/jQuery (via bootstrap.js), Bootstrap (via admin.blade.php)
-        '/js/daterangepicker.js',
-        '/js/bootstrap-timepicker.min.js',
-        '/js/bootstrap-formhelpers.min.js',
-        '/js/intlTelInput.js'
-    ];
-    
-    const scriptsToLoad = externalScripts.filter(script => 
-        scripts.length === 0 || scripts.some(s => script.includes(s))
-    );
-    
-    return Promise.all(scriptsToLoad.map(src => {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = src;
-            script.onload = resolve;
-            script.onerror = reject;
-            document.head.appendChild(script);
-        });
-    }));
+    return loadedLibraries;
 };
 
 function initAdminSidebarToggle() {
@@ -136,66 +78,28 @@ function initAdminSidebarToggle() {
     });
 }
 
-// Performance optimizations
 document.addEventListener('DOMContentLoaded', async function() {
     initAdminSidebarToggle();
-    // Detect what libraries are needed based on page content
+
     const neededLibraries = [];
-    
-    if (document.querySelector('.datatable, table[data-datatable]')) {
-        neededLibraries.push('datatables');
-    }
-    
-    if (document.querySelector('.modern-select, select[data-modern-select], select[x-data*="tomSelect"]')) {
+
+    if (document.querySelector('.modern-select, select[data-modern-select], select[x-data*="tomSelect"], .js-tom-select')) {
         neededLibraries.push('tom-select');
     }
-    
+
     if (document.querySelector('textarea[data-tinymce], textarea[x-data*="tinyMCE"]')) {
         neededLibraries.push('tinymce');
     }
-    
-    if (document.querySelector('#calendar, .calendar')) {
-        neededLibraries.push('fullcalendar');
-    }
-    
-    if (document.querySelector('.datepicker, input[data-datepicker]')) {
+
+    if (document.querySelector('.datepicker, input[data-datepicker], .dobdatepicker, .dobdatepickers, .filterdatepicker, .contract_expiry, .datetimepicker, .daterange, .timepicker, input[data-timepicker], .date, .followup_date')) {
         neededLibraries.push('datepicker');
     }
-    
+
     try {
-        // Load needed libraries
         const loadedLibraries = await loadAdminLibraries(neededLibraries);
-        
-        // Load external scripts
-        await loadExternalAdminScripts(neededLibraries);
-        
-        // Initialize DataTables
-        if (loadedLibraries.datatables && window.$ && window.$.fn && window.$.fn.DataTable) {
-            window.$.extend(window.$.fn.dataTable.defaults, {
-                responsive: true,
-                processing: true,
-                serverSide: false,
-                deferRender: true,
-                scroller: {
-                    loadingIndicator: true
-                },
-                dom: 'lfrtip',
-                language: {
-                    processing: "Loading...",
-                    emptyTable: "No data available"
-                }
-            });
-            
-            // Auto-initialize tables
-            $('.datatable, table[data-datatable]').DataTable();
-        }
-        
-        // Initialize Modern Select (Tom Select) via Alpine.js components
-        // For non-Alpine selects, use modernSelect.init() as fallback
-        // Primary method: Use x-data="tomSelect()" in blade templates
+
         if (loadedLibraries.tomSelect) {
-            // Fallback for selects without Alpine.js
-            modernSelect.init('.modern-select:not([x-data]), select[data-modern-select]:not([x-data])', {
+            modernSelect.init('.modern-select:not([x-data]), select[data-modern-select]:not([x-data]), .js-tom-select:not([x-data])', {
                 placeholder: 'Select an option',
                 allowEmptyOption: true,
                 closeAfterSelect: true,
@@ -204,57 +108,21 @@ document.addEventListener('DOMContentLoaded', async function() {
                 console.warn('Modern select initialization failed:', error);
             });
         }
-        
-        // Initialize TinyMCE via Alpine.js components
-        // Use x-data="tinyMCE({ height: 500 })" in blade templates instead of Summernote
-        // TinyMCE will be initialized automatically by Alpine.js components
-        // No manual initialization needed here - Alpine.js handles it reactively
-        
-        // Initialize FullCalendar v6
-        if (loadedLibraries.fullcalendar) {
-            const { Calendar, dayGridPlugin, timeGridPlugin, interactionPlugin } = loadedLibraries.fullcalendar;
-            const calendarEl = document.getElementById('calendar');
-            if (calendarEl) {
-                const calendar = new Calendar(calendarEl, {
-                    plugins: [dayGridPlugin.default, timeGridPlugin.default, interactionPlugin.default],
-                    headerToolbar: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                    },
-                    initialDate: new Date(),
-                    navLinks: true,
-                    editable: true,
-                    eventLimit: true
-                });
-                calendar.render();
-            }
+
+        if (loadedLibraries.datepicker) {
+            initAdminFlatpickr();
         }
-        
-        // Initialize Flatpickr
-        if (loadedLibraries.datepicker && window.flatpickr) {
-            const datepickerElements = document.querySelectorAll('.datepicker, input[data-datepicker]');
-            datepickerElements.forEach(element => {
-                window.flatpickr(element, {
-                    dateFormat: 'Y-m-d',
-                    allowInput: true,
-                    clickOpens: true
-                });
-            });
-        }
-        
-        // Performance monitoring
+
         if (window.performance && window.performance.mark) {
             window.performance.mark('admin-bundle-loaded');
         }
-        
+
     } catch (error) {
         console.warn('Some admin libraries failed to load:', error);
     }
 });
 
-// Export for global access if needed
 window.AdminBundle = {
     initialized: true,
-    version: '2.0.0'
+    version: '2.1.0'
 };

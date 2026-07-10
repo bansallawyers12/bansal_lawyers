@@ -5,3 +5,6 @@
 
 /* Flatpickr CSS (modern datepicker) */
 @import 'flatpickr/dist/flatpickr.min.css';
+
+/* Tom Select (replaces Select2) */
+@import 'tom-select/dist/css/tom-select.bootstrap5.css';

@@ -57,10 +57,6 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     
     <!-- Lucide icons loaded via Vite in vendor-frontend.css / vendor-frontend.js -->
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v=1.0">
-    
-    <!-- Magnific Popup CSS for lightbox functionality -->
-    <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}">
     
     <!-- Vendor bundles -->
     @vite(['resources/css/vendor-frontend.css'])
@@ -108,9 +104,6 @@
     
     <!-- Vendor bundles -->
     @vite(['resources/js/vendor-frontend.js'])
-    
-    <!-- Magnific Popup for lightbox functionality -->
-    <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
     
     <!-- Vite JS -->
     @vite(['resources/js/frontend.js'])

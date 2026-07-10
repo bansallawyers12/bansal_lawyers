@@ -24,25 +24,15 @@
 	 <!-- FullCalendar v6 CSS - Auto-injected by JavaScript (no CSS files needed in v6) -->
 	 <!-- The admin-calendar-v6.js imports inject CSS automatically at runtime -->
 	<!-- Summernote CSS removed - now using TinyMCE -->
-	<link rel="stylesheet" href="{{ asset('css/daterangepicker.css')}}">
-	<link rel="stylesheet" href="{{ asset('css/bootstrap-timepicker.min.css')}}">
 	<!-- Select2 CSS removed - now using Tom Select (loaded via Vite) -->
 	<!-- Template CSS -->
 	<!--<link rel="stylesheet" href="{{--asset('css/niceCountryInput.css')--}}">-->
 	<!--<link rel="stylesheet" href="{{--asset('css/flagstrap.css')--}}">-->
 
-	<link rel="stylesheet" href="{{ asset('css/bootstrap-formhelpers.min.css')}}">
-	<link rel="stylesheet" href="{{ asset('css/intlTelInput.css')}}">
-
-
 	<link rel="stylesheet" href="{{ asset('css/components.css')}}">
 	<!-- Custom style CSS -->
 	<link rel="stylesheet" href="{{ asset('css/custom.css')}}">
 
-    <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">-->
-
-    <link rel="stylesheet" href="{{ asset('css/dataTables_min_latest.css')}}">
-    
     <!-- Lucide icons loaded via Vite (vendor-admin.css / admin.js) -->
 
 
@@ -80,7 +70,7 @@ button + button, .btn + .btn {
   background-color: transparent;
  border:0;
 }
-.ui.yellow.label, .ui.yellow.labels .label, .select2resultrepositorystatistics .yellow {background-color: #fbbd08!important;border-color: #fbbd08!important;color: #fff!important;}
+.ui.yellow.label, .ui.yellow.labels .label, .ts-wrapper .yellow {background-color: #fbbd08!important;border-color: #fbbd08!important;color: #fff!important;}
 .dropbtn:hover, .dropbtn:focus {
   background-color: transparent;
    border:0;
@@ -233,14 +223,10 @@ body.admin-sidebar-collapsed .main-wrapper {
 	<!--<script src="{{--asset('js/niceCountryInput.js')--}}"></script> -->
 	
 	<!-- Core Dependencies (load first; jQuery already loaded in <head>) -->
-	<script src="{{ asset('js/moment.min.js')}}"></script>
 	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 	
 	<!-- Feature-specific Scripts (load after core) -->
 	<!-- FullCalendar v6 loaded via Vite in admin.js (no jQuery needed) -->
-	<!-- DataTables removed - not used in admin panel (modern-table class used instead) -->
-	<!-- <script src="{{ asset('js/datatables.min.js')}}"></script> -->
-	<!-- <script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script> -->
 	<!-- TinyMCE v8 self-hosted from public/assets/tinymce (copied via npm run copy-tinymce) -->
 	<script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
 	<script type="text/javascript" {!! \App\Services\CspService::getNonceAttribute() !!}>
@@ -250,11 +236,6 @@ body.admin-sidebar-collapsed .main-wrapper {
 		}
 	</script>
 	<script src="{{ asset('js/tinymce-config.js') }}"></script>
-	<script src="{{ asset('js/daterangepicker.js')}}"></script>
-	<script src="{{ asset('js/bootstrap-timepicker.min.js')}}"></script>
-	<!-- Select2 JS removed - now using Tom Select (loaded via Vite in admin.js) -->
-	<script src="{{ asset('js/bootstrap-formhelpers.min.js')}}"></script>
-	<script src="{{ asset('js/intlTelInput.js')}}"></script>
 	
 	<!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
 	@vite(['resources/js/admin.js'])
@@ -360,7 +341,6 @@ body.admin-sidebar-collapsed .main-wrapper {
 				new NiceCountryInput(e).init();
 			}); */
 			//$('.country_input').flagStrap();
-			$(".telephone").intlTelInput();
 			$('.drop_table_data button').on('click', function(){
 				$('.client_dropdown_list').toggleClass('active');
 			});

@@ -107,17 +107,9 @@
     
     <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
     <!-- Lucide icons loaded via Vite in vendor-frontend.css / vendor-frontend.js -->
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v=1.0">
 
-    <!-- Essential custom CSS only -->
-    <!-- Critical CSS - needed for initial render -->
-    <!-- Vendor bundles (Swiper) loaded via Vite -->
+    <!-- Vendor bundles (Swiper, AOS) loaded via Vite -->
     @vite(['resources/css/vendor-frontend.css'])
-    
-    <!-- AOS CSS - only on pages that use AOS animations -->
-    @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
-    <link rel="stylesheet" href="{{ asset('css/aos.min.css')}}">
-    @endif
     
     <!-- Main custom styles - Keep as normal stylesheet to avoid FOUC -->
     <!-- Note: High unused percentage reported, but needed for layout structure -->
@@ -128,9 +120,6 @@
     <!-- Non-critical CSS - only on pages that use these features -->
     @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*'))
     <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
-    @endif
-    @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*') || Request::is('case*'))
-    <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}">
     @endif
 
     <style>
@@ -179,24 +168,13 @@
     <!-- Load jQuery first (moved from head for performance) -->
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
     
-    <!-- Core Dependencies -->
-    <script src="{{ asset('js/moment.min.js')}}"></script>
-    
     <!-- jQuery Plugins -->
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>
     <script src="{{ asset('js/jquery.waypoints.min.js')}}"></script>
     <script src="{{ asset('js/jquery.stellar.min.js')}}"></script>
-    <!-- Vendor bundles (Swiper) loaded via Vite -->
     @vite(['resources/js/vendor-frontend.js'])
-    <script src="{{ asset('js/jquery.magnific-popup.min.js')}}"></script>
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}"></script>
     <script src="{{ asset('js/scrollax.min.js')}}"></script>
-    
-    <!-- Essential Libraries Only -->
-    <!-- AOS JS - Only load on pages that use AOS animations -->
-    @if(Request::is('about') || Request::is('contact') || Request::is('contact/*'))
-    <script src="{{ asset('js/aos.min.js')}}"></script>
-    @endif
     
     <!-- Google Maps - Removed for appointment page -->
     <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&callback=initMap"></script> -->

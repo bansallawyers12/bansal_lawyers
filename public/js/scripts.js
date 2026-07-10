@@ -326,10 +326,9 @@ document.addEventListener('DOMContentLoaded', function () {
     container: "body"
   });
 
-  // Select2 removed - now using Tom Select
-  // Initialize Tom Select for elements with .select2 class (backward compatibility)
+  // Tom Select — backward compat for .js-tom-select and legacy .select2
   if (typeof window.TomSelect !== 'undefined' && typeof window.initTomSelect === 'function') {
-    document.querySelectorAll('.select2').forEach(function(select) {
+    document.querySelectorAll('.js-tom-select, .select2').forEach(function(select) {
       if (!select.tomselect) {
         window.initTomSelect(select, {
           placeholder: 'Select an option',
@@ -534,177 +533,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Daterangepicker
-  if (jQuery().daterangepicker) {
-    if ($(".datepicker").length) {
-      $(".datepicker").daterangepicker({
-        locale: { cancelLabel: 'Clear',format: "YYYY-MM-DD" },
-        singleDatePicker: true,
-		 autoUpdateInput: false,
-        showDropdowns: true
-      }).on("apply.daterangepicker", function (e, picker) {
-        var isoDate = picker.startDate.format('YYYY-MM-DD');
-        picker.element.val(isoDate);
-        // Store ISO date for backend processing
-        picker.element.data('iso-date', isoDate);
-    });
-    }if ($(".dobdatepicker").length) {
-      $(".dobdatepicker").daterangepicker({
-        locale: { cancelLabel: 'Clear',format: "DD/MM/YYYY" },
-        singleDatePicker: true,
-		autoUpdateInput: false,
-        showDropdowns: true
-      }).on("apply.daterangepicker", function (e, picker) {
-        var displayDate = picker.startDate.format('DD/MM/YYYY');
-        var isoDate = picker.startDate.format('YYYY-MM-DD');
-        picker.element.val(displayDate);
-        // Store ISO date for backend processing
-        picker.element.data('iso-date', isoDate);
-    });
-    }
-    if ($(".dobdatepickers").length) {
-      $(".dobdatepickers").daterangepicker({
-        locale: { cancelLabel: 'Clear',format: "DD/MM/YYYY" },
-        singleDatePicker: true,
-		autoUpdateInput: false,
-        showDropdowns: true
-      }).on("apply.daterangepicker", function (e, picker) {
-         picker.element.val(picker.startDate.format(picker.locale.format));
-        var dob = picker.startDate.format('MM/DD/YYYY');
-        function getAge(dateString) {
-  var now = new Date();
-  var today = new Date(now.getYear(),now.getMonth(),now.getDate());
-
-  var yearNow = now.getYear();
-  var monthNow = now.getMonth();
-  var dateNow = now.getDate();
-
-  var dob = new Date(dateString.substring(6,10),
-                     dateString.substring(0,2)-1,                   
-                     dateString.substring(3,5)                  
-                     );
-
-  var yearDob = dob.getYear();
-  var monthDob = dob.getMonth();
-  var dateDob = dob.getDate();
-  var age = {};
-  var ageString = "";
-  var yearString = "";
-  var monthString = "";
-  var dayString = "";
-
-
-  var yearAge = yearNow - yearDob;
-
-  if (monthNow >= monthDob)
-    var monthAge = monthNow - monthDob;
-  else {
-    yearAge--;
-    var monthAge = 12 + monthNow -monthDob;
-  }
-
-  if (dateNow >= dateDob)
-    var dateAge = dateNow - dateDob;
-  else {
-    monthAge--;
-    var dateAge = 31 + dateNow - dateDob;
-
-    if (monthAge < 0) {
-      monthAge = 11;
-      yearAge--;
-    }
-  }
-
-  age = {
-      years: yearAge,
-      months: monthAge,
-      days: dateAge
-      };
-
-  if ( age.years > 1 ) yearString = " years";
-  else yearString = " year";
-  if ( age.months> 1 ) monthString = " months";
-  else monthString = " month";
-  if ( age.days > 1 ) dayString = " days";
-  else dayString = " day";
-
-
-  if ( (age.years > 0) && (age.months > 0) && (age.days > 0) )
-    ageString = age.years + yearString + " " + age.months + monthString;
-  else if ( (age.years == 0) && (age.months == 0) && (age.days > 0) )
-    ageString = age.days;
-  else if ( (age.years > 0) && (age.months == 0) && (age.days == 0) )
-    ageString = age.years + yearString;
-  else if ( (age.years > 0) && (age.months > 0) && (age.days == 0) )
-    ageString = age.years + yearString + " " + age.months + monthString;
-  else if ( (age.years == 0) && (age.months > 0) && (age.days > 0) )
-    ageString = age.months + monthString;
-  else if ( (age.years > 0) && (age.months == 0) && (age.days > 0) )
-    ageString = age.years + yearString;
-  else if ( (age.years == 0) && (age.months > 0) && (age.days == 0) )
-    ageString = age.months + monthString;
-  else ageString = "Oops! Could not calculate age!";
-
-  return ageString;
-}
- $('input[name="age"]').val(getAge(dob));
-
-    });
-    }
-    if ($(".filterdatepicker").length) {
-      $(".filterdatepicker").daterangepicker({
-        locale: { cancelLabel: 'Clear',format: "YYYY-MM-DD" },
-        singleDatePicker: true,
-		autoUpdateInput: false,
-        showDropdowns: true,
-       
-      }).on("apply.daterangepicker", function (e, picker) {
-        picker.element.val(picker.startDate.format(picker.locale.format));
-    });;
-    }
-    if ($(".contract_expiry").length) {
-      $(".contract_expiry").daterangepicker({
-        locale: { cancelLabel: 'Clear',format: "YYYY-MM-DD" },
-        singleDatePicker: true,
-         autoUpdateInput: false,
-		cancelLabel: 'Clear',
-        showDropdowns: true
-      }).on("apply.daterangepicker", function (e, picker) {
-        picker.element.val(picker.startDate.format(picker.locale.format));
-    });
-	 
-    }
-    if ($(".datetimepicker").length) {
-      $(".datetimepicker").daterangepicker({
-        locale: { format: "YYYY-MM-DD hh:mm" },
-        singleDatePicker: true,
-        timePicker: true,
-         autoUpdateInput: false,
-        timePicker24Hour: true
-      }).on("apply.daterangepicker", function (e, picker) {
-        picker.element.val(picker.startDate.format(picker.locale.format));
-    });
-    }
-    if ($(".daterange").length) {
-      $(".daterange").daterangepicker({
-        locale: { format: "YYYY-MM-DD" },
-        drops: "down",
-         autoUpdateInput: false,
-        opens: "right"
-      }).on("apply.daterangepicker", function (e, picker) {
-        picker.element.val(picker.startDate.format(picker.locale.format));
-    });
-    }
-  }
-
-  // Timepicker
-  if (jQuery().timepicker && $(".timepicker").length) {
-    $(".timepicker").timepicker({
-      icons: {
-        up: "chevron-up",
-        down: "chevron-down"
-      }
-    });
+  // Date/time inputs — Flatpickr (replaces Moment + daterangepicker + bootstrap-timepicker)
+  if (typeof window.initAdminFlatpickr === 'function') {
+    window.initAdminFlatpickr();
   }
 
   $("#mini_sidebar_setting").on("change", function () {

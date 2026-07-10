@@ -38,17 +38,8 @@ export default defineConfig({
         chunkSizeWarningLimit: 1000,
         rolldownOptions: {
             external: [
-                // External packages that are loaded dynamically or via CDN
-                // Note: Flatpickr is now bundled via npm (replaces bootstrap-datepicker)
-                // Note: FullCalendar removed from external - now bundled via npm
-                // Note: Swiper removed from external - now bundled via npm
-                'datatables.net',
-                'datatables.net-bs4',
+                // tom-select is dynamically imported in admin.js
                 'tom-select',
-                'summernote',
-                'owl.carousel',
-                'magnific-popup',
-                'aos',
             ],
             onwarn(warning, warn) {
                 if (
