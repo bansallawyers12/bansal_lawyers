@@ -642,13 +642,9 @@ jQuery(document).ready(function($){
     $('body').removeClass('modal-open');
     $('.modal-backdrop').remove();
     
-    // Initialize flatpickr for followup date
-    if (typeof flatpickr !== 'undefined') {
-        flatpickr('.followup_date', {
-            dateFormat: 'd/m/Y',
-            allowInput: true,
-            clickOpens: true
-        });
+    // Flatpickr — single owner (includes .followup_date as d/m/Y)
+    if (typeof window.initAdminFlatpickr === 'function') {
+        window.initAdminFlatpickr();
     }
 
     $(document).delegate('.editfollowupdate', 'click', function(e){
@@ -705,12 +701,8 @@ jQuery(document).ready(function($){
 		});
     });
 
-    // Enhanced modal close functionality
-    $(document).on('click', '[data-dismiss="modal"], .close', function() {
-        closeModal();
-    });
-    
-    $(document).on('click', '.modal-backdrop', function() {
+    // Enhanced modal close functionality (Bootstrap 5)
+    $(document).on('click', '[data-bs-dismiss="modal"], [data-dismiss="modal"], .close', function() {
         closeModal();
     });
     
@@ -722,21 +714,21 @@ jQuery(document).ready(function($){
     
     // Make closeModal globally accessible
     window.closeModal = function() {
-        var modal = $('#event-details-modal');
-        try {
-            if (typeof $.fn.modal !== 'undefined') {
-                modal.modal('hide');
-            } else {
-                modal.removeClass('show');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-            }
-        } catch (error) {
-            console.error('Error closing modal:', error);
-            modal.removeClass('show');
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
+        var modalEl = document.getElementById('event-details-modal');
+        if (!modalEl) return;
+        if (typeof window.hideAdminModal === 'function') {
+            window.hideAdminModal(modalEl);
+            return;
         }
+        if (window.bootstrap && window.bootstrap.Modal) {
+            var instance = window.bootstrap.Modal.getInstance(modalEl)
+                || window.bootstrap.Modal.getOrCreateInstance(modalEl);
+            instance.hide();
+            return;
+        }
+        $(modalEl).removeClass('show');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
     };
 
     $('#followup-save-btn').on('click', function() {
@@ -834,29 +826,25 @@ document.addEventListener('fullcalendar-event-click', function(e) {
         
         $details.find('.clienturl').html('<div class="row"><div class="col-md-6"><strong>'+clientName+' '+scheds[id].stitle+'</strong></div><div class="col-md-6 clienturl-status-col"><select class="form-control form-control-sm" id="updateappointmentstatus"><option value="0">Pending</option><option value="1" '+csel1+'>Approve</option><option value="2" '+csel2+'>Completed</option><option value="3" '+csel3+'>Rejected</option><option value="4" '+csel4+'>N/P</option><option value="5" '+csel5+'>Inrogress</option><option value="6" '+csel6+'>Did Not Come</option><option value="7" '+csel7+'>Cancelled</option><option value="8" '+csel8+'>Missed</option><option value="9" '+csel9+'>Pending With payment Pending</option><option value="10" '+csel10+'>Pending With payment Success</option><option value="11" '+csel11+'>Pending With payment Failed</option></select><input type="hidden" id="appid" value="'+id+'"></div></div>');
         
-        // Enhanced modal display with multiple fallbacks
+        // Enhanced modal display (Bootstrap 5)
         try {
-            if (typeof $.fn.modal !== 'undefined') {
-                $details.modal({
+            if (typeof window.showAdminModal === 'function') {
+                window.showAdminModal($details[0], { backdrop: 'static', keyboard: true });
+            } else if (window.bootstrap && window.bootstrap.Modal) {
+                window.bootstrap.Modal.getOrCreateInstance($details[0], {
                     backdrop: 'static',
-                    keyboard: true,
-                    show: true
-                });
+                    keyboard: true
+                }).show();
+            } else if (typeof $.fn.modal !== 'undefined') {
+                $details.modal({ backdrop: 'static', keyboard: true, show: true });
             } else {
                 $details.addClass('show');
                 $('body').addClass('modal-open');
-                
-                if ($('.modal-backdrop').length === 0) {
-                    $('body').append('<div class="modal-backdrop fade show"></div>');
-                }
             }
         } catch (error) {
             console.error('Error showing modal:', error);
             $details.addClass('show');
             $('body').addClass('modal-open');
-            if ($('.modal-backdrop').length === 0) {
-                $('body').append('<div class="modal-backdrop fade show"></div>');
-            }
         }
     }
 });
@@ -873,9 +861,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="eventModalLabel">Appointment Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i data-lucide="x"></i></span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 

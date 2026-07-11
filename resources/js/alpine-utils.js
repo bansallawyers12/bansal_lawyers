@@ -9,10 +9,15 @@ import Alpine from 'alpinejs';
 // Make Alpine available globally
 window.Alpine = Alpine;
 
-// Start Alpine.js
-Alpine.start();
-
-console.log('✓ Alpine.js initialized and available globally');
+// Defer start so importers (e.g. admin.js) can register Alpine.data() first.
+// Alpine 3 requires data components to be registered before Alpine.start().
+queueMicrotask(() => {
+    if (window.__alpineStarted) {
+        return;
+    }
+    window.__alpineStarted = true;
+    Alpine.start();
+});
 
 // Form validation utilities
 window.formUtils = {

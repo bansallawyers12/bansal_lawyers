@@ -1,74 +1,102 @@
-// Admin JS Bundle - Optimized for Performance
-// Admin functionality with modern ES6+ features
+// Admin JS Bundle — single Vite-owned path (Phase 2)
+// jQuery allowed temporarily; Bootstrap 5 from npm (no static BS4 bundle)
+
+import jq from 'jquery';
+// Prefer layout sync jQuery when present (inline page scripts); else use npm build
+if (!window.jQuery) {
+    window.$ = window.jQuery = jq;
+}
+const $ = window.jQuery;
 
 import './lucide-init.js';
 import './vendor-admin.js';
-
-// Import Alpine.js utilities
 import './alpine-utils.js';
 
-// Import modern components
+import {
+    installJqueryModalShim,
+    initBootstrapUi,
+    showAdminModal,
+    hideAdminModal,
+} from './admin-bootstrap.js';
+installJqueryModalShim($);
+
 import { modernSelect } from './components/modern-select.js';
-import { ajaxUtils } from './components/ajax-utils.js';
-import { formValidation } from './components/form-validation.js';
 import { tomSelect } from './components/alpine-select.js';
 import { tinyMCE } from './components/alpine-tinymce.js';
 import { initAdminFlatpickr } from './components/flatpickr-init.js';
 
-// Register Alpine.js data components globally
+import './admin-confirm.js';
+import { initAdminCspActions } from './admin-csp-actions.js';
+import './admin-custom-validate.js';
+import { initAdminCrud } from './admin-crud.js';
+import { initAdminUi } from './admin-ui.js';
+
 if (window.Alpine) {
     window.Alpine.data('tomSelect', tomSelect);
     window.Alpine.data('tinyMCE', tinyMCE);
 }
 
-const loadAdminLibraries = async (libraries = []) => {
-    const loadedLibraries = {};
+/** Single Tom Select owner — layout helpers and pages call this. */
+async function ensureTomSelect() {
+    if (window.TomSelect) return window.TomSelect;
+    const mod = await import('tom-select');
+    window.TomSelect = mod.default;
+    return window.TomSelect;
+}
 
-    for (const lib of libraries) {
-        try {
-            switch (lib) {
-                case 'tom-select':
-                    try {
-                        const TomSelectModule = await import('tom-select');
-                        window.TomSelect = TomSelectModule.default;
-                        loadedLibraries.tomSelect = true;
-                    } catch (error) {
-                        console.warn('Tom Select not available:', error);
-                    }
-                    break;
-
-                case 'tinymce':
-                    if (typeof tinymce !== 'undefined') {
-                        loadedLibraries.tinymce = tinymce;
-                    }
-                    break;
-
-                case 'datepicker':
-                    if (window.flatpickr) {
-                        loadedLibraries.datepicker = window.flatpickr;
-                    }
-                    break;
-            }
-        } catch (error) {
-            console.warn(`Failed to initialize ${lib}:`, error);
-        }
+window.initTomSelect = function initTomSelect(selector, options = {}) {
+    const element = typeof selector === 'string' ? document.querySelector(selector) : selector;
+    if (!element) {
+        console.warn('Element not found for selector:', selector);
+        return null;
     }
 
-    return loadedLibraries;
+    return ensureTomSelect().then((TomSelect) => {
+        if (element.tomselect) {
+            element.tomselect.destroy();
+        }
+        const config = {
+            plugins: ['clear_button'],
+            placeholder: options.placeholder || 'Select an option',
+            allowEmptyOption: true,
+            ...options,
+        };
+        if (config.width) {
+            element.style.width = config.width;
+            delete config.width;
+        }
+        try {
+            const instance = new TomSelect(element, config);
+            element.tomselect = instance;
+            return instance;
+        } catch (error) {
+            console.error('Failed to initialize Tom Select:', error);
+            return null;
+        }
+    });
+};
+
+window.initDynamicTomSelects = function initDynamicTomSelects(scope) {
+    const root = scope || document;
+    root.querySelectorAll('.js-tom-select, select[data-modern-select], .modern-select').forEach((select) => {
+        if (select.closest('[x-data*="tomSelect"]')) return;
+        if (!select.tomselect) {
+            window.initTomSelect(select);
+        }
+    });
+    if (typeof window.initAdminFlatpickr === 'function') {
+        window.initAdminFlatpickr();
+    }
 };
 
 function initAdminSidebarToggle() {
     const sidebar = document.querySelector('.modern-sidebar');
     const toggleButtons = document.querySelectorAll('[data-toggle="sidebar"]');
-
-    if (!sidebar || !toggleButtons.length) {
-        return;
-    }
+    if (!sidebar || !toggleButtons.length) return;
 
     toggleButtons.forEach((button) => {
         button.addEventListener('click', (event) => {
             event.preventDefault();
-
             if (window.innerWidth <= 768) {
                 sidebar.classList.toggle('open');
             } else {
@@ -78,45 +106,38 @@ function initAdminSidebarToggle() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', async () => {
     initAdminSidebarToggle();
+    initAdminUi();
+    initAdminCspActions();
+    initAdminCrud();
+    initBootstrapUi();
 
-    const neededLibraries = [];
-
-    if (document.querySelector('.modern-select, select[data-modern-select], select[x-data*="tomSelect"], .js-tom-select')) {
-        neededLibraries.push('tom-select');
-    }
-
-    if (document.querySelector('textarea[data-tinymce], textarea[x-data*="tinyMCE"]')) {
-        neededLibraries.push('tinymce');
-    }
-
-    if (document.querySelector('.datepicker, input[data-datepicker], .dobdatepicker, .dobdatepickers, .filterdatepicker, .contract_expiry, .datetimepicker, .daterange, .timepicker, input[data-timepicker]')) {
-        neededLibraries.push('datepicker');
-    }
+    const needsTom = document.querySelector(
+        '.modern-select, select[data-modern-select], select[x-data*="tomSelect"], .js-tom-select'
+    );
+    const needsDate = document.querySelector(
+        '.datepicker, input[data-datepicker], .dobdatepicker, .dobdatepickers, .filterdatepicker, .contract_expiry, .datetimepicker, .daterange, .timepicker, input[data-timepicker], .followup_date'
+    );
 
     try {
-        const loadedLibraries = await loadAdminLibraries(neededLibraries);
-
-        if (loadedLibraries.tomSelect) {
-            modernSelect.init('.modern-select:not([x-data]), select[data-modern-select]:not([x-data]), .js-tom-select:not([x-data])', {
-                placeholder: 'Select an option',
-                allowEmptyOption: true,
-                closeAfterSelect: true,
-                hideSelected: true
-            }).catch(error => {
-                console.warn('Modern select initialization failed:', error);
-            });
+        if (needsTom) {
+            await ensureTomSelect();
+            await modernSelect.init(
+                '.modern-select:not([x-data]), select[data-modern-select]:not([x-data]), .js-tom-select:not([x-data])',
+                {
+                    placeholder: 'Select an option',
+                    allowEmptyOption: true,
+                    closeAfterSelect: true,
+                    hideSelected: true,
+                }
+            );
         }
 
-        if (loadedLibraries.datepicker) {
+        // Flatpickr: single owner (flatpickr-init.js) — includes .followup_date as d/m/Y
+        if (needsDate || window.flatpickr) {
             initAdminFlatpickr();
         }
-
-        if (window.performance && window.performance.mark) {
-            window.performance.mark('admin-bundle-loaded');
-        }
-
     } catch (error) {
         console.warn('Some admin libraries failed to load:', error);
     }
@@ -124,5 +145,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 window.AdminBundle = {
     initialized: true,
-    version: '2.1.0'
+    version: '3.0.0',
+    showModal: showAdminModal,
+    hideModal: hideAdminModal,
 };

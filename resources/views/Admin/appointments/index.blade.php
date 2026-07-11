@@ -966,7 +966,14 @@ jQuery(document).ready(function($){
     });
 
     $(document).delegate('.openassigneview', 'click', function(){
-        $('#openassigneview').modal('show');
+        var modalEl = document.getElementById('openassigneview');
+        if (typeof window.showAdminModal === 'function') {
+            window.showAdminModal(modalEl);
+        } else if (window.bootstrap && window.bootstrap.Modal && modalEl) {
+            window.bootstrap.Modal.getOrCreateInstance(modalEl).show();
+        } else {
+            $('#openassigneview').modal('show');
+        }
         var v = $(this).attr('id');
         $.ajax({
             url: site_url+'/admin/get-assigne-detail',

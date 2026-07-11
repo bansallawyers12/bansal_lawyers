@@ -35,10 +35,6 @@ export default defineConfig({
         cssMinify: 'esbuild',
         chunkSizeWarningLimit: 1000,
         rolldownOptions: {
-            external: [
-                // tom-select is dynamically imported in admin.js
-                'tom-select',
-            ],
             onwarn(warning, warn) {
                 if (
                     warning.code === 'css-syntax-error' ||

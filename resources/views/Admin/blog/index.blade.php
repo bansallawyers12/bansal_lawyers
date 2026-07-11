@@ -685,11 +685,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Override the legacy updateStatus function to prevent JSON parsing errors
+    // Override updateStatus — admin-crud delegated change.adminCrud calls this once.
+    // Do not also .on('change') here; .off('change') does not remove document handlers.
     window.updateStatus = function(id, current_status, table, col) {
-        // Find the toggle element
         var toggleElement = $(".change-status[data-id='" + id + "']")[0];
-        // Call our modern function instead
         updateBlogStatus(id, current_status, table, col, toggleElement);
     };
     
@@ -697,18 +696,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.deleteAction = function(id, table) {
         modernDeleteBlog(id, table);
     };
-    
-    // Enhanced status update with modern flash messages
-    $('.change-status').off('change').on('change', function (event, state) {
-        var id = $.trim($(this).attr('data-id'));
-        var current_status = $.trim($(this).attr('data-status'));
-        var table = $.trim($(this).attr('data-table'));
-        var col = $.trim($(this).attr('data-col'));
-        
-        if(id != "" && current_status != "" && table != ""){
-            updateBlogStatus(id, current_status, table, col, this);
-        }
-    });
     
     // Ensure flash message container exists
     if ($('.modern-flash-container').length === 0) {

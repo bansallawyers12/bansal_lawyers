@@ -31,6 +31,9 @@
 
     <!-- Lucide icons loaded via Vite (vendor-admin.css / admin.js) -->
 
+    {{-- Sync jQuery for inline @section('scripts') that call $ at parse time.
+         Same 3.7.1 as npm; admin.js also imports jquery and reuses window.$.
+         Remove once page scripts are module/deferred (Phase 2 follow-up). --}}
 	<script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
 
 <style {!! \App\Services\CspService::getNonceAttribute() !!}>
@@ -213,12 +216,9 @@ body.admin-sidebar-collapsed .main-wrapper {
 				     var dataformat = '{{$dataformat}}';
 				    </script>
 	
-	<!-- Core Dependencies (load first; jQuery already loaded in <head>) -->
-	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+	<!-- Core: jQuery + Bootstrap 5 via Vite admin.js (Phase 2) — no static BS4 bundle -->
 	
-	<!-- Feature-specific Scripts (load after core) -->
-	<!-- FullCalendar v6 loaded via Vite in admin.js (no jQuery needed) -->
-	<!-- TinyMCE v8 self-hosted from public/assets/tinymce (copied via npm run copy-tinymce) -->
+	<!-- TinyMCE v8 self-hosted (not bundled into admin entry) -->
 	<script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
 	<script type="text/javascript" {!! \App\Services\CspService::getNonceAttribute() !!}>
 		if (typeof tinymce !== 'undefined') {
@@ -229,45 +229,6 @@ body.admin-sidebar-collapsed .main-wrapper {
 	<script src="{{ asset('js/tinymce-config.js') }}"></script>
 
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
-		// Global Tom Select helper
-		window.initTomSelect = function(selector, options) {
-			if (typeof TomSelect === 'undefined') {
-				console.warn('Tom Select not loaded. Please ensure tom-select is available.');
-				return null;
-			}
-
-			var element = typeof selector === 'string' ? document.querySelector(selector) : selector;
-			if (!element) {
-				console.warn('Element not found for selector:', selector);
-				return null;
-			}
-
-			if (element.tomselect) {
-				element.tomselect.destroy();
-			}
-
-			var config = {
-				plugins: ['clear_button'],
-				placeholder: (options && options.placeholder) || 'Select an option',
-				allowEmptyOption: true,
-				...(options || {})
-			};
-
-			if (config.width) {
-				element.style.width = config.width;
-				delete config.width;
-			}
-
-			try {
-				var instance = new TomSelect(element, config);
-				element.tomselect = instance;
-				return instance;
-			} catch (error) {
-				console.error('Failed to initialize Tom Select:', error);
-				return null;
-			}
-		};
-
 		window.DateUtils = {
 			toISO: function(dateString, currentFormat) {
 				if (!dateString) return '';
@@ -303,33 +264,13 @@ body.admin-sidebar-collapsed .main-wrapper {
 			}
 		};
 
-		window.initDynamicTomSelects = function(root) {
-			var scope = root || document;
-			if (typeof window.initTomSelect !== 'function') {
-				return;
-			}
-
-			scope.querySelectorAll('.js-tom-select').forEach(function(select) {
-				if (!select.tomselect) {
-					window.initTomSelect(select, {
-						placeholder: 'Select an option',
-						allowEmptyOption: true
-					});
-				}
-			});
-
-			if (typeof window.refreshLucideIcons === 'function') {
-				window.refreshLucideIcons(scope);
-			}
-		};
-
 		window.setTaskViewHtml = function(html) {
 			var container = document.querySelector('.taskview');
 			if (!container) return;
 			container.innerHTML = html;
 
 			function initModalControls(attempt) {
-				if (typeof window.TomSelect !== 'undefined' && typeof window.initDynamicTomSelects === 'function') {
+				if (typeof window.initDynamicTomSelects === 'function') {
 					window.initDynamicTomSelects(container);
 					return;
 				}
@@ -342,15 +283,8 @@ body.admin-sidebar-collapsed .main-wrapper {
 		};
 	</script>
 	
-	<!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
+	{{-- Single admin JS path: jQuery, BS5, Tom Select, Flatpickr, CRUD, validate, confirm, CSP --}}
 	@vite(['resources/js/admin.js'])
-	
-	<!-- Custom Scripts (load last to ensure DOM is ready) -->
-	<script src="{{ asset('js/custom-form-validation.js')}}"></script>
-	<script src="{{ asset('js/scripts.js')}}"></script>
-	<script src="{{ asset('js/custom.js')}}"></script>
-	<script src="{{ asset('js/admin-confirm.js')}}"></script>
-	<script src="{{ asset('js/admin-csp-actions.js')}}"></script>
 	
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 		document.addEventListener('DOMContentLoaded', function () {
@@ -360,7 +294,6 @@ body.admin-sidebar-collapsed .main-wrapper {
                 });
             });
         });
-
 	</script>
 
 @yield('scripts')

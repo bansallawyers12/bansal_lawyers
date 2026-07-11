@@ -472,11 +472,9 @@ body::before {
 		var site_url = "<?php echo URL::to('/'); ?>";
 	</script>
 	
-	<!-- Core Dependencies (load first) -->
-	<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
-	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+	<!-- Core: login does not need jQuery/Bootstrap (Phase 2) -->
 	
-	{{-- Login: Turnstile + Lucide via vendor-admin; no scripts.js/custom.js (Phase 1) --}}
+	{{-- Login: Turnstile + Lucide via vendor-admin; no scripts.js/custom.js --}}
 	@vite(['resources/js/vendor-admin.js'])
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 		window.addEventListener('load', function () {
