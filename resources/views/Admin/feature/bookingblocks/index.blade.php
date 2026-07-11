@@ -1297,7 +1297,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function deleteSlotAction(id, table) {
-    window.adminConfirmForDelete(table).then(function(confirmed) {
+    window.adminConfirmForDelete(table).then(async function(confirmed) {
         if (!confirmed) {
             return;
         }
@@ -1305,33 +1305,30 @@ function deleteSlotAction(id, table) {
             alert('Please select ID to delete the record.');
             return false;
         }
-        $('.popuploader').show();
-        $(".server-error").html('');
-        $(".custom-error-msg").html('');
-        $.ajax({
-            type: 'post',
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: site_url + '/admin/delete_slot_action',
-            data: { 'id': id, 'table': table },
-            success: function(resp) {
-                $('.popuploader').hide();
-                var obj = $.parseJSON(resp);
-                if (obj.status == 1) {
-                    $("#id_" + id).remove();
-                    var html = successMessage(obj.message);
-                    $(".custom-error-msg").html(html);
-                } else {
-                    var html = errorMessage(obj.message);
-                    $(".custom-error-msg").html(html);
-                }
-            },
-            error: function() {
-                $('.popuploader').hide();
-                var html = errorMessage('Something went wrong. Please try again.');
-                $(".custom-error-msg").html(html);
+        if (window.adminHttp) {
+            window.adminHttp.showLoader();
+            window.adminHttp.setHtml('.server-error', '');
+            window.adminHttp.setHtml('.custom-error-msg', '');
+        }
+        try {
+            const obj = await window.adminHttp.post(site_url + '/admin/delete_slot_action', {
+                id: id,
+                table: table,
+            });
+            if (obj.status == 1) {
+                document.getElementById('id_' + id)?.remove();
+                window.adminHttp.setHtml('.custom-error-msg', successMessage(obj.message));
+            } else {
+                window.adminHttp.setHtml('.custom-error-msg', errorMessage(obj.message));
             }
-        });
+        } catch (e) {
+            console.error(e);
+            window.adminHttp.setHtml('.custom-error-msg', errorMessage('Something went wrong. Please try again.'));
+        } finally {
+            window.adminHttp.hideLoader();
+        }
     });
 }
+window.deleteSlotAction = deleteSlotAction;
 </script>
 @endsection

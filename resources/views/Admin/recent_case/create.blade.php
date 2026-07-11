@@ -733,7 +733,9 @@ document.addEventListener('DOMContentLoaded', function() {
             output.src = URL.createObjectURL(event.target.files[0]);
             output.onload = function() {
                 URL.revokeObjectURL(output.src);
-                $('.if_image').hide();
+                document.querySelectorAll('.if_image').forEach(function(el) {
+                    el.style.display = 'none';
+                });
             }
         }
     };

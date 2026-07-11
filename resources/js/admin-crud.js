@@ -7,7 +7,7 @@ import { adminPost, siteUrl, showLoader, hideLoader, setHtml, scrollToTop } from
 export function successMessage(msg) {
     return (
         '<div class="alert alert-success alert-dismissible fade show" role="alert"><div class="alert-body">' +
-        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+        '<button type="button" class="btn-close" data-admin-dismiss="alert" aria-label="Close"></button>' +
         '<strong>' +
         msg +
         '</strong></div></div>'
@@ -17,7 +17,7 @@ export function successMessage(msg) {
 export function errorMessage(msg) {
     return (
         '<div class="alert alert-danger alert-dismissible fade show" role="alert"><div class="alert-body">' +
-        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+        '<button type="button" class="btn-close" data-admin-dismiss="alert" aria-label="Close"></button>' +
         msg +
         '</div></div>'
     );

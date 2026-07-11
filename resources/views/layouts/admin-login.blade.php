@@ -20,8 +20,8 @@
 	<!-- Self-hosted Poppins fonts -->
 	<link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
-	{{-- Shared tokens + shell via admin.css; BS5/Lucide via vendor-admin. No Stisla (Phase 3). --}}
-	@vite(['resources/css/admin.css', 'resources/css/vendor-admin.css'])
+	{{-- Slim login CSS: tokens + lucide only (Phase 6 — no Bootstrap / Flatpickr / Tom Select) --}}
+	@vite(['resources/css/admin-login.css'])
 
 	<style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Login layout — tokens from admin-tokens.css (--primary-color, --gradient-*, etc.) */

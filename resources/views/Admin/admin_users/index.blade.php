@@ -687,55 +687,48 @@
 
 @section('scripts')
 <script {!! \App\Services\CspService::getNonceAttribute() !!}>
-// Reuse existing updateAction and archiveAction functions from your system
-function updateAction(id, currentStatus, table, column) {
-    if (confirm('Are you sure you want to change the status?')) {
-        $.ajax({
-            url: '{{ route("admin.update_action") }}',
-            type: 'POST',
-            data: {
+document.addEventListener('DOMContentLoaded', function () {
+    window.updateAction = async function updateAction(id, currentStatus, table, column) {
+        if (!confirm('Are you sure you want to change the status?')) {
+            return;
+        }
+        try {
+            const response = await window.adminHttp.post('{{ route("admin.update_action") }}', {
                 id: id,
                 current_status: currentStatus,
                 table: table,
                 colname: column,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                if (response.status == 1) {
-                    location.reload();
-                } else {
-                    alert('Error: ' + response.message);
-                }
-            },
-            error: function() {
-                alert('An error occurred. Please try again.');
+            });
+            if (response.status == 1) {
+                location.reload();
+            } else {
+                alert('Error: ' + (response.message || 'Unknown error'));
             }
-        });
-    }
-}
+        } catch (e) {
+            console.error(e);
+            alert('An error occurred. Please try again.');
+        }
+    };
 
-function archiveAction(id, table) {
-    if (confirm('Are you sure you want to change the archive status?')) {
-        $.ajax({
-            url: '{{ route("admin.archive_action") }}',
-            type: 'POST',
-            data: {
+    window.archiveAction = async function archiveAction(id, table) {
+        if (!confirm('Are you sure you want to change the archive status?')) {
+            return;
+        }
+        try {
+            const response = await window.adminHttp.post('{{ route("admin.archive_action") }}', {
                 id: id,
                 table: table,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                if (response.status == 1) {
-                    location.reload();
-                } else {
-                    alert('Error: ' + response.message);
-                }
-            },
-            error: function() {
-                alert('An error occurred. Please try again.');
+            });
+            if (response.status == 1) {
+                location.reload();
+            } else {
+                alert('Error: ' + (response.message || 'Unknown error'));
             }
-        });
-    }
-}
+        } catch (e) {
+            console.error(e);
+            alert('An error occurred. Please try again.');
+        }
+    };
+});
 </script>
 @endsection

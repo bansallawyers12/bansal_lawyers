@@ -19,11 +19,7 @@
 	
 	{{-- Vite owns admin CSS (tokens, btn/card/form, shell). Stisla components.css + fat custom.css unlinked (Phase 3). --}}
 	@vite(['resources/css/admin.css', 'resources/css/vendor-admin.css'])
-
-    {{-- Sync jQuery for inline @section('scripts') that call $ at parse time.
-         Same 3.7.1 as npm; admin.js also imports jquery and reuses window.$.
-         Remove once page scripts are module/deferred (Phase 2 follow-up). --}}
-	<script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
+	{{-- Phase 5: no sync jQuery — admin.js is vanilla + Axios + BS5 --}}
 </head>
 <body >
 	<div class="loader"></div>
@@ -69,7 +65,7 @@
 				     var dataformat = '{{$dataformat}}';
 				    </script>
 	
-	<!-- Core: jQuery + Bootstrap 5 via Vite admin.js (Phase 2) — no static BS4 bundle -->
+	<!-- Core: Bootstrap 5 + Axios via Vite admin.js (Phase 5 — no jQuery) -->
 	
 	<!-- TinyMCE v8 self-hosted (not bundled into admin entry) -->
 	<script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
@@ -136,7 +132,7 @@
 		};
 	</script>
 	
-	{{-- Single admin JS path: jQuery, BS5, Tom Select, Flatpickr, CRUD, validate, confirm, CSP --}}
+	{{-- Single admin JS path: BS5, Axios, Tom Select, Flatpickr, CRUD, validate, confirm, CSP (Phase 5 — no jQuery) --}}
 	@vite(['resources/js/admin.js'])
 	
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>

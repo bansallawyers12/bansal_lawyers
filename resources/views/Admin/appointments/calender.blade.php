@@ -636,107 +636,145 @@ foreach($appointments as $appointment){
 <!-- FullCalendar v6 loaded via Vite -->
 @vite(['resources/js/admin-calendar-v6.js'])
 <script {!! \App\Services\CspService::getNonceAttribute() !!}>
-jQuery(document).ready(function($){
+document.addEventListener('DOMContentLoaded', function () {
     // Ensure modal is hidden on page load
-    $('#event-details-modal').removeClass('show');
-    $('body').removeClass('modal-open');
-    $('.modal-backdrop').remove();
-    
+    var eventModal = document.getElementById('event-details-modal');
+    if (eventModal) {
+        eventModal.classList.remove('show');
+    }
+    document.body.classList.remove('modal-open');
+    document.querySelectorAll('.modal-backdrop').forEach(function (el) {
+        el.remove();
+    });
+
     // Flatpickr — single owner (includes .followup_date as d/m/Y)
     if (typeof window.initAdminFlatpickr === 'function') {
         window.initAdminFlatpickr();
     }
 
-    $(document).delegate('.editfollowupdate', 'click', function(e){
-        e.preventDefault();
-        $('.if_edit_followup').addClass('is-visible');
-        $('.editfollowupdate').addClass('is-hidden');
-        
-        // Scroll to the edit form
-        setTimeout(function() {
-            var editForm = $('.if_edit_followup');
-            if (editForm.length) {
-                editForm[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    function siteUrl() {
+        if (window.adminHttp && typeof window.adminHttp.siteUrl === 'function') {
+            return window.adminHttp.siteUrl();
+        }
+        return typeof window.site_url !== 'undefined' ? String(window.site_url).replace(/\/$/, '') : '';
+    }
+
+    function showLoader() {
+        if (window.adminHttp && typeof window.adminHttp.showLoader === 'function') {
+            window.adminHttp.showLoader();
+        }
+    }
+
+    function hideLoader() {
+        if (window.adminHttp && typeof window.adminHttp.hideLoader === 'function') {
+            window.adminHttp.hideLoader();
+        }
+    }
+
+    document.addEventListener('click', function (e) {
+        var editFollowup = e.target.closest('.editfollowupdate');
+        if (editFollowup) {
+            e.preventDefault();
+            document.querySelectorAll('.if_edit_followup').forEach(function (el) {
+                el.classList.add('is-visible');
+            });
+            document.querySelectorAll('.editfollowupdate').forEach(function (el) {
+                el.classList.add('is-hidden');
+            });
+            setTimeout(function () {
+                var editForm = document.querySelector('.if_edit_followup');
+                if (editForm) {
+                    editForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 100);
+            return;
+        }
+
+        var cancelFollowup = e.target.closest('.cancelfollowupdate');
+        if (cancelFollowup) {
+            e.preventDefault();
+            document.querySelectorAll('.if_edit_followup').forEach(function (el) {
+                el.classList.remove('is-visible');
+            });
+            document.querySelectorAll('.editfollowupdate').forEach(function (el) {
+                el.classList.remove('is-hidden');
+            });
+            return;
+        }
+
+        if (e.target.closest('[data-bs-dismiss="modal"], [data-dismiss="modal"], .close')) {
+            if (typeof window.closeModal === 'function') {
+                window.closeModal();
             }
-        }, 100);
-    });
-    $(document).delegate('.cancelfollowupdate', 'click', function(e){
-        e.preventDefault();
-        $('.if_edit_followup').removeClass('is-visible');
-        $('.editfollowupdate').removeClass('is-hidden');
-    });
+            return;
+        }
 
-	$(document).delegate('#updateappointmentstatus', 'change', function(){
-        var v = $('#updateappointmentstatus option:selected').val();
-		var aid = $('#appid').val();
-		if (!aid) {
-			return;
-		}
-		$('.popuploader').show();
-		$.ajax({
-			url: site_url + '/admin/update_appointment_status',
-			type: 'POST',
-			data: {
-				_token: $('meta[name="csrf-token"]').attr('content'),
-				id: aid,
-				status: v
-			},
-			success: function(responses) {
-				$('.popuploader').hide();
-				try {
-					var obj = typeof responses === 'string' ? JSON.parse(responses) : responses;
-					if (obj.status && scheds[aid]) {
-						scheds[aid].status = v;
-					} else if (!obj.status) {
-						alert(obj.message || 'Unable to update status.');
-					}
-				} catch (e) {
-					console.error('Failed to update appointment status:', e);
-				}
-			},
-			error: function() {
-				$('.popuploader').hide();
-				alert('Unable to update status. Please try again.');
-			}
-		});
-    });
-
-    // Enhanced modal close functionality (Bootstrap 5)
-    $(document).on('click', '[data-bs-dismiss="modal"], [data-dismiss="modal"], .close', function() {
-        closeModal();
-    });
-    
-    $(document).on('keyup', function(e) {
-        if (e.keyCode === 27) { // ESC key
-            closeModal();
+        var followupSave = e.target.closest('#followup-save-btn');
+        if (followupSave) {
+            if (typeof customValidate === 'function') {
+                customValidate('updatefollowupschedule');
+            }
         }
     });
-    
+
+    document.addEventListener('change', function (e) {
+        var statusSelect = e.target.closest('#updateappointmentstatus');
+        if (!statusSelect) {
+            return;
+        }
+        var v = statusSelect.value;
+        var appIdEl = document.getElementById('appid');
+        var aid = appIdEl ? appIdEl.value : '';
+        if (!aid) {
+            return;
+        }
+        showLoader();
+        window.adminHttp.post(siteUrl() + '/admin/update_appointment_status', {
+            id: aid,
+            status: v,
+        }).then(function (obj) {
+            hideLoader();
+            try {
+                if (typeof obj === 'string') {
+                    obj = JSON.parse(obj);
+                }
+                if (obj.status && scheds[aid]) {
+                    scheds[aid].status = v;
+                } else if (!obj.status) {
+                    alert(obj.message || 'Unable to update status.');
+                }
+            } catch (err) {
+                console.error('Failed to update appointment status:', err);
+            }
+        }).catch(function () {
+            hideLoader();
+            alert('Unable to update status. Please try again.');
+        });
+    });
+
+    document.addEventListener('keyup', function (e) {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+            if (typeof window.closeModal === 'function') {
+                window.closeModal();
+            }
+        }
+    });
+
     // Make closeModal globally accessible
-    window.closeModal = function() {
+    window.closeModal = function () {
         var modalEl = document.getElementById('event-details-modal');
         if (!modalEl) return;
         if (typeof window.hideAdminModal === 'function') {
             window.hideAdminModal(modalEl);
             return;
         }
-        if (window.bootstrap && window.bootstrap.Modal) {
-            var instance = window.bootstrap.Modal.getInstance(modalEl)
-                || window.bootstrap.Modal.getOrCreateInstance(modalEl);
-            instance.hide();
-            return;
-        }
-        $(modalEl).removeClass('show');
-        $('body').removeClass('modal-open');
-        $('.modal-backdrop').remove();
+        modalEl.classList.remove('show');
+        modalEl.style.display = 'none';
+        document.body.classList.remove('modal-open');
+        document.querySelectorAll('.modal-backdrop').forEach(function (el) {
+            el.remove();
+        });
     };
-
-    $('#followup-save-btn').on('click', function() {
-        if (typeof customValidate === 'function') {
-            customValidate('updatefollowupschedule');
-        }
-    });
-
 });
 
 function decodeHTMLEntities(str) {
@@ -775,6 +813,27 @@ window.calendarScheds = scheds;
 // OLD v3 CODE REMOVED - Now using FullCalendar v6 via admin-calendar-v6.js
 // The calendar is initialized in admin-calendar-v6.js which loads via Vite
 
+function setText(root, selector, text) {
+    var el = root.querySelector(selector);
+    if (el) {
+        el.textContent = text;
+    }
+}
+
+function setValue(root, selector, value) {
+    var el = root.querySelector(selector);
+    if (el) {
+        el.value = value;
+    }
+}
+
+function setHtml(root, selector, html) {
+    var el = root.querySelector(selector);
+    if (el) {
+        el.innerHTML = html;
+    }
+}
+
 // Listen for FullCalendar v6 event clicks (from admin-calendar-v6.js)
 document.addEventListener('fullcalendar-event-click', function(e) {
     var details = document.getElementById('event-details-modal');
@@ -788,25 +847,27 @@ document.addEventListener('fullcalendar-event-click', function(e) {
         // Clear any previous selections
         var csel1='', csel2='', csel3='', csel4='', csel5='', csel6='', csel7='', csel8='', csel9='', csel10='', csel11='';
         
-        // Update modal content (using jQuery for now, will migrate later)
-        var $details = $(details);
-        $details.find('#service').text(scheds[id].service || 'N/A');
-        $details.find('#nature_of_enquiry').text(scheds[id].nature_of_enquiry || 'N/A');
-        $details.find('#timeslot_full').text(scheds[id].timeslot_full || 'N/A');
-        $details.find('#appointment_id').val(id);
+        setText(details, '#service', scheds[id].service || 'N/A');
+        setText(details, '#nature_of_enquiry', scheds[id].nature_of_enquiry || 'N/A');
+        setText(details, '#timeslot_full', scheds[id].timeslot_full || 'N/A');
+        setValue(details, '#appointment_id', id);
         
-        $details.find('#followup_date').val(scheds[id].appointdate || '');
-        $details.find('#followup_time').val(scheds[id].appointtime || '');
-        $details.find('#edit_description').val(scheds[id].description || '');
+        setValue(details, '#followup_date', scheds[id].appointdate || '');
+        setValue(details, '#followup_time', scheds[id].appointtime || '');
+        setValue(details, '#edit_description', scheds[id].description || '');
         
-        $details.find('#start').html(scheds[id].start+' <a href="#" class="editfollowupdate"><i data-lucide="pencil"></i> Edit</a>');
+        setHtml(details, '#start', scheds[id].start+' <a href="#" class="editfollowupdate"><i data-lucide="pencil"></i> Edit</a>');
         if (typeof window.refreshLucideIcons === 'function') {
-            window.refreshLucideIcons($details[0]);
+            window.refreshLucideIcons(details);
         }
         
         // Ensure edit form is hidden initially
-        $details.find('.if_edit_followup').removeClass('is-visible');
-        $details.find('.editfollowupdate').removeClass('is-hidden');
+        details.querySelectorAll('.if_edit_followup').forEach(function (el) {
+            el.classList.remove('is-visible');
+        });
+        details.querySelectorAll('.editfollowupdate').forEach(function (el) {
+            el.classList.remove('is-hidden');
+        });
         
         // Set selected status
         if(scheds[id].status == '1'){ csel1 = 'selected'; }
@@ -824,27 +885,22 @@ document.addEventListener('fullcalendar-event-click', function(e) {
         // Build client info and status dropdown
         var clientName = atob(scheds[id].name);
         
-        $details.find('.clienturl').html('<div class="row"><div class="col-md-6"><strong>'+clientName+' '+scheds[id].stitle+'</strong></div><div class="col-md-6 clienturl-status-col"><select class="form-control form-control-sm" id="updateappointmentstatus"><option value="0">Pending</option><option value="1" '+csel1+'>Approve</option><option value="2" '+csel2+'>Completed</option><option value="3" '+csel3+'>Rejected</option><option value="4" '+csel4+'>N/P</option><option value="5" '+csel5+'>Inrogress</option><option value="6" '+csel6+'>Did Not Come</option><option value="7" '+csel7+'>Cancelled</option><option value="8" '+csel8+'>Missed</option><option value="9" '+csel9+'>Pending With payment Pending</option><option value="10" '+csel10+'>Pending With payment Success</option><option value="11" '+csel11+'>Pending With payment Failed</option></select><input type="hidden" id="appid" value="'+id+'"></div></div>');
+        setHtml(details, '.clienturl', '<div class="row"><div class="col-md-6"><strong>'+clientName+' '+scheds[id].stitle+'</strong></div><div class="col-md-6 clienturl-status-col"><select class="form-control form-control-sm" id="updateappointmentstatus"><option value="0">Pending</option><option value="1" '+csel1+'>Approve</option><option value="2" '+csel2+'>Completed</option><option value="3" '+csel3+'>Rejected</option><option value="4" '+csel4+'>N/P</option><option value="5" '+csel5+'>Inrogress</option><option value="6" '+csel6+'>Did Not Come</option><option value="7" '+csel7+'>Cancelled</option><option value="8" '+csel8+'>Missed</option><option value="9" '+csel9+'>Pending With payment Pending</option><option value="10" '+csel10+'>Pending With payment Success</option><option value="11" '+csel11+'>Pending With payment Failed</option></select><input type="hidden" id="appid" value="'+id+'"></div></div>');
         
-        // Enhanced modal display (Bootstrap 5)
+        // Enhanced modal display (vanilla admin modal — Phase 6)
         try {
             if (typeof window.showAdminModal === 'function') {
-                window.showAdminModal($details[0], { backdrop: 'static', keyboard: true });
-            } else if (window.bootstrap && window.bootstrap.Modal) {
-                window.bootstrap.Modal.getOrCreateInstance($details[0], {
-                    backdrop: 'static',
-                    keyboard: true
-                }).show();
-            } else if (typeof $.fn.modal !== 'undefined') {
-                $details.modal({ backdrop: 'static', keyboard: true, show: true });
+                window.showAdminModal(details, { backdrop: 'static', keyboard: true });
             } else {
-                $details.addClass('show');
-                $('body').addClass('modal-open');
+                details.classList.add('show');
+                details.style.display = 'block';
+                document.body.classList.add('modal-open');
             }
         } catch (error) {
             console.error('Error showing modal:', error);
-            $details.addClass('show');
-            $('body').addClass('modal-open');
+            details.classList.add('show');
+            details.style.display = 'block';
+            document.body.classList.add('modal-open');
         }
     }
 });

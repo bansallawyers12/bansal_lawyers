@@ -1,0 +1,7 @@
+/**
+ * Slim admin login CSS — tokens + lucide only (Phase 6).
+ * No Bootstrap / Flatpickr / Tom Select.
+ */
+@import './variables.css';
+@import './admin-tokens.css';
+@import './lucide.css';

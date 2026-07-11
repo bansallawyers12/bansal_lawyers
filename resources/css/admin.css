@@ -1,10 +1,11 @@
-/* Admin CSS Bundle — single authority (Phase 3)
+/* Admin CSS Bundle — single authority (Phase 3–6)
  * .btn → components/buttons.css
  * .card → components/cards.css
- * .form-control → components/forms.css
+ * .form-control / .form-select → components/forms.css
+ * Grid / modal / alerts → admin-grid / admin-modal / admin-utilities
  * Shell / loaders → components/admin-shell.css
  * Legacy keepers → components/admin-legacy.css
- * Dead Stisla: public/css/components.css + fat custom.css are NOT linked.
+ * Bootstrap npm package is NOT used by admin.
  */
 
 @import './variables.css';
@@ -12,6 +13,9 @@
 @import './components/buttons.css';
 @import './components/forms.css';
 @import './components/cards.css';
+@import './components/admin-grid.css';
+@import './components/admin-modal.css';
+@import './components/admin-utilities.css';
 @import './components/admin-shell.css';
 @import './components/admin-confirm.css';
 @import './components/admin-legacy.css';

@@ -124,6 +124,31 @@
   box-shadow: var(--shadow-md);
 }
 
+.btn-info {
+  color: white;
+  background-color: var(--color-info);
+  border-color: var(--color-info);
+}
+
+.btn-info:hover:not(:disabled) {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-light {
+  color: var(--color-gray-800);
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-200);
+}
+
+.btn-dark {
+  color: white;
+  background-color: var(--color-gray-800);
+  border-color: var(--color-gray-800);
+}
+
 .btn-outline-primary {
   color: var(--color-primary-500);
   background-color: transparent;

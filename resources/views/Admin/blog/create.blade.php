@@ -914,14 +914,9 @@ var loadFile = function(event) {
         output.src = URL.createObjectURL(event.target.files[0]);
         output.onload = function() {
             URL.revokeObjectURL(output.src);
-            // Convert jQuery to Alpine.js or native JS when migrating this
-            if (typeof $ !== 'undefined') {
-                $('.if_image').hide();
-            } else {
-                document.querySelectorAll('.if_image').forEach(function(el) {
-                    el.style.display = 'none';
-                });
-            }
+            document.querySelectorAll('.if_image').forEach(function(el) {
+                el.style.display = 'none';
+            });
         }
     }
 };

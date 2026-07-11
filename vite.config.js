@@ -8,6 +8,7 @@ export default defineConfig({
                 // CSS files
                 'resources/css/frontend.css',
                 'resources/css/admin.css',
+                'resources/css/admin-login.css',
                 'resources/css/vendor-frontend.css',
                 'resources/css/vendor-admin.css',
                 // fonts.css removed - now loaded as static asset to avoid Vite path resolution issues
@@ -50,10 +51,8 @@ export default defineConfig({
                 assetFileNames: 'assets/[name]-[hash].[ext]',
                 codeSplitting: {
                     groups: [
-                        { name: 'vendor-jquery', test: /node_modules[\\/]jquery/, priority: 20 },
-                        { name: 'vendor-bootstrap', test: /node_modules[\\/]bootstrap/, priority: 20 },
-                        { name: 'vendor-alpine', test: /node_modules[\\/]alpinejs/, priority: 20 },
                         { name: 'vendor-axios', test: /node_modules[\\/]axios/, priority: 20 },
+                        { name: 'vendor-alpine', test: /node_modules[\\/]alpinejs/, priority: 20 },
                         { name: 'vendor-lodash', test: /node_modules[\\/]lodash/, priority: 20 },
                         { name: 'vendor', test: /node_modules/, priority: 1 },
                     ],

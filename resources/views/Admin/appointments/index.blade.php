@@ -1026,8 +1026,6 @@ document.addEventListener('DOMContentLoaded', function () {
             var modalEl = document.getElementById('openassigneview');
             if (typeof window.showAdminModal === 'function') {
                 window.showAdminModal(modalEl || '#openassigneview');
-            } else if (window.bootstrap && window.bootstrap.Modal && modalEl) {
-                window.bootstrap.Modal.getOrCreateInstance(modalEl).show();
             }
             var viewId = openView.getAttribute('id');
             refreshAssigneeDetail(viewId).catch(function () {
