@@ -1,0 +1,26 @@
+/**
+ * Admin token aliases — shared by main admin + login.
+ * Canonical tokens live in variables.css (--color-primary, etc.).
+ * Legacy/page inline styles may use --primary-color / --accent-color.
+ */
+:root {
+  --primary-color: var(--color-primary);
+  --secondary-color: #2c5aa0;
+  --accent-color: #ff6b35;
+  --text-dark: var(--color-gray-800);
+  --text-light: var(--color-gray-500);
+  --bg-light: var(--color-gray-50);
+  --white: #ffffff;
+  --shadow: var(--shadow-xl);
+  --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.12);
+  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--secondary-color) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--accent-color) 0%, #ff8e53 100%);
+  --gradient-light: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  --border-radius: var(--radius-2xl);
+  --border-radius-sm: var(--radius-lg);
+  --transition: all var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Shell */
+  --admin-sidebar-width: 280px;
+  --admin-content-bg: #f8fafc;
+}

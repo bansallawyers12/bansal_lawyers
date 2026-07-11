@@ -524,87 +524,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!mouse_is_inside) $(".settingSidebar").removeClass("showSettingPanel");
   });
 
-  // theme change event
-  $(".choose-theme li").on("click", function () {
-    var bodytag = $("body"),
-      selectedTheme = $(this),
-      prevTheme = $(".choose-theme li.active").attr("title");
-
-    $(".choose-theme li").removeClass("active"),
-      selectedTheme.addClass("active");
-    $(".choose-theme li.active").data("theme");
-
-    bodytag.removeClass("theme-" + prevTheme);
-    bodytag.addClass("theme-" + $(this).attr("title"));
+  // Theme pickers — no-ops (Phase 3). Do not mutate body theme-* classes.
+  $(".choose-theme li").on("click", function (e) {
+    e.preventDefault();
   });
+  $(".sidebar-color input:radio").off("change");
+  $(".layout-color input:radio").off("change");
+  $(".btn-restore-theme").off("click");
 
-  // dark light sidebar button setting
-  $(".sidebar-color input:radio").change(function () {
-    if ($(this).val() == "1") {
-      $("body").removeClass("dark-sidebar");
-      $("body").addClass("light-sidebar");
-    } else {
-      $("body").removeClass("light-sidebar");
-      $("body").addClass("dark-sidebar");
-    }
-  });
-
-  // dark light layout button setting
-  $(".layout-color input:radio").change(function () {
-    if ($(this).val() == "1") {
-      $("body").removeClass();
-      $("body").addClass("light");
-      $("body").addClass("light-sidebar");
-      $("body").addClass("theme-white");
-
-      $(".choose-theme li").removeClass("active");
-      $(".choose-theme li[title|='white']").addClass("active");
-      $(".selectgroup-input[value|='1']").prop("checked", true);
-    } else {
-      $("body").removeClass();
-      $("body").addClass("dark");
-      $("body").addClass("dark-sidebar");
-      $("body").addClass("theme-black");
-
-      $(".choose-theme li").removeClass("active");
-      $(".choose-theme li[title|='black']").addClass("active");
-      $(".selectgroup-input[value|='2']").prop("checked", true);
-    }
-  });
-
-  // restore default to dark theme
-  $(".btn-restore-theme").on("click", function () {
-    //remove all class from body
-    $("body").removeClass();
-    jQuery("body").addClass("light");
-    jQuery("body").addClass("light-sidebar");
-    jQuery("body").addClass("theme-white");
-
-    // set default theme
-    $(".choose-theme li").removeClass("active");
-    $(".choose-theme li[title|='white']").addClass("active");
-
-    $(".select-layout[value|='1']").prop("checked", true);
-    $(".select-sidebar[value|='2']").prop("checked", true);
-    toggle_sidebar_mini(false);
-    $("#mini_sidebar_setting").prop("checked", false);
-    $("#sticky_header_setting").prop("checked", true);
-    toggle_sticky_header(true);
-  });
-
-  //start up class add
-
-  //add default class on body tag
-  jQuery("body").addClass("light");
-  jQuery("body").addClass("light-sidebar");
-  jQuery("body").addClass("theme-white");
-  // set theme default color
-  $(".choose-theme li").removeClass("active");
-  $(".choose-theme li[title|='white']").addClass("active");
-  //set default dark or light layout(1=light, 2=dark)
-  $(".select-layout[value|='1']").prop("checked", true);
-  //set default dark or light sidebar(1=light, 2=dark)
-  $(".select-sidebar[value|='1']").prop("checked", true);
-  // sticky header default set to true
-  $("#sticky_header_setting").prop("checked", true);
+  // Startup body theme classes intentionally NOT applied.
+  // Modern admin uses .modern-sidebar + admin-sidebar-collapsed only.
 });

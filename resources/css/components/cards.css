@@ -10,14 +10,13 @@
   background-color: white;
   background-clip: border-box;
   border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   box-shadow: var(--shadow-sm);
-  transition: box-shadow var(--transition-base), transform var(--transition-base);
+  transition: box-shadow var(--transition-base);
 }
 
 .card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
 }
 
 /* Card Body */

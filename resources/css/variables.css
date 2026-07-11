@@ -113,21 +113,7 @@
   --breakpoint-2xl: 1536px;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-gray-50: #1F2937;
-    --color-gray-100: #374151;
-    --color-gray-200: #4B5563;
-    --color-gray-300: #6B7280;
-    --color-gray-400: #9CA3AF;
-    --color-gray-500: #D1D5DB;
-    --color-gray-600: #E5E7EB;
-    --color-gray-700: #F3F4F6;
-    --color-gray-800: #F9FAFB;
-    --color-gray-900: #FFFFFF;
-  }
-}
+/* Admin is light-only — do not invert grays on prefers-color-scheme: dark */
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {

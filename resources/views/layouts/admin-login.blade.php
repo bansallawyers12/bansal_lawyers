@@ -18,37 +18,13 @@
 	<link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
 	
 	<!-- Self-hosted Poppins fonts -->
-	<!-- Load as static asset to avoid Vite path resolution issues with font files -->
 	<link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
-	
-	<!-- Lucide icons loaded via Vite vendor bundle -->
-	@vite(['resources/css/vendor-admin.css'])
-	
-	<!-- BASE CSS (app.min.css removed - file not present; vendor-admin + below provide styles) -->
-	<link href="{{ asset('css/bootstrap-social.css')}}" rel="stylesheet">
-	<link href="{{ asset('css/components.css')}}" rel="stylesheet">
-	<link href="{{ asset('css/custom.css')}}" rel="stylesheet">
+
+	{{-- Shared tokens + shell via admin.css; BS5/Lucide via vendor-admin. No Stisla (Phase 3). --}}
+	@vite(['resources/css/admin.css', 'resources/css/vendor-admin.css'])
 
 	<style {!! \App\Services\CspService::getNonceAttribute() !!}>
-/* Modern Admin Login Design System */
-:root {
-    --primary-color: #1B4D89;
-    --secondary-color: #2c5aa0;
-    --accent-color: #FF6B35;
-    --text-dark: #2c3e50;
-    --text-light: #7f8c8d;
-    --bg-light: #f8f9fa;
-    --white: #ffffff;
-    --shadow: 0 20px 40px rgba(0,0,0,0.08);
-    --shadow-hover: 0 30px 60px rgba(0,0,0,0.12);
-    --gradient-primary: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%);
-    --gradient-accent: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
-    --gradient-light: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    --border-radius: 16px;
-    --border-radius-sm: 8px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
+/* Login layout — tokens from admin-tokens.css (--primary-color, --gradient-*, etc.) */
 * {
     margin: 0;
     padding: 0;
@@ -56,7 +32,7 @@
 }
 
 body {
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-primary, 'Poppins', system-ui, sans-serif);
     background: var(--gradient-light);
     min-height: 100vh;
     display: flex;
