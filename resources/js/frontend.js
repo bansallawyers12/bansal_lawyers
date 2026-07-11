@@ -1,66 +1,79 @@
-// Frontend JS Bundle - Optimized for Performance
+// Frontend JS Bundle — marketing pages (Phase 4)
+// No jQuery / Bootstrap JS / Stellar / Waypoints.
 // vendor-frontend (Swiper, AOS, Lucide) is imported here — layouts must NOT also @vite vendor-frontend.js
 
 import './vendor-frontend.js';
 import './alpine-utils.js';
 
-const scriptAlreadyLoaded = (filename) =>
-    Boolean(document.querySelector(`script[src*="${filename}"]`));
-
-/** Dynamically inserted scripts ignore `defer`; use async=false to preserve order. */
-const loadScript = (src) =>
-    new Promise((resolve, reject) => {
-        const filename = src.split('/').pop();
-        if (scriptAlreadyLoaded(filename)) {
-            resolve();
-            return;
-        }
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = false;
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-    });
-
-const loadExternalScripts = () => {
-    const scripts = [];
-    const needsParallaxPlugins = document.querySelector(
-        '[data-stellar-background-ratio], [data-stellar-ratio], .ftco-animate'
-    );
-
-    if (needsParallaxPlugins) {
-        if (!scriptAlreadyLoaded('jquery.waypoints.min.js')) {
-            scripts.push('/js/jquery.waypoints.min.js');
-        }
-        if (!scriptAlreadyLoaded('jquery.stellar.min.js')) {
-            scripts.push('/js/jquery.stellar.min.js');
-        }
-    }
-
-    return Promise.all(scripts.map(loadScript));
-};
-
 const initAos = () => {
     const aos = window.AOS;
-    if (!aos || !document.querySelector('[data-aos]')) {
+    if (!aos) {
+        return;
+    }
+
+    // Theme CSS still hides .ftco-animate until waypoints fire — migrate leftovers (CMS HTML).
+    document.querySelectorAll('.ftco-animate').forEach((el) => {
+        if (!el.hasAttribute('data-aos')) {
+            const effect = el.getAttribute('data-animate-effect');
+            const map = {
+                fadeIn: 'fade',
+                fadeInLeft: 'fade-left',
+                fadeInRight: 'fade-right',
+            };
+            el.setAttribute('data-aos', map[effect] || 'fade-up');
+        }
+        el.classList.remove('ftco-animate', 'item-animate', 'ftco-animated');
+    });
+
+    if (!document.querySelector('[data-aos]')) {
         return;
     }
 
     aos.init({
         duration: 800,
-        easing: 'slide',
+        easing: 'ease-out-cubic',
         once: true,
         mirror: false,
         anchorPlacement: 'top-bottom',
-        disable: function () {
-            return window.innerWidth < 768;
-        }
+        disable: () => window.innerWidth < 768,
     });
 
     if (typeof aos.refreshHard === 'function') {
         aos.refreshHard();
     }
+};
+
+/** Light background-position parallax for heroes (replaces jQuery Stellar). */
+const initHeroParallax = () => {
+    const heroes = document.querySelectorAll('[data-parallax-bg]');
+    if (!heroes.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+    if (window.innerWidth < 768) {
+        return;
+    }
+
+    let ticking = false;
+    const update = () => {
+        const y = window.scrollY || window.pageYOffset;
+        heroes.forEach((el) => {
+            const ratio = parseFloat(el.getAttribute('data-parallax-bg') || '0.5') || 0.5;
+            el.style.backgroundPosition = `center ${Math.round(y * ratio * -1)}px`;
+        });
+        ticking = false;
+    };
+
+    window.addEventListener(
+        'scroll',
+        () => {
+            if (!ticking) {
+                window.requestAnimationFrame(update);
+                ticking = true;
+            }
+        },
+        { passive: true }
+    );
+    update();
 };
 
 const initTestimonialsCarousel = () => {
@@ -106,14 +119,10 @@ const initTestimonialsWhenReady = (attempts = 0) => {
     }
 };
 
-const externalScriptsReady = loadExternalScripts().catch((error) => {
-    console.warn('Some external scripts failed to load:', error);
-});
-
-const onReady = async () => {
+const onReady = () => {
     initAos();
+    initHeroParallax();
     initTestimonialsWhenReady();
-    await externalScriptsReady;
 };
 
 if (document.readyState === 'loading') {
@@ -124,5 +133,5 @@ if (document.readyState === 'loading') {
 
 window.FrontendBundle = {
     initialized: true,
-    version: '2.2.1'
+    version: '3.0.0',
 };

@@ -1,0 +1,1 @@
+import{s as e}from"./vendor-ByyLTRUS.js";import"./lucide-init-eodO_SQh.js";window.flatpickr=e,document.addEventListener(`DOMContentLoaded`,function(){typeof window.refreshLucideIcons==`function`&&window.refreshLucideIcons()});

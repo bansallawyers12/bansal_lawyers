@@ -20,14 +20,11 @@
   }
 }
 
-/* Critical above-the-fold styles */
-body {
-  font-family: var(--font-primary);
-  line-height: var(--leading-normal);
-  color: var(--color-gray-900);
-  background-color: white;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Phase 4: theme CSS hides .ftco-animate until waypoints; waypoints removed.
+   Safety net if any CMS HTML still uses the class before JS migrates it. */
+.ftco-animate {
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* Loading optimization */

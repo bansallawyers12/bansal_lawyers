@@ -115,18 +115,11 @@
     <!-- Bootstrap CSS - Primary framework for frontend -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     
-    <!-- Lucide icons loaded via Vite (vendor-frontend.css / vendor-frontend.js) -->
-    
-    <!-- AOS animations bundled via Vite (vendor-frontend.css / vendor-frontend.js) -->
+    <!-- Lucide icons + AOS via Vite (vendor-frontend.css / frontend.js) -->
     
     <!-- Main custom styles - Keep as normal stylesheet to avoid FOUC -->
     <!-- Note: High unused percentage reported, but needed for layout structure -->
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
-    
-    {{-- animate.css: fadeIn* classes used by main.js contentWayPoint on stellar/ftco-animate pages --}}
-    @if(Request::is('practice-areas') || Request::routeIs('cms.slug'))
-    <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
-    @endif
   
     {{-- Facebook Pixel moved to end of body to avoid blocking HTML parsing --}}
   
@@ -191,16 +184,7 @@
         </svg>
     </div>
 
-    {{-- Stellar error handler lives once in main.js (Phase 1: removed duplicate layout handler) --}}
-
-    <script src="{{ asset('js/jquery-3.7.1.min.js')}}" defer></script>
-    <script src="{{ asset('js/bootstrap.bundle.min.js')}}" defer></script>
-    {{-- practice-areas + cms.slug heroes: stellar/ftco-animate (scrollax/animateNumber removed Phase 1) --}}
-    @if(Request::is('practice-areas') || Request::routeIs('cms.slug'))
-    <script src="{{ asset('js/jquery.waypoints.min.js')}}" defer></script>
-    <script src="{{ asset('js/jquery.stellar.min.js')}}" defer></script>
-    @endif
-
+    {{-- Phase 4: no Bootstrap JS / jQuery / Stellar / Waypoints on marketing pages --}}
     <!-- Cloudflare Turnstile -->
     <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>

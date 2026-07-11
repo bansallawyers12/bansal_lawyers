@@ -1,6 +1,5 @@
 /**
- * Admin Bootstrap 5 helpers + thin jQuery .modal() shim.
- * Replaces static BS4 bootstrap.bundle.min.js.
+ * Admin Bootstrap 5 helpers (Phase 5 — no jQuery shim).
  */
 import * as bootstrap from 'bootstrap';
 
@@ -9,8 +8,9 @@ window.bootstrap = bootstrap;
 function resolveElement(target) {
     if (!target) return null;
     if (typeof target === 'string') return document.querySelector(target);
-    if (target.jquery) return target[0] || null;
     if (target.nodeType) return target;
+    // Legacy jQuery-like objects (defensive)
+    if (target[0]?.nodeType) return target[0];
     return null;
 }
 
@@ -38,32 +38,6 @@ export function hideAdminModal(target) {
 window.showAdminModal = showAdminModal;
 window.hideAdminModal = hideAdminModal;
 
-/**
- * jQuery plugin shim so legacy `$('#x').modal('show'|'hide'|{})` uses BS5.
- */
-export function installJqueryModalShim($) {
-    if (!$ || $.fn.modal?.__adminBs5Shim) {
-        return;
-    }
-
-    $.fn.modal = function (actionOrOptions) {
-        return this.each(function () {
-            if (actionOrOptions === 'hide') {
-                hideAdminModal(this);
-                return;
-            }
-            if (actionOrOptions === 'show' || actionOrOptions === undefined) {
-                showAdminModal(this);
-                return;
-            }
-            if (actionOrOptions && typeof actionOrOptions === 'object') {
-                showAdminModal(this, actionOrOptions);
-            }
-        });
-    };
-    $.fn.modal.__adminBs5Shim = true;
-}
-
 export function initBootstrapUi() {
     if (!window.bootstrap) return;
 
@@ -75,7 +49,6 @@ export function initBootstrapUi() {
         bootstrap.Popover.getOrCreateInstance(el, { container: 'body' });
     });
 
-    // Bridge legacy data-dismiss="modal" to BS5 dismiss
     document.querySelectorAll('[data-dismiss="modal"]').forEach((el) => {
         if (!el.hasAttribute('data-bs-dismiss')) {
             el.setAttribute('data-bs-dismiss', 'modal');

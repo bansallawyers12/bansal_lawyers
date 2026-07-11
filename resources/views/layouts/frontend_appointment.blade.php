@@ -151,10 +151,9 @@
         </svg>
     </div>
 
-    {{-- jQuery sync (not defer): booking @yield('scripts') is large and historically assumed $ is present before DOMContentLoaded registration edge-cases; Vite modules stay deferred --}}
+    {{-- Booking still needs sync jQuery for large @yield('scripts'); Bootstrap JS not used (Phase 4) --}}
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
-    <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
-    {{-- No stellar/waypoints/easing on booking — unused --}}
+    {{-- No stellar/waypoints/easing/bootstrap.bundle on booking --}}
 
     {{-- frontend.js imports vendor-frontend.js — do not also @vite vendor-frontend.js --}}
     @vite(['resources/js/frontend.js', 'public/js/main.js'])

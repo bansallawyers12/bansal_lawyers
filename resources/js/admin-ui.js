@@ -1,36 +1,39 @@
 /**
- * Live admin UI chrome formerly in scripts.js (loader, fullscreen, content min-height).
- * Dead theme / .main-sidebar / duplicate Tom Select & Flatpickr inits are not ported.
+ * Admin UI chrome — vanilla (Phase 5). No jQuery.
  */
 
 export function initAdminUi() {
-    const $ = window.jQuery;
-    if (!$) return;
-
-    $(window).on('load', () => {
-        $('.loader').fadeOut('slow');
-    });
+    const hidePageLoader = () => {
+        document.querySelectorAll('.loader').forEach((el) => {
+            el.style.opacity = '0';
+            el.style.transition = 'opacity 0.4s ease';
+            window.setTimeout(() => {
+                el.style.display = 'none';
+            }, 400);
+        });
+    };
 
     if (document.readyState === 'complete') {
-        $('.loader').fadeOut('slow');
+        hidePageLoader();
+    } else {
+        window.addEventListener('load', hidePageLoader);
     }
 
     const mainContent = document.querySelector('.main-content');
     if (mainContent) {
-        $(mainContent).css({
-            minHeight: `${$(window).height() - 108}px`,
-        });
+        mainContent.style.minHeight = `${window.innerHeight - 108}px`;
     }
 
-    $('[data-dismiss]').each(function () {
-        const me = $(this);
-        const target = me.data('dismiss');
-        if (target === 'modal') return;
-        me.on('click', () => {
-            $(target).fadeOut(function () {
-                $(this).remove();
+    document.querySelectorAll('[data-dismiss]').forEach((me) => {
+        const target = me.getAttribute('data-dismiss');
+        if (!target || target === 'modal') return;
+        me.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelectorAll(target).forEach((el) => {
+                el.style.transition = 'opacity 0.3s ease';
+                el.style.opacity = '0';
+                window.setTimeout(() => el.remove(), 300);
             });
-            return false;
         });
     });
 

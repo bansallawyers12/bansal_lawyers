@@ -155,9 +155,12 @@ function toggleMobileMenu() {
 document.addEventListener('click', function(event) {
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileToggle = document.querySelector('.mobile-toggle');
-    
+    if (!mobileMenu || !mobileToggle) {
+        return;
+    }
     if (!mobileMenu.contains(event.target) && !mobileToggle.contains(event.target)) {
         mobileMenu.classList.remove('show');
+        mobileToggle.setAttribute('aria-expanded', 'false');
     }
 });
 </script>

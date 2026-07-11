@@ -1,25 +1,12 @@
-// Admin JS Bundle — single Vite-owned path (Phase 2)
-// jQuery allowed temporarily; Bootstrap 5 from npm (no static BS4 bundle)
-
-import jq from 'jquery';
-// Prefer layout sync jQuery when present (inline page scripts); else use npm build
-if (!window.jQuery) {
-    window.$ = window.jQuery = jq;
-}
-const $ = window.jQuery;
+// Admin JS Bundle — no jQuery (Phase 5)
+// Bootstrap 5 + Axios + Alpine via Vite
 
 import './lucide-init.js';
 import './vendor-admin.js';
 import './alpine-utils.js';
+import './admin-http.js';
 
-import {
-    installJqueryModalShim,
-    initBootstrapUi,
-    showAdminModal,
-    hideAdminModal,
-} from './admin-bootstrap.js';
-installJqueryModalShim($);
-
+import { initBootstrapUi, showAdminModal, hideAdminModal } from './admin-bootstrap.js';
 import { modernSelect } from './components/modern-select.js';
 import { tomSelect } from './components/alpine-select.js';
 import { tinyMCE } from './components/alpine-tinymce.js';
@@ -134,7 +121,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             );
         }
 
-        // Flatpickr: single owner (flatpickr-init.js) — includes .followup_date as d/m/Y
         if (needsDate || window.flatpickr) {
             initAdminFlatpickr();
         }
@@ -145,7 +131,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 window.AdminBundle = {
     initialized: true,
-    version: '3.0.0',
+    version: '4.0.0',
     showModal: showAdminModal,
     hideModal: hideAdminModal,
 };

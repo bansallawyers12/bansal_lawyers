@@ -1,22 +1,16 @@
 /**
- * Admin CRUD helpers (ported from public/js/custom.js).
- * Status toggles keep the row (blog/CMS pattern) — never remove on status success.
- * Always use window.jQuery (layout sync script) — never import a second jQuery copy.
+ * Admin CRUD helpers — vanilla + Axios (Phase 5).
+ * Status toggles keep the row — never remove on status success.
  */
-
-function csrfHeaders() {
-    return { 'X-CSRF-TOKEN': window.jQuery('meta[name="csrf-token"]').attr('content') };
-}
-
-function siteUrl() {
-    return typeof window.site_url !== 'undefined' ? window.site_url : '';
-}
+import { adminPost, siteUrl, showLoader, hideLoader, setHtml, scrollToTop } from './admin-http.js';
 
 export function successMessage(msg) {
     return (
         '<div class="alert alert-success alert-dismissible fade show" role="alert"><div class="alert-body">' +
         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-        '<strong>' + msg + '</strong></div></div>'
+        '<strong>' +
+        msg +
+        '</strong></div></div>'
     );
 }
 
@@ -24,209 +18,215 @@ export function errorMessage(msg) {
     return (
         '<div class="alert alert-danger alert-dismissible fade show" role="alert"><div class="alert-body">' +
         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-        msg + '</div></div>'
+        msg +
+        '</div></div>'
     );
 }
 
-export function updateStatus(id, current_status, table, col) {
-    const $ = window.jQuery;
-    $('.server-error').html('');
-    $('.custom-error-msg').html('');
-    $.ajax({
-        type: 'post',
-        headers: csrfHeaders(),
-        url: `${siteUrl()}/admin/update_action`,
-        data: { id, current_status, table, colname: col },
-        success(resp) {
-            const obj = typeof resp === 'object' ? resp : $.parseJSON(resp);
-            if (obj.status == 1) {
-                $('.custom-error-msg').html(successMessage(obj.message));
-                const updated_status = current_status == 1 ? 0 : 1;
-                $(`.change-status[data-id=${id}]`).attr('data-status', updated_status);
-                // Keep row — status toggle is not a delete
-            } else {
-                $('.custom-error-msg').html(errorMessage(obj.message));
-                $(`.change-status[data-id=${id}]`).prop('checked', current_status == 1);
-            }
-            $('.popuploader').hide();
-        },
-        beforeSend() {
-            $('.popuploader').show();
-        },
+function clearFlash() {
+    setHtml('.server-error', '');
+    setHtml('.custom-error-msg', '');
+}
+
+function setToggleChecked(id, checked) {
+    document.querySelectorAll(`.change-status[data-id="${id}"]`).forEach((el) => {
+        el.checked = checked;
     });
-    $('html, body').animate({ scrollTop: 0 }, 'slow');
+}
+
+function setToggleStatus(id, status) {
+    document.querySelectorAll(`.change-status[data-id="${id}"]`).forEach((el) => {
+        el.setAttribute('data-status', String(status));
+    });
+}
+
+export async function updateStatus(id, current_status, table, col) {
+    clearFlash();
+    showLoader();
+    scrollToTop();
+    try {
+        const obj = await adminPost(`${siteUrl()}/admin/update_action`, {
+            id,
+            current_status,
+            table,
+            colname: col,
+        });
+        if (obj.status == 1) {
+            setHtml('.custom-error-msg', successMessage(obj.message));
+            setToggleStatus(id, current_status == 1 ? 0 : 1);
+        } else {
+            setHtml('.custom-error-msg', errorMessage(obj.message));
+            setToggleChecked(id, current_status == 1);
+        }
+    } catch (err) {
+        console.error(err);
+        setHtml('.custom-error-msg', errorMessage('Something went wrong. Please try again.'));
+        setToggleChecked(id, current_status == 1);
+    } finally {
+        hideLoader();
+    }
 }
 
 export function deleteAction(id, table) {
-    const $ = window.jQuery;
-    window.adminConfirmForDelete(table).then((confirmed) => {
+    window.adminConfirmForDelete(table).then(async (confirmed) => {
         if (!confirmed) return;
         if (id === '') {
             alert('Please select ID to delete the record.');
-            return false;
+            return;
         }
 
-        $('.popuploader').show();
-        $('.server-error').html('');
-        $('.custom-error-msg').html('');
-        $.ajax({
-            type: 'post',
-            headers: csrfHeaders(),
-            url: `${siteUrl()}/admin/delete_action`,
-            data: { id, table },
-            success(resp) {
-                $('.popuploader').hide();
-                const obj = typeof resp === 'object' ? resp : $.parseJSON(resp);
-                if (obj.status == 1) {
-                    $(`#id_${id}`).remove();
-                    $(`#quid_${id}`).remove();
-                    $('.custom-error-msg').html(successMessage(obj.message));
-                    const old_count = $('.count').text();
-                    const new_count = old_count - 1;
-                    $('.count').text(new_count);
-                    if (new_count == 0) {
-                        $('.tdata').html('<tr><td colspan="6">There are no data in this table.</td></tr>');
+        clearFlash();
+        showLoader();
+        scrollToTop();
+        try {
+            const obj = await adminPost(`${siteUrl()}/admin/delete_action`, { id, table });
+            if (obj.status == 1) {
+                document.getElementById(`id_${id}`)?.remove();
+                document.getElementById(`quid_${id}`)?.remove();
+                setHtml('.custom-error-msg', successMessage(obj.message));
+                const countEl = document.querySelector('.count');
+                if (countEl) {
+                    const newCount = Number(countEl.textContent || 0) - 1;
+                    countEl.textContent = String(newCount);
+                    if (newCount === 0) {
+                        setHtml('.tdata', '<tr><td colspan="6">There are no data in this table.</td></tr>');
                     }
-                    location.reload();
-                } else {
-                    $('.custom-error-msg').html(errorMessage(obj.message));
                 }
-                $('#loader').hide();
-            },
-            beforeSend() {
-                $('#loader').show();
-            },
-        });
-        $('html, body').animate({ scrollTop: 0 }, 'slow');
-    });
-}
-
-export function archiveAction(id, table) {
-    const $ = window.jQuery;
-    if (!confirm('Do you want to change status to Archive?')) {
-        $('#loader').hide();
-        return;
-    }
-    if (id === '') {
-        alert('Please select ID to update the record.');
-        return false;
-    }
-    $('.server-error').html('');
-    $('.custom-error-msg').html('');
-    $.ajax({
-        type: 'post',
-        headers: csrfHeaders(),
-        url: `${siteUrl()}/admin/archive_action`,
-        data: { id, table },
-        success(resp) {
-            const obj = typeof resp === 'object' ? resp : $.parseJSON(resp);
-            if (obj.status == 1) {
-                $(`#quid_${id} .statusupdate`).html(obj.astatus);
-                $('.custom-error-msg').html(successMessage(obj.message));
-            } else {
-                $('.custom-error-msg').html(errorMessage(obj.message));
-            }
-            $('#loader').hide();
-        },
-        beforeSend() {
-            $('#loader').show();
-        },
-    });
-    $('html, body').animate({ scrollTop: 0 }, 'slow');
-}
-
-function postStatusAction(url, id, table, confirmMsg) {
-    const $ = window.jQuery;
-    if (!confirm(confirmMsg)) {
-        $('#loader').hide();
-        return;
-    }
-    if (id === '') {
-        alert('Please select ID to update the record.');
-        return false;
-    }
-    $('.server-error').html('');
-    $('.custom-error-msg').html('');
-    $.ajax({
-        type: 'post',
-        headers: csrfHeaders(),
-        url,
-        data: { id, table },
-        success(resp) {
-            const obj = typeof resp === 'object' ? resp : $.parseJSON(resp);
-            if (obj.status == 1) {
-                $('.custom-error-msg').html(successMessage(obj.message));
                 location.reload();
             } else {
-                $('.custom-error-msg').html(errorMessage(obj.message));
+                setHtml('.custom-error-msg', errorMessage(obj.message));
             }
-            $('#loader').hide();
-        },
-        beforeSend() {
-            $('#loader').show();
-        },
+        } catch (err) {
+            console.error(err);
+            setHtml('.custom-error-msg', errorMessage('Something went wrong. Please try again.'));
+        } finally {
+            hideLoader();
+        }
     });
-    $('html, body').animate({ scrollTop: 0 }, 'slow');
+}
+
+export async function archiveAction(id, table) {
+    if (!confirm('Do you want to change status to Archive?')) {
+        hideLoader();
+        return;
+    }
+    if (id === '') {
+        alert('Please select ID to update the record.');
+        return;
+    }
+    clearFlash();
+    showLoader();
+    scrollToTop();
+    try {
+        const obj = await adminPost(`${siteUrl()}/admin/archive_action`, { id, table });
+        if (obj.status == 1) {
+            const statusCell = document.querySelector(`#quid_${id} .statusupdate`);
+            if (statusCell && obj.astatus != null) {
+                statusCell.innerHTML = obj.astatus;
+            }
+            setHtml('.custom-error-msg', successMessage(obj.message));
+        } else {
+            setHtml('.custom-error-msg', errorMessage(obj.message));
+        }
+    } catch (err) {
+        console.error(err);
+        setHtml('.custom-error-msg', errorMessage('Something went wrong. Please try again.'));
+    } finally {
+        hideLoader();
+    }
+}
+
+async function postStatusAction(url, id, table, confirmMsg) {
+    if (!confirm(confirmMsg)) {
+        hideLoader();
+        return;
+    }
+    if (id === '') {
+        alert('Please select ID to update the record.');
+        return;
+    }
+    clearFlash();
+    showLoader();
+    scrollToTop();
+    try {
+        const obj = await adminPost(url, { id, table });
+        if (obj.status == 1) {
+            setHtml('.custom-error-msg', successMessage(obj.message));
+            location.reload();
+        } else {
+            setHtml('.custom-error-msg', errorMessage(obj.message));
+        }
+    } catch (err) {
+        console.error(err);
+        setHtml('.custom-error-msg', errorMessage('Something went wrong. Please try again.'));
+    } finally {
+        hideLoader();
+    }
 }
 
 export function declineAction(id, table) {
-    postStatusAction(`${siteUrl()}/admin/declined_action`, id, table, 'Do you want to change status to declined?');
+    return postStatusAction(
+        `${siteUrl()}/admin/declined_action`,
+        id,
+        table,
+        'Do you want to change status to declined?'
+    );
 }
 
 export function approveAction(id, table) {
-    postStatusAction(`${siteUrl()}/admin/approved_action`, id, table, 'Do you want to change status to Approve?');
+    return postStatusAction(
+        `${siteUrl()}/admin/approved_action`,
+        id,
+        table,
+        'Do you want to change status to Approve?'
+    );
 }
 
 export function processedAction(id, table) {
-    postStatusAction(`${siteUrl()}/admin/process_action`, id, table, 'Do you want to change status to Process?');
+    return postStatusAction(
+        `${siteUrl()}/admin/process_action`,
+        id,
+        table,
+        'Do you want to change status to Process?'
+    );
 }
 
-export function movetoclientAction(id, table, col) {
-    const $ = window.jQuery;
+export async function movetoclientAction(id, table, col) {
     if (!confirm('Are you sure, you would like to move this record.')) {
-        $('#loader').hide();
+        hideLoader();
         return;
     }
     if (id === '') {
         alert('Please select ID to delete the record.');
-        return false;
+        return;
     }
-    $('.popuploader').show();
-    $('.server-error').html('');
-    $('.custom-error-msg').html('');
-    $.ajax({
-        type: 'post',
-        headers: csrfHeaders(),
-        url: `${siteUrl()}/admin/move_action`,
-        data: { id, table, col },
-        success(resp) {
-            $('.popuploader').hide();
-            const obj = typeof resp === 'object' ? resp : $.parseJSON(resp);
-            if (obj.status == 1) {
-                $(`#id_${id}`).remove();
-                $('.custom-error-msg').html(successMessage(obj.message));
-            } else {
-                $('.custom-error-msg').html(errorMessage(obj.message));
-            }
-            $('#loader').hide();
-        },
-        beforeSend() {
-            $('#loader').show();
-        },
-    });
-    $('html, body').animate({ scrollTop: 0 }, 'slow');
+    clearFlash();
+    showLoader();
+    scrollToTop();
+    try {
+        const obj = await adminPost(`${siteUrl()}/admin/move_action`, { id, table, col });
+        if (obj.status == 1) {
+            document.getElementById(`id_${id}`)?.remove();
+            setHtml('.custom-error-msg', successMessage(obj.message));
+        } else {
+            setHtml('.custom-error-msg', errorMessage(obj.message));
+        }
+    } catch (err) {
+        console.error(err);
+        setHtml('.custom-error-msg', errorMessage('Something went wrong. Please try again.'));
+    } finally {
+        hideLoader();
+    }
 }
 
 export function initAdminCrud() {
-    const $ = window.jQuery;
-    // Namespaced so pages can off('change.adminCrud') if needed.
-    // Do not also bind .change-status on the page — that double-fires AJAX
-    // (.off('change') does not remove this delegated handler).
-    $(document).off('change.adminCrud', '.change-status').on('change.adminCrud', '.change-status', function () {
-        const id = $.trim($(this).attr('data-id'));
-        const current_status = $.trim($(this).attr('data-status'));
-        const table = $.trim($(this).attr('data-table'));
-        const col = $.trim($(this).attr('data-col'));
+    document.addEventListener('change', (event) => {
+        const el = event.target.closest?.('.change-status');
+        if (!el) return;
+        const id = (el.getAttribute('data-id') || '').trim();
+        const current_status = (el.getAttribute('data-status') || '').trim();
+        const table = (el.getAttribute('data-table') || '').trim();
+        const col = (el.getAttribute('data-col') || '').trim();
         if (id !== '' && current_status !== '' && table !== '' && typeof window.updateStatus === 'function') {
             window.updateStatus(id, current_status, table, col);
         }

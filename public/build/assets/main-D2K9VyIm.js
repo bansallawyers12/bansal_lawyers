@@ -1,0 +1,1 @@
+(function(){function e(){var e=document.getElementById(`ftco-loader`);e&&window.setTimeout(function(){e.classList.remove(`show`)},1)}document.readyState===`loading`?document.addEventListener(`DOMContentLoaded`,e):e()})();
