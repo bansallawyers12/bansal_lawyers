@@ -1,14 +1,15 @@
-# Archived frontend / admin legacy assets (Phase 4)
+# Archived frontend / admin legacy assets
 
 Moved out of the live request path. Do not re-link from layouts.
+Run `npm run audit:legacy-js` to ensure these do not creep back into live `public/js/`.
 
-| File | Was used by | Replaced by |
-|------|-------------|-------------|
-| `scripts.js` | Admin (unlinked Phase 2) | `resources/js/admin.js` + modules |
-| `custom.js` | Admin (unlinked Phase 2) | `admin-crud.js` etc. |
-| `custom-form-validation.js` | Admin (unlinked Phase 2) | `admin-custom-validate.js` |
-| `jquery.stellar.min.js` | Frontend practice-areas / CMS | Vanilla `data-parallax-bg` in `frontend.js` |
-| `jquery.waypoints.min.js` | Frontend ftco-animate | AOS (`data-aos`) |
-| `../css/archive/animate.min.css` | Frontend fadeIn* classes | AOS CSS via Vite |
+| File | Notes |
+|------|-------|
+| `scripts.js`, `custom.js`, `custom-form-validation.js` | Admin (unlinked Phase 2) → Vite `admin.js` |
+| `admin-confirm.js`, `admin-csp-actions.js` | Duplicates; live copies in `resources/js/` |
+| `jquery-3.7.1.min.js`, `jquery.easing.1.3.min.js` | Phase 9 — removed from live path |
+| `bootstrap.bundle.min.js` | Phase 4 unlinked; Phase 9 archived |
+| `jquery.stellar.min.js`, `jquery.waypoints.min.js` | Phase 4 → AOS / parallax |
+| `scrollax.min.js`, `jquery.animateNumber.min.js` | Phase 1 dead weight (if present) |
 
-`bootstrap.bundle.min.js` remains under `public/js/` but is **not linked** by frontend / landing / appointment layouts (Phase 4). Admin uses npm Bootstrap 5 via Vite.
+`style_lawyer.min.css` remains live for ftco theme (may embed BS-era rules). Stock `bootstrap_lawyers` is archived under `public/css/`.
