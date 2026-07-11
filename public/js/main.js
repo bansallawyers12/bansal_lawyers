@@ -1,651 +1,167 @@
-// Global error handler to catch Stellar.js particles undefined error
-window.addEventListener('error', function(e) {
-	// Catch Stellar.js particles undefined error and prevent it from breaking the page
+/**
+ * Slim legacy theme JS (Phase 1).
+ * Keep: #ftco-loader dismiss, Stellar init (2 pages), ftco-animate waypoints.
+ * Removed: scrollax, animateNumber, dead nav/logo scroll, carousels, txt-rotate,
+ * video modal, case-study helpers, OnePageNav, fullHeight.
+ */
+
+window.addEventListener('error', function (e) {
 	if (e.message && (
 		e.message.includes('particles is undefined') ||
-		e.message.includes("can't access property") && e.message.includes('particles') ||
-		e.filename && e.filename.includes('stellar')
+		(e.message.includes("can't access property") && e.message.includes('particles')) ||
+		(e.filename && e.filename.includes('stellar'))
 	)) {
-		console.warn('Stellar.js error caught and suppressed:', e.message);
 		e.preventDefault();
-		return true; // Prevent default error handling
+		return true;
 	}
-}, true); // Use capture phase to catch errors early
+}, true);
 
 (function ($) {
-
-	"use strict";
+	'use strict';
 
 	if (!$ || !$.fn) {
 		console.warn('main.js: jQuery not available; skipping legacy theme init');
 		return;
 	}
-	var isMobile = {
-		Android: function () {
-			return navigator.userAgent.match(/Android/i);
-		},
-		BlackBerry: function () {
-			return navigator.userAgent.match(/BlackBerry/i);
-		},
-		iOS: function () {
-			return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-		},
-		Opera: function () {
-			return navigator.userAgent.match(/Opera Mini/i);
-		},
-		Windows: function () {
-			return navigator.userAgent.match(/IEMobile/i);
-		},
-		any: function () {
-			return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-		}
-	};
 
+	var stellarInitialized = false;
 
-	// Stellar.js - Only initialize if elements with data-stellar attributes exist
-	// Wait for Stellar.js to be fully loaded and ready before initializing
-	var stellarInitialized = false; // Flag to prevent multiple initializations
-	
-	// Patch Stellar.js prototype BEFORE initialization to prevent particles undefined error
-	// This must run as soon as Stellar.js is loaded, before any instances are created
-	function patchStellarPrototype() {
-		try {
-			// Check if Stellar.js is loaded
-			if (typeof $.fn.stellar === 'undefined') {
-				return; // Stellar.js not loaded yet
-			}
-			
-			// Get the Stellar constructor/class from jQuery plugin
-			// Stellar.js stores instances in jQuery data, we need to patch the prototype
-			// Since Stellar.js is a jQuery plugin, we'll patch instances when they're created
-			// For now, we'll use a more aggressive approach: patch on initialization
-		} catch (e) {
-			console.warn('Could not patch Stellar.js prototype:', e);
-		}
-	}
-	
-	// Patch Stellar.js instance to fix the particles undefined bug
 	function patchStellarInstance(stellarInstance) {
 		if (!stellarInstance) return;
-		
-		// Store the original particles value if it exists
 		var originalParticles = stellarInstance.particles;
-		
-		// Use Object.defineProperty to ensure particles is always an array
-		// This intercepts all access to this.particles
 		try {
-			// Delete the existing property descriptor if possible, then redefine
 			delete stellarInstance.particles;
-			
 			Object.defineProperty(stellarInstance, 'particles', {
-				get: function() {
-					// Always return an array, never undefined
+				get: function () {
 					if (this._stellarParticles === undefined || !Array.isArray(this._stellarParticles)) {
-						this._stellarParticles = (originalParticles && Array.isArray(originalParticles)) ? originalParticles : [];
+						this._stellarParticles = (originalParticles && Array.isArray(originalParticles))
+							? originalParticles
+							: [];
 					}
 					return this._stellarParticles;
 				},
-				set: function(value) {
-					// Ensure it's always an array
+				set: function (value) {
 					this._stellarParticles = (value && Array.isArray(value)) ? value : [];
 				},
 				enumerable: true,
 				configurable: true
 			});
-			
-			// Initialize with original value or empty array
 			stellarInstance.particles = originalParticles || [];
 		} catch (e) {
-			// Fallback: just ensure it's always an array
 			if (!stellarInstance.particles || !Array.isArray(stellarInstance.particles)) {
 				stellarInstance.particles = [];
 			}
 		}
 	}
-	
+
 	function initStellar() {
+		if (stellarInitialized || typeof $.fn.stellar === 'undefined') {
+			return;
+		}
+
+		var existingInstance = $(window).data('plugin_stellar');
+		if (existingInstance) {
+			patchStellarInstance(existingInstance);
+			stellarInitialized = true;
+			return;
+		}
+
+		if ($('[data-stellar-background-ratio], [data-stellar-ratio]').length === 0) {
+			return;
+		}
+
 		try {
-			// Prevent multiple initializations
-			if (stellarInitialized) {
-				return;
-			}
-			
-			// Check if Stellar.js is available and elements exist
-			if (typeof $.fn.stellar === 'undefined') {
-				return; // Stellar.js not loaded yet
-			}
-			
-			// Check if Stellar is already initialized on window
-			var existingInstance = $(window).data('plugin_stellar');
-			if (existingInstance) {
-				// Patch existing instance
-				patchStellarInstance(existingInstance);
-				stellarInitialized = true;
-				return; // Already initialized
-			}
-			
-			var stellarElements = $('[data-stellar-background-ratio], [data-stellar-ratio]');
-			if (stellarElements.length === 0) {
-				return; // No stellar elements on this page
-			}
-			
-			// Initialize Stellar with error handling
-			// The global error handler will catch any particles undefined errors
-			try {
-				$(window).stellar({
-					responsive: true,
-					parallaxBackgrounds: true,
-					parallaxElements: true,
-					horizontalScrolling: false,
-					hideDistantElements: false,
-					scrollProperty: 'scroll'
-				});
-				
-				// Patch the instance immediately after initialization
-				var stellarInstance = $(window).data('plugin_stellar');
-				if (stellarInstance) {
-					// Ensure particles exists before patching
-					if (!stellarInstance.particles) {
-						stellarInstance.particles = [];
-					}
-					patchStellarInstance(stellarInstance);
-					stellarInitialized = true; // Mark as initialized
+			$(window).stellar({
+				responsive: true,
+				parallaxBackgrounds: true,
+				parallaxElements: true,
+				horizontalScrolling: false,
+				hideDistantElements: false,
+				scrollProperty: 'scroll'
+			});
+			var stellarInstance = $(window).data('plugin_stellar');
+			if (stellarInstance) {
+				if (!stellarInstance.particles) {
+					stellarInstance.particles = [];
 				}
-			} catch (initError) {
-				// If initialization fails, mark as initialized to prevent retries
-				// The error handler will have already caught and suppressed the particles error
-				console.warn('Stellar.js initialization encountered an error (may be suppressed):', initError.message);
-				stellarInitialized = true; // Mark as initialized to prevent infinite retries
+				patchStellarInstance(stellarInstance);
 			}
-		} catch (error) {
-			console.warn('Stellar.js initialization error:', error);
-			// Silently fail - parallax is not critical for page functionality
-			stellarInitialized = true; // Mark as initialized to prevent retries
+			stellarInitialized = true;
+		} catch (initError) {
+			stellarInitialized = true;
 		}
 	}
-	
-	// Try to initialize with multiple retries to ensure script is loaded
+
 	function initStellarWithRetry(retries) {
 		retries = retries || 0;
-		
-		if (retries > 10) {
-			return; // Give up after 10 retries (1 second)
-		}
-		
-		// Check if jQuery is available first
-		if (typeof window.jQuery === 'undefined') {
-			setTimeout(function() {
+		if (retries > 10) return;
+
+		if (typeof window.jQuery === 'undefined' || typeof $.fn.stellar === 'undefined') {
+			setTimeout(function () {
 				initStellarWithRetry(retries + 1);
 			}, 100);
 			return;
 		}
-		
-		// Check if Stellar.js plugin is loaded
-		if (typeof $.fn.stellar === 'undefined') {
-			setTimeout(function() {
-				initStellarWithRetry(retries + 1);
-			}, 100);
+
+		if ($('[data-stellar-background-ratio], [data-stellar-ratio]').length === 0) {
 			return;
 		}
-		
-		// Now that jQuery is available, check for stellar elements
-		var stellarElements = $('[data-stellar-background-ratio], [data-stellar-ratio]');
-		if (stellarElements.length === 0) {
-			return; // No stellar elements, skip initialization
-		}
-		
-		// Initialize Stellar (patch is applied inside initStellar)
+
 		initStellar();
 	}
-	
-	// Try to initialize immediately if ready, otherwise wait
-	// Use longer delay to ensure all deferred scripts (including Stellar.js) are fully loaded
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', function() {
-			// Wait for deferred scripts to load - increased delay for Stellar.js
-			setTimeout(function() {
-				initStellarWithRetry(0);
-			}, 500);
-		});
-	} else {
-		// DOM already ready, but wait for deferred scripts
-		setTimeout(function() {
-			initStellarWithRetry(0);
-		}, 500);
-	}
 
-
-	var fullHeight = function () {
-
-		$('.js-fullheight').css('height', $(window).height());
-		$(window).resize(function () {
-			$('.js-fullheight').css('height', $(window).height());
-		});
-
-	};
-	fullHeight();
-
-	// loader
-	var loader = function () {
+	function dismissLoader() {
 		setTimeout(function () {
 			if ($('#ftco-loader').length > 0) {
 				$('#ftco-loader').removeClass('show');
 			}
 		}, 1);
-	};
-	loader();
-
-	// Scrollax - Only initialize if plugin is loaded and elements exist
-	if (typeof $.Scrollax !== 'undefined' && $('[data-scrollax], [data-scrollax-parent]').length > 0) {
-		$.Scrollax();
 	}
 
-	var carousel = function () {
-		// carousel-testimony is now handled in frontend.blade.php with Swiper.js
-		// Removed Owl Carousel initialization for carousel-testimony
-
-		// Initialize carousel-case with Swiper.js
-		if (typeof Swiper !== 'undefined' && document.querySelector('.carousel-case')) {
-			new Swiper('.carousel-case', {
-				slidesPerView: 1,
-				spaceBetween: 30,
-				centeredSlides: true,
-				loop: true,
-				autoplay: {
-					delay: 2000,
-					disableOnInteraction: false,
-					pauseOnMouseEnter: true,
-				},
-				navigation: {
-					nextEl: '.swiper-button-next',
-					prevEl: '.swiper-button-prev',
-				},
-				breakpoints: {
-					0: {
-						slidesPerView: 1,
-						spaceBetween: 10,
-						centeredSlides: false,
-					},
-					600: {
-						slidesPerView: 2,
-						spaceBetween: 20,
-					},
-					1000: {
-						slidesPerView: 3,
-						spaceBetween: 30,
-					},
-				},
-			});
+	function contentWayPoint() {
+		if (typeof $.fn.waypoint === 'undefined' || $('.ftco-animate').length === 0) {
+			return;
 		}
-	};
-	
-	// Initialize carousel after DOM is ready and Swiper is loaded
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', function() {
-			// Wait for Swiper to be available
-			function initCarouselWhenReady() {
-				if (typeof Swiper !== 'undefined') {
-					carousel();
-				} else {
-					setTimeout(initCarouselWhenReady, 100);
-				}
-			}
-			initCarouselWhenReady();
-		});
-	} else {
-		// DOM already ready, wait for Swiper
-		function initCarouselWhenReady() {
-			if (typeof Swiper !== 'undefined') {
-				carousel();
-			} else {
-				setTimeout(initCarouselWhenReady, 100);
-			}
-		}
-		initCarouselWhenReady();
-	}
 
-	$('nav .dropdown').hover(function () {
-		var $this = $(this);
-		// 	 timer;
-		// clearTimeout(timer);
-		$this.addClass('show');
-		$this.find('> a').attr('aria-expanded', true);
-		// $this.find('.dropdown-menu').addClass('animated-fast fadeInUp show');
-		$this.find('.dropdown-menu').addClass('show');
-	}, function () {
-		var $this = $(this);
-		// timer;
-		// timer = setTimeout(function(){
-		$this.removeClass('show');
-		$this.find('> a').attr('aria-expanded', false);
-		// $this.find('.dropdown-menu').removeClass('animated-fast fadeInUp show');
-		$this.find('.dropdown-menu').removeClass('show');
-		// }, 100);
-	});
-
-
-	$('#dropdown04').on('show.bs.dropdown', function () {
-		console.log('show');
-	});
-
-	// scroll
-	var scrollWindow = function () {
-		$(window).scroll(function () {
-			var $w = $(this),
-				st = $w.scrollTop(),
-				navbar = $('.ftco_navbar'),
-				sd = $('.js-scroll-wrap');
-            
-			if (st > 150) {
-				if (!navbar.hasClass('scrolled')) {
-					navbar.addClass('scrolled');
-				}  
-			}
-			if (st < 150) {
-				if (navbar.hasClass('scrolled')) {
-					navbar.removeClass('scrolled sleep');
-				}
-			}
-			if (st > 350) {
-				if (!navbar.hasClass('awake')) {
-					navbar.addClass('awake');
-				}
-
-				if (sd.length > 0) {
-					sd.addClass('sleep');
-				}
-			}
-			if (st < 350) {
-				if (navbar.hasClass('awake')) {
-					navbar.removeClass('awake');
-					navbar.addClass('sleep');
-				}
-				if (sd.length > 0) {
-					sd.removeClass('sleep');
-				}
-			}
-			
-            if (navbar.hasClass('scrolled')) {
-				$("#image_logo").attr("src", "https://www.bansallawyers.com.au/public/images/logo/Bansal_Lawyers_scroll.png?timestamp=" + new Date().getTime());
-			} else {
-                $("#image_logo").attr("src", "https://www.bansallawyers.com.au/public/images/logo/Bansal_Lawyers.png?timestamp=" + new Date().getTime());
-            }
-			
-		});
-	};
-	scrollWindow();
-
-	var isMobile = {
-		Android: function () {
-			return navigator.userAgent.match(/Android/i);
-		},
-		BlackBerry: function () {
-			return navigator.userAgent.match(/BlackBerry/i);
-		},
-		iOS: function () {
-			return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-		},
-		Opera: function () {
-			return navigator.userAgent.match(/Opera Mini/i);
-		},
-		Windows: function () {
-			return navigator.userAgent.match(/IEMobile/i);
-		},
-		any: function () {
-			return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-		}
-	};
-
-	var counter = function () {
-		// Only initialize waypoint if plugin is loaded
-		if (typeof $.fn.waypoint !== 'undefined' && $('#section-counter, .hero-wrap, .ftco-counter').length > 0) {
-			$('#section-counter, .hero-wrap, .ftco-counter').waypoint(function (direction) {
-
-				if (direction === 'down' && !$(this.element).hasClass('ftco-animated')) {
-
-					if (typeof $.animateNumber === 'undefined' || !$.animateNumber.numberStepFactories) {
-						return;
-					}
-					var comma_separator_number_step = $.animateNumber.numberStepFactories.separator(',')
-					$('.number').each(function () {
-						var $this = $(this),
-							num = $this.data('number');
-						$this.animateNumber(
-							{
-								number: num,
-								numberStep: comma_separator_number_step
-							}, 7000
-						);
+		var i = 0;
+		$('.ftco-animate').waypoint(function (direction) {
+			if (direction === 'down' && !$(this.element).hasClass('ftco-animated')) {
+				i++;
+				$(this.element).addClass('item-animate');
+				setTimeout(function () {
+					$('body .ftco-animate.item-animate').each(function (k) {
+						var el = $(this);
+						setTimeout(function () {
+							var effect = el.data('animate-effect');
+							if (effect === 'fadeIn') {
+								el.addClass('fadeIn ftco-animated');
+							} else if (effect === 'fadeInLeft') {
+								el.addClass('fadeInLeft ftco-animated');
+							} else if (effect === 'fadeInRight') {
+								el.addClass('fadeInRight ftco-animated');
+							} else {
+								el.addClass('fadeInUp ftco-animated');
+							}
+							el.removeClass('item-animate');
+						}, k * 50, 'easeInOutExpo');
 					});
-
-				}
-
-			}, { offset: '95%' });
-		}
+				}, 100);
+			}
+		}, { offset: '95%' });
 	}
-	counter();
 
-
-	var contentWayPoint = function () {
-		// Only initialize waypoint if plugin is loaded
-		if (typeof $.fn.waypoint !== 'undefined' && $('.ftco-animate').length > 0) {
-			var i = 0;
-			$('.ftco-animate').waypoint(function (direction) {
-
-				if (direction === 'down' && !$(this.element).hasClass('ftco-animated')) {
-
-					i++;
-
-					$(this.element).addClass('item-animate');
-					setTimeout(function () {
-
-						$('body .ftco-animate.item-animate').each(function (k) {
-							var el = $(this);
-							setTimeout(function () {
-								var effect = el.data('animate-effect');
-								if (effect === 'fadeIn') {
-									el.addClass('fadeIn ftco-animated');
-								} else if (effect === 'fadeInLeft') {
-									el.addClass('fadeInLeft ftco-animated');
-								} else if (effect === 'fadeInRight') {
-									el.addClass('fadeInRight ftco-animated');
-								} else {
-									el.addClass('fadeInUp ftco-animated');
-								}
-								el.removeClass('item-animate');
-							}, k * 50, 'easeInOutExpo');
-						});
-
-					}, 100);
-
-				}
-
-			}, { offset: '95%' });
-		}
-	};
+	dismissLoader();
 	contentWayPoint();
 
-
-	// navigation
-	var OnePageNav = function () {
-		$(".smoothscroll[href^='#'], #ftco-nav ul li a[href^='#']").on('click', function (e) {
-			e.preventDefault();
-
-			var hash = this.hash,
-				navToggler = $('.navbar-toggler');
-			$('html, body').animate({
-				scrollTop: $(hash).offset().top
-			}, 700, 'easeInOutExpo', function () {
-				window.location.hash = hash;
-			});
-
-
-			if (navToggler.is(':visible')) {
-				navToggler.click();
-			}
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', function () {
+			setTimeout(function () {
+				initStellarWithRetry(0);
+			}, 500);
 		});
-		$('body').on('activate.bs.scrollspy', function () {
-			console.log('nice');
-		})
-	};
-	OnePageNav();
-
-
-	var TxtRotate = function (el, toRotate, period) {
-		this.toRotate = toRotate;
-		this.el = el;
-		this.loopNum = 0;
-		this.period = parseInt(period, 10) || 2000;
-		this.txt = '';
-		this.tick();
-		this.isDeleting = false;
-	};
-
-	TxtRotate.prototype.tick = function () {
-		var i = this.loopNum % this.toRotate.length;
-		var fullTxt = this.toRotate[i];
-
-		if (this.isDeleting) {
-			this.txt = fullTxt.substring(0, this.txt.length - 1);
-		} else {
-			this.txt = fullTxt.substring(0, this.txt.length + 1);
-		}
-
-		this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
-
-		var that = this;
-		var delta = 300 - Math.random() * 100;
-
-		if (this.isDeleting) { delta /= 2; }
-
-		if (!this.isDeleting && this.txt === fullTxt) {
-			delta = this.period;
-			this.isDeleting = true;
-		} else if (this.isDeleting && this.txt === '') {
-			this.isDeleting = false;
-			this.loopNum++;
-			delta = 500;
-		}
-
+	} else {
 		setTimeout(function () {
-			that.tick();
-		}, delta);
-	};
-
-	window.onload = function () {
-		var elements = document.getElementsByClassName('txt-rotate');
-		for (var i = 0; i < elements.length; i++) {
-			var toRotate = elements[i].getAttribute('data-rotate');
-			var period = elements[i].getAttribute('data-period');
-			if (toRotate) {
-				new TxtRotate(elements[i], JSON.parse(toRotate), period);
-			}
-		}
-	};
-
+			initStellarWithRetry(0);
+		}, 500);
+	}
 })(window.jQuery);
-
-document.addEventListener("DOMContentLoaded", function () {
-	const text = "There’s No Legal Puzzle That We Can’t Solve";
-	const element = document.getElementById("welcome-text");
-
-	// Guard against pages where the element is not present
-	if (element) {
-		// Set the full text and allow CSS animation to handle it
-		element.textContent = text;
-		// Add a class to trigger the animation (if needed dynamically)
-		element.classList.add('animated-typing');
-	}
-});
-
-                                        
-
-// Video modal functions - Manual click only (no auto-trigger)
-function openVideoModal() {
-    var modal = document.getElementById("videoModal");
-    var iframe = document.getElementById("videoIframe");
-    if (modal && iframe) {
-        // Manual play only - no autoplay, user must click play button
-        iframe.src = "https://www.youtube.com/embed/3GZvPE99x6Y?rel=0&playsinline=1";
-        modal.style.display = "block";
-    }
-}
-
-function closeVideoModal() {
-    var modal = document.getElementById("videoModal");
-    var iframe = document.getElementById("videoIframe");
-
-    if (modal && iframe) {
-        iframe.src = "";
-        modal.style.display = "none";
-    }
-}
-                                            
-
-
-
-
-
-// case study script //
-
-const caseData = {
-	1: {
-		title: "Corporate Legal Separation",
-		content: `
-	  <h2 style="color: yellow;">Corporate Legal Separation</h2>
-	  <p style="color: white;">We helped a multinational company navigate a challenging corporate separation. Our expertise in corporate law ensured a smooth transition, protecting the interests of both parties and avoiding legal pitfalls. This case highlights our ability to deliver innovative solutions to complex legal challenges.</p>
-	`
-	},
-	2: {
-		title: "Intellectual Property Protection",
-		content: `
-	  <h2 style="color: yellow;">Intellectual Property Protection</h2>
-	  <p style="color: white;">Bansal Lawyers secured crucial trademarks and patents for a technology startup, protecting their innovations and market position. We provided end-to-end support, from filing applications to defending intellectual property in court, ensuring the client’s competitive advantage.</p>
-	`
-	},
-	3: {
-		title: "Employment Law Dispute",
-		content: `
-	  <h2 style="color: yellow;">Employment Law Dispute</h2>
-	  <p style="color: white;">Our team successfully resolved a labor dispute between a company and its former employee, avoiding lengthy litigation. By prioritizing mediation and negotiation, we achieved a fair settlement that upheld workplace policies and maintained harmony within the organization.</p>
-	`
-	},
-	4: {
-		title: "Real Estate Transaction",
-		content: `
-	  <h2 style="color: yellow;">Real Estate Transaction</h2>
-	  <p style="color: white;">We facilitated a large-scale real estate acquisition for a developer, ensuring compliance with regulatory requirements. Our detailed legal review and proactive advice minimized risks and secured favorable terms for the client, exemplifying our dedication to excellence in real estate law.</p>
-	`
-	},
-	5: {
-		title: "Criminal Defense Victory",
-		content: `
-	  <h2 style="color: yellow;">Criminal Defense Victory</h2>
-	  <p style="color: white;">Bansal Lawyers provided exceptional representation in a high-profile criminal case, achieving an acquittal for our client. Our strategic defense, thorough investigation, and in-depth knowledge of criminal law led to this landmark victory.</p>
-	`
-	},
-	6: {
-		title: "Family Law Resolution",
-		content: `
-	  <h2 style="color: yellow;">Family Law Resolution</h2>
-	  <p style="color: white;">In a sensitive family law case, we helped our client achieve a fair resolution in child custody and asset division. Our compassionate approach and legal expertise ensured the best outcome, maintaining our client’s dignity and protecting their future.</p>
-	`
-	}
-};
-
-function showCaseDetails(caseId) {
-	const descriptionSection = document.getElementById("case-description");
-	const detailsContainer = document.getElementById("case-details");
-
-	// Inject the content for the selected case
-	detailsContainer.innerHTML = caseData[caseId].content;
-
-	// Display the description section
-	descriptionSection.style.display = "block";
-
-	// Scroll to the description section
-	descriptionSection.scrollIntoView({ behavior: "smooth" });
-}
-
-
-

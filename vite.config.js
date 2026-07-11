@@ -6,7 +6,6 @@ export default defineConfig({
         laravel({
             input: [
                 // CSS files
-                'resources/css/app.css',
                 'resources/css/frontend.css',
                 'resources/css/admin.css',
                 'resources/css/vendor-frontend.css',
@@ -14,13 +13,12 @@ export default defineConfig({
                 // fonts.css removed - now loaded as static asset to avoid Vite path resolution issues
 
                 // JS files
-                'resources/js/app.js',
                 'resources/js/frontend.js',
                 'resources/js/vendor-frontend.js',
                 'resources/js/admin.js',
                 'resources/js/vendor-admin.js',
                 'resources/js/admin-calendar-v6.js',
-                'public/js/main.js', // Add main.js to build pipeline
+                'public/js/main.js',
             ],
             refresh: true,
             // Ensure manifest is created in the correct location for Laravel

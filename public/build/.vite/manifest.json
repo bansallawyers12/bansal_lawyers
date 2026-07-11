@@ -46,29 +46,8 @@
       "_rolldown-runtime-CacB07dV.js"
     ]
   },
-  "_vendor-bootstrap-qqsojpTb.js": {
-    "file": "assets/vendor-bootstrap-qqsojpTb.js",
-    "name": "vendor-bootstrap",
-    "imports": [
-      "_rolldown-runtime-CacB07dV.js"
-    ]
-  },
-  "_vendor-jquery-Bd9XQpB7.js": {
-    "file": "assets/vendor-jquery-Bd9XQpB7.js",
-    "name": "vendor-jquery",
-    "imports": [
-      "_rolldown-runtime-CacB07dV.js"
-    ]
-  },
-  "_vendor-lodash-CE11kyyg.js": {
-    "file": "assets/vendor-lodash-CE11kyyg.js",
-    "name": "vendor-lodash",
-    "imports": [
-      "_rolldown-runtime-CacB07dV.js"
-    ]
-  },
   "public/js/main.js": {
-    "file": "assets/main-D96TVzaQ.js",
+    "file": "assets/main-CkFPmiKz.js",
     "name": "main",
     "src": "public/js/main.js",
     "isEntry": true
@@ -80,15 +59,6 @@
       "admin.css"
     ],
     "src": "resources/css/admin.css",
-    "isEntry": true
-  },
-  "resources/css/app.css": {
-    "file": "assets/app-UVjfTYve.css",
-    "name": "app",
-    "names": [
-      "app.css"
-    ],
-    "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/frontend.css": {
@@ -128,7 +98,7 @@
     ]
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-BhH7N4IE.js",
+    "file": "assets/admin-CM6ijlt2.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
@@ -140,22 +110,8 @@
       "resources/js/vendor-admin.js"
     ]
   },
-  "resources/js/app.js": {
-    "file": "assets/app-Uwa_UN08.js",
-    "name": "app",
-    "src": "resources/js/app.js",
-    "isEntry": true,
-    "imports": [
-      "_rolldown-runtime-CacB07dV.js",
-      "_vendor-bootstrap-qqsojpTb.js",
-      "_vendor-alpine-Dx9GzgU6.js",
-      "_vendor-axios-DPJ5mLjw.js",
-      "_vendor-jquery-Bd9XQpB7.js",
-      "_vendor-lodash-CE11kyyg.js"
-    ]
-  },
   "resources/js/frontend.js": {
-    "file": "assets/frontend-BuFC3AW1.js",
+    "file": "assets/frontend-tLXZkCTJ.js",
     "name": "frontend",
     "src": "resources/js/frontend.js",
     "isEntry": true,

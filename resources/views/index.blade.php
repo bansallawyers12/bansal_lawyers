@@ -884,7 +884,7 @@ document.addEventListener('keydown', function(event) {
 });
 </script>
 
-<!-- Swiper.js initialization is handled in the layout file -->
+<!-- Swiper.js initialization is handled in resources/js/frontend.js -->
 
 <!-- Additional styles for home contact form -->
 <script>

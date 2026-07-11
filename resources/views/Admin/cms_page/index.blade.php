@@ -681,7 +681,7 @@ input:checked + .modern-status-slider:before {
 												</td>
 												<td>
 													<label class="modern-status-toggle">
-														<input data-id="{{$list->id}}" data-status="{{$list->status}}" data-col="status" data-table="cms_pages" class="change-status" value="1" type="checkbox" name="status" {{ ($list->status == 1 ? 'checked' : '')}} data-bootstrap-switch>
+														<input data-id="{{$list->id}}" data-status="{{$list->status}}" data-col="status" data-table="cms_pages" class="change-status" value="1" type="checkbox" name="status" {{ ($list->status == 1 ? 'checked' : '')}}>
 														<span class="modern-status-slider"></span>
 													</label>
 												</td>

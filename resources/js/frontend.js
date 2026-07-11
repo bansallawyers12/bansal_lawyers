@@ -1,18 +1,13 @@
 // Frontend JS Bundle - Optimized for Performance
-// Core functionality with modern ES6+ features
 // vendor-frontend (Swiper, AOS, Lucide) is imported here — layouts must NOT also @vite vendor-frontend.js
 
 import './vendor-frontend.js';
-
-// Import Alpine.js utilities
 import './alpine-utils.js';
 
 const scriptAlreadyLoaded = (filename) =>
     Boolean(document.querySelector(`script[src*="${filename}"]`));
 
-/**
- * Dynamically inserted scripts ignore `defer`; use async=false to preserve order.
- */
+/** Dynamically inserted scripts ignore `defer`; use async=false to preserve order. */
 const loadScript = (src) =>
     new Promise((resolve, reject) => {
         const filename = src.split('/').pop();
@@ -41,9 +36,6 @@ const loadExternalScripts = () => {
         if (!scriptAlreadyLoaded('jquery.stellar.min.js')) {
             scripts.push('/js/jquery.stellar.min.js');
         }
-        if (!scriptAlreadyLoaded('scrollax.min.js')) {
-            scripts.push('/js/scrollax.min.js');
-        }
     }
 
     return Promise.all(scripts.map(loadScript));
@@ -57,7 +49,7 @@ const initAos = () => {
             once: true,
             mirror: false,
             anchorPlacement: 'top-bottom',
-            disable: function() {
+            disable: function () {
                 return window.innerWidth < 768;
             }
         });
@@ -68,14 +60,55 @@ const initAos = () => {
     }
 };
 
-// Module runs after document parse (end of body) — start plugin fallback immediately
-// so main.js stellar/waypoint retries can succeed even when layout gates miss a page.
+const initTestimonialsCarousel = () => {
+    if (!document.querySelector('.carousel-testimony') || typeof Swiper === 'undefined') {
+        return false;
+    }
+
+    new Swiper('.carousel-testimony', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+            delay: 8000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+        },
+        speed: 800,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+            },
+            1024: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+            },
+        },
+    });
+    return true;
+};
+
+const initTestimonialsWhenReady = (attempts = 0) => {
+    if (initTestimonialsCarousel()) {
+        return;
+    }
+    if (attempts < 40) {
+        setTimeout(() => initTestimonialsWhenReady(attempts + 1), 100);
+    }
+};
+
 const externalScriptsReady = loadExternalScripts().catch((error) => {
     console.warn('Some external scripts failed to load:', error);
 });
 
 const onReady = async () => {
     initAos();
+    initTestimonialsWhenReady();
     await externalScriptsReady;
 };
 
@@ -87,5 +120,5 @@ if (document.readyState === 'loading') {
 
 window.FrontendBundle = {
     initialized: true,
-    version: '2.1.1'
+    version: '2.2.0'
 };

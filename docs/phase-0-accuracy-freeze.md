@@ -174,4 +174,5 @@ In `frontend.blade.php`, scroll/logo handlers use `#image_logo` and `.ftco_navba
 - [ ] Baseline Lighthouse/network captured (fill table above)
 - [x] Bug list written (this doc)
 
-**Next:** Phase 1 — delete verified-dead assets; fix `updateStatus` row-removal; slim `main.js` / header jQuery.
+**Next:** Phase 1 — delete verified-dead assets; fix `updateStatus` row-removal; slim `main.js` / header jQuery.  
+**Update:** Phase 1 deletions applied — see `docs/phase-1-delete-dead-weight.md`. `updateStatus` row-removal remains a known migration bug.

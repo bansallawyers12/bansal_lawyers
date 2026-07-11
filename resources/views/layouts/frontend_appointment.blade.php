@@ -154,8 +154,7 @@
     {{-- jQuery sync (not defer): booking @yield('scripts') is large and historically assumed $ is present before DOMContentLoaded registration edge-cases; Vite modules stay deferred --}}
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>
-    {{-- No stellar/waypoints/scrollax/animateNumber on booking — unused --}}
+    {{-- No stellar/waypoints/easing on booking — unused --}}
 
     {{-- frontend.js imports vendor-frontend.js — do not also @vite vendor-frontend.js --}}
     @vite(['resources/js/frontend.js', 'public/js/main.js'])

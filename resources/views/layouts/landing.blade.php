@@ -97,7 +97,6 @@
     <!-- JavaScript Files — deferred Vite pattern (aligned with frontend layout) -->
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}" defer></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js')}}" defer></script>
-    <script src="{{ asset('js/jquery.easing.1.3.min.js')}}" defer></script>
     
     {{-- frontend.js imports vendor-frontend.js — do not also @vite vendor-frontend.js --}}
     @vite(['resources/js/frontend.js', 'public/js/main.js'])

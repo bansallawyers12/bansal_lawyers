@@ -535,7 +535,7 @@ input:checked + .modern-checkbox-slider:before {
 											<label for="status" class="modern-form-label">Post Status</label>
 											<div class="modern-checkbox-container">
 												<label class="modern-checkbox">
-													<input value="1" type="checkbox" name="status" {{ old('status', $fetchedData->status) == 1 ? 'checked' : '' }} data-bootstrap-switch>
+													<input value="1" type="checkbox" name="status" {{ old('status', $fetchedData->status) == 1 ? 'checked' : '' }}>
 													<span class="modern-checkbox-slider"></span>
 												</label>
 												<span class="modern-checkbox-label">Published (visible on website)</span>

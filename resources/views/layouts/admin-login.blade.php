@@ -476,10 +476,16 @@ body::before {
 	<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
 	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 	
-	<!-- Custom Scripts (load after jQuery and Bootstrap) -->
+	{{-- Login: Turnstile + Lucide via vendor-admin; no scripts.js/custom.js (Phase 1) --}}
 	@vite(['resources/js/vendor-admin.js'])
-	<script src="{{ asset('js/scripts.js')}}"></script>
-	<script src="{{ asset('js/custom.js')}}"></script>
+	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
+		window.addEventListener('load', function () {
+			var loader = document.querySelector('.loader');
+			if (loader) {
+				loader.style.display = 'none';
+			}
+		});
+	</script>
 	
 	<!-- Modern Login Scripts -->
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
