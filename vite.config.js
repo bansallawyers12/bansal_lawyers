@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
     plugins: [
@@ -19,6 +20,7 @@ export default defineConfig({
                 'resources/js/vendor-frontend.js',
                 'resources/js/admin.js',
                 'resources/js/vendor-admin.js',
+                'resources/js/vendor-admin-login.js',
                 'resources/js/admin-calendar-v6.js',
                 'resources/js/appointment-form/index.js',
                 'public/js/main.js',
@@ -27,6 +29,7 @@ export default defineConfig({
             // Ensure manifest is created in the correct location for Laravel
             buildDirectory: 'build',
         }),
+        tailwindcss(),
     ],
     build: {
         outDir: 'public/build',

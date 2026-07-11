@@ -2,7 +2,11 @@
 
 **Goal:** Make the current hybrid stack truthful and measurable before moving assets.  
 **Date:** 2026-07-11  
-**Status:** Layout fixes applied; inventory / QA / bug list below. Capture Lighthouse/network baselines before Phase 1 deletes.
+**Status:** Layout fixes applied (historical).
+
+> **Superseded inventory:** §0.2 below describes the stack **at Phase 0**.  
+> Phases 1–9 removed jQuery, Bootstrap (npm + static), Stellar/Waypoints, and admin Stisla CSS.  
+> For the live stack, see `docs/phase-9-cleanup.md` and run `npm run audit:legacy-js`.
 
 ---
 

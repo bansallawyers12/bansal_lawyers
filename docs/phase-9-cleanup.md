@@ -42,6 +42,14 @@ Checks:
 5. `resources/js` — no `import 'jquery'` / `import 'bootstrap'`
 6. Vite manifest + config — no `vendor-jquery` / `vendor-bootstrap`
 
+## Review fixes (cross-phase audit)
+
+| Issue | Fix |
+|-------|-----|
+| Login still loaded Flatpickr | `vendor-admin-login.js` (Lucide only) |
+| Unwired scaffolds on disk | Moved to `resources/js/_archive/` |
+| Audit blind spot `bootstrap-social` | Pattern added to `audit-legacy-js.mjs` |
+
 ---
 
 ## Exit criteria

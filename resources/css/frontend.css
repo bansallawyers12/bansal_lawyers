@@ -1,8 +1,16 @@
 /* Frontend CSS Bundle — Phase 8: no Bootstrap stylesheet
  * Grid / utilities from shared Vite modules; theme via style_lawyer.min.css (ftco).
+ * Tailwind 4 via @tailwindcss/vite — utilities for new UI; component CSS stays authoritative for named classes.
  */
 
-/* Import Design System */
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@config "../../tailwind.config.js";
+
+/* Alpine cloak — hide until Alpine boots (also used on booking) */
+[x-cloak] {
+  display: none !important;
+}
 @import './variables.css';
 @import './components/buttons.css';
 @import './components/forms.css';
@@ -271,3 +279,4 @@ html {
     margin: 0 var(--space-2);
   }
 }
+

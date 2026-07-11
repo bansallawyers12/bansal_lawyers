@@ -34,6 +34,16 @@
 
 Static file may remain under `public/css/` as archive; it is **not** linked.
 
+## Review fixes (post Phase 8 / cross-phase audit)
+
+| Issue | Fix |
+|-------|-----|
+| `style_lawyer` loaded after Vite → `#002247` buttons overrode brand | Load `style_lawyer` **before** Vite on frontend + appointment |
+| Login pulled Flatpickr via `vendor-admin.js` | New `vendor-admin-login.js` (Lucide only) |
+| Missing Phase 7 doc | Added `docs/phase-7-booking-off-jquery.md` |
+| Appointment layout lacked `@yield('scripts')` | Added `@stack` + `@yield` |
+| Dead scaffolds / footer-grid-shim | Moved to `resources/js/_archive` / `resources/css/_archive` |
+
 ---
 
 ## Exit criteria

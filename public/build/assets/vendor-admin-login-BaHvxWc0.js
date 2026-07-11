@@ -1,0 +1,1 @@
+import"./lucide-init-DOD_C-wr.js";document.addEventListener(`DOMContentLoaded`,()=>{typeof window.refreshLucideIcons==`function`&&window.refreshLucideIcons()});

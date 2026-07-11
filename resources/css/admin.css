@@ -6,8 +6,17 @@
  * Shell / loaders → components/admin-shell.css
  * Legacy keepers → components/admin-legacy.css
  * Bootstrap npm package is NOT used by admin.
+ * Tailwind 4 via @tailwindcss/vite — utilities for new UI; component CSS stays authoritative.
  */
 
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@config "../../tailwind.config.js";
+
+/* Alpine cloak — hide until Alpine boots */
+[x-cloak] {
+  display: none !important;
+}
 @import './variables.css';
 @import './admin-tokens.css';
 @import './components/buttons.css';
@@ -19,7 +28,7 @@
 @import './components/admin-shell.css';
 @import './components/admin-confirm.css';
 @import './components/admin-legacy.css';
-/* layouts/admin.css (.admin-sidebar API) unused by live DOM — not imported */
+/* layouts/admin.css (.admin-sidebar API) unused by live DOM — archived */
 
 /* Performance Optimizations */
 /* Optimize for reduced motion */
@@ -249,3 +258,4 @@ img {
     justify-content: center;
   }
 }
+

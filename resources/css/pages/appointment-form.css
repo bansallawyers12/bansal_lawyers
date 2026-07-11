@@ -15,7 +15,7 @@
     --booking-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
-/* Footer grid: imported via frontend.css (footer-grid-shim.css) */
+/* Footer grid: covered by frontend.css (admin-grid) — footer-grid-shim retired Phase 8 */
 
 .appointment-form-page {
     font-family: 'Poppins', system-ui, sans-serif;

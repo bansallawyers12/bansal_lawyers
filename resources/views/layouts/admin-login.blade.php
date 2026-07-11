@@ -450,8 +450,8 @@ body::before {
 	
 	<!-- Core: login does not need jQuery/Bootstrap (Phase 2) -->
 	
-	{{-- Login: Turnstile + Lucide via vendor-admin; no scripts.js/custom.js --}}
-	@vite(['resources/js/vendor-admin.js'])
+	{{-- Login: Turnstile + Lucide only (no Flatpickr) --}}
+	@vite(['resources/js/vendor-admin-login.js'])
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 		window.addEventListener('load', function () {
 			var loader = document.querySelector('.loader');
