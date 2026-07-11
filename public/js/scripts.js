@@ -327,7 +327,14 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Tom Select — backward compat for .js-tom-select and legacy .select2
-  if (typeof window.TomSelect !== 'undefined' && typeof window.initTomSelect === 'function') {
+  function initLegacyTomSelects(attempt) {
+    if (typeof window.TomSelect === 'undefined' || typeof window.initTomSelect !== 'function') {
+      if ((attempt || 0) < 40) {
+        setTimeout(function() { initLegacyTomSelects((attempt || 0) + 1); }, 50);
+      }
+      return;
+    }
+
     document.querySelectorAll('.js-tom-select, .select2').forEach(function(select) {
       if (!select.tomselect) {
         window.initTomSelect(select, {
@@ -337,6 +344,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+  initLegacyTomSelects(0);
 
   // Selectric
   if (jQuery().selectric) {

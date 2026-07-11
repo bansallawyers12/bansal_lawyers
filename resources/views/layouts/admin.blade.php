@@ -236,6 +236,120 @@ body.admin-sidebar-collapsed .main-wrapper {
 		}
 	</script>
 	<script src="{{ asset('js/tinymce-config.js') }}"></script>
+
+	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
+		// Global Tom Select helper for legacy code (replaces Select2)
+		window.initTomSelect = function(selector, options) {
+			if (typeof TomSelect === 'undefined') {
+				console.warn('Tom Select not loaded. Please ensure tom-select is available.');
+				return null;
+			}
+
+			var element = typeof selector === 'string' ? document.querySelector(selector) : selector;
+			if (!element) {
+				console.warn('Element not found for selector:', selector);
+				return null;
+			}
+
+			if (element.tomselect) {
+				element.tomselect.destroy();
+			}
+
+			var config = {
+				plugins: ['clear_button'],
+				placeholder: (options && options.placeholder) || 'Select an option',
+				allowEmptyOption: true,
+				...(options || {})
+			};
+
+			if (config.width) {
+				element.style.width = config.width;
+				delete config.width;
+			}
+
+			try {
+				var instance = new TomSelect(element, config);
+				element.tomselect = instance;
+				return instance;
+			} catch (error) {
+				console.error('Failed to initialize Tom Select:', error);
+				return null;
+			}
+		};
+
+		window.DateUtils = {
+			toISO: function(dateString, currentFormat) {
+				if (!dateString) return '';
+				if (currentFormat === 'DD/MM/YYYY') {
+					var parts = dateString.split('/');
+					if (parts.length !== 3) return dateString;
+					return parts[2] + '-' + parts[1].padStart(2, '0') + '-' + parts[0].padStart(2, '0');
+				}
+				if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+					return dateString;
+				}
+				var parsed = new Date(dateString);
+				if (isNaN(parsed.getTime())) return dateString;
+				return parsed.toISOString().slice(0, 10);
+			},
+			toDisplay: function(isoDate, format) {
+				if (!isoDate) return '';
+				format = format || 'DD/MM/YYYY';
+				var parts = isoDate.split('-');
+				if (parts.length !== 3) return isoDate;
+				if (format === 'DD/MM/YYYY') {
+					return parts[2] + '/' + parts[1] + '/' + parts[0];
+				}
+				if (format === 'MM/DD/YYYY') {
+					return parts[1] + '/' + parts[2] + '/' + parts[0];
+				}
+				return isoDate;
+			},
+			isValidISO: function(dateString) {
+				if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return false;
+				var parsed = new Date(dateString + 'T00:00:00');
+				return !isNaN(parsed.getTime());
+			}
+		};
+
+		window.initDynamicTomSelects = function(root) {
+			var scope = root || document;
+			if (typeof window.initTomSelect !== 'function') {
+				return;
+			}
+
+			scope.querySelectorAll('.js-tom-select, .select2').forEach(function(select) {
+				if (!select.tomselect) {
+					window.initTomSelect(select, {
+						placeholder: 'Select an option',
+						allowEmptyOption: true
+					});
+				}
+			});
+
+			if (typeof window.refreshLucideIcons === 'function') {
+				window.refreshLucideIcons(scope);
+			}
+		};
+
+		window.setTaskViewHtml = function(html) {
+			var container = document.querySelector('.taskview');
+			if (!container) return;
+			container.innerHTML = html;
+
+			function initModalControls(attempt) {
+				if (typeof window.TomSelect !== 'undefined' && typeof window.initDynamicTomSelects === 'function') {
+					window.initDynamicTomSelects(container);
+					return;
+				}
+				if ((attempt || 0) < 40) {
+					setTimeout(function() { initModalControls((attempt || 0) + 1); }, 50);
+				}
+			}
+
+			initModalControls(0);
+		};
+	</script>
 	
 	<!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
 	@vite(['resources/js/admin.js'])
@@ -252,80 +366,9 @@ body.admin-sidebar-collapsed .main-wrapper {
 	<!--<script src="{{--asset('js/apexcharts.min.js')--}}"></script>-->
 	<!--<script src="{{--asset('js/jquery.flagstrap.js')--}}"></script>-->
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
-		// Global Tom Select helper for legacy code (replaces Select2)
-		window.initTomSelect = function(selector, options) {
-			if (typeof TomSelect === 'undefined') {
-				console.warn('Tom Select not loaded. Please ensure tom-select is available.');
-				return null;
-			}
-			
-			var element = typeof selector === 'string' ? document.querySelector(selector) : selector;
-			if (!element) {
-				console.warn('Element not found for selector:', selector);
-				return null;
-			}
-			
-			// Destroy existing instance if any
-			if (element.tomselect) {
-				element.tomselect.destroy();
-			}
-			
-			var config = {
-				plugins: ['clear_button'],
-				placeholder: options.placeholder || 'Select an option',
-				allowEmptyOption: true,
-				...options
-			};
-			
-			// Remove width from config (Tom Select handles this differently)
-			if (config.width) {
-				element.style.width = config.width;
-				delete config.width;
-			}
-			
-			try {
-				var instance = new TomSelect(element, config);
-				element.tomselect = instance;
-				return instance;
-			} catch (error) {
-				console.error('Failed to initialize Tom Select:', error);
-				return null;
-			}
-		};
-		
-		// Date handling utilities for consistent ISO format usage
-		window.DateUtils = {
-			// Convert display date to ISO format for backend
-			toISO: function(dateString, currentFormat) {
-				if (!dateString) return '';
-				if (currentFormat === 'DD/MM/YYYY') {
-					var parts = dateString.split('/');
-					return parts[2] + '-' + parts[1].padStart(2, '0') + '-' + parts[0].padStart(2, '0');
-				}
-				return moment(dateString).format('YYYY-MM-DD');
-			},
-			
-			// Convert ISO date to display format
-			toDisplay: function(isoDate, format) {
-				if (!isoDate) return '';
-				format = format || 'DD/MM/YYYY';
-				return moment(isoDate).format(format);
-			},
-			
-			// Validate ISO date format
-			isValidISO: function(dateString) {
-				return moment(dateString, 'YYYY-MM-DD', true).isValid();
-			}
-		};
-		
 		document.addEventListener('DOMContentLoaded', function () {
 		    document.querySelectorAll(".tel_input").forEach(function(input) {
 		        input.addEventListener("blur", function() {
-                    /*if (/^0/.test(input.value)) {
-                       //input.value = input.value.replace(/^0/, "")
-                    } else {
-                        //input.value =  "0" + input.value;
-                    }*/
                     input.value = input.value;
                 });
             });

@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         neededLibraries.push('tinymce');
     }
 
-    if (document.querySelector('.datepicker, input[data-datepicker], .dobdatepicker, .dobdatepickers, .filterdatepicker, .contract_expiry, .datetimepicker, .daterange, .timepicker, input[data-timepicker], .date, .followup_date')) {
+    if (document.querySelector('.datepicker, input[data-datepicker], .dobdatepicker, .dobdatepickers, .filterdatepicker, .contract_expiry, .datetimepicker, .daterange, .timepicker, input[data-timepicker]')) {
         neededLibraries.push('datepicker');
     }
 

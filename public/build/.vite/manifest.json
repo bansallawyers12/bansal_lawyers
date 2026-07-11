@@ -128,16 +128,16 @@
     ]
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-VcWn8ZWL.js",
+    "file": "assets/admin-BhH7N4IE.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
       "_vendor-axios-DPJ5mLjw.js",
       "_alpine-utils-BQjVz5oM.js",
+      "_lucide-init-suYpI_Sz.js",
       "resources/js/vendor-admin.js",
-      "resources/js/vendor-admin.js",
-      "_lucide-init-suYpI_Sz.js"
+      "resources/js/vendor-admin.js"
     ]
   },
   "resources/js/app.js": {
@@ -167,7 +167,7 @@
     ]
   },
   "resources/js/vendor-admin.js": {
-    "file": "assets/vendor-admin-D8pVytWq.js",
+    "file": "assets/vendor-admin-CM2RTDry.js",
     "name": "vendor-admin",
     "src": "resources/js/vendor-admin.js",
     "isEntry": true,

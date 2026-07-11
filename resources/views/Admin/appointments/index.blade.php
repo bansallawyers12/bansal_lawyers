@@ -950,7 +950,15 @@ jQuery(document).ready(function($){
                     data:{id:appliid},
                     success: function(responses){
                         $('.popuploader').hide();
-                        $('.taskview').html(responses);
+                        if (typeof window.setTaskViewHtml === 'function') {
+                            window.setTaskViewHtml(responses);
+                        } else {
+                            if (typeof window.setTaskViewHtml === 'function') {
+                    window.setTaskViewHtml(responses);
+                } else {
+                    $('.taskview').html(responses);
+                }
+                        }
                     }
                 });
             }
@@ -966,7 +974,11 @@ jQuery(document).ready(function($){
             data:{id:v},
             success: function(responses){
                 $('.popuploader').hide();
-                $('.taskview').html(responses);
+                if (typeof window.setTaskViewHtml === 'function') {
+                    window.setTaskViewHtml(responses);
+                } else {
+                    $('.taskview').html(responses);
+                }
             }
         });
     });
@@ -993,7 +1005,15 @@ jQuery(document).ready(function($){
                     data:{id:appliid},
                     success: function(responses){
                         $('.popuploader').hide();
-                        $('.taskview').html(responses);
+                        if (typeof window.setTaskViewHtml === 'function') {
+                            window.setTaskViewHtml(responses);
+                        } else {
+                            if (typeof window.setTaskViewHtml === 'function') {
+                    window.setTaskViewHtml(responses);
+                } else {
+                    $('.taskview').html(responses);
+                }
+                        }
                     }
                 });
             }
@@ -1017,7 +1037,15 @@ jQuery(document).ready(function($){
                     data:{id:appliid},
                     success: function(responses){
                         $('.popuploader').hide();
-                        $('.taskview').html(responses);
+                        if (typeof window.setTaskViewHtml === 'function') {
+                            window.setTaskViewHtml(responses);
+                        } else {
+                            if (typeof window.setTaskViewHtml === 'function') {
+                    window.setTaskViewHtml(responses);
+                } else {
+                    $('.taskview').html(responses);
+                }
+                        }
                     }
                 });
             }
@@ -1049,7 +1077,15 @@ jQuery(document).ready(function($){
                     data:{id:appliid},
                     success: function(responses){
                         $('.popuploader').hide();
-                        $('.taskview').html(responses);
+                        if (typeof window.setTaskViewHtml === 'function') {
+                            window.setTaskViewHtml(responses);
+                        } else {
+                            if (typeof window.setTaskViewHtml === 'function') {
+                    window.setTaskViewHtml(responses);
+                } else {
+                    $('.taskview').html(responses);
+                }
+                        }
                     }
                 });
             }
@@ -1071,7 +1107,15 @@ jQuery(document).ready(function($){
                     data:{id:appliid},
                     success: function(responses){
                         $('.popuploader').hide();
-                        $('.taskview').html(responses);
+                        if (typeof window.setTaskViewHtml === 'function') {
+                            window.setTaskViewHtml(responses);
+                        } else {
+                            if (typeof window.setTaskViewHtml === 'function') {
+                    window.setTaskViewHtml(responses);
+                } else {
+                    $('.taskview').html(responses);
+                }
+                        }
                     }
                 });
             }

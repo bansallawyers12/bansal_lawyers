@@ -1,0 +1,1 @@
+import{o as e}from"./vendor-CcdzA8iA.js";import"./lucide-init-suYpI_Sz.js";window.flatpickr=e,document.addEventListener(`DOMContentLoaded`,function(){typeof window.refreshLucideIcons==`function`&&window.refreshLucideIcons()});

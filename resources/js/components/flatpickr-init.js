@@ -93,12 +93,6 @@ export function initAdminFlatpickr() {
         allowInput: true,
         clickOpens: true,
     });
-
-    bindFlatpickr('.date, .followup_date', {
-        dateFormat: ISO_FORMAT,
-        allowInput: true,
-        clickOpens: true,
-    });
 }
 
 window.getAgeFromDateString = function getAgeFromDateString(dateString) {
