@@ -15,9 +15,7 @@
 }
 .nav-menu-link.active {
     color: #ffd700;
-    background-color: rgba(255, 255, 255, 0.15);
     font-weight: 600;
-    box-shadow: inset 0 -2px 0 #ffd700;
 }
 
 @media (max-width: 768px) {
@@ -54,7 +52,6 @@
     }
     .mobile-menu a.active {
         color: #ffd700;
-        background-color: rgba(255, 255, 255, 0.15);
         font-weight: 600;
         border-left: 3px solid #ffd700;
     }

@@ -142,10 +142,11 @@
     flex: 1 1 auto;
 }
 
+.ftco-section a.experimental-blog-category,
 .experimental-blog-category {
     display: inline-block;
     background: #1B4D89;
-    color: white;
+    color: #fff;
     padding: 6px 15px;
     border-radius: 20px;
     font-size: 0.85rem;
@@ -155,9 +156,10 @@
     transition: all 0.3s ease;
 }
 
+.ftco-section a.experimental-blog-category:hover,
 .experimental-blog-category:hover {
     background: #0d3a6b;
-    color: white;
+    color: #fff;
     text-decoration: none;
     transform: scale(1.05);
 }
@@ -196,9 +198,10 @@
     font-size: 0.95rem;
 }
 
+.ftco-section a.experimental-read-more,
 .experimental-read-more {
     background: linear-gradient(135deg, #1B4D89, #2c5aa0);
-    color: white;
+    color: #fff;
     padding: 12px 25px;
     border-radius: 25px;
     text-decoration: none;
@@ -212,10 +215,11 @@
     align-self: flex-start;
 }
 
+.ftco-section a.experimental-read-more:hover,
 .experimental-read-more:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(27, 77, 137, 0.3);
-    color: white;
+    color: #fff;
     text-decoration: none;
 }
 
@@ -288,4 +292,3 @@
     padding-left: 15px;
     padding-right: 15px;
 }
-</style>
