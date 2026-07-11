@@ -119,8 +119,11 @@ window.addEventListener('error', function (e) {
 	}
 
 	function contentWayPoint() {
-		if (typeof $.fn.waypoint === 'undefined' || $('.ftco-animate').length === 0) {
-			return;
+		if ($('.ftco-animate').length === 0) {
+			return true;
+		}
+		if (typeof $.fn.waypoint === 'undefined') {
+			return false;
 		}
 
 		var i = 0;
@@ -143,16 +146,26 @@ window.addEventListener('error', function (e) {
 								el.addClass('fadeInUp ftco-animated');
 							}
 							el.removeClass('item-animate');
-						}, k * 50, 'easeInOutExpo');
+						}, k * 50);
 					});
 				}, 100);
 			}
 		}, { offset: '95%' });
+		return true;
+	}
+
+	function contentWayPointWithRetry(retries) {
+		retries = retries || 0;
+		if (contentWayPoint() || retries >= 20) {
+			return;
+		}
+		setTimeout(function () {
+			contentWayPointWithRetry(retries + 1);
+		}, 100);
 	}
 
 	dismissLoader();
-	contentWayPoint();
-
+	contentWayPointWithRetry(0);
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', function () {
 			setTimeout(function () {

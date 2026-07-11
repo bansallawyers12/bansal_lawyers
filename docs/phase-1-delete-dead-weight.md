@@ -42,7 +42,12 @@
 | Remove `data-bootstrap-switch` | Stripped from blog / blogcategory / cms_page / recent_case views |
 | Unwired scaffolds | `legacy-scripts-replacement.js`, `performance-monitor.js`, `lazy-loading.js` remain on disk but **not** wired — do not treat as done |
 
-## Build delta (approx.)
+**Review fixes (post–Phase 1)**
+
+- `frontend.js` used bare `Swiper` / `AOS` in an ES module — always undefined / ReferenceError. Now uses `window.Swiper` / `window.AOS` (homepage testimony + about/contact AOS).
+- `contentWayPoint` retries until waypoints is available (covers DOM-fallback load order).
+- Removed dead homepage video-modal scripts (no `#videoModal` markup).
+- Dropped unused `maps.googleapis.com` dns-prefetch/preconnect after Maps deletion.
 
 | Bundle | Before (gzip) | After (gzip) |
 |--------|---------------|--------------|

@@ -97,14 +97,12 @@
 	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
   
     <!-- DNS Prefetch for external domains -->
-    <link rel="dns-prefetch" href="https://maps.googleapis.com">
     <link rel="dns-prefetch" href="https://www.google.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.facebook.com">
     <link rel="dns-prefetch" href="https://connect.facebook.net">
     
     <!-- Preconnect to other external resources -->
-    <link rel="preconnect" href="https://maps.googleapis.com">
     <link rel="preconnect" href="https://www.google.com">
     <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
     

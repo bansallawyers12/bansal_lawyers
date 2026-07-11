@@ -42,30 +42,34 @@ const loadExternalScripts = () => {
 };
 
 const initAos = () => {
-    if (window.AOS && document.querySelector('[data-aos]')) {
-        AOS.init({
-            duration: 800,
-            easing: 'slide',
-            once: true,
-            mirror: false,
-            anchorPlacement: 'top-bottom',
-            disable: function () {
-                return window.innerWidth < 768;
-            }
-        });
+    const aos = window.AOS;
+    if (!aos || !document.querySelector('[data-aos]')) {
+        return;
+    }
 
-        if (window.MutationObserver) {
-            AOS.refreshHard();
+    aos.init({
+        duration: 800,
+        easing: 'slide',
+        once: true,
+        mirror: false,
+        anchorPlacement: 'top-bottom',
+        disable: function () {
+            return window.innerWidth < 768;
         }
+    });
+
+    if (typeof aos.refreshHard === 'function') {
+        aos.refreshHard();
     }
 };
 
 const initTestimonialsCarousel = () => {
-    if (!document.querySelector('.carousel-testimony') || typeof Swiper === 'undefined') {
+    const SwiperCtor = window.Swiper;
+    if (!document.querySelector('.carousel-testimony') || typeof SwiperCtor !== 'function') {
         return false;
     }
 
-    new Swiper('.carousel-testimony', {
+    new SwiperCtor('.carousel-testimony', {
         slidesPerView: 1,
         spaceBetween: 30,
         loop: true,
@@ -120,5 +124,5 @@ if (document.readyState === 'loading') {
 
 window.FrontendBundle = {
     initialized: true,
-    version: '2.2.0'
+    version: '2.2.1'
 };

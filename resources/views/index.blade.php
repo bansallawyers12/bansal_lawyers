@@ -853,37 +853,6 @@
 @section('scripts')
 {{-- Turnstile is loaded by the global frontend layout --}}
 
-<!-- Video Modal Functions -->
-<script>
-function openVideoModal() {
-    document.getElementById('videoModal').style.display = 'block';
-    // Replace with your actual YouTube video URL
-    document.getElementById('videoIframe').src = 'https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1&rel=0';
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-}
-
-function closeVideoModal() {
-    document.getElementById('videoModal').style.display = 'none';
-    document.getElementById('videoIframe').src = ''; // Stop video playback
-    document.body.style.overflow = 'auto'; // Restore scrolling
-}
-
-// Close modal when clicking outside of it
-window.onclick = function(event) {
-    const modal = document.getElementById('videoModal');
-    if (event.target === modal) {
-        closeVideoModal();
-    }
-}
-
-// Close modal with Escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeVideoModal();
-    }
-});
-</script>
-
 <!-- Swiper.js initialization is handled in resources/js/frontend.js -->
 
 <!-- Additional styles for home contact form -->

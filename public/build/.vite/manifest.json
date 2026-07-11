@@ -47,7 +47,7 @@
     ]
   },
   "public/js/main.js": {
-    "file": "assets/main-CkFPmiKz.js",
+    "file": "assets/main-Br5SsHmm.js",
     "name": "main",
     "src": "public/js/main.js",
     "isEntry": true
@@ -111,7 +111,7 @@
     ]
   },
   "resources/js/frontend.js": {
-    "file": "assets/frontend-tLXZkCTJ.js",
+    "file": "assets/frontend-BNTbpVWL.js",
     "name": "frontend",
     "src": "resources/js/frontend.js",
     "isEntry": true,
