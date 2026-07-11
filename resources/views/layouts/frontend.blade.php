@@ -109,8 +109,7 @@
     <!-- Self-hosted Poppins fonts (fonts.css declares @font-face; no separate preload needed) -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
-    {{-- Theme first, then Vite so grid/utilities/buttons (#1B4D89) win over style_lawyer BS-era rules --}}
-    <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
+    {{-- Phase 10: no style_lawyer — FTCO theme lives in Vite theme-ftco.css --}}
     @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
 
     <link rel="stylesheet" href="{{ asset('css/layout-global.css') }}?v=1.0">

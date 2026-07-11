@@ -81,7 +81,7 @@ if (fs.existsSync(publicCssDir)) {
 const bladeRoots = [path.join(root, 'resources', 'views')];
 const bladePatterns = [
     { re: /jquery[-.]?\d|jquery\.min|jquery\.js|jquery\.easing|jquery\.stellar|jquery\.waypoints|animateNumber/i, label: 'jQuery asset' },
-    { re: /bootstrap\.bundle|bootstrap_lawyers|bootstrap\.min\.css|bootstrap@\d|bootstrap-social/i, label: 'Bootstrap asset' },
+    { re: /bootstrap\.bundle|bootstrap_lawyers|bootstrap\.min\.css|bootstrap@\d|bootstrap-social|style_lawyer/i, label: 'Bootstrap/theme legacy asset' },
     { re: /cdn\.jsdelivr\.net\/npm\/(jquery|bootstrap)/i, label: 'jQuery/Bootstrap CDN' },
     { re: /code\.jquery\.com/i, label: 'jQuery CDN' },
     { re: /stackpath\.bootstrapcdn\.com|cdn\.jsdelivr\.net\/npm\/bootstrap/i, label: 'Bootstrap CDN' },

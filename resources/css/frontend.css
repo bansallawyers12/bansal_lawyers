@@ -1,6 +1,6 @@
-/* Frontend CSS Bundle — Phase 8: no Bootstrap stylesheet
- * Grid / utilities from shared Vite modules; theme via style_lawyer.min.css (ftco).
- * Tailwind 4 via @tailwindcss/vite — utilities for new UI; component CSS stays authoritative for named classes.
+/* Frontend CSS Bundle — Phase 8–10: no Bootstrap / no style_lawyer
+ * Grid/utilities + FTCO theme (theme-ftco.css) via Vite.
+ * Tailwind 4 via tailwind-setup.css; component CSS stays authoritative for named classes.
  */
 
 /* All @imports must come before style rules */
@@ -12,6 +12,7 @@
 @import './components/admin-grid.css';
 @import './components/admin-utilities.css';
 @import './components/frontend-utilities.css';
+@import './theme/theme-ftco.css';
 
 /* Alpine cloak — hide until Alpine boots (also used on booking) */
 [x-cloak] {

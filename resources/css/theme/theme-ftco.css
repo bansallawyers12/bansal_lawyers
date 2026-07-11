@@ -1,0 +1,245 @@
+/**
+ * FTCO / marketing theme — replaces public/css/style_lawyer.min.css
+ * Only selectors still used by public blades + CMS heroes.
+ * Grid / buttons / forms live in Vite component CSS (not here).
+ */
+
+/* ---------- Page loader (#ftco-loader + SVG spinner) ---------- */
+#ftco-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.95);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+#ftco-loader.show,
+#ftco-loader.show.fullscreen {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+}
+
+#ftco-loader.fullscreen {
+  width: 100%;
+  height: 100%;
+}
+
+#ftco-loader .circular {
+  animation: ftco-loader-rotate 2s linear infinite;
+  transform-origin: center center;
+}
+
+#ftco-loader .path {
+  stroke-dasharray: 90, 150;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: ftco-loader-dash 1.5s ease-in-out infinite;
+}
+
+@keyframes ftco-loader-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ftco-loader-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124px;
+  }
+}
+
+/* ---------- CMS / listing heroes ---------- */
+.hero-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  overflow: hidden;
+}
+
+.hero-wrap .overlay,
+.hero-wrap-2 .overlay,
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-wrap .container,
+.hero-wrap-2 .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-wrap-2 {
+  height: 422px;
+  max-height: 422px;
+}
+
+.hero-wrap-2 .overlay {
+  opacity: 0.55;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.slider-text {
+  color: #fff;
+  height: 100%;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+  padding-bottom: 2rem;
+}
+
+.hero-wrap-2 .slider-text {
+  height: 422px;
+  min-height: 0;
+}
+
+.slider-text h1,
+.slider-text .bread {
+  color: #fff;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+}
+
+.breadcrumbs {
+  font-size: 0.95rem;
+  font-weight: 400;
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.breadcrumbs a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.breadcrumbs span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+@media (max-width: 767.98px) {
+  .hero-wrap-2 {
+    height: 320px;
+    max-height: 320px;
+  }
+  .hero-wrap-2 .slider-text {
+    height: 320px;
+    padding-bottom: 1.5rem;
+  }
+}
+
+/* ---------- Section wrappers (blog / case / CMS) ---------- */
+.ftco-section {
+  padding: 3em 0;
+  position: relative;
+}
+
+.ftco-no-pt {
+  padding-top: 0 !important;
+}
+
+.ftco-no-pb {
+  padding-bottom: 0 !important;
+}
+
+@media (max-width: 767.98px) {
+  .ftco-section {
+    padding: 2em 0;
+  }
+}
+
+/* CMS echoed HTML — basic readable prose */
+.ftco-section img {
+  max-width: 100%;
+  height: auto;
+}
+
+.ftco-section p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  color: #374151;
+}
+
+.ftco-section h2,
+.ftco-section h3,
+.ftco-section h4 {
+  color: #1b4d89;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.ftco-section ul,
+.ftco-section ol {
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+}
+
+.ftco-section a {
+  color: #1b4d89;
+}
+
+.ftco-section a:hover {
+  color: #f96d00;
+}
+
+/* ---------- Case detail leftover class ---------- */
+.blog-entry {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+}
+
+.blog-entry .text {
+  background: #fff;
+  padding: 1rem 0;
+}
+
+/* ---------- Media helpers still referenced ---------- */
+.img-video {
+  border: 5px solid #1b4d89;
+  border-radius: 10px;
+  height: 684px;
+  margin-top: 23px;
+  object-fit: cover;
+  width: 100%;
+}
+
+@media (max-width: 767.98px) {
+  .img-video {
+    height: 250px !important;
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
+  }
+}
