@@ -21,9 +21,29 @@
     </script>
     <!-- End Google Tag Manager -->
     <title>Thank You - Bansal Lawyers</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gill+Sans:wght@400;700&family=Palatino+Linotype:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Phase 8: no CDN Bootstrap */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 15px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        .alert {
+            position: relative;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.375rem;
+        }
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border-color: #a7f3d0;
+        }
         * {
             margin: 0;
             padding: 0;

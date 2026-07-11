@@ -62,7 +62,7 @@
     "isEntry": true
   },
   "resources/css/admin.css": {
-    "file": "assets/admin-BAL4fZPT.css",
+    "file": "assets/admin-D1fGHZiq.css",
     "name": "admin",
     "names": [
       "admin.css"
@@ -70,17 +70,8 @@
     "src": "resources/css/admin.css",
     "isEntry": true
   },
-  "resources/css/footer-grid-shim.css": {
-    "file": "assets/footer-grid-shim-Bfyfz3-r.css",
-    "name": "footer-grid-shim",
-    "names": [
-      "footer-grid-shim.css"
-    ],
-    "src": "resources/css/footer-grid-shim.css",
-    "isEntry": true
-  },
   "resources/css/frontend.css": {
-    "file": "assets/frontend-5JbpZwxz.css",
+    "file": "assets/frontend-N1lgFPIU.css",
     "name": "frontend",
     "names": [
       "frontend.css"
@@ -141,7 +132,7 @@
     ]
   },
   "resources/js/appointment-form/index.js": {
-    "file": "assets/index-DTac7kqH.js",
+    "file": "assets/index-C1_8Xn8L.js",
     "name": "index",
     "src": "resources/js/appointment-form/index.js",
     "isEntry": true,

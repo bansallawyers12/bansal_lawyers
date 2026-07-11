@@ -93,8 +93,8 @@
 	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
-    {{-- Phase 7: no Bootstrap CSS — Tailwind + Vite bundles + footer grid shim --}}
-    @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css', 'resources/css/footer-grid-shim.css'])
+    {{-- Phase 7–8: no Bootstrap CSS — Vite frontend.css owns grid/utilities --}}
+    @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/layout-global.css') }}?v=1.0">
     <link rel="stylesheet" href="{{ asset('css/footer-modern.css') }}?v=1.0">

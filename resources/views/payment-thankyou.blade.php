@@ -14,8 +14,13 @@
     </script>
     <!-- End Google Tag Manager -->
     <title>Payment Successful - Bansal Lawyers</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Phase 8: no CDN Bootstrap */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
         .thankyou-container {
             max-width: 600px;
             margin: 50px auto;

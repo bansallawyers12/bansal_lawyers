@@ -27,7 +27,7 @@
 
 <script type="application/json" id="booking-config">{!! json_encode([
     'baseUrl' => rtrim(url('/'), '/'),
-    'services' => $servicesKeyed,
+    'services' => $servicesKeyed->toArray(),
     'timeSlotLabels' => $bookingTimeSlotLabels ?? [],
     'endpoints' => [
         'storepaid' => url('/book-an-appointment/storepaid'),
@@ -37,7 +37,7 @@
     ],
 ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}</script>
 
-<div class="appointment-form-page" x-data="bookingForm()" x-cloak>
+<div class="appointment-form-page" x-data="bookingForm" x-cloak>
     <section class="booking-hero">
         <h1>Book Your Legal Consultation</h1>
         <p>Expert legal advice from Melbourne's trusted law firm. Choose your consultation duration, preferred method, and a time that suits you.</p>
@@ -316,11 +316,11 @@
     </div>
 
     {{-- Floating nav --}}
-    <div class="floating-nav" x-show="showFloatingNav && canShowFloatingNext" x-cloak>
+    <div class="floating-nav" x-show="showFloatingNav" x-cloak>
         <button type="button" class="booking-btn booking-btn-secondary" @click="goBack()">
             <i data-lucide="arrow-left"></i> Back
         </button>
-        <button type="button" class="booking-btn booking-btn-primary" @click="goNext()">
+        <button type="button" class="booking-btn booking-btn-primary" x-show="canShowFloatingNext" @click="goNext()">
             <span x-text="floatingNextLabel"></span>
             <i data-lucide="arrow-right"></i>
         </button>

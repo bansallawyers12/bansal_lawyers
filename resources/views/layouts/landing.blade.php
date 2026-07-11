@@ -49,16 +49,10 @@
     <!-- Self-hosted Poppins fonts -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     
-    <!-- Vite CSS -->
+    <!-- Vite CSS — Phase 8: no Bootstrap / no style_lawyer (landing is self-contained) -->
     @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
     
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
-    
     <!-- Lucide icons loaded via Vite (vendor-frontend via frontend.js) -->
-    
-    <!-- Main custom styles -->
-    <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
     
     <!-- Meta Pixel Code -->
     <script>
@@ -93,7 +87,7 @@
         @yield('content')
     </main>
 
-    {{-- Phase 4: landing — no Bootstrap JS / jQuery --}}
+    {{-- Phase 4: landing — no Bootstrap JS / jQuery / Bootstrap CSS --}}
     @vite(['resources/js/frontend.js', 'public/js/main.js'])
     
     @yield('scripts')

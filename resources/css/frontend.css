@@ -1,11 +1,15 @@
-/* Frontend CSS Bundle - Modernized for Performance */
-/* This file will be dynamically loaded via JavaScript for better performance */
+/* Frontend CSS Bundle — Phase 8: no Bootstrap stylesheet
+ * Grid / utilities from shared Vite modules; theme via style_lawyer.min.css (ftco).
+ */
 
 /* Import Design System */
 @import './variables.css';
 @import './components/buttons.css';
 @import './components/forms.css';
 @import './components/cards.css';
+@import './components/admin-grid.css';
+@import './components/admin-utilities.css';
+@import './components/frontend-utilities.css';
 
 /* Performance Optimizations */
 /* Optimize animations for performance */

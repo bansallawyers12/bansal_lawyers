@@ -12,7 +12,7 @@ export default defineConfig({
                 'resources/css/vendor-frontend.css',
                 'resources/css/vendor-admin.css',
                 'resources/css/pages/appointment-form.css',
-                'resources/css/footer-grid-shim.css',
+                // footer-grid-shim.css retired in Phase 8 (grid lives in frontend.css)
 
                 // JS files
                 'resources/js/frontend.js',

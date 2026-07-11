@@ -3,7 +3,6 @@ import { enhanceDateInput } from '../shared/flatpickr-init.js';
 import {
     buildDefaultTimeSlotLabels,
     formatDateForApi,
-    formatLocalIso,
     generateTimeSlots,
     parseBookingConfig,
 } from './config.js';
@@ -11,6 +10,8 @@ import {
 export function createCalendarController(callbacks) {
     const config = parseBookingConfig();
     let calendar = null;
+    let activeServiceId = null;
+    let onDateChangeCb = null;
     let disabledWeekdays = [0, 6];
     let disabledDates = [];
 
@@ -88,8 +89,7 @@ export function createCalendarController(callbacks) {
 
             const localSlots =
                 data.success && Array.isArray(data.disabledtimeslotes) ? data.disabledtimeslotes : [];
-            let slots = generateTimeSlots(labels, localSlots);
-            callbacks.onSlotsLoaded(slots);
+            callbacks.onSlotsLoaded(generateTimeSlots(labels, localSlots));
 
             const crmForm = new URLSearchParams();
             crmForm.append('sel_date', apiDate);
@@ -109,12 +109,14 @@ export function createCalendarController(callbacks) {
                         (slot) =>
                             !localSlots.some(
                                 (local) =>
-                                    String(local).trim().toLowerCase() === String(slot).trim().toLowerCase()
+                                    String(local).trim().toLowerCase() ===
+                                    String(slot).trim().toLowerCase()
                             )
                     );
                     if (extra.length) {
-                        slots = generateTimeSlots(labels, [...localSlots, ...extra]);
-                        callbacks.onSlotsLoaded(slots);
+                        callbacks.onSlotsLoaded(
+                            generateTimeSlots(labels, [...localSlots, ...extra])
+                        );
                     }
                 })
                 .catch(() => {});
@@ -128,9 +130,15 @@ export function createCalendarController(callbacks) {
             return;
         }
 
+        activeServiceId = serviceId;
+        onDateChangeCb = onDateChange;
+
         if (calendar) {
             calendar.destroy();
             calendar = null;
+            if (container._flatpickr) {
+                delete container._flatpickr;
+            }
         }
 
         calendar = enhanceDateInput(container, {
@@ -143,8 +151,10 @@ export function createCalendarController(callbacks) {
                     return;
                 }
                 const date = selectedDates[0];
-                onDateChange(date);
-                loadTimeSlots(date, serviceId);
+                if (typeof onDateChangeCb === 'function') {
+                    onDateChangeCb(date);
+                }
+                loadTimeSlots(date, activeServiceId);
             },
         });
 
@@ -153,8 +163,12 @@ export function createCalendarController(callbacks) {
 
     function destroy() {
         if (calendar) {
+            const input = calendar.input;
             calendar.destroy();
             calendar = null;
+            if (input && input._flatpickr) {
+                delete input._flatpickr;
+            }
         }
     }
 
@@ -164,11 +178,20 @@ export function createCalendarController(callbacks) {
         }
     }
 
+    function setSelectedDate(date) {
+        if (!calendar || !date) {
+            return;
+        }
+        calendar.setDate(date, false);
+    }
+
     return {
         init,
         destroy,
         clear,
+        setSelectedDate,
         refreshForService(serviceId) {
+            activeServiceId = serviceId;
             fetchWeekendConfiguration(serviceId);
         },
         loadTimeSlots,

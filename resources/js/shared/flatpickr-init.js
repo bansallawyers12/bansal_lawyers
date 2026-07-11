@@ -43,8 +43,17 @@ function buildOptions(element, extraOptions = {}) {
 }
 
 export function enhanceDateInput(element, extraOptions = {}) {
-    if (!element || element._flatpickr) {
-        return element?._flatpickr ?? null;
+    if (!element) {
+        return null;
+    }
+
+    // Allow re-init after destroy()
+    if (element._flatpickr) {
+        if (element._flatpickr.isDestroyed) {
+            delete element._flatpickr;
+        } else {
+            return element._flatpickr;
+        }
     }
 
     return flatpickr(element, buildOptions(element, extraOptions));

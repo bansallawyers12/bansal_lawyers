@@ -2,9 +2,64 @@
 <html>
 <head>
     <title>Stripe Payment - Bansal Lawyers</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://js.stripe.com/v3/"></script>
     <style>
+        /* Phase 8: no CDN Bootstrap — minimal layout/form/alert styles */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.35rem;
+            font-weight: 600;
+            color: #333;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0.6rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #212529;
+            background: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+        }
+        .form-control:focus {
+            outline: 0;
+            border-color: #1B4D89;
+            box-shadow: 0 0 0 3px rgba(27, 77, 137, 0.1);
+        }
+        .alert {
+            position: relative;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.375rem;
+        }
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border-color: #a7f3d0;
+        }
+        .alert-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border-color: #fecaca;
+        }
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border-color: #ffc107;
+        }
+        .text-center { text-align: center; }
+        .text-muted { color: #6c757d; }
+
         .payment-container {
             max-width: 500px;
             margin: 50px auto;
@@ -73,6 +128,7 @@
             margin-top: 5px;
         }
     </style>
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body style="background: #f8f9fa;">
 

@@ -109,16 +109,12 @@
     <!-- Self-hosted Poppins fonts (fonts.css declares @font-face; no separate preload needed) -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
-    <!-- Vite CSS - Modern optimized CSS bundle -->
+    <!-- Vite CSS — grid/utilities/buttons/forms (Phase 8: no Bootstrap stylesheet) -->
     @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
 
-    <!-- Bootstrap CSS - Primary framework for frontend -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
-    
     <!-- Lucide icons + AOS via Vite (vendor-frontend.css / frontend.js) -->
     
-    <!-- Main custom styles - Keep as normal stylesheet to avoid FOUC -->
-    <!-- Note: High unused percentage reported, but needed for layout structure -->
+    <!-- Theme / ftco brand styles (still embeds some BS-era rules; needed for hero/owl/ftco) -->
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
   
     {{-- Facebook Pixel moved to end of body to avoid blocking HTML parsing --}}

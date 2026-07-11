@@ -9,15 +9,18 @@ import { validateAll, validateStep } from './validators.js';
 import { createCalendarController } from './calendar.js';
 import { buildPricing, checkPromoCode, handleSubmitResponse, submitBooking } from './submission.js';
 import { enhanceSelect } from '../shared/tom-select-init.js';
+import { showOverlay } from '../shared/ui.js';
 
 export function bookingForm() {
     const config = parseBookingConfig();
     const services = config.services || {};
     let calendarController = null;
     let tomSelectInstance = null;
+    let calendarInitedForService = null;
 
     return {
         currentStep: 'consultation_duration',
+        maxReachedIndex: 0,
         tabOrder: TAB_ORDER,
 
         serviceId: null,
@@ -174,17 +177,25 @@ export function bookingForm() {
         },
 
         isTabEnabled(tabId) {
-            const currentIndex = TAB_ORDER.indexOf(this.currentStep);
             const tabIndex = TAB_ORDER.indexOf(tabId);
-            return tabIndex <= currentIndex;
+            return tabIndex >= 0 && tabIndex <= this.maxReachedIndex;
         },
 
-        switchTab(tabId) {
-            if (!this.isTabEnabled(tabId)) {
+        /**
+         * @param {string} tabId
+         * @param {{ force?: boolean }} [options] force=true for programmatic next/auto-advance
+         */
+        switchTab(tabId, options = {}) {
+            const tabIndex = TAB_ORDER.indexOf(tabId);
+            if (tabIndex < 0) {
+                return;
+            }
+            if (!options.force && tabIndex > this.maxReachedIndex) {
                 return;
             }
             this.clearErrors();
             this.currentStep = tabId;
+            this.maxReachedIndex = Math.max(this.maxReachedIndex, tabIndex);
             if (tabId === 'confirm') {
                 this.recalculatePricing();
             }
@@ -202,7 +213,7 @@ export function bookingForm() {
                     this.applyErrors(errors);
                     return;
                 }
-                this.switchTab('confirm');
+                this.switchTab('confirm', { force: true });
                 return;
             }
 
@@ -217,26 +228,28 @@ export function bookingForm() {
 
             const idx = TAB_ORDER.indexOf(this.currentStep);
             if (idx < TAB_ORDER.length - 1) {
-                this.switchTab(TAB_ORDER[idx + 1]);
+                this.switchTab(TAB_ORDER[idx + 1], { force: true });
             }
         },
 
         goBack() {
             const idx = TAB_ORDER.indexOf(this.currentStep);
             if (idx > 0) {
-                this.switchTab(TAB_ORDER[idx - 1]);
+                this.switchTab(TAB_ORDER[idx - 1], { force: true });
             }
         },
 
         selectDuration(id, isFree) {
             this.serviceId = id;
             this.freeConsultAcknowledged = false;
-            this.resetPromo(false);
+            this.resetPromo();
             this.recalculatePricing();
+            calendarInitedForService = null;
             calendarController?.refreshForService(id);
 
             if (isFree) {
                 this.showFreeModal = true;
+                this.$nextTick(() => this.refreshIcons());
                 return;
             }
 
@@ -255,6 +268,7 @@ export function bookingForm() {
             this.showFreeModal = false;
             this.serviceId = null;
             this.freeConsultAcknowledged = false;
+            this.recalculatePricing();
         },
 
         selectConsultationType(type) {
@@ -286,12 +300,22 @@ export function bookingForm() {
             if (!container || !this.serviceId) {
                 return;
             }
-            calendarController?.init(container, this.serviceId, (date) => {
-                this.selectedDate = date;
-                this.selectedDateLabel = formatDateForApi(date);
-                this.selectedTime = null;
-                this.dateTimeError = false;
-            });
+
+            const needsInit = calendarInitedForService !== this.serviceId;
+            if (needsInit) {
+                calendarController?.init(container, this.serviceId, (date) => {
+                    this.selectedDate = date;
+                    this.selectedDateLabel = formatDateForApi(date);
+                    this.selectedTime = null;
+                    this.dateTimeError = false;
+                });
+                calendarInitedForService = this.serviceId;
+            }
+
+            if (this.selectedDate) {
+                calendarController?.setSelectedDate(this.selectedDate);
+                calendarController?.loadTimeSlots(this.selectedDate, this.serviceId);
+            }
         },
 
         initTomSelect() {
@@ -304,7 +328,9 @@ export function bookingForm() {
                 tomSelectInstance.on('change', (value) => {
                     this.noeId = value;
                     if (this.fieldErrors.noe_id) {
-                        delete this.fieldErrors.noe_id;
+                        const next = { ...this.fieldErrors };
+                        delete next.noe_id;
+                        this.fieldErrors = next;
                     }
                 });
                 if (this.noeId) {
@@ -317,12 +343,12 @@ export function bookingForm() {
             this.pricing = buildPricing(this.serviceMeta, this.discountAmount);
         },
 
-        resetPromo(showMessage = true) {
+        resetPromo() {
             this.promoCode = '';
             this.promoApplied = false;
             this.discountAmount = 0;
             this.discountPercentage = 0;
-            this.promoMessage = showMessage ? '' : this.promoMessage;
+            this.promoMessage = '';
             this.promoMessageType = '';
             this.recalculatePricing();
         },
@@ -349,10 +375,7 @@ export function bookingForm() {
                     this.discountAmount = (listPrice * response.discount_percentage) / 100;
                     this.discountPercentage = response.discount_percentage;
                     this.promoApplied = true;
-                    const finalAfterPromo = Math.max(
-                        0,
-                        (parseFloat(this.serviceMeta?.price_aud) || 0) - this.discountAmount
-                    );
+                    const finalAfterPromo = Math.max(0, listPrice - this.discountAmount);
                     this.promoMessage =
                         finalAfterPromo <= 0
                             ? 'Promo code applied! Free consultation!'
@@ -422,11 +445,16 @@ export function bookingForm() {
                 handleSubmitResponse(response, this.pricing.finalAmount, config);
             } catch (error) {
                 const status = error.response?.status;
-                const message =
-                    status === 429
-                        ? 'Too many booking attempts. Please wait a moment before trying again.'
-                        : error.response?.data?.message ||
-                          'An error occurred while booking your appointment.';
+                let message =
+                    'An error occurred while booking your appointment.';
+                if (status === 429) {
+                    message = 'Too many booking attempts. Please wait a moment before trying again.';
+                } else if (error.response?.data?.message) {
+                    message = error.response.data.message;
+                } else if (error.response?.data?.errors) {
+                    const errs = error.response.data.errors;
+                    message = Object.values(errs).flat().join(' ');
+                }
                 showOverlay('error', message);
                 if (typeof turnstile !== 'undefined') {
                     turnstile.reset('#booking-turnstile');
@@ -440,7 +468,7 @@ export function bookingForm() {
             setTimeout(() => {
                 const errors = validateStep(this.snapshot(), this.currentStep);
                 if (!errors.length) {
-                    this.switchTab(step);
+                    this.switchTab(step, { force: true });
                 }
             }, 400);
         },
