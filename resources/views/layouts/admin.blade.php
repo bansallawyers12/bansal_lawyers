@@ -23,11 +23,7 @@
 	<!-- Legacy CSS files (will be migrated gradually) - app.min.css removed (file not present; Vite admin.css provides styles) -->
 	 <!-- FullCalendar v6 CSS - Auto-injected by JavaScript (no CSS files needed in v6) -->
 	 <!-- The admin-calendar-v6.js imports inject CSS automatically at runtime -->
-	<!-- Summernote CSS removed - now using TinyMCE -->
-	<!-- Select2 CSS removed - now using Tom Select (loaded via Vite) -->
 	<!-- Template CSS -->
-	<!--<link rel="stylesheet" href="{{--asset('css/niceCountryInput.css')--}}">-->
-	<!--<link rel="stylesheet" href="{{--asset('css/flagstrap.css')--}}">-->
 
 	<link rel="stylesheet" href="{{ asset('css/components.css')}}">
 	<!-- Custom style CSS -->
@@ -220,7 +216,6 @@ body.admin-sidebar-collapsed .main-wrapper {
 				    var site_url = '{{URL::to('/')}}';
 				     var dataformat = '{{$dataformat}}';
 				    </script>
-	<!--<script src="{{--asset('js/niceCountryInput.js')--}}"></script> -->
 	
 	<!-- Core Dependencies (load first; jQuery already loaded in <head>) -->
 	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
@@ -238,7 +233,7 @@ body.admin-sidebar-collapsed .main-wrapper {
 	<script src="{{ asset('js/tinymce-config.js') }}"></script>
 
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
-		// Global Tom Select helper for legacy code (replaces Select2)
+		// Global Tom Select helper
 		window.initTomSelect = function(selector, options) {
 			if (typeof TomSelect === 'undefined') {
 				console.warn('Tom Select not loaded. Please ensure tom-select is available.');
@@ -318,7 +313,7 @@ body.admin-sidebar-collapsed .main-wrapper {
 				return;
 			}
 
-			scope.querySelectorAll('.js-tom-select, .select2').forEach(function(select) {
+			scope.querySelectorAll('.js-tom-select').forEach(function(select) {
 				if (!select.tomselect) {
 					window.initTomSelect(select, {
 						placeholder: 'Select an option',
@@ -361,10 +356,6 @@ body.admin-sidebar-collapsed .main-wrapper {
 	<script src="{{ asset('js/admin-confirm.js')}}"></script>
 	<script src="{{ asset('js/admin-csp-actions.js')}}"></script>
 	
-	<!-- Page Specific JS File -->
-	<!--<script src="{{ asset('js/index.js')}}"></script> -->
-	<!--<script src="{{--asset('js/apexcharts.min.js')--}}"></script>-->
-	<!--<script src="{{--asset('js/jquery.flagstrap.js')--}}"></script>-->
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 		document.addEventListener('DOMContentLoaded', function () {
 		    document.querySelectorAll(".tel_input").forEach(function(input) {
@@ -374,16 +365,6 @@ body.admin-sidebar-collapsed .main-wrapper {
             });
         });
 
-
-
-
-
-
-
-			/* $(".niceCountryInputSelector").each(function(i,e){
-				new NiceCountryInput(e).init();
-			}); */
-			//$('.country_input').flagStrap();
 			$('.drop_table_data button').on('click', function(){
 				$('.client_dropdown_list').toggleClass('active');
 			});

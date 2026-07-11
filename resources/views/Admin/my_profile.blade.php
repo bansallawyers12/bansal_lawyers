@@ -10,7 +10,7 @@
 			</div>
 			<div class="custom-error-msg"></div>
 			
-			<form action="{{ route('admin.my_profile') }}" enctype="multipart/form-data" method="post">
+			<form action="{{ route('admin.my_profile') }}" enctype="multipart/form-data" method="post" name="my-profile" id="my-profile-form">
 				@csrf
 				<input type="hidden" name="id" value="{{ $fetchedData->id }}">
 				

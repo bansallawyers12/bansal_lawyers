@@ -9,12 +9,7 @@ if (typeof window.refreshLucideIcons === 'function') {
 }
 // Global
 document.addEventListener('DOMContentLoaded', function () {
-  let sidebar_nicescroll_opts = {
-    cursoropacitymin: 0,
-    cursoropacitymax: 0.8,
-    zindex: 892
-  },
-    now_layout_class = null;
+  let now_layout_class = null;
 
   // Sticky Kit removed - layout-2 class not used, replaced with CSS position: sticky
   // var sidebar_sticky = function () {
@@ -27,19 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // };
   // sidebar_sticky();
 
-  // NiceScroll removed - causing CORS/integrity errors, will replace with CSS scrollbar styling
-  // var sidebar_nicescroll;
-  // Stub function to prevent ReferenceError - NiceScroll functionality removed
-  var update_sidebar_nicescroll = function () {
-    // Function intentionally left empty as NiceScroll was removed
-  };
-
   var sidebar_dropdown = function () {
     if ($(".main-sidebar").length) {
-      // NiceScroll removed - using native scrollbar
-      // $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
-      // sidebar_nicescroll = $(".main-sidebar").getNiceScroll();
-
       $(".main-sidebar .sidebar-menu li a.has-dropdown")
         .off("click")
         .on("click", function () {
@@ -48,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
           me.parent()
             .find("> .dropdown-menu")
             .slideToggle(500, function () {
-              // update_sidebar_nicescroll(); // NiceScroll removed
               return false;
             });
           return false;
@@ -58,18 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
   sidebar_dropdown();
 
   if ($("#top-5-scroll").length) {
-    $("#top-5-scroll")
-      .css({
-        height: 315
-      })
-      // .niceScroll(); // NiceScroll removed - using native scrollbar
+    $("#top-5-scroll").css({ height: 315 });
   }
   if ($("#scroll-new").length) {
-    $("#scroll-new")
-      .css({
-        height: 200
-      })
-      // .niceScroll(); // NiceScroll removed - using native scrollbar
+    $("#scroll-new").css({ height: 200 });
   }
 
   $(".main-content").css({
@@ -98,10 +73,6 @@ document.addEventListener('DOMContentLoaded', function () {
       $(".main-sidebar").css({
         overflow: "hidden"
       });
-      setTimeout(function () {
-        // $(".main-sidebar").niceScroll(sidebar_nicescroll_opts); // NiceScroll removed
-        // sidebar_nicescroll = $(".main-sidebar").getNiceScroll(); // NiceScroll removed
-      }, 500);
       $(".main-sidebar .sidebar-menu > li > ul .dropdown-title").remove();
       $(".main-sidebar .sidebar-menu > li > a").removeAttr("data-toggle");
       $(".main-sidebar .sidebar-menu > li > a").removeAttr(
@@ -111,8 +82,6 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
       body.addClass("sidebar-mini");
       body.removeClass("sidebar-show");
-      // sidebar_nicescroll.remove(); // NiceScroll removed
-      // sidebar_nicescroll = null; // NiceScroll removed
       $(".main-sidebar .sidebar-menu > li").each(function () {
         let me = $(this);
 
@@ -174,8 +143,6 @@ document.addEventListener('DOMContentLoaded', function () {
         body.addClass("sidebar-gone");
         body.removeClass("sidebar-show");
       }
-
-      update_sidebar_nicescroll();
     } else {
       body.removeClass("search-show search-gone");
       if (body.hasClass("sidebar-mini")) {
@@ -205,8 +172,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (w.outerWidth() <= 1024) {
       if ($("body").hasClass("sidebar-mini")) {
         toggle_sidebar_mini(false);
-        // $(".main-sidebar").niceScroll(sidebar_nicescroll_opts); // NiceScroll removed
-        // sidebar_nicescroll = $(".main-sidebar").getNiceScroll(); // NiceScroll removed
       }
 
       $("body").addClass("sidebar-gone");
@@ -221,12 +186,8 @@ document.addEventListener('DOMContentLoaded', function () {
             $("body").removeClass("sidebar-show");
             $("body").addClass("sidebar-gone");
             $("body").removeClass("search-show");
-
-            update_sidebar_nicescroll();
           }
         });
-
-      update_sidebar_nicescroll();
 
       if (now_layout_class == "layout-3") {
         let nav_second_classes = $(".navbar-secondary").attr("class"),
@@ -256,11 +217,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }).html($(".navbar-brand").html())
           )
         );
-        setTimeout(function () {
-          // sidebar_nicescroll = main_sidebar.niceScroll(sidebar_nicescroll_opts); // NiceScroll removed
-          // sidebar_nicescroll = main_sidebar.getNiceScroll(); // NiceScroll removed
-        }, 700);
-
         sidebar_dropdown();
         $(".main-wrapper").removeClass("container");
       }
@@ -294,12 +250,8 @@ document.addEventListener('DOMContentLoaded', function () {
         main_sidebar.removeAttr("tabindex");
         main_sidebar.removeAttr("data-nav-classes");
         $(".main-wrapper").addClass("container");
-        // if(sidebar_nicescroll != null)
-        //   sidebar_nicescroll.remove();
       } else if (now_layout_class == "layout-2") {
         $("body").addClass("layout-2");
-      } else {
-        update_sidebar_nicescroll();
       }
     }
   };
@@ -326,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
     container: "body"
   });
 
-  // Tom Select — backward compat for .js-tom-select and legacy .select2
+  // Tom Select for .js-tom-select elements
   function initLegacyTomSelects(attempt) {
     if (typeof window.TomSelect === 'undefined' || typeof window.initTomSelect !== 'function') {
       if ((attempt || 0) < 40) {
@@ -335,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    document.querySelectorAll('.js-tom-select, .select2').forEach(function(select) {
+    document.querySelectorAll('.js-tom-select').forEach(function(select) {
       if (!select.tomselect) {
         window.initTomSelect(select, {
           placeholder: 'Select an option',
@@ -346,64 +298,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   initLegacyTomSelects(0);
 
-  // Selectric
-  if (jQuery().selectric) {
-    $(".selectric").selectric({
-      disableOnMobile: false,
-      nativeOnMobile: false
-    });
-  }
-
   $(".notification-toggle").dropdown();
-  $(".notification-toggle")
-    .parent()
-    .on("shown.bs.dropdown", function () {
-      // NiceScroll removed - using native scrollbar
-      // $(".dropdown-list-icons").niceScroll({
-      //   cursoropacitymin: 0.3,
-      //   cursoropacitymax: 0.8,
-      //   cursorwidth: 7
-      // });
-    });
-
   $(".message-toggle").dropdown();
-  $(".message-toggle")
-    .parent()
-    .on("shown.bs.dropdown", function () {
-      // $(".dropdown-list-message").niceScroll({ // NiceScroll removed
-      //   cursoropacitymin: 0.3,
-      //   cursoropacitymax: 0.8,
-      //   cursorwidth: 7
-      // });
-    });
-
-  // Summernote removed - now using TinyMCE
-  // Initialize TinyMCE for elements that still have .summernote or .summernote-simple classes (for backward compatibility)
-  if (typeof tinymce !== 'undefined') {
-    // Initialize full TinyMCE for .summernote elements
-    if ($('.summernote').length > 0) {
-      tinymce.init({
-        selector: '.summernote',
-        height: 250,
-        menubar: false,
-        plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'],
-        toolbar: 'undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image | code preview',
-        content_style: 'body { font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }'
-      });
-    }
-    
-    // Initialize simple TinyMCE for .summernote-simple elements
-    if ($('.summernote-simple').length > 0) {
-      tinymce.init({
-        selector: '.summernote-simple',
-        height: 150,
-        menubar: false,
-        plugins: ['lists', 'link'],
-        toolbar: 'bold italic underline strikethrough | bullist numlist | link | removeformat',
-        content_style: 'body { font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; font-size: 14px }'
-      });
-    }
-  }
 
   // Dismiss function
   $("[data-dismiss]").each(function () {
@@ -527,11 +423,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Chocolat
-  if ($(".chocolat-parent").length && jQuery().Chocolat) {
-    $(".chocolat-parent").Chocolat();
-  }
-
   // Sortable card
   if ($(".sortable-card").length && jQuery().sortable) {
     $(".sortable-card").sortable({
@@ -627,8 +518,6 @@ document.addEventListener('DOMContentLoaded', function () {
   $("body").mouseup(function () {
     if (!mouse_is_inside) $(".settingSidebar").removeClass("showSettingPanel");
   });
-
-  // $(".settingSidebar-body").niceScroll(); // NiceScroll removed
 
   // theme change event
   $(".choose-theme li").on("click", function () {
