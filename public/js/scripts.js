@@ -323,9 +323,15 @@ document.addEventListener('DOMContentLoaded', function () {
       $(target).collapse("toggle");
       $(target).on("shown.bs.collapse", function () {
         me.html('<i data-lucide="minus"></i>');
+        if (typeof window.refreshLucideIcons === 'function') {
+          window.refreshLucideIcons(me[0]);
+        }
       });
       $(target).on("hidden.bs.collapse", function () {
         me.html('<i data-lucide="plus"></i>');
+        if (typeof window.refreshLucideIcons === 'function') {
+          window.refreshLucideIcons(me[0]);
+        }
       });
       return false;
     });

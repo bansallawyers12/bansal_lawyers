@@ -33,12 +33,15 @@ function customValidate(formName, savetype = '')
 
 		form.find(':input[data-valid]').each(function(){
 			var dataValidation = $(this).attr('data-valid');
+			if (!dataValidation) {
+				return;
+			}
 			var splitDataValidation = dataValidation.split(' ');
 
 			var j = 0;
 			if($.inArray("required", splitDataValidation) !== -1)
 				{
-					var for_class = $(this).attr('class');
+					var for_class = $(this).attr('class') || '';
 					if(for_class.indexOf('multiselect_subject') != -1)
 						{
 							var value = $.trim($(this).val());
@@ -121,7 +124,9 @@ function customValidate(formName, savetype = '')
 				return false;
 			}
 
-		form.submit();
+		if (form[0]) {
+			form[0].submit();
+		}
 		return true;
 
 	} catch (error) {

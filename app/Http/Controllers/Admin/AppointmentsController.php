@@ -520,7 +520,7 @@ public function update_apppointment_comment(Request $request){
     echo json_encode($response);
 }
 
-public function update_apppointment_description(Request $request){
+	public function update_apppointment_description(Request $request){
     $objs = Appointment::find($request->id);
     if (! $objs) {
         echo json_encode(['status' => false, 'message' => 'Appointment not found']);
@@ -538,6 +538,61 @@ public function update_apppointment_description(Request $request){
         $response['message']	=	'Please try again';
     }
     echo json_encode($response);
+}
+
+public function updatefollowupschedule(Request $request)
+{
+    $request->validate([
+        'appointment_id' => 'required|integer|exists:appointments,id',
+        'followup_date' => 'required|string',
+        'followup_time' => 'required|string',
+    ]);
+
+    $appointment = Appointment::find($request->appointment_id);
+    if (! $appointment) {
+        return redirect()->back()->with('error', 'Appointment not found.');
+    }
+
+    $dateParts = explode('/', $request->followup_date);
+    if (count($dateParts) !== 3) {
+        return redirect()->back()->with('error', 'Invalid date format. Use DD/MM/YYYY.');
+    }
+
+    $datey = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0];
+
+    $conflictCount = Appointment::where('id', '!=', $appointment->id)
+        ->where('status', '!=', 7)
+        ->whereDate('date', $datey)
+        ->where('time', $request->followup_time)
+        ->whereIn('service_id', ConsultationServices::websiteServiceIds())
+        ->whereHas('natureOfEnquiry', function ($query) {
+            $query->where('status', 1);
+        })
+        ->count();
+
+    if ($conflictCount > 0) {
+        return redirect()->back()->with('error', 'This appointment time slot is already booked. Please select another time slot.');
+    }
+
+    $appointment->user_id = Auth::id();
+    $appointment->date = $datey;
+    $appointment->time = $request->followup_time;
+
+    if ($request->followup_time !== '') {
+        $startTime = date('g:i A', strtotime($request->followup_time));
+        $endTime = date('g:i A', strtotime($request->followup_time . ' +30 minutes'));
+        $appointment->timeslot_full = $startTime . ' - ' . $endTime;
+    }
+
+    if ($request->has('edit_description')) {
+        $appointment->description = $request->edit_description;
+    }
+
+    if ($appointment->save()) {
+        return redirect()->back()->with('success', 'Appointment updated successfully.');
+    }
+
+    return redirect()->back()->with('error', Config::get('constants.server_error'));
 }
 
 }

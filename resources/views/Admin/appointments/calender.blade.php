@@ -868,7 +868,7 @@ document.addEventListener('fullcalendar-event-click', function(e) {
 
                         </dl>
                          <div class="if_edit_followup">
-							<form method="post" action="{{URL::to('/admin/updatefollowupschedule')}}" name="updatefollowupschedule" id="updatefollowupschedule" autocomplete="off" enctype="multipart/form-data">
+							<form method="post" action="{{ URL::to('/admin/updatefollowupschedule') }}" name="updatefollowupschedule" id="updatefollowupschedule" autocomplete="off" enctype="multipart/form-data">
 								@csrf
 								<input type="hidden" name="appointment_id" id="appointment_id">
 								<div class="row">
