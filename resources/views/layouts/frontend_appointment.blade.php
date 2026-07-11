@@ -13,7 +13,6 @@
         cookie_domain: 'bansallawyers.com.au'
       });
     </script>
-    <!-- End Google Tag Manager -->
    
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -90,21 +89,12 @@
     }
     </script>
     @endverbatim
-    <!-- End Schema Markup -->
 	
-	<!-- Favicons-->
 	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
-
-    <!-- Self-hosted Poppins fonts -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
-    <!-- Vite CSS - Modern optimized CSS bundle -->
-    @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
-
-    <!-- Bootstrap CSS - Primary framework for frontend -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
-    
-    <!-- Main custom styles - Keep as normal stylesheet to avoid FOUC -->
+    {{-- Phase 7: no Bootstrap CSS — Tailwind + Vite bundles + footer grid shim --}}
+    @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css', 'resources/css/footer-grid-shim.css'])
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/layout-global.css') }}?v=1.0">
     <link rel="stylesheet" href="{{ asset('css/footer-modern.css') }}?v=1.0">
@@ -113,36 +103,26 @@
       .bg-dark {
           background-color: #1B4D89 !important;
       }
-
     </style>
 
-    <!-- Cloudflare Turnstile -->
     <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-	
+
+    @stack('head')
 </head>
 
 <body>
-  
-  	<!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGBFD265"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
   
-    <!--Header-->
     @include('Elements.Frontend.header')
 
-    <!--Content-->
     <main role="main">
         @yield('content')
     </main>
 
-    <!--Footer-->
     @include('Elements.Frontend.footer')
 
-    <!-- END: Footer Section -->
-
-    <!-- START: Loader -->
     <div id="ftco-loader" class="show fullscreen">
         <svg class="circular" width="48px" height="48px">
             <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
@@ -151,20 +131,13 @@
         </svg>
     </div>
 
-    {{-- Booking still needs sync jQuery for large @yield('scripts'); Bootstrap JS not used (Phase 4) --}}
-    <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
-    {{-- No stellar/waypoints/easing/bootstrap.bundle on booking --}}
+    {{-- Phase 7: no jQuery — booking uses appointment-form Vite module (Alpine + Axios) --}}
+    @vite(['public/js/main.js'])
 
-    {{-- frontend.js imports vendor-frontend.js — do not also @vite vendor-frontend.js --}}
-    @vite(['resources/js/frontend.js', 'public/js/main.js'])
-
-    <!-- COMMON SCRIPTS -->
-		<script type="text/javascript">
-			var site_url = "<?php echo URL::to('/'); ?>";
-			var redirecturl = "<?php echo URL::to('/thanks'); ?>";
-		</script>
-
-		@yield('scripts')
+    <script type="text/javascript">
+        var site_url = "{{ url('/') }}";
+        var redirecturl = "{{ url('/thanks') }}";
+    </script>
 
     <script src="{{ asset('js/footer-animations.js') }}?v=1.0" defer></script>
 </body>

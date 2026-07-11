@@ -118,17 +118,14 @@
     font-size: 1.25rem;
     margin: 0;
 }
+#event-details-modal .btn-close,
 #event-details-modal .close {
-    color: white;
-    opacity: 0.8;
-    text-shadow: none;
-    font-size: 1.5rem;
-    background: none;
-    border: none;
+    filter: invert(1) grayscale(100%) brightness(200%);
+    opacity: 0.85;
 }
+#event-details-modal .btn-close:hover,
 #event-details-modal .close:hover {
     opacity: 1;
-    color: white;
 }
 #event-details-modal .modal-body {
     padding: 2rem;

@@ -174,7 +174,9 @@ button + button,
   background-color: #ddd;
 }
 
-.show {
+/* Scoped — do not use global .show (fights modal/alert fade) */
+.mydropdown .dropdown-content.show,
+.dropdown-content.show {
   display: block;
 }
 

@@ -1,5 +1,5 @@
-// Admin JS Bundle — no jQuery (Phase 5)
-// Bootstrap 5 + Axios + Alpine via Vite
+// Admin JS Bundle — no jQuery / no Bootstrap (Phase 5–6)
+// Axios + Alpine + vanilla modals via Vite
 
 import './lucide-init.js';
 import './vendor-admin.js';

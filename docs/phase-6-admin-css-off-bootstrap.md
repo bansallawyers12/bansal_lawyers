@@ -39,6 +39,18 @@ Blades keep familiar class names (`row`, `form-control`, `btn-primary`, …); st
 - Removed `bootstrap` from `package.json` / `node_modules`
 - Vite chunk groups no longer include `vendor-bootstrap`
 
+## Review fixes (post Phase 6)
+
+| Issue | Fix |
+|-------|-----|
+| Outside-click never closed modals (clicks hit `.modal`, not backdrop) | `admin-bootstrap.js` closes when `target === .modal` or `.modal-backdrop` |
+| Calendar close invisible on dark header | White invert styles for `#event-details-modal .btn-close` |
+| Assign modal status/priority menus dead without BS dropdown | Vanilla toggle + `.dropdown-menu` CSS; close button → `.btn-close` |
+| Missing `col-lg-10` / `col-xl-8` | Added to `admin-grid.css` |
+| Missing `text-danger`, `bg-primary`, `fw-bold`, etc. | Added to `admin-utilities.css` |
+| Global `.show { display:block }` | Scoped to `.dropdown-content.show` |
+| Stale “BS5” layout comments | Updated |
+
 ---
 
 ## Exit criteria

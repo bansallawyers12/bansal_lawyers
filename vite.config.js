@@ -11,7 +11,8 @@ export default defineConfig({
                 'resources/css/admin-login.css',
                 'resources/css/vendor-frontend.css',
                 'resources/css/vendor-admin.css',
-                // fonts.css removed - now loaded as static asset to avoid Vite path resolution issues
+                'resources/css/pages/appointment-form.css',
+                'resources/css/footer-grid-shim.css',
 
                 // JS files
                 'resources/js/frontend.js',
@@ -19,6 +20,7 @@ export default defineConfig({
                 'resources/js/admin.js',
                 'resources/js/vendor-admin.js',
                 'resources/js/admin-calendar-v6.js',
+                'resources/js/appointment-form/index.js',
                 'public/js/main.js',
             ],
             refresh: true,

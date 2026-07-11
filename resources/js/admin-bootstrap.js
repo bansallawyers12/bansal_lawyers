@@ -123,13 +123,48 @@ export function initAdminChromeUi() {
         hideAdminModal(open);
     });
 
-    // Backdrop click closes (unless static)
+    // Outside click closes (unless static). Clicks hit .modal (above backdrop), not .modal-backdrop.
     document.addEventListener('mousedown', (event) => {
-        if (!event.target.classList?.contains('modal-backdrop')) return;
         const open = document.querySelector('.modal.show');
         if (!open) return;
         const opts = modalState.get(open);
-        if (opts?.backdrop === 'static') return;
+        if (opts?.backdrop === 'static' || opts?.backdrop === false) return;
+
+        const hitBackdrop = event.target.classList?.contains('modal-backdrop');
+        const hitModalChrome = event.target === open;
+        if (!hitBackdrop && !hitModalChrome) return;
         hideAdminModal(open);
+    });
+
+    // Assign-modal status/priority menus (BS4 data-toggle="dropdown" markup)
+    document.addEventListener('click', (event) => {
+        const toggle = event.target.closest?.('[data-toggle="dropdown"], [data-bs-toggle="dropdown"]');
+        if (toggle) {
+            event.preventDefault();
+            const dropdown = toggle.closest('.dropdown');
+            const menu = dropdown?.querySelector('.dropdown-menu');
+            if (!menu) return;
+
+            const wasOpen = menu.classList.contains('show');
+            document.querySelectorAll('.dropdown-menu.show').forEach((el) => {
+                el.classList.remove('show');
+                el.closest('.dropdown')?.classList.remove('show');
+            });
+            if (!wasOpen) {
+                menu.classList.add('show');
+                dropdown?.classList.add('show');
+            }
+            return;
+        }
+
+        if (
+            !event.target.closest?.('.dropdown') ||
+            event.target.closest?.('.dropdown-item')
+        ) {
+            document.querySelectorAll('.dropdown-menu.show').forEach((el) => {
+                el.classList.remove('show');
+                el.closest('.dropdown')?.classList.remove('show');
+            });
+        }
     });
 }
