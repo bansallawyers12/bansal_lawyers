@@ -99,28 +99,15 @@
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
     <!-- Vite CSS - Modern optimized CSS bundle -->
-    @vite(['resources/css/frontend.css'])
+    @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
 
     <!-- Bootstrap CSS - Primary framework for frontend -->
-    <!-- Critical CSS - Load immediately -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     
-    <!-- Icon fonts - Load synchronously to ensure icons display correctly -->
-    <!-- Lucide icons loaded via Vite in vendor-frontend.css / vendor-frontend.js -->
-
-    <!-- Vendor bundles (Swiper, AOS) loaded via Vite -->
-    @vite(['resources/css/vendor-frontend.css'])
-    
     <!-- Main custom styles - Keep as normal stylesheet to avoid FOUC -->
-    <!-- Note: High unused percentage reported, but needed for layout structure -->
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/layout-global.css') }}?v=1.0">
     <link rel="stylesheet" href="{{ asset('css/footer-modern.css') }}?v=1.0">
-    
-    <!-- Non-critical CSS - only on pages that use these features -->
-    @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*'))
-    <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
-    @endif
 
     <style>
       .bg-dark {
@@ -164,102 +151,14 @@
         </svg>
     </div>
 
-    <!-- JavaScript Files - Consolidated jQuery 3.7.1 -->
-    <!-- Load jQuery first (moved from head for performance) -->
+    {{-- jQuery sync (not defer): booking @yield('scripts') is large and historically assumed $ is present before DOMContentLoaded registration edge-cases; Vite modules stay deferred --}}
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
-    
-    <!-- jQuery Plugins -->
+    <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.waypoints.min.js')}}"></script>
-    <script src="{{ asset('js/jquery.stellar.min.js')}}"></script>
-    @vite(['resources/js/vendor-frontend.js'])
-    <script src="{{ asset('js/jquery.animateNumber.min.js')}}"></script>
-    <script src="{{ asset('js/scrollax.min.js')}}"></script>
-    
-    <!-- Google Maps - Removed for appointment page -->
-    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&callback=initMap"></script> -->
-    <script>
-      function initMap(){
-        if(!document.getElementById('map')) return;
-        var s=document.createElement('script');
-        s.src='{{ asset('js/google-map.min.js')}}';
-        document.head.appendChild(s);
-      }
-    </script>
-    
-    <!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
-    @vite(['resources/js/frontend.js'])
-    
-    <!-- Main Application Script -->
-    @vite(['public/js/main.js'])
+    {{-- No stellar/waypoints/scrollax/animateNumber on booking — unused --}}
 
-    <!-- Global Error Handler -->
-    <script>
-        // Global error handler to prevent getBoundingClientRect errors
-        window.addEventListener('error', function(e) {
-            if (e.message && e.message.includes('getBoundingClientRect')) {
-                console.warn('DOM element access error prevented:', e.message);
-                e.preventDefault();
-                return true;
-            }
-        });
-        
-        // Additional protection for jQuery operations
-        // Wait for jQuery to load
-        (function() {
-            function initWhenJQueryReady() {
-                if (typeof jQuery !== 'undefined' && typeof jQuery.fn !== 'undefined') {
-                    jQuery(document).ready(function($) {
-            // Override jQuery methods that might cause getBoundingClientRect errors
-            var originalOffset = $.fn.offset;
-            $.fn.offset = function() {
-                if (this.length === 0) {
-                    console.warn('jQuery offset called on empty selection');
-                    return { top: 0, left: 0 };
-                }
-                return originalOffset.apply(this, arguments);
-            };
-            
-            // Override jQuery position method
-            var originalPosition = $.fn.position;
-            $.fn.position = function() {
-                if (this.length === 0) {
-                    console.warn('jQuery position called on empty selection');
-                    return { top: 0, left: 0 };
-                }
-                return originalPosition.apply(this, arguments);
-            };
-            
-            // Override jQuery width/height methods
-            var originalWidth = $.fn.width;
-            $.fn.width = function() {
-                if (this.length === 0) {
-                    console.warn('jQuery width called on empty selection');
-                    return 0;
-                }
-                return originalWidth.apply(this, arguments);
-            };
-            
-            var originalHeight = $.fn.height;
-            $.fn.height = function() {
-                if (this.length === 0) {
-                    console.warn('jQuery height called on empty selection');
-                    return 0;
-                }
-                return originalHeight.apply(this, arguments);
-            };
-                    });
-                } else {
-                    setTimeout(initWhenJQueryReady, 50);
-                }
-            }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initWhenJQueryReady);
-            } else {
-                initWhenJQueryReady();
-            }
-        })();
-    </script>
+    {{-- frontend.js imports vendor-frontend.js — do not also @vite vendor-frontend.js --}}
+    @vite(['resources/js/frontend.js', 'public/js/main.js'])
 
     <!-- COMMON SCRIPTS -->
 		<script type="text/javascript">
@@ -273,11 +172,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-

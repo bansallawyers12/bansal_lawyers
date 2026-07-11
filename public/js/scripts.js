@@ -103,10 +103,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // sticky header toggle function
   var toggle_sticky_header = function (sticky) {
+    var navbar = $(".main-navbar")[0];
+    if (!navbar) {
+      return;
+    }
     if (!sticky) {
-      $(".main-navbar")[0].classList.remove("sticky");
+      navbar.classList.remove("sticky");
     } else {
-      $(".main-navbar")[0].classList += " sticky";
+      navbar.classList.add("sticky");
     }
   };
 
@@ -443,7 +447,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
   $("#sticky_header_setting").on("change", function () {
-    if ($(".main-navbar")[0].classList.contains("sticky")) {
+    var navbar = $(".main-navbar")[0];
+    if (!navbar) {
+      return;
+    }
+    if (navbar.classList.contains("sticky")) {
       toggle_sticky_header(false);
     } else {
       toggle_sticky_header(true);
@@ -451,11 +459,11 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   $(".theme-setting-toggle").on("click", function () {
-    if ($(".theme-setting")[0].classList.contains("active")) {
-      $(".theme-setting")[0].classList.remove("active");
-    } else {
-      $(".theme-setting")[0].classList += " active";
+    var themeSetting = $(".theme-setting")[0];
+    if (!themeSetting) {
+      return;
     }
+    themeSetting.classList.toggle("active");
   });
 
   // full screen call

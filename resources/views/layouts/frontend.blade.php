@@ -125,8 +125,8 @@
     <!-- Note: High unused percentage reported, but needed for layout structure -->
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
     
-    <!-- Non-critical CSS - only on pages that use these features -->
-    @if(Request::is('practiceareas') || Request::is('blog*') || Request::is('cms/*'))
+    {{-- animate.css: fadeIn* classes used by main.js contentWayPoint on stellar/ftco-animate pages --}}
+    @if(Request::is('practice-areas') || Request::routeIs('cms.slug'))
     <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
     @endif
   
@@ -471,16 +471,16 @@
     <!-- Note: popper.min.js removed - already included in bootstrap.bundle.min.js -->
     <script src="{{ asset('js/bootstrap.bundle.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}" defer></script>
-    <!-- Conditional plugins - only loaded if needed on specific pages -->
-    @if(Request::is('practiceareas') || Request::is('cms/*') || Request::is('archive/*'))
+    {{-- Must load before Vite main.js (defer order): practice-areas + cms.slug heroes use stellar/ftco-animate --}}
+    @if(Request::is('practice-areas') || Request::routeIs('cms.slug'))
     <script src="{{ asset('js/jquery.waypoints.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.stellar.min.js')}}" defer></script>
     <script src="{{ asset('js/scrollax.min.js')}}" defer></script>
     @endif
-    
+    {{-- animateNumber: only safe when waypoints also load; main.js guards the call site after Phase 0 fix --}}
     <script src="{{ asset('js/jquery.animateNumber.min.js')}}" defer></script>
     
-    <!-- Google Maps â€” only load the API when this page actually has a map container -->
+    <!-- Google Maps — only load the API when this page actually has a map container -->
     <script>
         (function() {
             if (!document.getElementById('map') && !document.getElementById('google-map')) return;
@@ -511,11 +511,13 @@
     <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     
-    <!-- Vendor + app JS bundles (single vite call reduces duplicate modulepreload tags) -->
-    @vite(['resources/js/vendor-frontend.js', 'resources/js/frontend.js', 'public/js/main.js'])
+    {{-- frontend.js imports vendor-frontend.js — do not also @vite vendor-frontend.js --}}
+    @vite(['resources/js/frontend.js', 'public/js/main.js'])
 
     <script src="{{ asset('js/analytics-engagement.js') }}?v=1.0" defer></script>
     <script src="{{ asset('js/footer-animations.js') }}?v=1.0" defer></script>
+
+    @yield('scripts')
 
     <!-- Meta Pixel Code — deferred to end of body so it doesn't block HTML parsing -->
     <script>

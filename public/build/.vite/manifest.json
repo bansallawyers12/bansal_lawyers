@@ -68,7 +68,7 @@
     ]
   },
   "public/js/main.js": {
-    "file": "assets/main-DOcpTqlB.js",
+    "file": "assets/main-D96TVzaQ.js",
     "name": "main",
     "src": "public/js/main.js",
     "isEntry": true
@@ -155,13 +155,12 @@
     ]
   },
   "resources/js/frontend.js": {
-    "file": "assets/frontend-BTzp_GWM.js",
+    "file": "assets/frontend-BuFC3AW1.js",
     "name": "frontend",
     "src": "resources/js/frontend.js",
     "isEntry": true,
     "imports": [
       "_alpine-utils-BQjVz5oM.js",
-      "_lucide-init-suYpI_Sz.js",
       "resources/js/vendor-frontend.js",
       "resources/js/vendor-frontend.js"
     ]

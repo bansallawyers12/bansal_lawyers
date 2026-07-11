@@ -16,6 +16,10 @@ window.addEventListener('error', function(e) {
 
 	"use strict";
 
+	if (!$ || !$.fn) {
+		console.warn('main.js: jQuery not available; skipping legacy theme init');
+		return;
+	}
 	var isMobile = {
 		Android: function () {
 			return navigator.userAgent.match(/Android/i);
@@ -169,7 +173,7 @@ window.addEventListener('error', function(e) {
 		}
 		
 		// Check if jQuery is available first
-		if (typeof jQuery === 'undefined') {
+		if (typeof window.jQuery === 'undefined') {
 			setTimeout(function() {
 				initStellarWithRetry(retries + 1);
 			}, 100);
@@ -399,11 +403,13 @@ window.addEventListener('error', function(e) {
 
 				if (direction === 'down' && !$(this.element).hasClass('ftco-animated')) {
 
+					if (typeof $.animateNumber === 'undefined' || !$.animateNumber.numberStepFactories) {
+						return;
+					}
 					var comma_separator_number_step = $.animateNumber.numberStepFactories.separator(',')
 					$('.number').each(function () {
 						var $this = $(this),
 							num = $this.data('number');
-						console.log(num);
 						$this.animateNumber(
 							{
 								number: num,
@@ -537,7 +543,7 @@ window.addEventListener('error', function(e) {
 		}
 	};
 
-})(jQuery);
+})(window.jQuery);
 
 document.addEventListener("DOMContentLoaded", function () {
 	const text = "There’s No Legal Puzzle That We Can’t Solve";

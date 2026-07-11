@@ -416,6 +416,10 @@ class AppointmentsController extends Controller
 public function update_appointment_status(Request $request){
 
     $objs = Appointment::find($request->id);
+    if (! $objs) {
+        echo json_encode(['status' => false, 'message' => 'Appointment not found']);
+        return;
+    }
 
     if($objs->status == 0){
         $status = 'Pending';
@@ -599,9 +603,7 @@ public function updatefollowupschedule(Request $request)
         $appointment->timeslot_full = $startTime . ' - ' . $endTime;
     }
 
-    if ($request->has('edit_description')) {
-        $appointment->description = $request->edit_description;
-    }
+    $appointment->description = (string) $request->input('edit_description', $appointment->description ?? '');
 
     if ($appointment->save()) {
         return redirect()->back()->with('success', 'Appointment updated successfully.');

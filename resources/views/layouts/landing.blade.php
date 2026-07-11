@@ -51,15 +51,12 @@
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     
     <!-- Vite CSS -->
-    @vite(['resources/css/frontend.css'])
+    @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
     
-    <!-- Lucide icons loaded via Vite in vendor-frontend.css / vendor-frontend.js -->
-    
-    <!-- Vendor bundles -->
-    @vite(['resources/css/vendor-frontend.css'])
+    <!-- Lucide icons loaded via Vite (vendor-frontend via frontend.js) -->
     
     <!-- Main custom styles -->
     <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
@@ -97,19 +94,13 @@
         @yield('content')
     </main>
 
-    <!-- JavaScript Files -->
+    <!-- JavaScript Files — deferred Vite pattern (aligned with frontend layout) -->
     <script src="{{ asset('js/jquery-3.7.1.min.js')}}" defer></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js')}}" defer></script>
     <script src="{{ asset('js/jquery.easing.1.3.min.js')}}" defer></script>
     
-    <!-- Vendor bundles -->
-    @vite(['resources/js/vendor-frontend.js'])
-    
-    <!-- Vite JS -->
-    @vite(['resources/js/frontend.js'])
-    
-    <!-- Main script -->
-    <script src="{{ asset('js/main.js') }}?v=1.0" defer></script>
+    {{-- frontend.js imports vendor-frontend.js — do not also @vite vendor-frontend.js --}}
+    @vite(['resources/js/frontend.js', 'public/js/main.js'])
     
     @yield('scripts')
 </body>

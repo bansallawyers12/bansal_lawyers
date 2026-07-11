@@ -445,6 +445,9 @@ $appointments = \App\Models\Appointment::whereIn('service_id', \App\Support\Cons
 //$appointments = \App\Models\Appointment::where('invites','=', Auth::user()->id)->get();
 foreach($appointments as $appointment){
     $addd = \App\Models\Admin::where('id',$appointment->client_id)->first();
+    if (! $addd) {
+        continue;
+    }
     $datetimes = $appointment->date;
     $datetime = $appointment->date.' '.$appointment->time;
     $curtime = date('Y-m-d');
@@ -453,9 +456,7 @@ foreach($appointments as $appointment){
 		$row['stitle'] = addslashes($addd->client_id);
 		$row['name'] = base64_encode($addd->first_name.' '.$addd->last_name);
 
-		//$row['title'] = $appointment->title;
-		//$row['description'] = $appointment->description;
-        //$row['description'] = htmlspecialchars($appointment->description, ENT_QUOTES, 'UTF-8');
+		$row['description'] = (string) ($appointment->description ?? '');
 
 	$row['startdate'] = date("Y-m-d H:i:s",strtotime($appointment->date));
 
@@ -672,7 +673,36 @@ jQuery(document).ready(function($){
 	$(document).delegate('#updateappointmentstatus', 'change', function(){
         var v = $('#updateappointmentstatus option:selected').val();
 		var aid = $('#appid').val();
-		window.location.href = '{{URL::to('/admin/updateappointmentstatus')}}/'+v+'/'+aid;
+		if (!aid) {
+			return;
+		}
+		$('.popuploader').show();
+		$.ajax({
+			url: site_url + '/admin/update_appointment_status',
+			type: 'POST',
+			data: {
+				_token: $('meta[name="csrf-token"]').attr('content'),
+				id: aid,
+				status: v
+			},
+			success: function(responses) {
+				$('.popuploader').hide();
+				try {
+					var obj = typeof responses === 'string' ? JSON.parse(responses) : responses;
+					if (obj.status && scheds[aid]) {
+						scheds[aid].status = v;
+					} else if (!obj.status) {
+						alert(obj.message || 'Unable to update status.');
+					}
+				} catch (e) {
+					console.error('Failed to update appointment status:', e);
+				}
+			},
+			error: function() {
+				$('.popuploader').hide();
+				alert('Unable to update status. Please try again.');
+			}
+		});
     });
 
     // Enhanced modal close functionality
@@ -775,8 +805,12 @@ document.addEventListener('fullcalendar-event-click', function(e) {
         
         $details.find('#followup_date').val(scheds[id].appointdate || '');
         $details.find('#followup_time').val(scheds[id].appointtime || '');
+        $details.find('#edit_description').val(scheds[id].description || '');
         
         $details.find('#start').html(scheds[id].start+' <a href="#" class="editfollowupdate"><i data-lucide="pencil"></i> Edit</a>');
+        if (typeof window.refreshLucideIcons === 'function') {
+            window.refreshLucideIcons($details[0]);
+        }
         
         // Ensure edit form is hidden initially
         $details.find('.if_edit_followup').removeClass('is-visible');

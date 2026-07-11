@@ -66,7 +66,8 @@ function customValidate(formName, savetype = '')
 				{
 					if($.inArray("email", splitDataValidation) !== -1)
 						{
-							if(!validateEmail($.trim($(this).val())))
+							var emailVal = $.trim($(this).val());
+							if(emailVal !== '' && !validateEmail(emailVal))
 								{
 									i++;
 									$(this).after(errorDisplay(emailError));
