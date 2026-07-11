@@ -429,15 +429,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Sortable card
-  if ($(".sortable-card").length && jQuery().sortable) {
-    $(".sortable-card").sortable({
-      handle: ".card-header",
-      opacity: 0.8,
-      tolerance: "pointer"
-    });
-  }
-
   // Date/time inputs — Flatpickr (replaces Moment + daterangepicker + bootstrap-timepicker)
   if (typeof window.initAdminFlatpickr === 'function') {
     window.initAdminFlatpickr();

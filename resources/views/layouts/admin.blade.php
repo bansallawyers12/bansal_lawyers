@@ -31,11 +31,7 @@
 
     <!-- Lucide icons loaded via Vite (vendor-admin.css / admin.js) -->
 
-
-<!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
-<!-- Updated to jQuery 3.7.1 -->
-<script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
+	<script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
 
 <style {!! \App\Services\CspService::getNonceAttribute() !!}>
 /* Accessibility Improvements - Touch Targets and Contrast */

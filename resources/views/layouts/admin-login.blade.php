@@ -21,7 +21,7 @@
 	<!-- Load as static asset to avoid Vite path resolution issues with font files -->
 	<link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 	
-	<!-- Font Awesome loaded via Vite vendor bundle -->
+	<!-- Lucide icons loaded via Vite vendor bundle -->
 	@vite(['resources/css/vendor-admin.css'])
 	
 	<!-- BASE CSS (app.min.css removed - file not present; vendor-admin + below provide styles) -->

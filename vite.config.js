@@ -33,7 +33,7 @@ export default defineConfig({
         manifest: true,
         sourcemap: process.env.NODE_ENV === 'development',
         cssCodeSplit: true,
-        // Lightning CSS fails on vendor CSS (Font Awesome); esbuild is more lenient
+        // esbuild minifier is more lenient with some vendor CSS than Lightning CSS
         cssMinify: 'esbuild',
         chunkSizeWarningLimit: 1000,
         rolldownOptions: {

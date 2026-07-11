@@ -558,7 +558,16 @@ public function updatefollowupschedule(Request $request)
         return redirect()->back()->with('error', 'Invalid date format. Use DD/MM/YYYY.');
     }
 
-    $datey = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0];
+    $datey = sprintf(
+        '%04d-%02d-%02d',
+        (int) $dateParts[2],
+        (int) $dateParts[1],
+        (int) $dateParts[0]
+    );
+
+    if (!checkdate((int) $dateParts[1], (int) $dateParts[0], (int) $dateParts[2])) {
+        return redirect()->back()->with('error', 'Invalid date. Use DD/MM/YYYY.');
+    }
 
     $conflictCount = Appointment::where('id', '!=', $appointment->id)
         ->where('status', '!=', 7)
@@ -579,8 +588,14 @@ public function updatefollowupschedule(Request $request)
     $appointment->time = $request->followup_time;
 
     if ($request->followup_time !== '') {
+        $durationMinutes = 30;
+        $service = DB::table('book_services')->select('duration')->where('id', $appointment->service_id)->first();
+        if ($service && !empty($service->duration)) {
+            $durationMinutes = (int) $service->duration;
+        }
+
         $startTime = date('g:i A', strtotime($request->followup_time));
-        $endTime = date('g:i A', strtotime($request->followup_time . ' +30 minutes'));
+        $endTime = date('g:i A', strtotime($request->followup_time . ' +' . $durationMinutes . ' minutes'));
         $appointment->timeslot_full = $startTime . ' - ' . $endTime;
     }
 
