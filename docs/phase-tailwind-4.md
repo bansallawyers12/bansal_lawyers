@@ -10,7 +10,7 @@
 | `tailwindcss` | ^3.1 (unused in live CSS) | ^4.3 |
 | Plugin | PostCSS `tailwindcss` + autoprefixer | `@tailwindcss/vite` |
 | Live CSS | Component CSS only | Tailwind 4 + component CSS |
-| `app.css` | Missing | Not restored — wired into `frontend.css` / `admin.css` |
+| `app.css` | Missing | Not restored — shared `tailwind-setup.css` instead |
 | `postcss.config.js` | v3 plugins | Empty (immigration-style) |
 | `admin-login.css` | Slim tokens only | Unchanged (no Tailwind import) |
 
@@ -19,13 +19,14 @@
 - Named components (`.btn`, `.form-control`, `.card`, grid) stay in Vite component CSS and load **after** Tailwind so they win over Preflight.
 - `style_lawyer.min.css` still linked on frontend/appointment.
 - Use Tailwind utilities for **new** UI; do not mass-convert blades in this upgrade.
+- All `@import`s come before style rules (invalid CSS if `[x-cloak]` sits between imports).
 
-## Brand theme (`tailwind.config.js`)
+## Brand theme
 
-- `fontFamily.sans` → Poppins
-- `lawyer-blue` → `#1B4D89`
-- `lawyer-orange` → `#F96D00`
-- Forms via `@plugin "@tailwindcss/forms"` in CSS (not JS plugins array)
+- Shared: `resources/css/tailwind-setup.css` (`@import "tailwindcss"`, forms plugin, `@config`, `@theme`)
+- `@theme`: `--color-lawyer-blue`, `--color-lawyer-orange`, `--font-sans` (Poppins)
+- `tailwind.config.js` still extends Poppins + brand colors for `@config` compatibility
+- Forms via `@plugin "@tailwindcss/forms"` (not JS plugins array)
 
 ## Verify
 

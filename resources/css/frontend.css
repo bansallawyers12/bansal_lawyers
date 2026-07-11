@@ -3,14 +3,8 @@
  * Tailwind 4 via @tailwindcss/vite — utilities for new UI; component CSS stays authoritative for named classes.
  */
 
-@import "tailwindcss";
-@plugin "@tailwindcss/forms";
-@config "../../tailwind.config.js";
-
-/* Alpine cloak — hide until Alpine boots (also used on booking) */
-[x-cloak] {
-  display: none !important;
-}
+/* All @imports must come before style rules */
+@import "./tailwind-setup.css";
 @import './variables.css';
 @import './components/buttons.css';
 @import './components/forms.css';
@@ -18,6 +12,11 @@
 @import './components/admin-grid.css';
 @import './components/admin-utilities.css';
 @import './components/frontend-utilities.css';
+
+/* Alpine cloak — hide until Alpine boots (also used on booking) */
+[x-cloak] {
+  display: none !important;
+}
 
 /* Performance Optimizations */
 /* Optimize animations for performance */
