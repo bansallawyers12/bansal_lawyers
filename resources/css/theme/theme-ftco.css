@@ -64,19 +64,22 @@
 }
 
 /* ---------- CMS / listing heroes ---------- */
+.hero-wrap-2,
 .hero-wrap {
   position: relative;
   width: 100%;
-  height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   overflow: hidden;
 }
 
+.hero-wrap:not(.hero-wrap-2) {
+  height: 100%;
+}
+
 .hero-wrap .overlay,
-.hero-wrap-2 .overlay,
-.overlay {
+.hero-wrap-2 .overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
@@ -100,7 +103,18 @@
   background: rgba(15, 23, 42, 0.55);
 }
 
-.slider-text {
+.hero-wrap-2 .slider-text {
+  color: #fff;
+  height: 422px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+  padding-bottom: 2rem;
+}
+
+.hero-wrap:not(.hero-wrap-2) .slider-text {
   color: #fff;
   height: 100%;
   min-height: 280px;
@@ -109,11 +123,6 @@
   justify-content: flex-end;
   text-align: center;
   padding-bottom: 2rem;
-}
-
-.hero-wrap-2 .slider-text {
-  height: 422px;
-  min-height: 0;
 }
 
 .slider-text h1,
@@ -180,20 +189,27 @@
 }
 
 /* CMS echoed HTML — basic readable prose */
-.ftco-section img {
+.ftco-section img,
+.content-section img {
   max-width: 100%;
   height: auto;
 }
 
-.ftco-section p {
+.ftco-section p,
+.content-section p {
   margin-bottom: 1rem;
   line-height: 1.7;
   color: #374151;
 }
 
+.ftco-section h1,
 .ftco-section h2,
 .ftco-section h3,
-.ftco-section h4 {
+.ftco-section h4,
+.content-section h1,
+.content-section h2,
+.content-section h3,
+.content-section h4 {
   color: #1b4d89;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
@@ -201,17 +217,67 @@
 }
 
 .ftco-section ul,
-.ftco-section ol {
+.ftco-section ol,
+.content-section ul,
+.content-section ol {
   margin-bottom: 1rem;
   padding-left: 1.25rem;
 }
 
-.ftco-section a {
+.ftco-section a,
+.content-section a {
   color: #1b4d89;
 }
 
-.ftco-section a:hover {
+.ftco-section a:hover,
+.content-section a:hover {
   color: #f96d00;
+}
+
+.ftco-section table,
+.content-section table {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-collapse: collapse;
+}
+
+.ftco-section th,
+.ftco-section td,
+.content-section th,
+.content-section td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.ftco-section blockquote,
+.content-section blockquote {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid #1b4d89;
+  background: #f8fafc;
+  color: #4b5563;
+}
+
+/* Legacy CMS class still present in some DB HTML */
+.heading-section {
+  margin-bottom: 1.5rem;
+}
+
+.heading-section h2 {
+  color: #1b4d89;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.heading-section.heading-section-white h2 {
+  color: #fff;
+}
+
+.heading-section p {
+  color: #6b7280;
+  margin-bottom: 0;
 }
 
 /* ---------- Case detail leftover class ---------- */

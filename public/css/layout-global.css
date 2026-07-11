@@ -45,8 +45,8 @@
         overflow-x: hidden;
       }
       
-      /*slider Css*/
-    .hero-wrap {
+      /*slider Css — homepage full-bleed hero only (exclude CMS .hero-wrap-2) */
+    .hero-wrap:not(.hero-wrap-2) {
         position: relative;
         width: 100%;
         height: 100vh;
@@ -54,13 +54,13 @@
     }
     
     /* Ensure hero section content stays within bounds */
-    .hero-wrap .container {
+    .hero-wrap:not(.hero-wrap-2) .container {
         max-width: 100% !important;
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
     
-    .hero-wrap .row {
+    .hero-wrap:not(.hero-wrap-2) .row {
         margin-left: 0 !important;
         margin-right: 0 !important;
         max-width: 100% !important;
@@ -91,16 +91,16 @@
         }
         
         /* Ensure text doesn't extend beyond container */
-        .slider-text .row {
+        .hero-wrap:not(.hero-wrap-2) .slider-text .row {
             max-width: 100% !important;
         }
         
-        .slider-text .container {
+        .hero-wrap:not(.hero-wrap-2) .slider-text .container {
             max-width: 100% !important;
         }
         
-        /* Create visual boundary for blue area */
-        .slider-text::before {
+        /* Create visual boundary for blue area — homepage only */
+        .hero-wrap:not(.hero-wrap-2) .slider-text::before {
             content: '';
             position: absolute;
             top: 0;
@@ -144,12 +144,6 @@
             border-color: #1B4D89;*/
         }
 
-      @media (max-width: 767.98px) {
-        .ftco-section {
-          background-size: cover;
-          background-position: -50px center !important;
-        }
-      }
            
      /*Footer Css*/
     .fraction {
@@ -375,7 +369,7 @@
        height: auto !important;
      }
 
-      .hero-wrap {
+      .hero-wrap:not(.hero-wrap-2) {
         height: 580px !important;
         max-height: 580px !important;
       }
@@ -384,7 +378,7 @@
      
      /* General responsive fixes for hero section */
      @media (max-width: 768px) {
-          .hero-wrap {
+          .hero-wrap:not(.hero-wrap-2) {
               height: 580px !important;
               max-height: 580px !important;
           }
@@ -437,7 +431,7 @@
       
       
        @media (max-width: 1250px) {
-          .hero-wrap {
+          .hero-wrap:not(.hero-wrap-2) {
               height: 680px !important;
               max-height: 680px !important;
           }
@@ -445,7 +439,7 @@
      
      /* iPhone and small mobile devices */
      @media (max-width: 480px) {
-          .hero-wrap {
+          .hero-wrap:not(.hero-wrap-2) {
               height: 500px !important;
               max-height: 500px !important;
           }
@@ -550,7 +544,7 @@
      /* Specific fix for blog pages */
      .ftco-navbar-light.scrolled + .experimental-breadcrumb,
      .ftco-navbar-light.scrolled + .experimental-blog-detail-hero,
-     .ftco-navbar-light.scrolled + .hero-wrap,
+     .ftco-navbar-light.scrolled + .hero-wrap:not(.hero-wrap-2),
      .ftco-navbar-light.scrolled + .ftco-section {
        margin-top: 80px;
      }

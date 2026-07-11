@@ -57,7 +57,7 @@
     } else {
         $bg_image = asset('images/bg_1.jpg');
     }?>
-	<section class="hero-wrap hero-wrap-2" style="background-image: url('<?php echo $bg_image;?>');margin-bottom: 40px;max-height:422px !important;" data-parallax-bg="0.5">
+	<section class="hero-wrap-2" style="background-image: url('<?php echo $bg_image;?>'); margin-bottom: 40px;" data-parallax-bg="0.5">
         <div class="overlay"></div>
         <div class="container">
             <div class="row no-gutters slider-text align-items-end justify-content-center">

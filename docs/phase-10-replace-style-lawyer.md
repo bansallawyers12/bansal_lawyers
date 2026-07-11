@@ -31,6 +31,17 @@
 - Header / footer / home experimental UI / about / contact / booking / landing
 - `layout-global.css` + `footer-modern.css` (still static; testimonials Swiper rules stay there)
 
+## Review fixes (post Phase 10)
+
+| Issue | Fix |
+|-------|-----|
+| `layout-global` `.slider-text::before` blue band on CMS heroes | Scoped to `.hero-wrap:not(.hero-wrap-2)` |
+| `layout-global` forced `.hero-wrap` to 580px over CMS 422px | Same `:not(.hero-wrap-2)` scoping |
+| CMS inline `max-height:422px !important` blocked mobile shrink | Removed; class is `hero-wrap-2` only |
+| Bare `.overlay` too broad | Hero-scoped only in `theme-ftco.css` |
+| Missing CMS `heading-section` / tables / blockquotes | Added under `.ftco-section` / `.content-section` |
+| Dead `.ftco-loader` class CSS | Removed from `frontend.css` |
+
 ---
 
 ## Exit criteria
