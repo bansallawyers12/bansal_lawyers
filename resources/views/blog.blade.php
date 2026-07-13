@@ -1,4 +1,4 @@
-﻿@extends('layouts.frontend')
+@extends('layouts.frontend')
 
 @section('seoinfo')
 @php
@@ -41,7 +41,7 @@
 @endsection
 
 @section('head')
-<link rel="stylesheet" href="{{ asset('css/blog-listing.css') }}?v=1.1">
+<link rel="stylesheet" href="{{ asset('css/blog-listing.min.css') }}?v=1.1">
 @endsection
 
 @section('content')

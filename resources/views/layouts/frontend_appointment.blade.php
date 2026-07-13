@@ -95,8 +95,8 @@
 
     {{-- Phase 10: no style_lawyer — Vite frontend.css + theme-ftco --}}
     @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
-    <link rel="stylesheet" href="{{ asset('css/layout-global.css') }}?v=1.0">
-    <link rel="stylesheet" href="{{ asset('css/footer-modern.css') }}?v=1.0">
+    <link rel="stylesheet" href="{{ asset('css/layout-global.min.css') }}?v=1.0">
+    <link rel="stylesheet" href="{{ asset('css/footer-modern.min.css') }}?v=1.0">
 
     <style>
       .bg-dark {
@@ -138,7 +138,7 @@
         var redirecturl = "{{ url('/thanks') }}";
     </script>
 
-    <script src="{{ asset('js/footer-animations.js') }}?v=1.0" defer></script>
+    <script src="{{ asset('js/footer-animations.min.js') }}?v=1.0" defer></script>
 
     @stack('scripts')
     @yield('scripts')

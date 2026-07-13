@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -112,8 +112,8 @@
     {{-- Phase 10: no style_lawyer — FTCO theme lives in Vite theme-ftco.css --}}
     @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
 
-    <link rel="stylesheet" href="{{ asset('css/layout-global.css') }}?v=1.0">
-    <link rel="stylesheet" href="{{ asset('css/footer-modern.css') }}?v=1.0">
+    <link rel="stylesheet" href="{{ asset('css/layout-global.min.css') }}?v=1.0">
+    <link rel="stylesheet" href="{{ asset('css/footer-modern.min.css') }}?v=1.0">
 
   <!-- Hotjar Tracking Code for https://www.bansallawyers.com.au/migration-law -->
 <script>
@@ -181,8 +181,8 @@
     {{-- frontend.js imports vendor-frontend.js — do not also @vite vendor-frontend.js --}}
     @vite(['resources/js/frontend.js', 'public/js/main.js'])
 
-    <script src="{{ asset('js/analytics-engagement.js') }}?v=1.0" defer></script>
-    <script src="{{ asset('js/footer-animations.js') }}?v=1.0" defer></script>
+    <script src="{{ asset('js/analytics-engagement.min.js') }}?v=1.0" defer></script>
+    <script src="{{ asset('js/footer-animations.min.js') }}?v=1.0" defer></script>
 
     @yield('scripts')
 
