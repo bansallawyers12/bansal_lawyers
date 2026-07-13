@@ -17,175 +17,9 @@
 	<title>Bansal Lawyers | @yield('title')</title>
 	<!--<link rel="icon" type="image/png" href="{{ asset('images/favicon.png')}}">-->
 	
-	<!-- Vite CSS - Modern optimized CSS bundle -->
+	{{-- Vite owns admin CSS (tokens, btn/card/form, shell). Stisla components.css + fat custom.css unlinked (Phase 3). --}}
 	@vite(['resources/css/admin.css', 'resources/css/vendor-admin.css'])
-	
-	<!-- Legacy CSS files (will be migrated gradually) - app.min.css removed (file not present; Vite admin.css provides styles) -->
-	 <!-- FullCalendar v6 CSS - Auto-injected by JavaScript (no CSS files needed in v6) -->
-	 <!-- The admin-calendar-v6.js imports inject CSS automatically at runtime -->
-	<!-- Summernote CSS removed - now using TinyMCE -->
-	<link rel="stylesheet" href="{{ asset('css/daterangepicker.css')}}">
-	<link rel="stylesheet" href="{{ asset('css/bootstrap-timepicker.min.css')}}">
-	<!-- Select2 CSS removed - now using Tom Select (loaded via Vite) -->
-	<!-- Template CSS -->
-	<!--<link rel="stylesheet" href="{{--asset('css/niceCountryInput.css')--}}">-->
-	<!--<link rel="stylesheet" href="{{--asset('css/flagstrap.css')--}}">-->
-
-	<link rel="stylesheet" href="{{ asset('css/bootstrap-formhelpers.min.css')}}">
-	<link rel="stylesheet" href="{{ asset('css/intlTelInput.css')}}">
-
-
-	<link rel="stylesheet" href="{{ asset('css/components.css')}}">
-	<!-- Custom style CSS -->
-	<link rel="stylesheet" href="{{ asset('css/custom.css')}}">
-
-    <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">-->
-
-    <link rel="stylesheet" href="{{ asset('css/dataTables_min_latest.css')}}">
-    
-    <!-- Lucide icons loaded via Vite (vendor-admin.css / admin.js) -->
-
-
-<!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
-<!-- Updated to jQuery 3.7.1 -->
-<script src="{{ asset('js/jquery-3.7.1.min.js')}}"></script>
-
-<style {!! \App\Services\CspService::getNonceAttribute() !!}>
-/* Accessibility Improvements - Touch Targets and Contrast */
-/* Ensure all interactive elements meet minimum touch target size (44x44px) */
-button, a[role="button"], input[type="button"], input[type="submit"], input[type="reset"], 
-.btn, .dropbtn, .nav-link, .collapse-btn, .fullscreen-btn, [onclick] {
-  min-height: 44px;
-  min-width: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Ensure sufficient spacing between touch targets */
-button + button, .btn + .btn {
-  margin-left: 8px;
-}
-
-@media (max-width: 768px) {
-  button, .btn, a.button, .nav-link {
-    min-height: 44px;
-    min-width: 44px;
-    padding: 10px 16px;
-  }
-}
-
-.dropbtn {
-  background-color: transparent;
- border:0;
-}
-.ui.yellow.label, .ui.yellow.labels .label, .select2resultrepositorystatistics .yellow {background-color: #fbbd08!important;border-color: #fbbd08!important;color: #fff!important;}
-.dropbtn:hover, .dropbtn:focus {
-  background-color: transparent;
-   border:0;
-}
-
-.mydropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #fff;
-  min-width: 160px;
-  overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.mydropdown a:hover {background-color: #ddd;}
-
-.show {display: block;}
-
-/* Modern sidebar layout adjustments */
-body {
-    margin: 0;
-    padding: 0;
-}
-
-.main-wrapper {
-    margin-left: 280px !important;
-    transition: margin-left 0.3s ease;
-}
-
-.main-content {
-    padding: 2rem;
-    min-height: 100vh;
-    background: #f8fafc;
-}
-
-.modern-sidebar {
-    transition: transform 0.3s ease;
-}
-
-body.admin-sidebar-collapsed .modern-sidebar {
-    transform: translateX(-100%);
-}
-
-body.admin-sidebar-collapsed .main-wrapper {
-    margin-left: 0 !important;
-}
-
-@media (max-width: 768px) {
-    .main-wrapper {
-        margin-left: 0 !important;
-    }
-    
-    .modern-sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-    }
-    
-    .modern-sidebar.open {
-        transform: translateX(0);
-    }
-}
-
-/* Override existing styles for better integration */
-.section {
-    margin-bottom: 2rem;
-}
-
-.card {
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    border: 1px solid #e2e8f0;
-}
-
-.btn {
-    border-radius: 8px;
-    font-weight: 500;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    border: none;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-}
-
-.hidden-loader {
-    display: none;
-}
-</style>
- 
+	{{-- Phase 5–6: no sync jQuery / no Bootstrap — admin.js is vanilla + Axios --}}
 </head>
 <body >
 	<div class="loader"></div>
@@ -230,18 +64,10 @@ body.admin-sidebar-collapsed .main-wrapper {
 				    var site_url = '{{URL::to('/')}}';
 				     var dataformat = '{{$dataformat}}';
 				    </script>
-	<!--<script src="{{--asset('js/niceCountryInput.js')--}}"></script> -->
 	
-	<!-- Core Dependencies (load first; jQuery already loaded in <head>) -->
-	<script src="{{ asset('js/moment.min.js')}}"></script>
-	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+	<!-- Core: Axios + vanilla admin UI via Vite admin.js (Phase 5–6) -->
 	
-	<!-- Feature-specific Scripts (load after core) -->
-	<!-- FullCalendar v6 loaded via Vite in admin.js (no jQuery needed) -->
-	<!-- DataTables removed - not used in admin panel (modern-table class used instead) -->
-	<!-- <script src="{{ asset('js/datatables.min.js')}}"></script> -->
-	<!-- <script src="{{ asset('js/dataTables.bootstrap4.js')}}"></script> -->
-	<!-- TinyMCE v8 self-hosted from public/assets/tinymce (copied via npm run copy-tinymce) -->
+	<!-- TinyMCE v8 self-hosted (not bundled into admin entry) -->
 	<script src="{{ asset('assets/tinymce/tinymce.min.js') }}"></script>
 	<script type="text/javascript" {!! \App\Services\CspService::getNonceAttribute() !!}>
 		if (typeof tinymce !== 'undefined') {
@@ -250,500 +76,75 @@ body.admin-sidebar-collapsed .main-wrapper {
 		}
 	</script>
 	<script src="{{ asset('js/tinymce-config.js') }}"></script>
-	<script src="{{ asset('js/daterangepicker.js')}}"></script>
-	<script src="{{ asset('js/bootstrap-timepicker.min.js')}}"></script>
-	<!-- Select2 JS removed - now using Tom Select (loaded via Vite in admin.js) -->
-	<script src="{{ asset('js/bootstrap-formhelpers.min.js')}}"></script>
-	<script src="{{ asset('js/intlTelInput.js')}}"></script>
-	
-	<!-- Vite JS - Modern optimized JavaScript bundle with code splitting -->
-	@vite(['resources/js/admin.js'])
-	
-	<!-- Custom Scripts (load last to ensure DOM is ready) -->
-	<script src="{{ asset('js/custom-form-validation.js')}}"></script>
-	<script src="{{ asset('js/scripts.js')}}"></script>
-	<script src="{{ asset('js/custom.js')}}"></script>
-	<script src="{{ asset('js/admin-confirm.js')}}"></script>
-	<script src="{{ asset('js/admin-csp-actions.js')}}"></script>
-	
-	<!-- Page Specific JS File -->
-	<!--<script src="{{ asset('js/index.js')}}"></script> -->
-	<!--<script src="{{--asset('js/apexcharts.min.js')--}}"></script>-->
-	<!--<script src="{{--asset('js/jquery.flagstrap.js')--}}"></script>-->
+
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
-		// Global Tom Select helper for legacy code (replaces Select2)
-		window.initTomSelect = function(selector, options) {
-			if (typeof TomSelect === 'undefined') {
-				console.warn('Tom Select not loaded. Please ensure tom-select is available.');
-				return null;
-			}
-			
-			var element = typeof selector === 'string' ? document.querySelector(selector) : selector;
-			if (!element) {
-				console.warn('Element not found for selector:', selector);
-				return null;
-			}
-			
-			// Destroy existing instance if any
-			if (element.tomselect) {
-				element.tomselect.destroy();
-			}
-			
-			var config = {
-				plugins: ['clear_button'],
-				placeholder: options.placeholder || 'Select an option',
-				allowEmptyOption: true,
-				...options
-			};
-			
-			// Remove width from config (Tom Select handles this differently)
-			if (config.width) {
-				element.style.width = config.width;
-				delete config.width;
-			}
-			
-			try {
-				var instance = new TomSelect(element, config);
-				element.tomselect = instance;
-				return instance;
-			} catch (error) {
-				console.error('Failed to initialize Tom Select:', error);
-				return null;
-			}
-		};
-		
-		// Date handling utilities for consistent ISO format usage
 		window.DateUtils = {
-			// Convert display date to ISO format for backend
 			toISO: function(dateString, currentFormat) {
 				if (!dateString) return '';
 				if (currentFormat === 'DD/MM/YYYY') {
 					var parts = dateString.split('/');
+					if (parts.length !== 3) return dateString;
 					return parts[2] + '-' + parts[1].padStart(2, '0') + '-' + parts[0].padStart(2, '0');
 				}
-				return moment(dateString).format('YYYY-MM-DD');
+				if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+					return dateString;
+				}
+				var parsed = new Date(dateString);
+				if (isNaN(parsed.getTime())) return dateString;
+				return parsed.toISOString().slice(0, 10);
 			},
-			
-			// Convert ISO date to display format
 			toDisplay: function(isoDate, format) {
 				if (!isoDate) return '';
 				format = format || 'DD/MM/YYYY';
-				return moment(isoDate).format(format);
+				var parts = isoDate.split('-');
+				if (parts.length !== 3) return isoDate;
+				if (format === 'DD/MM/YYYY') {
+					return parts[2] + '/' + parts[1] + '/' + parts[0];
+				}
+				if (format === 'MM/DD/YYYY') {
+					return parts[1] + '/' + parts[2] + '/' + parts[0];
+				}
+				return isoDate;
 			},
-			
-			// Validate ISO date format
 			isValidISO: function(dateString) {
-				return moment(dateString, 'YYYY-MM-DD', true).isValid();
+				if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return false;
+				var parsed = new Date(dateString + 'T00:00:00');
+				return !isNaN(parsed.getTime());
 			}
 		};
-		
+
+		window.setTaskViewHtml = function(html) {
+			var container = document.querySelector('.taskview');
+			if (!container) return;
+			container.innerHTML = html;
+
+			function initModalControls(attempt) {
+				if (typeof window.initDynamicTomSelects === 'function') {
+					window.initDynamicTomSelects(container);
+					return;
+				}
+				if ((attempt || 0) < 40) {
+					setTimeout(function() { initModalControls((attempt || 0) + 1); }, 50);
+				}
+			}
+
+			initModalControls(0);
+		};
+	</script>
+	
+	{{-- Single admin JS path: Axios, Tom Select, Flatpickr, CRUD, validate, confirm, CSP (Phase 5–6) --}}
+	@vite(['resources/js/admin.js'])
+	
+	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
 		document.addEventListener('DOMContentLoaded', function () {
 		    document.querySelectorAll(".tel_input").forEach(function(input) {
 		        input.addEventListener("blur", function() {
-                    /*if (/^0/.test(input.value)) {
-                       //input.value = input.value.replace(/^0/, "")
-                    } else {
-                        //input.value =  "0" + input.value;
-                    }*/
                     input.value = input.value;
                 });
             });
         });
-
-
-
-
-
-
-
-			/* $(".niceCountryInputSelector").each(function(i,e){
-				new NiceCountryInput(e).init();
-			}); */
-			//$('.country_input').flagStrap();
-			$(".telephone").intlTelInput();
-			$('.drop_table_data button').on('click', function(){
-				$('.client_dropdown_list').toggleClass('active');
-			});
-			$('.client_dropdown_list label.dropdown-option input').on('click', function(){
-			var val = $(this).val();
-			if(val == 'all'){
-				if ($(this).is(":checked")) {
-				$('.client_table_data table tr td').show();
-				$('.client_table_data table tr th').show();
-				$('.client_dropdown_list label.dropdown-option input').prop('checked', true);
-				}else{
-					$('.client_dropdown_list label.dropdown-option input').prop('checked', false);
-					$('.client_table_data table tr td').hide();
-					$('.client_table_data table tr th').hide();
-					$('.client_table_data table tr td:nth-child(1)').show();
-					$('.client_table_data table tr th:nth-child(1)').show();
-					$('.client_table_data table tr td:nth-child(2)').show();
-					$('.client_table_data table tr th:nth-child(2)').show();
-					$('.client_table_data table tr td:nth-child(17)').show();
-					$('.client_table_data table tr th:nth-child(17)').show();
-				}
-
-			}else{
-
-			 if ($(this).is(":checked")) {
-					$('.client_table_data table tr td:nth-child('+val+')').show();
-					$('.client_table_data table tr th:nth-child('+val+')').show();
-				  }
-				  else{
-						$('.client_dropdown_list label.dropdown-option.all input').prop('checked', false);
-						$('.client_table_data table tr td:nth-child('+val+')').hide();
-						$('.client_table_data table tr th:nth-child('+val+')').hide();
-				  }
-				}
-			});
-
-			$('.drop_table_data button').on('click', function(){
-				$('.client_report_list').toggleClass('active');
-			});
-			$('.client_report_list label.dropdown-option input').on('click', function(){
-			var val = $(this).val();
-			if(val == 'all'){
-				if ($(this).is(":checked")) {
-				$('.client_report_data table tr td').show();
-				$('.client_report_data table tr th').show();
-				$('.client_report_list label.dropdown-option input').prop('checked', true);
-				}else{
-					$('.client_report_list label.dropdown-option input').prop('checked', false);
-					$('.client_report_data table tr td').hide();
-					$('.client_report_data table tr th').hide();
-					$('.client_report_data table tr td:nth-child(1)').show();
-					$('.client_report_data table tr th:nth-child(1)').show();
-					$('.client_report_data table tr td:nth-child(2)').show();
-					$('.client_report_data table tr th:nth-child(2)').show();
-					$('.client_report_data table tr td:nth-child(11)').show();
-					$('.client_report_data table tr th:nth-child(11)').show();
-				}
-
-			}else{
-
-			 if ($(this).is(":checked")) {
-					$('.client_report_data table tr td:nth-child('+val+')').show();
-					$('.client_report_data table tr th:nth-child('+val+')').show();
-				  }
-				  else{
-						$('.client_report_list label.dropdown-option.all input').prop('checked', false);
-						$('.client_report_data table tr td:nth-child('+val+')').hide();
-						$('.client_report_data table tr th:nth-child('+val+')').hide();
-				  }
-				}
-			});
-
-			$('.drop_table_data button').on('click', function(){
-				$('.application_report_list').toggleClass('active');
-			});
-			$('.application_report_list label.dropdown-option input').on('click', function(){
-			var val = $(this).val();
-			if(val == 'all'){
-				if ($(this).is(":checked")) {
-				$('.application_report_data table tr td').show();
-				$('.application_report_data table tr th').show();
-				$('.application_report_list label.dropdown-option input').prop('checked', true);
-				}else{
-					$('.application_report_list label.dropdown-option input').prop('checked', false);
-					$('.application_report_data table tr td').hide();
-					$('.application_report_data table tr th').hide();
-					$('.application_report_data table tr td:nth-child(1)').show();
-					$('.application_report_data table tr th:nth-child(1)').show();
-					$('.application_report_data table tr td:nth-child(2)').show();
-					$('.application_report_data table tr th:nth-child(2)').show();
-					$('.application_report_data table tr td:nth-child(3)').show();
-					$('.application_report_data table tr th:nth-child(3)').show();
-					$('.application_report_data table tr td:nth-child(5)').show();
-					$('.application_report_data table tr th:nth-child(5)').show();
-					$('.application_report_data table tr td:nth-child(7)').show();
-					$('.application_report_data table tr th:nth-child(7)').show();
-				}
-
-			}else{
-
-			 if ($(this).is(":checked")) {
-					$('.application_report_data table tr td:nth-child('+val+')').show();
-					$('.application_report_data table tr th:nth-child('+val+')').show();
-				  }
-				  else{
-						$('.application_report_list label.dropdown-option.all input').prop('checked', false);
-						$('.application_report_data table tr td:nth-child('+val+')').hide();
-						$('.application_report_data table tr th:nth-child('+val+')').hide();
-				  }
-				}
-			});
-
-			$('.drop_table_data button').on('click', function(){
-				$('.officevisit_report_list').toggleClass('active');
-			});
-			$('.officevisit_report_list label.dropdown-option input').on('click', function(){
-			var val = $(this).val();
-			if(val == 'all'){
-				if ($(this).is(":checked")) {
-				$('.officevisit_report_data table tr td').show();
-				$('.officevisit_report_data table tr th').show();
-				$('.officevisit_report_list label.dropdown-option input').prop('checked', true);
-				}else{
-					$('.officevisit_report_list label.dropdown-option input').prop('checked', false);
-					$('.officevisit_report_data table tr td').hide();
-					$('.officevisit_report_data table tr th').hide();
-					$('.officevisit_report_data table tr td:nth-child(1)').show();
-					$('.officevisit_report_data table tr th:nth-child(1)').show();
-					$('.officevisit_report_data table tr td:nth-child(2)').show();
-					$('.officevisit_report_data table tr th:nth-child(2)').show();
-					$('.officevisit_report_data table tr td:nth-child(4)').show();
-					$('.officevisit_report_data table tr th:nth-child(4)').show();
-				}
-
-			}else{
-
-			 if ($(this).is(":checked")) {
-					$('.officevisit_report_data table tr td:nth-child('+val+')').show();
-					$('.officevisit_report_data table tr th:nth-child('+val+')').show();
-				  }
-				  else{
-						$('.officevisit_report_list label.dropdown-option.all input').prop('checked', false);
-						$('.officevisit_report_data table tr td:nth-child('+val+')').hide();
-						$('.officevisit_report_data table tr th:nth-child('+val+')').hide();
-				  }
-				}
-			});
-
-			$('.drop_table_data button').on('click', function(){
-				$('.invoice_report_list').toggleClass('active');
-			});
-			$('.invoice_report_list label.dropdown-option input').on('click', function(){
-			var val = $(this).val();
-			if(val == 'all'){
-				if ($(this).is(":checked")) {
-				$('.invoice_report_data table tr td').show();
-				$('.invoice_report_data table tr th').show();
-				$('.invoice_report_list label.dropdown-option input').prop('checked', true);
-				}else{
-					$('.invoice_report_list label.dropdown-option input').prop('checked', false);
-					$('.invoice_report_data table tr td').hide();
-					$('.invoice_report_data table tr th').hide();
-					$('.invoice_report_data table tr td:nth-child(1)').show();
-					$('.invoice_report_data table tr th:nth-child(1)').show();
-					$('.invoice_report_data table tr td:nth-child(2)').show();
-					$('.invoice_report_data table tr th:nth-child(2)').show();
-					$('.invoice_report_data table tr td:nth-child(4)').show();
-					$('.invoice_report_data table tr th:nth-child(4)').show();
-				}
-
-			}else{
-
-			 if ($(this).is(":checked")) {
-					$('.invoice_report_data table tr td:nth-child('+val+')').show();
-					$('.invoice_report_data table tr th:nth-child('+val+')').show();
-				  }
-				  else{
-						$('.invoice_report_list label.dropdown-option.all input').prop('checked', false);
-						$('.invoice_report_data table tr td:nth-child('+val+')').hide();
-						$('.invoice_report_data table tr th:nth-child('+val+')').hide();
-				  }
-				}
-			});
-
-			$('.drop_table_data button').on('click', function(){
-				$('.saleforecast_applic_report_list').toggleClass('active');
-			});
-			$('.saleforecast_applic_report_list label.dropdown-option input').on('click', function(){
-			var val = $(this).val();
-			if(val == 'all'){
-				if ($(this).is(":checked")) {
-				$('.saleforecast_application_report_data table tr td').show();
-				$('.saleforecast_application_report_data table tr th').show();
-				$('.saleforecast_applic_report_list label.dropdown-option input').prop('checked', true);
-				}else{
-					$('.saleforecast_applic_report_list label.dropdown-option input').prop('checked', false);
-					$('.saleforecast_application_report_data table tr td').hide();
-					$('.saleforecast_application_report_data table tr th').hide();
-					$('.saleforecast_application_report_data table tr td:nth-child(1)').show();
-					$('.saleforecast_application_report_data table tr th:nth-child(1)').show();
-					$('.saleforecast_application_report_data table tr td:nth-child(2)').show();
-					$('.saleforecast_application_report_data table tr th:nth-child(2)').show();
-					$('.saleforecast_application_report_data table tr td:nth-child(4)').show();
-					$('.saleforecast_application_report_data table tr th:nth-child(4)').show();
-				}
-
-			}else{
-
-			 if ($(this).is(":checked")) {
-					$('.saleforecast_application_report_data table tr td:nth-child('+val+')').show();
-					$('.saleforecast_application_report_data table tr th:nth-child('+val+')').show();
-				  }
-				  else{
-						$('.saleforecast_applic_report_list label.dropdown-option.all input').prop('checked', false);
-						$('.saleforecast_application_report_data table tr td:nth-child('+val+')').hide();
-						$('.saleforecast_application_report_data table tr th:nth-child('+val+')').hide();
-				  }
-				}
-			});
-
-			$('.drop_table_data button').on('click', function(){
-				$('.interest_service_report_list').toggleClass('active');
-			});
-			$('.interest_service_report_list label.dropdown-option input').on('click', function(){
-			var val = $(this).val();
-			if(val == 'all'){
-				if ($(this).is(":checked")) {
-				$('.interest_service_report_data table tr td').show();
-				$('.interest_service_report_data table tr th').show();
-				$('.interest_service_report_list label.dropdown-option input').prop('checked', true);
-				}else{
-					$('.interest_service_report_list label.dropdown-option input').prop('checked', false);
-					$('.interest_service_report_data table tr td').hide();
-					$('.interest_service_report_data table tr th').hide();
-					$('.interest_service_report_data table tr td:nth-child(1)').show();
-					$('.interest_service_report_data table tr th:nth-child(1)').show();
-					$('.interest_service_report_data table tr td:nth-child(2)').show();
-					$('.interest_service_report_data table tr th:nth-child(2)').show();
-					$('.interest_service_report_data table tr td:nth-child(10)').show();
-					$('.interest_service_report_data table tr th:nth-child(10)').show();
-					$('.interest_service_report_data table tr td:nth-child(14)').show();
-					$('.interest_service_report_data table tr th:nth-child(14)').show();
-				}
-
-			}else{
-
-			 if ($(this).is(":checked")) {
-					$('.interest_service_report_data table tr td:nth-child('+val+')').show();
-					$('.interest_service_report_data table tr th:nth-child('+val+')').show();
-				  }
-				  else{
-						$('.interest_service_report_list label.dropdown-option.all input').prop('checked', false);
-						$('.interest_service_report_data table tr td:nth-child('+val+')').hide();
-						$('.interest_service_report_data table tr th:nth-child('+val+')').hide();
-				  }
-				}
-			});
-
-			$('#personal_details .is_business').hide();
-			$('#office_income_share .is_super_agent').hide();
-			$('#office_income_share .is_sub_agent').hide();
-
-			$('.modal-body form#addgroupinvoice .is_superagentinv').hide();
-
-			$('#agentstructure input[name="struture"]').on('change', function(){
-				var id = $(this).attr('id');
-				if(id == 'individual'){
-					$('#personal_details .is_business').hide();
-					$('#personal_details .is_individual').show();
-					$('#personal_details .is_business input').attr('data-valid', '');
-					$('#personal_details .is_individual input').attr('data-valid', 'required');
-				}
-				else{
-					$('#personal_details .is_individual').hide();
-					$('#personal_details .is_business').show();
-					$('#personal_details .is_business input').attr('data-valid', 'required');
-					$('#personal_details .is_individual input').attr('data-valid', '');
-				}
-			});
-			$('.modal-body form#addgroupinvoice input[name="partner_type"]').on('change', function(){
-				var invid = $(this).attr('id');
-				if(invid == 'superagent_inv'){
-					$('.modal-body form#addgroupinvoice .is_partnerinv').hide();
-					$('.modal-body form#addgroupinvoice .is_superagentinv').show();
-					$('.modal-body form#addgroupinvoice .is_partnerinv input').attr('data-valid', '');
-					$('.modal-body form#addgroupinvoice .is_superagentinv input').attr('data-valid', 'required');
-				}
-				else{
-					$('.modal-body form#addgroupinvoice .is_superagentinv').hide();
-					$('.modal-body form#addgroupinvoice .is_partnerinv').show();
-					$('.modal-body form#addgroupinvoice .is_partnerinv input').attr('data-valid', 'required');
-					$('.modal-body form#addgroupinvoice .is_superagentinv input').attr('data-valid', '');
-				}
-			});
-			$('.modal .modal-body .is_partner').hide();
-			$('.modal .modal-body .is_application').hide();
-			$('.modal .modal-body input[name="related_to"]').on('change', function(){
-				var relid = $(this).attr('id');
-				if(relid == 'contact'){
-					$('.modal .modal-body .is_partner').hide();
-					$('.modal .modal-body .is_application').hide();
-					$('.modal .modal-body .is_contact').show();
-					$('.modal .modal-body .is_partner select').attr('data-valid', '');
-					$('.modal .modal-body .is_application select').attr('data-valid', '');
-					$('.modal .modal-body .is_contact select').attr('data-valid', 'required');
-				}
-				else if(relid == 'partner'){
-					$('.modal .modal-body .is_contact').hide();
-					$('.modal .modal-body .is_application').hide();
-					$('.modal .modal-body .is_partner').show();
-					$('.modal .modal-body .is_contact select').attr('data-valid', '');
-					$('.modal .modal-body .is_application select').attr('data-valid', '');
-					$('.modal .modal-body .is_partner select').attr('data-valid', 'required');
-				}
-				else if(relid == 'application'){
-					$('.modal .modal-body .is_contact').hide();
-					$('.modal .modal-body .is_partner').hide();
-					$('.modal .modal-body .is_application').show();
-					$('.modal .modal-body .is_contact select').attr('data-valid', '');
-					$('.modal .modal-body .is_partner select').attr('data-valid', '');
-					$('.modal .modal-body .is_application select').attr('data-valid', 'required');
-				}
-				else{
-					$('.modal .modal-body .is_contact').hide();
-					$('.modal .modal-body .is_partner').hide();
-					$('.modal .modal-body .is_application').hide();
-					$('.modal .modal-body .is_contact input').attr('data-valid', '');
-					$('.modal .modal-body .is_partner input').attr('data-valid', '');
-					$('.modal .modal-body .is_application input').attr('data-valid', '');
-				}
-			});
-			$('#agenttype input#super_agent').on('click', function(){
-				if ($(this).is(":checked")) {
-					$('#office_income_share .is_super_agent').show();
-				}
-				else{
-					$('#office_income_share .is_super_agent').hide();
-				}
-			});
-			$('#agenttype input#sub_agent').on('click', function(){
-				if ($(this).is(":checked")) {
-					$('#office_income_share .is_sub_agent').show();
-				}
-				else{
-					$('#office_income_share .is_sub_agent').hide();
-				}
-			});
-
-			$('#internal select[name="source"]').on('change', function(){
-				var sourceval = $(this).val();
-				if(sourceval == 'Sub Agent'){
-					$('#internal .is_subagent').show();
-					$('#internal .is_subagent select').attr('data-valid', 'required');
-				}
-				else{
-					$('#internal .is_subagent').hide();
-					$('#internal .is_subagent select').attr('data-valid', '');
-				}
-			});
-
-			$('.card .card-body .grid_data').hide();
-			$('.card .card-body .document_layout_type a.list').on('click', function(){
-				$('.card .card-body .document_layout_type a').removeClass('active');
-				$(this).addClass('active');
-				$('.card .card-body .grid_data').hide();
-				$('.card .card-body .list_data').show();
-			});
-		$('.card .card-body .document_layout_type a.grid').on('click', function(){
-			$('.card .card-body .document_layout_type a').removeClass('active');
-			$(this).addClass('active');
-			$('.card .card-body .list_data').hide();
-			$('.card .card-body .grid_data').show();
-		});
-
-	/* $('.timepicker').timepicker({
-		minuteStep: 1,
-		showSeconds: true,
-	}); */
-
-</script>
-
+	</script>
 
 @yield('scripts')
-	<!--<script src="{{--asset('js/custom-chart.js')--}}"></script>-->
 </body>
 </html>

@@ -976,15 +976,7 @@ h1, h2, h3, h4, h5, h6 {
 </section>
 
 <script>
-// Initialize AOS (Animate On Scroll)
-document.addEventListener('DOMContentLoaded', function() {
-    AOS.init({
-        duration: 1000,
-        easing: 'ease-in-out',
-        once: true,
-        offset: 100
-    });
-});
+// AOS is initialized by frontend.js when [data-aos] elements are present
 
 // Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

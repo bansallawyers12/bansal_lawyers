@@ -1,11 +1,23 @@
-/* Frontend CSS Bundle - Modernized for Performance */
-/* This file will be dynamically loaded via JavaScript for better performance */
+/* Frontend CSS Bundle — Phase 8–10: no Bootstrap / no style_lawyer
+ * Grid/utilities + FTCO theme (theme-ftco.css) via Vite.
+ * Tailwind 4 via tailwind-setup.css; component CSS stays authoritative for named classes.
+ */
 
-/* Import Design System */
+/* All @imports must come before style rules */
+@import "./tailwind-setup.css";
 @import './variables.css';
 @import './components/buttons.css';
 @import './components/forms.css';
 @import './components/cards.css';
+@import './components/admin-grid.css';
+@import './components/admin-utilities.css';
+@import './components/frontend-utilities.css';
+@import './theme/theme-ftco.css';
+
+/* Alpine cloak — hide until Alpine boots (also used on booking) */
+[x-cloak] {
+  display: none !important;
+}
 
 /* Performance Optimizations */
 /* Optimize animations for performance */
@@ -20,45 +32,11 @@
   }
 }
 
-/* Critical above-the-fold styles */
-body {
-  font-family: var(--font-primary);
-  line-height: var(--leading-normal);
-  color: var(--color-gray-900);
-  background-color: white;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Loading optimization */
-.ftco-loader {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: var(--z-modal);
-  background: rgba(255, 255, 255, 0.95);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(2px);
-}
-
-.ftco-loader::after {
-  content: '';
-  width: 40px;
-  height: 40px;
-  border: 4px solid var(--color-gray-200);
-  border-top-color: var(--color-primary-500);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+/* Phase 4: theme CSS hides .ftco-animate until waypoints; waypoints removed.
+   Safety net if any CMS HTML still uses the class before JS migrates it. */
+.ftco-animate {
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* Performance hints */
@@ -270,3 +248,4 @@ html {
     margin: 0 var(--space-2);
   }
 }
+

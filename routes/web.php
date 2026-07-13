@@ -134,6 +134,7 @@ Route::prefix('admin')->group(function() {
 			Route::get('/change_assignee', [App\Http\Controllers\Admin\AppointmentsController::class, 'change_assignee']);
 			Route::post('/update_apppointment_comment', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_apppointment_comment']);
 			Route::post('/update_apppointment_description', [App\Http\Controllers\Admin\AppointmentsController::class, 'update_apppointment_description']);
+			Route::post('/updatefollowupschedule', [App\Http\Controllers\Admin\AppointmentsController::class, 'updatefollowupschedule']);
 
 			// Booking Blocks module
 			Route::prefix('booking-blocks')->name('admin.feature.bookingblocks.')->group(function () {

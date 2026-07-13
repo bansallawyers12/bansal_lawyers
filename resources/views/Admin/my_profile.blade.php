@@ -10,7 +10,7 @@
 			</div>
 			<div class="custom-error-msg"></div>
 			
-			<form action="{{ route('admin.my_profile') }}" enctype="multipart/form-data" method="post">
+			<form action="{{ route('admin.my_profile') }}" enctype="multipart/form-data" method="post" name="my-profile" id="my-profile-form">
 				@csrf
 				<input type="hidden" name="id" value="{{ $fetchedData->id }}">
 				
@@ -116,8 +116,14 @@
     output.src = URL.createObjectURL(event.target.files[0]);
     output.onload = function() {
       URL.revokeObjectURL(output.src); // free memory
-	  $('.if_image').hide();
-	  $('#output').css({'width':"100px",'height':"100px"});
+	  document.querySelectorAll('.if_image').forEach(function(el) {
+	    el.style.display = 'none';
+	  });
+	  var out = document.getElementById('output');
+	  if (out) {
+	    out.style.width = '100px';
+	    out.style.height = '100px';
+	  }
     }
   };
 </script>

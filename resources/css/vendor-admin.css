@@ -1,7 +1,9 @@
-/* Admin vendor styles */
+/* Admin vendor styles — no Bootstrap (Phase 6) */
 
-@import 'bootstrap/dist/css/bootstrap.min.css';
 @import './lucide.css';
 
 /* Flatpickr CSS (modern datepicker) */
 @import 'flatpickr/dist/flatpickr.min.css';
+
+/* Tom Select default theme (not bootstrap5) */
+@import 'tom-select/dist/css/tom-select.default.css';

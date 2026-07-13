@@ -43,30 +43,16 @@
     <link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
   
     <!-- DNS Prefetch for external domains -->
-    <link rel="dns-prefetch" href="https://maps.googleapis.com">
     <link rel="dns-prefetch" href="https://www.google.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     
     <!-- Self-hosted Poppins fonts -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     
-    <!-- Vite CSS -->
-    @vite(['resources/css/frontend.css'])
+    <!-- Vite CSS — Phase 8: no Bootstrap / no style_lawyer (landing is self-contained) -->
+    @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
     
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap_lawyers.min.css') }}">
-    
-    <!-- Lucide icons loaded via Vite in vendor-frontend.css / vendor-frontend.js -->
-    <link rel="stylesheet" href="{{ asset('css/flaticon.min.css') }}?v=1.0">
-    
-    <!-- Magnific Popup CSS for lightbox functionality -->
-    <link rel="stylesheet" href="{{ asset('css/magnific-popup.min.css') }}">
-    
-    <!-- Vendor bundles -->
-    @vite(['resources/css/vendor-frontend.css'])
-    
-    <!-- Main custom styles -->
-    <link rel="stylesheet" href="{{ asset('css/style_lawyer.min.css')}}">
+    <!-- Lucide icons loaded via Vite (vendor-frontend via frontend.js) -->
     
     <!-- Meta Pixel Code -->
     <script>
@@ -101,22 +87,8 @@
         @yield('content')
     </main>
 
-    <!-- JavaScript Files -->
-    <script src="{{ asset('js/jquery-3.7.1.min.js')}}" defer></script>
-    <script src="{{ asset('js/bootstrap.bundle.min.js')}}" defer></script>
-    <script src="{{ asset('js/jquery.easing.1.3.min.js')}}" defer></script>
-    
-    <!-- Vendor bundles -->
-    @vite(['resources/js/vendor-frontend.js'])
-    
-    <!-- Magnific Popup for lightbox functionality -->
-    <script src="{{ asset('js/jquery.magnific-popup.min.js')}}" defer></script>
-    
-    <!-- Vite JS -->
-    @vite(['resources/js/frontend.js'])
-    
-    <!-- Main script -->
-    <script src="{{ asset('js/main.js') }}?v=1.0" defer></script>
+    {{-- Phase 4: landing — no Bootstrap JS / jQuery / Bootstrap CSS --}}
+    @vite(['resources/js/frontend.js', 'public/js/main.js'])
     
     @yield('scripts')
 </body>

@@ -1,31 +1,35 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
     plugins: [
         laravel({
             input: [
                 // CSS files
-                'resources/css/app.css',
                 'resources/css/frontend.css',
                 'resources/css/admin.css',
+                'resources/css/admin-login.css',
                 'resources/css/vendor-frontend.css',
                 'resources/css/vendor-admin.css',
-                // fonts.css removed - now loaded as static asset to avoid Vite path resolution issues
+                'resources/css/pages/appointment-form.css',
+                // footer-grid-shim.css retired in Phase 8 (grid lives in frontend.css)
 
                 // JS files
-                'resources/js/app.js',
                 'resources/js/frontend.js',
                 'resources/js/vendor-frontend.js',
                 'resources/js/admin.js',
                 'resources/js/vendor-admin.js',
+                'resources/js/vendor-admin-login.js',
                 'resources/js/admin-calendar-v6.js',
-                'public/js/main.js', // Add main.js to build pipeline
+                'resources/js/appointment-form/index.js',
+                'public/js/main.js',
             ],
             refresh: true,
             // Ensure manifest is created in the correct location for Laravel
             buildDirectory: 'build',
         }),
+        tailwindcss(),
     ],
     build: {
         outDir: 'public/build',
@@ -33,23 +37,10 @@ export default defineConfig({
         manifest: true,
         sourcemap: process.env.NODE_ENV === 'development',
         cssCodeSplit: true,
-        // Lightning CSS fails on vendor CSS (Font Awesome); esbuild is more lenient
+        // esbuild minifier is more lenient with some vendor CSS than Lightning CSS
         cssMinify: 'esbuild',
         chunkSizeWarningLimit: 1000,
         rolldownOptions: {
-            external: [
-                // External packages that are loaded dynamically or via CDN
-                // Note: Flatpickr is now bundled via npm (replaces bootstrap-datepicker)
-                // Note: FullCalendar removed from external - now bundled via npm
-                // Note: Swiper removed from external - now bundled via npm
-                'datatables.net',
-                'datatables.net-bs4',
-                'tom-select',
-                'summernote',
-                'owl.carousel',
-                'magnific-popup',
-                'aos',
-            ],
             onwarn(warning, warn) {
                 if (
                     warning.code === 'css-syntax-error' ||
@@ -65,10 +56,8 @@ export default defineConfig({
                 assetFileNames: 'assets/[name]-[hash].[ext]',
                 codeSplitting: {
                     groups: [
-                        { name: 'vendor-jquery', test: /node_modules[\\/]jquery/, priority: 20 },
-                        { name: 'vendor-bootstrap', test: /node_modules[\\/]bootstrap/, priority: 20 },
-                        { name: 'vendor-alpine', test: /node_modules[\\/]alpinejs/, priority: 20 },
                         { name: 'vendor-axios', test: /node_modules[\\/]axios/, priority: 20 },
+                        { name: 'vendor-alpine', test: /node_modules[\\/]alpinejs/, priority: 20 },
                         { name: 'vendor-lodash', test: /node_modules[\\/]lodash/, priority: 20 },
                         { name: 'vendor', test: /node_modules/, priority: 1 },
                     ],

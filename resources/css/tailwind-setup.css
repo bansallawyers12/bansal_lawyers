@@ -1,0 +1,14 @@
+/**
+ * Shared Tailwind 4 setup (imported by frontend.css + admin.css).
+ * Brand tokens via @theme so utilities like bg-lawyer-blue work as CSS variables.
+ */
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@config "../../tailwind.config.js";
+
+@theme {
+  --font-sans: Poppins, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --color-lawyer-blue: #1b4d89;
+  --color-lawyer-orange: #f96d00;
+}

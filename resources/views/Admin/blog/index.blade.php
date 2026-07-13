@@ -613,7 +613,7 @@ input:checked + .modern-status-slider:before {
 												</td>
 												<td>
 													<label class="modern-status-toggle">
-														<input data-id="{{$list->id}}" data-status="{{$list->status}}" data-col="status" data-table="blogs" class="change-status" value="1" type="checkbox" name="status" {{ ($list->status == 1 ? 'checked' : '')}} data-bootstrap-switch>
+														<input data-id="{{$list->id}}" data-status="{{$list->status}}" data-col="status" data-table="blogs" class="change-status" value="1" type="checkbox" name="status" {{ ($list->status == 1 ? 'checked' : '')}}>
 														<span class="modern-status-slider"></span>
 													</label>
 												</td>
@@ -657,270 +657,15 @@ input:checked + .modern-status-slider:before {
 </div>
 
 <script {!! \App\Services\CspService::getNonceAttribute() !!}>
-// Enhanced status toggle functionality with flash messages
-document.addEventListener('DOMContentLoaded', function() {
-    // Add smooth transitions to status toggles
-    const statusToggles = document.querySelectorAll('.modern-status-toggle input');
-    statusToggles.forEach(toggle => {
-        toggle.addEventListener('change', function() {
-            const slider = this.nextElementSibling;
-            slider.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                slider.style.transform = 'scale(1)';
-            }, 100);
-        });
-    });
-
-    // Add loading states to action buttons
-    const actionButtons = document.querySelectorAll('.modern-btn');
-    actionButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            if (this.href && !this.href.includes('javascript:')) {
-                this.classList.add('loading');
-                const icon = this.querySelector('i');
-                if (icon) {
-                    window.setLucideIcon(icon, 'loader-2', { spin: true });
-                }
-            }
-        });
-    });
-    
-    // Override the legacy updateStatus function to prevent JSON parsing errors
-    window.updateStatus = function(id, current_status, table, col) {
-        // Find the toggle element
-        var toggleElement = $(".change-status[data-id='" + id + "']")[0];
-        // Call our modern function instead
-        updateBlogStatus(id, current_status, table, col, toggleElement);
-    };
-    
-    // Override the legacy deleteAction function for modern flash messages
-    window.deleteAction = function(id, table) {
-        modernDeleteBlog(id, table);
-    };
-    
-    // Enhanced status update with modern flash messages
-    $('.change-status').off('change').on('change', function (event, state) {
-        var id = $.trim($(this).attr('data-id'));
-        var current_status = $.trim($(this).attr('data-status'));
-        var table = $.trim($(this).attr('data-table'));
-        var col = $.trim($(this).attr('data-col'));
-        
-        if(id != "" && current_status != "" && table != ""){
-            updateBlogStatus(id, current_status, table, col, this);
-        }
-    });
-    
-    // Ensure flash message container exists
-    if ($('.modern-flash-container').length === 0) {
-        $('body').append('<div class="modern-flash-container"></div>');
-    }
-});
-
-// Modern delete function with flash messages and confirmation
-function modernDeleteBlog(id, table) {
-    window.adminConfirmForDelete(table).then(function (confirmed) {
-        if (!confirmed) {
-            return;
-        }
-
-        const deleteBtn = $(`[data-delete-action][data-id="${id}"]`);
-        deleteBtn.addClass('loading');
-        const icon = deleteBtn.find('i');
-        if (icon.length) {
-            icon.attr('data-lucide', 'loader-2').addClass('lucide-spin');
-            window.refreshLucideIcons && window.refreshLucideIcons(deleteBtn[0]);
-        }
-        
-        $.ajax({
-            type: 'POST',
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            url: '{{ route("admin.delete_action") }}',
-            dataType: 'json',
-            data: {
-                'id': id,
-                'table': table
-            },
-            success: function(resp) {
-                if(resp && resp.status == 1) {
-                    // Show success flash message
-                    showModernFlashMessage('success', resp.message || 'Blog post has been deleted successfully');
-                    
-                    // Remove the row with smooth animation
-                    const row = $('#id_' + id);
-                    row.fadeOut(500, function() {
-                        $(this).remove();
-                        
-                        // Update statistics
-                        updateStatsCounters();
-                        
-                        // Check if table is empty and show empty state
-                        const remainingRows = $('.modern-table tbody tr:visible').length;
-                        if (remainingRows === 0) {
-                            $('.modern-table-container').fadeOut(300, function() {
-                                $(this).replaceWith(`
-                                    <div class="modern-empty-state">
-                                        <div class="modern-empty-icon">
-                                            <i data-lucide="newspaper"></i>
-                                        </div>
-                                        <h3 class="modern-empty-title">No Blog Posts Found</h3>
-                                        <p class="modern-empty-description">All blog posts have been deleted. Create a new one to get started.</p>
-                                        <a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
-                                            <i data-lucide="plus"></i>
-                                            Create First Post
-                                        </a>
-                                    </div>
-                                `);
-                            });
-                        }
-                    });
-                    
-                } else {
-                    // Show error flash message
-                    showModernFlashMessage('error', resp && resp.message ? resp.message : 'Failed to delete blog post');
-                    
-                    // Restore button state
-                    deleteBtn.removeClass('loading');
-                    if (icon.length) {
-                        icon.attr('data-lucide', 'trash-2').removeClass('lucide-spin');
-                        window.refreshLucideIcons && window.refreshLucideIcons(deleteBtn[0]);
-                    }
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Delete AJAX Error:', {xhr: xhr, status: status, error: error});
-                
-                // Show error message
-                let errorMessage = 'An error occurred while deleting the blog post. Please try again.';
-                if (xhr.responseText) {
-                    try {
-                        const errorResp = JSON.parse(xhr.responseText);
-                        if (errorResp.message) {
-                            errorMessage = errorResp.message;
-                        }
-                    } catch (e) {
-                        console.log('Non-JSON error response:', xhr.responseText);
-                    }
-                }
-                
-                showModernFlashMessage('error', errorMessage);
-                
-                // Restore button state
-                deleteBtn.removeClass('loading');
-                if (icon.length) {
-                    icon.attr('data-lucide', 'trash-2').removeClass('lucide-spin');
-                    window.refreshLucideIcons && window.refreshLucideIcons(deleteBtn[0]);
-                }
-            }
-        });
-    });
-}
-
-// Modern status update function with flash messages
-function updateBlogStatus(id, current_status, table, col, toggleElement) {
-    // Show loading state
-    const slider = $(toggleElement).next('.modern-status-slider');
-    slider.css('opacity', '0.6');
-    
-    // AJAX request for blog status update
-    
-    $.ajax({
-        type: 'POST',
-        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        url: '{{ route("admin.update_action") }}',
-        dataType: 'json',
-        data: {
-            'id': id, 
-            'current_status': current_status, 
-            'table': table, 
-            'colname': col
-        },
-        success: function(resp) {
-            // With dataType: 'json', jQuery automatically parses the response
-            if(resp && resp.status == 1) {
-                // Show modern success flash message
-                showModernFlashMessage('success', resp.message || 'Status updated successfully');
-                
-                // Update status
-                if(current_status == 1){
-                    var updated_status = 0;
-                } else {
-                    var updated_status = 1;
-                }
-                
-                $(".change-status[data-id="+id+"]").attr('data-status', updated_status);
-                
-                // Update statistics
-                updateStatsCounters();
-                
-            } else {
-                // Show modern error flash message
-                showModernFlashMessage('error', resp && resp.message ? resp.message : 'An error occurred while updating status');
-                
-                // Revert toggle state
-                if(current_status == 1){
-                    $(".change-status[data-id="+id+"]").prop('checked', true);
-                } else {
-                    $(".change-status[data-id="+id+"]").prop('checked', false);
-                }
-            }
-            
-            // Remove loading state
-            slider.css('opacity', '1');
-        },
-        error: function(xhr, status, error) {
-            console.error('AJAX Error:', {xhr: xhr, status: status, error: error});
-            
-            // Show error message with more details if available
-            let errorMessage = 'An error occurred while updating status. Please try again.';
-            if (xhr.responseText) {
-                try {
-                    const errorResp = JSON.parse(xhr.responseText);
-                    if (errorResp.message) {
-                        errorMessage = errorResp.message;
-                    }
-                } catch (e) {
-                    // If response is not JSON, use default message
-                    console.log('Non-JSON error response:', xhr.responseText);
-                }
-            }
-            
-            showModernFlashMessage('error', errorMessage);
-            
-            // Revert toggle state
-            if(current_status == 1){
-                $(".change-status[data-id="+id+"]").prop('checked', true);
-            } else {
-                $(".change-status[data-id="+id+"]").prop('checked', false);
-            }
-            
-            // Remove loading state
-            slider.css('opacity', '1');
-        }
-    });
-}
-
-// Function to show modern flash messages using the existing flash message system
 function showModernFlashMessage(type, message) {
-    // Remove existing flash messages
-    $('.modern-flash-container .modern-flash-alert').remove();
-    
-    // Create the flash message HTML using the same structure as flash-message.blade.php
-    const iconMap = {
-        'success': 'check',
-        'error': 'circle-alert',
-        'warning': 'triangle-alert',
-        'info': 'info'
-    };
-    
-    const titleMap = {
-        'success': 'Success!',
-        'error': 'Error!',
-        'warning': 'Warning!',
-        'info': 'Information'
-    };
-    
+    document.querySelectorAll('.modern-flash-container .modern-flash-alert').forEach(function(el) {
+        el.remove();
+    });
+
+    const iconMap = { success: 'check', error: 'circle-alert', warning: 'triangle-alert', info: 'info' };
+    const titleMap = { success: 'Success!', error: 'Error!', warning: 'Warning!', info: 'Information' };
     const autoDismissTime = type === 'error' ? '7000' : '5000';
-    
+
     const flashHtml = `
         <div class="modern-flash-alert ${type}" role="alert" data-auto-dismiss="${autoDismissTime}">
             <div class="modern-flash-icon">
@@ -936,97 +681,251 @@ function showModernFlashMessage(type, message) {
             <div class="modern-flash-progress"></div>
         </div>
     `;
-    
-    // Find or create flash container (same structure as flash-message.blade.php)
-    let container = $('.modern-flash-container');
-    if (container.length === 0) {
-        // Create container with same structure as flash-message.blade.php
-        container = $('<div class="modern-flash-container"></div>');
-        $('body').append(container);
+
+    let container = document.querySelector('.modern-flash-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'modern-flash-container';
+        document.body.appendChild(container);
     }
-    
-    // Add the new message
-    container.append(flashHtml);
-    if (window.refreshLucideIcons) {
-        window.refreshLucideIcons(container[0]);
+
+    container.insertAdjacentHTML('beforeend', flashHtml);
+
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+    } else if (window.refreshLucideIcons) {
+        window.refreshLucideIcons(container);
     }
-    
-    // Auto-dismiss functionality (same as flash-message.blade.php)
-    setTimeout(() => {
-        const alert = container.find('.modern-flash-alert[data-auto-dismiss="' + autoDismissTime + '"]').last();
-        if (alert.length) {
-            dismissAlert(alert.find('.modern-flash-close')[0]);
+
+    window.setTimeout(function() {
+        const closeBtn = container.querySelector('.modern-flash-alert:last-child .modern-flash-close');
+        if (closeBtn && typeof window.dismissAlert === 'function') {
+            window.dismissAlert(closeBtn);
+        } else if (closeBtn) {
+            dismissAlert(closeBtn);
         }
-    }, parseInt(autoDismissTime));
-    
-    // Add success sound for success messages (same as flash-message.blade.php)
-    if (type === 'success') {
-        try {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-            oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
-            
-            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
-            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.2);
-        } catch (e) {
-            // Silently fail if audio context is not available
-        }
-    }
+    }, parseInt(autoDismissTime, 10));
 }
 
-// Function to update statistics counters
 function updateStatsCounters() {
-    // Count published and draft posts
     let publishedCount = 0;
     let draftCount = 0;
-    
-    $('.change-status').each(function() {
-        if ($(this).attr('data-status') == '1') {
+
+    document.querySelectorAll('.change-status').forEach(function(el) {
+        if (el.getAttribute('data-status') == '1') {
             publishedCount++;
         } else {
             draftCount++;
         }
     });
-    
-    // Update counters with animation
-    $('.modern-stat-card .modern-stat-value').each(function() {
-        const $this = $(this);
-        const label = $this.next('.modern-stat-label').text();
-        
+
+    document.querySelectorAll('.modern-stat-card .modern-stat-value').forEach(function(valueEl) {
+        const labelEl = valueEl.nextElementSibling;
+        const label = labelEl ? labelEl.textContent : '';
+
         if (label.includes('Published')) {
-            $this.text(publishedCount);
+            valueEl.textContent = String(publishedCount);
         } else if (label.includes('Draft')) {
-            $this.text(draftCount);
+            valueEl.textContent = String(draftCount);
         }
-        
-        // Add pulse animation
-        $this.addClass('loading');
-        setTimeout(() => {
-            $this.removeClass('loading');
+
+        valueEl.classList.add('loading');
+        window.setTimeout(function() {
+            valueEl.classList.remove('loading');
         }, 500);
     });
 }
 
-// Global function to dismiss alerts (used by flash message close button)
-// This function is also defined in flash-message.blade.php, but we ensure it's available here too
+function restoreDeleteButton(deleteBtn) {
+    if (!deleteBtn) return;
+    deleteBtn.classList.remove('loading');
+    deleteBtn.disabled = false;
+    const icon = deleteBtn.querySelector('i');
+    if (icon && window.setLucideIcon) {
+        window.setLucideIcon(icon, 'trash-2');
+    }
+}
+
+function modernDeleteBlog(id, table) {
+    window.adminConfirmForDelete(table).then(function(confirmed) {
+        if (!confirmed) return;
+
+        const deleteBtn = document.querySelector('[data-delete-action][data-id="' + id + '"]');
+        if (deleteBtn) {
+            deleteBtn.classList.add('loading');
+            deleteBtn.disabled = true;
+            const icon = deleteBtn.querySelector('i');
+            if (icon && window.setLucideIcon) {
+                window.setLucideIcon(icon, 'loader-2', { spin: true });
+            }
+        }
+
+        if (window.adminHttp && window.adminHttp.showLoader) {
+            window.adminHttp.showLoader();
+        }
+
+        window.adminHttp.post('{{ route("admin.delete_action") }}', { id: id, table: table })
+            .then(function(resp) {
+                if (resp && resp.status == 1) {
+                    showModernFlashMessage('success', resp.message || 'Blog post has been deleted successfully');
+
+                    const row = document.getElementById('id_' + id);
+                    if (row) {
+                        row.style.transition = 'opacity 0.4s ease';
+                        row.style.opacity = '0';
+                        window.setTimeout(function() {
+                            row.remove();
+                            updateStatsCounters();
+
+                            const remainingRows = document.querySelectorAll('.modern-table tbody tr').length;
+                            if (remainingRows === 0) {
+                                const tableContainer = document.querySelector('.modern-table-container');
+                                if (tableContainer) {
+                                    const empty = document.createElement('div');
+                                    empty.className = 'modern-empty-state';
+                                    empty.innerHTML = `
+                                        <div class="modern-empty-icon">
+                                            <i data-lucide="newspaper"></i>
+                                        </div>
+                                        <h3 class="modern-empty-title">No Blog Posts Found</h3>
+                                        <p class="modern-empty-description">All blog posts have been deleted. Create a new one to get started.</p>
+                                        <a href="{{route('admin.blog.create')}}" class="modern-btn modern-btn-primary">
+                                            <i data-lucide="plus"></i>
+                                            Create First Post
+                                        </a>
+                                    `;
+                                    tableContainer.replaceWith(empty);
+                                    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                                        window.lucide.createIcons();
+                                    }
+                                }
+                            }
+                        }, 400);
+                    }
+                } else {
+                    showModernFlashMessage('error', (resp && resp.message) ? resp.message : 'Failed to delete blog post');
+                    restoreDeleteButton(deleteBtn);
+                }
+            })
+            .catch(function(err) {
+                console.error('Delete AJAX Error:', err);
+                let errorMessage = 'An error occurred while deleting the blog post. Please try again.';
+                const data = err && err.response && err.response.data;
+                if (data && data.message) {
+                    errorMessage = data.message;
+                }
+                showModernFlashMessage('error', errorMessage);
+                restoreDeleteButton(deleteBtn);
+            })
+            .finally(function() {
+                if (window.adminHttp && window.adminHttp.hideLoader) {
+                    window.adminHttp.hideLoader();
+                }
+            });
+    });
+}
+
+function updateBlogStatus(id, current_status, table, col) {
+    const toggleElement = document.querySelector('.change-status[data-id="' + id + '"]');
+    const slider = toggleElement ? toggleElement.nextElementSibling : null;
+    if (slider) {
+        slider.style.opacity = '0.6';
+    }
+
+    if (window.adminHttp && window.adminHttp.showLoader) {
+        window.adminHttp.showLoader();
+    }
+
+    window.adminHttp.post('{{ route("admin.update_action") }}', {
+        id: id,
+        current_status: current_status,
+        table: table,
+        colname: col
+    })
+        .then(function(resp) {
+            if (resp && resp.status == 1) {
+                showModernFlashMessage('success', resp.message || 'Status updated successfully');
+                const updatedStatus = current_status == 1 ? 0 : 1;
+                document.querySelectorAll('.change-status[data-id="' + id + '"]').forEach(function(el) {
+                    el.setAttribute('data-status', String(updatedStatus));
+                });
+                updateStatsCounters();
+            } else {
+                showModernFlashMessage('error', (resp && resp.message) ? resp.message : 'An error occurred while updating status');
+                document.querySelectorAll('.change-status[data-id="' + id + '"]').forEach(function(el) {
+                    el.checked = current_status == 1;
+                });
+            }
+        })
+        .catch(function(err) {
+            console.error('AJAX Error:', err);
+            let errorMessage = 'An error occurred while updating status. Please try again.';
+            const data = err && err.response && err.response.data;
+            if (data && data.message) {
+                errorMessage = data.message;
+            }
+            showModernFlashMessage('error', errorMessage);
+            document.querySelectorAll('.change-status[data-id="' + id + '"]').forEach(function(el) {
+                el.checked = current_status == 1;
+            });
+        })
+        .finally(function() {
+            if (slider) {
+                slider.style.opacity = '1';
+            }
+            if (window.adminHttp && window.adminHttp.hideLoader) {
+                window.adminHttp.hideLoader();
+            }
+        });
+}
+
 function dismissAlert(closeBtn) {
     const alert = closeBtn.closest('.modern-flash-alert');
     if (alert) {
         alert.classList.add('fade-out');
-        setTimeout(() => {
+        window.setTimeout(function() {
             alert.remove();
         }, 300);
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    window.updateStatus = function(id, current_status, table, col) {
+        updateBlogStatus(id, current_status, table, col);
+    };
+
+    window.deleteAction = function(id, table) {
+        modernDeleteBlog(id, table);
+    };
+
+    if (!document.querySelector('.modern-flash-container')) {
+        const container = document.createElement('div');
+        container.className = 'modern-flash-container';
+        document.body.appendChild(container);
+    }
+
+    document.querySelectorAll('.modern-status-toggle input').forEach(function(toggle) {
+        toggle.addEventListener('change', function() {
+            const slider = this.nextElementSibling;
+            if (!slider) return;
+            slider.style.transform = 'scale(0.95)';
+            window.setTimeout(function() {
+                slider.style.transform = 'scale(1)';
+            }, 100);
+        });
+    });
+
+    document.querySelectorAll('.modern-btn[href]').forEach(function(button) {
+        button.addEventListener('click', function() {
+            if (this.href && !this.href.includes('javascript:')) {
+                this.classList.add('loading');
+                const icon = this.querySelector('i');
+                if (icon && window.setLucideIcon) {
+                    window.setLucideIcon(icon, 'loader-2', { spin: true });
+                }
+            }
+        });
+    });
+});
 </script>
 @endsection

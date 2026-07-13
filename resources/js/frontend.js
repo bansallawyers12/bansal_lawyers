@@ -1,142 +1,137 @@
-// Frontend JS Bundle - Optimized for Performance
-// Core functionality with modern ES6+ features
+// Frontend JS Bundle — marketing pages (Phase 4)
+// No jQuery / Bootstrap JS / Stellar / Waypoints.
+// vendor-frontend (Swiper, AOS, Lucide) is imported here — layouts must NOT also @vite vendor-frontend.js
 
-import './lucide-init.js';
 import './vendor-frontend.js';
-
-// Import Alpine.js utilities
 import './alpine-utils.js';
 
-// Note: CSS files should be imported in CSS entry points (resources/css/frontend.css)
-// or loaded via Vite's CSS handling. These public CSS files are loaded via
-// asset() helper in Blade templates, so we don't import them here.
-
-// Import AOS (Animate On Scroll) - critical for animations
-// Note: AOS is loaded via CDN in layout files (resources/views/layouts/frontend.blade.php)
-// If you want to use npm version, install: npm install aos
-// Then uncomment and use:
-// import 'aos/dist/aos.css';
-// import AOS from 'aos';
-// window.AOS = AOS;
-
-// Lazy load non-critical libraries
-// Note: These libraries are loaded via CDN/asset() in Blade templates and marked as external in vite.config.js
-const loadNonCriticalLibraries = async () => {
-    // Owl Carousel removed - now using Swiper.js (loaded via CDN in layout)
-    
-    // Magnific Popup is loaded via asset() in frontend.blade.php
-    // Check if it's already loaded
-    const MagnificPopup = window.$ && window.$.fn && window.$.fn.magnificPopup 
-        ? window.$.fn.magnificPopup 
-        : null;
-    
-    return { MagnificPopup };
-};
-
-// Load external scripts only when the page needs them and they are not already in the layout
-const scriptAlreadyLoaded = (filename) =>
-    Boolean(document.querySelector(`script[src*="${filename}"]`));
-
-const loadScript = (src) =>
-    new Promise((resolve, reject) => {
-        const filename = src.split('/').pop();
-        if (scriptAlreadyLoaded(filename)) {
-            resolve();
-            return;
-        }
-        const script = document.createElement('script');
-        script.src = src;
-        script.defer = true;
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-    });
-
-const loadExternalScripts = () => {
-    const scripts = [];
-    const hasStellarElements = document.querySelector('[data-stellar-background-ratio], [data-stellar-ratio]');
-
-    if (hasStellarElements) {
-        if (!scriptAlreadyLoaded('jquery.waypoints.min.js')) {
-            scripts.push('/js/jquery.waypoints.min.js');
-        }
-        if (!scriptAlreadyLoaded('jquery.stellar.min.js')) {
-            scripts.push('/js/jquery.stellar.min.js');
-        }
-        if (!scriptAlreadyLoaded('scrollax.min.js')) {
-            scripts.push('/js/scrollax.min.js');
-        }
+const initAos = () => {
+    const aos = window.AOS;
+    if (!aos) {
+        return;
     }
 
-    return Promise.all(scripts.map(loadScript));
+    // Theme CSS still hides .ftco-animate until waypoints fire — migrate leftovers (CMS HTML).
+    document.querySelectorAll('.ftco-animate').forEach((el) => {
+        if (!el.hasAttribute('data-aos')) {
+            const effect = el.getAttribute('data-animate-effect');
+            const map = {
+                fadeIn: 'fade',
+                fadeInLeft: 'fade-left',
+                fadeInRight: 'fade-right',
+            };
+            el.setAttribute('data-aos', map[effect] || 'fade-up');
+        }
+        el.classList.remove('ftco-animate', 'item-animate', 'ftco-animated');
+    });
+
+    if (!document.querySelector('[data-aos]')) {
+        return;
+    }
+
+    aos.init({
+        duration: 800,
+        easing: 'ease-out-cubic',
+        once: true,
+        mirror: false,
+        anchorPlacement: 'top-bottom',
+        disable: () => window.innerWidth < 768,
+    });
+
+    if (typeof aos.refreshHard === 'function') {
+        aos.refreshHard();
+    }
 };
 
-// Performance optimizations
-document.addEventListener('DOMContentLoaded', async function() {
-    // Initialize AOS immediately (already imported)
-    if (window.AOS) {
-        AOS.init({
-            duration: 800,
-            easing: 'slide',
-            once: true,
-            mirror: false,
-            anchorPlacement: 'top-bottom',
-            disable: function() {
-                return window.innerWidth < 768;
-            }
+/** Light background-position parallax for heroes (replaces jQuery Stellar). */
+const initHeroParallax = () => {
+    const heroes = document.querySelectorAll('[data-parallax-bg]');
+    if (!heroes.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+    if (window.innerWidth < 768) {
+        return;
+    }
+
+    let ticking = false;
+    const update = () => {
+        const y = window.scrollY || window.pageYOffset;
+        heroes.forEach((el) => {
+            const ratio = parseFloat(el.getAttribute('data-parallax-bg') || '0.5') || 0.5;
+            el.style.backgroundPosition = `center ${Math.round(y * ratio * -1)}px`;
         });
-        
-        // Suppress deprecated DOM event warnings
-        if (window.MutationObserver) {
-            AOS.refreshHard();
-        }
-    }
-    
-    // Load non-critical libraries asynchronously
-    try {
-        const { MagnificPopup } = await loadNonCriticalLibraries();
-        
-        // Owl Carousel removed - carousels now use Swiper.js (initialized in layout files)
-        
-        // Initialize Magnific Popup
-        if (window.$ && window.$.fn && window.$.fn.magnificPopup) {
-            $('.popup-image').magnificPopup({
-                type: 'image',
-                gallery: {
-                    enabled: true
-                }
-            });
-        }
-        
-    } catch (error) {
-        console.warn('Some frontend libraries failed to load:', error);
-    }
-    
-    // Load external scripts asynchronously
-    try {
-        await loadExternalScripts();
-        
-        // Stellar.js initialization is handled by main.js which includes the particles fix
-        // Skip initialization here to avoid conflicts - main.js loads last and patches the instance
-        
-    } catch (error) {
-        console.warn('Some external scripts failed to load:', error);
-    }
-    
-    // Optimize scroll events with throttling
-    let scrollTimeout;
-    window.addEventListener('scroll', function() {
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
-        }
-        scrollTimeout = setTimeout(function() {
-            // Scroll handling logic here
-        }, 16); // ~60fps
-    });
-});
+        ticking = false;
+    };
 
-// Export for global access if needed
+    window.addEventListener(
+        'scroll',
+        () => {
+            if (!ticking) {
+                window.requestAnimationFrame(update);
+                ticking = true;
+            }
+        },
+        { passive: true }
+    );
+    update();
+};
+
+const initTestimonialsCarousel = () => {
+    const SwiperCtor = window.Swiper;
+    if (!document.querySelector('.carousel-testimony') || typeof SwiperCtor !== 'function') {
+        return false;
+    }
+
+    new SwiperCtor('.carousel-testimony', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+            delay: 8000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+        },
+        speed: 800,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+            },
+            1024: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+            },
+        },
+    });
+    return true;
+};
+
+const initTestimonialsWhenReady = (attempts = 0) => {
+    if (initTestimonialsCarousel()) {
+        return;
+    }
+    if (attempts < 40) {
+        setTimeout(() => initTestimonialsWhenReady(attempts + 1), 100);
+    }
+};
+
+const onReady = () => {
+    initAos();
+    initHeroParallax();
+    initTestimonialsWhenReady();
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', onReady);
+} else {
+    onReady();
+}
+
 window.FrontendBundle = {
     initialized: true,
-    version: '2.0.0'
+    version: '3.0.0',
 };

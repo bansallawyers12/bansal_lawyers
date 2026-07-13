@@ -537,7 +537,7 @@ input:checked + .modern-checkbox-slider:before {
 											<label for="status" class="modern-form-label">Post Status</label>
 											<div class="modern-checkbox-container">
 												<label class="modern-checkbox">
-													<input value="1" type="checkbox" name="status" {{ old('status', '1') ? 'checked' : '' }} data-bootstrap-switch>
+													<input value="1" type="checkbox" name="status" {{ old('status', '1') ? 'checked' : '' }}>
 													<span class="modern-checkbox-slider"></span>
 												</label>
 												<span class="modern-checkbox-label">Published (visible on website)</span>
@@ -914,14 +914,9 @@ var loadFile = function(event) {
         output.src = URL.createObjectURL(event.target.files[0]);
         output.onload = function() {
             URL.revokeObjectURL(output.src);
-            // Convert jQuery to Alpine.js or native JS when migrating this
-            if (typeof $ !== 'undefined') {
-                $('.if_image').hide();
-            } else {
-                document.querySelectorAll('.if_image').forEach(function(el) {
-                    el.style.display = 'none';
-                });
-            }
+            document.querySelectorAll('.if_image').forEach(function(el) {
+                el.style.display = 'none';
+            });
         }
     }
 };

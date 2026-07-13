@@ -260,9 +260,7 @@ class AppointmentsController extends Controller
     // ?>
     <div class="modal-header">
             <h5 class="modal-title" id="taskModalLabel"><i data-lucide="shopping-bag"></i> <?php echo $serviceTitle; ?></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
         <div class="row">
@@ -360,7 +358,7 @@ class AppointmentsController extends Controller
                 <div class="assignee" style="display:none;">
                 <div class="row">
                     <div class="col-md-8">
-                        <select class="form-control select2" id="changeassignee" name="changeassignee">
+                        <select class="form-control js-tom-select" id="changeassignee" name="changeassignee">
                             <?php
                                 $adminList = \App\Models\Admin::query()->orderBy('first_name', 'ASC');
                                 if (Schema::hasColumn('admins', 'status')) {
@@ -416,6 +414,10 @@ class AppointmentsController extends Controller
 public function update_appointment_status(Request $request){
 
     $objs = Appointment::find($request->id);
+    if (! $objs) {
+        echo json_encode(['status' => false, 'message' => 'Appointment not found']);
+        return;
+    }
 
     if($objs->status == 0){
         $status = 'Pending';
@@ -520,7 +522,7 @@ public function update_apppointment_comment(Request $request){
     echo json_encode($response);
 }
 
-public function update_apppointment_description(Request $request){
+	public function update_apppointment_description(Request $request){
     $objs = Appointment::find($request->id);
     if (! $objs) {
         echo json_encode(['status' => false, 'message' => 'Appointment not found']);
@@ -538,6 +540,74 @@ public function update_apppointment_description(Request $request){
         $response['message']	=	'Please try again';
     }
     echo json_encode($response);
+}
+
+public function updatefollowupschedule(Request $request)
+{
+    $request->validate([
+        'appointment_id' => 'required|integer|exists:appointments,id',
+        'followup_date' => 'required|string',
+        'followup_time' => 'required|string',
+    ]);
+
+    $appointment = Appointment::find($request->appointment_id);
+    if (! $appointment) {
+        return redirect()->back()->with('error', 'Appointment not found.');
+    }
+
+    $dateParts = explode('/', $request->followup_date);
+    if (count($dateParts) !== 3) {
+        return redirect()->back()->with('error', 'Invalid date format. Use DD/MM/YYYY.');
+    }
+
+    $datey = sprintf(
+        '%04d-%02d-%02d',
+        (int) $dateParts[2],
+        (int) $dateParts[1],
+        (int) $dateParts[0]
+    );
+
+    if (!checkdate((int) $dateParts[1], (int) $dateParts[0], (int) $dateParts[2])) {
+        return redirect()->back()->with('error', 'Invalid date. Use DD/MM/YYYY.');
+    }
+
+    $conflictCount = Appointment::where('id', '!=', $appointment->id)
+        ->where('status', '!=', 7)
+        ->whereDate('date', $datey)
+        ->where('time', $request->followup_time)
+        ->whereIn('service_id', ConsultationServices::websiteServiceIds())
+        ->whereHas('natureOfEnquiry', function ($query) {
+            $query->where('status', 1);
+        })
+        ->count();
+
+    if ($conflictCount > 0) {
+        return redirect()->back()->with('error', 'This appointment time slot is already booked. Please select another time slot.');
+    }
+
+    $appointment->user_id = Auth::id();
+    $appointment->date = $datey;
+    $appointment->time = $request->followup_time;
+
+    if ($request->followup_time !== '') {
+        $durationMinutes = 30;
+        $service = DB::table('book_services')->select('duration')->where('id', $appointment->service_id)->first();
+        if ($service && !empty($service->duration)) {
+            $durationMinutes = (int) $service->duration;
+        }
+
+        $startTime = date('g:i A', strtotime($request->followup_time));
+        $endTime = date('g:i A', strtotime($request->followup_time . ' +' . $durationMinutes . ' minutes'));
+        $appointment->timeslot_full = $startTime . ' - ' . $endTime;
+    }
+
+    $appointment->description = (string) $request->input('edit_description', $appointment->description ?? '');
+
+    if ($appointment->save()) {
+        return redirect()->back()->with('success', 'Appointment updated successfully.');
+    }
+
+    return redirect()->back()->with('error', Config::get('constants.server_error'));
 }
 
 }

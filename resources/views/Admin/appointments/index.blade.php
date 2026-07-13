@@ -904,178 +904,232 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Original appointment functionality preserved
-jQuery(document).ready(function($){
-    $(document).delegate('.openassignee', 'click', function(){
-        $('.assignee').show();
-    });
-    $(document).delegate('.closeassignee', 'click', function(){
-        $('.assignee').hide();
-    });
-    $(document).delegate('.saveassignee', 'click', function(){
-        var appliid = $(this).attr('data-id');
-        var assinee= $('#changeassignee').val();
-        $('.popuploader').show();
-        
-        $.ajax({
-            url: site_url+'/admin/change_assignee',
-            type:'GET',
-            data:{id: appliid,assinee: assinee},
-            success: function(response){
-                var obj = $.parseJSON(response);
-                if(obj.status){
-                    alert(obj.message);
-                    location.reload();
-                }else{
-                    alert(obj.message);
+// Appointment assignee / comment / status / priority / description (vanilla + adminHttp)
+document.addEventListener('DOMContentLoaded', function () {
+    function siteUrl() {
+        if (window.adminHttp && typeof window.adminHttp.siteUrl === 'function') {
+            return window.adminHttp.siteUrl();
+        }
+        return typeof window.site_url !== 'undefined' ? String(window.site_url).replace(/\/$/, '') : '';
+    }
+
+    function showLoader() {
+        if (window.adminHttp && typeof window.adminHttp.showLoader === 'function') {
+            window.adminHttp.showLoader();
+        }
+    }
+
+    function hideLoader() {
+        if (window.adminHttp && typeof window.adminHttp.hideLoader === 'function') {
+            window.adminHttp.hideLoader();
+        }
+    }
+
+    function applyTaskView(html) {
+        if (typeof window.setTaskViewHtml === 'function') {
+            window.setTaskViewHtml(html);
+            return;
+        }
+        var container = document.querySelector('.taskview');
+        if (container) {
+            container.innerHTML = html;
+        }
+    }
+
+    function adminGet(url, params) {
+        var qs = new URLSearchParams(params || {}).toString();
+        return fetch(url + (qs ? '?' + qs : ''), {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                Accept: 'application/json, text/html, */*; q=0.01',
+            },
+        }).then(function (res) {
+            return res.text();
+        }).then(function (text) {
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                return text;
+            }
+        });
+    }
+
+    function refreshAssigneeDetail(id) {
+        return adminGet(siteUrl() + '/admin/get-assigne-detail', { id: id }).then(function (html) {
+            hideLoader();
+            applyTaskView(html);
+        });
+    }
+
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.openassignee')) {
+            document.querySelectorAll('.assignee').forEach(function (el) {
+                el.style.display = '';
+            });
+            return;
+        }
+
+        if (e.target.closest('.closeassignee')) {
+            document.querySelectorAll('.assignee').forEach(function (el) {
+                el.style.display = 'none';
+            });
+            return;
+        }
+
+        var saveAssignee = e.target.closest('.saveassignee');
+        if (saveAssignee) {
+            var assigneeId = saveAssignee.getAttribute('data-id');
+            var assigneeSelect = document.getElementById('changeassignee');
+            var assinee = assigneeSelect ? assigneeSelect.value : '';
+            showLoader();
+            adminGet(siteUrl() + '/admin/change_assignee', { id: assigneeId, assinee: assinee })
+                .then(function (obj) {
+                    if (typeof obj === 'string') {
+                        try { obj = JSON.parse(obj); } catch (err) { obj = {}; }
+                    }
+                    alert(obj.message || '');
+                    if (obj.status) {
+                        location.reload();
+                    } else {
+                        hideLoader();
+                    }
+                })
+                .catch(function () {
+                    hideLoader();
+                    alert('Unable to update assignee. Please try again.');
+                });
+            return;
+        }
+
+        var saveComment = e.target.closest('.savecomment');
+        if (saveComment) {
+            var commentEl = document.querySelector('.taskcomment');
+            var visitcomment = commentEl ? commentEl.value : '';
+            var commentAppId = saveComment.getAttribute('data-id');
+            showLoader();
+            window.adminHttp.post(siteUrl() + '/admin/update_apppointment_comment', {
+                id: commentAppId,
+                visit_comment: visitcomment,
+            }).then(function () {
+                if (commentEl) {
+                    commentEl.value = '';
                 }
+                return refreshAssigneeDetail(commentAppId);
+            }).catch(function () {
+                hideLoader();
+            });
+            return;
+        }
+
+        var openView = e.target.closest('.openassigneview');
+        if (openView) {
+            var modalEl = document.getElementById('openassigneview');
+            if (typeof window.showAdminModal === 'function') {
+                window.showAdminModal(modalEl || '#openassigneview');
             }
-        });
-    });
+            var viewId = openView.getAttribute('id');
+            refreshAssigneeDetail(viewId).catch(function () {
+                hideLoader();
+            });
+            return;
+        }
 
-    // Appointment pending todo
-    $(document).delegate('.savecomment', 'click', function(){
-        var visitcomment = $('.taskcomment').val();
-        var appliid = $(this).attr('data-id');
-        $('.popuploader').show();
-        $.ajax({
-            url: site_url+'/admin/update_apppointment_comment',
-            type:'POST',
-            data:{"_token":$('meta[name="csrf-token"]').attr('content'),id: appliid,visit_comment:visitcomment},
-            success: function(responses){
-                $('.taskcomment').val('');
-                $.ajax({
-                    url: site_url+'/admin/get-assigne-detail',
-                    type:'GET',
-                    data:{id:appliid},
-                    success: function(responses){
-                        $('.popuploader').hide();
-                        $('.taskview').html(responses);
-                    }
-                });
-            }
-        });
-    });
-
-    $(document).delegate('.openassigneview', 'click', function(){
-        $('#openassigneview').modal('show');
-        var v = $(this).attr('id');
-        $.ajax({
-            url: site_url+'/admin/get-assigne-detail',
-            type:'GET',
-            data:{id:v},
-            success: function(responses){
-                $('.popuploader').hide();
-                $('.taskview').html(responses);
-            }
-        });
-    });
-
-    $(document).delegate('.changestatus', 'click', function(){
-        var appliid = $(this).attr('data-id');
-        var status = $(this).attr('data-status');
-        var statusame = $(this).attr('data-status-name');
-        $('.popuploader').show();
-
-        $.ajax({
-            url: site_url+'/admin/update_appointment_status',
-            type:'POST',
-            data:{"_token":$('meta[name="csrf-token"]').attr('content'),id: appliid,statusname:statusame,status:status},
-            success: function(responses){
-                $('.popuploader').hide();
-                var obj = JSON.parse(responses);
-                if(obj.status){
-                    $('.updatestatusview'+appliid).html(obj.viewstatus);
+        var changeStatus = e.target.closest('.changestatus');
+        if (changeStatus) {
+            var statusAppId = changeStatus.getAttribute('data-id');
+            var status = changeStatus.getAttribute('data-status');
+            var statusame = changeStatus.getAttribute('data-status-name');
+            showLoader();
+            window.adminHttp.post(siteUrl() + '/admin/update_appointment_status', {
+                id: statusAppId,
+                statusname: statusame,
+                status: status,
+            }).then(function (obj) {
+                hideLoader();
+                if (typeof obj === 'string') {
+                    try { obj = JSON.parse(obj); } catch (err) { obj = {}; }
                 }
-                $.ajax({
-                    url: site_url+'/admin/get-assigne-detail',
-                    type:'GET',
-                    data:{id:appliid},
-                    success: function(responses){
-                        $('.popuploader').hide();
-                        $('.taskview').html(responses);
-                    }
+                if (obj && obj.status) {
+                    document.querySelectorAll('.updatestatusview' + statusAppId).forEach(function (el) {
+                        el.innerHTML = obj.viewstatus || '';
+                    });
+                }
+                return refreshAssigneeDetail(statusAppId);
+            }).catch(function () {
+                hideLoader();
+            });
+            return;
+        }
+
+        var changePriority = e.target.closest('.changepriority');
+        if (changePriority) {
+            var priorityAppId = changePriority.getAttribute('data-id');
+            var priorityStatus = changePriority.getAttribute('data-status');
+            showLoader();
+            window.adminHttp.post(siteUrl() + '/admin/update_appointment_priority', {
+                id: priorityAppId,
+                status: priorityStatus,
+            }).then(function () {
+                hideLoader();
+                return refreshAssigneeDetail(priorityAppId);
+            }).catch(function () {
+                hideLoader();
+            });
+            return;
+        }
+
+        var descClick = e.target.closest('.desc_click');
+        if (descClick) {
+            descClick.style.display = 'none';
+            document.querySelectorAll('.taskdesc').forEach(function (el) {
+                el.style.display = '';
+            });
+            var firstDesc = document.querySelector('.taskdesc');
+            if (firstDesc) {
+                firstDesc.focus();
+            }
+        }
+    });
+
+    // focusout bubbles (blur does not) — mirrors jQuery delegated blur
+    document.addEventListener('focusout', function (e) {
+        var taskDesc = e.target.closest('.taskdesc');
+        if (taskDesc) {
+            taskDesc.style.display = 'none';
+            document.querySelectorAll('.desc_click').forEach(function (el) {
+                el.style.display = '';
+            });
+
+            var visitpurpose = taskDesc.value;
+            var appliid = taskDesc.getAttribute('data-id');
+            if (appliid) {
+                showLoader();
+                window.adminHttp.post(siteUrl() + '/admin/update_apppointment_description', {
+                    id: appliid,
+                    visit_purpose: visitpurpose,
+                }).then(function () {
+                    return refreshAssigneeDetail(appliid);
+                }).catch(function () {
+                    hideLoader();
                 });
             }
-        });
-    });
+            return;
+        }
 
-    $(document).delegate('.changepriority', 'click', function(){
-        var appliid = $(this).attr('data-id');
-        var status = $(this).attr('data-status');
-        $('.popuploader').show();
-
-        $.ajax({
-            url: site_url+'/admin/update_appointment_priority',
-            type:'POST',
-            data:{"_token":$('meta[name="csrf-token"]').attr('content'),id: appliid,status:status},
-            success: function(responses){
-                $('.popuploader').hide();
-                $.ajax({
-                    url: site_url+'/admin/get-assigne-detail',
-                    type:'GET',
-                    data:{id:appliid},
-                    success: function(responses){
-                        $('.popuploader').hide();
-                        $('.taskview').html(responses);
-                    }
-                });
-            }
-        });
-    });
-
-    $(document).delegate('.desc_click', 'click', function(){
-        $(this).hide();
-        $('.taskdesc').show();
-        $('.taskdesc').focus();
-    });
-    $(document).delegate('.taskdesc', 'blur', function(){
-        $(this).hide();
-        $('.desc_click').show();
-    });
-
-    $(document).delegate('.tasknewdesc', 'blur', function(){
-        var visitpurpose = $(this).val();
-        var appliid = $(this).attr('data-id');
-        $('.popuploader').show();
-        $.ajax({
-            url: site_url+'/admin/update_apppointment_description',
-            type:'POST',
-            data:{"_token":$('meta[name="csrf-token"]').attr('content'),id: appliid,visit_purpose:visitpurpose},
-            success: function(responses){
-                $.ajax({
-                    url: site_url+'/admin/get-assigne-detail',
-                    type:'GET',
-                    data:{id:appliid},
-                    success: function(responses){
-                        $('.popuploader').hide();
-                        $('.taskview').html(responses);
-                    }
-                });
-            }
-        });
-    });
-
-    $(document).delegate('.taskdesc', 'blur', function(){
-        var visitpurpose = $(this).val();
-        var appliid = $(this).attr('data-id');
-        $('.popuploader').show();
-        $.ajax({
-            url: site_url+'/admin/update_apppointment_description',
-            type:'POST',
-            data:{id: appliid,visit_purpose:visitpurpose},
-            success: function(responses){
-                $.ajax({
-                    url: site_url+'/admin/get-assigne-detail',
-                    type:'GET',
-                    data:{id:appliid},
-                    success: function(responses){
-                        $('.popuploader').hide();
-                        $('.taskview').html(responses);
-                    }
-                });
-            }
-        });
+        var taskNewDesc = e.target.closest('.tasknewdesc');
+        if (taskNewDesc) {
+            var newPurpose = taskNewDesc.value;
+            var newAppId = taskNewDesc.getAttribute('data-id');
+            showLoader();
+            window.adminHttp.post(siteUrl() + '/admin/update_apppointment_description', {
+                id: newAppId,
+                visit_purpose: newPurpose,
+            }).then(function () {
+                return refreshAssigneeDetail(newAppId);
+            }).catch(function () {
+                hideLoader();
+            });
+        }
     });
 });
 </script>

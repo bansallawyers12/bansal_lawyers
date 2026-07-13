@@ -15,9 +15,7 @@
 }
 .nav-menu-link.active {
     color: #ffd700;
-    background-color: rgba(255, 255, 255, 0.15);
     font-weight: 600;
-    box-shadow: inset 0 -2px 0 #ffd700;
 }
 
 @media (max-width: 768px) {
@@ -54,7 +52,6 @@
     }
     .mobile-menu a.active {
         color: #ffd700;
-        background-color: rgba(255, 255, 255, 0.15);
         font-weight: 600;
         border-left: 3px solid #ffd700;
     }
@@ -155,9 +152,12 @@ function toggleMobileMenu() {
 document.addEventListener('click', function(event) {
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileToggle = document.querySelector('.mobile-toggle');
-    
+    if (!mobileMenu || !mobileToggle) {
+        return;
+    }
     if (!mobileMenu.contains(event.target) && !mobileToggle.contains(event.target)) {
         mobileMenu.classList.remove('show');
+        mobileToggle.setAttribute('aria-expanded', 'false');
     }
 });
 </script>

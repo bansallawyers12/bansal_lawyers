@@ -12,9 +12,13 @@
  * - public/js/Frontend/hoverIntent.min.js
  */
 
-const fs = require('fs');
-const path = require('path');
-const { minify: minifyJS } = require('terser');
+import fs from 'fs';
+import path from 'path';
+import { minify as minifyJS } from 'terser';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Simple CSS minifier (removes comments, whitespace, etc.)
 function minifyCSS(css) {
@@ -130,6 +134,31 @@ async function main() {
             path: path.join(__dirname, '..', 'public', 'js', 'Frontend', 'hoverIntent.min.js'),
             type: 'js',
             name: 'hoverIntent.min.js',
+        },
+        {
+            path: path.join(__dirname, '..', 'public', 'css', 'layout-global.css'),
+            type: 'css',
+            name: 'layout-global.css',
+        },
+        {
+            path: path.join(__dirname, '..', 'public', 'css', 'footer-modern.css'),
+            type: 'css',
+            name: 'footer-modern.css',
+        },
+        {
+            path: path.join(__dirname, '..', 'public', 'css', 'blog-listing.css'),
+            type: 'css',
+            name: 'blog-listing.css',
+        },
+        {
+            path: path.join(__dirname, '..', 'public', 'js', 'analytics-engagement.js'),
+            type: 'js',
+            name: 'analytics-engagement.js',
+        },
+        {
+            path: path.join(__dirname, '..', 'public', 'js', 'footer-animations.js'),
+            type: 'js',
+            name: 'footer-animations.js',
         },
     ];
 

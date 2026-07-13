@@ -18,37 +18,13 @@
 	<link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
 	
 	<!-- Self-hosted Poppins fonts -->
-	<!-- Load as static asset to avoid Vite path resolution issues with font files -->
 	<link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
-	
-	<!-- Font Awesome loaded via Vite vendor bundle -->
-	@vite(['resources/css/vendor-admin.css'])
-	
-	<!-- BASE CSS (app.min.css removed - file not present; vendor-admin + below provide styles) -->
-	<link href="{{ asset('css/bootstrap-social.css')}}" rel="stylesheet">
-	<link href="{{ asset('css/components.css')}}" rel="stylesheet">
-	<link href="{{ asset('css/custom.css')}}" rel="stylesheet">
+
+	{{-- Slim login CSS: tokens + lucide only (Phase 6 — no Bootstrap / Flatpickr / Tom Select) --}}
+	@vite(['resources/css/admin-login.css'])
 
 	<style {!! \App\Services\CspService::getNonceAttribute() !!}>
-/* Modern Admin Login Design System */
-:root {
-    --primary-color: #1B4D89;
-    --secondary-color: #2c5aa0;
-    --accent-color: #FF6B35;
-    --text-dark: #2c3e50;
-    --text-light: #7f8c8d;
-    --bg-light: #f8f9fa;
-    --white: #ffffff;
-    --shadow: 0 20px 40px rgba(0,0,0,0.08);
-    --shadow-hover: 0 30px 60px rgba(0,0,0,0.12);
-    --gradient-primary: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%);
-    --gradient-accent: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
-    --gradient-light: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    --border-radius: 16px;
-    --border-radius-sm: 8px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
+/* Login layout — tokens from admin-tokens.css (--primary-color, --gradient-*, etc.) */
 * {
     margin: 0;
     padding: 0;
@@ -56,7 +32,7 @@
 }
 
 body {
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-primary, 'Poppins', system-ui, sans-serif);
     background: var(--gradient-light);
     min-height: 100vh;
     display: flex;
@@ -472,14 +448,18 @@ body::before {
 		var site_url = "<?php echo URL::to('/'); ?>";
 	</script>
 	
-	<!-- Core Dependencies (load first) -->
-	<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
-	<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+	<!-- Core: login does not need jQuery/Bootstrap (Phase 2) -->
 	
-	<!-- Custom Scripts (load after jQuery and Bootstrap) -->
-	@vite(['resources/js/vendor-admin.js'])
-	<script src="{{ asset('js/scripts.js')}}"></script>
-	<script src="{{ asset('js/custom.js')}}"></script>
+	{{-- Login: Turnstile + Lucide only (no Flatpickr) --}}
+	@vite(['resources/js/vendor-admin-login.js'])
+	<script {!! \App\Services\CspService::getNonceAttribute() !!}>
+		window.addEventListener('load', function () {
+			var loader = document.querySelector('.loader');
+			if (loader) {
+				loader.style.display = 'none';
+			}
+		});
+	</script>
 	
 	<!-- Modern Login Scripts -->
 	<script {!! \App\Services\CspService::getNonceAttribute() !!}>

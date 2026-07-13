@@ -1,5 +1,5 @@
 <!-- START: Footer Section -->
-<!-- Footer styles loaded via layout-global.css + footer-modern.css in main layout -->
+<!-- Footer styles loaded via layout-global.min.css + footer-modern.min.css in main layout -->
 
 <!-- NEW MODERN FOOTER -->
 <footer class="modern-footer" role="contentinfo">

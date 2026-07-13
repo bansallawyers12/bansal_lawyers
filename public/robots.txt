@@ -1,76 +1,86 @@
-# -------------------------------------------------------
-# Bansal Lawyers — robots.txt
-# -------------------------------------------------------
+# As a condition of accessing this website, you agree to abide by the following
+# content signals:
 
-# === All crawlers — general rules ===
+# (a)  If a Content-Signal = yes, you may collect content for the corresponding
+#      use.
+# (b)  If a Content-Signal = no, you may not collect content for the
+#      corresponding use.
+# (c)  If the website operator does not include a Content-Signal for a
+#      corresponding use, the website operator neither grants nor restricts
+#      permission via Content-Signal with respect to the corresponding use.
+
+# The content signals and their meanings are:
+
+# search:   building a search index and providing search results (e.g., returning
+#           hyperlinks and short excerpts from your website's contents). Search does not
+#           include providing AI-generated search summaries.
+# ai-input: inputting content into one or more AI models (e.g., retrieval
+#           augmented generation, grounding, or other real-time taking of content for
+#           generative AI search answers).
+# ai-train: training or fine-tuning AI models.
+# use:      how AI systems may consume the content (immediate, reference, or full).
+
+# ANY RESTRICTIONS EXPRESSED VIA CONTENT SIGNALS ARE EXPRESS RESERVATIONS OF
+# RIGHTS UNDER ARTICLE 4 OF THE EUROPEAN UNION DIRECTIVE 2019/790 ON COPYRIGHT
+# AND RELATED RIGHTS IN THE DIGITAL SINGLE MARKET.
+
+# BEGIN Cloudflare Managed content
+
 User-agent: *
+Content-Signal: search=yes,ai-train=no,use=reference
 Allow: /
 
-# Cloudflare internal paths — never valid URLs for crawlers
-Disallow: /cdn-cgi/
-
-# Laravel / admin internals
-Disallow: /admin/
-Disallow: /login
-Disallow: /register
-Disallow: /profile
-Disallow: /invoice
-Disallow: /clear-cache
-Disallow: /csp-report
-Disallow: /api/
-
-# Static asset directories (no SEO value, wastes crawl budget)
-Disallow: /js/
-Disallow: /css/
-Disallow: /fonts/
-
-Sitemap: https://www.bansallawyers.com.au/sitemap.xml
-
-# -------------------------------------------------------
-# AI training crawlers — allow search indexing, block training
-# -------------------------------------------------------
-
-# OpenAI
-User-agent: GPTBot
-Disallow: /
-
-# OpenAI search preview (keep for search, block training)
-User-agent: OAI-SearchBot
-Allow: /
-
-# Google Extended — blocks Gemini/Bard training
-User-agent: Google-Extended
-Disallow: /
-
-# Common Crawl (used for AI training datasets)
-User-agent: CCBot
-Disallow: /
-
-# Anthropic
-User-agent: anthropic-ai
-Disallow: /
-
-# Meta / Facebook AI
-User-agent: FacebookBot
-Disallow: /
-
-# Amazon Alexa
 User-agent: Amazonbot
 Disallow: /
 
-# Bytedance
+User-agent: Applebot-Extended
+Disallow: /
+
 User-agent: Bytespider
 Disallow: /
 
-# Diffbot
-User-agent: Diffbot
+User-agent: CCBot
 Disallow: /
 
-# -------------------------------------------------------
-# Security / nuisance bots
-# -------------------------------------------------------
-User-agent: AhrefsBot
+User-agent: ClaudeBot
 Disallow: /
 
-User-agent: SemrushBot
+User-agent: CloudflareBrowserRenderingCrawler
 Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+# END Cloudflare Managed Content
+
+# Bansal Lawyers — site crawl rules
+User-agent: *
+Allow: /
+
+# Cloudflare internal paths
+Disallow: /cdn-cgi/
+
+# Admin panel
+Disallow: /admin/
+
+# API and utility endpoints
+Disallow: /api/
+Disallow: /csp-report
+Disallow: /clear-cache
+Disallow: /blogs/list
+Disallow: /getdatetime
+Disallow: /getdisableddatetime
+
+# Confirmation, payment, and booking utility pages (no SEO value)
+Disallow: /contact/thank-you
+Disallow: /payment-thankyou
+Disallow: /stripe
+Disallow: /book-an-appointment1
+
+Sitemap: https://www.bansallawyers.com.au/sitemap.xml

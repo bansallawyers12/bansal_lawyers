@@ -1113,17 +1113,7 @@
 </section>
 
 <script>
-// AOS is initialized by frontend.js / main.js when aos.min.js is loaded by the layout
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof AOS !== 'undefined' && document.querySelector('[data-aos]')) {
-        AOS.init({
-            duration: 1000,
-            easing: 'ease-in-out',
-            once: true,
-            offset: 100
-        });
-    }
-});
+// AOS is initialized by frontend.js when [data-aos] elements are present
 
 // Smooth scrolling for CTA buttons
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
