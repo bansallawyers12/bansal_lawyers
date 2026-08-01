@@ -227,6 +227,12 @@
     }
 }
 
+/* Inline Flatpickr still leaves the source input in the DOM — hide only here */
+.calendar-widget > input#booking-calendar,
+.calendar-widget > input.flatpickr-input {
+    display: none;
+}
+
 .calendar-widget .flatpickr-calendar {
     width: 100%;
     box-shadow: none;
