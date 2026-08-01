@@ -1,39 +1,17 @@
 // Frontend JS Bundle — marketing pages (Phase 4)
-// Lucide is light (tree-shaken). Alpine / Swiper / AOS load on demand.
+// No jQuery / Bootstrap JS / Stellar / Waypoints.
+// vendor-frontend (Swiper, AOS, Lucide) is imported here — layouts must NOT also @vite vendor-frontend.js
 
-import './lucide-init.js';
-import { loadTurnstile } from './shared/turnstile-loader.js';
+import './vendor-frontend.js';
+import './alpine-utils.js';
 
-window.loadTurnstile = loadTurnstile;
-
-const loadAlpine = () => {
-    if (window.Alpine || window.__alpineStarted) {
-        return Promise.resolve();
-    }
-    if (!document.querySelector('[x-data], [x-cloak], [x-show], [x-bind], [x-on], [x-model], [x-text], [x-html]')) {
-        return Promise.resolve();
-    }
-    return import('./alpine-utils.js');
-};
-
-const loadAos = async () => {
-    if (!document.querySelector('[data-aos], .ftco-animate')) {
-        return null;
-    }
-    const [{ default: AOS }] = await Promise.all([
-        import('aos'),
-        import('aos/dist/aos.css'),
-    ]);
-    window.AOS = AOS;
-    return AOS;
-};
-
-const initAos = async () => {
-    const aos = await loadAos();
+const initAos = () => {
+    const aos = window.AOS;
     if (!aos) {
         return;
     }
 
+    // Theme CSS still hides .ftco-animate until waypoints fire — migrate leftovers (CMS HTML).
     document.querySelectorAll('.ftco-animate').forEach((el) => {
         if (!el.hasAttribute('data-aos')) {
             const effect = el.getAttribute('data-animate-effect');
@@ -98,21 +76,13 @@ const initHeroParallax = () => {
     update();
 };
 
-const initTestimonialsCarousel = async () => {
-    const el = document.querySelector('.carousel-testimony');
-    if (!el || el.dataset.swiperReady === '1') {
-        return;
+const initTestimonialsCarousel = () => {
+    const SwiperCtor = window.Swiper;
+    if (!document.querySelector('.carousel-testimony') || typeof SwiperCtor !== 'function') {
+        return false;
     }
 
-    const [{ default: Swiper }] = await Promise.all([
-        import('swiper/bundle'),
-        import('swiper/css/bundle'),
-    ]);
-
-    window.Swiper = Swiper;
-    el.dataset.swiperReady = '1';
-
-    new Swiper('.carousel-testimony', {
+    new SwiperCtor('.carousel-testimony', {
         slidesPerView: 1,
         spaceBetween: 30,
         loop: true,
@@ -137,36 +107,22 @@ const initTestimonialsCarousel = async () => {
             },
         },
     });
+    return true;
 };
 
-const lazyInitTestimonials = () => {
-    const el = document.querySelector('.carousel-testimony');
-    if (!el) {
+const initTestimonialsWhenReady = (attempts = 0) => {
+    if (initTestimonialsCarousel()) {
         return;
     }
-
-    if (!('IntersectionObserver' in window)) {
-        initTestimonialsCarousel();
-        return;
+    if (attempts < 40) {
+        setTimeout(() => initTestimonialsWhenReady(attempts + 1), 100);
     }
-
-    const observer = new IntersectionObserver(
-        (entries) => {
-            if (entries.some((entry) => entry.isIntersecting)) {
-                observer.disconnect();
-                initTestimonialsCarousel();
-            }
-        },
-        { rootMargin: '200px' }
-    );
-    observer.observe(el);
 };
 
 const onReady = () => {
-    loadAlpine();
     initAos();
     initHeroParallax();
-    lazyInitTestimonials();
+    initTestimonialsWhenReady();
 };
 
 if (document.readyState === 'loading') {
@@ -177,5 +133,5 @@ if (document.readyState === 'loading') {
 
 window.FrontendBundle = {
     initialized: true,
-    version: '4.0.0',
+    version: '3.0.0',
 };

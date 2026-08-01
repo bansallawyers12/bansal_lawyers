@@ -2,12 +2,46 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="google-site-verification" content="v3RcCNNqLVXDQoEWlV1SzP3SHNvhWws-YuzpLxWuk8A" />
-    @yield('seoinfo')
+    
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5R6G1TRVV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-Y5R6G1TRVV', {
+    cookie_domain: 'bansallawyers.com.au'
+  });
+</script>
+<!-- End Google Tag Manager -->
+
+{{-- Google Analytics 4 (commented out - duplicate of gtag block above)
+@if(\App\Helpers\Helper::isAnalyticsEnabled())
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google_analytics.id') }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ config("services.google_analytics.id") }}', {
+    'send_page_view': true,
+    'anonymize_ip': true,
+    'cookie_flags': 'SameSite=None;Secure'
+  });
+</script>
+@endif
+--}}
+
+
+
+    <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<meta name="google-site-verification" content="v3RcCNNqLVXDQoEWlV1SzP3SHNvhWws-YuzpLxWuk8A" />
+    @yield('seoinfo')
+  
+    <!-- Schema Markup (key landing pages only — reduces HTML bloat on inner pages) -->
     @if(Request::is('/') || Request::is('about') || Request::is('contact'))
         @php
             $schemaLegalService = [
@@ -23,138 +57,149 @@
                     'addressRegion' => 'VIC',
                     'postalCode' => '3000',
                     'addressCountry' => 'AU',
+                    'geo' => [
+                        '@type' => 'GeoCoordinates',
+                        'latitude' => '-37.8136',
+                        'longitude' => '144.9631',
+                    ],
                 ],
                 'telephone' => '+61 0422905860',
                 'email' => 'Info@bansallawyers.com.au',
                 'url' => 'https://www.bansallawyers.com.au',
                 'openingHours' => 'Mo-Fr 09:00-17:00',
                 'priceRange' => '$$$',
-                'areaServed' => 'Melbourne',
+                'sameAs' => [
+                    'https://www.facebook.com/profile.php?id=61562008576642',
+                    'https://www.instagram.com/bansallawyers?igsh=N21ubnVkeDhibjVw',
+                ],
+                'areaServed' => [
+                    '@type' => 'AdministrativeArea',
+                    'name' => 'Melbourne',
+                ],
+                'hasOfferCatalog' => [
+                    '@type' => 'OfferCatalog',
+                    'name' => 'Legal Services',
+                    'itemListElement' => [
+                        ['@type' => 'Offer', 'name' => 'Immigration Law', 'description' => 'Expert legal services for visas, appeals, and migration advice.'],
+                        ['@type' => 'Offer', 'name' => 'Family Law', 'description' => 'Legal support for family-related matters including divorce and custody.'],
+                        ['@type' => 'Offer', 'name' => 'Criminal Law', 'description' => 'Defense representation for criminal cases.'],
+                        ['@type' => 'Offer', 'name' => 'Commercial Law', 'description' => 'Legal advice and representation for business and commercial matters.'],
+                        ['@type' => 'Offer', 'name' => 'Property Law', 'description' => 'Legal services for property transactions and disputes.'],
+                    ],
+                ],
             ];
         @endphp
         <script type="application/ld+json">{!! json_encode($schemaLegalService, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}</script>
     @endif
-
-    <link rel="icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png') }}" type="image/png">
-
-    {{-- Critical above-the-fold CSS (keeps FCP fast while main bundle defers) --}}
-    <style>
-        html{scroll-behavior:smooth}
-        body{margin:0;font-family:Poppins,system-ui,-apple-system,sans-serif;color:#333;background:#fff;-webkit-font-smoothing:antialiased}
-        img{max-width:100%;height:auto}
-        .container{width:100%;max-width:1200px;margin:0 auto;padding:0 20px;box-sizing:border-box}
-        [x-cloak]{display:none!important}
-        .ftco-animate{opacity:1!important;visibility:visible!important}
-        /* Critical floating Call Now (full styles load deferred) */
-        .floating-contact-btn{position:fixed;bottom:20px;right:20px;z-index:9999}
-        .floating-btn-mobile-call{display:none;align-items:center;gap:8px;background:#1B4D89;color:#fff;text-decoration:none;padding:12px 18px;border-radius:50px;font-weight:600;box-shadow:0 4px 20px rgba(27,77,137,.35)}
-        @media (max-width:768px){.floating-btn-main{display:none!important}.floating-btn-mobile-call{display:inline-flex!important}}
-        @media (min-width:769px){.floating-btn-mobile-call{display:none!important}}
-    </style>
-
-    <link rel="preload" href="{{ asset('fonts/poppins/poppins-regular.woff2') }}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
+  	<!-- End Schema Markup -->
+  
+     <!-- Favicons-->
+	<link rel="shortcut icon" href="{{ asset('images/logo_img/bansal_lawyers_fevicon.png')}}" type="image/png">
+  
+    <!-- DNS Prefetch for external domains -->
+    <link rel="dns-prefetch" href="https://www.google.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.facebook.com">
+    <link rel="dns-prefetch" href="https://connect.facebook.net">
+    
+    <!-- Preconnect to other external resources -->
+    <link rel="preconnect" href="https://www.google.com">
+    <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
+    
+    <!-- Self-hosted Poppins fonts (fonts.css declares @font-face; no separate preload needed) -->
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
 
-    {{-- Large app CSS: non-blocking --}}
-    <link rel="stylesheet" href="{{ \Illuminate\Support\Facades\Vite::asset('resources/css/frontend.css') }}" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="{{ asset('css/layout-global.min.css') }}?v=1.2" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="{{ asset('css/footer-modern.min.css') }}?v=1.2" media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="{{ \Illuminate\Support\Facades\Vite::asset('resources/css/frontend.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/layout-global.min.css') }}?v=1.2">
-        <link rel="stylesheet" href="{{ asset('css/footer-modern.min.css') }}?v=1.2">
-    </noscript>
+    {{-- Phase 10: no style_lawyer — FTCO theme lives in Vite theme-ftco.css --}}
+    @vite(['resources/css/frontend.css', 'resources/css/vendor-frontend.css'])
+
+    <link rel="stylesheet" href="{{ asset('css/layout-global.min.css') }}?v=1.0">
+    <link rel="stylesheet" href="{{ asset('css/footer-modern.min.css') }}?v=1.0">
+
+  <!-- Hotjar Tracking Code for https://www.bansallawyers.com.au/migration-law -->
+<script>
+    // Only load Hotjar on HTTPS (production) to avoid console warnings
+    if (location.protocol === 'https:') {
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:6499398,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    }
+</script>
 
     @yield('head')
+    
+  
 </head>
 
 <body>
-    @if(app()->environment('production'))
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGBFD265" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
-    <noscript><img height="1" width="1" style="display:none;" src="https://www.facebook.com/tr?id=628232819622737&ev=PageView&noscript=1" alt=""></noscript>
-    @endif
-
+  
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGBFD265"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+  
+    <noscript>
+      <img height="1" width="1" style="display:none;" src="https://www.facebook.com/tr?id=628232819622737&ev=PageView&noscript=1" alt="Bansal Lawyers FB Pixel" >
+    </noscript>
+  
+    <!--Header-->
     @include('Elements.Frontend.header')
 
+    <!--Content-->
     <main role="main">
         @yield('content')
     </main>
 
+    <!--Footer-->
     @include('Elements.Frontend.footer')
 
+    <!-- Floating Contact Button (hidden on contact page â€” dedicated form is already on-page) -->
     @if(!Request::is('contact'))
     @include('components.floating-contact-button')
     @endif
 
-    @vite(['resources/js/frontend.js'])
+    <!-- END: Footer Section -->
+
+    <!-- START: Loader -->
+    <div id="ftco-loader" class="show fullscreen">
+        <svg class="circular" width="48px" height="48px">
+            <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                stroke="#F96D00" />
+        </svg>
+    </div>
+
+    {{-- Phase 4: no Bootstrap JS / jQuery / Stellar / Waypoints on marketing pages --}}
+    <!-- Cloudflare Turnstile -->
+    <link rel="preconnect" href="https://challenges.cloudflare.com" crossorigin>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+    {{-- frontend.js imports vendor-frontend.js — do not also @vite vendor-frontend.js --}}
+    @vite(['resources/js/frontend.js', 'public/js/main.js'])
+
+    <script src="{{ asset('js/analytics-engagement.min.js') }}?v=1.0" defer></script>
+    <script src="{{ asset('js/footer-animations.min.js') }}?v=1.0" defer></script>
 
     @yield('scripts')
 
-    {{-- Analytics only on real production HTTPS — never during local Lighthouse --}}
-    @if(app()->environment('production'))
+    <!-- Meta Pixel Code — deferred to end of body so it doesn't block HTML parsing -->
     <script>
-    (function () {
-      if (location.protocol !== 'https:') return;
-      var loaded = false;
-      function loadAnalytics() {
-        if (loaded) return;
-        loaded = true;
-        window.removeEventListener('scroll', loadAnalytics);
-        window.removeEventListener('pointerdown', loadAnalytics);
-        window.removeEventListener('keydown', loadAnalytics);
-
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        window.gtag = gtag;
-        var ga = document.createElement('script');
-        ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-Y5R6G1TRVV';
-        ga.async = true;
-        ga.onload = function () {
-          gtag('js', new Date());
-          gtag('config', 'G-Y5R6G1TRVV', { cookie_domain: 'bansallawyers.com.au', anonymize_ip: true });
-        };
-        document.head.appendChild(ga);
-
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '628232819622737');
-        fbq('track', 'PageView');
-
-        var s1 = document.createElement('script');
-        s1.src = @json(asset('js/analytics-engagement.min.js') . '?v=1.1');
-        s1.defer = true;
-        document.body.appendChild(s1);
-        var s2 = document.createElement('script');
-        s2.src = @json(asset('js/footer-animations.min.js') . '?v=1.1');
-        s2.defer = true;
-        document.body.appendChild(s2);
-
-        @if(Request::is('migration-law') || Request::is('migration-law/*'))
-        (function(h,o,t,j,a,r){
-          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-          h._hjSettings={hjid:6499398,hjsv:6};
-          a=o.getElementsByTagName('head')[0];
-          r=o.createElement('script');r.async=1;
-          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-          a.appendChild(r);
-        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-        @endif
-      }
-
-      window.addEventListener('scroll', loadAnalytics, { passive: true, once: true });
-      window.addEventListener('pointerdown', loadAnalytics, { once: true });
-      window.addEventListener('keydown', loadAnalytics, { once: true });
-      setTimeout(loadAnalytics, 8000);
-    })();
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '628232819622737');
+    fbq('track', 'PageView');
     </script>
-    @endif
+    <!-- End Meta Pixel Code -->
 </body>
 
 </html>
