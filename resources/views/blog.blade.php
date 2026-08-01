@@ -173,7 +173,7 @@
         @if($bloglists->hasPages())
             <div class="row">
                 <div class="col-md-12">
-                    {{ $bloglists->links() }}
+                    {{ $bloglists->links('pagination.custom') }}
                 </div>
             </div>
         @endif

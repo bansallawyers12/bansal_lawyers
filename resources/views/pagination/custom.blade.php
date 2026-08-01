@@ -1,15 +1,3 @@
-@php
-    // Get base path from paginator path
-    $basePath = $paginator->path();
-    // Generate custom URLs in format /blog/page-{page} or /blog/category/{slug}/page-{page}
-    $generatePageUrl = function($page) use ($basePath) {
-        if ($page == 1) {
-            return $basePath;
-        }
-        return rtrim($basePath, '/') . '/page-' . $page;
-    };
-@endphp
-
 @if ($paginator->hasPages())
     <nav aria-label="Blog pagination" class="experimental-pagination">
         <div class="pagination-wrapper">
@@ -20,13 +8,9 @@
                     <span class="btn-text">Previous</span>
                 </span>
             @else
-                @php
-                    $prevPage = $paginator->currentPage() - 1;
-                    $prevUrl = $generatePageUrl($prevPage);
-                @endphp
-                <a href="{{ $prevUrl }}" 
-                   class="pagination-btn pagination-btn-prev" 
-                   rel="prev" 
+                <a href="{{ $paginator->previousPageUrl() }}"
+                   class="pagination-btn pagination-btn-prev"
+                   rel="prev"
                    aria-label="Previous page">
                     <i data-lucide="arrow-left"></i>
                     <span class="btn-text">Previous</span>
@@ -45,17 +29,14 @@
                     @if (is_array($element))
                         @foreach ($element as $page => $url)
                             @if ($page == $paginator->currentPage())
-                                <span class="pagination-number pagination-number-active" 
-                                      aria-current="page" 
+                                <span class="pagination-number pagination-number-active"
+                                      aria-current="page"
                                       aria-label="Page {{ $page }}">
                                     {{ $page }}
                                 </span>
                             @else
-                                @php
-                                    $pageUrl = $generatePageUrl($page);
-                                @endphp
-                                <a href="{{ $pageUrl }}" 
-                                   class="pagination-number" 
+                                <a href="{{ $url }}"
+                                   class="pagination-number"
                                    aria-label="Go to page {{ $page }}">
                                     {{ $page }}
                                 </a>
@@ -67,13 +48,9 @@
 
             {{-- Next Page Link --}}
             @if ($paginator->hasMorePages())
-                @php
-                    $nextPage = $paginator->currentPage() + 1;
-                    $nextUrl = $generatePageUrl($nextPage);
-                @endphp
-                <a href="{{ $nextUrl }}" 
-                   class="pagination-btn pagination-btn-next" 
-                   rel="next" 
+                <a href="{{ $paginator->nextPageUrl() }}"
+                   class="pagination-btn pagination-btn-next"
+                   rel="next"
                    aria-label="Next page">
                     <span class="btn-text">Next</span>
                     <i data-lucide="arrow-right"></i>
@@ -85,11 +62,11 @@
                 </span>
             @endif
         </div>
-        
+
         {{-- Page Info --}}
         <div class="pagination-info">
             <span class="pagination-text">
-                Showing {{ $paginator->firstItem() }} to {{ $paginator->lastItem() }} 
+                Showing {{ $paginator->firstItem() }} to {{ $paginator->lastItem() }}
                 of {{ $paginator->total() }} results
             </span>
         </div>
@@ -102,7 +79,7 @@
     text-align: center;
 }
 
-.pagination-wrapper {
+.experimental-pagination .pagination-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -111,13 +88,16 @@
     flex-wrap: wrap;
 }
 
-.pagination-btn {
+/* Higher specificity than .ftco-section a { color: #1b4d89 } so label/icon stay white */
+.ftco-section .experimental-pagination a.pagination-btn,
+.experimental-pagination a.pagination-btn,
+.experimental-pagination .pagination-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 12px 20px;
     background: #1B4D89;
-    color: white;
+    color: #ffffff;
     text-decoration: none;
     border-radius: 25px;
     font-weight: 600;
@@ -126,16 +106,26 @@
     border: 2px solid #1B4D89;
 }
 
-.pagination-btn:hover {
+.ftco-section .experimental-pagination a.pagination-btn:hover,
+.experimental-pagination a.pagination-btn:hover,
+.experimental-pagination .pagination-btn:hover {
     background: #0d3a6b;
     border-color: #0d3a6b;
-    color: white;
+    color: #ffffff;
     text-decoration: none;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(27, 77, 137, 0.3);
 }
 
-.pagination-btn-disabled {
+.experimental-pagination .pagination-btn .btn-text,
+.experimental-pagination .pagination-btn svg,
+.experimental-pagination .pagination-btn i {
+    color: inherit;
+    stroke: currentColor;
+}
+
+.experimental-pagination .pagination-btn-disabled,
+.experimental-pagination span.pagination-btn-disabled {
     background: #f8f9fa;
     color: #6c757d;
     border-color: #dee2e6;
@@ -144,7 +134,8 @@
     box-shadow: none;
 }
 
-.pagination-btn-disabled:hover {
+.experimental-pagination .pagination-btn-disabled:hover,
+.experimental-pagination span.pagination-btn-disabled:hover {
     background: #f8f9fa;
     color: #6c757d;
     border-color: #dee2e6;
@@ -152,13 +143,15 @@
     box-shadow: none;
 }
 
-.pagination-numbers {
+.experimental-pagination .pagination-numbers {
     display: flex;
     gap: 8px;
     align-items: center;
 }
 
-.pagination-number {
+.ftco-section .experimental-pagination a.pagination-number,
+.experimental-pagination a.pagination-number,
+.experimental-pagination .pagination-number {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -174,77 +167,79 @@
     transition: all 0.3s ease;
 }
 
-.pagination-number:hover {
+.ftco-section .experimental-pagination a.pagination-number:hover,
+.experimental-pagination a.pagination-number:hover,
+.experimental-pagination .pagination-number:hover {
     background: #1B4D89;
-    color: white;
+    color: #ffffff;
     border-color: #1B4D89;
     text-decoration: none;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(27, 77, 137, 0.3);
 }
 
-.pagination-number-active {
+.experimental-pagination .pagination-number-active {
     background: #1B4D89;
-    color: white;
+    color: #ffffff;
     border-color: #1B4D89;
     cursor: default;
     transform: none;
     box-shadow: 0 5px 15px rgba(27, 77, 137, 0.3);
 }
 
-.pagination-dots {
+.experimental-pagination .pagination-dots {
     color: #6c757d;
     font-weight: 600;
     padding: 0 5px;
 }
 
-.pagination-info {
+.experimental-pagination .pagination-info {
     margin-top: 15px;
 }
 
-.pagination-text {
+.experimental-pagination .pagination-text {
     color: #666;
     font-size: 0.9rem;
     font-weight: 500;
 }
 
-.btn-text {
+.experimental-pagination .btn-text {
     font-size: 0.9rem;
 }
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-    .pagination-wrapper {
+    .experimental-pagination .pagination-wrapper {
         gap: 10px;
     }
-    
-    .pagination-btn {
+
+    .experimental-pagination .pagination-btn {
         padding: 10px 15px;
         font-size: 0.85rem;
     }
-    
-    .pagination-number {
+
+    .experimental-pagination .pagination-number {
         width: 40px;
         height: 40px;
         font-size: 0.85rem;
     }
-    
-    .pagination-text {
+
+    .experimental-pagination .pagination-text {
         font-size: 0.8rem;
     }
 }
 
 @media (max-width: 480px) {
-    .pagination-wrapper {
+    .experimental-pagination .pagination-wrapper {
         flex-direction: column;
         gap: 15px;
     }
-    
-    .pagination-numbers {
+
+    .experimental-pagination .pagination-numbers {
         order: 2;
     }
-    
-    .pagination-btn {
+
+    .experimental-pagination .pagination-btn {
         order: 1;
         width: 100%;
         max-width: 200px;
