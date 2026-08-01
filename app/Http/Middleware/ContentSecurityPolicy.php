@@ -114,6 +114,9 @@ class ContentSecurityPolicy
                 'https://www.google.com',
                 'https://maps.googleapis.com',
                 'https://www.google-analytics.com',
+                // GA4 collect endpoint used by gtag (G-*)
+                'https://analytics.google.com',
+                'https://*.google-analytics.com',
                 'https://www.googletagmanager.com',
                 'https://connect.facebook.net',
                 'https://challenges.cloudflare.com',
@@ -125,6 +128,8 @@ class ContentSecurityPolicy
                 'wss://*.hotjar.io',
                 // Google Ads / conversion tracking
                 'https://googleads.g.doubleclick.net',
+                'https://ad.doubleclick.net',
+                'https://stats.g.doubleclick.net',
                 'https://www.googleadservices.com',
                 // Cloudflare Web Analytics
                 'https://cloudflareinsights.com',
