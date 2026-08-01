@@ -154,7 +154,7 @@
                     </div>
                     <div class="calendar-layout">
                         <div class="calendar-widget">
-                            <input type="text" id="booking-calendar" data-flatpickr-mode="inline-date" aria-label="Select appointment date">
+                            <input type="text" id="booking-calendar" data-flatpickr-mode="inline-date" aria-label="Select appointment date" hidden>
                         </div>
                         <div class="time-slots-panel">
                             <h3 class="option-title" x-text="selectedDateLabel ? 'Available times for ' + selectedDateLabel : 'Select a date first'"></h3>

@@ -158,6 +158,10 @@ export function createCalendarController(callbacks) {
             },
         });
 
+        // Inline calendar UI is enough; keep the source input out of layout permanently
+        container.hidden = true;
+        container.style.display = 'none';
+
         fetchWeekendConfiguration(serviceId);
     }
 
