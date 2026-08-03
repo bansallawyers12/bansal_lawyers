@@ -49,7 +49,11 @@
         .ftco-animate{opacity:1!important;visibility:visible!important}
         /* Critical floating Call Now (full styles load deferred) */
         .floating-contact-btn{position:fixed;bottom:20px;right:20px;z-index:9999}
+        .floating-btn-main{width:60px;height:60px;border:none;border-radius:50%;background:linear-gradient(135deg,#1B4D89,#2c5aa0);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-shadow:0 4px 20px rgba(27,77,137,.35);position:relative}
+        .floating-btn-icon{color:#fff;display:flex;align-items:center;justify-content:center;line-height:0;position:relative;z-index:2}
+        .floating-btn-icon .floating-phone-icon{width:24px;height:24px;display:block}
         .floating-btn-mobile-call{display:none;align-items:center;gap:8px;background:#1B4D89;color:#fff;text-decoration:none;padding:12px 18px;border-radius:50px;font-weight:600;box-shadow:0 4px 20px rgba(27,77,137,.35)}
+        .floating-btn-mobile-call .floating-phone-icon{width:16px;height:16px;flex-shrink:0}
         @media (max-width:768px){.floating-btn-main{display:none!important}.floating-btn-mobile-call{display:inline-flex!important}}
         @media (min-width:769px){.floating-btn-mobile-call{display:none!important}}
     </style>

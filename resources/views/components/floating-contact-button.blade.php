@@ -3,14 +3,19 @@
     <!-- Main floating button -->
     <button class="floating-btn-main" onclick="toggleFloatingContact()" aria-label="Open contact modal" type="button">
         <div class="floating-btn-icon">
-            <i data-lucide="phone" aria-hidden="true"></i>
+            {{-- Inline SVG so icon always shows (Lucide loads later and is optional here) --}}
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="floating-phone-icon">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
         </div>
         <div class="floating-btn-pulse"></div>
     </button>
     
     <!-- Mobile call button (visible only on mobile) -->
     <a href="tel:+61422905860" class="floating-btn-mobile-call" id="mobile-call-btn">
-        <i data-lucide="phone" aria-hidden="true"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="floating-phone-icon">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
         <span>Call Now</span>
     </a>
 </div>
@@ -78,8 +83,8 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="{{ asset('css/floating-contact.css') }}?v=1.0" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="{{ asset('css/floating-contact.css') }}?v=1.0"></noscript>
+<link rel="stylesheet" href="{{ asset('css/floating-contact.css') }}?v=1.1" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ asset('css/floating-contact.css') }}?v=1.1"></noscript>
 
 <script>
 // Floating Contact Button JavaScript

@@ -17,6 +17,8 @@ export default defineConfig({
                 'resources/css/pages/about.css',
                 'resources/css/pages/practice-areas.css',
                 'resources/css/pages/case.css',
+                'resources/css/pages/blog.css',
+                'resources/css/pages/contact.css',
                 // footer-grid-shim.css retired in Phase 8 (grid lives in frontend.css)
 
                 // JS files

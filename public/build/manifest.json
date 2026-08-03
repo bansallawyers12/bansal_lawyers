@@ -138,6 +138,15 @@
     "src": "resources/css/pages/appointment-form.css",
     "isEntry": true
   },
+  "resources/css/pages/blog.css": {
+    "file": "assets/blog-JIarrCRL.css",
+    "name": "blog",
+    "names": [
+      "blog.css"
+    ],
+    "src": "resources/css/pages/blog.css",
+    "isEntry": true
+  },
   "resources/css/pages/case.css": {
     "file": "assets/case-DpHzEP5u.css",
     "name": "case",
@@ -145,6 +154,15 @@
       "case.css"
     ],
     "src": "resources/css/pages/case.css",
+    "isEntry": true
+  },
+  "resources/css/pages/contact.css": {
+    "file": "assets/contact-CQggZ83H.css",
+    "name": "contact",
+    "names": [
+      "contact.css"
+    ],
+    "src": "resources/css/pages/contact.css",
     "isEntry": true
   },
   "resources/css/pages/home.css": {
@@ -222,7 +240,7 @@
     ]
   },
   "resources/js/frontend.js": {
-    "file": "assets/frontend-BRw2CxQw.js",
+    "file": "assets/frontend-CZxNppMx.js",
     "name": "frontend",
     "src": "resources/js/frontend.js",
     "isEntry": true,

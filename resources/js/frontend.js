@@ -178,23 +178,74 @@ const lazyInitTestimonials = () => {
 };
 
 const showDecorHero = () => {
-    document.querySelectorAll('.page-case .experimental-case-hero').forEach((el) => {
-        if (!el.classList.contains('hero-has-photo')) {
-            el.classList.add('hero-has-photo');
+    document
+        .querySelectorAll(
+            '.page-case .experimental-case-hero, .page-blog .experimental-blog-hero, .page-contact .photo-background'
+        )
+        .forEach((el) => {
+            if (!el.classList.contains('hero-has-photo')) {
+                el.classList.add('hero-has-photo');
+            }
+        });
+};
+
+const initLazyMaps = () => {
+    const containers = document.querySelectorAll('[data-map-src]');
+    if (!containers.length) {
+        return;
+    }
+
+    const loadMap = (container) => {
+        if (container.dataset.mapReady === '1') {
+            return;
         }
-    });
+        const src = container.getAttribute('data-map-src');
+        if (!src) {
+            return;
+        }
+        container.dataset.mapReady = '1';
+        const iframe = document.createElement('iframe');
+        iframe.src = src;
+        iframe.title = container.getAttribute('data-map-title') || 'Map';
+        iframe.loading = 'lazy';
+        iframe.referrerPolicy = 'no-referrer-when-downgrade';
+        iframe.allow = 'fullscreen';
+        iframe.setAttribute('allowfullscreen', '');
+        container.appendChild(iframe);
+    };
+
+    if (!('IntersectionObserver' in window)) {
+        containers.forEach((c) => afterPaint(() => loadMap(c), 2500));
+        return;
+    }
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    observer.unobserve(entry.target);
+                    afterPaint(() => loadMap(entry.target), 800);
+                }
+            });
+        },
+        { rootMargin: '180px' }
+    );
+
+    containers.forEach((c) => observer.observe(c));
 };
 
 const onReady = () => {
-    afterPaint(bootIcons, 2500);
+    // Icons soon after paint so other Lucide marks appear; critical icons use inline SVG
+    afterPaint(bootIcons, 400);
     afterPaint(() => {
         loadAlpine();
         initAos();
         initHeroParallax();
+        initLazyMaps();
     }, 2000);
     lazyInitTestimonials();
 
-    // Decorative Case Studies overlay — after LCP so 20% photo never delays paint
+    // Decorative hero/background photos — after LCP so they never delay paint
     window.addEventListener('scroll', showDecorHero, { once: true, passive: true });
     window.addEventListener('pointerdown', showDecorHero, { once: true });
     setTimeout(showDecorHero, 4000);
