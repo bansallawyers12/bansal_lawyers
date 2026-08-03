@@ -20,6 +20,10 @@ const loadAos = async () => {
     if (!document.querySelector('[data-aos], .ftco-animate')) {
         return null;
     }
+    // Skip AOS on mobile / reduced-motion — same visual (AOS already disabled under 768px)
+    if (window.innerWidth < 768 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return null;
+    }
     const [{ default: AOS }] = await Promise.all([
         import('aos'),
         import('aos/dist/aos.css'),
