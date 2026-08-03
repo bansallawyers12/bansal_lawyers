@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="google-site-verification" content="v3RcCNNqLVXDQoEWlV1SzP3SHNvhWws-YuzpLxWuk8A" />
+    {{-- Page LCP preloads first so they outrank deferred CSS/fonts --}}
+    @yield('preload')
     @yield('seoinfo')
 
     @if(Request::is('/') || Request::is('about') || Request::is('contact'))
@@ -52,9 +54,8 @@
         @media (min-width:769px){.floating-btn-mobile-call{display:none!important}}
     </style>
 
-    <link rel="preload" href="{{ asset('fonts/poppins/poppins-regular.woff2') }}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ asset('fonts/poppins/poppins-semibold.woff2') }}" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}?v=1.3" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/fonts.css') }}?v=1.3"></noscript>
 
     {{-- Large app CSS: non-blocking --}}
     <link rel="stylesheet" href="{{ \Illuminate\Support\Facades\Vite::asset('resources/css/frontend.css') }}" media="print" onload="this.media='all'">

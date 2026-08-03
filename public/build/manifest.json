@@ -146,6 +146,15 @@
     "src": "resources/css/pages/home.css",
     "isEntry": true
   },
+  "resources/css/pages/practice-areas.css": {
+    "file": "assets/practice-areas-G5gIu9df.css",
+    "name": "practice-areas",
+    "names": [
+      "practice-areas.css"
+    ],
+    "src": "resources/css/pages/practice-areas.css",
+    "isEntry": true
+  },
   "resources/css/vendor-admin.css": {
     "file": "assets/vendor-admin-BtTSHhin.css",
     "name": "vendor-admin",

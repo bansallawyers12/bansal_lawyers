@@ -1,470 +1,79 @@
 @extends('layouts.frontend')
+
 @section('seoinfo')
-<?php 
-    // Use dynamic meta title, description and keywords from CMS page if available, otherwise use defaults
+<?php
     $metaTitle = (isset($pagedata->meta_title) && $pagedata->meta_title != "") ? $pagedata->meta_title : "Immigration, family and more lawyers consultation in Melbourne";
     $metaDescription = (isset($pagedata->meta_description) && $pagedata->meta_description != "") ? $pagedata->meta_description : "If you are looking expert lawyers consultation in Melbourne? Get professional legal advice from experienced lawyers to guide you legal challenges with confidence.";
     $metaKeywords = (isset($pagedata->meta_keyward) && $pagedata->meta_keyward != "") ? $pagedata->meta_keyward : "Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get expert legal help today!";
 ?>
-	<title>{{ $metaTitle }}</title>
-	<meta name="description" content="{{ $metaDescription }}" />
+<title>{{ $metaTitle }}</title>
+<meta name="description" content="{{ $metaDescription }}" />
+<meta name="keyword" content="{{ $metaKeywords }}" />
 
-    <meta name="keyword" content="{{ $metaKeywords }}" />
+<link rel="canonical" href="https://www.bansallawyers.com.au/practice-areas" />
 
-    <link rel="canonical" href="https://www.bansallawyers.com.au/practice-areas" />
+<meta property="og:url" content="<?php echo URL::to('/'); ?>/practice-areas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ $metaTitle }}">
+<meta property="og:description" content="{{ $metaDescription }}">
+<meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
-	<!-- Facebook Meta Tags -->
-    <meta property="og:url" content="<?php echo URL::to('/'); ?>/practice-areas">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="{{ $metaTitle }}">
-    <meta property="og:description" content="{{ $metaDescription }}">
-    <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
-	<meta property="og:image:alt" content="Bansal Lawyers Logo">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="bansallawyers.com.au">
+<meta property="twitter:url" content="<?php echo URL::to('/'); ?>/practice-areas">
+<meta name="twitter:title" content="{{ $metaTitle }}">
+<meta name="twitter:description" content="{{ $metaDescription }}">
+<meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
+<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
+@endsection
 
+@section('preload')
+{{-- Mobile Lighthouse LCP --}}
+<link rel="preload" as="image" href="{{ asset('images/PracticeArea-mobile.webp') }}" type="image/webp" media="(max-width: 767px)" fetchpriority="high">
+<link rel="preload" as="image" href="{{ asset('images/PracticeArea.webp') }}" type="image/webp" media="(min-width: 768px)" fetchpriority="high">
+@endsection
 
-	<!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:domain" content="bansallawyers.com.au">
-    <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/practice-areas">
-    <meta name="twitter:title" content="{{ $metaTitle }}">
-    <meta name="twitter:description" content="{{ $metaDescription }}">
-    <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
-	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
-
+@section('head')
+<style>
+/* Critical ATF hero — freezes layout before deferred CSS */
+.page-practice-areas .hero-section{position:relative;color:#fff;text-align:center;overflow:hidden;margin-bottom:40px;max-height:422px!important;height:422px;background-color:#1a1a1a}
+.page-practice-areas .hero-section__media{position:absolute;inset:0;z-index:0}
+.page-practice-areas .hero-section__media img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;display:block!important;max-width:none!important}
+.page-practice-areas .hero-section .overlay{position:absolute;inset:0;background:rgba(0,0,0,.3);z-index:1;pointer-events:none}
+.page-practice-areas .hero-section__inner{position:relative;z-index:2;height:100%;max-width:1200px;margin:0 auto;padding:0 20px;box-sizing:border-box;display:flex;align-items:flex-end;justify-content:center}
+.page-practice-areas .hero-section__copy{padding-bottom:3rem;text-align:center;width:100%;max-width:800px}
+.page-practice-areas .hero-section .bread{font-size:3rem;font-weight:700;color:#fff;margin:0 0 1rem;text-shadow:2px 2px 4px rgba(0,0,0,.5);line-height:1.2}
+.page-practice-areas .hero-section .breadcrumbs{color:#fff;font-size:1rem;opacity:.9;margin:0}
+.page-practice-areas .hero-section .breadcrumbs a{color:#fff;text-decoration:none}
+@media (max-width:768px){.page-practice-areas .hero-section{height:320px;max-height:320px!important}.page-practice-areas .hero-section .bread{font-size:2.5rem}.page-practice-areas .hero-section__copy{padding-bottom:2rem}}
+@media (max-width:480px){.page-practice-areas .hero-section{height:260px;max-height:260px!important}.page-practice-areas .hero-section .bread{font-size:2rem}}
+</style>
+@vite(['resources/css/pages/practice-areas.css'])
 @endsection
 
 @section('content')
-<style>
-    /* Modern CSS Reset and Base Styles */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Poppins', sans-serif;
-        line-height: 1.6;
-        color: #1a1a1a;
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    }
-
-    /* Hero Section */
-    .hero-section {
-        background-image: url('{{ asset('images/PracticeArea.jpg') }}');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: white;
-        padding: 80px 0;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        margin-bottom: 40px;
-        max-height: 422px !important;
-    }
-
-    .hero-section .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.3);
-        z-index: 1;
-    }
-
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-        opacity: 0.3;
-    }
-
-    .hero-section .slider-text {
-        height: 422px;
-        display: flex;
-        align-items: end;
-        justify-content: center;
-    }
-
-    .hero-section .bread {
-        font-size: 3rem;
-        font-weight: 700;
-        color: white;
-        margin-bottom: 1rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .hero-section .breadcrumbs {
-        color: white;
-        font-size: 1rem;
-        opacity: 0.9;
-    }
-
-    .hero-section .breadcrumbs a {
-        color: white;
-        text-decoration: none;
-        transition: opacity 0.3s ease;
-    }
-
-    .hero-section .breadcrumbs a:hover {
-        opacity: 0.7;
-        color: white;
-        text-decoration: none;
-    }
-
-    /* Practice Areas Grid */
-    .practice-areas-section {
-        padding: 80px 0;
-        max-width: 1400px;
-        margin: 0 auto;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .section-title {
-        text-align: center;
-        margin-bottom: 3rem;
-    }
-
-    .section-title h2 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #1e3a8a;
-        margin-bottom: 1rem;
-    }
-
-    .section-title p {
-        font-size: 1.1rem;
-        color: #64748b;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    .practice-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 2rem;
-        margin-bottom: 4rem;
-    }
-
-    .practice-card {
-        background: white;
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        border: 1px solid #e2e8f0;
-    }
-
-    .practice-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, #3b82f6, #1e40af);
-    }
-
-    .practice-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-icon {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(135deg, #3b82f6, #1e40af);
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1.5rem;
-        transition: transform 0.3s ease;
-    }
-
-    .practice-card:hover .card-icon {
-        transform: scale(1.1);
-    }
-
-    .card-icon img {
-        width: 40px;
-        height: 40px;
-        /* Removed filter - icons are already light colored */
-    }
-
-    .card-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #1e3a8a;
-        margin-bottom: 1rem;
-        line-height: 1.3;
-    }
-
-    .card-description {
-        color: #64748b;
-        margin-bottom: 1.5rem;
-        line-height: 1.6;
-        font-size: 0.95rem;
-    }
-
-    .card-features {
-        list-style: none;
-        margin-bottom: 2rem;
-    }
-
-    .card-features li {
-        display: flex;
-        align-items: center;
-        margin-bottom: 0.5rem;
-        font-size: 0.9rem;
-        color: #475569;
-    }
-
-    .card-features li::before {
-        content: '✓';
-        color: #10b981;
-        font-weight: bold;
-        margin-right: 0.5rem;
-        font-size: 1rem;
-    }
-
-    .card-button {
-        display: inline-block;
-        background: linear-gradient(135deg, #3b82f6, #1e40af);
-        color: white;
-        padding: 12px 24px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        border: none;
-        cursor: pointer;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .card-button:hover {
-        background: linear-gradient(135deg, #1e40af, #1e3a8a);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-        color: white;
-        text-decoration: none;
-    }
-
-    /* Stats Section */
-    .stats-section {
-        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-        color: white;
-        padding: 60px 0;
-        margin: 60px 0;
-        border-radius: 20px;
-    }
-
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 2rem;
-        text-align: center;
-    }
-
-    .stat-item h3 {
-        font-size: 3rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        background: linear-gradient(45deg, #ffffff, #e0e7ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .stat-item p {
-        font-size: 1.1rem;
-        opacity: 0.9;
-        font-weight: 300;
-    }
-
-    /* CTA Section */
-    .cta-section {
-        background: white;
-        padding: 60px 0;
-        text-align: center;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        margin: 60px 0;
-    }
-
-    .cta-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #1e3a8a;
-        margin-bottom: 1rem;
-    }
-
-    .cta-description {
-        font-size: 1.1rem;
-        color: #64748b;
-        margin-bottom: 2rem;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .cta-buttons {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .cta-button {
-        display: inline-block;
-        padding: 15px 30px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        font-size: 1rem;
-    }
-
-    .cta-button.primary {
-        background: linear-gradient(135deg, #3b82f6, #1e40af);
-        color: white;
-    }
-
-    .cta-button.primary:hover {
-        background: linear-gradient(135deg, #1e40af, #1e3a8a);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-        color: white;
-        text-decoration: none;
-    }
-
-    .cta-button.secondary {
-        background: transparent;
-        color: #3b82f6;
-        border: 2px solid #3b82f6;
-    }
-
-    .cta-button.secondary:hover {
-        background: #3b82f6;
-        color: white;
-        transform: translateY(-2px);
-        text-decoration: none;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .hero-title {
-            font-size: 2.5rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-        }
-
-        .practice-grid {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        .practice-card {
-            padding: 1.5rem;
-        }
-
-        .section-title h2 {
-            font-size: 2rem;
-        }
-
-        .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .cta-buttons {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .cta-button {
-            width: 100%;
-            max-width: 300px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .hero-section {
-            padding: 60px 0;
-        }
-
-        .hero-title {
-            font-size: 2rem;
-        }
-
-        .practice-areas-section {
-            padding: 60px 0;
-        }
-
-        .stats-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    /* Animation Classes */
-    .fade-in {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.6s ease;
-    }
-
-    .fade-in.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .slide-in-left {
-        opacity: 0;
-        transform: translateX(-50px);
-        transition: all 0.6s ease;
-    }
-
-    .slide-in-left.visible {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    .slide-in-right {
-        opacity: 0;
-        transform: translateX(50px);
-        transition: all 0.6s ease;
-    }
-
-    .slide-in-right.visible {
-        opacity: 1;
-        transform: translateX(0);
-    }
-</style>
+<div class="page-practice-areas">
 
 <!-- Hero Section -->
-<section class="hero-section" data-parallax-bg="0.5">
+<section class="hero-section">
+    <picture class="hero-section__media">
+        <source media="(min-width: 768px)" srcset="{{ asset('images/PracticeArea.webp') }}" type="image/webp">
+        <img src="{{ asset('images/PracticeArea-mobile.webp') }}"
+             alt="Bansal Lawyers practice areas"
+             width="800"
+             height="250"
+             fetchpriority="high"
+             decoding="sync">
+    </picture>
     <div class="overlay"></div>
-    <div class="container">
-        <div class="row no-gutters slider-text align-items-end justify-content-center">
-            <div class="col-md-9 pb-5 text-center" data-aos="fade-up">
-                <h1 class="mb-3 bread">Practice Areas</h1>
-                <p class="breadcrumbs">
-                    <span class="mr-2"><a href="/">Home <i data-lucide="arrow-right"></i></a></span>
-                    <span>Practice Areas <i data-lucide="arrow-right"></i></span>
-                </p>
-            </div>
+    <div class="hero-section__inner">
+        <div class="hero-section__copy">
+            <h1 class="bread">Practice Areas</h1>
+            <p class="breadcrumbs">
+                <span class="mr-2"><a href="/">Home <i data-lucide="arrow-right" aria-hidden="true"></i></a></span>
+                <span>Practice Areas <i data-lucide="arrow-right" aria-hidden="true"></i></span>
+            </p>
         </div>
     </div>
 </section>
@@ -477,10 +86,9 @@
     </div>
 
     <div class="practice-grid">
-        <!-- Family Law Card -->
         <div class="practice-card fade-in">
             <div class="card-icon">
-                <img src="{{ asset('images/family-law.png') }}" alt="Compassionate Legal Support for Family Law Cases" loading="lazy">
+                <img src="{{ asset('images/family-law.png') }}" alt="Compassionate Legal Support for Family Law Cases" width="40" height="40" loading="lazy" decoding="async">
             </div>
             <h3 class="card-title">Family Law</h3>
             <p class="card-description">Divorce, separation, children, property and other family law matters. Expert family lawyers in Melbourne providing compassionate legal support.</p>
@@ -494,10 +102,9 @@
             <a href="/family-law" class="card-button">Learn more about Family Law</a>
         </div>
 
-        <!-- Migration Law Card -->
         <div class="practice-card fade-in">
             <div class="card-icon">
-                <img src="{{ asset('images/immigration-law.png') }}" alt="Expert Immigration Lawyers Helping You Settle in Australia" loading="lazy">
+                <img src="{{ asset('images/immigration-law.png') }}" alt="Expert Immigration Lawyers Helping You Settle in Australia" width="40" height="40" loading="lazy" decoding="async">
             </div>
             <h3 class="card-title">Migration Law</h3>
             <p class="card-description">The Court can review some decisions made under the Migration Act 1958. Expert immigration lawyers helping you settle in Australia.</p>
@@ -511,10 +118,9 @@
             <a href="/migration-law" class="card-button">Learn more about Migration Law</a>
         </div>
 
-        <!-- Criminal Law Card -->
         <div class="practice-card fade-in">
             <div class="card-icon">
-                <img src="{{ asset('images/criminal-law.png') }}" alt="Expert Criminal Defense Lawyers in Melbourne" loading="lazy">
+                <img src="{{ asset('images/criminal-law.png') }}" alt="Expert Criminal Defense Lawyers in Melbourne" width="40" height="40" loading="lazy" decoding="async">
             </div>
             <h3 class="card-title">Criminal Law</h3>
             <p class="card-description">Bankruptcy, fair work, human rights, consumer, admiralty, administrative and IP. Expert criminal lawyers in Melbourne providing strong defense representation.</p>
@@ -528,10 +134,9 @@
             <a href="/criminal-law" class="card-button">Learn more about Criminal Law</a>
         </div>
 
-        <!-- Commercial Law Card -->
         <div class="practice-card fade-in">
             <div class="card-icon">
-                <img src="{{ asset('images/commercial-law.png') }}" alt="Expert Commercial Lawyers in Melbourne" loading="lazy">
+                <img src="{{ asset('images/commercial-law.png') }}" alt="Expert Commercial Lawyers in Melbourne" width="40" height="40" loading="lazy" decoding="async">
             </div>
             <h3 class="card-title">Commercial Law</h3>
             <p class="card-description">From Buying and Leasing to Dispute Resolution – Trusted Legal Guidance for All Your Property Matters. Expert commercial lawyers in Melbourne.</p>
@@ -545,10 +150,9 @@
             <a href="/commercial-law" class="card-button">Learn more about Commercial Law</a>
         </div>
 
-        <!-- Property Law Card -->
         <div class="practice-card fade-in">
             <div class="card-icon">
-                <img src="{{ asset('images/property-law.png') }}" alt="Expert Property Lawyers in Melbourne" loading="lazy">
+                <img src="{{ asset('images/property-law.png') }}" alt="Expert Property Lawyers in Melbourne" width="40" height="40" loading="lazy" decoding="async">
             </div>
             <h3 class="card-title">Property Law</h3>
             <p class="card-description">Smart Legal Solutions for Smart Businesses – Simplifying Contracts, Mergers, Disputes, and Compliance. Expert property lawyers in Melbourne.</p>
@@ -563,7 +167,6 @@
         </div>
     </div>
 
-    <!-- Stats Section -->
     <div class="stats-section fade-in">
         <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
             <div class="stats-grid">
@@ -587,7 +190,6 @@
         </div>
     </div>
 
-    <!-- CTA Section -->
     <div class="cta-section fade-in">
         <h2 class="cta-title">Get Expert Legal Help Today</h2>
         <p class="cta-description">Discover trusted legal services in Australia with Bansal Lawyers. Specializing in family law, immigration, property disputes, and more. Get professional legal advice from experienced lawyers to guide you through legal challenges with confidence.</p>
@@ -598,69 +200,30 @@
     </div>
 </section>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Intersection Observer for animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+</div>
 
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-    // Observe all animated elements
-    document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+    document.querySelectorAll('.page-practice-areas .fade-in, .page-practice-areas .slide-in-left, .page-practice-areas .slide-in-right').forEach(function (el) {
         observer.observe(el);
     });
 
-    // Force immediate visibility check for elements already in viewport
-    setTimeout(function() {
-        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
-            const rect = el.getBoundingClientRect();
-            const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
-            if (isInViewport && !el.classList.contains('visible')) {
+    setTimeout(function () {
+        document.querySelectorAll('.page-practice-areas .fade-in, .page-practice-areas .slide-in-left, .page-practice-areas .slide-in-right').forEach(function (el) {
+            var rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0 && !el.classList.contains('visible')) {
                 el.classList.add('visible');
             }
         });
     }, 100);
-
-    // Add staggered animation to practice cards
-    const practiceCards = document.querySelectorAll('.practice-card');
-    practiceCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
-    });
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // Add hover effects to cards
-    practiceCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px) scale(1.02)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
 });
 </script>
-
 @endsection
