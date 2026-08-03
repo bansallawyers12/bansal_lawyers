@@ -405,6 +405,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const successText = document.getElementById(formId + '-success-text');
     const errorText = document.getElementById(formId + '-error-text');
 
+    const turnstileWidget = form.querySelector('.cf-turnstile');
+    if (turnstileWidget && typeof window.loadTurnstile === 'function') {
+        if ('IntersectionObserver' in window) {
+            const turnstileObserver = new IntersectionObserver(function (entries) {
+                if (entries[0].isIntersecting) {
+                    turnstileObserver.disconnect();
+                    window.loadTurnstile().catch(function () {});
+                }
+            }, { rootMargin: '200px' });
+            turnstileObserver.observe(turnstileWidget);
+        } else {
+            window.loadTurnstile().catch(function () {});
+        }
+    }
+
     // Clear previous validation errors
     function clearValidationErrors() {
         const invalidFields = form.querySelectorAll('.is-invalid');

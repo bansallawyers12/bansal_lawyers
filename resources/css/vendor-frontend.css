@@ -1,6 +1,2 @@
-/* Frontend vendor styles */
-
+/* Frontend vendor styles — AOS/Swiper CSS load dynamically with their JS */
 @import './lucide.css';
-@import 'aos/dist/aos.css';
-
-/* Swiper CSS - bundled via resources/js/vendor-frontend.js */
