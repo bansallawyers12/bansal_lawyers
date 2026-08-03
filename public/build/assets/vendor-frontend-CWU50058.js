@@ -1,0 +1,1 @@
+import"./lucide-init-DW2KjZDk.js";document.addEventListener(`DOMContentLoaded`,function(){typeof window.refreshLucideIcons==`function`&&window.refreshLucideIcons()});

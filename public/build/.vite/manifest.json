@@ -7,10 +7,11 @@
       "_vendor-alpine-nAnvHogZ.js"
     ]
   },
-  "_lucide-init-Cv-6oUKM.js": {
-    "file": "assets/lucide-init-Cv-6oUKM.js",
+  "_lucide-init-DW2KjZDk.js": {
+    "file": "assets/lucide-init-DW2KjZDk.js",
     "name": "lucide-init",
     "imports": [
+      "_rolldown-runtime-BgaNhQyE.js",
       "_vendor-lucide-DDR7m4pN.js"
     ]
   },
@@ -137,6 +138,15 @@
     "src": "resources/css/pages/appointment-form.css",
     "isEntry": true
   },
+  "resources/css/pages/case.css": {
+    "file": "assets/case-DpHzEP5u.css",
+    "name": "case",
+    "names": [
+      "case.css"
+    ],
+    "src": "resources/css/pages/case.css",
+    "isEntry": true
+  },
   "resources/css/pages/home.css": {
     "file": "assets/home-IyOSd54_.css",
     "name": "home",
@@ -183,13 +193,13 @@
     ]
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-BnKVxgAD.js",
+    "file": "assets/admin-LOAVWs0Z.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
-      "_lucide-init-Cv-6oUKM.js",
       "_preload-helper-B6JZccWF.js",
+      "_lucide-init-DW2KjZDk.js",
       "resources/js/vendor-admin.js",
       "resources/js/vendor-admin.js",
       "_alpine-utils-B80AJvoo.js",
@@ -200,59 +210,59 @@
     ]
   },
   "resources/js/appointment-form/index.js": {
-    "file": "assets/index-DxraBr22.js",
+    "file": "assets/index-rFB1G71e.js",
     "name": "index",
     "src": "resources/js/appointment-form/index.js",
     "isEntry": true,
     "imports": [
-      "_lucide-init-Cv-6oUKM.js",
+      "_lucide-init-DW2KjZDk.js",
       "_vendor-B1UJBWBD.js",
       "_vendor-alpine-nAnvHogZ.js",
       "_vendor-axios-DUbXuD_x.js"
     ]
   },
   "resources/js/frontend.js": {
-    "file": "assets/frontend-DZRtFwTz.js",
+    "file": "assets/frontend-BRw2CxQw.js",
     "name": "frontend",
     "src": "resources/js/frontend.js",
     "isEntry": true,
     "imports": [
       "_rolldown-runtime-BgaNhQyE.js",
-      "_lucide-init-Cv-6oUKM.js",
       "_preload-helper-B6JZccWF.js"
     ],
     "dynamicImports": [
       "_alpine-utils-B80AJvoo.js",
+      "_lucide-init-DW2KjZDk.js",
       "_vendor-aos-D3ZhEEcu.js",
       "_vendor-swiper-simmWr8c.js"
     ]
   },
   "resources/js/vendor-admin-login.js": {
-    "file": "assets/vendor-admin-login-ByNDE8xa.js",
+    "file": "assets/vendor-admin-login-Bwj-sLhY.js",
     "name": "vendor-admin-login",
     "src": "resources/js/vendor-admin-login.js",
     "isEntry": true,
     "imports": [
-      "_lucide-init-Cv-6oUKM.js"
+      "_lucide-init-DW2KjZDk.js"
     ]
   },
   "resources/js/vendor-admin.js": {
-    "file": "assets/vendor-admin-BipRBmUX.js",
+    "file": "assets/vendor-admin-UNJ7IQPL.js",
     "name": "vendor-admin",
     "src": "resources/js/vendor-admin.js",
     "isEntry": true,
     "imports": [
-      "_lucide-init-Cv-6oUKM.js",
+      "_lucide-init-DW2KjZDk.js",
       "_vendor-B1UJBWBD.js"
     ]
   },
   "resources/js/vendor-frontend.js": {
-    "file": "assets/vendor-frontend-BHsjBwNz.js",
+    "file": "assets/vendor-frontend-CWU50058.js",
     "name": "vendor-frontend",
     "src": "resources/js/vendor-frontend.js",
     "isEntry": true,
     "imports": [
-      "_lucide-init-Cv-6oUKM.js"
+      "_lucide-init-DW2KjZDk.js"
     ]
   }
 }

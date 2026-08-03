@@ -1,10 +1,17 @@
 // Frontend JS Bundle — marketing pages (Phase 4)
-// Lucide is light (tree-shaken). Alpine / Swiper / AOS load on demand.
+// Lucide / Alpine / Swiper / AOS load after paint so LCP stays clean.
 
-import './lucide-init.js';
 import { loadTurnstile } from './shared/turnstile-loader.js';
 
 window.loadTurnstile = loadTurnstile;
+
+const afterPaint = (fn, timeout = 2000) => {
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(fn, { timeout });
+        return;
+    }
+    requestAnimationFrame(() => setTimeout(fn, 0));
+};
 
 const loadAlpine = () => {
     if (window.Alpine || window.__alpineStarted) {
@@ -14,6 +21,10 @@ const loadAlpine = () => {
         return Promise.resolve();
     }
     return import('./alpine-utils.js');
+};
+
+const bootIcons = () => {
+    import('./lucide-init.js').catch(() => {});
 };
 
 const loadAos = async () => {
@@ -166,11 +177,27 @@ const lazyInitTestimonials = () => {
     observer.observe(el);
 };
 
+const showDecorHero = () => {
+    document.querySelectorAll('.page-case .experimental-case-hero').forEach((el) => {
+        if (!el.classList.contains('hero-has-photo')) {
+            el.classList.add('hero-has-photo');
+        }
+    });
+};
+
 const onReady = () => {
-    loadAlpine();
-    initAos();
-    initHeroParallax();
+    afterPaint(bootIcons, 2500);
+    afterPaint(() => {
+        loadAlpine();
+        initAos();
+        initHeroParallax();
+    }, 2000);
     lazyInitTestimonials();
+
+    // Decorative Case Studies overlay — after LCP so 20% photo never delays paint
+    window.addEventListener('scroll', showDecorHero, { once: true, passive: true });
+    window.addEventListener('pointerdown', showDecorHero, { once: true });
+    setTimeout(showDecorHero, 4000);
 };
 
 if (document.readyState === 'loading') {
@@ -181,5 +208,5 @@ if (document.readyState === 'loading') {
 
 window.FrontendBundle = {
     initialized: true,
-    version: '4.0.0',
+    version: '4.1.0',
 };
