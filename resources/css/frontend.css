@@ -13,6 +13,7 @@
 @import './components/admin-utilities.css';
 @import './components/frontend-utilities.css';
 @import './theme/theme-ftco.css';
+@import './lucide.css';
 
 /* Alpine cloak — hide until Alpine boots (also used on booking) */
 [x-cloak] {
@@ -43,7 +44,6 @@
 img {
   max-width: 100%;
   height: auto;
-  loading: lazy;
   transition: opacity var(--transition-base);
 }
 
