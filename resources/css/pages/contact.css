@@ -286,17 +286,28 @@
 .page-contact .modern-contact-item .icon {
     width: 80px;
     height: 80px;
-    background: var(--gradient-primary);
+    background: linear-gradient(135deg, #1B4D89 0%, #2c5aa0 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 25px;
     font-size: 2rem;
-    color: var(--white);
+    color: #ffffff;
     position: relative;
     z-index: 2;
     transition: all 0.3s ease;
+}
+
+/* PNG-like data URI icons — independent of currentColor / font / Lucide */
+.page-contact .modern-contact-item .icon .contact-card-icon {
+    width: 32px;
+    height: 32px;
+    display: block;
+    flex-shrink: 0;
+    max-width: none;
+    opacity: 1;
+    border: 0;
 }
 
 .page-contact .modern-contact-item .icon svg {
@@ -304,7 +315,16 @@
     height: 2rem;
     display: block;
     flex-shrink: 0;
-    stroke: currentColor;
+    stroke: #ffffff;
+    fill: none;
+    color: #ffffff;
+}
+
+.page-contact .modern-contact-item .icon svg path,
+.page-contact .modern-contact-item .icon svg circle,
+.page-contact .modern-contact-item .icon svg rect {
+    stroke: #ffffff;
+    fill: none;
 }
 
 .page-contact .modern-contact-item:hover .icon {

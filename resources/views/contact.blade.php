@@ -39,7 +39,10 @@
 .page-contact .modern-cta-primary{background:linear-gradient(135deg,#FF6B35,#FF8E53);color:#fff;padding:18px 40px;border-radius:50px;font-size:1.1rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:10px;box-shadow:0 8px 25px rgba(255,107,53,.3)}
 .page-contact .modern-cta-secondary{background:rgba(255,255,255,.1);color:#fff;padding:18px 40px;border:2px solid rgba(255,255,255,.3);border-radius:50px;font-size:1.1rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:10px}
 .page-contact .modern-cta-primary svg,.page-contact .modern-cta-secondary svg{width:1.15em;height:1.15em;flex-shrink:0}
-.page-contact .modern-contact-item .icon svg{width:2rem;height:2rem;display:block;stroke:currentColor}
+/* Icons must be white on blue even before deferred page CSS loads */
+.page-contact .modern-contact-item .icon{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#1B4D89,#2c5aa0);display:flex;align-items:center;justify-content:center;margin:0 auto 25px;color:#fff}
+.page-contact .modern-contact-item .icon .contact-card-icon{width:32px;height:32px;display:block;flex-shrink:0;max-width:none;opacity:1}
+.page-contact .modern-cta-primary svg,.page-contact .modern-cta-secondary svg,.page-contact .modern-contact-item .icon svg{stroke:#fff!important;fill:none!important;color:#fff}
 @media (max-width:768px){.page-contact .modern-hero h1{font-size:2.5rem}.page-contact .modern-hero .subtitle{font-size:1.1rem}.page-contact .modern-cta-buttons{flex-direction:column;align-items:center}}
 @media (max-width:480px){.page-contact .modern-hero{padding:80px 0 60px}.page-contact .modern-hero h1{font-size:2rem}}
 </style>
@@ -90,18 +93,27 @@
         <!-- Contact Information -->
         <div class="modern-contact-info" data-aos="fade-up" data-aos-duration="1000">
             <h2>Get In Touch</h2>
+            @php
+                // White stroke baked into data URIs so icons never depend on currentColor/CSS vars
+                $contactIcon = static function (string $inner) {
+                    $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' . $inner . '</svg>';
+                    return 'data:image/svg+xml,' . rawurlencode($svg);
+                };
+                $iconMap = $contactIcon('<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>');
+                $iconPhone = $contactIcon('<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>');
+                $iconMail = $contactIcon('<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>');
+            @endphp
             <div class="modern-contact-grid">
                 <div class="modern-contact-item" data-aos="fade-up" data-aos-delay="100">
                     <div class="icon" aria-hidden="true">
-                        {{-- Inline icons: always visible (Lucide loads late for perf) --}}
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                        <img class="contact-card-icon" src="{{ $iconMap }}" width="32" height="32" alt="" decoding="async">
                     </div>
                     <h4>Visit Our Office</h4>
                     <p><a href="https://g.co/kgs/Hw16bN8" target="_blank" rel="noopener noreferrer">Level 8/278 Collins St,<br>Melbourne VIC 3000,<br>Australia</a></p>
                 </div>
                 <div class="modern-contact-item" data-aos="fade-up" data-aos-delay="200">
                     <div class="icon" aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        <img class="contact-card-icon" src="{{ $iconPhone }}" width="32" height="32" alt="" decoding="async">
                     </div>
                     <h4>Call Us Now</h4>
                     <p><a href="tel:+61422905860">(+61) 0422905860</a><br>
@@ -109,7 +121,7 @@
                 </div>
                 <div class="modern-contact-item" data-aos="fade-up" data-aos-delay="300">
                     <div class="icon" aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        <img class="contact-card-icon" src="{{ $iconMail }}" width="32" height="32" alt="" decoding="async">
                     </div>
                     <h4>Email Us</h4>
                     <p><a href="mailto:Info@bansallawyers.com.au">Info@bansallawyers.com.au</a></p>
