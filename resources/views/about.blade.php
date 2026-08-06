@@ -83,11 +83,11 @@
             <p class="hero-subtitle">Your trusted legal partner in Melbourne, Australia. Led by Director Ajay Bansal, we provide exceptional legal services with integrity, expertise, and unwavering commitment to our clients' success.</p>
             <div class="hero-cta">
                 <a href="#director" class="btn-primary">
-                    <i data-lucide="user"></i>
+                    <x-white-icon name="user" :size="20" />
                     Meet Our Director
                 </a>
                 <a href="/book-an-appointment" class="btn-secondary">
-                    <i data-lucide="phone"></i>
+                    <x-white-icon name="phone" :size="20" />
                     Schedule Consultation
                 </a>
             </div>
@@ -146,7 +146,7 @@
                 <h3 class="team-member-name">Michael Saleh</h3>
                 <div class="team-member-title">Solicitor</div>
                 <span class="team-member-badge">
-                    <i data-lucide="badge-check"></i>
+                    <x-white-icon name="badge-check" :size="18" />
                     Admitted &ndash; Supreme Court of Victoria
                 </span>
                 <p class="team-member-description">
@@ -173,7 +173,7 @@
         <div class="practice-grid" data-aos="fade-up" data-aos-duration="1000">
             <div class="practice-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="practice-icon">
-                    <i data-lucide="globe"></i>
+                    <x-white-icon name="globe" :size="28" />
                 </div>
                 <h3 class="practice-title">Immigration Law</h3>
                 <p class="practice-description">Expert guidance on visa applications, citizenship, deportation matters, and all immigration-related legal issues in Australia.</p>
@@ -181,7 +181,7 @@
             
             <div class="practice-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="practice-icon">
-                    <i data-lucide="users"></i>
+                    <x-white-icon name="users" :size="28" />
                 </div>
                 <h3 class="practice-title">Family Law</h3>
                 <p class="practice-description">Compassionate support for divorce, child custody, property settlements, and all family-related legal matters.</p>
@@ -189,7 +189,7 @@
             
             <div class="practice-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="practice-icon">
-                    <i data-lucide="building-2"></i>
+                    <x-white-icon name="building-2" :size="28" />
                 </div>
                 <h3 class="practice-title">Property Law</h3>
                 <p class="practice-description">Professional assistance with property transactions, disputes, conveyancing, and real estate legal matters.</p>
@@ -197,7 +197,7 @@
             
             <div class="practice-card" data-aos="fade-up" data-aos-delay="400">
                 <div class="practice-icon">
-                    <i data-lucide="briefcase"></i>
+                    <x-white-icon name="briefcase" :size="28" />
                 </div>
                 <h3 class="practice-title">Commercial Law</h3>
                 <p class="practice-description">Strategic legal advice for business formation, contracts, partnerships, and commercial transactions.</p>
@@ -205,7 +205,7 @@
             
             <div class="practice-card" data-aos="fade-up" data-aos-delay="500">
                 <div class="practice-icon">
-                    <i data-lucide="gavel"></i>
+                    <x-white-icon name="gavel" :size="28" />
                 </div>
                 <h3 class="practice-title">Criminal Law</h3>
                 <p class="practice-description">Strong defense representation for criminal charges, traffic offenses, and criminal law matters.</p>
@@ -213,7 +213,7 @@
             
             <div class="practice-card" data-aos="fade-up" data-aos-delay="600">
                 <div class="practice-icon">
-                    <i data-lucide="briefcase"></i>
+                    <x-white-icon name="briefcase" :size="28" />
                 </div>
                 <h3 class="practice-title">Business Law</h3>
                 <p class="practice-description">Comprehensive legal services for business operations, compliance, and corporate legal matters.</p>
@@ -270,7 +270,7 @@
         <div class="values-grid" data-aos="fade-up" data-aos-duration="1000">
             <div class="value-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="value-icon">
-                    <i data-lucide="scale"></i>
+                    <x-white-icon name="scale" :size="36" />
                 </div>
                 <h3 class="value-title">Integrity</h3>
                 <p class="value-description">We uphold the highest ethical standards in all our legal practice, ensuring transparency and honesty in every client interaction.</p>
@@ -278,7 +278,7 @@
             
             <div class="value-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="value-icon">
-                    <i data-lucide="star"></i>
+                    <x-white-icon name="star" :size="36" />
                 </div>
                 <h3 class="value-title">Excellence</h3>
                 <p class="value-description">We are committed to delivering exceptional legal services with meticulous attention to detail and unwavering dedication to quality.</p>
@@ -286,7 +286,7 @@
             
             <div class="value-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="value-icon">
-                    <i data-lucide="users"></i>
+                    <x-white-icon name="users" :size="36" />
                 </div>
                 <h3 class="value-title">Client Focus</h3>
                 <p class="value-description">Your success is our priority. We provide personalized attention and tailored legal solutions to meet your unique needs and goals.</p>
@@ -304,11 +304,11 @@
         
         <div class="contact-buttons" data-aos="fade-up" data-aos-duration="1000">
             <a href="/contact" class="btn-white">
-                <i data-lucide="mail"></i>
+                <x-white-icon name="mail" :size="20" color="#0F172A" />
                 Contact Us Today
             </a>
             <a href="/book-an-appointment" class="btn-white">
-                <i data-lucide="calendar"></i>
+                <x-white-icon name="calendar" :size="20" color="#0F172A" />
                 Book Appointment
             </a>
         </div>

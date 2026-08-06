@@ -293,6 +293,15 @@
     font-size: 1.5rem;
 }
 
+.page-about .practice-icon .white-card-icon,
+.page-about .practice-icon svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+    flex-shrink: 0;
+    max-width: none;
+}
+
 .page-about .practice-title {
     font-size: 1.3rem;
     font-weight: 600;
@@ -412,6 +421,22 @@
     margin: 0 auto 2rem;
     color: var(--white);
     font-size: 2rem;
+}
+
+.page-about .value-icon .white-card-icon,
+.page-about .value-icon svg,
+.page-about .btn-primary .white-card-icon,
+.page-about .btn-secondary .white-card-icon,
+.page-about .btn-white .white-card-icon,
+.page-about .team-member-badge .white-card-icon {
+    display: block;
+    flex-shrink: 0;
+    max-width: none;
+}
+
+.page-about .value-icon .white-card-icon {
+    width: 36px;
+    height: 36px;
 }
 
 .page-about .value-title {
