@@ -45,7 +45,7 @@
 .home-hero__text h2{font-size:1.8rem;font-weight:600;color:#1B4D89;margin:0 0 15px;line-height:1.3}
 .home-hero__text p{font-size:1.1rem;color:#666;margin:0 0 30px;line-height:1.6}
 .home-hero__cta{background:linear-gradient(135deg,#1B4D89,#2c5aa0);color:#fff;padding:15px 35px;border-radius:50px;text-decoration:none;font-weight:600;font-size:1.1rem;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;box-shadow:0 8px 25px rgba(27,77,137,.3)}
-.home-hero__cta svg{width:1.1em;height:1.1em}
+.home-hero__cta svg,.home-hero__cta .white-card-icon{width:1.1em;height:1.1em;display:inline-block;flex-shrink:0}
 @media (max-width:1024px) and (min-width:769px){.home-hero__text{padding:45px 35px;max-width:380px}.home-hero__text h1{font-size:2.4rem}.home-hero__text h2{font-size:1.5rem}}
 @media (max-width:768px){.home-hero{height:80vh;min-height:500px}.home-hero__text{padding:35px 25px;margin:20px;max-width:calc(100% - 40px)}.home-hero__text h1{font-size:2.2rem}.home-hero__text h2{font-size:1.4rem}.home-hero__text p{font-size:1rem}.home-hero__cta{padding:12px 25px;font-size:1rem}}
 </style>
@@ -76,7 +76,7 @@
                 <h2>There is no legal puzzle that we can't solve</h2>
                 <p>Expert legal services in Melbourne, Australia. We handle your legal matters with professionalism and care, so you can focus on what matters most.</p>
                 <a href="/book-an-appointment" class="home-hero__cta">
-                    Start Your Legal Consultation <i data-lucide="arrow-right" class="ms-2"></i>
+                    Start Your Legal Consultation <x-white-icon name="arrow-right" :size="18" class="ms-2" />
                 </a>
             </div>
         </div>
@@ -120,7 +120,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="experimental-card">
                             <div class="icon">
-                                <i data-lucide="gavel" aria-hidden="true"></i>
+                                <x-white-icon name="gavel" />
                             </div>
                             <h3>Your Success is Our Mission</h3>
                             <p>We don't just handle cases – we build relationships. Every client's story matters to us, and we fight passionately for the outcomes that will change your life for the better. Your victory is our greatest reward.</p>
@@ -129,7 +129,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="experimental-card">
                             <div class="icon">
-                                <i data-lucide="briefcase" aria-hidden="true"></i>
+                                <x-white-icon name="users" />
                             </div>
                             <h3>We Speak Your Language</h3>
                             <p>Understanding your unique situation is our first priority. We take time to listen, explain everything in plain English, and create a personalized strategy that fits your specific needs and goals.</p>
@@ -138,7 +138,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="experimental-card">
                             <div class="icon">
-                                <i data-lucide="briefcase" aria-hidden="true"></i>
+                                <x-white-icon name="award" />
                             </div>
                             <h3>Proven Track Record</h3>
                             <p>With years of experience helping families and individuals in Australia, we've successfully guided hundreds of clients through complex legal challenges. Your case is in capable, caring hands.</p>
@@ -164,7 +164,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center;">
                     <div class="icon">
-                        <i data-lucide="users" aria-hidden="true"></i>
+                        <x-white-icon name="users" />
                     </div>
                     <h3>Family Law</h3>
                     <p>Divorce, separation, children, property and other family law matters. Expert guidance for complex family situations.</p>
@@ -174,7 +174,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center;">
                     <div class="icon">
-                        <i data-lucide="handshake" aria-hidden="true"></i>
+                        <x-white-icon name="handshake" />
                     </div>
                     <h3>Migration Law</h3>
                     <p>Visa applications, appeals, permanent residency, and citizenship matters. Your pathway to Australia.</p>
@@ -184,7 +184,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center;">
                     <div class="icon">
-                        <i data-lucide="gavel" aria-hidden="true"></i>
+                        <x-white-icon name="gavel" />
                     </div>
                     <h3>Criminal Law</h3>
                     <p>Assault charges, traffic offenses, and criminal defense. Protecting your rights and future in Australia.</p>
@@ -194,7 +194,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center;">
                     <div class="icon">
-                        <i data-lucide="briefcase" aria-hidden="true"></i>
+                        <x-white-icon name="briefcase" />
                     </div>
                     <h3>Commercial Law</h3>
                     <p>Business formation, contracts, corporate governance, and commercial disputes. Supporting your business growth.</p>
@@ -204,7 +204,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center;">
                     <div class="icon">
-                        <i data-lucide="house" aria-hidden="true"></i>
+                        <x-white-icon name="house" />
                     </div>
                     <h3>Property Law</h3>
                     <p>Property transactions, leasing, development, and property disputes. Securing your property interests.</p>
@@ -214,7 +214,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center; background: linear-gradient(135deg, #1B4D89, #2c5aa0); color: white;">
                     <div class="icon" style="background: rgba(255,255,255,0.2);">
-                        <i data-lucide="gavel" aria-hidden="true"></i>
+                        <x-white-icon name="scale" />
                     </div>
                     <h3 style="color: white;">All Practice Areas</h3>
                     <p style="color: rgba(255,255,255,0.9);">View our complete range of legal services and find the right solution for your needs.</p>
@@ -369,7 +369,7 @@
                     </h4>
                     <p style="color: #666; margin-bottom: 20px; line-height: 1.5; font-size: 0.95rem;">{{@$list->title}}</p>
                     <a href="{{ route('blog.detail', $list->slug) }}" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;">
-                        Read More <i data-lucide="arrow-right" style="font-size: 0.8rem;"></i>
+                        Read More <x-white-icon name="arrow-right" :size="14" color="#ffffff" />
                     </a>
                 </div>
             </div>
@@ -401,11 +401,11 @@
                         </p>
                         <div class="mt-4">
                             <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
-                                <i data-lucide="phone" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
+                                <x-white-icon name="phone" :size="24" class="me-3" style="margin-right: 15px;" />
                                 <span style="font-size: 1.1rem; font-weight: 500; color: #fff;">1300 BANSAL (1300 226 725)</span>
                             </div>
                             <div style="display: flex; align-items: center; justify-content: center;">
-                                <i data-lucide="mail" style="font-size: 1.5rem; margin-right: 15px; color: #fff;"></i>
+                                <x-white-icon name="mail" :size="24" style="margin-right: 15px;" />
                                 <span style="font-size: 1.1rem; font-weight: 500; color: #fff;">info@bansallawyers.com.au</span>
                             </div>
                         </div>

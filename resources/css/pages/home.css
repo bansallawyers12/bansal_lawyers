@@ -252,13 +252,18 @@
     justify-content: center;
     margin: 0 auto 30px;
     font-size: 2rem;
-    color: white;
+    color: #ffffff;
 }
 
-.experimental-card .icon svg {
+.experimental-card .icon svg,
+.experimental-card .icon .white-card-icon {
     width: 2rem;
     height: 2rem;
-    stroke: white;
+    display: block;
+    flex-shrink: 0;
+    max-width: none;
+    stroke: #ffffff;
+    opacity: 1;
 }
 
 .experimental-card h3 {
