@@ -3,16 +3,16 @@
 
 @section('seoinfo')
 
-<title>Best Immigration Lawyer in Melbourne Australia | Bansal Lawyers - Experimental</title>
-<meta name="description" content="Looking for top-rated lawyers in Australia? Bansal Lawyers offers expert legal services in immigration, family, criminal, and business law. Get legal help today!" >
+<title>Immigration & Family Lawyers Melbourne | Bansal Lawyers</title>
+<meta name="description" content="Melbourne CBD lawyers for immigration, family, criminal, commercial and property matters. Collins St. Call 1300 226 725." >
 
 <link rel="canonical" href="https://www.bansallawyers.com.au" >
 
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="<?php echo URL::to('/'); ?>">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Best Immigration Lawyer in Melbourne Australia | Bansal Lawyers">
-<meta property="og:description" content="Looking for top-rated lawyers in Australia? Bansal Lawyers offers expert legal services in immigration, family, criminal, and business law. Get legal help today!">
+<meta property="og:title" content="Immigration & Family Lawyers Melbourne | Bansal Lawyers">
+<meta property="og:description" content="Melbourne CBD lawyers for immigration, family, criminal, commercial and property matters. Collins St. Call 1300 226 725.">
 <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
@@ -20,8 +20,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="bansallawyers.com.au">
 <meta property="twitter:url" content="<?php echo URL::to('/'); ?>">
-<meta name="twitter:title" content="Best Immigration Lawyer in Melbourne Australia | Bansal Lawyers">
-<meta name="twitter:description" content="Looking for top-rated lawyers in Australia? Bansal Lawyers offers expert legal services in immigration, family, criminal, and business law. Get legal help today!">
+<meta name="twitter:title" content="Immigration & Family Lawyers Melbourne | Bansal Lawyers">
+<meta name="twitter:description" content="Melbourne CBD lawyers for immigration, family, criminal, commercial and property matters. Collins St. Call 1300 226 725.">
 <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 

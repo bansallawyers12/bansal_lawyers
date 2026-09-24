@@ -91,7 +91,7 @@
                 <img src="{{ asset('images/family-law.png') }}" alt="Compassionate Legal Support for Family Law Cases" width="40" height="40" loading="lazy" decoding="async">
             </div>
             <h3 class="card-title">Family Law</h3>
-            <p class="card-description">Divorce, separation, children, property and other family law matters. Expert family lawyers in Melbourne providing compassionate legal support.</p>
+            <p class="card-description">Divorce, parenting arrangements, property settlements, and family violence matters across Victoria.</p>
             <ul class="card-features">
                 <li>Divorce & Separation</li>
                 <li>Child Custody & Support</li>
@@ -107,7 +107,7 @@
                 <img src="{{ asset('images/immigration-law.png') }}" alt="Expert Immigration Lawyers Helping You Settle in Australia" width="40" height="40" loading="lazy" decoding="async">
             </div>
             <h3 class="card-title">Migration Law</h3>
-            <p class="card-description">The Court can review some decisions made under the Migration Act 1958. Expert immigration lawyers helping you settle in Australia.</p>
+            <p class="card-description">Visa applications, refusals and cancellations, ART merits review, and Federal Court judicial review.</p>
             <ul class="card-features">
                 <li>Visa Applications</li>
                 <li>Appeals & Reviews</li>
@@ -123,7 +123,7 @@
                 <img src="{{ asset('images/criminal-law.png') }}" alt="Expert Criminal Defense Lawyers in Melbourne" width="40" height="40" loading="lazy" decoding="async">
             </div>
             <h3 class="card-title">Criminal Law</h3>
-            <p class="card-description">Bankruptcy, fair work, human rights, consumer, admiralty, administrative and IP. Expert criminal lawyers in Melbourne providing strong defense representation.</p>
+            <p class="card-description">Assault, traffic and drink-driving charges, drug offences, and Magistrates’ Court representation in Melbourne.</p>
             <ul class="card-features">
                 <li>Assault Charges</li>
                 <li>Traffic Offences</li>
@@ -139,7 +139,7 @@
                 <img src="{{ asset('images/commercial-law.png') }}" alt="Expert Commercial Lawyers in Melbourne" width="40" height="40" loading="lazy" decoding="async">
             </div>
             <h3 class="card-title">Commercial Law</h3>
-            <p class="card-description">From Buying and Leasing to Dispute Resolution – Trusted Legal Guidance for All Your Property Matters. Expert commercial lawyers in Melbourne.</p>
+            <p class="card-description">Business formation, contracts, corporate governance, intellectual property, and commercial dispute resolution.</p>
             <ul class="card-features">
                 <li>Business Formation</li>
                 <li>Contract Law</li>
@@ -155,7 +155,7 @@
                 <img src="{{ asset('images/property-law.png') }}" alt="Expert Property Lawyers in Melbourne" width="40" height="40" loading="lazy" decoding="async">
             </div>
             <h3 class="card-title">Property Law</h3>
-            <p class="card-description">Smart Legal Solutions for Smart Businesses – Simplifying Contracts, Mergers, Disputes, and Compliance. Expert property lawyers in Melbourne.</p>
+            <p class="card-description">Conveyancing, leasing, caveats, building disputes, and residential and commercial property matters.</p>
             <ul class="card-features">
                 <li>Residential & Commercial</li>
                 <li>Property Leasing</li>

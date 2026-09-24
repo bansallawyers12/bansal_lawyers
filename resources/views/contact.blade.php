@@ -1,8 +1,8 @@
 @extends('layouts.frontend')
 
 @section('seoinfo')
-	<title>Legal Help in Melbourne | Best Law Firm – Bansal Lawyers - Modern</title>
-    <meta name="description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!" />
+	<title>Contact Bansal Lawyers | Collins Street, Melbourne</title>
+    <meta name="description" content="Book a consult at Level 8/278 Collins St, Melbourne. Call 0422 905 860 or 1300 226 725, or email info@bansallawyers.com.au." />
 
     <link rel="canonical" href="https://www.bansallawyers.com.au/contact" />
     <meta property="og:url" content="<?php echo URL::to('/'); ?>/contact">
