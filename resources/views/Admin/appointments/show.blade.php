@@ -362,13 +362,13 @@
 													<div class="modern-info-item">
 														<div class="modern-info-label">Client Name</div>
 														<div class="modern-info-value">
-															{{ $appointment->clients->first_name }} {{ $appointment->clients->last_name }}
+															{{ $appointment->displayClientName() }}
 														</div>
 													</div>
 													<div class="modern-info-item">
 														<div class="modern-info-label">Client ID</div>
 														<div class="modern-info-value">
-															{{ $appointment->clients->client_id }}
+															{{ $appointment->displayClientReference() }}
 														</div>
 													</div>
 													<div class="modern-info-item">
@@ -543,8 +543,8 @@
 														Edit Appointment
 													</a>
 													
-													@if($appointment->clients && $appointment->clients->email)
-													<a href="mailto:{{ $appointment->clients->email }}?subject=Regarding your appointment on {{ date('d/m/Y', strtotime($appointment->date)) }}" 
+													@if($appointment->displayClientEmail())
+													<a href="mailto:{{ $appointment->displayClientEmail() }}?subject=Regarding your appointment on {{ date('d/m/Y', strtotime($appointment->date)) }}" 
 													   class="modern-btn modern-btn-info" style="width: 100%; justify-content: center;">
 														<i data-lucide="mail"></i>
 														Email Client
@@ -675,8 +675,8 @@
 // Enhanced appointment details functionality
 function copyAppointmentDetails() {
     let appointmentDetails = 'Appointment Details:\n';
-    appointmentDetails += 'Client: {{ $appointment->clients->first_name }} {{ $appointment->clients->last_name }}\n';
-    appointmentDetails += 'Client ID: {{ $appointment->clients->client_id }}\n';
+    appointmentDetails += 'Client: {{ $appointment->displayClientName() }}\n';
+    appointmentDetails += 'Client ID: {{ $appointment->displayClientReference() }}\n';
     appointmentDetails += 'Date: {{ date('d/m/Y', strtotime($appointment->date)) }}\n';
     appointmentDetails += 'Time: {{ $appointment->time }}\n';
     @if($appointment->natureOfEnquiry)

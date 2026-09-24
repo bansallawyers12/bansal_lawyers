@@ -47,10 +47,11 @@ return [
     ],
 
     /*
-    | Shared secret for GET /api/appointments (Bearer or X-Appointments-Api-Token header).
+    | Shared secret for /api/appointments* (Bearer or X-Appointments-Api-Token header).
+    | Legal CRM should send the same value as APPOINTMENT_API_BEARER_TOKEN / BANSAL_API_TOKEN.
     */
     'appointments_api' => [
-        'token' => env('APPOINTMENTS_API_TOKEN'),
+        'token' => env('APPOINTMENTS_API_TOKEN') ?: env('APPOINTMENT_API_BEARER_TOKEN') ?: env('BANSAL_API_TOKEN'),
     ],
 
     /*
@@ -58,6 +59,9 @@ return [
     | Defaults target legal.bansalcrm.com; override with CRM_LEAD_POST_URL / CRM_BOOKING_POST_URL (e.g. local WAMP).
     | Set CRM_LEAD_POST_URL empty to disable outbound calls.
     | Optional CRM_API_TOKEN sends Authorization: Bearer on both CRM requests.
+    |
+    | Also used when formatting appointments for Legal CRM pull-sync
+    | (GET /api/appointments/recent, date-range list, status/reschedule).
     */
     'crm_lead' => [
         'url' => env('CRM_LEAD_POST_URL'),
@@ -76,6 +80,8 @@ return [
         'meeting_type' => env('CRM_BOOKING_MEETING_TYPE'),
         'default_timezone' => env('CRM_BOOKING_TIMEZONE'),
         'default_duration' => env('CRM_BOOKING_DEFAULT_DURATION'),
+        /** Optional override for CRM pull-sync service_type (must match CRM mapNoeId keys). */
+        'service_type' => env('CRM_BOOKING_SERVICE_TYPE'),
     ],
 
 ];

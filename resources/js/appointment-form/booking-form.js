@@ -53,6 +53,7 @@ export function bookingForm() {
         fieldErrors: {},
         stepErrors: [],
         loading: false,
+        turnstileExecuting: false,
         turnstileError: '',
 
         pricing: buildPricing(null),
@@ -73,7 +74,9 @@ export function bookingForm() {
 
             window.onBookingTurnstileSuccess = (token) => this.submitWithToken(token);
             window.onBookingTurnstileError = () => {
+                this.turnstileExecuting = false;
                 this.turnstileError = 'Security verification failed. Please try again.';
+                this.resetBookingTurnstile();
             };
 
             this.$watch('currentStep', (step) => {
@@ -398,7 +401,22 @@ export function bookingForm() {
             }
         },
 
+        resetBookingTurnstile() {
+            if (typeof turnstile === 'undefined') {
+                return;
+            }
+            try {
+                turnstile.reset('#booking-turnstile');
+            } catch (error) {
+                // Widget may not have executed yet on the first attempt.
+            }
+        },
+
         requestSubmit() {
+            if (this.loading || this.turnstileExecuting) {
+                return;
+            }
+
             const errors = validateAll(this.snapshot());
             if (errors.length) {
                 this.applyErrors(errors);
@@ -411,10 +429,28 @@ export function bookingForm() {
                     'Security verification is not loaded. Please refresh the page.';
                 return;
             }
-            turnstile.execute('#booking-turnstile');
+
+            this.turnstileExecuting = true;
+            try {
+                this.resetBookingTurnstile();
+                turnstile.execute('#booking-turnstile');
+            } catch (error) {
+                this.turnstileExecuting = false;
+                this.turnstileError = 'Security verification failed. Please try again.';
+            }
         },
 
         async submitWithToken(token) {
+            if (this.loading) {
+                return;
+            }
+            if (!token) {
+                this.turnstileExecuting = false;
+                this.turnstileError = 'Security verification failed. Please try again.';
+                this.resetBookingTurnstile();
+                return;
+            }
+
             this.loading = true;
             try {
                 const payload = {
@@ -456,11 +492,10 @@ export function bookingForm() {
                     message = Object.values(errs).flat().join(' ');
                 }
                 showOverlay('error', message);
-                if (typeof turnstile !== 'undefined') {
-                    turnstile.reset('#booking-turnstile');
-                }
+                this.resetBookingTurnstile();
             } finally {
                 this.loading = false;
+                this.turnstileExecuting = false;
             }
         },
 

@@ -53,4 +53,49 @@ class Appointment extends Model
     {
         return $this->hasOne(AppointmentPayment::class, 'order_hash', 'order_hash');
     }
+
+    /**
+     * Name for admin UI. Uses linked client when present so existing rows are unchanged.
+     */
+    public function displayClientName(): string
+    {
+        if ($this->clients) {
+            $name = trim(($this->clients->first_name ?? '').' '.($this->clients->last_name ?? ''));
+            if ($name !== '') {
+                return $name;
+            }
+        }
+
+        $fallback = trim((string) $this->full_name);
+
+        return $fallback !== '' ? $fallback : 'N/A';
+    }
+
+    /**
+     * Client reference for admin UI. Uses linked client id when present.
+     */
+    public function displayClientReference(): string
+    {
+        if ($this->clients && filled($this->clients->client_id)) {
+            return (string) $this->clients->client_id;
+        }
+
+        if (filled($this->client_unique_id)) {
+            return (string) $this->client_unique_id;
+        }
+
+        return 'N/A';
+    }
+
+    /**
+     * Email for admin UI. Prefers linked client, then appointment email.
+     */
+    public function displayClientEmail(): ?string
+    {
+        if ($this->clients && filled($this->clients->email)) {
+            return (string) $this->clients->email;
+        }
+
+        return filled($this->email) ? (string) $this->email : null;
+    }
 }

@@ -19,6 +19,12 @@ class AppointmentController extends Controller
 
     public function index(Request $request): JsonResponse
     {
+        // Legal CRM backfill/sync uses start_date + end_date and expects the CRM payload shape.
+        // Keep the existing list response for all other callers (admin/tools).
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            return app(CrmAppointmentApiController::class)->index($request);
+        }
+
         $perPage = min(max((int) $request->query('per_page', 20), 1), 100);
 
         $query = Appointment::query()
@@ -96,13 +102,20 @@ class AppointmentController extends Controller
         }
     }
 
-    public function show(Appointment $appointment): JsonResponse
+    public function show(Request $request, Appointment $appointment): JsonResponse
     {
-        $appointment->load(['service', 'natureOfEnquiry', 'assignee_user', 'payment']);
+        // Default: Legal CRM pull shape (success + CRM fields).
+        // Legacy admin/tool shape: ?format=admin
+        $format = strtolower((string) $request->query('format', 'crm'));
+        if (in_array($format, ['admin', 'legacy'], true)) {
+            $appointment->load(['service', 'natureOfEnquiry', 'assignee_user', 'payment']);
 
-        return response()->json([
-            'data' => $this->serializeBookingDetail($appointment, $appointment->payment),
-        ]);
+            return response()->json([
+                'data' => $this->serializeBookingDetail($appointment, $appointment->payment),
+            ]);
+        }
+
+        return app(CrmAppointmentApiController::class)->show((int) $appointment->id);
     }
 
     private function serializeBookingDetail(Appointment $a, ?AppointmentPayment $payment): array

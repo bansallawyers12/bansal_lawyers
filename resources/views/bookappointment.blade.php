@@ -275,7 +275,7 @@
 
                     <div class="booking-actions">
                         <button type="button" class="booking-btn booking-btn-secondary" @click="goBack()">Back</button>
-                        <button type="button" class="booking-btn booking-btn-primary" @click="requestSubmit()">
+                        <button type="button" class="booking-btn booking-btn-primary" @click="requestSubmit()" :disabled="loading || turnstileExecuting">
                             <i data-lucide="credit-card"></i>
                             <span>Complete Booking</span>
                             <span x-text="pricing.finalLabel"></span>
@@ -320,7 +320,7 @@
         <button type="button" class="booking-btn booking-btn-secondary" @click="goBack()">
             <i data-lucide="arrow-left"></i> Back
         </button>
-        <button type="button" class="booking-btn booking-btn-primary" x-show="canShowFloatingNext" @click="goNext()">
+        <button type="button" class="booking-btn booking-btn-primary" x-show="canShowFloatingNext" @click="goNext()" :disabled="loading || turnstileExecuting">
             <span x-text="floatingNextLabel"></span>
             <i data-lucide="arrow-right"></i>
         </button>

@@ -746,10 +746,10 @@
 												</td>
 												<td>
 													<div class="modern-client-info">
-														{{ $appointment->clients->first_name }} {{ $appointment->clients->last_name }}
+														{{ $appointment->displayClientName() }}
 													</div>
 													<div class="modern-client-id">
-														{{ $appointment->clients->client_id }}
+														{{ $appointment->displayClientReference() }}
 													</div>
 												</td>
 												<td>

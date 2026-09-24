@@ -327,7 +327,7 @@
 									<div class="modern-form-grid">
 										<div class="modern-form-group">
 											<label for="client_name" class="modern-form-label">Client Name</label>
-											<input name="client_name" type="text" class="modern-form-input" value="{{ $appointment->clients->first_name }} {{ $appointment->clients->last_name }}" readonly>
+											<input name="client_name" type="text" class="modern-form-input" value="{{ $appointment->displayClientName() }}" readonly>
 											<div class="modern-help-text">
 												Client information (read-only)
 											</div>
