@@ -1,11 +1,11 @@
 @extends('layouts.frontend')
 
 @section('seoinfo')
-    @if(isset($blogdetailists->meta_title) && $blogdetailists->meta_title != "")
-        <title>{{ $blogdetailists->meta_title }} - Experimental</title>
-    @else
-        <title>{{ $blogdetailists->title }} - Bansal Lawyers Blog</title>
-    @endif
+    @php
+        $baseTitle = $blogdetailists->meta_title ?: $blogdetailists->title;
+        $cleanTitle = str_contains($baseTitle, 'Bansal Lawyers') ? $baseTitle : $baseTitle . ' | Bansal Lawyers';
+    @endphp
+    <title>{{ $cleanTitle }}</title>
 
     @if(isset($blogdetailists->meta_description) && $blogdetailists->meta_description != "")
         <meta name="description" content="{{ $blogdetailists->meta_description }}" />
@@ -158,10 +158,23 @@
           "longitude": "144.9631"
         }
       },
-      "telephone": "+61 0422905860",
-      "email": "Info@bansallawyers.com.au",
+      "telephone": "+61422905860",
+      "email": "info@bansallawyers.com.au",
+      "contactPoint": [{
+        "@@type": "ContactPoint",
+        "telephone": "1300 226 725",
+        "contactType": "customer service",
+        "areaServed": "AU",
+        "availableLanguage": ["English"]
+      }],
       "url": "{{ URL::to('/') }}",
-      "openingHours": "Mo-Fr 09:00-17:00",
+      "openingHours": "Mo-Fr 09:30-18:00",
+      "openingHoursSpecification": [{
+        "@@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:30",
+        "closes": "18:00"
+      }],
       "priceRange": "$$$",
       "areaServed": {
         "@@type": "City",

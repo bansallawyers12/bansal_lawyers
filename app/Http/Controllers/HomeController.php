@@ -65,12 +65,14 @@ class HomeController extends Controller
 				'criminal-law', 'family-law', 'personal-law', 'corporate-law', 
 				'commercial-law', 'property-law', 'migration-law', 'divorce', 
 				'child-custody', 'family-violence', 'property-settlement', 
-				'family-violence-orders', 'juridicational-error-federal-circuit-court-application', 
+				'family-violence-orders', 'jurisdictional-error-federal-circuit-court-application',
+				'juridicational-error-federal-circuit-court-application', 
 				'art-application', 'visa-refusals-visa-cancellation', 'federal-court-application', 
-				'intervenition-orders', 'trafic-offences', 'drink-driving-offences', 
-				'assualt-charges', 'business-law', 'leasing-or-selling-a-business', 
-				'contracts-or-business-agreements', 'loan-agreement', 'conveyancing', 
-				'building-and-construction-disputes', 'caveats-disputs-and-removal'
+				'intervention-orders', 'intervenition-orders', 'traffic-offences', 'trafic-offences', 
+				'drink-driving-offences', 'assault-charges', 'assualt-charges', 'business-law', 
+				'leasing-or-selling-a-business', 'contracts-or-business-agreements', 'loan-agreement', 
+				'conveyancing', 'building-and-construction-disputes', 
+				'caveats-disputes-and-removal', 'caveats-disputs-and-removal'
 			];
 			
 			if(in_array($pagedata->slug, $practiceAreaSlugs)) {
@@ -1051,9 +1053,9 @@ class HomeController extends Controller
   
   
   
-     public function juridicationalerrorfederalcircuitcourtapplication(Request $request)
+    public function jurisdictionalerrorfederalcircuitcourtapplication(Request $request)
     {
-        $type = 'juridicational-error-federal-circuit-court-application';
+        $type = 'jurisdictional-error-federal-circuit-court-application';
         if(CmsPage::where('slug', '=', $type)->exists()) {
             //for all data
             $pagequery 	= CmsPage::where('slug', '=', $type);
@@ -1068,6 +1070,11 @@ class HomeController extends Controller
             return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
+    }
+
+    public function juridicationalerrorfederalcircuitcourtapplication(Request $request)
+    {
+        return redirect('/jurisdictional-error-federal-circuit-court-application', 301);
     }
 
 
@@ -1131,9 +1138,9 @@ class HomeController extends Controller
   
   
   
-     public function intervenitionorders(Request $request)
+    public function interventionorders(Request $request)
     {
-        $type = 'intervenition-orders';
+        $type = 'intervention-orders';
         if(CmsPage::where('slug', '=', $type)->exists()) {
             //for all data
             $pagequery 	= CmsPage::where('slug', '=', $type);
@@ -1150,10 +1157,14 @@ class HomeController extends Controller
         abort(404, 'Page not found');
     }
 
-
-    public function traficoffences(Request $request)
+    public function intervenitionorders(Request $request)
     {
-        $type = 'trafic-offences';
+        return redirect('/intervention-orders', 301);
+    }
+
+    public function trafficoffences(Request $request)
+    {
+        $type = 'traffic-offences';
         if(CmsPage::where('slug', '=', $type)->exists()) {
             //for all data
             $pagequery 	= CmsPage::where('slug', '=', $type);
@@ -1168,6 +1179,11 @@ class HomeController extends Controller
             return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
+    }
+
+    public function traficoffences(Request $request)
+    {
+        return redirect('/traffic-offences', 301);
     }
 
     public function drinkdrivingoffences(Request $request)
@@ -1189,9 +1205,9 @@ class HomeController extends Controller
         abort(404, 'Page not found');
     }
 
-    public function assualtcharges(Request $request)
+    public function assaultcharges(Request $request)
     {
-        $type = 'assualt-charges';
+        $type = 'assault-charges';
         if(CmsPage::where('slug', '=', $type)->exists()) {
             //for all data
             $pagequery 	= CmsPage::where('slug', '=', $type);
@@ -1206,6 +1222,11 @@ class HomeController extends Controller
             return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
+    }
+
+    public function assualtcharges(Request $request)
+    {
+        return redirect('/assault-charges', 301);
     }
   
   
@@ -1326,9 +1347,9 @@ class HomeController extends Controller
         abort(404, 'Page not found');
     }
 
-    public function caveatsdisputsandremoval(Request $request)
+    public function caveatsdisputesandremoval(Request $request)
     {
-        $type = 'caveats-disputs-and-removal';
+        $type = 'caveats-disputes-and-removal';
         if(CmsPage::where('slug', '=', $type)->exists()) {
             //for all data
             $pagequery 	= CmsPage::where('slug', '=', $type);
@@ -1343,6 +1364,11 @@ class HomeController extends Controller
             return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
         abort(404, 'Page not found');
+    }
+
+    public function caveatsdisputsandremoval(Request $request)
+    {
+        return redirect('/caveats-disputes-and-removal', 301);
     }
 
     public function blogExperimental(Request $request)

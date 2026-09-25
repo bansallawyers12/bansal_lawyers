@@ -17,7 +17,9 @@
                 '@type' => 'LegalService',
                 'name' => 'Bansal Lawyers',
                 'image' => 'https://www.bansallawyers.com.au/images/logo/Bansal_Lawyers.png',
-                'description' => 'Bansal Lawyers provides the best immigration lawyers in Melbourne, offering expert legal services for visas, appeals, and migration advice.',
+                'description' => Request::is('contact')
+                    ? 'Book a consult at Level 8/278 Collins St, Melbourne. Call +61 422 905 860 or email info@bansallawyers.com.au. Mon–Fri 9:30 AM–6:00 PM.'
+                    : 'Melbourne CBD lawyers for immigration, family, criminal, commercial and property matters at Level 8/278 Collins St.',
                 'address' => [
                     '@type' => 'PostalAddress',
                     'streetAddress' => 'Level 8/278 Collins St',
@@ -26,10 +28,29 @@
                     'postalCode' => '3000',
                     'addressCountry' => 'AU',
                 ],
-                'telephone' => '+61 0422905860',
-                'email' => 'Info@bansallawyers.com.au',
-                'url' => 'https://www.bansallawyers.com.au',
-                'openingHours' => 'Mo-Fr 09:00-17:00',
+                'telephone' => '+61422905860',
+                'email' => 'info@bansallawyers.com.au',
+                'url' => Request::is('about')
+                    ? 'https://www.bansallawyers.com.au/about'
+                    : (Request::is('contact') ? 'https://www.bansallawyers.com.au/contact' : 'https://www.bansallawyers.com.au/'),
+                'openingHours' => 'Mo-Fr 09:30-18:00',
+                'openingHoursSpecification' => [
+                    [
+                        '@type' => 'OpeningHoursSpecification',
+                        'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                        'opens' => '09:30',
+                        'closes' => '18:00',
+                    ],
+                ],
+                'contactPoint' => [
+                    [
+                        '@type' => 'ContactPoint',
+                        'telephone' => '1300 226 725',
+                        'contactType' => 'customer service',
+                        'areaServed' => 'AU',
+                        'availableLanguage' => ['English'],
+                    ],
+                ],
                 'priceRange' => '$$$',
                 'areaServed' => 'Melbourne',
             ];

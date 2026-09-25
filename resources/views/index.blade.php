@@ -6,7 +6,7 @@
 <title>Immigration & Family Lawyers Melbourne | Bansal Lawyers</title>
 <meta name="description" content="Melbourne CBD lawyers for immigration, family, criminal, commercial and property matters. Collins St. Call 1300 226 725." >
 
-<link rel="canonical" href="https://www.bansallawyers.com.au" >
+<link rel="canonical" href="https://www.bansallawyers.com.au/" >
 
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="<?php echo URL::to('/'); ?>">
@@ -80,25 +80,6 @@
                 </a>
             </div>
         </div>
-    </div>
-    
-    <!-- SEO Hidden Content -->
-    <div class="seo-hidden-content">
-        <h1>Best Immigration Lawyer in Melbourne Australia | Bansal Lawyers</h1>
-        <h2>Expert Legal Services in Melbourne</h2>
-        <p>Bansal Lawyers is your trusted legal service provider in Melbourne, Australia. Our team is expert in Australian Law and has a strong track record of success in helping individuals and families living in Australia. Our team of highly skilled lawyers is dedicated to protecting your rights and defending your future in Australia.</p>
-        <p>We provide comprehensive legal services including Immigration Law, Family Law, Criminal Law, Child Custody, Property Settlements, and Civil Law matters. Our experienced lawyers specialize in ART/AAT Appeals, visa applications, and all aspects of Australian immigration law.</p>
-        <h3>Best Lawyers in Melbourne Australia</h3>
-        <p>Bansal Lawyers, the best immigration lawyer in Melbourne and leading law firm in Melbourne, assists you with all legal challenges. Our focus on client satisfaction ensures the best results in Family Law Matters, Criminal Law Defense, Immigration Law Concerns, and any other legal issue.</p>
-        <p>Contact us today for expert legal guidance and support. We are committed to providing personalized legal assistance and achieving the best possible outcomes for our clients.</p>
-        <ul>
-            <li>Immigration Law Services</li>
-            <li>Family Law Matters</li>
-            <li>Criminal Law Defense</li>
-            <li>Property Law</li>
-            <li>Commercial Law</li>
-            <li>Civil Law</li>
-        </ul>
     </div>
 </section>
 

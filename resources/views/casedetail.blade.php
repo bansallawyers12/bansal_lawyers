@@ -276,7 +276,7 @@
                         <div class="case-related-internal">
                             <h3 style="color:#1B4D89;">Related migration topics</h3>
                             <ul style="padding-left:18px;">
-                                <li><a href="<?php echo URL::to('/'); ?>/juridicational-error-federal-circuit-court-application">Jurisdictional Error / Federal Circuit Court Application</a></li>
+                                <li><a href="<?php echo URL::to('/'); ?>/jurisdictional-error-federal-circuit-court-application">Jurisdictional Error / Federal Circuit Court Application</a></li>
                                 <li><a href="<?php echo URL::to('/'); ?>/art-application">AAT / ART Application</a></li>
                                 <li><a href="<?php echo URL::to('/'); ?>/visa-refusals-visa-cancellation">Visa Refusals &amp; Visa Cancellation</a></li>
                                 <li><a href="<?php echo URL::to('/'); ?>/federal-court-application">Federal Court Application</a></li>
@@ -288,10 +288,10 @@
                 <div class="col-md-4 right-side">
                     <div class="widget-post">
                         <h3 class="widget-header">Related Pages</h3>
-                        <a class="related-case-item" href="<?php echo URL::to('/'); ?>/juridicational-error-federal-circuit-court-application">
+                        <a class="related-case-item" href="<?php echo URL::to('/'); ?>/jurisdictional-error-federal-circuit-court-application">
                             <img src="{{ asset('images/Juridicational_Error_Federal_Circuit_Court_Application.png') }}" alt="Jurisdictional Error" width="64" height="64" loading="lazy">
                             <div>
-                                <div class="title">Juridicational Error/ Federal Circuit Court Application</div>
+                                <div class="title">Jurisdictional Error / Federal Circuit Court Application</div>
                                 <div class="more">Read this more »</div>
                             </div>
                         </a>

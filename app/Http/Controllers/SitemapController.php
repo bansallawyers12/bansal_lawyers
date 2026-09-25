@@ -31,26 +31,26 @@ class SitemapController extends Controller
         '/family-violence' => '0.80',
         '/property-settlement' => '0.80',
         '/family-violence-orders' => '0.80',
-        '/juridicational-error-federal-circuit-court-application' => '0.80',
+        '/jurisdictional-error-federal-circuit-court-application' => '0.80',
         '/art-application' => '0.80',
         '/visa-refusals-visa-cancellation' => '0.80',
         '/federal-court-application' => '0.80',
-        '/intervenition-orders' => '0.80',
-        '/trafic-offences' => '0.80',
+        '/intervention-orders' => '0.80',
+        '/traffic-offences' => '0.80',
         '/drink-driving-offences' => '0.80',
-        '/assualt-charges' => '0.80',
+        '/assault-charges' => '0.80',
         '/business-law' => '0.80',
         '/leasing-or-selling-a-business' => '0.80',
         '/contracts-or-business-agreements' => '0.80',
         '/loan-agreement' => '0.80',
         '/conveyancing' => '0.80',
         '/building-and-construction-disputes' => '0.80',
-        '/caveats-disputs-and-removal' => '0.80',
+        '/caveats-disputes-and-removal' => '0.80',
     ];
 
     public function index(): Response
     {
-        $xml = Cache::remember('sitemap_xml_v1', 3600, fn () => $this->buildXml());
+        $xml = Cache::remember('sitemap_xml_v2', 3600, fn () => $this->buildXml());
 
         return response($xml, 200)
             ->header('Content-Type', 'application/xml; charset=UTF-8');
@@ -62,15 +62,40 @@ class SitemapController extends Controller
         $entries = [];
         $seen = [];
 
+        $cmsUpdates = CmsPage::where('status', 1)->pluck('updated_at', 'slug');
+        $latestBlogUpdate = Blog::where('status', 1)->max('updated_at');
+
+        $staticViewMap = [
+            '/' => resource_path('views/index.blade.php'),
+            '/about' => resource_path('views/about.blade.php'),
+            '/contact' => resource_path('views/contact.blade.php'),
+            '/case' => resource_path('views/case.blade.php'),
+            '/practice-areas' => resource_path('views/practiceareas.blade.php'),
+            '/book-an-appointment' => resource_path('views/bookappointment.blade.php'),
+            '/divorce-lawyers-melbourne' => resource_path('views/divorce-family-law-landing.blade.php'),
+        ];
+
         foreach (self::STATIC_PATHS as $path => $priority) {
             $loc = $path === '/' ? $baseUrl . '/' : $baseUrl . $path;
-            $entries[] = $this->urlEntry($loc, now(), $priority);
-            $seen[$path === '/' ? '' : ltrim($path, '/')] = true;
+            $slug = ltrim($path, '/');
+            $lastmod = $cmsUpdates[$slug] ?? null;
+
+            if (! $lastmod) {
+                if ($path === '/blog') {
+                    $lastmod = $latestBlogUpdate;
+                } elseif (isset($staticViewMap[$path]) && file_exists($staticViewMap[$path])) {
+                    $lastmod = date('c', filemtime($staticViewMap[$path]));
+                }
+            }
+
+            $entries[] = $this->urlEntry($loc, $lastmod, $priority);
+            $seen[$path === '/' ? '' : $slug] = true;
         }
 
         BlogCategory::where('status', 1)
             ->whereNotNull('slug')
             ->where('slug', '!=', '')
+            ->where('slug', '!=', 'blog')
             ->orderBy('slug')
             ->get(['slug', 'updated_at'])
             ->each(function (BlogCategory $category) use (&$entries, $baseUrl) {
@@ -111,9 +136,19 @@ class SitemapController extends Controller
                 $seen[$case->slug] = true;
             });
 
+        $excludeCms = [
+            'practice-areas-bkk',
+            'assualt-charges',
+            'trafic-offences',
+            'intervenition-orders',
+            'juridicational-error-federal-circuit-court-application',
+            'caveats-disputs-and-removal',
+        ];
+
         CmsPage::where('status', 1)
             ->whereNotNull('slug')
             ->where('slug', '!=', '')
+            ->whereNotIn('slug', $excludeCms)
             ->orderBy('updated_at', 'desc')
             ->get(['slug', 'updated_at'])
             ->each(function (CmsPage $page) use (&$entries, &$seen, $baseUrl) {

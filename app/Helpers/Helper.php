@@ -117,12 +117,15 @@ class Helper
             'commercial-law', 'property-law', 'migration-law', 'immigration-law',
             'divorce', 'divorce-lawyers-melbourne', 'child-custody', 'family-violence',
             'property-settlement', 'family-violence-orders',
+            'jurisdictional-error-federal-circuit-court-application',
             'juridicational-error-federal-circuit-court-application', 'art-application',
             'visa-refusals-visa-cancellation', 'federal-court-application',
-            'intervenition-orders', 'trafic-offences', 'drink-driving-offences', 'assualt-charges',
+            'intervention-orders', 'intervenition-orders',
+            'traffic-offences', 'trafic-offences', 'drink-driving-offences',
+            'assault-charges', 'assualt-charges',
             'business-law', 'leasing-or-selling-a-business', 'contracts-or-business-agreements',
             'loan-agreement', 'conveyancing', 'building-and-construction-disputes',
-            'caveats-disputs-and-removal',
+            'caveats-disputes-and-removal', 'caveats-disputs-and-removal',
         ];
     }
 

@@ -223,16 +223,16 @@ Route::middleware(['throttle:web-pages', 'cache.headers:etag'])->group(function 
     Route::get('/family-violence-orders', [\App\Http\Controllers\HomeController::class, 'familyviolenceorders'])->name('family-violence-orders');
 
     /*********************Migration Law ***********************/
-    Route::get('/juridicational-error-federal-circuit-court-application', [\App\Http\Controllers\HomeController::class, 'juridicationalerrorfederalcircuitcourtapplication'])->name('juridicational-error-federal-circuit-court-application');
+    Route::get('/jurisdictional-error-federal-circuit-court-application', [\App\Http\Controllers\HomeController::class, 'jurisdictionalerrorfederalcircuitcourtapplication'])->name('jurisdictional-error-federal-circuit-court-application');
     Route::get('/art-application', [\App\Http\Controllers\HomeController::class, 'artapplication'])->name('art-application');
     Route::get('/visa-refusals-visa-cancellation', [\App\Http\Controllers\HomeController::class, 'visarefusalsvisacancellation'])->name('visa-refusals-visa-cancellation');
     Route::get('/federal-court-application', [\App\Http\Controllers\HomeController::class, 'federalcourtapplication'])->name('federal-court-application');
 
     /*********************Criminal Law ***********************/
-    Route::get('/intervenition-orders', [\App\Http\Controllers\HomeController::class, 'intervenitionorders'])->name('intervenition-orders');
-    Route::get('/trafic-offences', [\App\Http\Controllers\HomeController::class, 'traficoffences'])->name('trafic-offences');
+    Route::get('/intervention-orders', [\App\Http\Controllers\HomeController::class, 'interventionorders'])->name('intervention-orders');
+    Route::get('/traffic-offences', [\App\Http\Controllers\HomeController::class, 'trafficoffences'])->name('traffic-offences');
     Route::get('/drink-driving-offences', [\App\Http\Controllers\HomeController::class, 'drinkdrivingoffences'])->name('drink-driving-offences');
-    Route::get('/assualt-charges', [\App\Http\Controllers\HomeController::class, 'assualtcharges'])->name('assualt-charges');
+    Route::get('/assault-charges', [\App\Http\Controllers\HomeController::class, 'assaultcharges'])->name('assault-charges');
 
     /*********************Commercial Law ***********************/
     Route::get('/business-law', [\App\Http\Controllers\HomeController::class, 'businesslaw'])->name('business-law');
@@ -243,9 +243,16 @@ Route::middleware(['throttle:web-pages', 'cache.headers:etag'])->group(function 
     /*********************Property Law ***********************/
     Route::get('/conveyancing', [\App\Http\Controllers\HomeController::class, 'conveyancing'])->name('conveyancing');
     Route::get('/building-and-construction-disputes', [\App\Http\Controllers\HomeController::class, 'buildingandconstructiondisputes'])->name('building-and-construction-disputes');
-    Route::get('/caveats-disputs-and-removal', [\App\Http\Controllers\HomeController::class, 'caveatsdisputsandremoval'])->name('caveats-disputs-and-removal');
+    Route::get('/caveats-disputes-and-removal', [\App\Http\Controllers\HomeController::class, 'caveatsdisputesandremoval'])->name('caveats-disputes-and-removal');
 });
 
+// Permanent 301 redirects for misspelled/backup URLs (SEO-09)
+Route::permanentRedirect('/assualt-charges', '/assault-charges');
+Route::permanentRedirect('/trafic-offences', '/traffic-offences');
+Route::permanentRedirect('/intervenition-orders', '/intervention-orders');
+Route::permanentRedirect('/juridicational-error-federal-circuit-court-application', '/jurisdictional-error-federal-circuit-court-application');
+Route::permanentRedirect('/caveats-disputs-and-removal', '/caveats-disputes-and-removal');
+Route::permanentRedirect('/practice-areas-bkk', '/practice-areas');
 
 /*********************New Unified Blog and CMS Route ***********************/
 // This handles CMS pages and recent cases at /{slug}

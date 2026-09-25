@@ -78,6 +78,14 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
+    # 301 redirects for misspelled/backup URLs (SEO-09)
+    RewriteRule ^assualt-charges/?$ /assault-charges [R=301,L]
+    RewriteRule ^trafic-offences/?$ /traffic-offences [R=301,L]
+    RewriteRule ^intervenition-orders/?$ /intervention-orders [R=301,L]
+    RewriteRule ^juridicational-error-federal-circuit-court-application/?$ /jurisdictional-error-federal-circuit-court-application [R=301,L]
+    RewriteRule ^caveats-disputs-and-removal/?$ /caveats-disputes-and-removal [R=301,L]
+    RewriteRule ^practice-areas-bkk/?$ /practice-areas [R=301,L]
+
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f

@@ -42,10 +42,23 @@
           "name": "Australia"
         }
       },
-      "telephone": "+61 0422905860",
-      "email": "Info@bansallawyers.com.au",
+      "telephone": "+61422905860",
+      "email": "info@bansallawyers.com.au",
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "telephone": "1300 226 725",
+        "contactType": "customer service",
+        "areaServed": "AU",
+        "availableLanguage": ["English"]
+      }],
       "url": "https://www.bansallawyers.com.au/",
-      "openingHours": "Mo-Fr 09:00-17:00",
+      "openingHours": "Mo-Fr 09:30-18:00",
+      "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:30",
+        "closes": "18:00"
+      }],
       "priceRange": "$$$",
       "sameAs": [
         "https://www.facebook.com/profile.php?id=61562008576642",
