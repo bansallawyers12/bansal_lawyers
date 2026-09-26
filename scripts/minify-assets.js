@@ -7,9 +7,11 @@
  * by Google Search Console, even though they have .min extensions.
  * 
  * Files to minify:
- * - public/css/style_lawyer.min.css
- * - public/js/Frontend/sticky.min.js
- * - public/js/Frontend/hoverIntent.min.js
+ * - public/css/layout-global.css
+ * - public/css/footer-modern.css
+ * - public/css/blog-listing.css
+ * - public/js/analytics-engagement.js
+ * - public/js/footer-animations.js
  */
 
 import fs from 'fs';
@@ -120,21 +122,6 @@ async function main() {
     console.log('🚀 Starting asset minification...\n');
 
     const filesToMinify = [
-        {
-            path: path.join(__dirname, '..', 'public', 'css', 'style_lawyer.min.css'),
-            type: 'css',
-            name: 'style_lawyer.min.css',
-        },
-        {
-            path: path.join(__dirname, '..', 'public', 'js', 'Frontend', 'sticky.min.js'),
-            type: 'js',
-            name: 'sticky.min.js',
-        },
-        {
-            path: path.join(__dirname, '..', 'public', 'js', 'Frontend', 'hoverIntent.min.js'),
-            type: 'js',
-            name: 'hoverIntent.min.js',
-        },
         {
             path: path.join(__dirname, '..', 'public', 'css', 'layout-global.css'),
             type: 'css',

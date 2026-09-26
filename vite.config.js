@@ -68,7 +68,6 @@ export default defineConfig({
                         { name: 'vendor-fullcalendar', test: /node_modules[\\/]@fullcalendar/, priority: 30 },
                         { name: 'vendor-axios', test: /node_modules[\\/]axios/, priority: 20 },
                         { name: 'vendor-alpine', test: /node_modules[\\/]alpinejs/, priority: 20 },
-                        { name: 'vendor-lodash', test: /node_modules[\\/]lodash/, priority: 20 },
                         { name: 'vendor', test: /node_modules/, priority: 1 },
                     ],
                 },
