@@ -58,8 +58,25 @@ class HomeController extends Controller
 		}
 		
 		// Check CmsPage
+		$legacySlugMap = [
+			'assault-charges' => 'assualt-charges',
+			'traffic-offences' => 'trafic-offences',
+			'intervention-orders' => 'intervenition-orders',
+			'jurisdictional-error-federal-circuit-court-application' => 'juridicational-error-federal-circuit-court-application',
+			'caveats-disputes-and-removal' => 'caveats-disputs-and-removal',
+		];
+
 		$pagedata = CmsPage::where('slug', '=', $slug)->first();
+		if (!$pagedata && isset($legacySlugMap[$slug])) {
+			$pagedata = CmsPage::where('slug', '=', $legacySlugMap[$slug])->first();
+			if ($pagedata) {
+				$pagedata->slug = $slug;
+			}
+		}
+
 		if($pagedata) {
+			$this->applySeoOverrides($pagedata);
+
 			// Optimized: Use array for practice area slugs instead of long OR chain
 			$practiceAreaSlugs = [
 				'criminal-law', 'family-law', 'personal-law', 'corporate-law', 
@@ -100,6 +117,9 @@ class HomeController extends Controller
 		// Resolve the best image URL per blog item here (controller) so Blade avoids
 		// synchronous file_exists() disk I/O inside a foreach loop on every page render.
 		foreach ($bloglists as $blog) {
+			$blog->title = preg_replace('/^\d+\s*/', '', $blog->title ?? '');
+			$blog->title = preg_replace('/\s*([|–-]\s*(Best Lawyers|Bansal Lawyers).*$)/i', '', $blog->title);
+
 			$imagePath = !empty($blog->image) ? 'images/blog/' . $blog->image : 'images/Blog.jpg';
 			$pathInfo  = pathinfo($imagePath);
 			$webpPath  = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.webp';
@@ -314,6 +334,18 @@ class HomeController extends Controller
             
         if(!$blogdetailists) {
             abort(404, 'Blog post not found');
+        }
+
+        $blogdetailists->title = preg_replace('/^\d+\s*/', '', $blogdetailists->title ?? '');
+        $blogdetailists->title = preg_replace('/\s*([|–-]\s*(Best Lawyers|Bansal Lawyers).*$)/i', '', $blogdetailists->title);
+        if (!empty($blogdetailists->meta_title)) {
+            $blogdetailists->meta_title = preg_replace('/^\d+\s*/', '', $blogdetailists->meta_title);
+        }
+        if (!empty($blogdetailists->meta_description)) {
+            $blogdetailists->meta_description = preg_replace('/^\d+\s*/', '', $blogdetailists->meta_description);
+        }
+        if (!empty($blogdetailists->meta_keyword)) {
+            $blogdetailists->meta_keyword = preg_replace('/^\d+\s*/', '', $blogdetailists->meta_keyword);
         }
         
         // Cached as plain rows (see Blog::cachedLatestExcluding) — safe with Redis + serializable_classes=false
@@ -851,13 +883,19 @@ class HomeController extends Controller
     { 
 		// Fetch CMS page data for "practice-areas" slug to get dynamic meta tags
 		$pagedata = CmsPage::where('slug', '=', 'practice-areas')->first();
+		if ($pagedata) {
+			$this->applySeoOverrides($pagedata);
+		}
 		return view('practiceareas', compact('pagedata'));
     }
 
-     public function case(Request $request)
+    public function case(Request $request)
     {
 		// Fetch CMS page data for "case" slug to get dynamic meta tags
 		$pagedata = CmsPage::where('slug', '=', 'case')->first();
+		if ($pagedata) {
+			$this->applySeoOverrides($pagedata);
+		}
 		
         $casequery 		= RecentCase::where('status', '=', 1);
 		$caseData 	    = $casequery->count();	//for all data
@@ -865,111 +903,176 @@ class HomeController extends Controller
         return view('case', compact('caselists', 'caseData', 'pagedata'));
 	}
 
-    // Experimental Family Law using new template
-    public function familylawExperiment(Request $request)
+    /**
+     * Apply centralized SEO overrides and content sanitization to a CMS page.
+     * Ensures all metadata, titles, and clean internal links are active immediately.
+     */
+    private function applySeoOverrides(&$pagedata)
     {
-        $type = 'family-law';
-        if (CmsPage::where('slug', '=', $type)->exists()) {
-            $pagequery = CmsPage::where('slug', '=', $type);
-            $pagedata = $pagequery->first();
-            if (isset($pagedata) && $pagedata->id != "") {
-                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
-                $relatedpagedata = $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
+        if (!$pagedata) {
+            return;
         }
-        abort(404, 'Page not found');
-    }
 
-    // Experimental Migration Law page using alternate Blade view
-    public function migrationlawExperiment(Request $request)
-    {
-        $type = 'migration-law';
-        if (CmsPage::where('slug', '=', $type)->exists()) {
-            $pagequery = CmsPage::where('slug', '=', $type);
-            $pagedata = $pagequery->first();
-            if (isset($pagedata) && $pagedata->id != "") {
-                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
-                $relatedpagedata = $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
-    }
+        // SEO meta title and description overrides
+        $seoOverrides = [
+            'family-law' => [
+                'meta_title' => 'Family Lawyers Melbourne | Bansal Lawyers',
+                'meta_description' => 'Family lawyers in Melbourne for divorce, property settlement, parenting and child custody matters. Speak to Bansal Lawyers today on 1300 226 725.',
+            ],
+            'migration-law' => [
+                'meta_title' => 'Migration Lawyers Melbourne | Bansal Lawyers',
+                'meta_description' => 'Melbourne migration lawyers helping with partner, skilled and employer visas, citizenship, refusals and appeals. Book a consultation with Bansal Lawyers.',
+            ],
+            'criminal-law' => [
+                'meta_title' => 'Criminal Lawyers Melbourne | Bansal Lawyers',
+                'meta_description' => 'Criminal lawyers in Melbourne for assault, drug, traffic and driving offences, bail and court representation. Call Bansal Lawyers on 1300 226 725.',
+            ],
+            'commercial-law' => [
+                'meta_title' => 'Commercial Lawyers Melbourne | Bansal Lawyers',
+            ],
+            'property-law' => [
+                'meta_title' => 'Property Lawyers Melbourne | Bansal Lawyers',
+            ],
+            'assault-charges' => [
+                'title' => 'Assault Charges',
+            ],
+            'traffic-offences' => [
+                'title' => 'Traffic Offences',
+            ],
+            'intervention-orders' => [
+                'title' => 'Intervention Orders',
+            ],
+            'jurisdictional-error-federal-circuit-court-application' => [
+                'title' => 'Jurisdictional Error / Federal Circuit Court Application',
+            ],
+            'caveats-disputes-and-removal' => [
+                'title' => 'Caveats Disputes and Removal',
+            ],
+        ];
 
-    // Experimental Criminal Law
-    public function criminallawExperiment(Request $request)
-    {
-        $type = 'criminal-law';
-        if (CmsPage::where('slug', '=', $type)->exists()) {
-            $pagequery = CmsPage::where('slug', '=', $type);
-            $pagedata = $pagequery->first();
-            if (isset($pagedata) && $pagedata->id != "") {
-                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
-                $relatedpagedata = $relatedpagequery->get();
+        if (isset($seoOverrides[$pagedata->slug])) {
+            foreach ($seoOverrides[$pagedata->slug] as $key => $val) {
+                $pagedata->{$key} = $val;
             }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
         }
-        abort(404, 'Page not found');
-    }
 
-    // Experimental Commercial Law
-    public function commerciallawExperiment(Request $request)
-    {
-        $type = 'commercial-law';
-        if (CmsPage::where('slug', '=', $type)->exists()) {
-            $pagequery = CmsPage::where('slug', '=', $type);
-            $pagedata = $pagequery->first();
-            if (isset($pagedata) && $pagedata->id != "") {
-                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
-                $relatedpagedata = $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
+        // Clean out dev note from hero_intro if present
+        if (!empty($pagedata->hero_intro) && str_contains($pagedata->hero_intro, 'refined look and feel')) {
+            $pagedata->hero_intro = null;
         }
-        abort(404, 'Page not found');
-    }
 
-    // Experimental Property Law
-    public function propertylawExperiment(Request $request)
-    {
-        $type = 'property-law';
-        if (CmsPage::where('slug', '=', $type)->exists()) {
-            $pagequery = CmsPage::where('slug', '=', $type);
-            $pagedata = $pagequery->first();
-            if (isset($pagedata) && $pagedata->id != "") {
-                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')->where('service_cat_id', '=', $pagedata->id);
-                $relatedpagedata = $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
+        // Clean out legacy misspellings and content typos
+        if (!empty($pagedata->content)) {
+            $replacements = [
+                'That I why' => 'That is why',
+                'assualt-charges' => 'assault-charges',
+                'trafic-offences' => 'traffic-offences',
+                'intervenition-orders' => 'intervention-orders',
+                'juridicational-error-federal-circuit-court-application' => 'jurisdictional-error-federal-circuit-court-application',
+                'caveats-disputs-and-removal' => 'caveats-disputes-and-removal',
+                'practice-areas-bkk' => 'practice-areas',
+                'Expert legal guidance with the refined look and feel of our latest blog design.' => '',
+            ];
+            $pagedata->content = str_replace(array_keys($replacements), array_values($replacements), $pagedata->content);
         }
-        abort(404, 'Page not found');
-    }
-  
-  
-     //Practice area inner page
-    public function divorce(Request $request)
-    {
-        $type = 'divorce';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
+
+        // Also clean meta_description if it contains "That I why"
+        if (!empty($pagedata->meta_description) && str_contains($pagedata->meta_description, 'That I why')) {
+            $pagedata->meta_description = str_replace('That I why', 'That is why', $pagedata->meta_description);
         }
-        abort(404, 'Page not found');
     }
 
     /**
-     * Google Ads Landing Page for Divorce & Family Law
-     * Optimized for conversions and Google Ads campaigns
+     * Centralized practice area page renderer.
+     * Guarantees that:
+     * 1. If DB has legacy misspelled slug, it falls back smoothly instead of throwing 404.
+     * 2. Canonical SEO overrides (meta titles, meta descriptions, typo fixes) are applied dynamically.
+     * 3. Related pages links and titles are always normalized to clean URLs.
      */
+    private function renderPracticeAreaPage(string $slug, ?string $legacySlug = null)
+    {
+        $type = $slug;
+        $pagequery = CmsPage::where('slug', '=', $slug);
+        if ($legacySlug) {
+            $pagequery->orWhere('slug', '=', $legacySlug);
+        }
+        $pagedata = $pagequery->first();
+
+        if ($pagedata) {
+            $pagedata->slug = $slug;
+            $this->applySeoOverrides($pagedata);
+
+            if (!empty($pagedata->service_cat_id)) {
+                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
+                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
+                    ->where('id', '!=', $pagedata->id);
+            } else {
+                $relatedpagequery = CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
+                    ->where('service_cat_id', '=', $pagedata->id);
+            }
+            $relatedpagedata = $relatedpagequery->get();
+
+            $cleanSlugMap = [
+                'assualt-charges' => 'assault-charges',
+                'trafic-offences' => 'traffic-offences',
+                'intervenition-orders' => 'intervention-orders',
+                'juridicational-error-federal-circuit-court-application' => 'jurisdictional-error-federal-circuit-court-application',
+                'caveats-disputs-and-removal' => 'caveats-disputes-and-removal',
+                'practice-areas-bkk' => 'practice-areas',
+            ];
+            $cleanTitleMap = [
+                'assualt-charges' => 'Assault Charges',
+                'trafic-offences' => 'Traffic Offences',
+                'intervenition-orders' => 'Intervention Orders',
+                'juridicational-error-federal-circuit-court-application' => 'Jurisdictional Error / Federal Circuit Court Application',
+                'caveats-disputs-and-removal' => 'Caveats Disputes and Removal',
+            ];
+
+            foreach ($relatedpagedata as $rel) {
+                if (isset($cleanSlugMap[$rel->slug])) {
+                    $rel->title = $cleanTitleMap[$rel->slug] ?? $rel->title;
+                    $rel->slug = $cleanSlugMap[$rel->slug];
+                }
+            }
+
+            return view('practice_area', compact('type', 'pagedata', 'relatedpagedata'));
+        }
+
+        abort(404, 'Page not found');
+    }
+
+    // Main Practice Area Pages
+    public function familylawExperiment(Request $request)
+    {
+        return $this->renderPracticeAreaPage('family-law');
+    }
+
+    public function migrationlawExperiment(Request $request)
+    {
+        return $this->renderPracticeAreaPage('migration-law');
+    }
+
+    public function criminallawExperiment(Request $request)
+    {
+        return $this->renderPracticeAreaPage('criminal-law');
+    }
+
+    public function commerciallawExperiment(Request $request)
+    {
+        return $this->renderPracticeAreaPage('commercial-law');
+    }
+
+    public function propertylawExperiment(Request $request)
+    {
+        return $this->renderPracticeAreaPage('property-law');
+    }
+
+    // Family Law Inner Pages
+    public function divorce(Request $request)
+    {
+        return $this->renderPracticeAreaPage('divorce');
+    }
+
     public function divorceFamilyLawLanding(Request $request)
     {
         return view('divorce-family-law-landing');
@@ -977,99 +1080,28 @@ class HomeController extends Controller
 
     public function childcustody(Request $request)
     {
-        $type = 'child-custody';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('child-custody');
     }
 
     public function familyviolence(Request $request)
     {
-        $type = 'family-violence';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('family-violence');
     }
 
     public function propertysettlement(Request $request)
     {
-        $type = 'property-settlement';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('property-settlement');
     }
 
     public function familyviolenceorders(Request $request)
     {
-        $type = 'family-violence-orders';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('family-violence-orders');
     }
-  
-  
-  
+
+    // Migration Law Inner Pages
     public function jurisdictionalerrorfederalcircuitcourtapplication(Request $request)
     {
-        $type = 'jurisdictional-error-federal-circuit-court-application';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('jurisdictional-error-federal-circuit-court-application', 'juridicational-error-federal-circuit-court-application');
     }
 
     public function juridicationalerrorfederalcircuitcourtapplication(Request $request)
@@ -1077,84 +1109,25 @@ class HomeController extends Controller
         return redirect('/jurisdictional-error-federal-circuit-court-application', 301);
     }
 
-
     public function artapplication(Request $request)
     {
-        $type = 'art-application';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('art-application');
     }
-
 
     public function visarefusalsvisacancellation(Request $request)
     {
-        $type = 'visa-refusals-visa-cancellation';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('visa-refusals-visa-cancellation');
     }
 
     public function federalcourtapplication(Request $request)
     {
-        $type = 'federal-court-application';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('federal-court-application');
     }
-  
-  
-  
+
+    // Criminal Law Inner Pages
     public function interventionorders(Request $request)
     {
-        $type = 'intervention-orders';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('intervention-orders', 'intervenition-orders');
     }
 
     public function intervenitionorders(Request $request)
@@ -1164,21 +1137,7 @@ class HomeController extends Controller
 
     public function trafficoffences(Request $request)
     {
-        $type = 'traffic-offences';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('traffic-offences', 'trafic-offences');
     }
 
     public function traficoffences(Request $request)
@@ -1188,182 +1147,54 @@ class HomeController extends Controller
 
     public function drinkdrivingoffences(Request $request)
     {
-        $type = 'drink-driving-offences';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('drink-driving-offences');
     }
 
     public function assaultcharges(Request $request)
     {
-        $type = 'assault-charges';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('assault-charges', 'assualt-charges');
     }
 
     public function assualtcharges(Request $request)
     {
         return redirect('/assault-charges', 301);
     }
-  
-  
-    
+
+    // Commercial Law Inner Pages
     public function businesslaw(Request $request)
     {
-        $type = 'business-law';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('business-law');
     }
-
 
     public function leasingorsellingabusiness(Request $request)
     {
-        $type = 'leasing-or-selling-a-business';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('leasing-or-selling-a-business');
     }
 
     public function contractsorbusinessagreements(Request $request)
     {
-        $type = 'contracts-or-business-agreements';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('contracts-or-business-agreements');
     }
 
     public function loanagreement(Request $request)
     {
-        $type = 'loan-agreement';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('loan-agreement');
     }
-  
-  
+
+    // Property Law Inner Pages
     public function conveyancing(Request $request)
     {
-        $type = 'conveyancing';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('conveyancing');
     }
 
     public function buildingandconstructiondisputes(Request $request)
     {
-        $type = 'building-and-construction-disputes';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('building-and-construction-disputes');
     }
 
     public function caveatsdisputesandremoval(Request $request)
     {
-        $type = 'caveats-disputes-and-removal';
-        if(CmsPage::where('slug', '=', $type)->exists()) {
-            //for all data
-            $pagequery 	= CmsPage::where('slug', '=', $type);
-            $pagedata 	= $pagequery->first();
-            //Get all its related pages
-            if( isset($pagedata) &&  $pagedata->id != ""){
-                $relatedpagequery 	= CmsPage::select('id','service_type','service_cat_id','title','image','image_alt','slug')
-                                    ->where('service_cat_id', '=', $pagedata->service_cat_id)
-                                    ->where('id', '!=', $pagedata->id);
-                $relatedpagedata 	= $relatedpagequery->get();
-            }
-            return view('practice_area', compact('type','pagedata','relatedpagedata'));
-        }
-        abort(404, 'Page not found');
+        return $this->renderPracticeAreaPage('caveats-disputes-and-removal', 'caveats-disputs-and-removal');
     }
 
     public function caveatsdisputsandremoval(Request $request)
@@ -1430,6 +1261,18 @@ class HomeController extends Controller
     {
         if(!isset($slug) || empty($slug)){
             return redirect('/')->with('error', 'Page not found');
+        }
+
+        $redirectMap = [
+            'assualt-charges' => '/assault-charges',
+            'trafic-offences' => '/traffic-offences',
+            'intervenition-orders' => '/intervention-orders',
+            'juridicational-error-federal-circuit-court-application' => '/jurisdictional-error-federal-circuit-court-application',
+            'caveats-disputs-and-removal' => '/caveats-disputes-and-removal',
+            'practice-areas-bkk' => '/practice-areas',
+        ];
+        if (isset($redirectMap[$slug])) {
+            return redirect($redirectMap[$slug], 301);
         }
 
         // Handle CMS pages only

@@ -7,16 +7,16 @@
     <link rel="canonical" href="https://www.bansallawyers.com.au/contact" />
     <meta property="og:url" content="<?php echo URL::to('/'); ?>/contact">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Get Expert Legal Assistance from Best law firms in Melbourne Australia | Bansal Lawyers">
-    <meta property="og:description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!">
+    <meta property="og:title" content="Contact Bansal Lawyers | Collins Street, Melbourne">
+    <meta property="og:description" content="Book a consult at Level 8/278 Collins St, Melbourne. Call 0422 905 860 or 1300 226 725, or email info@bansallawyers.com.au.">
     <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="og:image:alt" content="Bansal Lawyers Logo">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
     <meta property="twitter:url" content="<?php echo URL::to('/'); ?>/contact">
-    <meta name="twitter:title" content="Get Expert Legal Assistance from Best law firms in Melbourne Australia | Bansal Lawyers">
-    <meta name="twitter:description" content="Contact Bansal Lawyers, one of the best law firms in Melbourne, Australia, for expert legal assistance. Our skilled team specializes in divorce, visa applications, real estate matters, and more. .Reach out today!">
+    <meta name="twitter:title" content="Contact Bansal Lawyers | Collins Street, Melbourne">
+    <meta name="twitter:description" content="Book a consult at Level 8/278 Collins St, Melbourne. Call 0422 905 860 or 1300 226 725, or email info@bansallawyers.com.au.">
     <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 	<meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 @endsection

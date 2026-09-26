@@ -328,9 +328,14 @@
             @foreach (@$bloglists as $list)
             <div class="col-md-4 mb-4">
                 <div class="experimental-card">
+                    @php
+                        $cardTitle = @$list->title ?? '';
+                        $cardTitle = preg_replace('/^\d+\s*/', '', $cardTitle);
+                        $cardTitle = preg_replace('/\s*([|–-]\s*(Best Lawyers|Bansal Lawyers).*$)/i', '', $cardTitle);
+                    @endphp
                     {{-- Image URL pre-resolved in HomeController::index() to avoid file_exists() disk I/O here --}}
                     <div style="height: 200px; min-height: 200px; max-height: 200px; flex-shrink: 0; background-image: url('{!! asset($list->resolved_image) !!}'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 15px; margin-bottom: 20px;" onerror="this.style.backgroundImage='url({!! asset('images/Blog.jpg') !!})'">
-                        <span class="sr-only">{{ @$list->title }}</span>
+                        <span class="sr-only">{{ $cardTitle }}</span>
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <div style="background: #1B4D89; color: white; padding: 8px 12px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
@@ -346,9 +351,9 @@
                         </div>
                     @endif
                     <h4 style="color: #1B4D89; font-weight: 600; margin-bottom: 15px; line-height: 1.4;">
-                        <a href="{{ route('blog.detail', $list->slug) }}" style="color: inherit; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#2c5aa0'" onmouseout="this.style.color='#1B4D89'">{{@$list->title}}</a>
+                        <a href="{{ route('blog.detail', $list->slug) }}" style="color: inherit; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#2c5aa0'" onmouseout="this.style.color='#1B4D89'">{{ $cardTitle }}</a>
                     </h4>
-                    <p style="color: #666; margin-bottom: 20px; line-height: 1.5; font-size: 0.95rem;">{{@$list->title}}</p>
+                    <p style="color: #666; margin-bottom: 20px; line-height: 1.5; font-size: 0.95rem;">{{ $cardTitle }}</p>
                     <a href="{{ route('blog.detail', $list->slug) }}" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;">
                         Read More <x-white-icon name="arrow-right" :size="14" color="#ffffff" />
                     </a>

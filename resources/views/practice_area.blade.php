@@ -99,7 +99,9 @@
                     {{ @$pagedata->title }}
                 <?php } ?>
             </h1>
-            <p>{{ $pagedata->hero_intro ?? 'Expert legal guidance with the refined look and feel of our latest blog design.' }}</p>
+            @if(!empty($pagedata->hero_intro) && !str_contains($pagedata->hero_intro, 'refined look and feel'))
+                <p>{{ $pagedata->hero_intro }}</p>
+            @endif
         </div>
     </div>
 
@@ -139,10 +141,29 @@
                         <div class="pae-card-body">
                             <h3>Related pages</h3>
                             @foreach (@$relatedpagedata as $list)
-                                <a class="pae-related-item" href="<?php echo URL::to('/'); ?>/{{@$list->slug}}">
-                                    <img src="{{ asset('images/' . @$list->image) }}" alt="{{@$list->image_alt}}" width="64" height="64" loading="lazy">
+                                @php
+                                    $cleanSlugMap = [
+                                        'assualt-charges' => 'assault-charges',
+                                        'trafic-offences' => 'traffic-offences',
+                                        'intervenition-orders' => 'intervention-orders',
+                                        'juridicational-error-federal-circuit-court-application' => 'jurisdictional-error-federal-circuit-court-application',
+                                        'caveats-disputs-and-removal' => 'caveats-disputes-and-removal',
+                                        'practice-areas-bkk' => 'practice-areas',
+                                    ];
+                                    $cleanTitleMap = [
+                                        'assualt-charges' => 'Assault Charges',
+                                        'trafic-offences' => 'Traffic Offences',
+                                        'intervenition-orders' => 'Intervention Orders',
+                                        'juridicational-error-federal-circuit-court-application' => 'Jurisdictional Error / Federal Circuit Court Application',
+                                        'caveats-disputs-and-removal' => 'Caveats Disputes and Removal',
+                                    ];
+                                    $relSlug = $cleanSlugMap[@$list->slug] ?? @$list->slug;
+                                    $relTitle = $cleanTitleMap[@$list->slug] ?? @$list->title;
+                                @endphp
+                                <a class="pae-related-item" href="<?php echo URL::to('/'); ?>/{{$relSlug}}">
+                                    <img src="{{ asset('images/' . @$list->image) }}" alt="{{$relTitle}}" width="64" height="64" loading="lazy">
                                     <div>
-                                        <div class="title">{{@$list->title}}</div>
+                                        <div class="title">{{$relTitle}}</div>
                                         <div class="more">Read this more »</div>
                                     </div>
                                 </a>

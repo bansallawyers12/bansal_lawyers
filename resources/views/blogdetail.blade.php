@@ -2,21 +2,28 @@
 
 @section('seoinfo')
     @php
-        $baseTitle = $blogdetailists->meta_title ?: $blogdetailists->title;
+        $rawTitle = $blogdetailists->title ?? '';
+        $cleanDisplayTitle = preg_replace('/^\d+\s*/', '', $rawTitle);
+        $cleanDisplayTitle = preg_replace('/\s*([|–-]\s*(Best Lawyers|Bansal Lawyers).*$)/i', '', $cleanDisplayTitle);
+
+        $baseTitle = $blogdetailists->meta_title ?: $cleanDisplayTitle;
+        $baseTitle = preg_replace('/^\d+\s*/', '', $baseTitle);
         $cleanTitle = str_contains($baseTitle, 'Bansal Lawyers') ? $baseTitle : $baseTitle . ' | Bansal Lawyers';
+
+        $cleanMetaDesc = preg_replace('/^\d+\s*/', '', $blogdetailists->meta_description ?? '');
     @endphp
     <title>{{ $cleanTitle }}</title>
 
-    @if(isset($blogdetailists->meta_description) && $blogdetailists->meta_description != "")
-        <meta name="description" content="{{ $blogdetailists->meta_description }}" />
+    @if(!empty($cleanMetaDesc))
+        <meta name="description" content="{{ $cleanMetaDesc }}" />
     @else
         <meta name="description" content="{{ \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}" />
     @endif
 
     @if(isset($blogdetailists->meta_keyword) && $blogdetailists->meta_keyword != "")
-        <meta name="keyword" content="{{ $blogdetailists->meta_keyword }}" />
+        <meta name="keyword" content="{{ preg_replace('/^\d+\s*/', '', $blogdetailists->meta_keyword) }}" />
     @else
-        <meta name="keyword" content="Bansal Lawyers, Legal Blog, {{ $blogdetailists->title }}" />
+        <meta name="keyword" content="Bansal Lawyers, Legal Blog, {{ $cleanDisplayTitle }}" />
     @endif
 
     <link rel="canonical" href="{{ route('blog.detail', $blogdetailists->slug) }}" />
@@ -29,10 +36,10 @@
     <!-- Facebook Meta Tags -->
     <meta property="og:url" content="{{ route('blog.detail', $blogdetailists->slug) }}">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="{{ $blogdetailists->meta_title ?: $blogdetailists->title }}">
-    <meta property="og:description" content="{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
+    <meta property="og:title" content="{{ $cleanTitle }}">
+    <meta property="og:description" content="{{ $cleanMetaDesc ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
     <meta property="og:image" content="{!! isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') !!}">
-    <meta property="og:image:alt" content="{{ $blogdetailists->title }}">
+    <meta property="og:image:alt" content="{{ $cleanDisplayTitle }}">
     <meta property="article:published_time" content="{{ $blogdetailists->created_at }}">
     <meta property="article:modified_time" content="{{ $blogdetailists->updated_at }}">
     @if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail)
@@ -43,17 +50,17 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta property="twitter:domain" content="bansallawyers.com.au">
     <meta property="twitter:url" content="{{ route('blog.detail', $blogdetailists->slug) }}">
-    <meta name="twitter:title" content="{{ $blogdetailists->meta_title ?: $blogdetailists->title }}">
-    <meta name="twitter:description" content="{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
+    <meta name="twitter:title" content="{{ $cleanTitle }}">
+    <meta name="twitter:description" content="{{ $cleanMetaDesc ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}">
     <meta property="twitter:image" content="{!! isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png') !!}">
-    <meta property="twitter:image:alt" content="{{ $blogdetailists->title }}">
+    <meta property="twitter:image:alt" content="{{ $cleanDisplayTitle }}">
 
     <!-- Article Schema Markup -->
     <script type="application/ld+json">
     {
       "@@context": "https://schema.org",
       "@@type": "Article",
-      "headline": "{{ $blogdetailists->title }}",
+      "headline": "{{ $cleanDisplayTitle }}",
       "description": "{{ $blogdetailists->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($blogdetailists->description), 160) }}",
       "image": {!! json_encode(isset($blogdetailists->image) && $blogdetailists->image != '' ? asset('images/blog/' . $blogdetailists->image) : asset('images/logo/Bansal_Lawyers.png')) !!},
       "author": {
@@ -79,7 +86,7 @@
       @if(isset($blogdetailists->categorydetail) && $blogdetailists->categorydetail)
       "articleSection": {!! json_encode($blogdetailists->categorydetail->name) !!},
       @endif
-      "keywords": {!! json_encode($blogdetailists->meta_keyword ?: 'Bansal Lawyers, Legal Blog, ' . $blogdetailists->title) !!}
+      "keywords": {!! json_encode($blogdetailists->meta_keyword ?: 'Bansal Lawyers, Legal Blog, ' . $cleanDisplayTitle) !!}
     }
     </script>
 
@@ -104,7 +111,7 @@
         {
           "@@type": "ListItem",
           "position": 3,
-          "name": "{{ $blogdetailists->title }}",
+          "name": "{{ $cleanDisplayTitle }}",
           "item": "{{ route('blog.detail', $blogdetailists->slug) }}"
         }
       ]
@@ -539,14 +546,14 @@
         <span class="separator">></span>
         <a href="{{ route('blog.index') }}">Blog</a>
         <span class="separator">></span>
-        <span>{{ $blogdetailists->title }}</span>
+        <span>{{ $cleanDisplayTitle }}</span>
     </div>
 </div>
 
 <!-- Blog Detail Hero -->
 <div class="experimental-blog-detail-hero">
     <div class="container">
-        <h1>{{ $blogdetailists->title }}</h1>
+        <h1>{{ $cleanDisplayTitle }}</h1>
         <div class="experimental-blog-detail-meta">
             <span>
                 <i data-lucide="calendar" class="mr-2"></i>
@@ -583,7 +590,7 @@
                     @if(isset($blogdetailists->image) && $blogdetailists->image != "")
                         <x-next-gen-image 
                             src="images/blog/{{ $blogdetailists->image }}" 
-                            alt="{{ $blogdetailists->title }} - Legal Blog Post by Bansal Lawyers"
+                            alt="{{ $cleanDisplayTitle }} - Legal Blog Post by Bansal Lawyers"
                             is-public="true"
                             loading="eager"
                             width="800"
@@ -594,7 +601,7 @@
                     @else
                         <x-next-gen-image 
                             src="images/Blog.jpg" 
-                            alt="{{ $blogdetailists->title }} - Legal Blog Post by Bansal Lawyers"
+                            alt="{{ $cleanDisplayTitle }} - Legal Blog Post by Bansal Lawyers"
                             is-public="true"
                             loading="eager"
                             width="800"
@@ -684,7 +691,7 @@
                            target="_blank" class="experimental-share-btn facebook">
                             <x-brand-icon name="facebook" /> Share on Facebook
                         </a>
-                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($blogdetailists->title) }}" 
+                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($cleanDisplayTitle) }}" 
                            target="_blank" class="experimental-share-btn twitter">
                             <x-brand-icon name="twitter" /> Tweet
                         </a>
