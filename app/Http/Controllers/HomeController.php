@@ -376,6 +376,9 @@ class HomeController extends Controller
     {
         // Fetch CMS page data for "about" slug to get dynamic meta tags
         $pagedata = CmsPage::where('slug', '=', 'about')->first();
+        if ($pagedata) {
+            $pagedata->meta_title = 'About Bansal Lawyers | Melbourne Law Firm';
+        }
         return view('about', compact('pagedata'));
     }
 
@@ -960,6 +963,21 @@ class HomeController extends Controller
             'civil-law' => [
                 'meta_title' => 'Civil Lawyers Melbourne | Civil Disputes & Legal Notices',
                 'meta_description' => 'Bansal Lawyers assists with civil disputes, legal notices, contract disputes, debt disputes, negotiation, document preparation and court-related processes.',
+            ],
+            'case' => [
+                'meta_title' => 'Recent Case Law Updates | Bansal Lawyers',
+            ],
+            'family-violence-orders' => [
+                'meta_title' => 'Family Law Mediation and Dispute Resolution | Bansal Lawyers',
+            ],
+            'personal-law' => [
+                'meta_title' => 'Personal Injury Law | Bansal Lawyers',
+            ],
+            'conveyancing' => [
+                'meta_title' => 'Conveyancing Lawyers in Melbourne | Bansal Lawyers',
+            ],
+            'property-settlement' => [
+                'meta_title' => 'Property Settlement Lawyers in Melbourne | Bansal Lawyers',
             ],
             'assault-charges' => [
                 'title' => 'Assault Charges',

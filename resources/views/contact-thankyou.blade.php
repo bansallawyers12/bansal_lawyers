@@ -363,7 +363,7 @@
         </div>
         
         <div class="button-group">
-            <a href="{{ url('/landing') }}" class="btn-contact-again">
+            <a href="{{ url('/contact') }}" class="btn-contact-again">
                 <span>📝</span>
                 <span>Submit Another Request</span>
             </a>

@@ -24,7 +24,7 @@
 @section('seoinfo')
 <?php 
     // Use dynamic meta title and description from CMS page if available, otherwise use defaults
-    $metaTitle = (isset($pagedata->meta_title) && $pagedata->meta_title != "") ? $pagedata->meta_title : "About Bansal Lawyers - Leading Legal Firm in Melbourne | Expert Legal Services";
+    $metaTitle = (isset($pagedata->meta_title) && $pagedata->meta_title != "") ? $pagedata->meta_title : "About Bansal Lawyers | Melbourne Law Firm";
     $metaDescription = (isset($pagedata->meta_description) && $pagedata->meta_description != "") ? $pagedata->meta_description : "Learn about Bansal Lawyers, Melbourne's trusted legal firm led by Director Ajay Bansal. Expert services in Immigration, Family, Property, and Commercial Law with over 15 years of experience.";
     $metaKeywords = (isset($pagedata->meta_keyward) && $pagedata->meta_keyward != "") ? $pagedata->meta_keyward : "About Bansal Lawyers, Melbourne law firm, Ajay Bansal, legal services Australia, Immigration lawyer Melbourne, Family lawyer, Property lawyer, Commercial lawyer";
 ?>
@@ -122,6 +122,9 @@
                 <p class="director-description">
                     Ajay's philosophy centers on providing clear, practical legal advice that empowers clients to make informed decisions. His track record of successful outcomes and satisfied clients speaks to his commitment to excellence in legal practice.
                 </p>
+                <p class="director-description">
+                    Ajay speaks English, Hindi, and Punjabi.
+                </p>
             </div>
         </div>
     </div>
@@ -156,7 +159,7 @@
                     He brings hands-on experience across criminal law, family law, civil litigation, and commercial matters, with appearances in the Magistrates' Court, Federal Circuit and Family Court of Australia, and VCAT.
                 </p>
                 <p class="team-member-description">
-                    Michael is also bilingual in Arabic, allowing him to serve a broader range of clients with clarity and cultural sensitivity.
+                    Michael speaks English and Arabic, so he can explain matters clearly to a wider range of clients.
                 </p>
             </div>
         </div>
@@ -243,7 +246,7 @@
                     <li>Founded by Director Ajay Bansal with deep expertise in Australian law</li>
                     <li>Specialized focus on Immigration, Family, and Commercial Law</li>
                     <li>Located in Melbourne's premier legal district on Collins Street</li>
-                    <li>Multilingual legal services for diverse communities</li>
+                    <li>Advice in English, Hindi, Punjabi, and Arabic</li>
                     <li>Personalized approach tailored to each client's unique needs</li>
                     <li>Commitment to clear, practical legal advice and client empowerment</li>
                 </ul>
