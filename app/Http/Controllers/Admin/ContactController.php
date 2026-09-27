@@ -667,7 +667,7 @@ class ContactController extends Controller
                         <p>This email was automatically generated and forwarded for your review.</p>
                         <p>Please respond to the client directly using the provided contact information.</p>
                         <p style="margin-top: 20px; font-size: 12px; opacity: 0.7;">
-                            Best Immigration Lawyer in Melbourne Australia | Bansal Lawyers
+                            Lawyers in Melbourne | Bansal Lawyers
                         </p>
                     </div>
                 </div>

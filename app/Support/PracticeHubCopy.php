@@ -176,40 +176,46 @@ class PracticeHubCopy
     }
 
     /**
-     * @return array<string, array{title: string, meta_title: string, meta_description: string, content: string}>
+     * @return array<string, array{title: string, meta_title: string, meta_description: string, meta_keyward: string, content: string}>
      */
     public static function pages(): array
     {
         $meta = [
             'migration-law' => [
                 'title' => 'Immigration Lawyers in Melbourne',
-                'meta_title' => 'Immigration Lawyers Melbourne | Bansal Lawyers',
+                'meta_title' => 'Immigration Lawyers Melbourne | Visa Refusals, Appeals & Migration Law',
                 'meta_description' => 'Bansal Lawyers helps clients with visa applications, refusals, cancellations, ART appeals, partner visas, student visas, skilled migration and citizenship matters.',
+                'meta_keyward' => 'Immigration Lawyers Melbourne, Migration Lawyers Melbourne, Visa Lawyer Melbourne, Visa Refusal Lawyer Melbourne, ART Appeal Lawyer Melbourne, Partner Visa Lawyer Melbourne, Student Visa Lawyer Melbourne, Skilled Migration Lawyer Melbourne',
             ],
             'family-law' => [
                 'title' => 'Family Lawyers in Melbourne',
-                'meta_title' => 'Family Lawyers Melbourne | Divorce & Parenting',
+                'meta_title' => 'Family Lawyers Melbourne | Divorce, Parenting & Property Settlement',
                 'meta_description' => 'Bansal Lawyers assists with divorce, separation, parenting matters, child custody, property settlement, consent orders, family violence and intervention orders.',
+                'meta_keyward' => 'Family Lawyers Melbourne, Family Law Firm Melbourne, Divorce Lawyer Melbourne, Child Custody Lawyer Melbourne, Property Settlement Lawyer Melbourne, Family Violence Lawyer Melbourne, Consent Orders Lawyer Melbourne',
             ],
             'criminal-law' => [
                 'title' => 'Criminal Lawyers in Melbourne',
-                'meta_title' => 'Criminal Lawyers Melbourne | Criminal Defence',
+                'meta_title' => 'Criminal Lawyers Melbourne | Criminal Defence & Traffic Offences',
                 'meta_description' => 'Bansal Lawyers assists with criminal charges, traffic offences, assault matters, theft, fraud, drug offences, bail applications and court representation.',
+                'meta_keyward' => 'Criminal Lawyers Melbourne, Criminal Defence Lawyer Melbourne, Traffic Lawyer Melbourne, Assault Lawyer Melbourne, Bail Application Lawyer Melbourne, Family Violence Lawyer Melbourne, Drug Offence Lawyer Melbourne',
             ],
             'commercial-law' => [
                 'title' => 'Commercial Lawyers in Melbourne',
-                'meta_title' => 'Commercial Lawyers Melbourne | Contracts & Disputes',
+                'meta_title' => 'Commercial Lawyers Melbourne | Contracts, Business Law & Disputes',
                 'meta_description' => 'Bansal Lawyers assists with business contracts, commercial agreements, loan agreements, shareholder matters, business transactions, disputes and debt recovery.',
+                'meta_keyward' => 'Commercial Lawyers Melbourne, Business Lawyer Melbourne, Contract Lawyer Melbourne, Commercial Law Firm Melbourne, Commercial Dispute Lawyer Melbourne, Loan Agreement Lawyer Melbourne, Debt Recovery Lawyer Melbourne',
             ],
             'property-law' => [
                 'title' => 'Property Lawyers in Melbourne',
-                'meta_title' => 'Property Lawyers Melbourne | Leases & Contracts',
+                'meta_title' => 'Property Lawyers Melbourne | Contracts, Leasing & Property Disputes',
                 'meta_description' => 'Bansal Lawyers assists with property contract review, buying and selling property, leases, conveyancing-related support, settlement issues and property disputes.',
+                'meta_keyward' => 'Property Lawyers Melbourne, Property Lawyer Melbourne, Conveyancing Lawyer Melbourne, Property Contract Review Melbourne, Commercial Lease Lawyer Melbourne, Property Dispute Lawyer Melbourne, Buying Property Lawyer Melbourne',
             ],
             'civil-law' => [
                 'title' => 'Civil Lawyers in Melbourne',
-                'meta_title' => 'Civil Lawyers Melbourne | Disputes & Notices',
+                'meta_title' => 'Civil Lawyers Melbourne | Civil Disputes & Legal Notices',
                 'meta_description' => 'Bansal Lawyers assists with civil disputes, legal notices, contract disputes, debt disputes, negotiation, document preparation and court-related processes.',
+                'meta_keyward' => 'Civil Lawyers Melbourne, Civil Law Firm Melbourne, Civil Litigation Lawyer Melbourne, Dispute Resolution Lawyer Melbourne, Legal Notice Lawyer Melbourne, Debt Dispute Lawyer Melbourne, Contract Dispute Lawyer Melbourne',
             ],
         ];
 

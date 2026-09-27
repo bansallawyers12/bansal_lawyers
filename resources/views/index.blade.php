@@ -3,15 +3,16 @@
 
 @section('seoinfo')
 
-<title>Lawyers in Melbourne | Bansal Lawyers</title>
+<title>Lawyers in Melbourne | Immigration, Family, Criminal & Commercial Law</title>
 <meta name="description" content="Bansal Lawyers is a Melbourne law firm helping clients with immigration, family, criminal, commercial, property and civil law matters. Book a consultation today." >
+<meta name="keywords" content="Lawyers in Melbourne, Immigration Lawyers Melbourne, Family Lawyers Melbourne, Criminal Lawyers Melbourne, Commercial Lawyers Melbourne, Property Lawyers Melbourne, Civil Lawyers Melbourne, Law Firm Melbourne, Legal Services Melbourne">
 
 <link rel="canonical" href="https://www.bansallawyers.com.au/" >
 
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="<?php echo URL::to('/'); ?>">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Lawyers in Melbourne | Bansal Lawyers">
+<meta property="og:title" content="Lawyers in Melbourne | Immigration, Family, Criminal & Commercial Law">
 <meta property="og:description" content="Bansal Lawyers is a Melbourne law firm helping clients with immigration, family, criminal, commercial, property and civil law matters. Book a consultation today.">
 <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 <meta property="og:image:alt" content="Bansal Lawyers Logo">
@@ -20,7 +21,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="bansallawyers.com.au">
 <meta property="twitter:url" content="<?php echo URL::to('/'); ?>">
-<meta name="twitter:title" content="Lawyers in Melbourne | Bansal Lawyers">
+<meta name="twitter:title" content="Lawyers in Melbourne | Immigration, Family, Criminal & Commercial Law">
 <meta name="twitter:description" content="Bansal Lawyers is a Melbourne law firm helping clients with immigration, family, criminal, commercial, property and civil law matters. Book a consultation today.">
 
 @php

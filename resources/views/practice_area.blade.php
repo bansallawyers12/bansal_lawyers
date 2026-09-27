@@ -13,7 +13,7 @@
     <?php } ?>
 
     <?php if( isset($pagedata->meta_keyward) && $pagedata->meta_keyward != "") { ?>
-        <meta name="keyword" content="{{@$pagedata->meta_keyward}}" />
+        <meta name="keywords" content="{{@$pagedata->meta_keyward}}" />
     <?php } ?>
 
     <link rel="canonical" href="https://www.bansallawyers.com.au/{{@$pagedata->slug}}" />

@@ -916,27 +916,27 @@ class HomeController extends Controller
         // SEO meta title and description overrides
         $seoOverrides = [
             'family-law' => [
-                'meta_title' => 'Family Lawyers Melbourne | Divorce & Parenting',
+                'meta_title' => 'Family Lawyers Melbourne | Divorce, Parenting & Property Settlement',
                 'meta_description' => 'Bansal Lawyers assists with divorce, separation, parenting matters, child custody, property settlement, consent orders, family violence and intervention orders.',
             ],
             'migration-law' => [
-                'meta_title' => 'Immigration Lawyers Melbourne | Bansal Lawyers',
+                'meta_title' => 'Immigration Lawyers Melbourne | Visa Refusals, Appeals & Migration Law',
                 'meta_description' => 'Bansal Lawyers helps clients with visa applications, refusals, cancellations, ART appeals, partner visas, student visas, skilled migration and citizenship matters.',
             ],
             'criminal-law' => [
-                'meta_title' => 'Criminal Lawyers Melbourne | Criminal Defence',
+                'meta_title' => 'Criminal Lawyers Melbourne | Criminal Defence & Traffic Offences',
                 'meta_description' => 'Bansal Lawyers assists with criminal charges, traffic offences, assault matters, theft, fraud, drug offences, bail applications and court representation.',
             ],
             'commercial-law' => [
-                'meta_title' => 'Commercial Lawyers Melbourne | Contracts & Disputes',
+                'meta_title' => 'Commercial Lawyers Melbourne | Contracts, Business Law & Disputes',
                 'meta_description' => 'Bansal Lawyers assists with business contracts, commercial agreements, loan agreements, shareholder matters, business transactions, disputes and debt recovery.',
             ],
             'property-law' => [
-                'meta_title' => 'Property Lawyers Melbourne | Leases & Contracts',
+                'meta_title' => 'Property Lawyers Melbourne | Contracts, Leasing & Property Disputes',
                 'meta_description' => 'Bansal Lawyers assists with property contract review, buying and selling property, leases, conveyancing-related support, settlement issues and property disputes.',
             ],
             'civil-law' => [
-                'meta_title' => 'Civil Lawyers Melbourne | Disputes & Notices',
+                'meta_title' => 'Civil Lawyers Melbourne | Civil Disputes & Legal Notices',
                 'meta_description' => 'Bansal Lawyers assists with civil disputes, legal notices, contract disputes, debt disputes, negotiation, document preparation and court-related processes.',
             ],
             'assault-charges' => [

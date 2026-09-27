@@ -81,8 +81,8 @@
         @media (min-width:769px){.floating-btn-mobile-call{display:none!important}}
     </style>
 
-    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}?v=1.3" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="{{ asset('css/fonts.css') }}?v=1.3"></noscript>
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}?v=1.4" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ asset('css/fonts.css') }}?v=1.4"></noscript>
 
     {{-- Large app CSS: non-blocking --}}
     <link rel="stylesheet" href="{{ \Illuminate\Support\Facades\Vite::asset('resources/css/frontend.css') }}" media="print" onload="this.media='all'">

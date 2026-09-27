@@ -271,10 +271,15 @@
                     @endif
                     <div class="et_pb_text_inner">
                         {!! $casedetailists->description !!}
-                        
+
+                        @php
+                            $caseHaystack = strtolower(strip_tags(($casedetailists->title ?? '') . ' ' . ($casedetailists->description ?? '')));
+                            $isImmigrationCase = (bool) preg_match('/\b(immigration|migration|visa|tribunal)\b/', $caseHaystack);
+                        @endphp
+                        @if($isImmigrationCase)
                         <hr style="margin:30px 0; opacity:.2;">
                         <div class="case-related-internal">
-                            <h3 style="color:#1B4D89;">Related migration topics</h3>
+                            <h3 style="color:#1B4D89;">Related immigration matters</h3>
                             <ul style="padding-left:18px;">
                                 <li><a href="<?php echo URL::to('/'); ?>/jurisdictional-error-federal-circuit-court-application">Jurisdictional Error / Federal Circuit Court Application</a></li>
                                 <li><a href="<?php echo URL::to('/'); ?>/art-application">ART Application</a></li>
@@ -282,10 +287,12 @@
                                 <li><a href="<?php echo URL::to('/'); ?>/federal-court-application">Federal Court Application</a></li>
                             </ul>
                         </div>
+                        @endif
                     </div>
                 </div>
 
                 <div class="col-md-4 right-side">
+                    @if($isImmigrationCase)
                     <div class="widget-post">
                         <h3 class="widget-header">Related Pages</h3>
                         <a class="related-case-item" href="<?php echo URL::to('/'); ?>/jurisdictional-error-federal-circuit-court-application">
@@ -317,11 +324,12 @@
                             </div>
                         </a>
                     </div>
+                    @endif
 
                     @include('components.unified-contact-form', [
                         'variant' => 'sidebar',
                         'title' => 'Speak with a Lawyer',
-                        'subtitle' => "There's No Legal Puzzle, We Can't Solve",
+                        'subtitle' => 'Book a consultation with our Melbourne lawyers.',
                         'buttonText' => 'GET LEGAL ADVICE',
                         'formId' => 'case-detail-contact-form',
                         'source' => 'case-detail',

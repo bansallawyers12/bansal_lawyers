@@ -30,7 +30,7 @@
       "@type": "LegalService",
       "name": "Bansal Lawyers",
       "image": "https://www.bansallawyers.com.au/images/logo/Bansal_Lawyers.png",
-      "description": "Bansal Lawyers provides the best immigration lawyers in Melbourne, offering expert legal services for visas, appeals, and migration advice.",
+      "description": "Bansal Lawyers is a Melbourne law firm helping clients with immigration, family, criminal, commercial, property and civil law matters. Book a consultation today.",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Level 8/278 Collins St",
@@ -74,28 +74,33 @@
         "itemListElement": [
           {
             "@type": "Offer",
-            "name": "Immigration Law",
-            "description": "Expert legal services for visas, appeals, and migration advice."
+            "name": "Immigration Lawyers",
+            "description": "Help with visa applications, refusals, cancellations, ART appeals, and citizenship matters."
           },
           {
             "@type": "Offer",
-            "name": "Family Law",
-            "description": "Legal support for family-related matters including divorce and custody."
+            "name": "Family Lawyers",
+            "description": "Advice for divorce, separation, parenting arrangements, property settlement, and intervention orders."
           },
           {
             "@type": "Offer",
-            "name": "Criminal Law",
-            "description": "Defense representation for criminal cases."
+            "name": "Criminal Lawyers",
+            "description": "Legal support for criminal charges, traffic offences, bail applications, and court representation."
           },
           {
             "@type": "Offer",
-            "name": "Commercial Law",
-            "description": "Legal advice and representation for business and commercial matters."
+            "name": "Commercial Lawyers",
+            "description": "Assistance with business contracts, loan agreements, disputes, and debt recovery."
           },
           {
             "@type": "Offer",
-            "name": "Property Law",
-            "description": "Legal services for property transactions and disputes."
+            "name": "Property Lawyers",
+            "description": "Legal advice for buying, selling, leases, conveyancing-related support, and property disputes."
+          },
+          {
+            "@type": "Offer",
+            "name": "Civil Lawyers",
+            "description": "Support for civil disputes, legal notices, debt disputes, and court-related processes."
           }
         ]
       }

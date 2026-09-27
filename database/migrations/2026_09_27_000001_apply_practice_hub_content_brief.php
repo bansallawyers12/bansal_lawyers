@@ -19,6 +19,7 @@ return new class extends Migration
                 'content' => $page['content'],
                 'meta_title' => $page['meta_title'],
                 'meta_description' => $page['meta_description'],
+                'meta_keyward' => $page['meta_keyward'],
                 'updated_at' => now(),
             ];
 
