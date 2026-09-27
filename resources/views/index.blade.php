@@ -168,6 +168,7 @@
                     <li>Careful review of documents and deadlines</li>
                     <li>Honest explanation of legal options</li>
                     <li>Professional handling of sensitive matters</li>
+                    <li>Advice in English, Hindi, Punjabi, and Arabic</li>
                     <li>Melbourne-based legal support</li>
                 </ul>
             </div>

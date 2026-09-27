@@ -63,7 +63,7 @@
     <div class="container">
         <div class="modern-hero-content" data-aos="fade-up" data-aos-duration="1000">
             <h1>Let's Start Your Legal Journey</h1>
-            <p class="subtitle">Get expert legal assistance from Melbourne's most trusted law firm. We're here to help you navigate complex legal matters with confidence and clarity.</p>
+            <p class="subtitle">Get expert legal assistance from our Melbourne law firm. We're here to help you navigate complex legal matters with confidence and clarity.</p>
             <div class="modern-cta-buttons">
                 <a href="#contact-form" class="modern-cta-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
@@ -83,6 +83,7 @@
         <h2>Contact Our Melbourne Lawyers</h2>
         <p>Bansal Lawyers provides expert legal services from our Collins Street office in the Melbourne CBD. Our team assists clients across Victoria and Australia with migration and visa matters, family law, criminal defence, commercial and business law, and property and conveyancing.</p>
         <p>When you contact us, we listen to your situation, explain your legal options in plain language, and outline sensible next steps. You can reach us by phone, email, or the form below — we aim to respond promptly during business hours, Monday to Friday.</p>
+        <p>Advice is available in English, Hindi, Punjabi, and Arabic.</p>
         <p>If your matter is urgent, call <a href="tel:+61422905860">0422 905 860</a> or our national line <a href="tel:1300226725">1300 BANSAL (1300 226 725)</a>. For a paid consultation with a lawyer, you can also <a href="/book-an-appointment">book an appointment online</a>.</p>
     </article>
 </section>
@@ -141,7 +142,7 @@
                                     'variant' => 'default',
                                     'showTitle' => true,
                                     'title' => 'Send us a Message',
-                                    'subtitle' => 'Get expert legal assistance from Melbourne\'s most trusted law firm',
+                                    'subtitle' => 'Get expert legal assistance from our Melbourne law firm',
                                     'buttonText' => 'Send Message',
                                     'buttonClass' => 'btn-primary',
                                     'formId' => 'contact-page-form',

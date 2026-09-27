@@ -50,7 +50,7 @@
                         'telephone' => '1300 226 725',
                         'contactType' => 'customer service',
                         'areaServed' => 'AU',
-                        'availableLanguage' => ['English'],
+                        'availableLanguage' => ['English', 'Hindi', 'Punjabi', 'Arabic'],
                     ],
                 ],
                 'priceRange' => '$$$',
