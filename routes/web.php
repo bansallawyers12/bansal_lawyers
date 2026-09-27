@@ -245,6 +245,9 @@ Route::middleware(['throttle:web-pages', 'cache.headers:etag'])->group(function 
     Route::get('/conveyancing', [\App\Http\Controllers\HomeController::class, 'conveyancing'])->name('conveyancing');
     Route::get('/building-and-construction-disputes', [\App\Http\Controllers\HomeController::class, 'buildingandconstructiondisputes'])->name('building-and-construction-disputes');
     Route::get('/caveats-disputes-and-removal', [\App\Http\Controllers\HomeController::class, 'caveatsdisputesandremoval'])->name('caveats-disputes-and-removal');
+
+    Route::get('/privacy-policy', [\App\Http\Controllers\HomeController::class, 'privacyPolicy'])->name('privacy-policy');
+    Route::get('/disclaimer', [\App\Http\Controllers\HomeController::class, 'disclaimer'])->name('disclaimer');
 });
 
 // Permanent 301 redirects for misspelled/backup URLs (SEO-09)
@@ -260,5 +263,5 @@ Route::permanentRedirect('/practice-areas-bkk', '/practice-areas');
 // IMPORTANT: This route must come after /blog routes to avoid conflicts
 Route::get('/{slug}', [\App\Http\Controllers\HomeController::class, 'unifiedSlugHandler'])
 	->middleware('throttle:web-pages')
-	->where('slug', '^(?!admin\/|api\/|login$|register$|home$|invoice$|profile$|clear-cache$|js\/|css\/|images\/|img\/|assets\/|fonts\/|storage\/|blog$|blog\/|sitemap\.xml$|llms\.txt$|robots\.txt$).*$')
+	->where('slug', '^(?!admin\/|api\/|login$|register$|home$|invoice$|profile$|clear-cache$|js\/|css\/|images\/|img\/|assets\/|fonts\/|storage\/|blog$|blog\/|sitemap\.xml$|llms\.txt$|robots\.txt$|privacy-policy$|disclaimer$).*$')
 	->name('cms.slug');

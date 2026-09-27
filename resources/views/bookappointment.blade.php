@@ -187,6 +187,8 @@
                         <div class="summary-row"><span>Date & Time</span><strong x-text="datetimeSummary"></strong></div>
                     </div>
 
+                    <x-form-legal-notice variant="booking" />
+
                     <div class="booking-form-group">
                         <label class="booking-label" for="noe_id">Type of Legal Matter</label>
                         <select id="noe_id" name="noe_id" data-enhanced-select data-enhanced-select-placeholder="Select the type of legal matter" x-model="noeId" required>
@@ -272,6 +274,8 @@
                     </div>
 
                     <p class="field-error-text" x-show="turnstileError" x-text="turnstileError"></p>
+
+                    <x-form-legal-notice variant="booking" />
 
                     <div class="booking-actions">
                         <button type="button" class="booking-btn booking-btn-secondary" @click="goBack()">Back</button>

@@ -133,6 +133,8 @@
             <div class="invalid-feedback" id="{{ $formId }}-turnstile-error"></div>
         </div>
 
+        <x-form-legal-notice />
+
         <div class="mb-3">
             <button type="submit" class="btn {{ $buttonClass }} contact-form-submit" id="{{ $formId }}-submit">
                 <i data-lucide="send"></i>

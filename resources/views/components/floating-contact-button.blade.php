@@ -67,6 +67,7 @@
                         <div class="error-message" id="message-error"></div>
                     </div>
                     
+                    <x-form-legal-notice />
                     <div class="modal-buttons">
                         <button type="button" class="btn-secondary" onclick="closeContactModal()">CANCEL</button>
                         <button type="submit" class="btn-primary" id="submit-btn">

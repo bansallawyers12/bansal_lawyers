@@ -118,32 +118,6 @@
     }
     </script>
 
-    <!-- FAQ Schema (if applicable) -->
-    <script type="application/ld+json">
-    {
-      "@@context": "https://schema.org",
-      "@@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@@type": "Question",
-          "name": "What legal services does Bansal Lawyers provide?",
-          "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "Bansal Lawyers provides comprehensive legal services including Immigration Law, Family Law, Property Law, Commercial Law, Criminal Law, and Business Law. We serve individuals, families, and businesses across Australia with expert legal guidance and representation."
-          }
-        },
-        {
-          "@@type": "Question",
-          "name": "Why choose Bansal Lawyers for legal services?",
-          "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "Bansal Lawyers offers experienced legal professionals, personalized attention, competitive pricing, and a track record of successful outcomes. Our team is committed to providing the best legal solutions tailored to your specific needs."
-          }
-        }
-      ]
-    }
-    </script>
-
     <!-- Local Business Schema -->
     <script type="application/ld+json">
     {
@@ -638,50 +612,6 @@
                         </div>
                         @endif
                         
-                        <!-- FAQ Section -->
-                        <div class="experimental-faq-section" style="margin-top: 40px; padding: 30px; background: #f8f9fa; border-radius: 15px; border-left: 4px solid #1B4D89;">
-                            <h3 style="color: #1B4D89; margin-bottom: 25px; font-size: 1.5rem; font-weight: 600;">
-                                <i data-lucide="circle-help" class="mr-2"></i>Frequently Asked Questions
-                            </h3>
-                            
-                            @php
-                                $faqs = [
-                                    [
-                                        'question' => 'What legal services does Bansal Lawyers provide?',
-                                        'answer' => 'Bansal Lawyers provides comprehensive legal services including Immigration Law, Family Law, Property Law, Commercial Law, Criminal Law, and Business Law. We serve individuals, families, and businesses across Australia with expert legal guidance and representation.'
-                                    ],
-                                    [
-                                        'question' => 'Why should I choose Bansal Lawyers for my legal needs?',
-                                        'answer' => 'Bansal Lawyers offers experienced legal professionals, personalized attention, competitive pricing, and a track record of successful outcomes. Our team is committed to providing the best legal solutions tailored to your specific needs with a focus on achieving positive results.'
-                                    ],
-                                    [
-                                        'question' => 'How can I schedule a consultation with Bansal Lawyers?',
-                                        'answer' => 'You can schedule a consultation by calling us at 1300 BANSAL (1300 226 725), emailing us at info@bansallawyers.com.au, or using our online booking system. We offer flexible appointment times to accommodate your schedule.'
-                                    ],
-                                    [
-                                        'question' => 'What areas of law does Bansal Lawyers specialize in?',
-                                        'answer' => 'We specialize in Immigration Law (visas, appeals, migration advice), Family Law (divorce, custody, property settlements), Property Law (transactions, disputes), Commercial Law (business formation, contracts), and Criminal Law (defense representation).'
-                                    ]
-                                ];
-                            @endphp
-                            
-                            <div class="faq-container">
-                                @foreach($faqs as $index => $faq)
-                                <div class="faq-item" style="margin-bottom: 20px; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                                    <div class="faq-question" style="padding: 20px; cursor: pointer; background: #1B4D89; color: white; font-weight: 600; font-size: 1rem; transition: background-color 0.3s ease;" onclick="toggleFAQ({{ $index }})">
-                                        <span style="float: right; transition: transform 0.3s ease;" id="faq-icon-{{ $index }}">+</span>
-                                        {{ $faq['question'] }}
-                                    </div>
-                                    <div class="faq-answer" id="faq-answer-{{ $index }}" style="padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; background: white;">
-                                        <div style="padding: 20px 0; color: #666; line-height: 1.6;">
-                                            {{ $faq['answer'] }}
-                                        </div>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        
                         <!-- CTAs temporarily disabled for testing -->
                     </div>
                     
@@ -836,25 +766,5 @@
         </div>
     </div>
 </section>
-
-
-<script>
-function toggleFAQ(index) {
-    const answer = document.getElementById('faq-answer-' + index);
-    const icon = document.getElementById('faq-icon-' + index);
-    
-    if (answer.style.maxHeight === '0px' || answer.style.maxHeight === '') {
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-        answer.style.padding = '0 20px';
-        icon.textContent = '−';
-        icon.style.transform = 'rotate(0deg)';
-    } else {
-        answer.style.maxHeight = '0px';
-        answer.style.padding = '0 20px';
-        icon.textContent = '+';
-        icon.style.transform = 'rotate(0deg)';
-    }
-}
-</script>
 
 @endsection

@@ -69,6 +69,11 @@ Bansal Lawyers is a Melbourne law firm helping clients with immigration, family,
 ## Blog
 [Blog](https://www.bansallawyers.com.au/blog): A collection of articles and insights on various legal topics, providing valuable information to clients and the public.
 
+## Legal
+[Privacy Policy](https://www.bansallawyers.com.au/privacy-policy): How Bansal Lawyers collects and uses personal information from enquiries, bookings, and payments.
+
+[Disclaimer](https://www.bansallawyers.com.au/disclaimer): Website content is general information, not legal advice, and does not create a solicitor-client relationship.
+
 ## Contact Information
 [Contact](https://www.bansallawyers.com.au/contact): This page provides contact details for Bansal Lawyers, including their address, phone number, and email.
 

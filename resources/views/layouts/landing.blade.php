@@ -86,6 +86,14 @@
     <main role="main" style="padding: 0; margin: 0;">
         @yield('content')
     </main>
+    <footer style="background:#0f172a;color:#cbd5e1;padding:28px 20px;text-align:center;font-family:Calibri,sans-serif;font-size:0.95rem;line-height:1.6;">
+        <p style="margin:0 0 10px;">The information on this website is general information only and is not legal advice.</p>
+        <p style="margin:0;">
+            <a href="{{ url('/privacy-policy') }}" style="color:#fff;text-decoration:underline;">Privacy Policy</a>
+            <span aria-hidden="true"> &nbsp;·&nbsp; </span>
+            <a href="{{ url('/disclaimer') }}" style="color:#fff;text-decoration:underline;">Disclaimer</a>
+        </p>
+    </footer>
 
     {{-- Phase 4: landing — no Bootstrap JS / jQuery / Bootstrap CSS --}}
     @vite(['resources/js/frontend.js', 'public/js/main.js'])

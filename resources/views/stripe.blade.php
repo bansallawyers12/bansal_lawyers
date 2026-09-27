@@ -179,6 +179,8 @@
                 <div id="card-errors" class="error-message"></div>
             </div>
 
+            <x-form-legal-notice variant="payment" />
+
             <button id="submit-button" class="pay-button" type="submit">
                 <span id="button-text">Pay ${{ number_format($paymentAmount, 2) }} AUD</span>
                 <span id="spinner" style="display: none;">Processing...</span>

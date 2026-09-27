@@ -2014,6 +2014,8 @@ body {
                         <div id="cover-consultation-turnstile-error" style="display: none; color: #dc3545; font-size: 0.85rem; margin-top: 10px; text-align: center; width: 100%;"></div>
                     </div>
                     
+                    <x-form-legal-notice />
+
                     <button type="submit" 
                             id="cover-consultation-form-submit"
                             style="width: 100%; padding: 18px 28px; background: #0F172A; color: white; border: none; border-radius: 4px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif; font-weight: 700; font-size: 1.05rem; cursor: pointer; margin-top: 15px; margin-bottom: 30px;">

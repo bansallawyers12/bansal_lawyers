@@ -47,11 +47,13 @@ class SitemapController extends Controller
         '/conveyancing' => '0.80',
         '/building-and-construction-disputes' => '0.80',
         '/caveats-disputes-and-removal' => '0.80',
+        '/privacy-policy' => '0.30',
+        '/disclaimer' => '0.30',
     ];
 
     public function index(): Response
     {
-        $xml = Cache::remember('sitemap_xml_v3', 3600, fn () => $this->buildXml());
+        $xml = Cache::remember('sitemap_xml_v4', 3600, fn () => $this->buildXml());
 
         return response($xml, 200)
             ->header('Content-Type', 'application/xml; charset=UTF-8');
@@ -74,6 +76,8 @@ class SitemapController extends Controller
             '/practice-areas' => resource_path('views/practiceareas.blade.php'),
             '/book-an-appointment' => resource_path('views/bookappointment.blade.php'),
             '/divorce-lawyers-melbourne' => resource_path('views/divorce-family-law-landing.blade.php'),
+            '/privacy-policy' => resource_path('views/legal/privacy.blade.php'),
+            '/disclaimer' => resource_path('views/legal/disclaimer.blade.php'),
         ];
 
         foreach (self::STATIC_PATHS as $path => $priority) {

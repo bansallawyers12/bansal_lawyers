@@ -101,9 +101,22 @@
 
         <!-- Copyright Notice -->
         <div class="footer-bottom">
+            <p class="footer-legal-note">
+                The information on this website is general information only and is not legal advice.
+            </p>
+            <ul class="footer-legal-links">
+                <li><a href="{{ url('/privacy-policy') }}">Privacy Policy</a></li>
+                <li><a href="{{ url('/disclaimer') }}">Disclaimer</a></li>
+            </ul>
             <p>
                 &copy; {{ date('Y') }} All rights reserved | Bansal Lawyers
             </p>
         </div>
+        <style>
+            .footer-legal-note{max-width:720px;margin:0 auto 12px!important;line-height:1.5}
+            .footer-legal-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;list-style:none;margin:0 0 14px;padding:0}
+            .footer-legal-links a{color:#e2e8f0;text-decoration:underline;font-size:.95rem}
+            .footer-legal-links a:hover{color:#FF6B35}
+        </style>
     </div>
 </footer>

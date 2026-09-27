@@ -379,6 +379,28 @@ class HomeController extends Controller
         return view('about', compact('pagedata'));
     }
 
+    public function privacyPolicy()
+    {
+        return view('legal.show', [
+            'document' => 'privacy',
+            'heading' => 'Privacy Policy',
+            'title' => 'Privacy Policy | Bansal Lawyers',
+            'description' => 'How Bansal Lawyers collects, uses, and protects personal information from website enquiries, appointment bookings, and payments.',
+            'canonical' => 'https://www.bansallawyers.com.au/privacy-policy',
+        ]);
+    }
+
+    public function disclaimer()
+    {
+        return view('legal.show', [
+            'document' => 'disclaimer',
+            'heading' => 'Disclaimer',
+            'title' => 'Disclaimer | Bansal Lawyers',
+            'description' => 'Website content from Bansal Lawyers is general information, not legal advice. Using this site does not create a solicitor-client relationship.',
+            'canonical' => 'https://www.bansallawyers.com.au/disclaimer',
+        ]);
+    }
+
     public function getdatetime(Request $request)
     { 
         try {
