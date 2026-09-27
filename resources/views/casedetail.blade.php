@@ -277,7 +277,7 @@
                             <h3 style="color:#1B4D89;">Related migration topics</h3>
                             <ul style="padding-left:18px;">
                                 <li><a href="<?php echo URL::to('/'); ?>/jurisdictional-error-federal-circuit-court-application">Jurisdictional Error / Federal Circuit Court Application</a></li>
-                                <li><a href="<?php echo URL::to('/'); ?>/art-application">AAT / ART Application</a></li>
+                                <li><a href="<?php echo URL::to('/'); ?>/art-application">ART Application</a></li>
                                 <li><a href="<?php echo URL::to('/'); ?>/visa-refusals-visa-cancellation">Visa Refusals &amp; Visa Cancellation</a></li>
                                 <li><a href="<?php echo URL::to('/'); ?>/federal-court-application">Federal Court Application</a></li>
                             </ul>

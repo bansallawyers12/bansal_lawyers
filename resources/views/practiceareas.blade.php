@@ -82,112 +82,29 @@
 <section class="practice-areas-section">
     <div class="section-title fade-in">
         <h2>Expert Legal Services in Melbourne</h2>
-        <p>If you are looking for expert lawyers consultation in Melbourne? Get professional legal advice from experienced lawyers to guide you through legal challenges with confidence.</p>
+        <p>Legal advice in Melbourne across immigration, family, criminal, commercial, property and civil law.</p>
     </div>
 
     <div class="practice-grid">
+        @foreach(\App\Support\PracticeHubCopy::cards() as $card)
         <div class="practice-card fade-in">
-            <div class="card-icon">
-                <img src="{{ asset('images/family-law.png') }}" alt="Compassionate Legal Support for Family Law Cases" width="40" height="40" loading="lazy" decoding="async">
+            <div class="card-icon" @unless($card['image']) style="color:#fff;" @endunless>
+                @if($card['image'])
+                    <img src="{{ asset($card['image']) }}" alt="{{ $card['image_alt'] }}" width="40" height="40" loading="lazy" decoding="async">
+                @else
+                    <i data-lucide="scale" style="width:40px;height:40px;"></i>
+                @endif
             </div>
-            <h3 class="card-title">Family Law</h3>
-            <p class="card-description">Divorce, parenting arrangements, property settlements, and family violence matters across Victoria.</p>
+            <h3 class="card-title">{{ $card['title'] }}</h3>
+            <p class="card-description">{{ $card['blurb'] }}</p>
             <ul class="card-features">
-                <li>Divorce & Separation</li>
-                <li>Child Custody & Support</li>
-                <li>Property Settlement</li>
-                <li>Family Violence Orders</li>
-                <li>De Facto Relationships</li>
+                @foreach($card['bullets'] as $bullet)
+                    <li>{{ $bullet }}</li>
+                @endforeach
             </ul>
-            <a href="/family-law" class="card-button">Learn more about Family Law</a>
+            <a href="{{ $card['href'] }}" class="card-button">{{ $card['cta'] }}</a>
         </div>
-
-        <div class="practice-card fade-in">
-            <div class="card-icon">
-                <img src="{{ asset('images/immigration-law.png') }}" alt="Expert Immigration Lawyers Helping You Settle in Australia" width="40" height="40" loading="lazy" decoding="async">
-            </div>
-            <h3 class="card-title">Migration Law</h3>
-            <p class="card-description">Visa applications, refusals and cancellations, ART merits review, and Federal Court judicial review.</p>
-            <ul class="card-features">
-                <li>Visa Applications</li>
-                <li>Appeals & Reviews</li>
-                <li>Permanent Residency</li>
-                <li>Citizenship</li>
-                <li>Visa Compliance</li>
-            </ul>
-            <a href="/migration-law" class="card-button">Learn more about Migration Law</a>
-        </div>
-
-        <div class="practice-card fade-in">
-            <div class="card-icon">
-                <img src="{{ asset('images/criminal-law.png') }}" alt="Expert Criminal Defense Lawyers in Melbourne" width="40" height="40" loading="lazy" decoding="async">
-            </div>
-            <h3 class="card-title">Criminal Law</h3>
-            <p class="card-description">Assault, traffic and drink-driving charges, drug offences, and Magistrates’ Court representation in Melbourne.</p>
-            <ul class="card-features">
-                <li>Assault Charges</li>
-                <li>Traffic Offences</li>
-                <li>Drink Driving</li>
-                <li>Drug Offences</li>
-                <li>Court Representation</li>
-            </ul>
-            <a href="/criminal-law" class="card-button">Learn more about Criminal Law</a>
-        </div>
-
-        <div class="practice-card fade-in">
-            <div class="card-icon">
-                <img src="{{ asset('images/commercial-law.png') }}" alt="Expert Commercial Lawyers in Melbourne" width="40" height="40" loading="lazy" decoding="async">
-            </div>
-            <h3 class="card-title">Commercial Law</h3>
-            <p class="card-description">Business formation, contracts, corporate governance, intellectual property, and commercial dispute resolution.</p>
-            <ul class="card-features">
-                <li>Business Formation</li>
-                <li>Contract Law</li>
-                <li>Corporate Governance</li>
-                <li>Intellectual Property</li>
-                <li>Dispute Resolution</li>
-            </ul>
-            <a href="/commercial-law" class="card-button">Learn more about Commercial Law</a>
-        </div>
-
-        <div class="practice-card fade-in">
-            <div class="card-icon">
-                <img src="{{ asset('images/property-law.png') }}" alt="Expert Property Lawyers in Melbourne" width="40" height="40" loading="lazy" decoding="async">
-            </div>
-            <h3 class="card-title">Property Law</h3>
-            <p class="card-description">Conveyancing, leasing, caveats, building disputes, and residential and commercial property matters.</p>
-            <ul class="card-features">
-                <li>Residential & Commercial</li>
-                <li>Property Leasing</li>
-                <li>Development & Subdivisions</li>
-                <li>Strata & Community Titles</li>
-                <li>Property Disputes</li>
-            </ul>
-            <a href="/property-law" class="card-button">Learn more about Property Law</a>
-        </div>
-    </div>
-
-    <div class="stats-section fade-in">
-        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>500+</h3>
-                    <p>Cases Successfully Resolved</p>
-                </div>
-                <div class="stat-item">
-                    <h3>15+</h3>
-                    <p>Years of Legal Experience</p>
-                </div>
-                <div class="stat-item">
-                    <h3>98%</h3>
-                    <p>Client Satisfaction Rate</p>
-                </div>
-                <div class="stat-item">
-                    <h3>24/7</h3>
-                    <p>Legal Support Available</p>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 
     <div class="cta-section fade-in">

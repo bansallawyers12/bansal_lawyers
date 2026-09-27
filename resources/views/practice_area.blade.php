@@ -37,6 +37,30 @@
     <meta name="twitter:description" content="{{@$pagedata->meta_description ?? Str::limit(strip_tags(@$pagedata->content ?? ''), 150)}}">
     <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
     <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
+
+    @php
+        $hubFaqs = \App\Support\PracticeHubCopy::faqsFor($type ?? '');
+        $hubFaqSchema = null;
+        if ($hubFaqs) {
+            $hubFaqSchema = [
+                '@context' => 'https://schema.org',
+                '@type' => 'FAQPage',
+                'mainEntity' => array_map(static function (array $faq) {
+                    return [
+                        '@type' => 'Question',
+                        'name' => $faq['q'],
+                        'acceptedAnswer' => [
+                            '@type' => 'Answer',
+                            'text' => $faq['a'],
+                        ],
+                    ];
+                }, $hubFaqs),
+            ];
+        }
+    @endphp
+    @if($hubFaqSchema)
+        <script type="application/ld+json">{!! json_encode($hubFaqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @endif
 @endsection
 @section('content')
     <style>
@@ -86,19 +110,17 @@
         .pae-contact-header { display:flex; gap:12px; align-items:center; margin-bottom:12px; }
         .pae-contact-header img { width:60px; height:68px; border-radius:4px; object-fit:cover; }
         .pae-btn { background: linear-gradient(135deg, #1B4D89, #2c5aa0); color:#fff; border:0; border-radius:25px; padding:10px 18px; text-transform:uppercase; font-weight:700; }
+        .pae-actions { display:flex; flex-wrap:wrap; gap:12px; margin:18px 0 8px; }
+        .pae-actions .pae-btn { display:inline-block; text-decoration:none; text-transform:none; font-size:15px; line-height:1.3; }
+        .pae-actions .pae-btn-outline { background:#fff; color:#1B4D89; border:2px solid #1B4D89; }
+        .pae-actions .pae-btn-outline:hover { background:#1B4D89; color:#fff; }
 
         @media (max-width: 900px){ .pae-grid{flex-direction:column;} .pae-right{flex:1 1 auto;} .pae-hero h1{font-size:2.2rem;} .pae-hero p{font-size:1rem;} .pae-container{padding:0 12px;} .pae-left p{max-width: 100%;} }
     </style>
 
     <div class="pae-hero">
         <div class="container">
-            <h1>
-                <?php if( isset($type) && $type == "migration-law" ) { ?>
-                    Migration Law
-                <?php } else { ?>
-                    {{ @$pagedata->title }}
-                <?php } ?>
-            </h1>
+            <h1>{{ @$pagedata->title }}</h1>
             @if(!empty($pagedata->hero_intro) && !str_contains($pagedata->hero_intro, 'refined look and feel'))
                 <p>{{ $pagedata->hero_intro }}</p>
             @endif
@@ -115,23 +137,20 @@
                     </div>
                     <div class="pae-card">
                     <div class="pae-card-body">
-                        <?php if( isset($type) && $type == "migration-law" ) { ?>
-                            <p style="margin-top:0; color:#666;">Let’s start with you to understand Australian Immigration System</p>
-                            {!! @$pagedata->content !!}
-                        <?php } else { ?>
-                            {!! @$pagedata->content !!}
-                        <?php } ?>
+                        {!! @$pagedata->content !!}
 
+                        @if(isset($type) && $type == 'migration-law')
                         <hr style="margin:30px 0; opacity:.2;">
                         <div class="pae-related-internal">
-                            <h3 style="color:#1B4D89;">Related migration topics</h3>
+                            <h3 style="color:#1B4D89;">Related immigration matters</h3>
                             <ul style="padding-left:18px;">
                                 <li><a href="<?php echo URL::to('/'); ?>/jurisdictional-error-federal-circuit-court-application">Jurisdictional Error / Federal Circuit Court Application</a></li>
-                                <li><a href="<?php echo URL::to('/'); ?>/art-application">AAT / ART Application</a></li>
+                                <li><a href="<?php echo URL::to('/'); ?>/art-application">ART Application</a></li>
                                 <li><a href="<?php echo URL::to('/'); ?>/visa-refusals-visa-cancellation">Visa Refusals &amp; Visa Cancellation</a></li>
                                 <li><a href="<?php echo URL::to('/'); ?>/federal-court-application">Federal Court Application</a></li>
                             </ul>
                         </div>
+                        @endif
                     </div>
                     </div>
                 </div>
@@ -171,64 +190,62 @@
                         </div>
                     </div>
 
-                    <!-- Related Services Section -->
+                    @php
+                        $relatedServices = match ($type ?? '') {
+                            'family-law' => [
+                                ['/divorce', 'D', 'Divorce Services'],
+                                ['/child-custody', 'C', 'Child Custody'],
+                                ['/property-settlement', 'P', 'Property Settlement'],
+                                ['/family-violence', 'F', 'Family Violence'],
+                                ['/divorce-lawyers-melbourne', 'M', 'Divorce Lawyers Melbourne'],
+                            ],
+                            'criminal-law' => [
+                                ['/assault-charges', 'A', 'Assault Charges'],
+                                ['/traffic-offences', 'T', 'Traffic Offences'],
+                                ['/drink-driving-offences', 'D', 'Drink Driving Offences'],
+                                ['/intervention-orders', 'I', 'Intervention Orders'],
+                            ],
+                            'commercial-law' => [
+                                ['/business-law', 'B', 'Business Law'],
+                                ['/leasing-or-selling-a-business', 'L', 'Leasing or Selling Business'],
+                                ['/contracts-or-business-agreements', 'C', 'Business Contracts'],
+                                ['/loan-agreement', 'A', 'Loan Agreement'],
+                            ],
+                            'property-law' => [
+                                ['/conveyancing', 'C', 'Conveyancing'],
+                                ['/building-and-construction-disputes', 'B', 'Building and Construction Disputes'],
+                                ['/caveats-disputes-and-removal', 'K', 'Caveats Disputes and Removal'],
+                            ],
+                            'civil-law' => [
+                                ['/commercial-law', 'C', 'Commercial Lawyers'],
+                                ['/property-law', 'P', 'Property Lawyers'],
+                            ],
+                            default => [],
+                        };
+                    @endphp
+                    @if($relatedServices)
                     <div class="pae-card pae-related" style="margin-top: 20px;">
                         <div class="pae-card-body">
                             <h3>Related Services</h3>
-                            <?php if( isset($type) && $type == "family-law" ) { ?>
-                                <a class="pae-related-item" href="/divorce">
-                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">D</div>
+                            @foreach($relatedServices as [$href, $initial, $label])
+                                <a class="pae-related-item" href="{{ $href }}">
+                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">{{ $initial }}</div>
                                     <div>
-                                        <div class="title">Divorce Services</div>
+                                        <div class="title">{{ $label }}</div>
                                         <div class="more">Learn more »</div>
                                     </div>
                                 </a>
-                                <a class="pae-related-item" href="/child-custody">
-                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">C</div>
-                                    <div>
-                                        <div class="title">Child Custody</div>
-                                        <div class="more">Learn more »</div>
-                                    </div>
-                                </a>
-                                <a class="pae-related-item" href="/property-settlement">
-                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">P</div>
-                                    <div>
-                                        <div class="title">Property Settlement</div>
-                                        <div class="more">Learn more »</div>
-                                    </div>
-                                </a>
-                            <?php } elseif( isset($type) && $type == "commercial-law" ) { ?>
-                                <a class="pae-related-item" href="/business-law">
-                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">B</div>
-                                    <div>
-                                        <div class="title">Business Law</div>
-                                        <div class="more">Learn more »</div>
-                                    </div>
-                                </a>
-                                <a class="pae-related-item" href="/leasing-or-selling-a-business">
-                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">L</div>
-                                    <div>
-                                        <div class="title">Leasing or Selling Business</div>
-                                        <div class="more">Learn more »</div>
-                                    </div>
-                                </a>
-                                <a class="pae-related-item" href="/contracts-or-business-agreements">
-                                    <div style="width: 64px; height: 64px; background: #1B4D89; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">C</div>
-                                    <div>
-                                        <div class="title">Business Contracts</div>
-                                        <div class="more">Learn more »</div>
-                                    </div>
-                                </a>
-                            <?php } ?>
+                            @endforeach
                         </div>
                     </div>
+                    @endif
 
                     @include('components.unified-contact-form', [
                         'title' => 'Speak with a Lawyer',
-                        'subtitle' => 'There\'s No Legal Puzzle, We Can\'t Solve.',
+                        'subtitle' => 'Book a consultation with our Melbourne lawyers.',
                         'buttonText' => 'GET LEGAL ADVICE',
                         'variant' => 'sidebar',
-                        'source' => 'property-law',
+                        'source' => $type ?? 'practice-area',
                         'showPhoto' => true,
                         'photoUrl' => asset('images/bansal_2.webp'),
                         'photoAlt' => 'Ajay Bansal - CEO of Bansal Lawyers'

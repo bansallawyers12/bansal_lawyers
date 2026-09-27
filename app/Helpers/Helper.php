@@ -114,7 +114,7 @@ class Helper
         return [
             'practice-areas',
             'criminal-law', 'family-law', 'personal-law', 'corporate-law',
-            'commercial-law', 'property-law', 'migration-law', 'immigration-law',
+            'commercial-law', 'property-law', 'civil-law', 'migration-law', 'immigration-law',
             'divorce', 'divorce-lawyers-melbourne', 'child-custody', 'family-violence',
             'property-settlement', 'family-violence-orders',
             'jurisdictional-error-federal-circuit-court-application',

@@ -210,6 +210,7 @@ Route::middleware(['throttle:web-pages', 'cache.headers:etag'])->group(function 
     Route::get('/criminal-law', [\App\Http\Controllers\HomeController::class, 'criminallawExperiment'])->name('criminal-law');
     Route::get('/commercial-law', [\App\Http\Controllers\HomeController::class, 'commerciallawExperiment'])->name('commercial-law');
     Route::get('/property-law', [\App\Http\Controllers\HomeController::class, 'propertylawExperiment'])->name('property-law');
+    Route::get('/civil-law', [\App\Http\Controllers\HomeController::class, 'civillaw'])->name('civil-law');
 
     /*********************Practice Area Inner Pages ***********************/
     Route::get('/divorce', [\App\Http\Controllers\HomeController::class, 'divorce'])->name('divorce');

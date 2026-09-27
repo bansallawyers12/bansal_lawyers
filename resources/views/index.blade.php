@@ -3,16 +3,16 @@
 
 @section('seoinfo')
 
-<title>Immigration & Family Lawyers Melbourne | Bansal Lawyers</title>
-<meta name="description" content="Melbourne CBD lawyers for immigration, family, criminal, commercial and property matters. Collins St. Call 1300 226 725." >
+<title>Lawyers in Melbourne | Bansal Lawyers</title>
+<meta name="description" content="Bansal Lawyers is a Melbourne law firm helping clients with immigration, family, criminal, commercial, property and civil law matters. Book a consultation today." >
 
 <link rel="canonical" href="https://www.bansallawyers.com.au/" >
 
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="<?php echo URL::to('/'); ?>">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Immigration & Family Lawyers Melbourne | Bansal Lawyers">
-<meta property="og:description" content="Melbourne CBD lawyers for immigration, family, criminal, commercial and property matters. Collins St. Call 1300 226 725.">
+<meta property="og:title" content="Lawyers in Melbourne | Bansal Lawyers">
+<meta property="og:description" content="Bansal Lawyers is a Melbourne law firm helping clients with immigration, family, criminal, commercial, property and civil law matters. Book a consultation today.">
 <meta property="og:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 <meta property="og:image:alt" content="Bansal Lawyers Logo">
 
@@ -20,8 +20,27 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="bansallawyers.com.au">
 <meta property="twitter:url" content="<?php echo URL::to('/'); ?>">
-<meta name="twitter:title" content="Immigration & Family Lawyers Melbourne | Bansal Lawyers">
-<meta name="twitter:description" content="Melbourne CBD lawyers for immigration, family, criminal, commercial and property matters. Collins St. Call 1300 226 725.">
+<meta name="twitter:title" content="Lawyers in Melbourne | Bansal Lawyers">
+<meta name="twitter:description" content="Bansal Lawyers is a Melbourne law firm helping clients with immigration, family, criminal, commercial, property and civil law matters. Book a consultation today.">
+
+@php
+    $homeFaqs = \App\Support\PracticeHubCopy::homeFaqs();
+    $homeFaqSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'FAQPage',
+        'mainEntity' => array_map(static function (array $faq) {
+            return [
+                '@type' => 'Question',
+                'name' => $faq['q'],
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => $faq['a'],
+                ],
+            ];
+        }, $homeFaqs),
+    ];
+@endphp
+<script type="application/ld+json">{!! json_encode($homeFaqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 <meta property="twitter:image" content="{{ asset('images/logo/Bansal_Lawyers.png') }}">
 <meta property="twitter:image:alt" content="Bansal Lawyers Logo">
 
@@ -34,20 +53,33 @@
 {{-- Critical above-the-fold home styles (avoids FOUC while full home.css arrives) --}}
 <style>
 /* Match live homepage hero exactly: left card, centered text inside */
-.home-hero{position:relative;min-height:600px;height:100vh;display:flex;align-items:center;overflow:hidden;background-color:#f8f9fa}
+.home-hero{position:relative;min-height:560px;height:auto;display:flex;align-items:center;overflow:hidden;background-color:#f8f9fa;padding:48px 0}
 .home-hero__media{position:absolute;inset:0;z-index:0}
 .home-hero__media img{width:100%;height:100%;object-fit:cover;object-position:center}
 .home-hero__overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(27,77,137,.3) 0%,rgba(27,77,137,.1) 50%,rgba(27,77,137,.05) 100%)}
 .home-hero .container{position:relative;z-index:2;width:100%;max-width:1200px;margin:0 auto;padding:0 20px;box-sizing:border-box}
 .home-hero__content{position:relative;z-index:2;width:100%;text-align:left}
-.home-hero__text{background:rgba(255,255,255,.95);padding:50px 40px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,.15);backdrop-filter:blur(10px);max-width:400px;margin-left:0;margin-right:auto;text-align:center}
-.home-hero__text h1{font-size:3rem;font-weight:700;color:#1B4D89;margin:0 0 20px;line-height:1.2}
-.home-hero__text h2{font-size:1.8rem;font-weight:600;color:#1B4D89;margin:0 0 15px;line-height:1.3}
-.home-hero__text p{font-size:1.1rem;color:#666;margin:0 0 30px;line-height:1.6}
-.home-hero__cta{background:linear-gradient(135deg,#1B4D89,#2c5aa0);color:#fff;padding:15px 35px;border-radius:50px;text-decoration:none;font-weight:600;font-size:1.1rem;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;box-shadow:0 8px 25px rgba(27,77,137,.3)}
+.home-hero__text{background:rgba(255,255,255,.95);padding:36px 28px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,.15);backdrop-filter:blur(10px);max-width:460px;margin-left:0;margin-right:auto;text-align:center}
+.home-hero__text h1{font-size:2.4rem;font-weight:700;color:#1B4D89;margin:0 0 12px;line-height:1.2}
+.home-hero__sub{font-size:1.05rem;font-weight:600;color:#1B4D89;margin:0 0 16px;line-height:1.4}
+.home-hero__text p{font-size:1rem;color:#444;margin:0 0 14px;line-height:1.6}
+.home-hero__actions{display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-top:8px}
+.home-hero__cta{background:linear-gradient(135deg,#1B4D89,#2c5aa0);color:#fff;padding:14px 22px;border-radius:50px;text-decoration:none;font-weight:600;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;box-shadow:0 8px 25px rgba(27,77,137,.3)}
+.home-hero__cta--secondary{background:#fff;color:#1B4D89;border:2px solid #1B4D89;box-shadow:none}
+.home-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.home-step{background:#fff;border:1px solid #f0f0f0;border-radius:15px;padding:22px 18px;box-shadow:0 10px 30px rgba(0,0,0,.08);height:100%}
+.home-step strong{display:block;color:#1B4D89;font-size:1.05rem;margin:8px 0}
+.home-step span{display:inline-flex;width:36px;height:36px;border-radius:50%;background:#1B4D89;color:#fff;align-items:center;justify-content:center;font-weight:700}
+.home-points{max-width:720px;margin:0 auto;text-align:left}
+.home-points li{margin:8px 0;color:#333;line-height:1.6}
+.home-faq h3{color:#1B4D89;font-size:1.15rem;margin:22px 0 8px}
+.home-faq p{color:#444;line-height:1.7;margin:0}
+.home-faq a{color:#1B4D89}
+@media (max-width:900px){.home-steps{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.home-steps{grid-template-columns:1fr}}
 .home-hero__cta svg,.home-hero__cta .white-card-icon{width:1.1em;height:1.1em;display:inline-block;flex-shrink:0}
-@media (max-width:1024px) and (min-width:769px){.home-hero__text{padding:45px 35px;max-width:380px}.home-hero__text h1{font-size:2.4rem}.home-hero__text h2{font-size:1.5rem}}
-@media (max-width:768px){.home-hero{height:80vh;min-height:500px}.home-hero__text{padding:35px 25px;margin:20px;max-width:calc(100% - 40px)}.home-hero__text h1{font-size:2.2rem}.home-hero__text h2{font-size:1.4rem}.home-hero__text p{font-size:1rem}.home-hero__cta{padding:12px 25px;font-size:1rem}}
+@media (max-width:1024px) and (min-width:769px){.home-hero__text{padding:40px 28px;max-width:420px}.home-hero__text h1{font-size:2.1rem}}
+@media (max-width:768px){.home-hero{height:auto;min-height:0;padding:24px 0}.home-hero__text{padding:28px 20px;margin:16px;max-width:calc(100% - 32px)}.home-hero__text h1{font-size:1.85rem}.home-hero__text p{font-size:.98rem}.home-hero__cta{padding:12px 18px;font-size:.95rem}}
 </style>
 @vite(['resources/css/pages/home.css'])
 @endsection
@@ -72,135 +104,137 @@
     <div class="container">
         <div class="home-hero__content">
             <div class="home-hero__text">
-                <h1>Bansal Lawyers</h1>
-                <h2>There is no legal puzzle that we can't solve</h2>
-                <p>Expert legal services in Melbourne, Australia. We handle your legal matters with professionalism and care, so you can focus on what matters most.</p>
-                <a href="/book-an-appointment" class="home-hero__cta">
-                    Start Your Legal Consultation <x-white-icon name="arrow-right" :size="18" class="ms-2" />
-                </a>
+                <h1>Lawyers in Melbourne</h1>
+                <p class="home-hero__sub">Immigration, family, criminal, commercial, property and civil law</p>
+                <p>Bansal Lawyers is a Melbourne-based law firm helping individuals, families, migrants, professionals, and businesses with clear legal advice across immigration, family, criminal, commercial, property, and civil law matters.</p>
+                <p>We explain your options in plain language and guide you through the next steps with care and attention.</p>
+                <div class="home-hero__actions">
+                    <a href="/book-an-appointment" class="home-hero__cta">Book a Consultation</a>
+                    <a href="tel:1300226725" class="home-hero__cta home-hero__cta--secondary">Speak With Our Legal Team</a>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Experimental Services Section -->
 <section class="experimental-section">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-4 mb-4">
-                <div class="text-center mb-5">
-                    <h2 style="color: #1B4D89; font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem;">Why Choose Bansal Lawyers?</h2>
-                    <p style="color: #666; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">
-                        At Bansal Lawyers, the best immigration lawyer in Melbourne provides all legal services with personal assistance. Our focus on client satisfaction to provide best results in Family Law Matters, Criminal Law Defense, Immigration Law Concerns or any other legal issue.
-                    </p>
-                    <a href="/book-an-appointment" class="experimental-cta">Book Your Consultation</a>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="experimental-card">
-                            <div class="icon">
-                                <x-white-icon name="gavel" />
-                            </div>
-                            <h3>Your Success is Our Mission</h3>
-                            <p>We don't just handle cases – we build relationships. Every client's story matters to us, and we fight passionately for the outcomes that will change your life for the better. Your victory is our greatest reward.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="experimental-card">
-                            <div class="icon">
-                                <x-white-icon name="users" />
-                            </div>
-                            <h3>We Speak Your Language</h3>
-                            <p>Understanding your unique situation is our first priority. We take time to listen, explain everything in plain English, and create a personalized strategy that fits your specific needs and goals.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="experimental-card">
-                            <div class="icon">
-                                <x-white-icon name="award" />
-                            </div>
-                            <h3>Proven Track Record</h3>
-                            <p>With years of experience helping families and individuals in Australia, we've successfully guided hundreds of clients through complex legal challenges. Your case is in capable, caring hands.</p>
-                        </div>
-                    </div>
-                </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 style="color: #1B4D89; font-size: 2.2rem; font-weight: 700; margin-bottom: 1rem;">Legal Help That Starts With Clear Advice</h2>
+                <p style="color: #444; font-size: 1.05rem; line-height: 1.7;">When you are dealing with a legal matter, the first thing you need is clarity. Bansal Lawyers helps clients understand their position, their options, and the next steps before making important decisions.</p>
+                <p style="color: #444; font-size: 1.05rem; line-height: 1.7;">We assist with immigration, family, criminal, commercial, property, and civil law matters in Melbourne. Each matter is handled with proper attention, clear communication, and practical legal guidance.</p>
+                <p style="color: #1B4D89; font-weight: 600; line-height: 1.6;">Speak with <a href="/about">our team</a> at Level 8, 278 Collins St, Melbourne, or call <a href="tel:1300226725">1300 226 725</a>.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Experimental Practice Areas Section -->
 <section class="experimental-section" style="background: #f8f9fa;">
     <div class="container">
         <div class="row justify-content-center mb-5">
-            <div class="col-md-8 text-center">
-                <span style="color: #1B4D89; font-weight: 600; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">Legal Expertise</span>
-                <h2 style="color: #1B4D89; font-size: 2.5rem; font-weight: 700; margin: 1rem 0;">Our Practice Areas</h2>
-                <p style="color: #666; font-size: 1.1rem; line-height: 1.6;">We provide comprehensive legal services across multiple practice areas to meet all your legal needs in Australia. Our experienced lawyers in Melbourne specialize in various areas of Australian law.</p>
+            <div class="col-lg-8 text-center">
+                <h2 style="color: #1B4D89; font-size: 2.2rem; font-weight: 700; margin-bottom: 1rem;">Our Legal Services</h2>
+                <p style="color: #444; font-size: 1.05rem; line-height: 1.7;">Bansal Lawyers provides legal support across key areas of law for individuals, families, migrants, professionals, and business owners.</p>
             </div>
         </div>
         <div class="row">
+            @foreach(\App\Support\PracticeHubCopy::cards() as $card)
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="experimental-card" style="text-align: center;">
                     <div class="icon">
-                        <x-white-icon name="users" />
+                        <x-white-icon :name="$card['icon']" />
                     </div>
-                    <h3>Family Law</h3>
-                    <p>Divorce, separation, children, property and other family law matters. Expert guidance for complex family situations.</p>
-                    <a href="/family-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn more about Family Law</a>
+                    <h3>{{ $card['title'] }}</h3>
+                    <p>{{ $card['blurb'] }}</p>
+                    <a href="{{ $card['href'] }}" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem; background: #1B4D89; color: #fff;">{{ $card['cta'] }}</a>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="experimental-card" style="text-align: center;">
-                    <div class="icon">
-                        <x-white-icon name="handshake" />
-                    </div>
-                    <h3>Migration Law</h3>
-                    <p>Visa applications, appeals, permanent residency, and citizenship matters. Your pathway to Australia.</p>
-                    <a href="/migration-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn more about Migration Law</a>
-                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<section class="experimental-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 style="color: #1B4D89; font-size: 2.2rem; font-weight: 700; margin-bottom: 1rem; text-align: center;">Why Clients Choose Bansal Lawyers</h2>
+                <p style="color: #444; font-size: 1.05rem; line-height: 1.7; text-align: center;">Clients choose Bansal Lawyers because we explain legal issues in a way that is easy to understand. We do not overcomplicate the process. We review the facts, explain the risks, and help you decide what needs to be done next.</p>
+                <ul class="home-points">
+                    <li>Clear and practical legal advice</li>
+                    <li>Support across multiple areas of law</li>
+                    <li>Careful review of documents and deadlines</li>
+                    <li>Honest explanation of legal options</li>
+                    <li>Professional handling of sensitive matters</li>
+                    <li>Melbourne-based legal support</li>
+                </ul>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="experimental-card" style="text-align: center;">
-                    <div class="icon">
-                        <x-white-icon name="gavel" />
-                    </div>
-                    <h3>Criminal Law</h3>
-                    <p>Assault charges, traffic offenses, and criminal defense. Protecting your rights and future in Australia.</p>
-                    <a href="/criminal-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn more about Criminal Law</a>
-                </div>
+        </div>
+    </div>
+</section>
+
+<section class="experimental-section" style="background: #f8f9fa;">
+    <div class="container">
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-8 text-center">
+                <h2 style="color: #1B4D89; font-size: 2.2rem; font-weight: 700;">How the Process Works</h2>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="experimental-card" style="text-align: center;">
-                    <div class="icon">
-                        <x-white-icon name="briefcase" />
-                    </div>
-                    <h3>Commercial Law</h3>
-                    <p>Business formation, contracts, corporate governance, and commercial disputes. Supporting your business growth.</p>
-                    <a href="/commercial-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn more about Commercial Law</a>
-                </div>
+        </div>
+        <div class="home-steps">
+            <div class="home-step">
+                <span>1</span>
+                <strong>Contact Our Team</strong>
+                <p>Share a short summary of your legal matter by phone, email, or enquiry form.</p>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="experimental-card" style="text-align: center;">
-                    <div class="icon">
-                        <x-white-icon name="house" />
-                    </div>
-                    <h3>Property Law</h3>
-                    <p>Property transactions, leasing, development, and property disputes. Securing your property interests.</p>
-                    <a href="/property-law" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem;">Learn more about Property Law</a>
-                </div>
+            <div class="home-step">
+                <span>2</span>
+                <strong>Consultation and Review</strong>
+                <p>We review your situation, documents, deadlines, and key legal concerns.</p>
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="experimental-card" style="text-align: center; background: linear-gradient(135deg, #1B4D89, #2c5aa0); color: white;">
-                    <div class="icon" style="background: rgba(255,255,255,0.2);">
-                        <x-white-icon name="scale" />
-                    </div>
-                    <h3 style="color: white;">All Practice Areas</h3>
-                    <p style="color: rgba(255,255,255,0.9);">View our complete range of legal services and find the right solution for your needs.</p>
-                    <a href="/practice-areas" class="experimental-cta" style="padding: 10px 20px; font-size: 0.9rem; background: white; color: #1B4D89;">View All Services</a>
-                </div>
+            <div class="home-step">
+                <span>3</span>
+                <strong>Clear Legal Advice</strong>
+                <p>You receive practical advice about your options and possible next steps.</p>
+            </div>
+            <div class="home-step">
+                <span>4</span>
+                <strong>Preparation and Support</strong>
+                <p>Where required, we assist with applications, responses, contracts, notices, negotiations, or court documents.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="experimental-section" style="background: #1B4D89;">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h2 style="color: #fff; font-size: 2.2rem; font-weight: 700; margin-bottom: 1rem;">Need Legal Advice Before Taking the Next Step?</h2>
+                <p style="color: rgba(255,255,255,0.92); font-size: 1.05rem; line-height: 1.7;">Some legal matters have strict time limits. Visa refusals, court dates, police matters, family violence issues, contract disputes, and property settlements should not be delayed.</p>
+                <p style="color: rgba(255,255,255,0.92); font-size: 1.05rem; line-height: 1.7;">If you are unsure what to do next, speak with Bansal Lawyers early and get clear advice before making important decisions.</p>
+                <a href="/book-an-appointment" class="experimental-cta">Book a Consultation</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="experimental-section home-faq">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 style="color: #1B4D89; font-size: 2.2rem; font-weight: 700; margin-bottom: 1rem; text-align: center;">Frequently Asked Questions</h2>
+                @php $homeFaqs = $homeFaqs ?? \App\Support\PracticeHubCopy::homeFaqs(); @endphp
+                @foreach($homeFaqs as $faq)
+                    <h3>{{ $faq['q'] }}</h3>
+                    <p>
+                        @if(!empty($faq['link_text']) && !empty($faq['link_href']))
+                            {!! str_replace(e($faq['link_text']), '<a href="' . e($faq['link_href']) . '">' . e($faq['link_text']) . '</a>', e($faq['a'])) !!}
+                        @else
+                            {{ $faq['a'] }}
+                        @endif
+                    </p>
+                @endforeach
             </div>
         </div>
     </div>

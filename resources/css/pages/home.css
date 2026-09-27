@@ -2,12 +2,13 @@
 
 .home-hero {
   position: relative;
-  min-height: 600px;
-  height: 100vh;
+  min-height: 560px;
+  height: auto;
   display: flex;
   align-items: center;
   overflow: hidden;
   background-color: #f8f9fa;
+  padding: 48px 0;
 }
 
 .home-hero__media {
@@ -44,11 +45,11 @@
 
 .home-hero__text {
   background: rgba(255, 255, 255, 0.95);
-  padding: 50px 40px;
+  padding: 36px 28px;
   border-radius: 20px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(10px);
-  max-width: 400px;
+  max-width: 460px;
   /* Match production: card sits on the left of the hero */
   margin-left: 0;
   margin-right: auto;
@@ -57,11 +58,19 @@
 }
 
 .home-hero__text h1 {
-  font-size: 3rem;
+  font-size: 2.4rem;
   font-weight: 700;
   color: #1b4d89;
-  margin: 0 0 20px;
+  margin: 0 0 12px;
   line-height: 1.2;
+}
+
+.home-hero__sub {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1b4d89;
+  margin: 0 0 16px;
+  line-height: 1.4;
 }
 
 .home-hero__text h2,
@@ -74,10 +83,18 @@
 }
 
 .home-hero__text p {
-  font-size: 1.1rem;
-  color: #666;
-  margin: 0 0 30px;
+  font-size: 1rem;
+  color: #444;
+  margin: 0 0 14px;
   line-height: 1.6;
+}
+
+.home-hero__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 8px;
 }
 
 .home-hero__cta {
@@ -103,6 +120,13 @@
   flex-shrink: 0;
 }
 
+.home-hero__cta--secondary {
+  background: #fff;
+  color: #1b4d89;
+  border: 2px solid #1b4d89;
+  box-shadow: none;
+}
+
 .home-hero__cta:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 35px rgba(27, 77, 137, 0.4);
@@ -110,15 +134,20 @@
   text-decoration: none;
 }
 
+.home-hero__cta--secondary:hover {
+  background: #1b4d89;
+  color: #fff;
+}
+
 
 @media (max-width: 1024px) and (min-width: 769px) {
   .home-hero__text {
-    padding: 45px 35px;
-    max-width: 380px;
+    padding: 40px 28px;
+    max-width: 420px;
   }
 
   .home-hero__text h1 {
-    font-size: 2.4rem;
+    font-size: 2.1rem;
   }
 
   .home-hero__text h2,
@@ -137,19 +166,19 @@
 
 @media (max-width: 768px) {
   .home-hero {
-    height: 80vh;
-    min-height: 500px;
-    padding: 0;
+    height: auto;
+    min-height: 0;
+    padding: 24px 0;
   }
 
   .home-hero__text {
-    padding: 35px 25px;
-    margin: 20px;
-    max-width: calc(100% - 40px);
+    padding: 28px 20px;
+    margin: 16px;
+    max-width: calc(100% - 32px);
   }
 
   .home-hero__text h1 {
-    font-size: 2.2rem;
+    font-size: 1.85rem;
   }
 
   .home-hero__text h2,
@@ -162,8 +191,8 @@
   }
 
   .home-hero__cta {
-    padding: 12px 25px;
-    font-size: 1rem;
+    padding: 12px 18px;
+    font-size: 0.95rem;
   }
 }
 

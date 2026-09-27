@@ -25,6 +25,7 @@ class SitemapController extends Controller
         '/criminal-law' => '0.80',
         '/commercial-law' => '0.80',
         '/property-law' => '0.80',
+        '/civil-law' => '0.80',
         '/divorce' => '0.80',
         '/divorce-lawyers-melbourne' => '0.80',
         '/child-custody' => '0.80',
@@ -50,7 +51,7 @@ class SitemapController extends Controller
 
     public function index(): Response
     {
-        $xml = Cache::remember('sitemap_xml_v2', 3600, fn () => $this->buildXml());
+        $xml = Cache::remember('sitemap_xml_v3', 3600, fn () => $this->buildXml());
 
         return response($xml, 200)
             ->header('Content-Type', 'application/xml; charset=UTF-8');

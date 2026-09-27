@@ -19,7 +19,9 @@
                 'image' => 'https://www.bansallawyers.com.au/images/logo/Bansal_Lawyers.png',
                 'description' => Request::is('contact')
                     ? 'Book a consult at Level 8/278 Collins St, Melbourne. Call +61 422 905 860 or email info@bansallawyers.com.au. Mon–Fri 9:30 AM–6:00 PM.'
-                    : 'Melbourne CBD lawyers for immigration, family, criminal, commercial and property matters at Level 8/278 Collins St.',
+                    : (Request::is('/')
+                        ? 'Bansal Lawyers is a Melbourne law firm helping clients with immigration, family, criminal, commercial, property and civil law matters. Book a consultation today. Level 8/278 Collins St.'
+                        : 'Melbourne CBD lawyers for immigration, family, criminal, commercial and property matters at Level 8/278 Collins St.'),
                 'address' => [
                     '@type' => 'PostalAddress',
                     'streetAddress' => 'Level 8/278 Collins St',

@@ -16,8 +16,7 @@
                         </a>
                         <div class="footer-tagline">A Law Firm</div>
                         <p class="footer-description">
-                            Professional legal services provided with expertise and care in Melbourne and beyond. 
-                            Specializing in Immigration Law, Family Law, Property Law, Commercial Law, and Criminal Law.
+                            Melbourne lawyers for immigration, family, criminal, commercial, property and civil law. Level 8, 278 Collins St.
                         </p>
                         
                         <!-- Social Media Links -->
@@ -51,11 +50,12 @@
                     <div class="fade-in-up stagger-1">
                         <h3 class="footer-section-title">Practice Areas</h3>
                         <ul class="footer-links">
-                            <li><a href="/family-law">→ Family Law</a></li>
-                            <li><a href="/migration-law">→ Migration Law</a></li>
-                            <li><a href="/criminal-law">→ Criminal Law</a></li>
-                            <li><a href="/commercial-law">→ Commercial Law</a></li>
-                            <li><a href="/property-law">→ Property Law</a></li>
+                            <li><a href="/migration-law">→ Immigration Lawyers</a></li>
+                            <li><a href="/family-law">→ Family Lawyers</a></li>
+                            <li><a href="/criminal-law">→ Criminal Lawyers</a></li>
+                            <li><a href="/commercial-law">→ Commercial Lawyers</a></li>
+                            <li><a href="/property-law">→ Property Lawyers</a></li>
+                            <li><a href="/civil-law">→ Civil Lawyers</a></li>
                         </ul>
                     </div>
                 </div>
