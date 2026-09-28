@@ -109,11 +109,55 @@
         /* Contact card */
         .pae-contact-header { display:flex; gap:12px; align-items:center; margin-bottom:12px; }
         .pae-contact-header img { width:60px; height:68px; border-radius:4px; object-fit:cover; }
-        .pae-btn { background: linear-gradient(135deg, #1B4D89, #2c5aa0); color:#fff; border:0; border-radius:25px; padding:10px 18px; text-transform:uppercase; font-weight:700; }
-        .pae-actions { display:flex; flex-wrap:wrap; gap:12px; margin:18px 0 8px; }
-        .pae-actions .pae-btn { display:inline-block; text-decoration:none; text-transform:none; font-size:15px; line-height:1.3; }
-        .pae-actions .pae-btn-outline { background:#fff; color:#1B4D89; border:2px solid #1B4D89; }
-        .pae-actions .pae-btn-outline:hover { background:#1B4D89; color:#fff; }
+        
+        /* Actions & CTA buttons */
+        .pae-actions { display:flex; flex-wrap:wrap; gap:14px; margin:22px 0 16px; align-items:center; }
+        .pae-left a.pae-btn,
+        .pae-actions .pae-btn,
+        .pae-btn { 
+            display:inline-flex; 
+            align-items:center; 
+            justify-content:center; 
+            background: linear-gradient(135deg, #1B4D89, #2c5aa0); 
+            color:#fff !important; 
+            border:2px solid transparent; 
+            border-radius:25px; 
+            padding:11px 22px; 
+            text-transform:uppercase; 
+            font-size:14px; 
+            font-weight:700; 
+            letter-spacing:0.5px; 
+            line-height:1.3;
+            text-decoration:none !important; 
+            transition:all .3s ease; 
+            box-shadow:0 4px 14px rgba(27,77,137,.25); 
+            cursor:pointer;
+        }
+        .pae-left a.pae-btn:hover,
+        .pae-actions .pae-btn:hover,
+        .pae-btn:hover { 
+            background: linear-gradient(135deg, #153c6b, #1B4D89); 
+            color:#fff !important; 
+            transform:translateY(-2px); 
+            box-shadow:0 6px 18px rgba(27,77,137,.35); 
+            text-decoration:none !important; 
+        }
+        .pae-left a.pae-btn.pae-btn-outline,
+        .pae-actions .pae-btn-outline { 
+            background:#fff !important; 
+            color:#1B4D89 !important; 
+            border:2px solid #1B4D89 !important; 
+            box-shadow:0 4px 14px rgba(0,0,0,.06); 
+        }
+        .pae-left a.pae-btn.pae-btn-outline:hover,
+        .pae-actions .pae-btn-outline:hover { 
+            background:#1B4D89 !important; 
+            color:#fff !important; 
+            border-color:#1B4D89 !important; 
+            transform:translateY(-2px); 
+            box-shadow:0 6px 18px rgba(27,77,137,.25); 
+            text-decoration:none !important; 
+        }
 
         @media (max-width: 900px){ .pae-grid{flex-direction:column;} .pae-right{flex:1 1 auto;} .pae-hero h1{font-size:2.2rem;} .pae-hero p{font-size:1rem;} .pae-container{padding:0 12px;} .pae-left p{max-width: 100%;} }
     </style>
